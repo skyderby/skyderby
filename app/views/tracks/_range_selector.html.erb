@@ -1,10 +1,9 @@
-%input#range-selector{type: "text",
-                      name: 'range',
-                      data: { remote: 'true',
-                              url: url_for,
-                              controller: 'tracks--range-selector',
-                              min: presenter.max_altitude,
-                              max: presenter.min_altitude,
-                              from: presenter.range_from,
-                              to: presenter.range_to },
-                      value: "#{presenter.range_from};#{presenter.range_to}"}
+<input id="range-selector" type="text" name="range"
+       data-remote="true"
+       data-url="<%= url_for %>"
+       data-controller="tracks--range-selector"
+       data-min="<%= presenter.max_altitude %>"
+       data-max="<%= presenter.min_altitude %>"
+       data-from="<%= presenter.range_from %>"
+       data-to="<%= presenter.range_to %>"
+       value="<%= "#{presenter.range_from};#{presenter.range_to}" %>">

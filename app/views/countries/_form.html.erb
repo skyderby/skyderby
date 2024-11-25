@@ -1,24 +1,35 @@
-= form_for(@country, html: {class: 'form-horizontal'}) do |f|
-  - if @country.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@country.errors.count, "error") 
-        = 'prohibited this country from being saved:'
+<%= form_for(@country, html: { class: 'form-horizontal' }) do |f| %>
+  <% if @country.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@country.errors.count, "error") %>
+        <%= 'prohibited this country from being saved:' %>
+      </h2>
+      <ul>
+        <% @country.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-      %ul
-      - @country.errors.full_messages.each do |message|
-        %li= message
+  <div class="form-group">
+    <%= f.label :name, class: 'col-sm-2 control-label', for: :name %>
+    <div class="col-sm-5">
+      <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+    </div>
+  </div>
 
-  .form-group
-    = f.label :name, class: 'col-sm-2 control-label', for: :name
-    .col-sm-5
-      = f.text_field :name, autofocus: true, class: 'form-control'
+  <div class="form-group">
+    <%= f.label :code, class: 'col-sm-2 control-label', for: :code %>
+    <div class="col-sm-5">
+      <%= f.text_field :code, class: 'form-control' %>
+    </div>
+  </div>
 
-  .form-group
-    = f.label :code, class: 'col-sm-2 control-label', for: :code
-    .col-sm-5
-      = f.text_field :code, class: 'form-control'
-
-  .form-group
-    .col-sm-offset-2.col-sm-8
-      = f.submit t('general.save'), class: 'btn btn-primary'
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-8">
+      <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

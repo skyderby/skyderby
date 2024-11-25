@@ -1,36 +1,49 @@
-.modal-dialog
-  .modal-content
-    .modal-header
-      %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
-        %span{:aria => {:hidden => 'true'}}
-          &times;
-        %span.sr-only
-          Close
-      %h4.modal-title= t '.title'
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title"><%= t('.title') %></h4>
+    </div>
 
-    = form_for @profile, url: profile_avatar_path(@profile), remote: true, multipart: true, method: :post, html: { class: 'avatar-edit__form' } do |f|
-      .modal-body{'data-controller': 'croppable'}
-        .form-group
-          .input-group{'data-controller': 'filefield'}
-            %input.form-control{type: "text", readonly: true, placeholder: t('.file_placeholder'), 'data-target': 'filefield.text_field'}
-            %span.input-group-btn
-              %span.btn.btn-default.btn-file
+    <%= form_for @profile, url: profile_avatar_path(@profile), remote: true, multipart: true, method: :post, html: { class: 'avatar-edit__form' } do |f| %>
+      <div class="modal-body" data-controller="croppable">
+        <div class="form-group">
+          <div class="input-group" data-controller="filefield">
+            <input type="text" class="form-control" readonly placeholder="<%= t('.file_placeholder') %>" data-target="filefield.text_field">
+            <span class="input-group-btn">
+              <span class="btn btn-default btn-file">
                 &hellip;
-                = f.file_field :userpic, class: 'form-control', 'data-target': 'filefield.file_field', 'data-action': 'change->filefield#change change->croppable#readFile'
+                <%= f.file_field :userpic, class: 'form-control', data: { target: 'filefield.file_field', action: 'change->filefield#change change->croppable#readFile' } %>
+              </span>
+            </span>
+          </div>
+        </div>
 
-          - %w( x y h w ).each do |crop_field|
-            = f.hidden_field "crop_#{crop_field}", 'data-target': "croppable.#{crop_field}"
+        <% %w( x y h w ).each do |crop_field| %>
+          <%= f.hidden_field "crop_#{crop_field}", data: { target: "croppable.#{crop_field}" } %>
+        <% end %>
 
-        .row
-          .col-sm-8
-            %p.avatar-edit__title= t('.crop_label')
-            %img.avatar-edit__crop{'data-target': 'croppable.crop'}
-          .col-sm-4
-            %p.avatar-edit__title= t('.preview_label')
-            .avatar-edit__preview-container
-              %img.avatar-edit__preview{'data-target': 'croppable.preview'}
+        <div class="row">
+          <div class="col-sm-8">
+            <p class="avatar-edit__title"><%= t('.crop_label') %></p>
+            <img class="avatar-edit__crop" data-target="croppable.crop">
+          </div>
+          <div class="col-sm-4">
+            <p class="avatar-edit__title"><%= t('.preview_label') %></p>
+            <div class="avatar-edit__preview-container">
+              <img class="avatar-edit__preview" data-target="croppable.preview">
+            </div>
+          </div>
+        </div>
+      </div>
 
-      .modal-footer
-        = f.submit t('general.save'), class: 'btn btn-primary'
-        %button.btn.btn-default{type: 'button', 'data-dismiss': 'modal'}
-          =t('general.cancel')
+      <div class="modal-footer">
+        <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('general.cancel') %></button>
+      </div>
+    <% end %>
+  </div>
+</div>

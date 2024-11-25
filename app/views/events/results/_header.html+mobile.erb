@@ -1,5 +1,7 @@
-- local ||= false
+<% local ||= false %>
 
-.scrollable-pills
-  %ul.nav.nav-pills.scrollable-pills__list
-    = render 'events/results/header_items', local: local
+<div class="scrollable-pills">
+  <ul class="nav nav-pills scrollable-pills__list">
+    <%= render 'events/results/header_items', local: local %>
+  </ul>
+</div>

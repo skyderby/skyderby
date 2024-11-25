@@ -1,35 +1,32 @@
-.modal-dialog
-  .modal-content
-    = form_for :profiles_merge,
-               url: profile_merge_path(@destination_profile),
-               remote: true,
-               html: { class: 'profiles-merge__form form-horizontal' } do |f|
+<div class="modal-dialog">
+  <div class="modal-content">
+    <%= form_for :profiles_merge, url: profile_merge_path(@destination_profile), remote: true, html: { class: 'profiles-merge__form form-horizontal' } do |f| %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title"><%= t('.title') %></h4>
+      </div>
 
-      .modal-header
-        %button.close{type: 'button', data: {dismiss: 'modal'}}
-          %span{aria: {hidden: 'true'}}
-            &times;
-          %span.sr-only
-            Close
-        %h4.modal-title
-          = t('.title')
+      <div class="modal-body">
+        <div class="form-group">
+          <%= f.label :source_profile, class: 'control-label col-sm-4' %>
+          <div class="col-sm-8">
+            <%= f.select :source_profile_id, [], { include_blank: true }, placeholder: t('profiles.merges.form_modal.source_profile_placeholder'), class: 'form-control', 'data-controller': 'select2--profiles', 'data-with-ids': true %>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-8">
+            <h4 class="help-block"><%= t '.description' %></h4>
+          </div>
+        </div>
+      </div>
 
-      .modal-body
-        .form-group
-          -# i18n-tasks-use t('helpers.label.profiles_merge.source_profile')
-          = f.label :source_profile, class: 'control-label col-sm-4'
-          .col-sm-8
-            = f.select :source_profile_id,
-                       [],
-                       { include_blank: true },
-                       placeholder: t('profiles.merges.form_modal.source_profile_placeholder'),
-                       class: 'form-control',
-                       'data-controller': 'select2--profiles', 'data-with-ids': true
-        .form-group
-          .col-sm-offset-4.col-sm-8
-            %h4.help-block= t '.description'
-
-
-      .modal-footer
-        = f.submit t('general.save'), class: 'btn btn-primary'
-        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'
+      <div class="modal-footer">
+        <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
+      </div>
+    <% end %>
+  </div>
+</div>

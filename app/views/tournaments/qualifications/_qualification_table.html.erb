@@ -1,72 +1,83 @@
-- editable = policy(@tournament).update?
+<% editable = policy(@tournament).update? %>
 
-%table.scoreboard-table
-  %thead
-    %tr
-      %td.text-center{rowspan: 2}
-        Rank
-      %td.text-center{rowspan: 2}
-        Competitor
-      %td.text-center.scoreboard-table-separate-border{rowspan: 2}
-        Best result
-      - @scoreboard.rounds.each do |round|
-        %td.scoreboard-round{colspan: 2}
-          .scoreboard-round-content
-            = "Round #{round.order}"
-            - if editable
-              .scoreboard-round-actions.dropdown
-                %button.btn-link{'data-toggle': 'dropdown'}
-                  %i.fa.fa-ellipsis-v
-                %ul.dropdown-menu.dropdown-menu-right
-                  %li
-                    = button_to tournament_qualification_round_path(@tournament, round),
-                                method: :delete,
-                                remote: true,
-                                class: 'btn-link' do
-                      %i.fa.fa-times.text-muted
-                      = t('general.delete')
-    %tr
-      - @scoreboard.rounds.each do |round|
-        %td.text-center
-          Result
-        %td.text-center
-          Canopy
-
-  %tbody
-    - @scoreboard.competitors.each_with_index do |competitor, index|
-      %tr.scoreboard-competitor
-        %td= index + 1
-        %td
-          = link_to competitor.name, profile_path(competitor.profile_id), class: 'competitor-name'
-          - if competitor.is_disqualified
-            %span.text-danger{'data-toggle' => 'tooltip', title: competitor.disqualification_reason}
-              (DQ)
-
-          .competitor-suit.text-gray
-            = competitor.suit.manufacturer_code
-            = competitor.suit_name
-
-        %td.scoreboard-table-separate-border.text-right
-          = competitor.best_result
-        - @scoreboard.rounds.each do |round|
-          - result = competitor.result_in_round(round)
-          - if result
-            - if result.track_id
-              %td.scoreboard-result
-                = result.result
-                %span= show_qualification_track_link(@tournament, result, editable)
-
-              %td.text-right
-                %span{'data-toggle' => 'tooltip', title: 'Canopy time'}
-                  = result.canopy_time
-            - elsif result.result || !editable
-              %td.text-right
-                = result.result
-              %td.text-right
-                %span{'data-toggle' => 'tooltip', title: 'Canopy time'}
-                  = result.canopy_time
-          - else
-            %td.scoreboard-result.text-center
-              - if editable
-                %span= new_qualification_track_link(@tournament, competitor, round)
-            %td
+<table class="scoreboard-table">
+  <thead>
+    <tr>
+      <td class="text-center" rowspan="2">Rank</td>
+      <td class="text-center" rowspan="2">Competitor</td>
+      <td class="text-center scoreboard-table-separate-border" rowspan="2">Best result</td>
+      <% @scoreboard.rounds.each do |round| %>
+        <td class="scoreboard-round" colspan="2">
+          <div class="scoreboard-round-content">
+            <%= "Round #{round.order}" %>
+            <% if editable %>
+              <div class="scoreboard-round-actions dropdown">
+                <button class="btn-link" data-toggle="dropdown">
+                  <i class="fa fa-ellipsis-v"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li>
+                    <%= button_to tournament_qualification_round_path(@tournament, round), method: :delete, remote: true, class: 'btn-link' do %>
+                      <i class="fa fa-times text-muted"></i>
+                      <%= t('general.delete') %>
+                    <% end %>
+                  </li>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        </td>
+      <% end %>
+    </tr>
+    <tr>
+      <% @scoreboard.rounds.each do |round| %>
+        <td class="text-center">Result</td>
+        <td class="text-center">Canopy</td>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @scoreboard.competitors.each_with_index do |competitor, index| %>
+      <tr class="scoreboard-competitor">
+        <td><%= index + 1 %></td>
+        <td>
+          <%= link_to competitor.name, profile_path(competitor.profile_id), class: 'competitor-name' %>
+          <% if competitor.is_disqualified %>
+            <span class="text-danger" data-toggle="tooltip" title="<%= competitor.disqualification_reason %>">(DQ)</span>
+          <% end %>
+          <div class="competitor-suit text-gray">
+            <%= competitor.suit.manufacturer_code %>
+            <%= competitor.suit_name %>
+          </div>
+        </td>
+        <td class="scoreboard-table-separate-border text-right"><%= competitor.best_result %></td>
+        <% @scoreboard.rounds.each do |round| %>
+          <% result = competitor.result_in_round(round) %>
+          <% if result %>
+            <% if result.track_id %>
+              <td class="scoreboard-result">
+                <%= result.result %>
+                <span><%= show_qualification_track_link(@tournament, result, editable) %></span>
+              </td>
+              <td class="text-right">
+                <span data-toggle="tooltip" title="Canopy time"><%= result.canopy_time %></span>
+              </td>
+            <% elsif result.result || !editable %>
+              <td class="text-right"><%= result.result %></td>
+              <td class="text-right">
+                <span data-toggle="tooltip" title="Canopy time"><%= result.canopy_time %></span>
+              </td>
+            <% end %>
+          <% else %>
+            <td class="scoreboard-result text-center">
+              <% if editable %>
+                <span><%= new_qualification_track_link(@tournament, competitor, round) %></span>
+              <% end %>
+            </td>
+            <td></td>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

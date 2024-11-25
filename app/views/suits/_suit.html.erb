@@ -1,18 +1,29 @@
-%li.suits-index__list-item
-  .suits-index__suit-name
-    = link_to suit.name, suit
-  .suits-index__suit-stat.text-muted
-    .text-center
-      = suit.profiles
-    .text-center
+<li class="suits-index__list-item">
+  <div class="suits-index__suit-name">
+    <%= link_to suit.name, suit %>
+  </div>
+  <div class="suits-index__suit-stat text-muted">
+    <div class="text-center">
+      <%= suit.profiles %>
+    </div>
+    <div class="text-center">
       pilots
-  .suits-index__suit-stat.text-muted
-    .text-center
-      = suit.base_tracks
-    .text-center
+    </div>
+  </div>
+  <div class="suits-index__suit-stat text-muted">
+    <div class="text-center">
+      <%= suit.base_tracks %>
+    </div>
+    <div class="text-center">
       base
-  .suits-index__suit-stat.text-muted
-    .text-center
-      = suit.skydive_tracks
-    .text-center
+    </div>
+  </div>
+  <div class="suits-index__suit-stat text-muted">
+    <div class="text-center">
+      <%= suit.skydive_tracks %>
+    </div>
+    <div class="text-center">
       skydive
+    </div>
+  </div>
+</li>

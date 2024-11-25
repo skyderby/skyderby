@@ -1,5 +1,7 @@
-.container
-  = render 'places/header'
+<div class="container">
+  <%= render 'places/header' %>
 
-  .content-block
-    = yield
+  <div class="content-block">
+    <%= yield %>
+  </div>
+</div>

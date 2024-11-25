@@ -1,74 +1,83 @@
-- query_params = index_params[:query] || {}
-.tracks-filters
-  %button.btn.btn-default{data: {toggle:'modal', target:'#tracks-filters-modal'}}
-    %i.fa.fa-filter
-    =t 'tracks.index.filters'
+<% query_params = index_params[:query] || {} %>
+<div class="tracks-filters">
+  <button class="btn btn-default" data-toggle="modal" data-target="#tracks-filters-modal">
+    <i class="fa fa-filter"></i>
+    <%= t 'tracks.index.filters' %>
+  </button>
 
-  .pull-right
-    .btn-group
-      - activity = query_params[:kind]
-      = link_to t('tracks.index.all'),
-                index_params.merge(query: query_params.except(:kind)),
-                remote: true,
-                class: ['btn btn-default', ('active' unless activity)],
-                rel: 'nofollow'
+  <div class="pull-right">
+    <div class="btn-group">
+      <% activity = query_params[:kind] %>
+      <%= link_to t('tracks.index.all'),
+                  index_params.merge(query: query_params.except(:kind)),
+                  remote: true,
+                  class: ['btn btn-default', ('active' unless activity)],
+                  rel: 'nofollow' %>
 
-      = link_to 'Skydive',
-                index_params.merge(query: query_params.merge(kind: 'skydive')),
-                remote: true,
-                class: ['btn btn-default', ('active' if activity == 'skydive')],
-                rel: 'nofollow'
+      <%= link_to 'Skydive',
+                  index_params.merge(query: query_params.merge(kind: 'skydive')),
+                  remote: true,
+                  class: ['btn btn-default', ('active' if activity == 'skydive')],
+                  rel: 'nofollow' %>
 
-      = link_to 'B.A.S.E.',
-                index_params.merge(query: query_params.merge(kind: 'base')),
-                remote: true,
-                class: ['btn btn-default', ('active' if activity == 'base')],
-                rel: 'nofollow'
+      <%= link_to 'B.A.S.E.',
+                  index_params.merge(query: query_params.merge(kind: 'base')),
+                  remote: true,
+                  class: ['btn btn-default', ('active' if activity == 'base')],
+                  rel: 'nofollow' %>
+    </div>
+  </div>
 
-  .modal.fade#tracks-filters-modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
-    .modal-dialog
-      .modal-content
-        = form_for tracks_path, method: :get, remote: :true do |f|
-          .modal-header
-            %button.close{type: 'button', data: {dismiss: 'modal'}}
-              %span{aria: {hidden: 'true'}}
-                &times;
-              %span.sr-only
-                Close
-            %h4.modal-title=t 'tracks.index.filters'
+  <div class="modal fade" id="tracks-filters-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%= form_for tracks_path, method: :get, remote: :true do |f| %>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title"><%= t 'tracks.index.filters' %></h4>
+          </div>
 
-          .modal-body
-            .form-group
-              %label
-                = t('tracks.index.filter_by_pilot')
-              = select_tag('query_profile_id',
-                            options_for_select([ [profile_name_by_id(query_params[:profile_id]), query_params[:profile_id]] ]),
-                            name: 'query[profile_id]',
-                            placeholder: t('tracks.index.filter_by_pilot'),
-                            class: 'form-control input-lg',
-                            'data-controller': 'select2--profiles')
+          <div class="modal-body">
+            <div class="form-group">
+              <label><%= t('tracks.index.filter_by_pilot') %></label>
+              <%= select_tag('query_profile_id',
+                              options_for_select([ [profile_name_by_id(query_params[:profile_id]), query_params[:profile_id]] ]),
+                              name: 'query[profile_id]',
+                              placeholder: t('tracks.index.filter_by_pilot'),
+                              class: 'form-control input-lg',
+                              'data-controller': 'select2--profiles') %>
+            </div>
 
-            .form-group
-              %label
-                = t('tracks.index.filter_by_suit')
-              = select_tag('query_suit_id',
-                            options_for_select([ [suit_name_by_id(query_params[:suit_id]), query_params[:suit_id]] ]),
-                            name: 'query[suit_id]',
-                            placeholder: t('tracks.index.filter_by_suit'),
-                            class: 'form-control input-lg',
-                            'data-controller': 'select2--suits')
+            <div class="form-group">
+              <label><%= t('tracks.index.filter_by_suit') %></label>
+              <%= select_tag('query_suit_id',
+                              options_for_select([ [suit_name_by_id(query_params[:suit_id]), query_params[:suit_id]] ]),
+                              name: 'query[suit_id]',
+                              placeholder: t('tracks.index.filter_by_suit'),
+                              class: 'form-control input-lg',
+                              'data-controller': 'select2--suits') %>
+            </div>
 
-            .form-group
-              %label
-                = t('tracks.index.filter_by_place')
-              = select_tag('query_place_id',
-                            options_for_select([ [place_name_by_id(query_params[:place_id]), query_params[:place_id]] ]),
-                            name: 'query[place_id]',
-                            placeholder: t('tracks.index.filter_by_place'),
-                            class: 'form-control input-lg',
-                            'data-controller': 'select2--places')
+            <div class="form-group">
+              <label><%= t('tracks.index.filter_by_place') %></label>
+              <%= select_tag('query_place_id',
+                              options_for_select([ [place_name_by_id(query_params[:place_id]), query_params[:place_id]] ]),
+                              name: 'query[place_id]',
+                              placeholder: t('tracks.index.filter_by_place'),
+                              class: 'form-control input-lg',
+                              'data-controller': 'select2--places') %>
+            </div>
+          </div>
 
-          .modal-footer
-            .tracks-filters__modal-footer
-              %button.btn.btn-lg.btn-default{type: 'button', data: {dismiss: 'modal'}}= t('general.cancel')
-              = f.submit 'OK', class: 'btn btn-primary btn-lg'
+          <div class="modal-footer tracks-filters__modal-footer">
+            <button type="button" class="btn btn-lg btn-default" data-dismiss="modal"><%= t('general.cancel') %></button>
+            <%= f.submit 'OK', class: 'btn btn-primary btn-lg' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

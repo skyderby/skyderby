@@ -1,30 +1,37 @@
-- provide :title, @tournament.name
-- editable = policy(@tournament).update?
+<% provide :title, @tournament.name %>
+<% editable = policy(@tournament).update? %>
 
-.container
-  = render 'tournaments/header'
+<div class="container">
+  <%= render 'tournaments/header' %>
+</div>
 
-.container-fluid
-  .content-block
-    - if editable
-      .scoreboard-actions
-        = button_to tournament_qualification_rounds_path(tournament_id: @tournament.id),
-                    method: :post,
-                    remote: true,
-                    class: 'btn btn-default' do
-          %i.fa.fa-plus
+<div class="container-fluid">
+  <div class="content-block">
+    <% if editable %>
+      <div class="scoreboard-actions">
+        <%= button_to tournament_qualification_rounds_path(tournament_id: @tournament.id), method: :post, remote: true, class: 'btn btn-default' do %>
+          <i class="fa fa-plus"></i>
           Round
+        <% end %>
+      </div>
+    <% end %>
 
-    - if @tournament.surprise? && !editable
-      %h1.text-muted.text-center
+    <% if @tournament.surprise? && !editable %>
+      <h1 class="text-muted text-center">
         🙅 Let it be a Surprise
-    - else
-      .scoreboard
-        .scoreboard-scroll
-          = render 'qualification_table'
+      </h1>
+    <% else %>
+      <div class="scoreboard">
+        <div class="scoreboard-scroll">
+          <%= render 'qualification_table' %>
+        </div>
+      </div>
+    <% end %>
 
-    .container
-      .row.top-buffer
-        = render 'sponsors/list',
-                 sponsorable: @tournament,
-                 editable: editable
+    <div class="container">
+      <div class="row top-buffer">
+        <%= render 'sponsors/list', sponsorable: @tournament, editable: editable %>
+      </div>
+    </div>
+  </div>
+</div>

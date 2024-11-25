@@ -1,72 +1,96 @@
-.container.top-buffer
-  %a{href: suits_path}
-    %i.fa.fa-chevron-left
+<div class="container top-buffer">
+  <a href="<%= suits_path %>">
+    <i class="fa fa-chevron-left"></i>
     Suits list
-  .row
-    .col-sm-9
-      %h1
-        = @suit.name
-        %small= @suit.manufacturer.name
-      .description
-        = @suit.description
-      - if policy(@suit).update?
-        = link_to 'Edit', edit_suit_path(@suit), class: 'btn btn-default'
+  </a>
+  <div class="row">
+    <div class="col-sm-9">
+      <h1>
+        <%= @suit.name %>
+        <small><%= @suit.manufacturer.name %></small>
+      </h1>
+      <div class="description">
+        <%= @suit.description %>
+      </div>
+      <% if policy(@suit).update? %>
+        <%= link_to 'Edit', edit_suit_path(@suit), class: 'btn btn-default' %>
+      <% end %>
+    </div>
+  </div>
+</div>
 
-.container
-  .content-block
-    -# Nav tabs
-    :ruby
-      query_params = show_params[:query] || {}
-      activity = query_params[:kind]
-      skydive = !activity || activity == 'skydive'
-      base = !skydive
+<div class="container">
+  <div class="content-block">
+    <% query_params = show_params[:query] || {} %>
+    <% activity = query_params[:kind] %>
+    <% skydive = !activity || activity == 'skydive' %>
+    <% base = !skydive %>
 
-    %ul.nav.nav-tabs{role: 'tablist'}
-      %li{class: ('active' if skydive), role: 'presentation'}
-        = link_to show_params.except(:page).merge(query: query_params.merge(kind: :skydive)), role: 'tab' do
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="<%= 'active' if skydive %>" role="presentation">
+        <%= link_to show_params.except(:page).merge(query: query_params.merge(kind: :skydive)), role: 'tab' do %>
           Skydive
-      %li{class: ('active' if base), role: 'presentation'}
-        = link_to show_params.except(:page).merge(query: query_params.merge(kind: :base)), role: 'tab' do
+        <% end %>
+      </li>
+      <li class="<%= 'active' if base %>" role="presentation">
+        <%= link_to show_params.except(:page).merge(query: query_params.merge(kind: :base)), role: 'tab' do %>
           B.A.S.E
+        <% end %>
+      </li>
+    </ul>
 
-    -# Tab panes
-    .tab-content
-      #tab-pane-skydive.tab-pane{class: ('active' if skydive), role: 'tabpanel'}
-        - if skydive
-          #tracks-table.table.table-hover
-            .thead
-              .tr
-                .th= t 'activerecord.attributes.track.id'
-                .th= t 'activerecord.attributes.track.name'
-                .th= t 'activerecord.attributes.track.place'
-                .th= t 'activerecord.attributes.track.comment'
-                .th.result-head.text-right= t 'disciplines.distance'
-                .th.result-head.text-right= t 'disciplines.speed'
-                .th.result-head.text-right= t 'disciplines.time'
-                .th= t 'activerecord.attributes.track.recorded_at'
-                .th
+    <div class="tab-content">
+      <div id="tab-pane-skydive" class="tab-pane <%= 'active' if skydive %>" role="tabpanel">
+        <% if skydive %>
+          <div id="tracks-table" class="table table-hover">
+            <div class="thead">
+              <div class="tr">
+                <div class="th"><%= t 'activerecord.attributes.track.id' %></div>
+                <div class="th"><%= t 'activerecord.attributes.track.name' %></div>
+                <div class="th"><%= t 'activerecord.attributes.track.place' %></div>
+                <div class="th"><%= t 'activerecord.attributes.track.comment' %></div>
+                <div class="th result-head text-right"><%= t 'disciplines.distance' %></div>
+                <div class="th result-head text-right"><%= t 'disciplines.speed' %></div>
+                <div class="th result-head text-right"><%= t 'disciplines.time' %></div>
+                <div class="th"><%= t 'activerecord.attributes.track.recorded_at' %></div>
+                <div class="th"></div>
+              </div>
+            </div>
+            <div class="tbody">
+              <%= render @tracks, except_columns: [:suit] %>
+            </div>
+          </div>
+        <% end %>
+      </div>
 
-            .tbody
-              = render @tracks, except_columns: [:suit]
+      <div id="tab-pane-base" class="tab-pane <%= 'active' if base %>" role="tabpanel">
+        <% if base %>
+          <div id="tracks-table" class="table table-hover">
+            <div class="thead">
+              <div class="tr">
+                <div class="th"><%= t 'activerecord.attributes.track.id' %></div>
+                <div class="th"><%= t 'activerecord.attributes.track.name' %></div>
+                <div class="th"><%= t 'activerecord.attributes.track.place' %></div>
+                <div class="th"><%= t 'activerecord.attributes.track.comment' %></div>
+                <div class="th result-head text-right"><%= t 'disciplines.distance' %></div>
+                <div class="th result-head text-right"><%= t 'disciplines.speed' %></div>
+                <div class="th result-head text-right"><%= t 'disciplines.time' %></div>
+                <div class="th"><%= t 'activerecord.attributes.track.recorded_at' %></div>
+                <div class="th"></div>
+              </div>
+            </div>
+            <div class="tbody">
+              <%= render @tracks, except_columns: [:suit] %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 
-      #tab-pane-base.tab-panee{class: ('active' if base), role: 'tabpanel'}
-        - if base
-          #tracks-table.table.table-hover
-            .thead
-              .tr
-                .th= t 'activerecord.attributes.track.id'
-                .th= t 'activerecord.attributes.track.name'
-                .th= t 'activerecord.attributes.track.place'
-                .th= t 'activerecord.attributes.track.comment'
-                .th.result-head.text-right= t 'disciplines.distance'
-                .th.result-head.text-right= t 'disciplines.speed'
-                .th.result-head.text-right= t 'disciplines.time'
-                .th= t 'activerecord.attributes.track.recorded_at'
-                .th
-
-            .tbody
-              = render @tracks, except_columns: [:suit]
-
-  .text-center.top-buffer
-    .pagination-list
-      = will_paginate @tracks, renderer: BootstrapPagination::Rails
+  <div class="text-center top-buffer">
+    <div class="pagination-list">
+      <%= will_paginate @tracks, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+</div>

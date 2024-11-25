@@ -1,52 +1,69 @@
-.profile-header
-  .profile-header__avatar
-    = image_tag(profile.userpic_url(:medium), class: 'profile-header__avatar-image')
-    - if policy(profile).edit?
-      = link_to new_profile_avatar_path(profile), remote: true, class: 'profile-header__avatar-change', rel: 'nofollow' do
-        %i.fa.fa-pencil-alt
+<div class="profile-header">
+  <div class="profile-header__avatar">
+    <%= image_tag(profile.userpic_url(:medium), class: 'profile-header__avatar-image') %>
+    <% if policy(profile).edit? %>
+      <%= link_to new_profile_avatar_path(profile), remote: true, class: 'profile-header__avatar-change', rel: 'nofollow' do %>
+        <i class="fa fa-pencil-alt"></i>
+      <% end %>
+    <% end %>
+  </div>
 
-  .profile-header__name
-    %h1
-      = profile.name
-      - if profile.country
-        %small
-          \//
-          %span.text-warning{'data-toggle'=> 'tooltip', title: profile.country.name}
-            = profile.country.code.upcase
+  <div class="profile-header__name">
+    <h1>
+      <%= profile.name %>
+      <% if profile.country %>
+        <small>
+          //
+          <span class="text-warning" data-toggle="tooltip" title="<%= profile.country.name %>">
+            <%= profile.country.code.upcase %>
+          </span>
+        </small>
+      <% end %>
+    </h1>
+  </div>
+</div>
 
-.profile-navigation
-  - controller_path = controller.controller_path
-  .tabs-navbar
-    .tabs-navbar__fade-right
-    %ul.tabs-navbar__menu
-      %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'profiles')}
-        = link_to t('general.overview'), profile
+<div class="profile-navigation">
+  <% controller_path = controller.controller_path %>
+  <div class="tabs-navbar">
+    <div class="tabs-navbar__fade-right">
+      <ul class="tabs-navbar__menu">
+        <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'profiles' %>">
+          <%= link_to t('general.overview'), profile %>
+        </li>
+        <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'profiles/tracks' %>">
+          <%= link_to t('.tracks'), profile_tracks_path(profile) %>
+        </li>
+        <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'profiles/flight_profiles' %>">
+          <%= link_to t('flight_profiles'), profile_flight_profiles_path(profile) %>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-      %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'profiles/tracks')}
-        = link_to t('.tracks'), profile_tracks_path(profile)
+  <div class="profile-commands">
+    <% if policy(@profile).edit? %>
+      <%= link_to edit_profile_path(@profile), class: 'btn-flat' do %>
+        <i class="fa fa-pencil-alt"></i>
+        <%= t('general.edit') %>
+      <% end %>
+    <% end %>
 
-      %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'profiles/flight_profiles')}
-        = link_to t('flight_profiles'), profile_flight_profiles_path(profile)
+    <% if policy(@profile).destroy? %>
+      <%= link_to t('general.delete'), @profile, method: :delete, remote: true, data: { confirm: 'Are you sure you want to delete this profile?' }, class: 'btn-flat text-danger' %>
+    <% end %>
 
-  .profile-commands
-    - if policy(@profile).edit?
-      = link_to edit_profile_path(@profile), class: 'btn-flat' do
-        %i.fa.fa-pencil-alt
-        = t('general.edit')
-
-    - if policy(@profile).destroy?
-      = link_to t('general.delete'),
-                @profile,
-                method: :delete,
-                remote: true,
-                data: { confirm: 'Are you sure you want to delete this profile?' },
-                class: 'btn-flat text-danger'
-
-    - if @profile.belongs_to_user? && policy(@profile).masquerade?
-      = link_to new_user_masquerades_path(@profile.owner), class: 'btn-flat' do
-        %i.fa.fa-magic
+    <% if @profile.belongs_to_user? && policy(@profile).masquerade? %>
+      <%= link_to new_user_masquerades_path(@profile.owner), class: 'btn-flat' do %>
+        <i class="fa fa-magic"></i>
         Masquerade
+      <% end %>
+    <% end %>
 
-    - if policy(@profile).merge?
-      = link_to new_profile_merge_path(@profile), remote: true, class: 'btn-flat' do
+    <% if policy(@profile).merge? %>
+      <%= link_to new_profile_merge_path(@profile), remote: true, class: 'btn-flat' do %>
         Merge
+      <% end %>
+    <% end %>
+  </div>
+</div>

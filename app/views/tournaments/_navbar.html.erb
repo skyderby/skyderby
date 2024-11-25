@@ -1,10 +1,17 @@
-.tournament-navbar
-  .tabs-navbar
-    %ul.tabs-navbar__menu
-      - controller_path = controller.controller_path
-      - if policy(@tournament).update? || @tournament.rounds.any?
-        %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'tournaments')}
-          = link_to 'Scoreboard', tournament_path(@tournament)
-      - if @tournament.has_qualification
-        %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'tournaments/qualifications')}
-          = link_to 'Qualification', tournament_qualification_path(@tournament)
+<div class="tournament-navbar">
+  <div class="tabs-navbar">
+    <ul class="tabs-navbar__menu">
+      <% controller_path = controller.controller_path %>
+      <% if policy(@tournament).update? || @tournament.rounds.any? %>
+        <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'tournaments' %>">
+          <%= link_to 'Scoreboard', tournament_path(@tournament) %>
+        </li>
+      <% end %>
+      <% if @tournament.has_qualification %>
+        <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'tournaments/qualifications' %>">
+          <%= link_to 'Qualification', tournament_qualification_path(@tournament) %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

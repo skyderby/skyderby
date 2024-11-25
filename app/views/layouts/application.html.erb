@@ -1,29 +1,35 @@
-!!! 5
-%html
-  %head
-    = render 'layouts/head'
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= render 'layouts/head' %>
 
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload'
-    = stylesheet_link_tag 'desktop/application', media: 'all', 'data-turbo-track': 'reload'
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'desktop/application', media: 'all', 'data-turbo-track': 'reload' %>
+  </head>
+  <body>
+    <div id="modal-root"></div>
+    <div id="wrap" class="<%= yield(:wrapper_classes) %>">
+      <%= render 'layouts/header' %>
+      <%= render template: 'announcements/active' %>
 
-  %body
-    #modal-root
-    #wrap{class: yield(:wrapper_classes)}
-      = render 'layouts/header'
-      = render template: 'announcements/active'
+      <div class="toast-container" id="toasts">
+        <% flash.each do |type, message| %>
+          <%= render 'toasts/toast', type: type, message: message %>
+        <% end %>
+      </div>
 
-      .toast-container#toasts
-        - flash.each do |type, message|
-          = render 'toasts/toast', type: type, message: message
+      <%= yield %>
 
-      = yield
-      -# Modal for Backbone Views
-      .modal.fade#modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
+      <!-- Modal for Backbone Views -->
+      <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 
-      -# new track modal
-      = render partial: 'track_files/new_modal'
+      <!-- new track modal -->
+      <%= render partial: 'track_files/new_modal' %>
+    </div>
 
-    = render 'errors/ajax_error_message'
-    = render 'layouts/footer'
+    <%= render 'errors/ajax_error_message' %>
+    <%= render 'layouts/footer' %>
 
-    = yield :page_js
+    <%= yield :page_js %>
+  </body>
+</html>

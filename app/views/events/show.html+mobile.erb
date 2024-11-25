@@ -1,28 +1,38 @@
-- provide :title, @event.name
+<% provide :title, @event.name %>
 
-.page-wrap
-  .event__header
-    .event__title
-      = @event.name
-      - if @event.unlisted_event?
-        %i.fa.fa-eye-slash{'data-toggle': 'tooltip', title: t('visibility.unlisted')}
-      - elsif @event.private_event?
-        %i.fa.fa-lock{'data-toggle': 'tooltip', title: t('visibility.private')}
+<div class="page-wrap">
+  <div class="event__header">
+    <div class="event__title">
+      <%= @event.name %>
+      <% if @event.unlisted_event? %>
+        <i class="fa fa-eye-slash" data-toggle="tooltip" title="<%= t('visibility.unlisted') %>"></i>
+      <% elsif @event.private_event? %>
+        <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
+      <% end %>
+    </div>
 
-    - if @event.place.present?
-      .event__place
-        %i.fa.fa-map-marker-alt
-        = @event.place.name
-        = " (MSL: #{@event.place_msl} #{t('units.m')})"
-        %span= @event.place.country_code
+    <% if @event.place.present? %>
+      <div class="event__place">
+        <i class="fa fa-map-marker-alt"></i>
+        <%= @event.place.name %>
+        <%= " (MSL: #{@event.place_msl} #{t('units.m')})" %>
+        <span><%= @event.place.country_code %></span>
+      </div>
+    <% end %>
 
-    .events-list__item-info
-      = "#{t('events.show.comp_window')}:"
-      %span
-        = "#{@event.range_from} – #{@event.range_to} #{t('units.m')}"
+    <div class="events-list__item-info">
+      <%= "#{t('events.show.comp_window')}:" %>
+      <span>
+        <%= "#{@event.range_from} – #{@event.range_to} #{t('units.m')}" %>
+      </span>
+    </div>
+  </div>
 
-  - if !@event.surprise?
-    = render @scoreboard
-  - else
-    %h1.text-muted.text-center
+  <% if !@event.surprise? %>
+    <%= render @scoreboard %>
+  <% else %>
+    <h1 class="text-muted text-center">
       🙅 Let it be a Surprise
+    </h1>
+  <% end %>
+</div>

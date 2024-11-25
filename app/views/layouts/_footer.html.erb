@@ -1,19 +1,26 @@
-- cache "app_footer#{I18n.locale}", expires_in: 1.hour do
-  %footer
-    .text-left
-      = "© 2014-#{Time.now.year}"
-      = t('application.footer.made_with')
-      %i.fa.fa-heart
-      = "#{t 'application.footer.owner'} "
-    .text-right
-      %a{href: about_path}
-        %i.fa.fa-fw.fa-info
-        = t('application.header.about')
+<% cache "app_footer#{I18n.locale}", expires_in: 1.hour do %>
+  <footer>
+    <div class="text-left">
+      © 2014-<%= Time.now.year %>
+      <%= t('application.footer.made_with') %>
+      <i class="fa fa-heart"></i>
+      <%= t('application.footer.owner') %>
+    </div>
+    <div class="text-right">
+      <%= link_to about_path do %>
+        <i class="fa fa-fw fa-info"></i>
+        <%= t('application.header.about') %>
+      <% end %>
       |
-      %a{href: 'https://www.facebook.com/skyderby.ru'}
-        %i.fab.fa-fw.fa-facebook
-        = t('application.footer.fb_page')
+      <%= link_to 'https://www.facebook.com/skyderby.ru' do %>
+        <i class="fab fa-fw fa-facebook"></i>
+        <%= t('application.footer.fb_page') %>
+      <% end %>
       |
-      %a{href: 'mailto:skyksandr@gmail.com'}
-        %i.fa.fa-fw.fa-share
-        = 'skyksandr@gmail.com'
+      <%= mail_to 'skyksandr@gmail.com' do %>
+        <i class="fa fa-fw fa-share"></i>
+        skyksandr@gmail.com
+      <% end %>
+    </div>
+  </footer>
+<% end %>

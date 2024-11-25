@@ -1,25 +1,30 @@
-!!! 5
-%html
-  %head
-    = render 'layouts/head'
-    = stylesheet_link_tag 'mobile/application', 'data-turbo-track': 'reload'
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= render 'layouts/head' %>
+    <%= stylesheet_link_tag 'mobile/application', 'data-turbo-track': 'reload' %>
 
-    %meta{name: "viewport", content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  </head>
+  <body>
+    <div id="modal-root"></div>
+    <%= render 'layouts/header' unless mobile_app? %>
+    <%= render template: 'announcements/active' unless controller.controller_path == 'static_pages' %>
 
-  %body
-    #modal-root
-    = render 'layouts/header' unless mobile_app?
-    = render template: 'announcements/active' unless controller.controller_path == 'static_pages'
+    <div class="toast-container" id="toasts">
+      <% flash.each do |type, message| %>
+        <%= render 'toasts/toast', type: type, message: message %>
+      <% end %>
+    </div>
 
-    .toast-container#toasts
-      - flash.each do |type, message|
-        = render 'toasts/toast', type: type, message: message
+    <%= yield %>
 
-    = yield
-    -# Modal for Backbone Views
-    .modal.fade#modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
+    <!-- Modal for Backbone Views -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 
-    = render 'errors/ajax_error_message'
-    = render 'layouts/footer'
+    <%= render 'errors/ajax_error_message' %>
+    <%= render 'layouts/footer' %>
 
-    = yield :page_js
+    <%= yield :page_js %>
+  </body>
+</html>

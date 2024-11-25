@@ -1,10 +1,14 @@
-- provide :title, @tournament.name
+<% provide :title, @tournament.name %>
 
-.page-wrap
-  = render 'tournaments/header'
-  = render 'tournaments/navbar'
+<div class="page-wrap">
+  <%= render 'tournaments/header' %>
+  <%= render 'tournaments/navbar' %>
 
-  .content-block
-    .scoreboard
-      .scoreboard-scroll
-        = render 'qualification_table'
+  <div class="content-block">
+    <div class="scoreboard">
+      <div class="scoreboard-scroll">
+        <%= render 'qualification_table' %>
+      </div>
+    </div>
+  </div>
+</div>

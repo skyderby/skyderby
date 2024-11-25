@@ -1,6 +1,7 @@
-.container.top-buffer
-  .page-header
-    %h2
-      = @competition.name
+<div class="container top-buffer">
+  <div class="page-header">
+    <h2><%= @competition.name %></h2>
+  </div>
 
-  = render 'form'
+  <%= render 'form' %>
+</div>

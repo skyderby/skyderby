@@ -1,80 +1,101 @@
-.container
-  = link_to place_finish_lines_path(@place), class: 'btn-back' do
-    %i.fa.fa-chevron-left
-    = @place.name
-    \// Finish line
+<div class="container">
+  <%= link_to place_finish_lines_path(@place), class: 'btn-back' do %>
+    <i class="fa fa-chevron-left"></i>
+    <%= @place.name %>
+    // Finish line
+  <% end %>
+</div>
 
-  .content-block
-    .row{'data-controller': 'places--finish-line-map'}
-      .col-sm-7
+<div class="content-block">
+  <div class="row" data-controller="places--finish-line-map">
+    <div class="col-sm-7">
+      <h2><%= @finish_line.name %></h2>
 
-        %h2= @finish_line.name
+      <h3 class="modal-form__section-title">
+        <span class="modal-form__section-number">1</span>
+        Exit
+      </h3>
 
-        %h3.modal-form__section-title
-          %span.modal-form__section-number 1
-          Exit
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Latitude</label>
+          <p class="form-control-static" data-target="places--finish-line-map.exit_lat"><%= @place.latitude %></p>
+        </div>
 
+        <div class="col-sm-3">
+          <label>Longitude</label>
+          <p class="form-control-static" data-target="places--finish-line-map.exit_lon"><%= @place.longitude %></p>
+        </div>
+      </div>
 
-        .row
-          .col-sm-3
-            %label Latitude
-            %p.form-control-static{'data-target': 'places--finish-line-map.exit_lat'}= @place.latitude
+      <h3 class="modal-form__section-title">
+        <span class="modal-form__section-number">2</span>
+        Coordinates
+      </h3>
 
-          .col-sm-3
-            %label Longitude
-            %p.form-control-static{'data-target': 'places--finish-line-map.exit_lon'}= @place.longitude
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Start latitude</label>
+          <p class="form-control-static" data-target="places--finish-line-map.finish_start_lat"><%= @finish_line.start_latitude %></p>
+        </div>
 
-        %h3.modal-form__section-title
-          %span.modal-form__section-number 2
-          Coordinates
+        <div class="col-sm-3">
+          <label>Start longitude</label>
+          <p class="form-control-static" data-target="places--finish-line-map.finish_start_lon"><%= @finish_line.start_longitude %></p>
+        </div>
 
-        .row
-          .col-sm-3
-            %label Start latitude
-            %p.form-control-static{'data-target': 'places--finish-line-map.finish_start_lat'}= @finish_line.start_latitude
+        <div class="col-sm-3">
+          <label>End latitude</label>
+          <p class="form-control-static" data-target="places--finish-line-map.finish_end_lat"><%= @finish_line.end_latitude %></p>
+        </div>
 
-          .col-sm-3
-            %label Start longitude
-            %p.form-control-static{'data-target': 'places--finish-line-map.finish_start_lon'}= @finish_line.start_longitude
+        <div class="col-sm-3">
+          <label>End longitude</label>
+          <p class="form-control-static" data-target="places--finish-line-map.finish_end_lon"><%= @finish_line.end_longitude %></p>
+        </div>
+      </div>
 
-          .col-sm-3
-            %label End latitude
-            %p.form-control-static{'data-target': 'places--finish-line-map.finish_end_lat'}= @finish_line.end_latitude
+      <h3 class="modal-form__section-title">
+        <span class="modal-form__section-number">3</span>
+        Finish line params
+      </h3>
 
-          .col-sm-3
-            %label End longitude
-            %p.form-control-static{'data-target': 'places--finish-line-map.finish_end_lon'}= @finish_line.end_longitude
+      <div class="row">
+        <div class="col-sm-3">
+          <label>Distance from exit</label>
+          <p class="form-control-static" data-target="places--finish-line-map.distance"></p>
+        </div>
 
-        %h3.modal-form__section-title
-          %span.modal-form__section-number 3
-          Finish line params
+        <div class="col-sm-3">
+          <label>Length</label>
+          <p class="form-control-static" data-target="places--finish-line-map.length"></p>
+        </div>
 
-        .row
-          .col-sm-3
-            %label Distance from exit
-            %p.form-control-static{'data-target': 'places--finish-line-map.distance'}
+        <div class="col-sm-3">
+          <label>Center latitude</label>
+          <p class="form-control-static" data-target="places--finish-line-map.center_lat"></p>
+        </div>
 
-          .col-sm-3
-            %label Length
-            %p.form-control-static{'data-target': 'places--finish-line-map.length'}
+        <div class="col-sm-3">
+          <label>Center longitude</label>
+          <p class="form-control-static" data-target="places--finish-line-map.center_lon"></p>
+        </div>
+      </div>
+    </div>
 
-          .col-sm-3
-            %label Center latitude
-            %p.form-control-static{'data-target': 'places--finish-line-map.center_lat'}
+    <div class="col-sm-5">
+      <div class="finish-line-map" data-target="places--finish-line-map.map"></div>
+    </div>
+  </div>
 
-          .col-sm-3
-            %label Center longitude
-            %p.form-control-static{'data-target': 'places--finish-line-map.center_lon'}
+  <div class="row">
+    <div class="col-sm-12">
+      <%= link_to edit_place_finish_line_path(@finish_line.place, @finish_line), class: 'btn btn-default' do %>
+        <i class="fas fa-pencil-alt"></i>
+        <%= t('general.edit') %>
+      <% end %>
 
-      .col-sm-5
-        .finish-line-map{'data-target': 'places--finish-line-map.map'}
-    .row
-      .col-sm-12
-        = link_to edit_place_finish_line_path(@finish_line.place, @finish_line), class: 'btn btn-default' do
-          %i.fas.fa-pencil-alt
-          = t('general.edit')
-
-        = button_to t('general.delete'),
-                    place_finish_line_path(@finish_line.place, @finish_line),
-                    method: :delete,
-                    class: 'btn-flat btn-flat--danger'
+      <%= button_to t('general.delete'), place_finish_line_path(@finish_line.place, @finish_line), method: :delete, class: 'btn-flat btn-flat--danger' %>
+    </div>
+  </div>
+</div>

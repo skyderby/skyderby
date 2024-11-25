@@ -1,29 +1,43 @@
-.table.online-competition__scoreboard
-  .tbody
-    - @competition.scores.each do |score|
-      - current_user_score = current_user && current_user.profile == score.profile
-      = link_to score.track, class: "tr online-competition__personal-score #{'bg-warning' if current_user_score}" do
-        .td.online-competition__rank= score.rank
-        .td
-          .online-competition__profile
-            = score.profile.name.titleize
-          .online-competition__suit-place
-            = suit_presentation(score.suit)
-            - if @competition.worldwide?
-              = "@&nbsp;".html_safe + track_place(score.track)
+<table class="online-competition__scoreboard">
+  <tbody>
+    <% @competition.scores.each do |score| %>
+      <% current_user_score = current_user && current_user.profile == score.profile %>
+      <%= link_to score.track, class: "tr online-competition__personal-score #{'bg-warning' if current_user_score}" do %>
+        <td class="online-competition__rank"><%= score.rank %></td>
+        <td>
+          <div class="online-competition__profile"><%= score.profile.name.titleize %></div>
+          <div class="online-competition__suit-place">
+            <%= suit_presentation(score.suit) %>
+            <% if @competition.worldwide? %>
+              <%= "@&nbsp;".html_safe + track_place(score.track) %>
+            <% end %>
+          </div>
+        </td>
 
-        - if @competition.display_highest_speed || @competition.display_highest_gr
-          .td.online-competition__bests
-            - if @competition.display_highest_speed
-              %div
+        <% if @competition.display_highest_speed || @competition.display_highest_gr %>
+          <td class="online-competition__bests">
+            <% if @competition.display_highest_speed %>
+              <div>
                 Best speed:
-                = (score.highest_speed || 0.0).round(1)
-            - if @competition.display_highest_gr
-              %div
+                <%= (score.highest_speed || 0.0).round(1) %>
+              </div>
+            <% end %>
+            <% if @competition.display_highest_gr %>
+              <div>
                 Best G/R:
-                = (score.highest_gr || 0.0).round(2)
-        .td.online-competition__result
-          = "#{format_result(score.result, @competition)}&nbsp;#{competition_unit(@competition)}".html_safe
+                <%= (score.highest_gr || 0.0).round(2) %>
+              </div>
+            <% end %>
+          </td>
+        <% end %>
+        <td class="online-competition__result">
+          <%= "#{format_result(score.result, @competition)}&nbsp;#{competition_unit(@competition)}".html_safe %>
+        </td>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
 
-.pagination-links
-  = will_paginate @competition.scores, renderer: BootstrapPagination::Rails
+<div class="pagination-links">
+  <%= will_paginate @competition.scores, renderer: BootstrapPagination::Rails %>
+</div>

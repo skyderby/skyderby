@@ -1,11 +1,12 @@
-- if presenter.separate_charts?
-  .track-charts__charts-container{'data-controller': 'synchronized-charts',
-                                  'data-action': 'mousemove->synchronized-charts#refresh_tooltip ' + |
-                                                 'touchmove->synchronized-charts#refresh_tooltip ' + |
-                                                 'touchstart->synchronized-charts#refresh_tooltip'}  |
-    #glideratio_chart{'data-target': 'synchronized-charts.chart'}
-    #speeds_chart{'data-target': 'synchronized-charts.chart'}
-    #elevation_distance_chart{'data-target': 'synchronized-charts.chart'}
-- else
-  .track-charts__charts-container
-    #all_data_chart
+<% if presenter.separate_charts? %>
+  <div class="track-charts__charts-container" data-controller="synchronized-charts"
+       data-action="mousemove->synchronized-charts#refresh_tooltip touchmove->synchronized-charts#refresh_tooltip touchstart->synchronized-charts#refresh_tooltip">
+    <div id="glideratio_chart" class="track-charts__chart" data-target="synchronized-charts.chart"></div>
+    <div id="speeds_chart" class="track-charts__chart" data-target="synchronized-charts.chart"></div>
+    <div id="elevation_distance_chart" class="track-charts__chart" data-target="synchronized-charts.chart"></div>
+  </div>
+<% else %>
+  <div class="track-charts__charts-container">
+    <div id="all_data_chart" class="track-charts__chart"></div>
+  </div>
+<% end %>

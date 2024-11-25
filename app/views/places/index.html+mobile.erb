@@ -1,11 +1,16 @@
-- cache ['mobile', I18n.locale, current_user, @places] do
-  .page-wrap
-    .page-title= t('application.header.places')
+<% cache ['mobile', I18n.locale, current_user, @places] do %>
+  <div class="page-wrap">
+    <div class="page-title"><%= t('application.header.places') %></div>
+  </div>
 
-  .places__mobile
-    = render 'list_with_search'
+  <div class="places__mobile">
+    <%= render 'list_with_search' %>
+  </div>
 
-  - if policy(:place).create?
-    %a.btn.btn-default{href: new_place_path}
-      %i.fa.fa-plus
-      = t('.new')
+  <% if policy(:place).create? %>
+    <a class="btn btn-default" href="<%= new_place_path %>">
+      <i class="fa fa-plus"></i>
+      <%= t('.new') %>
+    </a>
+  <% end %>
+<% end %>

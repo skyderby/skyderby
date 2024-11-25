@@ -1,48 +1,60 @@
-.container
-  .page-header
-    %h1= "Учетная запись ##{@account.id} #{@account.name}"
+<div class="container">
+  <div class="page-header">
+    <h1>Учетная запись #<%= @account.id %> <%= @account.name %></h1>
+  </div>
 
-  .content-block
-    %h2 Данные учетной записи
-    %dl
-      %dt Адрес эл. почты:
-      %dd= @account.email
+  <div class="content-block">
+    <h2>Данные учетной записи</h2>
+    <dl>
+      <dt>Адрес эл. почты:</dt>
+      <dd><%= @account.email %></dd>
 
-      %dt Количество входов:
-      %dd= @account.sign_in_count
+      <dt>Количество входов:</dt>
+      <dd><%= @account.sign_in_count %></dd>
 
-      %dt Текущий вход выполнен:
-      %dd= @account.current_sign_in_at
+      <dt>Текущий вход выполнен:</dt>
+      <dd><%= @account.current_sign_in_at %></dd>
 
-      %dt IP текущего входа:
-      %dd= @account.current_sign_in_ip
+      <dt>IP текущего входа:</dt>
+      <dd><%= @account.current_sign_in_ip %></dd>
 
-      %dt Последний вход выполнен:
-      %dd= @account.last_sign_in_at
+      <dt>Последний вход выполнен:</dt>
+      <dd><%= @account.last_sign_in_at %></dd>
 
-      %dt IP последнего входа:
-      %dd= @account.last_sign_in_ip
+      <dt>IP последнего входа:</dt>
+      <dd><%= @account.last_sign_in_ip %></dd>
+    </dl>
 
-    %h2 Данные профиля
-    - if @account.profile
-      %dl
-        %dt Имя:
-        %dd= @account.profile.name
+    <h2>Данные профиля</h2>
+    <% if @account.profile %>
+      <dl>
+        <dt>Имя:</dt>
+        <dd><%= @account.profile.name %></dd>
 
-        %dt Страна:
-        %dd= @account.profile.country&.name
+        <dt>Страна:</dt>
+        <dd><%= @account.profile.country&.name %></dd>
 
-        %dt Количество треков:
-        %dd= @account.profile.tracks.count
+        <dt>Количество треков:</dt>
+        <dd><%= @account.profile.tracks.count %></dd>
 
-        %dt Участник соревнований:
-        %dd
-          %ul
-            - @account.profile.competitor_of_events.each do |event|
-              %li= event.name
+        <dt>Участник соревнований:</dt>
+        <dd>
+          <ul>
+            <% @account.profile.competitor_of_events.each do |event| %>
+              <li><%= event.name %></li>
+            <% end %>
+          </ul>
+        </dd>
 
-        %dt Организатор соревнований:
-        %dd
-          %ul
-            - @account.responsible_of_events.each do |event|
-              %li= event.name
+        <dt>Организатор соревнований:</dt>
+        <dd>
+          <ul>
+            <% @account.responsible_of_events.each do |event| %>
+              <li><%= event.name %></li>
+            <% end %>
+          </ul>
+        </dd>
+      </dl>
+    <% end %>
+  </div>
+</div>

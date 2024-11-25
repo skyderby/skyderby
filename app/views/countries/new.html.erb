@@ -1,6 +1,7 @@
-.container
-  %h1= 'New country'
+<div class="container">
+  <h1>New country</h1>
 
-  = render 'form'
+  <%= render 'form' %>
 
-  = link_to 'Back', countries_path
+  <%= link_to 'Back', countries_path %>
+</div>

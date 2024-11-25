@@ -1,9 +1,12 @@
-.upload-progress{style: 'display: none', 'data-controller': 'upload-progress'}
-  .spinner{'data-target': 'upload-progress.spinner'}
-    %i.fa.fa-3x.fa-spin.fa-circle-notch
-  .done-indicator{'data-target': 'upload-progress.done', style: 'display: none'}
-    %i.fa.fa-3x.fa-check.text-success
-  .upload-comment{'data-target': 'upload-progress.comment'}
-    %span
-      Uploading...
-    %span.progress-count
+<div class="upload-progress" style="display: none" data-controller="upload-progress">
+  <div class="spinner" data-target="upload-progress.spinner">
+    <i class="fa fa-3x fa-spin fa-circle-notch"></i>
+  </div>
+  <div class="done-indicator" data-target="upload-progress.done" style="display: none">
+    <i class="fa fa-3x fa-check text-success"></i>
+  </div>
+  <div class="upload-comment" data-target="upload-progress.comment">
+    <span>Uploading...</span>
+    <span class="progress-count"></span>
+  </div>
+</div>

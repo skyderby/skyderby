@@ -1,20 +1,25 @@
-.content-block
-  %h2= t 'devise.sessions.new.sign_in'
+<div class="content-block">
+  <h2><%= t('devise.sessions.new.sign_in') %></h2>
 
-  = form_for(:user, url: user_session_path, html: { 'data-controller': 'users--sign-in' }) do |f|
-    .form-group
-      = f.email_field :email, autofocus: true , class: 'form-control input-lg', placeholder: 'Email', required: true
+  <%= form_for(:user, url: user_session_path, html: { 'data-controller': 'users--sign-in' }) do |f| %>
+    <div class="form-group">
+      <%= f.email_field :email, autofocus: true, class: 'form-control input-lg', placeholder: 'Email', required: true %>
+    </div>
 
-    .form-group
-      = f.password_field :password, autocomplete: 'off', class: 'form-control input-lg', placeholder: 'Password', required: true
-      = link_to t('devise.shared.links.forgot_your_password'), new_user_password_path, class: 'secondary-text'
+    <div class="form-group">
+      <%= f.password_field :password, autocomplete: 'off', class: 'form-control input-lg', placeholder: 'Password', required: true %>
+      <%= link_to t('devise.shared.links.forgot_your_password'), new_user_password_path, class: 'secondary-text' %>
+    </div>
 
-    .form-group
-      = f.hidden_field :remember_me, value: 1
-      = f.submit t('devise.sessions.new.sign_in'), class: 'btn btn-primary'
+    <div class="form-group">
+      <%= f.hidden_field :remember_me, value: 1 %>
+      <%= f.submit t('devise.sessions.new.sign_in'), class: 'btn btn-primary' %>
+    </div>
 
-    = link_to t('devise.shared.links.sign_up'), new_user_registration_path, class: 'btn'
+    <%= link_to t('devise.shared.links.sign_up'), new_user_registration_path, class: 'btn' %>
 
-    %p.secondary-text= t('general.or')
+    <p class="secondary-text"><%= t('general.or') %></p>
 
-    = link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path, class: 'btn btn-facebook'
+    <%= link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path, class: 'btn btn-facebook' %>
+  <% end %>
+</div>

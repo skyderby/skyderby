@@ -1,31 +1,45 @@
--if @profile.name
-  - provide :title, @profile.name
+<% if @profile.name %>
+  <% provide :title, @profile.name %>
+<% end %>
 
-.container
+<div class="container">
+  <%= render 'profiles/header', profile: @profile %>
 
-  = render 'profiles/header', profile: @profile
-
-  .content-block
-    .profile-achievements
-      .profile-section-header
-        = t('.achievements')
-        - if policy(:badge).create?
-          = link_to new_profile_badge_path(@profile), remote: true do
-            %i.fa.fa-plus
+  <div class="content-block">
+    <div class="profile-achievements">
+      <div class="profile-section-header">
+        <%= t('.achievements') %>
+        <% if policy(:badge).create? %>
+          <%= link_to new_profile_badge_path(@profile), remote: true do %>
+            <i class="fa fa-plus"></i>
             Add
-      .profile-badges
-        - if @profile.badges.any?
-          = render partial: 'profiles/badges/badge', collection: @profile.badges, as: :badge
-        - else
-          .blankslate
-            %h3= t('.no_badges', name: @profile.name)
+          <% end %>
+        <% end %>
+      </div>
+      <div class="profile-badges">
+        <% if @profile.badges.any? %>
+          <%= render partial: 'profiles/badges/badge', collection: @profile.badges, as: :badge %>
+        <% else %>
+          <div class="blankslate">
+            <h3><%= t('.no_badges', name: @profile.name) %></h3>
+          </div>
+        <% end %>
+      </div>
+    </div>
 
-    .profile-section
-      .profile-section-header
-        = t('.online_competitions')
-      .profile-rankings
-        - if @profile.ranking_positions.any?
-          = render partial: 'profiles/ranking_position', collection: @profile.ranking_positions, as: :position
-        - else
-          .blankslate
-            %h3= t('.no_rankings', name: @profile.name)
+    <div class="profile-section">
+      <div class="profile-section-header">
+        <%= t('.online_competitions') %>
+      </div>
+      <div class="profile-rankings">
+        <% if @profile.ranking_positions.any? %>
+          <%= render partial: 'profiles/ranking_position', collection: @profile.ranking_positions, as: :position %>
+        <% else %>
+          <div class="blankslate">
+            <h3><%= t('.no_rankings', name: @profile.name) %></h3>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,11 @@
-.container
-  .page-header
-    %h2
-      = t('activerecord.models.place')
+<div class="container">
+  <div class="page-header">
+    <h2>
+      <%= t('activerecord.models.place') %>
+    </h2>
+  </div>
 
-  .content-block
-    = render 'form'
+  <div class="content-block">
+    <%= render 'form' %>
+  </div>
+</div>

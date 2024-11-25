@@ -1,15 +1,20 @@
-= edit_section_link(@event, section)
+<%= edit_section_link(@event, section) %>
 
-- if @event.sections.many?
-  %span.scoreboard-controls
+<% if @event.sections.many? %>
+  <span class="scoreboard-controls">
     |
+  </span>
 
-  - unless section.first_position?
-    = move_section_upper_button(@event, section)
-  - unless section.last_position?
-    = move_section_lower_button(@event, section)
+  <% unless section.first_position? %>
+    <%= move_section_upper_button(@event, section) %>
+  <% end %>
+  <% unless section.last_position? %>
+    <%= move_section_lower_button(@event, section) %>
+  <% end %>
 
-  %span.scoreboard-controls
+  <span class="scoreboard-controls">
     |
+  </span>
+<% end %>
 
-= delete_section_button(@event, section)
+<%= delete_section_button(@event, section) %>

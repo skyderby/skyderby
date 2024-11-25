@@ -1,46 +1,63 @@
-= form_for @place, html: { class: 'form-horizontal place-form' } do |f|
-  .form-group
-    = f.label :name, class: 'col-sm-3 control-label', for: :name
-    .col-sm-5
-      = f.text_field :name, autofocus: true, required: true, class: 'form-control'
+<%= form_for @place, html: { class: 'form-horizontal place-form' } do |f| %>
+  <div class="form-group">
+    <%= f.label :name, class: 'col-sm-3 control-label', for: :name %>
+    <div class="col-sm-5">
+      <%= f.text_field :name, autofocus: true, required: true, class: 'form-control' %>
+    </div>
+  </div>
 
-  .form-group
-    = f.label :kind, class: 'col-sm-3 control-label', for: :kind
-    .btn-group.col-sm-9{data: { toggle: 'buttons' }}
-      %label.btn.btn-default{class: ('active' if @place.skydive?)}
-        = f.radio_button 'kind', 'skydive'
-        = 'Skydive'
+  <div class="form-group">
+    <%= f.label :kind, class: 'col-sm-3 control-label', for: :kind %>
+    <div class="btn-group col-sm-9" data-toggle="buttons">
+      <label class="btn btn-default <%= 'active' if @place.skydive? %>">
+        <%= f.radio_button 'kind', 'skydive' %>
+        Skydive
+      </label>
 
-      %label.btn.btn-default{class: ('active' if @place.base?)}
-        = f.radio_button 'kind', 'base'
-        = 'B.A.S.E'
+      <label class="btn btn-default <%= 'active' if @place.base? %>">
+        <%= f.radio_button 'kind', 'base' %>
+        B.A.S.E
+      </label>
+    </div>
+  </div>
 
-  .form-group
-    = f.label :country, class: 'col-sm-3 control-label', for: :country
-    .col-sm-5
-      = f.select(:country_id,
-                 options_for_select([[@place.country_name, @place.country_id]]),
-                 {},
-                 required: true,
-                 placeholder: 'Select country',
-                 class: 'form-control',
-                 'data-controller': 'select2--countries')
+  <div class="form-group">
+    <%= f.label :country, class: 'col-sm-3 control-label', for: :country %>
+    <div class="col-sm-5">
+      <%= f.select(:country_id,
+                   options_for_select([[@place.country_name, @place.country_id]]),
+                   {},
+                   required: true,
+                   placeholder: 'Select country',
+                   class: 'form-control',
+                   'data-controller': 'select2--countries') %>
+    </div>
+  </div>
 
-  .form-group
-    = f.label :latitude, class: 'col-sm-3 control-label', for: :latitude
-    .col-sm-5
-      = f.text_field :latitude, required: true, class: 'form-control'
+  <div class="form-group">
+    <%= f.label :latitude, class: 'col-sm-3 control-label', for: :latitude %>
+    <div class="col-sm-5">
+      <%= f.text_field :latitude, required: true, class: 'form-control' %>
+    </div>
+  </div>
 
-  .form-group
-    = f.label :longitude, class: 'col-sm-3 control-label', for: :longitude
-    .col-sm-5
-      = f.text_field :longitude, required: true, class: 'form-control'
+  <div class="form-group">
+    <%= f.label :longitude, class: 'col-sm-3 control-label', for: :longitude %>
+    <div class="col-sm-5">
+      <%= f.text_field :longitude, required: true, class: 'form-control' %>
+    </div>
+  </div>
 
-  .form-group
-    = f.label :msl, class: 'col-sm-3 control-label', for: :msl
-    .col-sm-5
-      = f.text_field :msl, class: 'form-control'
+  <div class="form-group">
+    <%= f.label :msl, class: 'col-sm-3 control-label', for: :msl %>
+    <div class="col-sm-5">
+      <%= f.text_field :msl, class: 'form-control' %>
+    </div>
+  </div>
 
-  .form-group
-    .col-sm-offset-3.col-sm-9
-      = f.submit t('general.save'), class: 'btn btn-primary'
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-9">
+      <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

@@ -1,75 +1,91 @@
-- provide :title, title(@track)
+<% provide :title, title(@track) %>
 
-.track-edit
-  .track-edit__header
-    = link_to track_path(@track), class: 'btn-back' do
-      %i.fa.fa-chevron-left
-      = t('.back')
+<div class="track-edit">
+  <div class="track-edit__header">
+    <%= link_to track_path(@track), class: 'btn-back' do %>
+      <i class="fa fa-chevron-left"></i>
+      <%= t('.back') %>
+    <% end %>
+  </div>
 
-  = form_for @track, remote: true, html: { role: 'form', id: 'track_edit_form' } do |f|
-    .content-block.form-body
-      = render 'tracks/jump_range', form: f, track: @track
+  <%= form_for @track, html: { role: 'form', id: 'track_edit_form' } do |f| %>
+    <div class="content-block form-body">
+      <%= render 'tracks/jump_range', form: f, track: @track %>
 
-      %hr
+      <hr>
 
-      = render 'tracks/form/suit',
-               form: f,
-               mode_select_when: @track.suit,
-               suit_options: options_for_select([ ([@track.suit_name, @track.suit_id] if @track.suit) ], @track.suit_id),
-               missing_suit_name: @track.missing_suit_name
+      <%= render 'tracks/form/suit',
+                 form: f,
+                 mode_select_when: @track.suit,
+                 suit_options: options_for_select([([@track.suit_name, @track.suit_id] if @track.suit)], @track.suit_id),
+                 missing_suit_name: @track.missing_suit_name %>
 
-      .form-group{'data-controller': 'tracks--place-field', 'data-mode': @track.place ? 'select' : 'text'}
-        = f.label :place, t('activerecord.attributes.track.place')
-        = f.select :place_id,
-                   options_for_select([ ([@track.place_name, @track.place_id] if @track.place) ], @track.place_id),
-                   { include_blank: true },
-                   placeholder: t('tracks.form.place_select_placeholder'),
-                   class: 'form-control input-lg',
-                   'data-controller': 'select2--places', 'data-target': 'tracks--place-field.select'
+      <div class="form-group" data-controller="tracks--place-field" data-mode="<%= @track.place ? 'select' : 'text' %>">
+        <%= f.label :place, t('activerecord.attributes.track.place') %>
+        <%= f.select :place_id,
+                     options_for_select([([@track.place_name, @track.place_id] if @track.place)], @track.place_id),
+                     { include_blank: true },
+                     placeholder: t('tracks.form.place_select_placeholder'),
+                     class: 'form-control input-lg',
+                     data: { controller: 'select2--places', target: 'tracks--place-field.select' } %>
 
-        = f.text_field 'location',
-                       class: 'form-control input-lg',
-                       placeholder: t('static_pages.index.track_form.location_plh'),
-                       'data-target': 'tracks--place-field.text'
+        <%= f.text_field 'location',
+                         class: 'form-control input-lg',
+                         placeholder: t('static_pages.index.track_form.location_plh'),
+                         data: { target: 'tracks--place-field.text' } %>
 
-        %p.help-block
-          %span{'data-target': 'tracks--place-field.caption'}
-          %a{'data-target': 'tracks--place-field.link', 'data-action': 'tracks--place-field#trigger', href: '#'}
+        <p class="help-block">
+          <span data-target="tracks--place-field.caption"></span>
+          <a data-target="tracks--place-field.link" data-action="tracks--place-field#trigger" href="#"></a>
+        </p>
+      </div>
 
-      = render 'tracks/form/activity', form: f, activity: @track.kind
-      = render 'tracks/form/visibility', form: f, visibility: @track.visibility
+      <%= render 'tracks/form/activity', form: f, activity: @track.kind %>
+      <%= render 'tracks/form/visibility', form: f, visibility: @track.visibility %>
 
-      .form-group
-        = f.label :comment, t('activerecord.attributes.track.comment')
-        = f.text_area 'comment',
-                      class: 'form-control input-lg',
-                      rows: 3,
-                      placeholder: t('static_pages.index.track_form.comment_plh')
+      <div class="form-group">
+        <%= f.label :comment, t('activerecord.attributes.track.comment') %>
+        <%= f.text_area 'comment',
+                        class: 'form-control input-lg',
+                        rows: 3,
+                        placeholder: t('static_pages.index.track_form.comment_plh') %>
+      </div>
 
-      - if current_user.has_role?(:admin)
-        .form-group
-          .checkbox
-            %label
-              = f.check_box :disqualified_from_online_competitions
-              = t('activerecord.attributes.track.disqualified_from_online_competitions')
+      <% if current_user.has_role?(:admin) %>
+        <div class="form-group">
+          <div class="checkbox">
+            <label>
+              <%= f.check_box :disqualified_from_online_competitions %>
+              <%= t('activerecord.attributes.track.disqualified_from_online_competitions') %>
+            </label>
+          </div>
+        </div>
+      <% end %>
 
-      - if @track.track_file
-        .form-group
+      <% if @track.track_file %>
+        <div class="form-group">
           Download file:
-          = link_to @track.track_file.file_file_name, track_download_path(@track), 'data-turbo': false
+          <%= link_to @track.track_file.file_file_name, track_download_path(@track), data: { turbo: false } %>
+        </div>
+      <% end %>
+    </div>
 
-    .text-center
-      = f.submit t('general.save'), class: 'btn btn-lg btn-success'
+    <div class="text-center">
+      <%= f.submit t('general.save'), class: 'btn btn-lg btn-success' %>
+    </div>
 
-    .text-center
-      = link_to t('general.delete'),
+    <div class="text-center">
+      <%= link_to t('general.delete'),
                   @track,
                   method: :delete,
-                  data: {confirm: t('tracks.show.delete_confirmation')},
-                  class: 'text-danger btn btn-lg'
+                  data: { confirm: t('tracks.show.delete_confirmation') },
+                  class: 'text-danger btn btn-lg' %>
+    </div>
+  <% end %>
+</div>
 
-- content_for :page_js do
-  :javascript
+<% content_for :page_js do %>
+  <script>
     $('#track_edit_form').validate({
       ignore: 'input[type=hidden]',
       rules: {
@@ -92,11 +108,11 @@
           required: function() {
             return $('[name="track[location]"]').is(':visible');
           }
-        },
+        }
       },
       messages: {
         'track[suit]': {
-          require_from_group: <%= I18n.t('jquery_validate.required_field') %>
+          require_from_group: '<%= I18n.t('jquery_validate.required_field') %>'
         },
         'track[location]': {
           require_from_group: I18n.t('jquery_validate.required_field')
@@ -110,7 +126,7 @@
       },
       errorPlacement: function(error, element) {
         if (element.hasClass('suit-group') || element.hasClass('place-group')) {
-          error.appendTo( element.closest('div') );
+          error.appendTo(element.closest('div'));
         } else {
           error.insertAfter(element);
         }
@@ -121,3 +137,5 @@
       el: '.track-edit-data'
     });
     view.render();
+  </script>
+<% end %>

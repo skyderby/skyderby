@@ -1,25 +1,37 @@
-- provide :title, page_title(t('application.header.places'))
+<% provide :title, page_title(t('application.header.places')) %>
 
-.places{'data-controller': 'places--index',
-        'data-action': 'maps_api:ready@window->places--index#onMapsReady '          + |
-                       'maps_api:failed@window->places--index#on_maps_load_failed ' + |
-                       'ajax:before->places--index#beforeRequestPreview '           + |
-                       'ajax:success->places--index#requestPreviewSuccess '         + |
-                       'ajax:error->places--index#requestPreviewError ' }             |
+<div class="places" data-controller="places--index"
+     data-action="maps_api:ready@window->places--index#onMapsReady
+                  maps_api:failed@window->places--index#on_maps_load_failed
+                  ajax:before->places--index#beforeRequestPreview
+                  ajax:success->places--index#requestPreviewSuccess
+                  ajax:error->places--index#requestPreviewError">
 
-  .places__sidebar{'data-target': 'places--index.sidebar'}
-    = render 'list_with_search', link_to_preview: true
-    - if policy(Place).create?
-      .places__sidebar-create
-        = link_to new_place_path, class: 'btn btn-default' do
-          %i.fa.fa-plus
-          = t('.new')
-    .place-preview{'data-target': 'places--index.preview'}
-      .place-preview__header
-        %a{'data-action': 'places--index#close_preview'}
-          %i.fa.fa-chevron-left
-      .place-preview__loading{'data-target': 'places--index.previewLoading'}
-        %i.fa.fa-circle-notch.fa-spin
-      .place-preview__container
-  .places__container
-    .places__map{'data-target': 'places--index.map'}
+  <div class="places__sidebar" data-target="places--index.sidebar">
+    <%= render 'list_with_search', link_to_preview: true %>
+    <% if policy(Place).create? %>
+      <div class="places__sidebar-create">
+        <%= link_to new_place_path, class: 'btn btn-default' do %>
+          <i class="fa fa-plus"></i>
+          <%= t('.new') %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="place-preview" data-target="places--index.preview">
+    <div class="place-preview__header">
+      <a data-action="places--index#close_preview">
+        <i class="fa fa-chevron-left"></i>
+      </a>
+    </div>
+    <div class="place-preview__loading" data-target="places--index.previewLoading">
+      <i class="fa fa-circle-notch fa-spin"></i>
+    </div>
+    <div class="place-preview__container"></div>
+  </div>
+
+  <div class="places__container">
+    <div class="places__map" data-target="places--index.map"></div>
+  </div>
+</div>

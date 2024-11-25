@@ -1,29 +1,38 @@
-.container
-  #tracks-table.table.table-hover
-    .thead
-      .tr
-        .th=t 'activerecord.attributes.track.id'
-        .th=t 'activerecord.attributes.track.name'
-        .th=t 'activerecord.attributes.track.suit'
-        .th=t 'activerecord.attributes.track.place'
-        .th=t 'activerecord.attributes.track.comment'
-        .th=t 'activerecord.attributes.track.recorded_at'
-    .tbody
-      - @tracks.each do |track|
-        = link_to track_path(id: track.id), class: 'tr track-row' do
-          .td= track.id
-          .td= track_pilot_name(track)
-          .td
-            - if track.suit
-              = suit_presentation(track.suit)
-            - else 
-              %span.text-info
-                = track.missing_suit_name
-          .td= track_place(track)
-          .td.text-muted= track.comment
-          .td.text-info= track.recorded_at.strftime('%d.%m.%Y')
+<div class="container">
+  <div id="tracks-table" class="table table-hover">
+    <div class="thead">
+      <div class="tr">
+        <div class="th"><%= t 'activerecord.attributes.track.id' %></div>
+        <div class="th"><%= t 'activerecord.attributes.track.name' %></div>
+        <div class="th"><%= t 'activerecord.attributes.track.suit' %></div>
+        <div class="th"><%= t 'activerecord.attributes.track.place' %></div>
+        <div class="th"><%= t 'activerecord.attributes.track.comment' %></div>
+        <div class="th"><%= t 'activerecord.attributes.track.recorded_at' %></div>
+      </div>
+    </div>
+    <div class="tbody">
+      <% @tracks.each do |track| %>
+        <%= link_to track_path(id: track.id), class: 'tr track-row' do %>
+          <div class="td"><%= track.id %></div>
+          <div class="td"><%= track_pilot_name(track) %></div>
+          <div class="td">
+            <% if track.suit %>
+              <%= suit_presentation(track.suit) %>
+            <% else %>
+              <span class="text-info"><%= track.missing_suit_name %></span>
+            <% end %>
+          </div>
+          <div class="td"><%= track_place(track) %></div>
+          <div class="td text-muted"><%= track.comment %></div>
+          <div class="td text-info"><%= track.recorded_at.strftime('%d.%m.%Y') %></div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 
-  .text-center.top-buffer
-    .pagination-list
-      = will_paginate @tracks, renderer: BootstrapPagination::Rails
-
+  <div class="text-center top-buffer">
+    <div class="pagination-list">
+      <%= will_paginate @tracks, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,7 @@
-- allow_change_rules ||= false
+<% allow_change_rules ||= false %>
 
-.modal-dialog
-  .modal-content
-    = render 'form', modal: true, allow_change_rules: allow_change_rules
+<div class="modal-dialog">
+  <div class="modal-content">
+    <%= render 'form', modal: true, allow_change_rules: allow_change_rules %>
+  </div>
+</div>

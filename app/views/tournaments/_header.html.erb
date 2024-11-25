@@ -1,24 +1,36 @@
-.row
-  .col-sm-8.col-sm-offset-2.text-center
-    %h1
-      = @tournament.name
-  .col-sm-2
-    - if policy(@tournament).update?
-      .pull-right
-        = link_to edit_tournament_path(@tournament), class: 'btn btn-default edit-event' do
-          %i.fa.fa-pencil-alt
-          = t('general.edit')
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 text-center">
+    <h1><%= @tournament.name %></h1>
+  </div>
+  <div class="col-sm-2">
+    <% if policy(@tournament).update? %>
+      <div class="pull-right">
+        <%= link_to edit_tournament_path(@tournament), class: 'btn btn-default edit-event' do %>
+          <i class="fa fa-pencil-alt"></i>
+          <%= t('general.edit') %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
 
-.row
-  .col-sm-12
-    - controller_path = controller.controller_path
-    - if policy(@tournament).update? || @tournament.rounds.any?
-      = link_to tournament_path(@tournament), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments')] do
+<div class="row">
+  <div class="col-sm-12">
+    <% controller_path = controller.controller_path %>
+    <% if policy(@tournament).update? || @tournament.rounds.any? %>
+      <%= link_to tournament_path(@tournament), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments')] do %>
         Scoreboard
-    - if @tournament.has_qualification
-      = link_to tournament_qualification_path(@tournament), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments/qualifications')] do
+      <% end %>
+    <% end %>
+    <% if @tournament.has_qualification %>
+      <%= link_to tournament_qualification_path(@tournament), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments/qualifications')] do %>
         Qualification
-    - if policy(@tournament).edit?
-      = link_to tournament_competitors_path(@tournament.id), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments/competitors')] do
+      <% end %>
+    <% end %>
+    <% if policy(@tournament).edit? %>
+      <%= link_to tournament_competitors_path(@tournament.id), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments/competitors')] do %>
         Competitors
-
+      <% end %>
+    <% end %>
+  </div>
+</div>

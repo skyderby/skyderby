@@ -1,84 +1,114 @@
-.container.top-buffer
-  .page-header
-    %h2
-      = t('users.profile.edit.title')
-      = @profile.name
+<div class="container top-buffer">
+  <div class="page-header">
+    <h2>
+      <%= t('users.profile.edit.title') %>
+      <%= @profile.name %>
+    </h2>
+  </div>
 
-  .content-block
-    = form_for @profile, html: {class: 'edit-user-profile form-horizontal'} do |f|
-      .form-group
-        = f.label :name, class: 'col-sm-2 control-label'
-        .col-sm-5
-          = f.text_field :name, autofocus: true, class: 'form-control'
+  <div class="content-block">
+    <%= form_for @profile, html: { class: 'edit-user-profile form-horizontal' } do |f| %>
+      <div class="form-group">
+        <%= f.label :name, class: 'col-sm-2 control-label' %>
+        <div class="col-sm-5">
+          <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+        </div>
+      </div>
 
-      .form-group
-        = f.label :country, class: 'col-sm-2 control-label'
-        .col-sm-5
-          = f.select :country_id,
-                     options_for_select([[@profile.country_name, @profile.country_id]], @profile.country_id),
-                     { include_blank: true },
-                     placeholder: 'Select country',
-                     class: 'form-control',
-                     'data-controller': 'select2--countries'
+      <div class="form-group">
+        <%= f.label :country, class: 'col-sm-2 control-label' %>
+        <div class="col-sm-5">
+          <%= f.select :country_id,
+                       options_for_select([[@profile.country_name, @profile.country_id]], @profile.country_id),
+                       { include_blank: true },
+                       placeholder: 'Select country',
+                       class: 'form-control',
+                       'data-controller': 'select2--countries' %>
+        </div>
+      </div>
 
-      .form-group
-        = f.label t('activerecord.attributes.profile.userpic'), class: 'col-sm-2 control-label', :for => :userpic
-        .col-sm-4
-          = f.file_field :userpic
+      <div class="form-group">
+        <%= f.label t('activerecord.attributes.profile.userpic'), class: 'col-sm-2 control-label', for: :userpic %>
+        <div class="col-sm-4">
+          <%= f.file_field :userpic %>
+        </div>
+      </div>
 
-      .form-group
-        .col-sm-offset-2.col-sm-8
-          = f.submit t('general.save'), class: 'btn btn-primary'
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8">
+          <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 
-  - if @profile.owner && @profile.belongs_to_user?
-    %a.col-sm-offset-2{data: {toggle: 'modal', target: '#CredentialsModal'}}
-      = t('users.profile.edit.edit_email_pass')
-    - if @profile.owner.uid.nil?
-      %br
-      = link_to t('devise.shared.links.connect_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path, class: 'col-sm-offset-2'
+  <% if @profile.owner && @profile.belongs_to_user? %>
+    <a class="col-sm-offset-2" data-toggle="modal" data-target="#CredentialsModal">
+      <%= t('users.profile.edit.edit_email_pass') %>
+    </a>
+    <% if @profile.owner.uid.nil? %>
+      <br>
+      <%= link_to t('devise.shared.links.connect_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path, class: 'col-sm-offset-2' %>
+    <% end %>
+  <% end %>
 
-    .modal.fade{:id => 'CredentialsModal', :tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
-      .modal-dialog
-        .modal-content
-          .modal-header
-            %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
-              %span{:aria => {:hidden => 'true'}}
-                &times;
-                %span.sr-only
-                  Close
+  <div class="modal fade" id="CredentialsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            <%= t('users.profile.edit.edit_reg_data') %>
+          </h4>
+        </div>
 
-            %h4.modal-title#myModalLabel
-              = t('users.profile.edit.edit_reg_data')
+        <br>
 
-          %br
+        <%= form_for(:user, url: registration_path(:user), html: { method: :put, class: 'form-horizontal' }) do |f| %>
+          <div class="form-group">
+            <%= f.label t('activerecord.attributes.user.email'), class: 'col-sm-4 control-label', for: :email %>
+            <div class="col-sm-7">
+              <%= f.email_field :email, class: 'form-control' %>
+            </div>
+          </div>
 
-          = form_for(:user, url: registration_path(:user), html: { method: :put, class: 'form-horizontal' }) do |f|
-            .form-group
-              = f.label t('activerecord.attributes.user.email'), class: 'col-sm-4 control-label', :for => :email
-              .col-sm-7
-                = f.email_field :email, class: 'form-control'
+          <div class="form-group">
+            <%= f.label t('activerecord.attributes.user.current_password'), class: 'col-sm-4 control-label', for: :current_password %>
+            <div class="col-sm-7">
+              <%= f.password_field :current_password, autocomplete: 'off', class: 'form-control', placeholder: 'Необходимо ввести текущий пароль для подтверждения изменений' %>
+            </div>
+          </div>
 
-            .form-group
-              = f.label t('activerecord.attributes.user.current_password'), class: 'col-sm-4 control-label', :for => :current_password
-              .col-sm-7
-                = f.password_field :current_password, autocomplete: 'off', class: 'form-control', :placeholder => 'Необходимо ввести текущий пароль для подтверждения изменений'
+          <div class="form-group">
+            <%= f.label t('activerecord.attributes.user.password'), class: 'col-sm-4 control-label', for: :password %>
+            <div class="col-sm-7">
+              <%= f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: 'Оставьте пустым если не планируете менять пароль' %>
+            </div>
+          </div>
 
-            .form-group
-              = f.label t('activerecord.attributes.user.password'), class: 'col-sm-4 control-label', :for => :password
-              .col-sm-7
-                = f.password_field :password, autocomplete: 'off', class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'
+          <div class="form-group">
+            <%= f.label t('activerecord.attributes.user.password_confirmation'), class: 'col-sm-4 control-label', for: :password_confirmation %>
+            <div class="col-sm-7">
+              <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', placeholder: 'Оставьте пустым если не планируете менять пароль' %>
+            </div>
+          </div>
 
-            .form-group
-              = f.label t('activerecord.attributes.user.password_confirmation'), class: 'col-sm-4 control-label', :for => :password_confirmation
-              .col-sm-7
-                = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'
+          <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-7">
+              <%= f.submit t('general.update'), class: 'btn btn-primary' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 
-            .form-group
-              .col-sm-offset-4.col-sm-7
-                = f.submit t('general.update'), class: 'btn btn-primary'
-
-- content_for :page_js do
-  :javascript
+<% content_for :page_js do %>
+  <script>
     $('.edit-user-profile').validate({
       rules: {
         'profile[name]': {
@@ -92,4 +122,5 @@
         $(element).closest('.form-group').removeClass('has-error');
       }
     });
-
+  </script>
+<% end %>

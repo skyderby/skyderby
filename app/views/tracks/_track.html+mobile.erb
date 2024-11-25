@@ -1,28 +1,48 @@
-- except_columns ||= []
+<% except_columns ||= [] %>
 
-= link_to track_path(id: track.id), class: 'track-item' do
-  .track-item__meta
-    .track-item__id
-      = "##{track.id}"
-      = track_icons(track)
-    .track-item__date= track.recorded_at&.strftime('%d.%m.%Y')
-  .track-item__pilot
-    .track-item__pilot-name= track_pilot_name(track)
-    - pilot_country_code = track_pilot_country_code(track)
-    - if pilot_country_code.present?
-      .track-item__pilot-country= pilot_country_code
-
-  .track-item__info
-    .track-item__location
-      .track-item__location-name= track_place_name(track)
-      - place_country_code = track_place_country_code(track)
-      - if place_country_code.present?
-        .track-item__location-country= place_country_code
-    .track-item__suit
-      - if track.suit
-        %span= track.suit.manufacturer_code
-        = track.suit.name
-      - else
-        = track.missing_suit_name
-
-  .track-item__comment= track.comment
+<%= link_to track_path(id: track.id), class: 'track-item' do %>
+  <div class="track-item__meta">
+    <div class="track-item__id">
+      <%= "##{track.id}" %>
+      <%= track_icons(track) %>
+    </div>
+    <div class="track-item__date">
+      <%= track.recorded_at&.strftime('%d.%m.%Y') %>
+    </div>
+  </div>
+  <div class="track-item__pilot">
+    <div class="track-item__pilot-name">
+      <%= track_pilot_name(track) %>
+    </div>
+    <% pilot_country_code = track_pilot_country_code(track) %>
+    <% if pilot_country_code.present? %>
+      <div class="track-item__pilot-country">
+        <%= pilot_country_code %>
+      </div>
+    <% end %>
+  </div>
+  <div class="track-item__info">
+    <div class="track-item__location">
+      <div class="track-item__location-name">
+        <%= track_place_name(track) %>
+      </div>
+      <% place_country_code = track_place_country_code(track) %>
+      <% if place_country_code.present? %>
+        <div class="track-item__location-country">
+          <%= place_country_code %>
+        </div>
+      <% end %>
+    </div>
+    <div class="track-item__suit">
+      <% if track.suit %>
+        <span><%= track.suit.manufacturer_code %></span>
+        <%= track.suit.name %>
+      <% else %>
+        <%= track.missing_suit_name %>
+      <% end %>
+    </div>
+  </div>
+  <div class="track-item__comment">
+    <%= track.comment %>
+  </div>
+<% end %>

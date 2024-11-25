@@ -1,112 +1,133 @@
-.container
-  .content-block.top-buffer
-    .row
-      .col-sm-3.text-center
-        .fa-3x
-          = @dashboard.tracks_count
-        %div
-          Tracks
+<div class="container">
+  <div class="content-block top-buffer">
+    <div class="row">
+      <div class="col-sm-3 text-center">
+        <div class="fa-3x">
+          <%= @dashboard.tracks_count %>
+        </div>
+        <div>Tracks</div>
+      </div>
 
-      .col-sm-3.text-center
-        .fa-3x
-          = @dashboard.users_count
-        %div
-          Users
+      <div class="col-sm-3 text-center">
+        <div class="fa-3x">
+          <%= @dashboard.users_count %>
+        </div>
+        <div>Users</div>
+      </div>
 
-      .col-sm-3.text-center
-        .fa-3x
-          = @dashboard.profiles_count
-        %div
-          Profiles
+      <div class="col-sm-3 text-center">
+        <div class="fa-3x">
+          <%= @dashboard.profiles_count %>
+        </div>
+        <div>Profiles</div>
+      </div>
 
+      <div class="col-sm-3 text-center">
+        <div class="fa-3x">
+          <%= @dashboard.events_count %>
+        </div>
+        <div>Events</div>
+      </div>
+    </div>
+  </div>
 
-      .col-sm-3.text-center
-        .fa-3x
-          = @dashboard.events_count
-        %div
-          Events
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="content-block">
+        <h3>Tracks by month</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Month, Year</th>
+              <th class="text-right">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @dashboard.uploads_by_month.each do |key, value| %>
+              <tr>
+                <td><%= l(key, format: '%b %Y') %></td>
+                <td class="text-right"><%= value %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-  .row
-    .col-sm-3
-      .content-block
-        %h3
-          Tracks by month
-        %table.table
-          %thead
-            %tr
-              %th
-                Month, Year
-              %th.text-right
-                Count
-          %tbody
-            - @dashboard.uploads_by_month.each do |key, value|
-              %tr
-                %td= l(key, format: '%b %Y')
-                %td.text-right= value
+    <div class="col-sm-3">
+      <div class="content-block">
+        <h3>Registrations by month</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Month, Year</th>
+              <th class="text-right">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @dashboard.registrations_by_month.each do |key, value| %>
+              <tr>
+                <td><%= l(key, format: '%b %Y') %></td>
+                <td class="text-right"><%= value %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-    .col-sm-3
-      .content-block
-        %h3
-          Registrations by month
-        %table.table
-          %thead
-            %tr
-              %th
-                Month, Year
-              %th.text-right
-                Count
-          %tbody
-            - @dashboard.registrations_by_month.each do |key, value|
-              %tr
-                %td= l(key, format: '%b %Y')
-                %td.text-right= value
+    <div class="col-sm-6">
+      <div class="content-block">
+        <h3>Most active users</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Profile</th>
+              <th class="text-right">Uploads in 12 months</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @dashboard.top_active_users.each do |profile, count| %>
+              <tr>
+                <td><%= link_to profile.name, profile_path(profile) %></td>
+                <td class="text-right"><%= count %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-    .col-sm-6
-      .content-block
-        %h3
-          Most active users
-        %table.table
-          %thead
-            %tr
-              %th
-                Profile
-              %th.text-right
-                Uploads in 12 months
-          %tbody
-            - @dashboard.top_active_users.each do |profile, count|
-              %tr
-                %td= link_to profile.name, profile_path(profile)
-                %td.text-right= count
+  <div class="row top-buffer">
+    <div class="col-sm-12">
+      <%= link_to 'Sidekiq Monitoring', sidekiq_web_path %>
+    </div>
+    <div class="col-sm-12">
+      <%= link_to 'Missing places', missing_places_path %>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="col-sm-4">
+      <h2>Костюмы</h2>
+      <p><%= link_to 'Костюмы', suits_path %></p>
+      <p><%= link_to 'Производители', manufacturers_path %></p>
 
-  .row.top-buffer
-    .col-sm-12
-      = link_to 'Sidekiq Monitoring', sidekiq_web_path
-    .col-sm-12
-      = link_to 'Missing places', missing_places_path
+      <h2>Локации</h2>
+      <p><%= link_to 'Локации', places_path %></p>
+      <p><%= link_to 'Страны', countries_path %></p>
 
-  .row
-    .col-sm-4
-      %h2= 'Костюмы'
-      %p
-        = link_to 'Костюмы', suits_path
-      %p
-        = link_to 'Производители', manufacturers_path
+      <h2>Онлайн соревнования</h2>
+      <p><%= link_to 'Соревнования', virtual_competitions_path %></p>
+      <p><%= link_to 'Результаты', virtual_comp_results_path %></p>
+    </div>
 
-      %h2= 'Локации'
-      %p
-        = link_to 'Локации', places_path
-      %p
-        = link_to 'Страны', countries_path
-
-      %h2= 'Онлайн соревнования'
-      %p
-        = link_to 'Соревнования', virtual_competitions_path
-      %p
-        = link_to 'Результаты', virtual_comp_results_path
-
-    .col-sm-4
-      %h2= 'Пользователи'
-      %p= link_to 'Профили', profiles_path
-      %p= link_to 'Учетные записи', accounts_path
-      %p= link_to 'Бэйджи', badges_path
+    <div class="col-sm-4">
+      <h2>Пользователи</h2>
+      <p><%= link_to 'Профили', profiles_path %></p>
+      <p><%= link_to 'Учетные записи', accounts_path %></p>
+      <p><%= link_to 'Бэйджи', badges_path %></p>
+    </div>
+  </div>
+</div>

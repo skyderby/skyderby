@@ -1,73 +1,101 @@
-.container.top-buffer
-  .page-header
-    %h2
-      = t('users.profile.edit.title')
-      - if @user.profile
-        = @user.profile.name
-      - else
-        = @user.email
+<div class="container top-buffer">
+  <div class="page-header">
+    <h2>
+      <%= t('users.profile.edit.title') %>
+      <% if @user.profile %>
+        <%= @user.profile.name %>
+      <% else %>
+        <%= @user.email %>
+      <% end %>
+    </h2>
+  </div>
 
-  = form_for [@user, @user.profile], :html => {:class => 'form-horizontal'} do |f|
-    .form-group
-      = f.label t('activerecord.attributes.profile.name'), class: 'col-sm-2 control-label', :for => :name
-      .col-sm-5
-        = f.text_field :name, autofocus: true, class: 'form-control'
+  <%= form_for [@user, @user.profile], html: { class: 'form-horizontal' } do |f| %>
+    <div class="form-group">
+      <%= f.label :name, t('activerecord.attributes.profile.name'), class: 'col-sm-2 control-label' %>
+      <div class="col-sm-5">
+        <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+      </div>
+    </div>
 
-    .form-group
-      = f.label t('activerecord.attributes.profile.photo'), class: 'col-sm-2 control-label', :for => :userpic
-      .col-sm-4
-        = f.file_field :userpic
+    <div class="form-group">
+      <%= f.label :userpic, t('activerecord.attributes.profile.photo'), class: 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= f.file_field :userpic %>
+      </div>
+    </div>
 
-    .form-group
-      .col-sm-offset-2.col-sm-8
-        = f.submit t('general.update'), class: 'btn btn-primary'
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-8">
+        <%= f.submit t('general.update'), class: 'btn btn-primary' %>
+      </div>
+    </div>
+  <% end %>
 
-  %a.col-sm-offset-2{:data => {:toggle =>'modal', :target => '#CredentialsModal'}}
-    = t('users.profile.edit.edit_email_pass')
+  <a class="col-sm-offset-2" data-toggle="modal" data-target="#CredentialsModal">
+    <%= t('users.profile.edit.edit_email_pass') %>
+  </a>
 
-  .modal.fade{:id => 'CredentialsModal', :tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
-    .modal-dialog
-      .modal-content
-        .modal-header
-          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
-            %span{:aria => {:hidden => 'true'}}
-              &times;
-              %span.sr-only
-                Close
+  <div class="modal fade" id="CredentialsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            <%= t('users.profile.edit.edit_reg_data') %>
+          </h4>
+        </div>
 
-          %h4.modal-title#myModalLabel
-            = t('users.profile.edit.edit_reg_data')
+        <br>
 
-        %br
+        <%= form_for(:user, url: user_registration_path, html: { method: :put, class: 'form-horizontal' }) do |f| %>
+          <%= devise_error_messages! %>
 
-        = form_for(:user, url: user_registration_path, html: { method: :put, class: 'form-horizontal' }) do |f|
-          = devise_error_messages!
+          <div class="form-group">
+            <%= f.label :email, t('activerecord.attributes.user.email'), class: 'col-sm-4 control-label' %>
+            <div class="col-sm-7">
+              <%= f.email_field :email, class: 'form-control' %>
+            </div>
+          </div>
 
-          .form-group
-            = f.label t('activerecord.attributes.user.email'), class: 'col-sm-4 control-label', :for => :email
-            .col-sm-7
-              = f.email_field :email, class: 'form-control'
-
-          - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-            %div
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div>
               Currently waiting confirmation for:
-              = resource.unconfirmed_email
+              <%= resource.unconfirmed_email %>
+            </div>
+          <% end %>
 
-          .form-group
-            = f.label t('activerecord.attributes.user.current_password'), class: 'col-sm-4 control-label', :for => :current_password
-            .col-sm-7
-              = f.password_field :current_password, autocomplete: 'off', class: 'form-control', :placeholder => 'Необходимо ввести текущий пароль для подтверждения изменений'
+          <div class="form-group">
+            <%= f.label :current_password, t('activerecord.attributes.user.current_password'), class: 'col-sm-4 control-label' %>
+            <div class="col-sm-7">
+              <%= f.password_field :current_password, autocomplete: 'off', class: 'form-control', placeholder: 'Необходимо ввести текущий пароль для подтверждения изменений' %>
+            </div>
+          </div>
 
-          .form-group
-            = f.label t('activerecord.attributes.user.password'), class: 'col-sm-4 control-label', :for => :password
-            .col-sm-7
-              = f.password_field :password, autocomplete: 'off', class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'
+          <div class="form-group">
+            <%= f.label :password, t('activerecord.attributes.user.password'), class: 'col-sm-4 control-label' %>
+            <div class="col-sm-7">
+              <%= f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: 'Оставьте пустым если не планируете менять пароль' %>
+            </div>
+          </div>
 
-          .form-group
-            = f.label t('activerecord.attributes.user.password_confirmation'), class: 'col-sm-4 control-label', :for => :password_confirmation
-            .col-sm-7
-              = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'
+          <div class="form-group">
+            <%= f.label :password_confirmation, t('activerecord.attributes.user.password_confirmation'), class: 'col-sm-4 control-label' %>
+            <div class="col-sm-7">
+              <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', placeholder: 'Оставьте пустым если не планируете менять пароль' %>
+            </div>
+          </div>
 
-          .form-group
-            .col-sm-offset-4.col-sm-7
-              = f.submit t('general.update'), class: 'btn btn-primary'
+          <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-7">
+              <%= f.submit t('general.update'), class: 'btn btn-primary' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

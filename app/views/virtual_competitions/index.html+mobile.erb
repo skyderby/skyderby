@@ -1,14 +1,22 @@
-.online-competitions-index
-  .page-title
-    = t('application.header.online_competitions')
-  - @competitions.each do |group, competitions|
-    .online-competition-group
-      %h3.online-competition-group__header= group
-      .table
-        .thead
-          .tr
-            .th= 'Name'
-            .th= 'Location'
-            .th= 'Task'
-        .tbody
-          = render competitions
+<div class="online-competitions-index">
+  <div class="page-title">
+    <%= t('application.header.online_competitions') %>
+  </div>
+  <% @competitions.each do |group, competitions| %>
+    <div class="online-competition-group">
+      <h3 class="online-competition-group__header"><%= group %></h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Task</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render competitions %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

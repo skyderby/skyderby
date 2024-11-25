@@ -1,6 +1,8 @@
-%footer
-  %p= "© 2014-#{Time.now.year} SKYDERBY"
-  %p
-    = t('application.footer.made_with')
-    %i.fa.fa-heart.text-light-red
+<footer>
+  <p>© 2014-<%= Time.now.year %> SKYDERBY</p>
+  <p>
+    <%= t('application.footer.made_with') %>
+    <i class="fa fa-heart text-light-red"></i>
     Skyderby Team
+  </p>
+</footer>

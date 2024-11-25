@@ -1,60 +1,87 @@
-- provide :title, title(@track_data.track)
+<% provide :title, title(@track_data.track) %>
 
-.track-video-show{'data-controller': 'tracks--videos',
-                  'data-action': 'youtube_api:ready@window->tracks--videos#on_youtube_api_ready',
-                  'data-url': url_for,
-                  'data-video-id': @track_data.video_code}
-  .container
-    = render partial: 'tracks/header', locals: {track: @track_data.track}
+<div class="track-video-show" data-controller="tracks--videos"
+     data-action="youtube_api:ready@window->tracks--videos#on_youtube_api_ready"
+     data-url="<%= url_for %>"
+     data-video-id="<%= @track_data.video_code %>">
+  <div class="container">
+    <%= render partial: 'tracks/header', locals: { track: @track_data.track } %>
 
-    .content-block.content-block--bordered
-      - if policy(@track_data.track).edit?
-        .card-action
-          .position-right
-            = link_to edit_track_video_path(@track_data.track), class: 'btn-flat same-padding' do
-              %i.fas.fa-cog
-              = t('general.settings')
-      .row
-        .col-sm-12
-          .videowrapper
-            #player
-      .row.track-indicators
-        .col-md-11.col-md-offset-1.col-sm-12
-          .row
-            .col-sm-3
-              .param-val
-                .avg-val{'data-target': 'tracks--videos.altitude'}= '---'
-                .min-max.text-right
-                  .min-val
-                    %span{'data-target': 'tracks--videos.altitude_spent'}= '---'
-                    %i.fa.fa-lg.fa-caret-down
-                .units= t 'units.m'
-              .param
-                %i.fa.fa-fw.fa-lg.fa-arrows-alt-v
-                =t 'tracks.indicators.altitude'
+    <div class="content-block content-block--bordered">
+      <% if policy(@track_data.track).edit? %>
+        <div class="card-action">
+          <div class="position-right">
+            <%= link_to edit_track_video_path(@track_data.track), class: 'btn-flat same-padding' do %>
+              <i class="fas fa-cog"></i>
+              <%= t('general.settings') %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="videowrapper">
+            <div id="player"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row track-indicators">
+        <div class="col-md-11 col-md-offset-1 col-sm-12">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="param-val">
+                <div class="avg-val" data-target="tracks--videos.altitude">---</div>
+                <div class="min-max text-right">
+                  <div class="min-val">
+                    <span data-target="tracks--videos.altitude_spent">---</span>
+                    <i class="fa fa-lg fa-caret-down"></i>
+                  </div>
+                </div>
+                <div class="units"><%= t 'units.m' %></div>
+              </div>
+              <div class="param">
+                <i class="fa fa-fw fa-lg fa-arrows-alt-v"></i>
+                <%= t 'tracks.indicators.altitude' %>
+              </div>
+            </div>
 
-            .col-sm-3
-              .param-val
-                .avg-val{'data-target': 'tracks--videos.v_speed'}= '---'
-                .units=t 'units.kmh'
-              .param
-                %i.fa.fa-fw.fa-lg.fa-long-arrow-alt-down
-                =t 'tracks.indicators.vertical_speed'
+            <div class="col-sm-3">
+              <div class="param-val">
+                <div class="avg-val" data-target="tracks--videos.v_speed">---</div>
+                <div class="units"><%= t 'units.kmh' %></div>
+              </div>
+              <div class="param">
+                <i class="fa fa-fw fa-lg fa-long-arrow-alt-down"></i>
+                <%= t 'tracks.indicators.vertical_speed' %>
+              </div>
+            </div>
 
-            .col-sm-3
-              .param-val
-                .avg-val{'data-target': 'tracks--videos.h_speed'}= '---'
-                .units=t 'units.kmh'
-              .param
-                %i.fa.fa-fw.fa-lg.fa-long-arrow-alt-right
-                =t 'tracks.indicators.ground_speed'
+            <div class="col-sm-3">
+              <div class="param-val">
+                <div class="avg-val" data-target="tracks--videos.h_speed">---</div>
+                <div class="units"><%= t 'units.kmh' %></div>
+              </div>
+              <div class="param">
+                <i class="fa fa-fw fa-lg fa-long-arrow-alt-right"></i>
+                <%= t 'tracks.indicators.ground_speed' %>
+              </div>
+            </div>
 
-            .col-sm-3
-              .param-val
-                .avg-val{'data-target': 'tracks--videos.glide_ratio'}= '-.--'
-              .param
-                %i.fa.fa-fw.fa-lg.fa-ellipsis-h
-                =t 'tracks.indicators.glide_ratio'
-
-    .row
-      .col-sm-12.text-center.top-buffer
+            <div class="col-sm-3">
+              <div class="param-val">
+                <div class="avg-val" data-target="tracks--videos.glide_ratio">-.-</div>
+              </div>
+              <div class="param">
+                <i class="fa fa-fw fa-lg fa-ellipsis-h"></i>
+                <%= t 'tracks.indicators.glide_ratio' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 text-center top-buffer"></div>
+      </div>
+    </div>
+  </div>
+</div>

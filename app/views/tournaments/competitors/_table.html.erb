@@ -1,13 +1,13 @@
-%table.table.table-bordered.tournament-competitors-table
-  %thead
-    %tr
-      %th
-        \#
-      %th{colspan: 2}
-        Profile
-      %th
-        Suit
-      %th
-
-  %tbody
-    = render collection: @competitors, partial: 'tournaments/competitors/competitor'
+<table class="table table-bordered tournament-competitors-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th colspan="2">Profile</th>
+      <th>Suit</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render collection: @competitors, partial: 'tournaments/competitors/competitor' %>
+  </tbody>
+</table>

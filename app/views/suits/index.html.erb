@@ -1,22 +1,36 @@
-.suits-index
-  .suits-index__sidebar
-    .suits-index__sidebar-container
-      %ul.suits-index__manufacturer-list
-        %li{class: ('active' if @suits.overview?), 'data-overview': true}
-          = link_to 'Overview', url_for(manufacturer_id: nil), remote: true
-        %li.suits-index__sidebar-spacer
-        - @suits.popular_manufacturers.each do |manufacturer|
-          %li{class: ('active' if @suits.manufacturer == manufacturer), 'data-manufacturer': manufacturer.id}
-            = link_to manufacturer.name, url_for(manufacturer_id: manufacturer.id), remote: true
-        %li.suits-index__sidebar-spacer
-        - @suits.other_manufacturers.each do |manufacturer|
-          %li{class: ('active' if @suits.manufacturer == manufacturer), 'data-manufacturer': manufacturer.id}
-            = link_to manufacturer.name, url_for(manufacturer_id: manufacturer.id), remote: true
-  .suits-index__main-area
-    - unless @suits.overview?
-      = render 'manufacturer_suits'
+<div class="suits-index">
+  <div class="suits-index__sidebar">
+    <div class="suits-index__sidebar-container">
+      <ul class="suits-index__manufacturer-list">
+        <li class="<%= 'active' if @suits.overview? %>" data-overview="true">
+          <%= link_to 'Overview', url_for(manufacturer_id: nil), remote: true %>
+        </li>
+        <li class="suits-index__sidebar-spacer"></li>
+        <% @suits.popular_manufacturers.each do |manufacturer| %>
+          <li class="<%= 'active' if @suits.manufacturer == manufacturer %>" data-manufacturer="<%= manufacturer.id %>">
+            <%= link_to manufacturer.name, url_for(manufacturer_id: manufacturer.id), remote: true %>
+          </li>
+        <% end %>
+        <li class="suits-index__sidebar-spacer"></li>
+        <% @suits.other_manufacturers.each do |manufacturer| %>
+          <li class="<%= 'active' if @suits.manufacturer == manufacturer %>" data-manufacturer="<%= manufacturer.id %>">
+            <%= link_to manufacturer.name, url_for(manufacturer_id: manufacturer.id), remote: true %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="suits-index__main-area">
+    <% unless @suits.overview? %>
+      <%= render 'manufacturer_suits' %>
+    <% end %>
+  </div>
+</div>
 
-- if @suits.overview?
-  - content_for :page_js do
-    :javascript
-      $.rails.handleRemote($('<a href="#{url_for(index_params)}" data-remote=true>'));
+<% if @suits.overview? %>
+  <% content_for :page_js do %>
+    <script>
+      $.rails.handleRemote($('<a href="<%= url_for(index_params) %>" data-remote=true>'));
+    </script>
+  <% end %>
+<% end %>

@@ -1,19 +1,23 @@
-.modal.fade#newParticipationFormModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
-  .modal-dialog
-    .modal-content
-      .modal-header
-        %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
-          %span{:aria => {:hidden => 'true'}}
-            &times;
-          %span.sr-only
-            Close
-        %h4.modal-title#myModalLabel= 'Войдите или зарегистрируйтесь'
+<div class="modal fade" id="newParticipationFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Войдите или зарегистрируйтесь</h4>
+      </div>
 
-      .modal-body
-        %h4= 'Для участия в соревновании Вам необходимо'
-        = link_to 'Войти', new_session_path(:user), :class => 'btn btn-default'
-        = 'или'
-        = link_to 'Зарегистрироваться', new_registration_path(:user), :class => 'btn btn-default'
-        = 'и иметь полностью заполненный профиль'
-        %br
-        = link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path
+      <div class="modal-body">
+        <h4>Для участия в соревновании Вам необходимо</h4>
+        <%= link_to 'Войти', new_session_path(:user), class: 'btn btn-default' %>
+        или
+        <%= link_to 'Зарегистрироваться', new_registration_path(:user), class: 'btn btn-default' %>
+        и иметь полностью заполненный профиль
+        <br>
+        <%= link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path %>
+      </div>
+    </div>
+  </div>
+</div>

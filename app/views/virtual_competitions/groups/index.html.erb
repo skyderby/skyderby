@@ -1,30 +1,39 @@
-.container
-  .page-header
-    %h1 Online competitions // Groups
-  .content-block
-    %table.table
-      %thead
-        %tr
-          %th #
-          %th Name
-          %th Crated at
-          %th=t '.actions', default: t("helpers.actions")
-      %tbody
-        - @groups.each do |group|
-          %tr
-            %td= group.id
-            %td= link_to group.name, virtual_competition_group_path(group)
-            %td= group.created_at
-            %td
-              = link_to t('general.edit'), edit_virtual_competition_group_path(group), class: 'btn btn-default btn-xs'
-              = link_to t('general.delete'),
-                        virtual_competition_group_path(group),
-                        remote: true,
-                        method: :delete,
-                        data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?')) },
-                        class: 'btn btn-xs btn-danger'
-
-  = link_to t('.new', default: t("helpers.links.new")),
-              new_virtual_competition_group_path,
-              class: 'btn btn-primary'
-  = link_to t('general.back'), virtual_competitions_path, class: 'btn btn-default'
+<div class="container">
+  <div class="page-header">
+    <h1>Online competitions // Groups</h1>
+  </div>
+  <div class="content-block">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Created at</th>
+          <th><%= t('.actions', default: t("helpers.actions")) %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @groups.each do |group| %>
+          <tr>
+            <td><%= group.id %></td>
+            <td><%= link_to group.name, virtual_competition_group_path(group) %></td>
+            <td><%= group.created_at %></td>
+            <td>
+              <%= link_to t('general.edit'), edit_virtual_competition_group_path(group), class: 'btn btn-default btn-xs' %>
+              <%= link_to t('general.delete'),
+                          virtual_competition_group_path(group),
+                          remote: true,
+                          method: :delete,
+                          data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?')) },
+                          class: 'btn btn-xs btn-danger' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to t('.new', default: t("helpers.links.new")),
+                new_virtual_competition_group_path,
+                class: 'btn btn-primary' %>
+    <%= link_to t('general.back'), virtual_competitions_path, class: 'btn btn-default' %>
+  </div>
+</div>

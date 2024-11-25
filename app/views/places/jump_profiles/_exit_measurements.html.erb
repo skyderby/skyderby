@@ -1,2 +1,3 @@
-= form.fields_for :measurements, include_id: false do |measurement_form|
-  = render 'places/jump_profiles/exit_measurement_fields', form: measurement_form
+<%= form.fields_for :measurements, include_id: false do |measurement_form| %>
+  <%= render 'places/jump_profiles/exit_measurement_fields', form: measurement_form %>
+<% end %>

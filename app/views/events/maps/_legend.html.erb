@@ -1,15 +1,19 @@
-.round-map__legend
-  .round-map__legend-item
-    %i.fa.fa-circle.round-map--after-exit-color
+<div class="round-map__legend">
+  <div class="round-map__legend-item">
+    <i class="fa fa-circle round-map--after-exit-color"></i>
     &mdash;
-    = t('events.rounds.map.after_exit_description')
+    <%= t('events.rounds.map.after_exit_description') %>
+  </div>
 
-  .round-map__legend-item
-    %i.fa.fa-circle.round-map--start-window-color
+  <div class="round-map__legend-item">
+    <i class="fa fa-circle round-map--start-window-color"></i>
     &mdash;
-    = t('events.rounds.map.start_window_description', altitude: @event.range_from)
+    <%= t('events.rounds.map.start_window_description', altitude: @event.range_from) %>
+  </div>
 
-  .round-map__legend-item
-    %i.fa.fa-circle.round-map--end-window-color
+  <div class="round-map__legend-item">
+    <i class="fa fa-circle round-map--end-window-color"></i>
     &mdash;
-    = t('events.rounds.map.end_window_description', altitude: @event.range_to)
+    <%= t('events.rounds.map.end_window_description', altitude: @event.range_to) %>
+  </div>
+</div>

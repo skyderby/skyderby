@@ -1,11 +1,11 @@
-.achievement
-  .achievement__icon{class: ["achievement--#{badge.category}", ("achievement--#{badge.kind}" if badge.kind)]}
-  .achievement__text{class: ('achievement--no-subtext' unless badge.comment.present?)}
-    = badge.name
-    - if badge.comment
-      %span
-        = badge.comment
-  .achievement__top
-  .achievement__bottom
-
-
+<div class="achievement">
+  <div class="achievement__icon <%= "achievement--#{badge.category}" %> <%= "achievement--#{badge.kind}" if badge.kind %>"></div>
+  <div class="achievement__text <%= 'achievement--no-subtext' unless badge.comment.present? %>">
+    <%= badge.name %>
+    <% if badge.comment %>
+      <span><%= badge.comment %></span>
+    <% end %>
+  </div>
+  <div class="achievement__top"></div>
+  <div class="achievement__bottom"></div>
+</div>

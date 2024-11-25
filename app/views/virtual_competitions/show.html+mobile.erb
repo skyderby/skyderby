@@ -1,22 +1,26 @@
-- provide :title, @competition.title
-- editable = policy(@competition).edit?
+<% provide :title, @competition.title %>
+<% editable = policy(@competition).edit? %>
 
-.online-competition
-  %h2.online-competition__header= @competition.title
-  .online-competition__subheader
-    = t('virtual_competitions.place')
-    - if @competition.place
-      = place_presentation(@competition.place)
-    - else
-      = t('virtual_competitions.worldwide')
+<div class="online-competition">
+  <h2 class="online-competition__header"><%= @competition.title %></h2>
+  <div class="online-competition__subheader">
+    <%= t('virtual_competitions.place') %>
+    <% if @competition.place %>
+      <%= place_presentation(@competition.place) %>
+    <% else %>
+      <%= t('virtual_competitions.worldwide') %>
+    <% end %>
 
-    %div= competition_suit(@competition)
-    %div= competition_task(@competition)
+    <div><%= competition_suit(@competition) %></div>
+    <div><%= competition_task(@competition) %></div>
+  </div>
 
-  = render 'virtual_competitions/navbar'
+  <%= render 'virtual_competitions/navbar' %>
+  <%= render 'virtual_competitions/scoreboard' %>
 
-  = render 'virtual_competitions/scoreboard'
-
-  - if @competition.sponsors.exists?
-    .row.top-buffer
-      = render 'sponsors/list', sponsorable: @competition, editable: editable
+  <% if @competition.sponsors.exists? %>
+    <div class="row top-buffer">
+      <%= render 'sponsors/list', sponsorable: @competition, editable: editable %>
+    </div>
+  <% end %>
+</div>

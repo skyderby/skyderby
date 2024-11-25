@@ -1,19 +1,28 @@
-- provide :title, @tournament.name
-- editable = policy(@tournament).update?
+<% provide :title, @tournament.name %>
+<% editable = policy(@tournament).update? %>
 
-.tournament-show
-  .container= render 'tournaments/header'
+<div class="tournament-show">
+  <div class="container">
+    <%= render 'tournaments/header' %>
+  </div>
 
-  .container
-    .content-block
-      - if editable
-        = add_tournament_round_button(@tournament)
+  <div class="container">
+    <div class="content-block">
+      <% if editable %>
+        <%= add_tournament_round_button(@tournament) %>
+      <% end %>
 
-
-      - if @tournament.surprise? && !editable
-        %h1.text-muted.text-center
+      <% if @tournament.surprise? && !editable %>
+        <h1 class="text-muted text-center">
           🙅 Let it be a Surprise
-      - else
-        = render 'scoreboard'
+        </h1>
+      <% else %>
+        <%= render 'scoreboard' %>
+      <% end %>
+    </div>
+  </div>
 
-      .container= render 'footer', editable: editable
+  <div class="container">
+    <%= render 'footer', editable: editable %>
+  </div>
+</div>

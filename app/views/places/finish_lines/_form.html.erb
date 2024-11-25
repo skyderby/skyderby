@@ -1,93 +1,117 @@
-- url = @finish_line.new_record? ? place_finish_lines_path(@place) : place_finish_line_path(@place, @finish_line)
-= form_with model: @finish_line, url:, html: { class: 'form-horizontal', 'data-controller': 'places--finish-line-map' } do |f|
-  .col-sm-7
-    .form-group
-      .col-sm-12
-        = f.text_field :name, class: 'form-control'
+<% url = @finish_line.new_record? ? place_finish_lines_path(@place) : place_finish_line_path(@place, @finish_line) %>
+<%= form_with model: @finish_line, url: url, html: { class: 'form-horizontal', 'data-controller': 'places--finish-line-map' } do |f| %>
+  <div class="col-sm-7">
+    <div class="form-group">
+      <div class="col-sm-12">
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+    </div>
 
-    %h3.modal-form__section-title
-      %span.modal-form__section-number 1
+    <h3 class="modal-form__section-title">
+      <span class="modal-form__section-number">1</span>
       Exit
+    </h3>
 
-    .row
-      .col-sm-6
-        .form-group
-          %label.control-label.col-sm-4 Latitude
-          .col-sm-8
-            %p.form-control-static{'data-target': 'places--finish-line-map.exit_lat'}= @place.latitude
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="control-label col-sm-4">Latitude</label>
+          <div class="col-sm-8">
+            <p class="form-control-static" data-target="places--finish-line-map.exit_lat"><%= @place.latitude %></p>
+          </div>
+        </div>
+      </div>
 
-      .col-sm-6
-        .form-group
-          %label.control-label.col-sm-4 Longitude
-          .col-sm-8
-            %p.form-control-static{'data-target': 'places--finish-line-map.exit_lon'}= @place.longitude
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="control-label col-sm-4">Longitude</label>
+          <div class="col-sm-8">
+            <p class="form-control-static" data-target="places--finish-line-map.exit_lon"><%= @place.longitude %></p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    %h3.modal-form__section-title
-      %span.modal-form__section-number 2
+    <h3 class="modal-form__section-title">
+      <span class="modal-form__section-number">2</span>
       Coordinates
+    </h3>
 
-    .row
-      .col-sm-6
-        = f.label :start_latitude
-        .form-group
-          .col-sm-12
-            = f.text_field :start_latitude, class: 'form-control', 'data-target': 'places--finish-line-map.finish_start_lat'
+    <div class="row">
+      <div class="col-sm-6">
+        <%= f.label :start_latitude %>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <%= f.text_field :start_latitude, class: 'form-control', 'data-target': 'places--finish-line-map.finish_start_lat' %>
+          </div>
+        </div>
+      </div>
 
-      .col-sm-6
-        = f.label :start_longitude
-        .form-group
-          .col-sm-12
-            = f.text_field :start_longitude, class: 'form-control', 'data-target': 'places--finish-line-map.finish_start_lon'
+      <div class="col-sm-6">
+        <%= f.label :start_longitude %>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <%= f.text_field :start_longitude, class: 'form-control', 'data-target': 'places--finish-line-map.finish_start_lon' %>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    .row
-      .col-sm-6
-        = f.label :end_latitude
-        .form-group
-          .col-sm-12
-            = f.text_field :end_latitude, class: 'form-control', 'data-target': 'places--finish-line-map.finish_end_lat'
+    <div class="row">
+      <div class="col-sm-6">
+        <%= f.label :end_latitude %>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <%= f.text_field :end_latitude, class: 'form-control', 'data-target': 'places--finish-line-map.finish_end_lat' %>
+          </div>
+        </div>
+      </div>
 
-      .col-sm-6
-        = f.label :end_longitude
-        .form-group
-          .col-sm-12
-            = f.text_field :end_longitude, class: 'form-control', 'data-target': 'places--finish-line-map.finish_end_lon'
+      <div class="col-sm-6">
+        <%= f.label :end_longitude %>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <%= f.text_field :end_longitude, class: 'form-control', 'data-target': 'places--finish-line-map.finish_end_lon' %>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    %h3.modal-form__section-title
-      %span.modal-form__section-number 3
+    <h3 class="modal-form__section-title">
+      <span class="modal-form__section-number">3</span>
       Finish line params
+    </h3>
 
-    .row
-      .col-sm-3
-        %label Distance from exit
-        %p.form-control-static{'data-target': 'places--finish-line-map.distance'}
+    <div class="row">
+      <div class="col-sm-3">
+        <label>Distance from exit</label>
+        <p class="form-control-static" data-target="places--finish-line-map.distance"></p>
+      </div>
 
-      .col-sm-3
-        %label Length
-        = number_field_tag :finish_line_length,
-                            nil,
-                            class: 'form-control',
-                            'data-target': 'places--finish-line-map.length',
-                            'data-action': 'input->places--finish-line-map#on_change_length'
+      <div class="col-sm-3">
+        <label>Length</label>
+        <%= number_field_tag :finish_line_length, nil, class: 'form-control', 'data-target': 'places--finish-line-map.length', 'data-action': 'input->places--finish-line-map#on_change_length' %>
+      </div>
 
-      .col-sm-3
-        %label Center latitude
-        = text_field_tag :finish_center_lat,
-                          nil,
-                          class: 'form-control',
-                          'data-target': 'places--finish-line-map.center_lat',
-                          'data-action': 'input->places--finish-line-map#on_change_finish_line_center'
+      <div class="col-sm-3">
+        <label>Center latitude</label>
+        <%= text_field_tag :finish_center_lat, nil, class: 'form-control', 'data-target': 'places--finish-line-map.center_lat', 'data-action': 'input->places--finish-line-map#on_change_finish_line_center' %>
+      </div>
 
-      .col-sm-3
-        %label Center longitude
-        = text_field_tag :finish_center_lon,
-                         nil,
-                         class: 'form-control',
-                         'data-target': 'places--finish-line-map.center_lon',
-                         'data-action': 'input->places--finish-line-map#on_change_finish_line_center'
+      <div class="col-sm-3">
+        <label>Center longitude</label>
+        <%= text_field_tag :finish_center_lon, nil, class: 'form-control', 'data-target': 'places--finish-line-map.center_lon', 'data-action': 'input->places--finish-line-map#on_change_finish_line_center' %>
+      </div>
+    </div>
 
-    .row
-      .col-sm-12
-        = f.submit t('general.save'), class: 'btn btn-primary'
+    <div class="row">
+      <div class="col-sm-12">
+        <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
 
-  .col-sm-5
-    .finish-line-map{'data-target': 'places--finish-line-map.map'}
+  <div class="col-sm-5">
+    <div class="finish-line-map" data-target="places--finish-line-map.map"></div>
+  </div>
+<% end %>
