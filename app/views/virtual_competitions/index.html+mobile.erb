@@ -5,18 +5,18 @@
   <% @competitions.each do |group, competitions| %>
     <div class="online-competition-group">
       <h3 class="online-competition-group__header"><%= group %></h3>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Task</th>
-          </tr>
-        </thead>
-        <tbody>
+      <div class="table">
+        <div class="thead">
+          <div class="tr">
+            <div class="th">Name</div>
+            <div class="th">Location</div>
+            <div class="th">Task</div>
+          </div>
+        </div>
+        <div class="tbody">
           <%= render competitions %>
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>
