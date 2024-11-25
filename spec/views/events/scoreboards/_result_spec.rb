@@ -12,11 +12,11 @@ describe 'events/scoreboards/_result' do
     )
 
     expect(rendered.strip).to eq(<<~HTML.strip)
-      <td class='scoreboard-result'>
-      3000
-      <span>
-      #{show_link(result)}
-      </span>
+      <td class="scoreboard-result">
+          3000
+        <span>
+          #{show_link(result)}
+        </span>
       </td>
     HTML
   end
@@ -31,12 +31,12 @@ describe 'events/scoreboards/_result' do
     )
 
     expect(rendered.strip).to eq(<<~HTML.strip)
-      <td class='scoreboard-result'>
-      200.0
-      <sup class='text-danger'>-20%</sup>
-      <span>
-      #{show_link(result)}
-      </span>
+      <td class="scoreboard-result">
+          200.0
+            <sup class="text-danger">-20%</sup>
+        <span>
+          #{show_link(result)}
+        </span>
       </td>
     HTML
   end
@@ -53,12 +53,12 @@ describe 'events/scoreboards/_result' do
     )
 
     expect(rendered.strip).to eq(<<~HTML.strip)
-      <td class='scoreboard-result'>
-      0.0
-      <sup class='text-danger'>-100%</sup>
-      <span>
-      #{show_link(result)}
-      </span>
+      <td class="scoreboard-result">
+          0.0
+            <sup class="text-danger">-100%</sup>
+        <span>
+          #{show_link(result)}
+        </span>
       </td>
     HTML
   end
