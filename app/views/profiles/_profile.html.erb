@@ -10,7 +10,7 @@
   </td>
   <td><%= link_to 'Show', profile_path(profile) %></td>
   <td>
-    <% if current_user.has_role?(:admin) && profile.owner && profile.belongs_to_user? %>
+    <% if current_user.admin? && profile.owner && profile.belongs_to_user? %>
       <%= link_to 'Masquerade', new_user_masquerades_path(profile.owner) %>
     <% end %>
   </td>
