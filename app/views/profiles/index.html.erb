@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Профили</h1>
+  </div>
+
+  <div class="content-block">
+    <div class="index-search__container" data-controller="index-search">
+      <span class="index-search__icon">
+        <i class="fas fa-search"></i>
+      </span>
+      <input class="index-search__input" name="search" data-remote="true" data-url="<%= profiles_path %>" placeholder="Type to search" value="<%= params[:search] %>" data-action="input->index-search#perform">
+    </div>
+
+    <table class="table profiles__table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>#</th>
+          <th><%= t 'activerecord.attributes.profile.name' %></th>
+          <th><%= t 'activerecord.attributes.profile.country' %></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @profiles %>
+      </tbody>
+    </table>
+
+    <div class="profiles__pagination text-center top-buffer">
+      <%= will_paginate @profiles, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+</div>

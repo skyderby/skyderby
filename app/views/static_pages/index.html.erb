@@ -1,0 +1,112 @@
+<% provide(:wrapper_classes, 'wrap--no-top-padding') %>
+
+<div class="index-header">
+  <div class="index-header__dark-layer"></div>
+  <div class="index-header__text">
+    <%= t('static_pages.index.desc') %>
+  </div>
+  <div class="index-header__cta">
+    <a class="btn btn-lg button--green-gradient button--shadow" href="#" data-toggle="modal" data-target="#newTrackModal">
+      <i class="fa fa-upload"></i>
+      <%= t('application.header.upload_track') %>
+    </a>
+  </div>
+</div>
+
+<div class="top-buffer">
+  <div class="about-me">
+    <div class="about-me__photo">
+      <%= image_tag 'a_kunin.jpg', class: 'img-circle' %>
+    </div>
+    <div class="about-me__info">
+      <span class="about-me__greeting">Brought to you by Aleksandr Kunin</span>
+      <p>Developing Skyderby since May 2014 to make You fly better, faster, longer</p>
+      <div class="about-me__contacts">
+        <a href="https://www.facebook.com/skyksandr">
+          <i class="fab fa-facebook"></i>
+          skyksandr
+        </a>
+        <a href="https://twitter.com/skyksandr">
+          <i class="fab fa-twitter"></i>
+          @skyksandr
+        </a>
+        <span>
+          <i class="fab fa-whatsapp"></i>
+          +7(903)139-0137
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <%= render 'contributions', contributions: @page.contribution_summary %>
+</div>
+
+<hr>
+
+<div class="container top-buffer">
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <h1 class="light-header"><%= t('static_pages.index.how_it_works') %></h1>
+    </div>
+  </div>
+  <div class="row how-it-works">
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <div id="first-step-hiw">
+        <div class="step-number-hiw">1</div>
+        <p><%= t('static_pages.index.upload_a_file') %></p>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <div id="second-step-hiw">
+        <div class="step-number-hiw">2</div>
+        <p><%= t('static_pages.index.select_free_fall_range') %></p>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <div id="third-step-hiw">
+        <div class="step-number-hiw">3</div>
+        <p><%= t('static_pages.index.analyze') %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<%= render 'static_pages/online_competitions_section' %>
+
+<hr>
+
+<div class="container top-buffer">
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <h1 class="light-header"><%= t('static_pages.index.supported_formats') %></h1>
+    </div>
+  </div>
+  <div class="row supported-formats">
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
+      <div id="fs-sf" class="grayed"></div>
+      <div class="text-center">Flysight</div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
+      <div id="garmin-sf" class="grayed"></div>
+      <div class="text-center">Garmin Foretrex 101/201/301/401</div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
+      <div id="wintec-sf" class="grayed"></div>
+      <div class="text-center">Wintec WBT-202</div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
+      <div id="columbus-sf" class="grayed"></div>
+      <div class="text-center">Columbus V900</div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
+      <div id="dual-xgps" class="grayed"></div>
+      <div class="text-center">Dual XGPS160</div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
+      <div id="gpx-sf" class="grayed"></div>
+      <div class="text-center">Files in GPX format</div>
+    </div>
+  </div>
+</div>

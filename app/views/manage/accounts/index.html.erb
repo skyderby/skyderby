@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Учетные записи</h1>
+  </div>
+
+  <div class="content-block">
+    <div class="index-search__container" data-controller="index-search">
+      <span class="index-search__icon">
+        <i class="fa fas-search"></i>
+      </span>
+      <input class="index-search__input" name="search" data-remote="true" data-url="<%= accounts_path %>" placeholder="Type to search" value="<%= params[:search] %>" data-action="input->index-search#perform">
+    </div>
+
+    <div class="table accounts__table">
+      <div class="thead">
+        <div class="th">#</div>
+        <div class="th">Name</div>
+        <div class="th">Email</div>
+        <div class="th">Last sign in</div>
+      </div>
+      <div class="tbody">
+        <%= render partial: 'manage/accounts/account', collection: @accounts, as: :account %>
+      </div>
+    </div>
+  </div>
+
+  <div class="accounts__pagination text-center top-buffer">
+    <%= will_paginate @accounts, renderer: BootstrapPagination::Rails %>
+  </div>
+</div>

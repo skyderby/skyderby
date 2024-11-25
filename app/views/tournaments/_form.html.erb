@@ -1,0 +1,72 @@
+<div id="tournament-form" data-controller="tournaments--form">
+  <div class="col-sm-6">
+    <%= form_for @tournament, remote: true, html: { class: 'form-horizontal' } do |f| %>
+
+      <div class="form-group">
+        <%= f.label :name, class: 'control-label col-sm-2' %>
+        <div class="col-sm-10">
+          <%= f.text_field :name, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :place, class: 'control-label col-sm-2' %>
+        <div class="col-sm-10">
+          <%= f.select :place_id,
+                       options_for_select([[@tournament.place_name, @tournament.place_id]], @tournament.place_id),
+                       { include_blank: true },
+                       class: 'form-control',
+                       placeholder: t('events.show.place_placeholder'),
+                       'data-controller': 'select2--places',
+                       'data-action': 'change->tournaments--form#on_change_place' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :finish_line, class: 'col-sm-2 control-label' %>
+        <div class="col-sm-5">
+          <%= f.collection_select :finish_line_id,
+                                  Place::FinishLine.order(:name),
+                                  :id,
+                                  :name,
+                                  { include_blank: 'Select finish line' },
+                                  { class: 'form-control',
+                                    placeholder: t('events.show.place_placeholder'),
+                                    'data-controller': 'select2--local' } %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :starts_at, class: 'control-label col-sm-2' %>
+        <div class="col-sm-10">
+          <%= f.text_field :starts_at, class: 'form-control', 'data-controller': 'datepicker' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :bracket_size, class: 'control-label col-sm-2' %>
+        <div class="col-sm-10">
+          <%= f.text_field :bracket_size, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-2">
+          <div class="checkbox">
+            <label>
+              <%= f.check_box :has_qualification %>
+              Has qualification
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-offset-2 col-sm-8">
+        <%= f.submit nil, class: 'btn btn-primary' %>
+        <% path = @tournament.persisted? ? tournament_path(@tournament) : events_path %>
+        <%= link_to t('general.cancel'), path, class: 'btn btn-default' %>
+      </div>
+
+    <% end %>
+  </div>
+</div>

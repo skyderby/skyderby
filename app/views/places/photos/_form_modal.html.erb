@@ -1,0 +1,37 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <%= form_for [@place, @photo], remote: true, html: {class: 'form-horizontal'} do |f| %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">
+          <%= t('activerecord.models.place/photo') %>: <%= t('events.index.new') %>
+        </h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <%= f.label :image, t('activerecord.attributes.place/photo.image'), class: 'control-label col-sm-4' %>
+          <div class="col-sm-8">
+            <div class="input-group" data-controller="filefield">
+              <input type="text" class="form-control" readonly="true" data-target="filefield.text_field">
+              <span class="input-group-btn">
+                <span class="btn btn-default btn-file">
+                  &hellip;
+                  <%= f.file_field :image, class: 'form-control', data: {target: 'filefield.file_field', action: 'change->filefield#change'} %>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="pull-right">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+      </div>
+      <h4 class="modal-title">
+        <%= t('events.show.round_map_view') %>
+      </h4>
+    </div>
+
+    <div class="modal-body">
+      <div class="round-map__animation">
+        <%= image_tag asset_path('round_map_placeholder.png') %>
+        <div class="round-map__animated-background"></div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">
+        OK
+      </button>
+    </div>
+  </div>
+</div>

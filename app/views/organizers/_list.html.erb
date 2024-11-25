@@ -1,0 +1,17 @@
+<div class="organizers">
+  <h4><%= t('.judges') %>:</h4>
+  <ol class="organizers__list">
+    <% if organizable.responsible.present? %>
+      <li class="organizers__item">
+        <span><%= organizable.responsible.name %></span>
+      </li>
+    <% end %>
+    <%= render organizable.organizers %>
+  </ol>
+  <% if editable %>
+    <%= link_to polymorphic_path([:new, organizable, :organizer]), remote: true, class: 'add-organizer button button--minimal' do %>
+      <i class="fa fa-plus"></i>
+      <%= t('.add_judge') %>
+    <% end %>
+  <% end %>
+</div>

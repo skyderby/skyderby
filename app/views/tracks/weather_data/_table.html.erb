@@ -1,0 +1,12 @@
+<div id="weather-table" class="table">
+  <div class="thead">
+    <div class="tr">
+      <div class="th text-right"><%= t('weather_datum.altitude') %></div>
+      <div class="th text-right"><%= t('weather_datum.wind_speed') %></div>
+      <div class="th text-right"><%= t('weather_datum.wind_direction') %></div>
+    </div>
+  </div>
+  <div class="tbody">
+    <%= render partial: 'tracks/weather_data/weather_datum', collection: @weather_data.rows %>
+  </div>
+</div>

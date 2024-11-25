@@ -1,0 +1,19 @@
+<div class="place-preview__photo" style="background-image: url(<%= @place.photo.image_url(:thumb) %>);"></div>
+<div class="place-preview__title"><%= @place.name %></div>
+<div class="place-preview__geo">
+  <div>
+    <i class="fa fa-fw fa-map-marker-alt"></i>
+    <%= "#{@place.latitude}, #{@place.longitude}" %>
+  </div>
+  <div>
+    <i class="fa fa-fw"></i>
+    <%= "MSL: #{@place.msl}" %>
+  </div>
+</div>
+
+<div class="text-center">
+  <%= link_to place_path(@place), class: 'btn btn-default' do %>
+    <%= t('places.index.details') %>
+    &hellip;
+  <% end %>
+</div>

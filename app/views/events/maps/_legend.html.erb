@@ -1,0 +1,19 @@
+<div class="round-map__legend">
+  <div class="round-map__legend-item">
+    <i class="fa fa-circle round-map--after-exit-color"></i>
+    &mdash;
+    <%= t('events.rounds.map.after_exit_description') %>
+  </div>
+
+  <div class="round-map__legend-item">
+    <i class="fa fa-circle round-map--start-window-color"></i>
+    &mdash;
+    <%= t('events.rounds.map.start_window_description', altitude: @event.range_from) %>
+  </div>
+
+  <div class="round-map__legend-item">
+    <i class="fa fa-circle round-map--end-window-color"></i>
+    &mdash;
+    <%= t('events.rounds.map.end_window_description', altitude: @event.range_to) %>
+  </div>
+</div>

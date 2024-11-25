@@ -1,0 +1,11 @@
+<div class="container">
+  <%= link_to place_finish_lines_path(@place), class: 'btn-back' do %>
+    <i class="fa fa-chevron-left"></i>
+    <%= @place.name %>
+    // Finish line
+  <% end %>
+</div>
+
+<div class="content-block">
+  <%= render 'form' %>
+</div>

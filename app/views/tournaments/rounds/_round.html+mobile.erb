@@ -1,0 +1,10 @@
+<div class="tournament-round text-muted">
+  <div class="tournament-round-title">
+    <%= "Round #{round.order}" %>
+  </div>
+
+  <% spacers = 2 ** (round.order - 1) - 1 %>
+  <% round.matches.each do |match| %>
+    <%= render partial: 'tournaments/matches/match', locals: { match: match, spacers: spacers } %>
+  <% end %>
+</div>

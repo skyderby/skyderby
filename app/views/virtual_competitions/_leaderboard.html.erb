@@ -1,0 +1,8 @@
+<% orientation ||= 'horizontal' %>
+<% orientation_class = "online-competition-leaderboard--#{orientation}" %>
+
+<div class="online-competition-leaderboard <%= orientation_class %>">
+  <% leaders.each do |leader_result| %>
+    <%= render 'virtual_competitions/winner', result: leader_result %>
+  <% end %>
+</div>

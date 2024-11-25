@@ -1,0 +1,22 @@
+<div class="online-competitions-index">
+  <div class="page-title">
+    <%= t('application.header.online_competitions') %>
+  </div>
+  <% @competitions.each do |group, competitions| %>
+    <div class="online-competition-group">
+      <h3 class="online-competition-group__header"><%= group %></h3>
+      <div class="table">
+        <div class="thead">
+          <div class="tr">
+            <div class="th">Name</div>
+            <div class="th">Location</div>
+            <div class="th">Task</div>
+          </div>
+        </div>
+        <div class="tbody">
+          <%= render competitions %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

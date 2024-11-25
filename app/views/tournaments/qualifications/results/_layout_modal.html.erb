@@ -1,0 +1,26 @@
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="pull-right">
+        <%= link_to track_path(@result.track), class: 'modal-header-link', target: '_blank' do %>
+          <i class="fa fa-external-link-alt"></i>
+        <% end %>
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+      </div>
+      <h4 class="modal-title">
+        <%= qualification_jump_presentation(@result) %>
+      </h4>
+    </div>
+
+    <div class="modal-body">
+      <div class="container-fluid">
+        <%= render 'tournaments/qualifications/results/header' %>
+        <hr class="condensed">
+      </div>
+      <%= yield %>
+    </div>
+  </div>
+</div>

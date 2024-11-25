@@ -1,0 +1,97 @@
+<div class="track-page-header">
+  <div class="track-header">
+    <div class="track-header__info">
+      <% if track.pilot %>
+        <a href="<%= profile_path(track.pilot) %>">
+          <span class="<%= ['track-header-profile', ('contributor' if track.pilot.contributions.any?)].join(' ') %>">
+            <%= image_tag track.pilot.userpic_url(:thumb), class: 'track-header__photo loading-bg' %>
+            <%= track.pilot.name %>
+          </span>
+        </a>
+      <% else %>
+        <span class="track-header-profile"><%= track.name %></span>
+      <% end %>
+
+      <span>
+        <%= t('tracks.show.title_suit') %>:
+        <% if track.suit %>
+          <% manufacturer = track.suit.manufacturer %>
+          <a href="<%= suit_path(track.suit) %>">
+            <%= suit_presentation(track.suit) %>
+          </a>
+        <% else %>
+          <span><%= track.missing_suit_name %></span>
+        <% end %>
+      </span>
+      <span>
+        @
+        <% if track.place %>
+          <a href="<%= place_path(track.place) %>">
+            <span><%= place_presentation(track.place) %></span>
+          </a>
+        <% else %>
+          <span><%= track.location %></span>
+        <% end %>
+      </span>
+
+      <% if track.unlisted_track? %>
+        <i class="fa fa-eye-slash" data-toggle="tooltip" title="<%= t('visibility.unlisted') %>"></i>
+      <% elsif track.private_track? %>
+        <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
+      <% end %>
+    </div>
+    <div class="track-header__id">##<%= track.id %></div>
+  </div>
+
+  <div class="page-nav">
+    <% controller_path = controller.controller_path %>
+    <%= link_to track_path(track), class: ['page-tab', ('page-tab-active' if controller_path == 'tracks')] do %>
+      <i class="far fa-chart-bar"></i>
+      <%= t('tracks.show.charts') %>
+    <% end %>
+    <% if track.video %>
+      <%= link_to track_video_path(track), class: ['page-tab', ('page-tab-active' if controller_path == 'tracks/videos')] do %>
+        <i class="far fa-play-circle"></i>
+        Video
+      <% end %>
+    <% elsif policy(track).edit? %>
+      <%= link_to new_track_video_path(track), class: ['page-tab', ('page-tab-active' if controller_path == 'tracks/videos')] do %>
+        <i class="far fa-play-circle"></i>
+        Video
+      <% end %>
+    <% else %>
+      <div class="tooltip-wrapper" data-toggle="tooltip" title="Pilot has not added video yet">
+        <div class="page-tab">
+          <i class="far fa-play-circle"></i>
+          Video
+        </div>
+      </div>
+    <% end %>
+    <% if track.ge_enabled %>
+      <%= link_to track_globe_path(track), class: ['page-tab', ('page-tab-active' if controller.controller_path == 'tracks/globe')] do %>
+        <i class="far fa-compass"></i>
+        3D Maps
+      <% end %>
+    <% end %>
+    <%= link_to track_map_path(track), class: ['page-tab', ('page-tab-active' if controller_path == 'tracks/maps')] do %>
+      <i class="far fa-compass"></i>
+      Google maps
+    <% end %>
+    <%= link_to track_results_path(@track), remote: true, class: 'page-tab', rel: 'nofollow' do %>
+      <i class="fas fa-list"></i>
+      <%= t('tracks.show.results') %>
+    <% end %>
+
+    <div class="page-nav-right">
+      <% if track.skydive? %>
+        <%= link_to t('events.show.weather_data'), track_weather_data_path(@track), remote: true, class: 'page-tab', rel: 'nofollow' %>
+      <% end %>
+
+      <% if policy(track).edit? %>
+        <a class="btn-flat btn-tab" href="<%= edit_track_path(track) %>">
+          <i class="fas fa-pencil-alt"></i>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</div>

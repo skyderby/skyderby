@@ -1,0 +1,6 @@
+<div class="col-sm-6 col-md-4">
+  <%= link_to place_finish_line_path(finish_line.place, finish_line), class: "finish-line-card" do %>
+    <%= finish_line_static_map(finish_line) %>
+    <h3 class="text-center"><%= finish_line.name %></h3>
+  <% end %>
+</div>

@@ -1,0 +1,55 @@
+<% show_cancel ||= false %>
+<% show_delete_button ||= false %>
+<% local ||= false %>
+<% url ||= event_result_penalty_path(result.event, result) %>
+
+<%= form_for :penalty, url: url, method: :put, remote: !local, html: { class: 'form-horizontal' } do |f| %>
+  <div class="form-group">
+    <%# i18n-tasks-use t('helpers.label.penalty.penalized') %>
+    <%= f.label :penalized, class: 'control-label col-sm-4' %>
+    <div class="col-sm-8">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :penalized, checked: result.penalized %>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%# i18n-tasks-use t('helpers.label.penalty.penalty_size') %>
+    <%= f.label :penalty_size, class: 'control-label col-sm-4' %>
+    <div class="col-sm-8 btn-group" data-toggle="buttons">
+      <% result.penalty_sizes.each do |penalty_size| %>
+        <label class="btn btn-default <%= 'active' if result.penalty_size == penalty_size %>">
+          <%= f.radio_button :penalty_size, penalty_size %>
+          <%= "#{penalty_size} %" %>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%# i18n-tasks-use t('helpers.label.penalty.penalty_reason') %>
+    <%= f.label :penalty_reason, class: 'control-label col-sm-4' %>
+    <div class="col-sm-8">
+      <%= f.text_field :penalty_reason, class: 'form-control', value: result.penalty_reason %>
+    </div>
+  </div>
+
+  <hr>
+  <div class="modal-actions">
+    <div class="modal-actions__left">
+      <% if show_delete_button %>
+        <%= delete_event_track_link(result) %>
+      <% end %>
+    </div>
+
+    <div class="modal-actions__right">
+      <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+      <% if show_cancel %>
+        <button class="btn btn-default" type="button" data-dismiss="modal"><%= t 'general.cancel' %></button>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,18 @@
+<tr id="<%= dom_id(competitor) %>">
+  <td><%= competitor_counter + 1 %></td>
+  <td><%= competitor.name %></td>
+  <td class="text-center text-muted">
+    <span class="dotted-underline" data-toggle="tooltip" title="<%= competitor.country_name %>">
+      <%= competitor.country_code %>
+    </span>
+  </td>
+  <td><%= competitor.suit_name %></td>
+  <td>
+    <%= link_to edit_tournament_competitor_path(@tournament, competitor), remote: true do %>
+      <i class="fa fa-pencil-alt text-muted"></i>
+    <% end %>
+    <%= button_to tournament_competitor_path(@tournament, competitor), method: :delete, remote: true, class: 'btn-link', data: { confirm: 'Are you sure?' } do %>
+      <i class="fa fa-times text-muted"></i>
+    <% end %>
+  </td>
+</tr>

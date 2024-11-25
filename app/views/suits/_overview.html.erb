@@ -1,0 +1,7 @@
+<div class="suits-index__overview-filters">
+  <div class="btn-group" data-toggle="button">
+    <%= link_to 'All', url_for(index_params.except(:activity)), remote: true, class: ['btn btn-default', ('active' unless @suits.filter_by_activity?)] %>
+    <%= link_to 'Skydive', url_for(index_params.merge(activity: 'skydive')), remote: true, class: ['btn btn-default', ('active' if @suits.skydive?)] %>
+    <%= link_to 'B.A.S.E.', url_for(index_params.merge(activity: 'base')), remote: true, class: ['btn btn-default', ('active' if @suits.base?)] %>
+  </div>
+</div>

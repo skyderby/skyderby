@@ -1,0 +1,26 @@
+<h1>
+  <span><%= @event.name %></span>
+  <small>
+    <% if @event.unlisted_event? %>
+      <i class="fa fa-eye-slash" data-toggle="tooltip" title="<%= t('visibility.unlisted') %>"></i>
+    <% elsif @event.private_event? %>
+      <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
+    <% end %>
+  </small>
+</h1>
+
+<h3>
+  <%= "#{t('events.show.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}" %>
+</h3>
+<h3>
+  <%= render 'events/event_place' %>
+</h3>
+
+<% if @event.use_teams %>
+  <div>
+    <span>Standings</span>
+    <%= link_to 'Pilots', event_path(@event.id) %>
+    /
+    <%= link_to 'Teams', event_teams_path(@event.id) %>
+  </div>
+<% end %>

@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="col-sm-12" data-controller="tournaments--match-globe"
+       data-url="<%= url_for %>"
+       data-action="cesium_api:ready@window->tournaments--match-globe#onCesiumReady cesium_api:failed@window->tournaments--match-globe#onCesiumFailed">
+    <div id="match-globe" data-target="tournaments--match-globe.viewer">
+      <div id="track-map-loading" class="text-muted" data-target="tournaments--match-globe.loadingProgress">
+        <div id="track-map-loading-api" class="fa-2x">
+          <i class="fa fa-fw fa-spin fa-circle-notch" data-target="tournaments--match-globe.cesiumStatus"></i>
+          Loading Cesium API
+        </div>
+        <div id="track-map-loading-data" class="fa-2x">
+          <i class="fa fa-fw fa-spin fa-circle-notch" data-target="tournaments--match-globe.dataStatus"></i>
+          Loading map data
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="center-block text-center top-buffer">
+    <% @match_map.competitors.each do |competitor| %>
+      <span>
+        <i class="fa fa-fw fa-circle" style="color: <%= competitor.color %>"></i>
+        <span><%= competitor.name %></span>
+      </span>
+    <% end %>
+  </div>
+</div>

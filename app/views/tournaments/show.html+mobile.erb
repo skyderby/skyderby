@@ -1,0 +1,20 @@
+<% provide :title, @tournament.name %>
+
+<div class="page-wrap">
+  <%= render 'tournaments/header' %>
+  <%= render 'tournaments/navbar' %>
+
+  <% if @tournament.surprise? %>
+    <h1 class="text-muted text-center">
+      🙅 Let it be a Surprise
+    </h1>
+  <% else %>
+    <div class="content-block">
+      <div class="scoreboard">
+        <div class="scoreboard-scroll">
+          <%= render 'scoreboard' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

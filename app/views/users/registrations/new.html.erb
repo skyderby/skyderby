@@ -1,0 +1,43 @@
+<div class="content-block">
+  <h2><%= t('devise.registrations.new.sign_up') %></h2>
+
+  <%= form_for :user, url: user_registration_path do |f| %>
+    <div class="form-group">
+      <%= f.fields_for :profile_attributes do |fields| %>
+        <%= fields.label :name %>
+        <%= fields.text_field :name, class: 'form-control input-lg', value: '', required: true, autofocus: true %>
+        <%= fields.text_field :last_name, class: 'form-control input-lg', value: '', tabindex: -1, autocomplete: 'off' %>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control input-lg', required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password %>
+      <%= f.password_field :password, autocomplete: 'new-password', class: 'form-control', required: true %>
+      <span class="secondary-text">Password must be at least 6 characters</span>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'form-control', required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.submit t('devise.registrations.new.sign_up'), class: 'btn btn-lg btn-primary' %>
+    </div>
+
+    <%= link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path, class: 'btn btn-facebook' %>
+
+    <p class="secondary-text"><%= t('general.or') %></p>
+
+    <%= link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'btn' %>
+
+    <div class="form-group">
+      <%= link_to t('devise.shared.links.didn_t_receive_confirmation_instructions'), new_user_confirmation_path %>
+    </div>
+  <% end %>
+</div>

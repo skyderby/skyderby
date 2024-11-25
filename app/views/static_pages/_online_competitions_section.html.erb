@@ -1,0 +1,30 @@
+<% cache "online_competitions_summary_#{I18n.locale}", expires_in: 10.minutes do %>
+  <% if @page.online_competitions_summary.many? %>
+    <div class="container top-buffer">
+      <div class="row">
+        <div class="col-sm-12 text-center">
+          <h1 class="light-header"><%= t('static_pages.index.online_comps_leaders') %></h1>
+        </div>
+      </div>
+      <% @page.online_competitions_summary.each do |activity, competitions| %>
+        <hr>
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <h2 class="light-header"><%= t(".competitions_header.#{activity}") %></h2>
+          </div>
+        </div>
+        <div class="leaderboard-stack">
+          <% competitions.each do |competition| %>
+            <div class="leaderboard-stack__panel">
+              <div class="leaderboard-stack__panel-header">
+                <%= link_to competition.name, virtual_competition_path(competition) %>
+              </div>
+              <% leaders = competition.personal_top_scores.wind_cancellation(false).first(3) %>
+              <%= render 'virtual_competitions/leaderboard', leaders: leaders, orientation: :vertical %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

@@ -3,13 +3,14 @@
   top: 0;
   bottom: 0;
   left: 0px;
-  right: 300px;
-  transition: right 0.3s ease-in-out;
+  width: 300px;
+  transform: translateX(-300px);
+  transition: transform 0.3s ease-in-out;
   background-color: white;
   overflow-x: hidden;
 
   &.visible {
-    right: 0;
+    transform: translateX(0);
     visibility: visible;
   }
 }

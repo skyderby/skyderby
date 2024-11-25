@@ -1,0 +1,61 @@
+<header class="app-navbar" role="navigation">
+  <%= render 'layouts/header/navigation' %>
+
+  <ul class="nav-menu nav-menu--right">
+    <% if user_signed_in? %>
+      <li>
+        <a class="nav-menu-cta nav-menu-cta--primary" data-toggle="modal" data-target="#newTrackModal">
+          <i class="fa fa-upload"></i>
+          <%= t('application.header.upload_track') %>
+        </a>
+      </li>
+
+      <li class="nav-menu-spacer"></li>
+
+      <li class="dropdown">
+        <a class="dropdown-toggle profile-dropdown" href="#" data-toggle="dropdown">
+          <% if masquerading? %>
+            <i class="fa fa-lg fa-exclamation-triangle text-danger"></i>
+          <% end %>
+          <% avatar = current_user.profile ? current_user.profile.userpic_url(:thumb) : '/images/thumb/missing.png' %>
+          <%= image_tag avatar, id: 'userpic-thumb', class: 'nav-profile' %>
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-right">
+          <% if current_user.has_role? :admin %>
+            <li>
+              <%= link_to t('application.header.admin_panel'), manage_path %>
+            </li>
+          <% end %>
+          <% if masquerading? %>
+            <li>
+              <%= link_to 'Stop masquerading', user_masquerades_path(current_user), method: :delete %>
+            </li>
+          <% end %>
+          <li>
+            <%= link_to t('application.header.profile'), profile_path(current_user.profile) %>
+          </li>
+          <li>
+            <%= link_to t('application.header.sign_out'), destroy_user_session_path, method: :delete %>
+          </li>
+        </ul>
+      </li>
+    <% else %>
+      <li>
+        <%= link_to t('application.header.sign_in'), new_user_session_path, class: 'nav-menu-cta nav-menu-cta--secondary' %>
+      </li>
+      <li>
+        <%= link_to t('application.header.sign_up'), new_user_registration_path, class: 'nav-menu-cta nav-menu-cta--secondary' %>
+      </li>
+
+      <li class="nav-menu-spacer"></li>
+    <% end %>
+    <li class="dropdown">
+      <a class="dropdown-toggle locale-dropdown" href="#" data-toggle="dropdown">
+        <%= image_tag asset_path('blank.gif'), class: "flag flag-#{I18n.locale}" %>
+        <i class="fa fa-caret-down"></i>
+      </a>
+      <%= lang_menu %>
+    </li>
+  </ul>
+</header>

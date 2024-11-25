@@ -1,0 +1,56 @@
+<% provide(:title, page_title(@place.name)) %>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="place-header">
+      <div class="place__photo" style="background-image: url(<%= @place.photo.image_url(:large) %>)"></div>
+      <div class="place-header__description">
+        <div class="place-header__description-container">
+          <div class="place-header__title"><%= @place.name %></div>
+          <div class="place-header__geo"><%= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}" %></div>
+          <% if policy(@place).edit? %>
+            <div class="place-header__actions">
+              <a class="btn-flat" href="<%= edit_place_path(@place) %>"><%= t('general.edit') %></a>
+              <a class="btn-flat" href="<%= place_path(@place) %>" data-method="delete" data-confirm="<%= t('places.show.delete_confirmation') %>"><%= t('general.delete') %></a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="place-navigation top-buffer">
+  <div class="tabs-navbar">
+    <ul class="tabs-navbar__menu">
+      <% controller_path = controller.controller_path %>
+      <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'places' %>">
+        <%= link_to t('general.overview'), @place %>
+      </li>
+
+      <% if @place.base? && policy([:place, :finish_line]).index? %>
+        <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'places/finish_lines' %>">
+          <%= link_to 'Finish lines', place_finish_lines_path(@place) %>
+        </li>
+      <% end %>
+
+      <% if policy(@place).edit? %>
+        <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'places/photos' %>">
+          <%= link_to t('activerecord.models.place/photo'), place_photos_path(@place) %>
+        </li>
+      <% end %>
+
+      <% if @place.base? %>
+        <li class="tabs-navbar__menuitem">
+          <%= link_to t('flight_profiles'), place_flight_profiles_path(@place) %>
+        </li>
+      <% end %>
+
+      <% if @place.base? && policy(@place).edit? %>
+        <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'places/jump_profiles' %>">
+          <%= link_to t('activerecord.models.place/jump_line'), place_jump_profiles_path(@place) %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

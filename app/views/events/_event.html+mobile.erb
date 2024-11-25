@@ -1,0 +1,51 @@
+<% cache ['mobile', I18n.locale, event] do %>
+  <%= link_to event_path(event), class: ['events-list__item', ('active' if event.active?)] do %>
+    <div class="events-list__item-sidebar">
+      <div class="events-list__item-date">
+        <%= event.starts_at.strftime '%d' %>
+        <span><%= event.starts_at.strftime '%b\'%y' %></span>
+      </div>
+      <% if event.is_official %>
+        <div class="events-list__item-official">official</div>
+      <% end %>
+    </div>
+    <div class="events-list__item-content">
+      <div class="events-list__item-title"><%= event.name %></div>
+      <% if event.place.present? %>
+        <div class="event__place">
+          <i class="fa fa-map-marker-alt"></i>
+          <%= event.place.name %>
+          <span><%= event.place.country_code %></span>
+        </div>
+      <% end %>
+      <div class="events-list__item-participants">
+        <% sections = event.sections.order(:order) %>
+        <% if sections.count > 0 %>
+          <% sections.each do |section| %>
+            <p>
+              <%= "#{section.name} – " %>
+              <span><%= section.competitors.count %></span>
+            </p>
+          <% end %>
+        <% else %>
+          <p>
+            <%= "Open – " %>
+            <span><%= event.competitors.count %></span>
+          </p>
+        <% end %>
+      </div>
+
+      <hr>
+
+      <div class="events-list__item-info">
+        Rules:
+        <span><%= event.speed_distance_time? ? 'GPS Performance' : 'Hungary Boogie' %></span>
+      </div>
+
+      <div class="events-list__item-info">
+        Competition window:
+        <span><%= "#{event.range_from} - #{event.range_to} #{t('units.m')}" %></span>
+      </div>
+    </div>
+  <% end %>
+<% end %>

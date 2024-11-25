@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= render 'layouts/head' %>
+    <%= stylesheet_link_tag 'mobile/application', 'data-turbo-track': 'reload' %>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  </head>
+  <body>
+    <div id="modal-root"></div>
+    <%= render 'layouts/header' unless mobile_app? %>
+    <%= render template: 'announcements/active' unless controller.controller_path == 'static_pages' %>
+
+    <div class="toast-container" id="toasts">
+      <% flash.each do |type, message| %>
+        <%= render 'toasts/toast', type: type, message: message %>
+      <% end %>
+    </div>
+
+    <%= yield %>
+
+    <!-- Modal for Backbone Views -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+
+    <%= render 'errors/ajax_error_message' %>
+    <%= render 'layouts/footer' %>
+
+    <%= yield :page_js %>
+  </body>
+</html>

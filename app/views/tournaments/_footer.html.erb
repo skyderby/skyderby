@@ -1,0 +1,9 @@
+<% editable ||= false %>
+
+<div class="row top-buffer">
+  <%= render 'organizers/list', organizable: @tournament, editable: editable %>
+</div>
+
+<div class="row top-buffer">
+  <%= render 'sponsors/list', sponsorable: @tournament, editable: editable %>
+</div>

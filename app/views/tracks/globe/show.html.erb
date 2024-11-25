@@ -1,0 +1,21 @@
+<div class="track-show">
+  <%= render partial: 'tracks/header', locals: { track: @track } %>
+
+  <div class="track-show-content">
+    <div class="row" data-controller="tracks--globe" data-url="<%= url_for %>" data-action="cesium_api:ready@window->tracks--globe#onCesiumReady cesium_api:failed@window->tracks--globe#onCesiumFailed">
+      <div class="track-map-wrapper col-sm-12">
+        <div id="track-map-loading" class="text-muted" data-target="tracks--globe.loadingProgress">
+          <div id="track-map-loading-api" class="fa-2x">
+            <i class="fa fa-fw fa-spin fa-circle-notch" data-target="tracks--globe.cesiumStatus"></i>
+            Loading Maps API
+          </div>
+          <div id="track-map-loading-data" class="fa-2x">
+            <i class="fa fa-fw fa-spin fa-circle-notch" data-target="tracks--globe.dataStatus"></i>
+            Loading track data
+          </div>
+        </div>
+        <div id="cesium-container" data-target="tracks--globe.viewer"></div>
+      </div>
+    </div>
+  </div>
+</div>

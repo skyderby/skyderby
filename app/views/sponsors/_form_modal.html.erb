@@ -1,0 +1,56 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <%= form_for [@sponsorable, @sponsor], remote: true, html: { multipart: true, class: "form-horizontal" } do |f| %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">
+          <%= t('activerecord.models.sponsor') %>:
+          <% if @sponsor.new_record? %>
+            <%= t('events.index.new') %>
+          <% else %>
+            <%= @sponsor.name %>
+          <% end %>
+        </h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <%= f.label :name, class: 'control-label col-sm-4' %>
+          <div class="col-sm-8">
+            <%= f.text_field :name, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :website, class: 'control-label col-sm-4' %>
+          <div class="col-sm-8">
+            <%= f.text_field :website, class: 'form-control', placeholder: 'http://www.example.com' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :logo, class: 'control-label col-sm-4' %>
+          <div class="col-sm-8">
+            <div class="input-group" data-controller="filefield">
+              <input type="text" class="form-control" readonly data-target="filefield.text_field">
+              <span class="input-group-btn">
+                <span class="btn btn-default btn-file">
+                  &hellip;
+                  <%= f.file_field :logo, class: 'form-control', data: { target: 'filefield.file_field', action: 'change->filefield#change' } %>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
+      </div>
+    <% end %>
+  </div>
+</div>

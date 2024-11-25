@@ -1,0 +1,16 @@
+<% provide :title, @event.name %>
+
+<div class="fullscreen-container">
+  <div class="fullscreen-header">
+    <%= render 'events/edit_header' %>
+  </div>
+
+  <div class="fullscreen-body">
+    <div class="fullscreen-sidebar fullscreen-sidebar--small">
+      <%= render 'events/edit_sidebar' %>
+    </div>
+    <div class="fullscreen-main-area">
+      <%= render 'form', allow_change_rules: false %>
+    </div>
+  </div>
+</div>

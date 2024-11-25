@@ -1,0 +1,76 @@
+<div class="container">
+  <h1>Countries</h1>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="content-block">
+        <h2>Top by tracks</h2>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Tracks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @countries.top_by_tracks.each do |record| %>
+              <tr>
+                <td><%= record.name %></td>
+                <td><%= record.tracks_count %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="content-block">
+        <h2>Top by profiles</h2>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Profiles</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @countries.top_by_profiles.each do |record| %>
+              <tr>
+                <td><%= record.name %></td>
+                <td><%= record.profiles_count %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <%= link_to 'New Country', new_country_path, class: 'btn btn-default' %>
+
+  <div class="content-block">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Code</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @countries.each do |country| %>
+          <tr>
+            <td><%= country.name %></td>
+            <td><%= country.code %></td>
+            <td><%= link_to 'Show', country %></td>
+            <td><%= link_to 'Edit', edit_country_path(country) %></td>
+            <td><%= link_to 'Destroy', country, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

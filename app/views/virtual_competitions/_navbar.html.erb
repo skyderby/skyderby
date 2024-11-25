@@ -1,0 +1,30 @@
+<div class="online-competition__navbar">
+  <div class="tabs-navbar">
+    <div class="tabs-navbar__fade-right"></div>
+    <ul class="tabs-navbar__menu">
+      <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if @competition.overall? %>">
+        <%= link_to virtual_competition_overall_path(@competition), remote: true do %>
+          <%= t('.overall') %>
+        <% end %>
+      </li>
+
+      <% if @competition.annual? %>
+        <% @competition.years.each do |year| %>
+          <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if @competition.year == year.to_s %>">
+            <%= link_to virtual_competition_year_path(@competition, year: year), remote: true do %>
+              <%= year %>
+            <% end %>
+          </li>
+        <% end %>
+      <% elsif @competition.custom_intervals? %>
+        <% @competition.intervals.each do |interval| %>
+          <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if @competition.interval == interval %>">
+            <%= link_to virtual_competition_period_path(@competition, interval), remote: true do %>
+              <%= interval.name %>
+            <% end %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+</div>

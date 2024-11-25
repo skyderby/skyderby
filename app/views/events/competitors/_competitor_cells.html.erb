@@ -1,0 +1,25 @@
+<td class="competitor-cell">
+  <%= link_to competitor.name.titleize, profile_path(competitor.profile), class: 'competitor-name' %>
+  <% if competitor.assigned_number %>
+    <span class="text-gray">##<%= competitor.assigned_number %></span>
+  <% end %>
+  <% if editable %>
+    <span>
+      <%= edit_competitor_link(@event, competitor) %>
+      <%= delete_competitor_button(@event, competitor) %>
+    </span>
+  <% end %>
+  <div class="competitor-suit text-gray">
+    <%= competitor.suit.manufacturer_code %>
+    <%= competitor.suit_name %>
+  </div>
+</td>
+
+<td class="text-center">
+  <% russia_restricted = @event.is_official && [2020, 2021].include?(@event.starts_at.year) %>
+  <% if russia_restricted && competitor.country_code == 'RUS' %>
+    <span data-toggle="tooltip" title="Neutral Athletes">RPF</span>
+  <% else %>
+    <span data-toggle="tooltip" title="<%= competitor.country_name %>"><%= competitor.country_code %></span>
+  <% end %>
+</td>

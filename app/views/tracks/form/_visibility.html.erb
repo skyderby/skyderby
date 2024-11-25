@@ -1,0 +1,17 @@
+<% visibility ||= recent_value(:visibility).presence || 'public_track' %>
+
+<% if user_signed_in? %>
+  <div class="form-group">
+    <%= form.label :visibility, t('tracks.edit.visibility'), class: 'col-sm-3 control-label' %>
+    <div class="btn-group col-sm-9" data-toggle="buttons">
+      <% %w[public unlisted private].each do |visibility_name| %>
+        <% current_value = "#{visibility_name}_track" %>
+        <% active = visibility == current_value %>
+        <label class="btn btn-default <%= 'active' if active %>">
+          <%= form.radio_button 'visibility', current_value, checked: active %>
+          <%= t("visibility.#{visibility_name}") %>
+        </label>
+      <% end %>
+    </div>
+  </div>
+<% end %>

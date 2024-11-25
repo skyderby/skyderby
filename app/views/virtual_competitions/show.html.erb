@@ -1,0 +1,36 @@
+<% provide :title, @competition.title %>
+<% editable = policy(@competition).edit? %>
+
+<div class="container top-buffer">
+  <% if editable %>
+    <div class="card-action">
+      <div class="position-right">
+        <%= link_to edit_virtual_competition_path(@competition), class: 'btn-flat' do %>
+          <i class="fa fa-pencil-alt"></i>
+          <%= t('general.edit') %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <h2><%= @competition.title %></h2>
+  <div class="top-buffer">
+    <%= t('virtual_competitions.place') %>
+    <% if @competition.place %>
+      <%= place_presentation(@competition.place) %>
+    <% else %>
+      <%= t('virtual_competitions.worldwide') %>
+    <% end %>
+  </div>
+  <div><%= competition_suit(@competition) %></div>
+  <div><%= competition_task(@competition) %></div>
+
+  <%= render 'navbar' %>
+
+  <div class="content-block">
+    <%= render 'scoreboard' %>
+
+    <div class="row top-buffer">
+      <%= render 'sponsors/list', sponsorable: @competition, editable: editable %>
+    </div>
+  </div>
+</div>

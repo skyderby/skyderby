@@ -1,0 +1,97 @@
+<% editable = policy(@tournament).update? %>
+<% spacers ||= 0 %>
+
+<% unless match.bronze_finals? %>
+  <% spacers.times do %>
+    <div class="tournament-spacer"></div>
+  <% end %>
+<% end %>
+
+<div class="tournament-match">
+  <% if !mobile? %>
+    <div class="tournament-match-links">
+      <%= link_to tournament_match_map_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do %>
+        <i class="far fa-compass"></i>
+        Map
+      <% end %>
+      <%= link_to tournament_match_globe_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do %>
+        <i class="far fa-compass"></i>
+        3D map
+      <% end %>
+      <% if editable %>
+        <%= link_to edit_tournament_match_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do %>
+          <i class="fa fa-pencil-alt"></i>
+          <%= t('general.edit') %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="match-slots">
+    <% match.slots.each do |slot| %>
+      <div class="tournament-competitor">
+        <% if slot.competitor.present? %>
+          <div class="tournament-competitor-profile">
+            <% if match.gold_finals? || match.bronze_finals? %>
+              <% if slot.earn_medal %>
+                <i class="fa fa-fw fa-certificate <%= slot.earn_medal %>"></i>
+              <% else %>
+                <i class="fa fa-fw"></i>
+              <% end %>
+            <% end %>
+            <a href="<%= profile_path(slot.competitor.profile_id) %>">
+              <%= image_tag slot.competitor.profile.userpic_url(:thumb) %>
+              <%= slot.competitor.name %>
+            </a>
+          </div>
+        <% else %>
+          <div class="tournament-competitor-profile">?</div>
+        <% end %>
+
+        <div class="tournament-competitor-result">
+          <% has_result = slot.result.present? || slot.track.present? %>
+
+          <% result_html = capture do %>
+            <% if slot.is_disqualified %>
+              <s><%= slot.result %></s>
+            <% else %>
+              <%= slot.result %>
+            <% end %>
+          <% end %>
+
+          <% if editable %>
+            <% if has_result %>
+              <%= link_to tournament_match_slot_result_path(@tournament, match, slot), remote: true, 'data-toggle': 'tooltip', title: slot.notes do %>
+                <%= result_html %>
+              <% end %>
+            <% else %>
+              <%= link_to new_tournament_match_slot_result_path(@tournament, match, slot), remote: true, class: 'btn-flat btn-xs' do %>
+                <i class="fa fa-fw fa-upload text-muted"></i>
+              <% end %>
+            <% end %>
+          <% else %>
+            <% if slot.track_id %>
+              <%= link_to tournament_match_slot_result_path(@tournament, match, slot), remote: true, data: { toggle: 'tooltip' }, title: slot.notes do %>
+                <%= result_html %>
+              <% end %>
+            <% else %>
+              <%= result_html %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <% match.free_slots.times do %>
+      <div class="tournament-competitor">
+        <div class="tournament-competitor-profile">?</div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% unless match.gold_finals? || match.bronze_finals? %>
+  <% spacers.times do %>
+    <div class="tournament-spacer"></div>
+  <% end %>
+<% end %>

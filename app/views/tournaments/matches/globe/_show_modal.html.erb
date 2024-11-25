@@ -1,0 +1,26 @@
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="pull-right">
+        <%= link_to tournament_match_globe_path(@match.tournament, @match), target: '_blank', class: 'modal-header-link' do %>
+          <i class="fa fa-external-link-alt"></i>
+        <% end %>
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+      </div>
+      <h4 class="modal-title">
+        <%= t('events.show.round_map_view') %>
+      </h4>
+    </div>
+
+    <div class="modal-body">
+      <%= render 'round_map' %>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<% if @track.comment.present? %>
+  <small>
+    <%= @track.comment %>
+  </small>
+<% end %>
+
+<small>
+  <% if @track.recorded_at %>
+    <%= "Recorded at #{@track.recorded_at.strftime('%d.%m.%Y %H:%M')} (UTC); " %>
+  <% end %>
+  <%= "Uploaded at #{@track.created_at.strftime('%d.%m.%Y %H:%M')} (UTC)" %>
+</small>
+
+<% if @track.data_frequency %>
+  <small>
+    <%= "Data frequency: #{@track.data_frequency.round} Hz" %>
+  </small>
+<% end %>
+
+<% if policy(@track).download? && @track.track_file %>
+  <small>
+    Download file:
+    <%= link_to @track.track_file.file.original_filename, track_download_path(@track), 'data-turbo': false %>
+  </small>
+<% end %>

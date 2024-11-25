@@ -1,0 +1,58 @@
+<div class="landing">
+  <section class="index-header">
+    <div class="index-header-caption">
+      <p class="index-subtitle">
+        <%= t('static_pages.index.desc') %>
+      </p>
+    </div>
+  </section>
+
+  <section class="landing__stats">
+    <ul class="landing__stats-list">
+      <li class="landing__stats-item">
+        <div class="landing__stats-count"><%= @page.users_count %></div>
+        <div class="landing__stats-caption">Registered pilots</div>
+      </li>
+      <li class="landing__stats-item">
+        <div class="landing__stats-count"><%= @page.tracks_count %></div>
+        <div class="landing__stats-caption">Tracks recorded</div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="text-center">
+    <% if user_signed_in? %>
+      <%= link_to new_tracks_upload_path, class: 'btn btn-success btn-lg' do %>
+        <i class="fa fa-upload"></i>
+        <%= t('application.header.upload_track') %>
+      <% end %>
+    <% else %>
+      <%= link_to t('devise.shared.links.sign_up'), new_registration_path(:user), class: 'btn btn-success btn-lg' %>
+    <% end %>
+  </section>
+
+  <section>
+    <%= render 'contributions', contributions: @page.contribution_summary %>
+  </section>
+
+  <section class="landing__section">
+    <h2 class="landing__section-header">Полёты</h2>
+    <p class="landing__section-subheader">во всех ракурсах</p>
+    <img class="landing__section-image" src="<%= asset_path('tracks-overview-mobile.png') %>">
+    <p class="landing__section-description">
+      С какой скоростью я летел? А сколько из нее добавлял ветер?
+      Вам будет легко найти ответы на эти вопросы, а также посмотреть на трек на
+      карте, в 3D, синхронизировать с видео и многое другое
+    </p>
+  </section>
+
+  <section class="landing__section">
+    <h2 class="landing__section-header">Онлайн соревнования</h2>
+    <p class="landing__section-subheader">расскажут о многом</p>
+  </section>
+
+  <section class="landing__section">
+    <h2 class="landing__section-header">Бесплатно</h2>
+    <p class="landing__section-subheader">и без рекламы</p>
+  </section>
+</div>

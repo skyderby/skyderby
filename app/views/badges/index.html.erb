@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Бэйджи</h1>
+  </div>
+
+  <div class="content-block">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Comment</th>
+          <th>Category</th>
+          <th>Kind</th>
+          <th>Achieved at</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% badges_by_profile = @badges.group_by(&:profile) %>
+        <% badges_by_profile.each do |profile, profile_badges| %>
+          <tr>
+            <td colspan="6">
+              <strong>
+                <%= link_to profile.name, profile %>
+              </strong>
+            </td>
+          </tr>
+          <%= render profile_badges %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-center top-buffer">
+    <%= will_paginate @badges, renderer: BootstrapPagination::Rails %>
+  </div>
+</div>

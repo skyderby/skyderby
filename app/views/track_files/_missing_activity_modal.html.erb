@@ -1,0 +1,22 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title"><%= t('tracks.missing_activity.title') %></h4>
+    </div>
+
+    <div class="modal-body">
+      <h2><%= t('tracks.missing_activity.header') %></h2>
+      <p><%= t('tracks.missing_activity.desctiption') %></p>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#newTrackModal"><%= t('general.back') %></button>
+      <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('general.cancel') %></button>
+    </div>
+  </div>
+</div>
+

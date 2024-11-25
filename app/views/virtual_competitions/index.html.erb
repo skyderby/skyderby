@@ -1,0 +1,50 @@
+<div class="container top-buffer">
+  <% if policy(:virtual_competition).create? %>
+    <a class="btn btn-default btn-info" href="<%= new_virtual_competition_path %>">
+      <i class="fa fa-plus"></i>
+      <%= t('activerecord.models.virtual_competition') %>
+    </a>
+  <% end %>
+  <% if policy([:virtual_competition, :group]).index? %>
+    <%= link_to 'Groups', virtual_competition_groups_path, class: 'btn btn-default' %>
+  <% end %>
+
+  <div class="top-buffer">
+    <% @competitions.each do |group, competitions| %>
+      <div class="content-block">
+        <h3><%= group %></h3>
+        <table class="table table-hover online-competitions-list">
+          <thead>
+            <tr>
+              <th><%= t('activerecord.attributes.virtual_competition.name') %></th>
+              <th><%= t('activerecord.attributes.virtual_competition.location') %></th>
+              <th><%= t('activerecord.attributes.virtual_competition.task') %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% competitions.each do |competition| %>
+              <tr class="clickable" data-controller="clickable" data-url="<%= virtual_competition_path(id: competition.id) %>">
+                <td class="text-info"><%= competition.name %></td>
+                <td class="text-info">
+                  <% if competition.place %>
+                    <%= place_presentation(competition.place) %>
+                  <% else %>
+                    <%= t('virtual_competitions.worldwide') %>
+                  <% end %>
+                </td>
+                <td class="text-info">
+                  <% if competition.distance_in_time? %>
+                    <% task = 'Distance in ' + competition.discipline_parameter.to_s + ' sec' %>
+                  <% else %>
+                    <% task = competition.discipline.humanize %>
+                  <% end %>
+                  <%= task %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  </div>
+</div>

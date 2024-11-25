@@ -1,0 +1,9 @@
+<div class="row tournament-scoreboard">
+  <% rounds = @tournament.rounds.order(:order) %>
+  <% if rounds.size < 4 %>
+    <div class="col-lg-1"></div>
+  <% end %>
+  <% rounds.each do |round| %>
+    <%= render partial: 'tournaments/rounds/round', locals: { round: round } %>
+  <% end %>
+</div>

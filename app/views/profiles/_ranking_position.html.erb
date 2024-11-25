@@ -1,0 +1,26 @@
+<% competition, scores = position %>
+
+<div class="profile-rankings__competition" data-category="<%= competition.suits_kind %>" data-activity="<%= competition.jumps_kind %>">
+  <div class="profile-rankings__competition-name">
+    <%= link_to competition.name, competition %>
+  </div>
+  <ul class="profile-rankings__list">
+    <% scores.each do |score| %>
+      <li class="<%= 'profile-rankings--self' if score.profile_id == @profile.id %>">
+        <span class="profile-rankings__list-rank">
+          <%= "##{score.rank}" %>
+        </span>
+        <span class="profile-rankings__list-name">
+          <%= score.profile.name %>
+        </span>
+        <span class="profile-rankings__list-delimiter">
+          //
+        </span>
+        <span class="profile-rankings__list-result">
+          <%= format_result(score.result, competition) %>
+          <%= competition_unit(competition) %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+</div>

@@ -1,0 +1,17 @@
+<div class="container">
+  <div id="notice"><%= notice %></div>
+
+  <p>
+    <strong>Name:</strong>
+    <%= @country.name %>
+  </p>
+
+  <p>
+    <strong>Code:</strong>
+    <%= @country.code %>
+  </p>
+
+  <%= link_to 'Edit', edit_country_path(@country) %>
+  <span> | </span>
+  <%= link_to 'Back', countries_path %>
+</div>
