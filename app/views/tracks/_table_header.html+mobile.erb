@@ -2,18 +2,18 @@
 <% order_field = (params_order[0] || 'id').upcase %>
 <% order_direction = (params_order[1] || 'DESC').upcase %>
 
-<tr>
-  <th class="hidden-xs">
+<div class="tr">
+  <div class="th hidden-xs">
     <%= t 'activerecord.attributes.track.id' %>
     <%= tracks_sort_header(order_field, order_direction, 'id', 'ID') %>
-  </th>
-  <th><%= t 'activerecord.attributes.track.name' %></th>
-  <th><%= t 'activerecord.attributes.track.suit' %></th>
-  <th><%= t 'activerecord.attributes.track.place' %></th>
-  <th class="hidden-xs"><%= t 'activerecord.attributes.track.comment' %></th>
-  <th class="hidden-xs">
+  </div>
+  <div class="th"><%= t 'activerecord.attributes.track.name' %></div>
+  <div class="th"><%= t 'activerecord.attributes.track.suit' %></div>
+  <div class="th"><%= t 'activerecord.attributes.track.place' %></div>
+  <div class="th hidden-xs"><%= t 'activerecord.attributes.track.comment' %></div>
+  <div class="th hidden-xs">
     <%= t 'activerecord.attributes.track.recorded_at' %>
     <%= tracks_sort_header(order_field, order_direction, 'recorded_at', 'Recorded at') %>
-  </th>
-  <th class="hidden-xs"></th>
-</tr>
+  </div>
+  <div class="th hidden-xs"></div>
+</div>
