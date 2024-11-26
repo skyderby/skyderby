@@ -47,8 +47,7 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
 
     def ranges
       window_points
-        .map { |start_point| build_range(start_point) }
-        .compact
+        .filter_map { |start_point| build_range(start_point) }
     end
 
     def build_range(start_point)
