@@ -3,3 +3,22 @@
     padding: 6px 1px;
   }
 }
+
+.organizers {
+  width: 100%;
+  background-color: var(--white);
+  border: var(--default-border);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (min-width: $bp-large) {
+    border: 0;
+    box-shadow: var(--block-box-shadow);
+    border-radius: var(--border-radius-md);
+    width: $bp-large;
+    margin: 0 auto;
+  }
+}
+

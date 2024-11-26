@@ -1,16 +1,5 @@
 module Events
   module SectionsHelper
-    def new_section_link(event)
-      link_to(new_event_section_path(event_id: event.id),
-              remote: true,
-              'data-params': display_event_params.to_param,
-              class: 'btn btn-default') do
-        concat tag.i(nil, class: 'fa fa-plus text-muted')
-        concat ' '
-        concat t('activerecord.models.event/section')
-      end
-    end
-
     def edit_section_link(event, section)
       link_to tag.i(nil, class: 'fas fa-pencil-alt text-muted'),
               edit_event_section_path(event, section),

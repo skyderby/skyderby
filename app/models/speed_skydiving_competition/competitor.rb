@@ -1,6 +1,14 @@
 class SpeedSkydivingCompetition::Competitor < ApplicationRecord
+  include EventOngoingValidation, CompetitorCountry
+
   belongs_to :event, class_name: 'SpeedSkydivingCompetition', inverse_of: :competitors, touch: true
   belongs_to :category
   belongs_to :profile
   belongs_to :team, optional: true
+
+  has_many :results, dependent: :restrict_with_error
+
+  accepts_nested_attributes_for :profile
+
+  delegate :name, to: :profile
 end

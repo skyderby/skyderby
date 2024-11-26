@@ -14,8 +14,12 @@
   z-index: 3;
 }
 
+.inside-iframe .app-navbar {
+  display: none;
+}
+
 @media print {
-  .navbar {
+  .app-navbar {
     display: none;
   }
 }

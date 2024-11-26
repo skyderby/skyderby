@@ -40,9 +40,7 @@ class ApplicationPolicy
 
   private
 
-  def admin?
-    user&.has_role? :admin
-  end
+  def admin? = user&.admin?
 
   class Scope
     attr_reader :user, :scope
@@ -58,8 +56,6 @@ class ApplicationPolicy
 
     private
 
-    def admin?
-      user&.has_role? :admin
-    end
+    def admin? = user&.admin?
   end
 end

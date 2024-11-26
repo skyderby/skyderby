@@ -27,7 +27,7 @@ class User < ApplicationRecord
 
   has_one :profile, as: :owner, dependent: :nullify, inverse_of: :owner
 
-  scope :admins, -> { joins(:assignments).where(assignments: { role: Role.admin }) }
+  scope :admins, -> { where('? = ANY(roles)', 'admin') }
 
   accepts_nested_attributes_for :profile
 
@@ -43,9 +43,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: %i[facebook]
 
-  def has_role?(role) # rubocop:disable Naming/PredicateName
-    roles.include?(role.to_s)
-  end
+  def role?(role) = roles.include? role.to_s
+
+  def admin? = role?(:admin)
 
   def registered? = true
 

@@ -33,7 +33,9 @@ class GuestUser
 
   def registered? = false
 
-  def has_role?(_role) = false # rubocop:disable Naming/PredicateName
+  def admin? = false
+
+  def role?(_role) = false
 
   def profile = nil
 

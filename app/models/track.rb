@@ -158,7 +158,7 @@ class Track < ApplicationRecord
     def accessible_by(user)
       return public_track unless user&.profile
 
-      if user.has_role? :admin
+      if user.admin?
         where('1 = 1')
       else
         where('profile_id = :profile OR visibility = 0', profile: user.profile)

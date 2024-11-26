@@ -1,7 +1,7 @@
 <td class="competitor-cell">
   <%= link_to competitor.name.titleize, profile_path(competitor.profile), class: 'competitor-name' %>
   <% if competitor.assigned_number %>
-    <span class="text-gray">##<%= competitor.assigned_number %></span>
+    <span class="text-gray">#<%= competitor.assigned_number %></span>
   <% end %>
   <% if editable %>
     <span>

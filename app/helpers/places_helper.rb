@@ -6,6 +6,8 @@ module PlacesHelper
   end
 
   def place_presentation(place)
+    return unless place
+
     country = place.country
     code_span = tag.span(class: 'text-warning',
                          'data-toggle' => 'tooltip',

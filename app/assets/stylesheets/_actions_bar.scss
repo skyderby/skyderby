@@ -1,0 +1,50 @@
+.actions-bar {
+  display: flex;
+  background-color: var(--white);
+  margin: 0 auto;
+  border: var(--default-border);
+  width: 100%;
+
+  @media (min-width: $bp-large) {
+    border: 0;
+    box-shadow: var(--block-box-shadow);
+    border-radius: var(--border-radius-md);
+    width: $bp-large;
+  }
+}
+
+.actions-bar-button {
+  border: 0;
+  background-color: var(--white);
+  color: var(--gray-80);
+  border-right: var(--default-border);
+  padding: 0.5rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 100%;
+
+  &:hover {
+    background-color: var(--gray-20);
+    color: var(--gray-80);
+  }
+}
+
+.actions-bar > :first-child {
+  border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
+}
+
+.actions-bar > :last-child {
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+}
+
+.actions-bar > .btn-group:last-child {
+  .actions-bar-button {
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+  }
+}
+
+.actions-bar-right {
+  margin-left: auto;
+  border-left: var(--default-border);
+}

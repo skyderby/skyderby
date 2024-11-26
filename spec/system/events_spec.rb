@@ -6,7 +6,7 @@ describe 'Scoring PPC-like competitions', js: true do
     create :place, name: 'Awesome DZ', msl: 27, latitude: 28.21975954, longitude: -82.15107322
 
     create_competition
-    expect(page).to have_css('#event-header h1 span', text: 'Test event')
+    expect(page).to have_css('.show-event-title', text: 'TEST EVENT')
 
     add_category 'Open'
     add_category 'Intermediate'

@@ -1,19 +1,20 @@
 <% copyable = sponsorable.is_a? Event %>
 
 <% if sponsorable.sponsors.any? || editable %>
-  <div class="col-md-12">
-    <h4><%= t('sponsors.list.event_sponsors') %>:</h4>
-  </div>
-  <div id="sponsors" class="col-md-12">
-    <%= render partial: 'sponsors/sponsor', collection: sponsorable.sponsors, as: :sponsor, locals: { editable: editable } %>
-  </div>
-<% end %>
+  <div class="sponsors" id="sponsors">
+    <h4 class="sponsors-title"><%= t('sponsors.list.event_sponsors') %></h4>
 
-<% if editable %>
-  <div class="col-md-12">
-    <%= new_sponsor_link(sponsorable) %>
-    <% if copyable %>
-      <%= copy_sponsors_link(sponsorable) %>
+    <div class="sponsors-list">
+      <%= render partial: 'sponsors/sponsor', collection: sponsorable.sponsors, as: :sponsor, locals: { editable: editable } %>
+    </div>
+
+    <% if editable %>
+      <div>
+        <%= new_sponsor_link(sponsorable) %>
+        <% if copyable %>
+          <%= copy_sponsors_link(sponsorable) %>
+        <% end %>
+      </div>
     <% end %>
   </div>
 <% end %>

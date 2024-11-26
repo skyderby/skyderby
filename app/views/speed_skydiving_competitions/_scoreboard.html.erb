@@ -1,0 +1,56 @@
+<% standings = @event.standings %>
+
+<div class="scoreboard-container">
+  <table class="scoreboard-table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th colspan="2">Competitor</th>
+      <% standings.rounds.each do |round| %>
+        <th class="round">
+          <div
+            class="round-status"
+            data-controller="tooltip"
+            <% if round.completed %>
+              data-tooltip="Round results are final"
+            <% elsif @event.editable? %>
+              data-tooltip="Mark round as completed when results are final"
+            <% end %>
+          >
+            <% if round.completed %>
+              <%= svg_icon 'circle-check-regular', class: 'round-completed' %>
+            <% elsif @event.editable? %>
+              <%= svg_icon 'circle-regular', class: 'round-not-completed-icon' %>
+            <% end %>
+          </div>
+
+          <%= round.number %>
+        </th>
+      <% end %>
+      <th class="result">Total</th>
+      <th class="result">Avg</th>
+    </tr>
+    </thead>
+
+    <% standings.categories.each do |data| %>
+      <tbody>
+      <tr>
+        <td colspan="<%= @event.rounds.size + 5 %>" class="scoreboard-category"><%= data[:category].name %></td>
+      </tr>
+      <% data[:standings].each do |row| %>
+        <tr>
+          <td><%= row[:rank] %></td>
+          <td><%= row[:competitor].name %></td>
+          <td><%= row[:competitor].country_code %></td>
+          <% standings.rounds.each do |round| %>
+            <% result_record = row[:results].find { |result| result.round == round } %>
+            <td class="result"><%= result_record&.result&.round(1) %></td>
+          <% end %>
+          <td class="result"><%= row[:total] %></td>
+          <td class="result"><%= row[:average] %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    <% end %>
+  </table>
+</div>

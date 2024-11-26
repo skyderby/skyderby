@@ -24,8 +24,8 @@ module ApplicationHelper
     end
   end
 
-  def svg_icon(name)
-    tag.svg(fill: 'currentColor', height: '100%', width: '100%') do
+  def svg_icon(name, options = {})
+    tag.svg(fill: 'currentColor', class: "svg-icon #{options[:class]}", height: '100%', width: '100%') do
       tag.use(href: "#{image_path("icons/#{name}.svg")}#icon")
     end
   end

@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
   height: 120px;
+  position: relative;
 
   form.button_to {
     position: absolute;
@@ -22,4 +23,27 @@
   &:hover form.button_to {
     opacity: 1;
   }
+}
+
+.sponsors {
+  width: 100%;
+  background-color: var(--white);
+  border: var(--default-border);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (min-width: $bp-large) {
+    border: 0;
+    box-shadow: var(--block-box-shadow);
+    border-radius: var(--border-radius-md);
+    width: $bp-large;
+    margin: 0 auto;
+  }
+}
+
+.sponsors-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
