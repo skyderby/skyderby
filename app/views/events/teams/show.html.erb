@@ -1,25 +1,19 @@
 <% provide :title, @event.name %>
 <% can_manage = policy(@event).update? %>
 
-<div class="container-fluid top-buffer" id="event">
-  <div class="content-block">
-    <div class="row">
-      <div class="event-header col-md-8 col-md-offset-2 text-center">
-        <%= render 'events/header' %>
-      </div>
-    </div>
+<div class="show-page">
+  <%= render 'events/header', editable: can_manage %>
 
-    <% if !@event.surprise? || can_manage %>
-      <div
-        data-controller="events--teams-competition"
-        data-event-id="<%= @event.id %>"
-        data-editable="<%= can_manage %>"
-      ></div>
-    <% else %>
-      <h1 class="text-muted text-center">
-        🙅 Let it be a Surprise
-      </h1>
-    <% end %>
-
-  </div>
+  <% if !@event.surprise? || can_manage %>
+    <div
+      class="show-page-content"
+      data-controller="events--teams-competition"
+      data-event-id="<%= @event.id %>"
+      data-editable="<%= can_manage %>"
+    ></div>
+  <% else %>
+    <h1 class="text-muted text-center">
+      🙅 Let it be a Surprise
+    </h1>
+  <% end %>
 </div>

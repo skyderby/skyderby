@@ -1,4 +1,4 @@
-.track-show {
+.show-page {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -21,27 +21,35 @@
   }
 }
 
-.track-page-header {
+.show-page-header {
   background-color: var(--white);
   border-bottom: var(--default-border);
-  padding: 0 1rem;
+  padding: 1rem 1rem 0;
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
 
   @media (min-width: $bp-large) {
-    padding: 0 calc((100vw - 1200px) / 2 + 1rem);
+    padding: 1rem calc((100vw - 1200px) / 2 + 1rem) 0;
   }
+}
+
+.show-page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .track-header {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   gap: 1rem;
-  padding-top: 1rem;
 }
 
 .track-header__id {
   font-size: 1.25rem;
   color: #bbb;
-  margin-top: 19px;
 }
 
 .track-header__photo {

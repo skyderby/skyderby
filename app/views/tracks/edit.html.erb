@@ -70,7 +70,7 @@
           </div>
         </div>
 
-        <% if current_user && current_user.has_role?(:admin) %>
+        <% if current_user&.admin? %>
           <div class="form-group">
             <div class="col-sm-6 col-sm-offset-3">
               <div class="checkbox">

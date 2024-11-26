@@ -22,6 +22,6 @@ class PlacePolicy < ApplicationPolicy
   private
 
   def can_edit?
-    user&.has_role? :edit_places
+    user&.role? :edit_places
   end
 end

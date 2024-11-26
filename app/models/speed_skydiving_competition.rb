@@ -6,10 +6,18 @@ class SpeedSkydivingCompetition < ApplicationRecord
   belongs_to :place
 
   with_options foreign_key: :event_id, inverse_of: :event, dependent: :restrict_with_error do
-    has_many :categories, class_name: 'SpeedSkydivingCompetition::Category'
-    has_many :rounds, class_name: 'SpeedSkydivingCompetition::Round'
-    has_many :competitors, class_name: 'SpeedSkydivingCompetition::Competitor'
+    has_many :categories
+    has_many :rounds
+    has_many :competitors
+    has_many :results
+    has_many :teams
   end
 
   def active? = starts_at < Time.zone.now && !finished?
+
+  def standings = Scoreboard.new(self)
+
+  def editable?(user = Current.user)
+    user.admin? || user == responsible
+  end
 end

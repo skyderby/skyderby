@@ -1,9 +1,5 @@
 class SpeedSkydivingCompetitionsController < ApplicationController
   def show
-    @event = SpeedSkydivingCompetition.find(params[:id])
-
-    respond_to do |format|
-      format.html
-    end
+    @event = SpeedSkydivingCompetition.includes(:categories, :competitors, :results).find(params[:id])
   end
 end

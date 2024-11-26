@@ -10,15 +10,18 @@
 }
 
 .page-tab {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   position: relative;
   border-radius: var(--border-radius-md);
   color: var(--gray-70);
   font-family: $pn-semibold;
+  font-size: 0.875rem;
   padding: .5rem;
   text-decoration: none;
   text-transform: uppercase;
   margin-bottom: 3px;
+  gap: 0.25rem;
 }
 
 .page-tab:focus {
@@ -45,4 +48,8 @@
     content: "";
     border-radius: 2px;
   }
+}
+
+.page-tab-right {
+  margin-left: auto;
 }
