@@ -1,7 +1,7 @@
 <% copyable = sponsorable.is_a? Event %>
 
 <% if sponsorable.sponsors.any? || editable %>
-  <div class="sponsors">
+  <div class="sponsors" id="sponsors">
     <h4 class="sponsors-title"><%= t('sponsors.list.event_sponsors') %></h4>
 
     <div class="sponsors-list">

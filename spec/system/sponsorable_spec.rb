@@ -17,6 +17,6 @@ describe 'Sponsorable', js: true do
       click_button I18n.t('general.save')
     end
 
-    expect(page).to have_css('#sponsors > .sponsor')
+    expect(page).to have_css('.sponsors > .sponsor')
   end
 end

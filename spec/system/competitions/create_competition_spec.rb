@@ -13,6 +13,6 @@ feature 'Creating new competitions', type: :system do
 
     find('input[type="submit"]').click
 
-    expect(page).to have_css('#event-header h1 span', text: 'Test event')
+    expect(page).to have_css('.show-event-title', text: 'Test event')
   end
 end
