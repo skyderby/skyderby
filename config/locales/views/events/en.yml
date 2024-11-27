@@ -1,5 +1,8 @@
 en:
   events:
+    add_category: New category
+    edit_category: Edit category
+
     index:
       sign_in_to_create: Creating classic competitions available only for registered users.
       new: 'New'

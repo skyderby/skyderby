@@ -1,0 +1,37 @@
+.category-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  align-items: center;
+}
+
+.form-label {
+  grid-column: 1 / 2;
+  font-family: $pn-semibold;
+  font-size: 0.875rem;
+  text-align: right;
+  line-height: 1;
+  margin: 0;
+}
+
+.form-input {
+  grid-column: span 3 / span 3;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--white);
+  border: var(--default-border);
+  border-radius: var(--border-radius-md);
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}

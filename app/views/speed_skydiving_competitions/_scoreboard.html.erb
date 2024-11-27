@@ -1,6 +1,6 @@
-<% standings = @event.standings %>
+<% standings = event.standings %>
 
-<div class="scoreboard-container">
+<div class="scoreboard-container" id="scoreboard">
   <table class="scoreboard-table">
     <thead>
     <tr>
@@ -12,14 +12,14 @@
             class="round-status"
             data-controller="tooltip"
             <% if round.completed %>
-              data-tooltip="Round results are final"
-            <% elsif @event.editable? %>
-              data-tooltip="Mark round as completed when results are final"
+            data-tooltip="Round results are final"
+            <% elsif editable %>
+            data-tooltip="Mark round as completed when results are final"
             <% end %>
-          >
+            >
             <% if round.completed %>
               <%= svg_icon 'circle-check-regular', class: 'round-completed' %>
-            <% elsif @event.editable? %>
+            <% elsif editable %>
               <%= svg_icon 'circle-regular', class: 'round-not-completed-icon' %>
             <% end %>
           </div>
@@ -33,10 +33,19 @@
     </thead>
 
     <% standings.categories.each do |data| %>
-      <tbody>
+      <% category = data[:category] %>
+      <tbody id="<%= dom_id category %>">
       <tr>
-        <td colspan="<%= @event.rounds.size + 5 %>" class="scoreboard-category"><%= data[:category].name %></td>
+        <td colspan="<%= event.rounds.size + 5 %>" class="scoreboard-category">
+          <%= category.name %>
+          <% if editable %>
+            <%= button_to speed_skydiving_competition_category_path(event, category), class: 'ghost-button small-button', method: :delete do %>
+              <%= svg_icon 'xmark' %>
+            <% end %>
+          <% end %>
+        </td>
       </tr>
+
       <% data[:standings].each do |row| %>
         <tr>
           <td><%= row[:rank] %></td>

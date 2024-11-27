@@ -1,8 +1,16 @@
-<div class="modal-overlay">
-  <div class="modal-container">
+<%# locals: (title:) %>
+
+<div class="modal-overlay" data-controller="modal">
+  <div class="modal-container" role="dialog" data-target="modal.dialog">
     <div class="modal-header">
-      <h2 class="modal-title">Modal Title</h2>
-      <button class="modal-close" aria-label="Close modal" data-close>✕</button>
+      <h2 class="modal-title"><%= title %></h2>
+      <button class="modal-close ghost-button" aria-label="Close modal" data-action="modal#close">
+        <%= svg_icon 'xmark' %>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <%= yield %>
     </div>
   </div>
 </div>

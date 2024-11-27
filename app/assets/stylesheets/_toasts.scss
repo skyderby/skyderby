@@ -2,7 +2,7 @@
   position: fixed;
   top: 0px;
   right: 0px;
-  z-index: 100;
+  z-index: 200;
   padding: 20px;
   max-width: 450px;
   display: flex;
@@ -15,7 +15,7 @@
   background-color: var(--white);
   border-radius: var(--border-radius-md);
   padding: 0.5rem 0.75rem;
-  box-shadow: var(--block-box-shadow);
+  box-shadow: 1px 5px 15px rgba(0, 0, 0, 0.4);
   display: flex;
   gap: 0.5rem;
   transition: transform 0.2s ease-in-out;
@@ -26,7 +26,8 @@
 }
 
 .toast-message {
-  padding: 0.25rem;
+  padding: 0.5rem 0.25rem 0.25rem;
+  font-family: $pn-semibold;
 
   ul {
     margin: 0;
@@ -37,10 +38,17 @@
 
 .toast-icon {
   flex-shrink: 0;
-  color: var(--red-50);
-  height: 2rem;
-  width: 2rem;
+  color: var(--gray-70);
+  font-size: 1.5rem;
   padding: 0.25rem 0;
+}
+
+.icon-red {
+  color: var(--red-50);
+}
+
+.icon-green {
+  color: var(--green-70);
 }
 
 .toast-actions {

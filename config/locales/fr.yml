@@ -1,5 +1,8 @@
 fr:
   errors:
+    attributes:
+      base:
+        event_finished: Les modifications ne sont plus possibles car la compétition est finie
     messages:
       duplicate_file: "Fichier déjà utilisé. Pilot: %{pilot_name}, round: %{round}"
   general:

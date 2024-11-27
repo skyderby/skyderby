@@ -1,4 +1,8 @@
 it:
+  errors:
+    attributes:
+      base:
+        event_finished: Non puoi effettuare modifiche perché l'evento è concluso.
   general:
     new: New
     cancel: Annulla

@@ -1,5 +1,8 @@
 es:
   events:
+    add_category: Nueva categoría
+    edit_category: Editar categoría
+
     show:
       competitor: Competitor
       round_map_view: 'Round tracks on map'
