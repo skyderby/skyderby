@@ -162,7 +162,8 @@ Skyderby::Application.routes.draw do
 
   resources :speed_skydiving_competitions, path: '/events/speed_skydiving', except: :index do
     scope module: :speed_skydiving_competitions do
-      resources :categories
+      resources :categories, except: %i[index show]
+      resources :rounds, only: %i[create update destroy]
     end
   end
 

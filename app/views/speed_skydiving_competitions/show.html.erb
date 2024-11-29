@@ -20,6 +20,6 @@
 
   <div class="show-page-content">
     <%= render 'actions_bar', event: @event %>
-    <%= render 'speed_skydiving_competitions/scoreboard', event: @event, editable: editable %>
+    <%= render 'speed_skydiving_competitions/scoreboard', event: @event, editable: editable && !@event.finished? %>
   </div>
 </div>

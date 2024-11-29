@@ -1,3 +1,5 @@
+<%# locals (event:, editable:) %>
+
 <% standings = event.standings %>
 
 <div class="scoreboard-container" id="scoreboard">
@@ -6,27 +8,7 @@
     <tr>
       <th>#</th>
       <th colspan="2">Competitor</th>
-      <% standings.rounds.each do |round| %>
-        <th class="round">
-          <div
-            class="round-status"
-            data-controller="tooltip"
-            <% if round.completed %>
-            data-tooltip="Round results are final"
-            <% elsif editable %>
-            data-tooltip="Mark round as completed when results are final"
-            <% end %>
-            >
-            <% if round.completed %>
-              <%= svg_icon 'circle-check-regular', class: 'round-completed' %>
-            <% elsif editable %>
-              <%= svg_icon 'circle-regular', class: 'round-not-completed-icon' %>
-            <% end %>
-          </div>
-
-          <%= round.number %>
-        </th>
-      <% end %>
+      <%= render partial: 'speed_skydiving_competitions/round_cell', collection: standings.rounds, as: :round, locals: { event:, editable: } %>
       <th class="result">Total</th>
       <th class="result">Avg</th>
     </tr>
@@ -36,7 +18,7 @@
       <% category = data[:category] %>
       <tbody id="<%= dom_id category %>">
       <tr>
-        <td colspan="<%= event.rounds.size + 5 %>" class="scoreboard-category">
+        <td colspan="<%= standings.rounds.size + 5 %>" class="scoreboard-category">
           <%= category.name %>
           <% if editable %>
             <%= button_to speed_skydiving_competition_category_path(event, category), class: 'ghost-button small-button', method: :delete do %>
