@@ -5,6 +5,12 @@ module SpeedSkydivingCompetitionScoped
     before_action :set_event
   end
 
+  def authorize_update_to_event!
+    return if @event.editable?
+
+    respond_not_authorized
+  end
+
   def set_event
     @event = SpeedSkydivingCompetition.find(params[:speed_skydiving_competition_id])
   end

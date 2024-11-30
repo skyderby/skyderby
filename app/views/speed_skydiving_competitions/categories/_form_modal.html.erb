@@ -1,6 +1,8 @@
-<%= form_with model: @category,
-              url: speed_skydiving_competition_categories_path(@event),
-              scope: :category,
+<% url = @category.new_record? ?
+           speed_skydiving_competition_categories_path(@event) :
+           speed_skydiving_competition_category_path(@event, @category) %>
+
+<%= form_with model: @category, url:, scope: :category,
               data: { controller: 'events--categories-form', action: 'form:submit-success->modal#close' } do |f| %>
   <div class="category-form">
     <div class="form-row">

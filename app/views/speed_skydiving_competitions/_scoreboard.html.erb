@@ -14,18 +14,19 @@
     </tr>
     </thead>
 
-    <% standings.categories.each do |data| %>
+    <% standings.categories.each_with_index do |data, index| %>
       <% category = data[:category] %>
+      <% position =
+           case index
+           when 0 then :first
+           when standings.categories.size - 1 then :last
+           else :middle
+           end
+      %>
+
       <tbody id="<%= dom_id category %>">
       <tr>
-        <td colspan="<%= standings.rounds.size + 5 %>" class="scoreboard-category">
-          <%= category.name %>
-          <% if editable %>
-            <%= button_to speed_skydiving_competition_category_path(event, category), class: 'ghost-button small-button', method: :delete do %>
-              <%= svg_icon 'xmark' %>
-            <% end %>
-          <% end %>
-        </td>
+        <%= render 'speed_skydiving_competitions/category_cell', category:, event:, editable:, standings:, position: %>
       </tr>
 
       <% data[:standings].each do |row| %>

@@ -66,6 +66,20 @@
     text-transform: uppercase;
   }
 
+  .category-actions {
+    display: inline-flex;
+    visibility: hidden;
+    margin-left: 0.5rem;
+  }
+
+  .category-actions .small-button {
+    color: var(--gray-70);
+    padding: 0.25rem;
+  }
+
+  .scoreboard-category:hover .category-actions {
+    visibility: visible;
+  }
 
   .round-status {
     position: absolute;

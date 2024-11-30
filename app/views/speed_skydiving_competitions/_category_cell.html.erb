@@ -1,0 +1,36 @@
+<%# locals (category:, event:, editable:, standings:, position:) %>
+
+<td colspan="<%= standings.rounds.size + 5 %>" class="scoreboard-category">
+  <%= category.name %>
+  <% if editable %>
+    <div class="category-actions">
+      <%= button_to edit_speed_skydiving_competition_category_path(event, category),
+                    class: 'ghost-button small-button',
+                    method: :get, form: { data: { turbo_stream: true } } do %>
+        <%= svg_icon 'pencil-solid' %>
+      <% end %>
+
+      <% unless position == :first %>
+        <%= button_to move_upper_speed_skydiving_competition_category_path(event, category),
+                      class: 'ghost-button small-button',
+                      method: :patch, form: { data: { turbo_stream: true } } do %>
+          <%= svg_icon 'angle-up-solid' %>
+        <% end %>
+      <% end %>
+
+      <% unless position == :last %>
+        <%= button_to move_lower_speed_skydiving_competition_category_path(event, category),
+                      class: 'ghost-button small-button',
+                      method: :patch, form: { data: { turbo_stream: true } } do %>
+          <%= svg_icon 'angle-down-solid' %>
+        <% end %>
+      <% end %>
+
+      <%= button_to speed_skydiving_competition_category_path(event, category),
+                    class: 'ghost-button small-button',
+                    method: :delete do %>
+        <%= svg_icon 'xmark' %>
+      <% end %>
+    </div>
+  <% end %>
+</td>
