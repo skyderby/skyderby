@@ -1,5 +1,8 @@
 fr:
   events:
+    add_category: Nouvelle catégorie
+    edit_category: Modifier la catégorie
+
     index:
       sign_in_to_create: Se connecter ou s'enregistrer pour créer une compétition.
       new: Nouveau

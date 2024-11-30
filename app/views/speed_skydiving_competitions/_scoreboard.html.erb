@@ -1,42 +1,34 @@
-<% standings = @event.standings %>
+<%# locals (event:, editable:) %>
 
-<div class="scoreboard-container">
+<% standings = event.standings %>
+
+<div class="scoreboard-container" id="scoreboard">
   <table class="scoreboard-table">
     <thead>
     <tr>
       <th>#</th>
       <th colspan="2">Competitor</th>
-      <% standings.rounds.each do |round| %>
-        <th class="round">
-          <div
-            class="round-status"
-            data-controller="tooltip"
-            <% if round.completed %>
-              data-tooltip="Round results are final"
-            <% elsif @event.editable? %>
-              data-tooltip="Mark round as completed when results are final"
-            <% end %>
-          >
-            <% if round.completed %>
-              <%= svg_icon 'circle-check-regular', class: 'round-completed' %>
-            <% elsif @event.editable? %>
-              <%= svg_icon 'circle-regular', class: 'round-not-completed-icon' %>
-            <% end %>
-          </div>
-
-          <%= round.number %>
-        </th>
-      <% end %>
+      <%= render partial: 'speed_skydiving_competitions/round_cell', collection: standings.rounds, as: :round, locals: { event:, editable: } %>
       <th class="result">Total</th>
       <th class="result">Avg</th>
     </tr>
     </thead>
 
-    <% standings.categories.each do |data| %>
-      <tbody>
+    <% standings.categories.each_with_index do |data, index| %>
+      <% category = data[:category] %>
+      <% position =
+           case index
+           when 0 then :first
+           when standings.categories.size - 1 then :last
+           else :middle
+           end
+      %>
+
+      <tbody id="<%= dom_id category %>">
       <tr>
-        <td colspan="<%= @event.rounds.size + 5 %>" class="scoreboard-category"><%= data[:category].name %></td>
+        <%= render 'speed_skydiving_competitions/category_cell', category:, event:, editable:, standings:, position: %>
       </tr>
+
       <% data[:standings].each do |row| %>
         <tr>
           <td><%= row[:rank] %></td>

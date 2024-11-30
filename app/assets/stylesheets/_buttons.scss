@@ -1,0 +1,44 @@
+.base-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: $pn-semibold;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-md);
+  border: 0;
+  transition: background-color 0.2s ease-in-out;
+  background-color: var(--button-bg);
+
+  &:hover {
+    background-color: var(--button-bg-hover);
+  }
+}
+
+.ghost-button {
+  @extend .base-button;
+
+  --button-bg: transparent;
+  --button-bg-hover: var(--gray-20);
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: none;
+  }
+}
+
+.primary-button {
+  @extend .base-button;
+
+  --button-bg: var(--blue-90);
+  --button-bg-hover: var(--blue-70);
+  color: var(--white);
+}
+
+.small-button {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}

@@ -7,7 +7,6 @@
     <%= stylesheet_link_tag 'desktop/application', media: 'all', 'data-turbo-track': 'reload' %>
   </head>
   <body>
-    <div id="modal-root"></div>
     <div id="wrap" class="<%= yield(:wrapper_classes) %>">
       <%= render 'layouts/header' %>
       <%= render template: 'announcements/active' %>
@@ -20,12 +19,13 @@
 
       <%= yield %>
 
-      <!-- Modal for Backbone Views -->
       <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 
       <!-- new track modal -->
       <%= render partial: 'track_files/new_modal' %>
     </div>
+
+    <div id="modal-root"></div>
 
     <%= render 'errors/ajax_error_message' %>
     <%= render 'layouts/footer' %>

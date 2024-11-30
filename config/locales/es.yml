@@ -1,4 +1,8 @@
 es:
+  errors:
+    attributes:
+      base:
+        event_finished: La competencia está terminada
   activerecord:
     attributes:
       profile:

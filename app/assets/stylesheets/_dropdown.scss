@@ -1,0 +1,31 @@
+.sd-dropdown {
+  position: relative;
+}
+
+.sd-dropdown-menu {
+  position: absolute;
+  visibility: hidden;
+
+  top: 1.5em;
+  right: 0;
+  margin-top: 0.5rem;
+  box-shadow: var(--block-box-shadow);
+  padding: 0.25rem 0;
+  border: var(--default-border);
+  border-radius: var(--border-radius-md);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+}
+
+.dropdown-item {
+  @extend .ghost-button;
+
+  border-radius: 0;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.sd-dropdown-show {
+  visibility: visible;
+}

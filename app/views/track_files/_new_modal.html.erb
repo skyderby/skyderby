@@ -1,4 +1,4 @@
-<div class="modal fade" id="newTrackModal" tabindex="-1" role="dialog" data-controller="modal">
+<div class="modal fade" id="newTrackModal" tabindex="-1" role="dialog" data-controller="bootstrap-modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <%= form_for :track_file, url: track_files_path, remote: true, html: { multipart: true, class: 'form-horizontal', role: 'form', 'data-controller': 'tracks--form' } do |f| %>
