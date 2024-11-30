@@ -15,9 +15,7 @@ module ErrorHandling
         render turbo_stream: turbo_stream.append(
           :toasts,
           partial: 'toasts/toast',
-          locals: {
-            message: "You're not authorized to perform this action",
-          }
+          locals: { message: "You're not authorized to perform this action" }
         )
       end
     end
