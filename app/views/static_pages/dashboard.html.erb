@@ -1,0 +1,16 @@
+<div class="dashboard">
+  <div class="dashboard-block">
+    <h2 class="dashboard-block-title">Donations</h2>
+    <div class="dashboard-indicator">
+      <div class="dashboard-value"><%= @dashboard.last_year_donations %>$</div>
+      <div class="dashboard-label">in past year</div>
+    </div>
+    <div class="dashboard-indicator">
+      <div class="dashboard-value"><%= @dashboard.last_30_days_donations %>$</div>
+      <div class="dashboard-label">in past 30 days</div>
+    </div>
+    <div class="dashboard-chart" data-controller="donation-stats">
+      <div data-target="donation-stats.chart"></div>
+    </div>
+  </div>
+</div>

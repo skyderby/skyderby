@@ -46,4 +46,6 @@ class GuestUser
   def responsible_of_events = []
 
   def participant_of_events = []
+
+  def dashboard = nil
 end

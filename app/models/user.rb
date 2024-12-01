@@ -54,6 +54,8 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
+  def dashboard = admin? ? AdminDashboard.new(self) : Dashboard.new(self)
+
   class << self
     def search(query)
       return all if query.blank?

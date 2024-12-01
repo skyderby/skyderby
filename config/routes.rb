@@ -3,6 +3,8 @@ require 'sidekiq/web'
 Skyderby::Application.routes.draw do
   mount ActionCable.server, at: '/cable'
 
+  get '/up', to: 'rails/health#show'
+
   # Backward compatibility, app used to have locale in path, like
   # /ru/controller/
   # /en/controller/
@@ -34,7 +36,6 @@ Skyderby::Application.routes.draw do
   get '/manage', to: 'manage/dashboards#show'
 
   get '/about', to: 'static_pages#about', as: :about
-  get '/ping' => 'static_pages#ping'
 
   devise_for :users,
              controllers: { omniauth_callbacks: 'users/omniauth_callbacks',
@@ -111,6 +112,8 @@ Skyderby::Application.routes.draw do
           resources :teams, only: %i[index create update destroy]
         end
       end
+
+      resource :donation_stats, only: :show
 
       namespace :stats, module: :stats do
         resources :registrations, only: :index
