@@ -2,7 +2,7 @@ module VirtualCompetitions
   class OverallPresenter < SimpleDelegator
     def initialize(params)
       @id = params[:virtual_competition_id]
-      @page = params[:page].to_i || 1
+      @page = [params[:page].to_i, 1].max
 
       @competition = VirtualCompetition.find(@id)
 
