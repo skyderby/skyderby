@@ -1,37 +1,55 @@
-- provide :title, 'New online competition result requires verification'
+<% provide :title, 'New online competition result requires verification' %>
 
-%p
+<p>
   Hello,
+</p>
 
-%p
-  = link_to @track.pilot_name, profile_url(@track.pilot)
+<p>
+  <%= link_to @track.pilot_name, profile_url(@track.pilot) %>
   just uploaded track and took:
-  - @scores.each do |score|
-    %br
-    \##{score.rank} place in #{link_to score.virtual_competition.name, virtual_competition_url(score.virtual_competition)}.
+  <% @scores.each do |score| %>
+    <br>
+    #<%= score.rank %> place in <%= link_to score.virtual_competition.name, virtual_competition_url(score.virtual_competition) %>.
+  <% end %>
+</p>
 
-%p
-  Track: #{link_to "##{@track.id}", track_url(@track)}
-  
-- @competitions_top.each do |competition, top_scores|
-  %p
-    Top results in #{competition.name}:
+<p>
+  Track: <%= link_to "##{@track.id}", track_url(@track) %>
+</p>
 
-    %table{cellpadding: 8, style: 'border-collapse: collapse;'}
-      %thead
-        %tr
-          %th{style: 'border: 1px solid #ddd; border-bottom: 2px solid #ddd; color: #646464'}
-            Rank
-          %th{width: 200, style: 'border: 1px solid #ddd; border-bottom: 2px solid #ddd; color: #646464'}
-            Pilot
-          %th{width: 70, style: 'border: 1px solid #ddd; border-bottom: 2px solid #ddd; color: #646464'}
-            Result
-      %tbody
-        - top_scores.each do |top_score|
-          %tr{style: ('background-color: #fcf8e3' if top_score.track == @track)}
-            %td{style: 'border: 1px solid #ddd;'}
-              = top_score.rank
-            %td{style: 'border: 1px solid #ddd;'}
-              = top_score.profile.name
-            %td{style: 'border: 1px solid #ddd; text-align: right;'}
-              = top_score.result.round(1)
+<% @competitions_top.each do |competition, top_scores| %>
+  <p>
+    Top results in <%= competition.name %>:
+  </p>
+
+  <table cellpadding="8" style="border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #ddd; border-bottom: 2px solid #ddd; color: #646464">
+          Rank
+        </th>
+        <th width="200" style="border: 1px solid #ddd; border-bottom: 2px solid #ddd; color: #646464">
+          Pilot
+        </th>
+        <th width="70" style="border: 1px solid #ddd; border-bottom: 2px solid #ddd; color: #646464">
+          Result
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% top_scores.each do |top_score| %>
+        <tr style="<%= 'background-color: #fcf8e3' if top_score.track == @track %>">
+          <td style="border: 1px solid #ddd;">
+            <%= top_score.rank %>
+          </td>
+          <td style="border: 1px solid #ddd;">
+            <%= top_score.profile.name %>
+          </td>
+          <td style="border: 1px solid #ddd; text-align: right;">
+            <%= top_score.result.round(1) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
