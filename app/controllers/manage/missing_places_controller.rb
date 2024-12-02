@@ -4,7 +4,7 @@ module Manage
       @tracks = Track.where(place: nil)
                      .order(id: :desc)
                      .includes(:pilot, suit: [:manufacturer])
-                     .paginate(page: params[:page], per_page: rows_per_page)
+                     .paginate(page:, per_page: rows_per_page)
     end
 
     private

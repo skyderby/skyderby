@@ -22,4 +22,6 @@ class ApplicationController < ActionController::Base
       'application'
     end
   end
+
+  def page = [params[:page].to_i, 1].max
 end

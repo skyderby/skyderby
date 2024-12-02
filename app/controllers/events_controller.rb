@@ -14,7 +14,7 @@ class EventsController < ApplicationController
       .includes(place: :country)
       .by_activity(index_params[:kind])
       .search(index_params[:query])
-      .paginate(page: params[:page], per_page: rows_per_page)
+      .paginate(page:, per_page: rows_per_page)
 
     fresh_when @events
 

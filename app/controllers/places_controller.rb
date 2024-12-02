@@ -31,7 +31,7 @@ class PlacesController < ApplicationController
             :video,
             pilot: :contributions,
             suit: :manufacturer
-          ).paginate(page: params[:page], per_page: 50)
+          ).paginate(page:, per_page: 50)
       end
       format.json
     end

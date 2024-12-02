@@ -3,7 +3,7 @@ module FlightProfiles
     include FlightProfilesScoped
 
     def index
-      @tracks = scope_tracks.paginate(per_page: 25, page: params[:page])
+      @tracks = scope_tracks.paginate(per_page: 25, page:)
     end
   end
 end

@@ -5,7 +5,7 @@ module Profiles
       tracks =
         policy_scope(profile.tracks)
         .includes(:distance, :speed, :time, :video, suit: :manufacturer, place: :country)
-        .paginate(page: params[:page], per_page: 25)
+        .paginate(page:, per_page: 25)
 
       @profile = Profiles::Tracks.new(profile, tracks)
     end

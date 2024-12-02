@@ -11,9 +11,5 @@ module Profiles
     def search_query
       params[:term]
     end
-
-    def page
-      params[:page]
-    end
   end
 end

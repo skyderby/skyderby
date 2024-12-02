@@ -6,17 +6,13 @@ module Users
                    .search_by_name(search_query)
                    .select('users.id', 'profiles.name')
                    .order('profiles.name')
-                   .paginate(page: page, per_page: 25)
+                   .paginate(page:, per_page: 25)
     end
 
     private
 
     def search_query
       params[:term]
-    end
-
-    def page
-      params[:page]
     end
   end
 end

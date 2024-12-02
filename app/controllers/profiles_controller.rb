@@ -9,7 +9,7 @@ class ProfilesController < ApplicationController
       .includes(:country, :owner)
       .search(params[:search])
       .order(:name)
-      .paginate(page: params[:page], per_page: 25)
+      .paginate(page:, per_page: 25)
 
     respond_to do |format|
       format.html
