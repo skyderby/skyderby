@@ -1,0 +1,29 @@
+.donations-index {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.donations-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.donations-group-header {
+  border-bottom: var(--default-border);
+  border-bottom-width: 2px;
+  font-family: $pn-semibold;
+  color: var(--gray-80);
+}
+
+.donations-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.donations-group-title {
+  font-size: 1rem;
+  color: var(--gray-70);
+  font-family: $pn-semibold;
+}

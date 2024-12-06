@@ -1,0 +1,80 @@
+.hot-select-container {
+  padding: 0;
+}
+
+.hot-select--hidden {
+  display: none;
+}
+
+.hot-select-control {
+  display: flex;
+}
+
+.hot-select-value {
+  flex-grow: 1;
+  padding: 0.5rem 0.75rem;
+}
+
+.hot-select-indicators {
+  display: flex;
+}
+
+.hot-select-button {
+  @extend .ghost-button;
+
+  border-radius: 0;
+  padding: 0.5rem;
+  height: 100%;
+  color: var(--gray-70);
+
+  &:last-child {
+    border-top-right-radius: var(--border-radius-md);
+    border-bottom-right-radius: var(--border-radius-md);
+  }
+}
+
+.hot-select-separator {
+  margin: 0.5rem 0;
+  width: 1px;
+  background-color: var(--border-color);
+}
+
+.hot-select-dropdown {
+  background-color: var(--white);
+  border: var(--default-border);
+  border-radius: var(--border-radius-md);
+  padding: 0.5rem 0;
+}
+
+.hot-select-dropdown-content {
+  position: relative;
+  padding-top: 2rem;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.hot-select-search-form {
+  padding: 0 0.5rem 0.5rem;
+}
+
+.hot-select-search {
+  padding: 0.25rem 0.5rem;
+  width: 100%;
+  border: var(--default-border);
+  border-radius: var(--border-radius-sm);
+}
+
+.hot-select-scrollable {
+  display: block;
+  max-height: 16rem;
+  overflow-y: auto;
+}
+
+.hot-select-option {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--gray-10);
+  }
+}

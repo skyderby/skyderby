@@ -6,7 +6,7 @@ class Contribution::Summary
   def this_month_contributors
     @this_month_contributors ||=
       Contribution::Detail
-      .includes(:contributor)
+      .includes(:profile)
       .joins(:contribution)
       .where("contributions.received_at > NOW() - interval '30 days'")
       .order('contributions.received_at DESC')
@@ -15,8 +15,8 @@ class Contribution::Summary
   def previous_contributions
     @previous_contributions ||=
       Contribution::Detail
-      .select('DISTINCT contributor_type, contributor_id')
-      .includes(:contributor)
+      .select('DISTINCT profile_id')
+      .includes(:profile)
       .joins(:contribution)
       .where("contributions.received_at <= NOW() - interval '30 days'")
   end

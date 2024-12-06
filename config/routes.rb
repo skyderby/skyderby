@@ -158,7 +158,7 @@ Skyderby::Application.routes.draw do
       resource :reference_points
       resource :deletion, only: [:new, :create]
       collection do
-        resources :select_options, only: :index
+        resources :select_options, only: :index, as: :events_select_options
       end
     end
   end
@@ -198,7 +198,7 @@ Skyderby::Application.routes.draw do
 
       collection do
         resource :upload, only: :new, as: :tracks_upload
-        resources :select_options, only: :index
+        resources :select_options, only: :index, as: :tracks_select_options
       end
     end
   end
@@ -207,7 +207,7 @@ Skyderby::Application.routes.draw do
     resource :masquerades, only: [:new, :destroy]
     scope module: :users do
       collection do
-        resources :select_options, only: :index
+        resources :select_options, only: :index, as: :users_select_options
       end
     end
   end
@@ -219,7 +219,7 @@ Skyderby::Application.routes.draw do
       resource :avatar, only: [:new, :create]
       resource :merge, only: [:new, :create]
       collection do
-        resources :select_options, only: :index
+        resources :select_options, only: :index, as: :profiles_select_options
       end
     end
   end
@@ -229,7 +229,7 @@ Skyderby::Application.routes.draw do
   resources :suits do
     scope module: :suits do
       collection do
-        resources :select_options, only: :index
+        resources :select_options, only: :index, as: :suits_select_options
       end
     end
   end
@@ -237,7 +237,7 @@ Skyderby::Application.routes.draw do
   resources :countries do
     scope module: :countries do
       collection do
-        resources :select_options, only: :index
+        resources :select_options, only: :index, as: :countries_select_options
       end
     end
   end
@@ -250,7 +250,7 @@ Skyderby::Application.routes.draw do
       resource :preview, only: :show
 
       collection do
-        resources :select_options, only: :index
+        resources :select_options, only: :index, as: :places_select_options
       end
     end
 
@@ -303,7 +303,7 @@ Skyderby::Application.routes.draw do
       end
 
       collection do
-        resources :select_options, only: :index
+        resources :select_options, only: :index, as: :tournaments_select_options
       end
     end
   end
@@ -312,6 +312,7 @@ Skyderby::Application.routes.draw do
 
   resources :performance_competition_series, only: :show
   resources :speed_skydiving_competition_series, only: :show
+  resources :donations
 
   root 'static_pages#index'
 end

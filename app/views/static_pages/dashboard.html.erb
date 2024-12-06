@@ -1,6 +1,8 @@
 <div class="dashboard">
   <div class="dashboard-block">
-    <h2 class="dashboard-block-title">Donations</h2>
+    <h2 class="dashboard-block-title">
+      <%= link_to 'Donations', donations_path %>
+    </h2>
     <div class="dashboard-indicator">
       <div class="dashboard-value"><%= @dashboard.last_year_donations %>$</div>
       <div class="dashboard-label">in past year</div>

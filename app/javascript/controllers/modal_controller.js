@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = ['dialog']
+  static targets = ['dialog', 'overlay']
 
   initialize() {
     super.initialize()
@@ -15,10 +15,15 @@ export default class extends Controller {
         this.close()
       }
     })
+    this.overlayTarget.addEventListener('click', event => {
+      if (event.target === this.overlayTarget) this.close()
+    })
+    document.body.classList.add('overflow-hidden')
   }
 
   disconnect() {
     document.removeEventListener('turbo:before-render', this.forceClose)
+    document.body.classList.remove('overflow-hidden')
   }
 
   close() {

@@ -21,3 +21,15 @@
     margin: 0;
   }
 }
+
+.index-page-content {
+  background-color: var(--white);
+  border: var(--default-border);
+  width: 100%;
+  padding: 1rem;
+
+  @media (min-width: $bp-large) {
+    width: $bp-large;
+    border-radius: var(--border-radius-md);
+  }
+}

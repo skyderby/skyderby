@@ -60,6 +60,10 @@ a, button, label, span {
   background: image-url('loading.gif') no-repeat center center;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: $pn-bold;
   margin: 0;

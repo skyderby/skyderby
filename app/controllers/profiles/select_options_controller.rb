@@ -1,15 +1,13 @@
 module Profiles
   class SelectOptionsController < ApplicationController
+    layout false
+
     def index
-      @profiles = Profile.search(search_query)
-                         .order(:name)
-                         .paginate(page: page, per_page: 25)
-    end
-
-    private
-
-    def search_query
-      params[:term]
+      @profiles =
+        Profile
+        .search(params[:term])
+        .order(:name)
+        .paginate(page:, per_page: 25)
     end
   end
 end
