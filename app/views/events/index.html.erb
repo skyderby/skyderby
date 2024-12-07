@@ -31,8 +31,12 @@
     </div>
   <% end %>
 
-  <%= form_with url: events_path, method: :get, data: { turbo_stream: true, params: index_params.except(:query) } do |form| %>
-    <%= form.search_field :query, placeholder: 'Search for events', class: 'input', value: index_params[:query] %>
+  <%= form_with url: events_path, method: :get,
+                data: { turbo_stream: true, params: index_params.except(:query), controller: 'auto-submit' } do |form| %>
+    <%= form.search_field :query,
+                          placeholder: 'Search for events',
+                          data: { action: 'input->auto-submit#submit' },
+                          class: 'input', value: index_params[:query] %>
   <% end %>
 
   <div class='competitions-list' id='competitions-list'>
