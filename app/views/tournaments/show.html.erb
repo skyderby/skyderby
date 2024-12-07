@@ -1,10 +1,8 @@
 <% provide :title, @tournament.name %>
 <% editable = policy(@tournament).update? %>
 
-<div class="tournament-show">
-  <div class="container">
-    <%= render 'tournaments/header' %>
-  </div>
+<div class="show-page">
+  <%= render 'tournaments/header', editable: %>
 
   <div class="container">
     <div class="content-block">
