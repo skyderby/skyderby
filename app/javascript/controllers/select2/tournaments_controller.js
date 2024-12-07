@@ -4,7 +4,10 @@ export default class extends BaseController {
   get options() {
     return {
       ajax: {
-        url: '/tournaments/select_options'
+        url: '/tournaments/select_options',
+        headers: {
+          Accept: 'application/json'
+        }
       }
     }
   }
