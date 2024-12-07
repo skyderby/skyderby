@@ -25,6 +25,7 @@
     "@google/markerclusterer": "^1.0.3",
     "@honeybadger-io/js": "^6.10.1",
     "@hotwired/turbo-rails": "^8.0.12",
+    "@popperjs/core": "^2.11.8",
     "@rails/actioncable": "^6.0.2",
     "@rails/ujs": "^6.0.2",
     "@stimulus/polyfills": "^1.1.1",

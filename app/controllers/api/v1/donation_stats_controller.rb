@@ -10,7 +10,7 @@ class Api::V1::DonationStatsController < ApplicationController
       .joins(:details)
       .select(
         "date_trunc('month', received_at) AS month",
-        'count(DISTINCT contribution_details.contributor_id) AS people_count',
+        'count(DISTINCT contribution_details.profile_id) AS people_count',
         'sum(amount) as amount'
       )
       .group("date_trunc('month', received_at)")

@@ -41,11 +41,7 @@ class Profile < ApplicationRecord
            inverse_of: :profile,
            class_name: 'VirtualCompetition::PersonalTopScore',
            dependent: :restrict_with_error
-  has_many :contribution_details,
-           class_name: 'Contribution::Detail',
-           foreign_key: :contributor_id,
-           inverse_of: :contributor,
-           dependent: :restrict_with_error
+  has_many :contribution_details, class_name: 'Contribution::Detail', dependent: :restrict_with_error
   has_many :contributions, through: :contribution_details
 
   after_validation { userpic_derivatives! if userpic_changed? }

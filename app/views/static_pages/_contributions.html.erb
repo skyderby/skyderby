@@ -12,8 +12,8 @@
       <div class="contributors-list">
         <% contributions.this_month_contributors.each do |detail| %>
         <div class="contributor">
-          <img src="<%= detail.contributor.userpic_url(:thumb) %>" />
-          <div class="contributor-name"><%= detail.contributor.name %></div>
+          <img src="<%= detail.profile.userpic_url(:thumb) %>" />
+          <div class="contributor-name"><%= detail.profile.name %></div>
         </div>
         <% end %>
       </div>
@@ -22,8 +22,8 @@
   <div class="contributors-list">
     <% contributions.sample_of_previous_contributions.each do |detail| %>
       <div class="contributor">
-        <img src="<%= detail.contributor.userpic_url(:thumb) %>" />
-        <div class="contributor-name"><%= detail.contributor.name %></div>
+        <img src="<%= detail.profile.userpic_url(:thumb) %>" />
+        <div class="contributor-name"><%= detail.profile.name %></div>
       </div>
     <% end %>
     <div class="contributor">and more...</div>

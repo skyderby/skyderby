@@ -1,0 +1,37 @@
+<div class="index-page">
+  <div class="index-page-header">
+    <h1>Donations</h1>
+    <%= button_to new_donation_path, class: 'primary-button',
+                  method: :get, form: { data: { turbo_stream: true } } do %>
+      <%= svg_icon 'plus-solid' %>
+      Donation
+    <% end %>
+  </div>
+
+  <div class="index-page-content">
+    <div class="donations-index">
+      <div class="donations-group-header donations-row">
+        <div>Contributors</div>
+        <div>Amount</div>
+        <div>Received At</div>
+      </div>
+
+      <% @donations.group_by { |record| record.received_at.beginning_of_month }.each do |group, records| %>
+        <div class="donations-group">
+          <div class="donations-group-title donations-row">
+            <div><%= group.strftime('%B %Y') %></div>
+            <div><%= number_to_currency(records.inject(0) { |agg, record| agg + record.amount }) %></div>
+          </div>
+
+          <% records.each do |record| %>
+            <div class="donations-group-records donations-row">
+              <div><%= record.details.map { _1.profile.name }.join(', ') %></div>
+              <div><%= number_to_currency(record.amount) %></div>
+              <div><%= record.received_at.strftime('%d %B %Y') %></div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
