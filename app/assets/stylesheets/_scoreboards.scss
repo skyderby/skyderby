@@ -55,9 +55,19 @@
 
   }
 
+  thead th:first-child,
+  tbody td:first-child {
+    width: 1%;
+  }
+
   thead th.round {
     padding: 0.5rem 1.75rem;
     text-align: center;
+    position: relative;
+  }
+
+  tbody td.competitor {
+    padding-right: 1.75rem;
     position: relative;
   }
 
@@ -97,7 +107,7 @@
     }
   }
 
-  .round-actions {
+  .cell-actions {
     position: absolute;
     top: 0;
     bottom: 0;

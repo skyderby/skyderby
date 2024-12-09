@@ -30,7 +30,7 @@ class SpeedSkydivingCompetition::Scoreboard
   end
 
   def competitors
-    @competitors ||= event.competitors.includes(:category)
+    @competitors ||= event.competitors.includes(:category, profile: :country)
   end
 
   def results

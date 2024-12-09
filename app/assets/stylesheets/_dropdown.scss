@@ -5,6 +5,7 @@
 .sd-dropdown-menu {
   position: absolute;
   visibility: hidden;
+  z-index: 300;
 
   top: 1.5em;
   right: 0;

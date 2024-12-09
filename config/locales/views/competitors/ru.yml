@@ -1,7 +1,7 @@
 ru:
   competitors:
     form:
-      select_profile: Выбор существующего профиля
-      create_profile: Создание нового профиля
+      select_profile: Существующий профиля
+      create_profile: Новый профиль
       profile: Профиль
       suit_and_category: Костюм и категория

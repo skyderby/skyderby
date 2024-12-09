@@ -32,7 +32,7 @@
       <% data[:standings].each do |row| %>
         <tr>
           <td><%= row[:rank] %></td>
-          <td><%= row[:competitor].name %></td>
+          <%= render 'speed_skydiving_competitions/competitor_cell', competitor: row[:competitor], event:, editable: %>
           <td><%= row[:competitor].country_code %></td>
           <% standings.rounds.each do |round| %>
             <% result_record = row[:results].find { |result| result.round == round } %>

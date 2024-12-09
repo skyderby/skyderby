@@ -1,4 +1,4 @@
-<turbo-frame id="hot-select-contributor">
+<turbo-frame id="<%= sanitize params[:frame_id] %>">
   <div class="hot-select-options">
     <% @profiles.each do |profile| %>
       <div class="hot-select-option" data-value="<%= profile.id %>" data-action="click->hot-select#choose">

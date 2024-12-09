@@ -171,6 +171,7 @@ Skyderby::Application.routes.draw do
           patch 'move_lower'
         end
       end
+      resources :competitors, except: %i[index show]
       resources :rounds, only: %i[create update destroy]
     end
   end

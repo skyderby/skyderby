@@ -2,6 +2,8 @@ ru:
   events:
     add_category: Новая категория
     edit_category: Редактирование категории
+    add_competitor: Добавление участника
+    edit_competitor: Редактирование участника
 
     index:
       sign_in_to_create: Войдите или зарегистрируйтеся для создания соревнования

@@ -51,6 +51,9 @@ Style/HashSyntax:
 Style/OpenStructUse:
   Enabled: false
 
+Style/SuperArguments:
+  Enabled: false
+
 #################### Lint    ################################
 
 Lint/ShadowingOuterLocalVariable:

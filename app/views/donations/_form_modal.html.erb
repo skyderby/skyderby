@@ -1,56 +1,25 @@
 <% url = @donation.new_record? ? donations_path : donation_path(@donation) %>
 
 <%= form_with model: @donation, url:, scope: :donation, data: { action: 'form:submit-success->modal#close' } do |f| %>
-  <div class="category-form">
+  <div class="sd-form">
     <%= f.fields_for :details do |detail_form| %>
       <% details = detail_form.object %>
-      <div class="form-row">
-        <%= detail_form.label :profile_id, class: 'form-label' %>
-        <div class="form-input hot-select-container" data-controller="hot-select">
-          <% options = options_for_select([([details.profile_name, details.profile_id] if details.profile)], details.profile_id) %>
-          <%= detail_form.select :profile_id, options, {}, class: 'hot-select--hidden', data: { target: 'hot-select.selectInput' } %>
-
-          <div class="hot-select-control">
-            <div class="hot-select-value" data-action="click->hot-select#toggle" data-target="hot-select.displayValue">
-              &nbsp;
-            </div>
-            <div class="hot-select-indicators">
-              <button type="button" class="hot-select-button" data-action="hot-select#clear">
-                <%= svg_icon 'xmark' %>
-              </button>
-              <div class="hot-select-separator"></div>
-              <button type="button" class="hot-select-button" data-action="hot-select#toggle">
-                <%= svg_icon 'angle-down-solid' %>
-              </button>
-            </div>
-          </div>
-
-          <div class="hot-select-dropdown hot-select--hidden" data-target="hot-select.dropdown">
-            <turbo-frame id="hot-select-search">
-              <%= form_with url: profiles_select_options_path,
-                            class: 'hot-select-search-form',
-                            method: :get, data: { controller: 'auto-submit', 'turbo-frame': 'hot-select-contributor' } do |f| %>
-                <%= f.text_field :term, class: 'hot-select-search', placeholder: 'Search...',
-                                 data: { action: 'input->auto-submit#submit', target: 'hot-select.searchInput' } %>
-              <% end %>
-            </turbo-frame>
-
-            <turbo-frame id="hot-select-contributor" src="/profiles/select_options" loading="lazy" class="hot-select-scrollable">
-              <div class="hot-select-loading">Loading...</div>
-            </turbo-frame>
-          </div>
-        </div>
+      <div class="grid">
+        <%= detail_form.label :profile_id, class: 'form-label col-3' %>
+        <% options = options_for_select([([details.profile_name, details.profile_id] if details.profile)], details.profile_id) %>
+        <%= render 'hot_select/select',
+                   form: detail_form, name: :profile_id, src: profiles_select_options_path, options: %>
       </div>
     <% end %>
 
-    <div class="form-row">
-      <%= f.label :amount, class: 'form-label' %>
-      <%= f.text_field :amount, class: 'form-input' %>
+    <div class="grid">
+      <%= f.label :amount, class: 'form-label col-3' %>
+      <%= f.number_field :amount, class: 'form-input col-9' %>
     </div>
 
-    <div class="form-row">
-      <%= f.label :received_at, class: 'form-label' %>
-      <%= f.date_field :received_at, class: 'form-input', value: @donation.received_at || Date.today %>
+    <div class="grid">
+      <%= f.label :received_at, class: 'form-label col-3' %>
+      <%= f.date_field :received_at, class: 'form-input col-9', value: @donation.received_at || Date.today %>
     </div>
 
     <div class="form-actions">
