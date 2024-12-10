@@ -5,6 +5,11 @@
       Category
     <% end %>
 
+    <%= button_to new_speed_skydiving_competition_competitor_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+      <%= svg_icon 'plus-solid' %>
+      Competitor
+    <% end %>
+
     <%= button_to speed_skydiving_competition_rounds_path(event), form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
       <%= svg_icon 'plus-solid' %>
       Round

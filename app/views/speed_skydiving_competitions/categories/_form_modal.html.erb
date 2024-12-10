@@ -3,11 +3,11 @@
            speed_skydiving_competition_category_path(@event, @category) %>
 
 <%= form_with model: @category, url:, scope: :category,
-              data: { controller: 'events--categories-form', action: 'form:submit-success->modal#close' } do |f| %>
-  <div class="category-form">
-    <div class="form-row">
-      <%= f.label :name, class: 'form-label' %>
-      <%= f.text_field :name, class: 'form-input' %>
+              data: { controller: 'events--categories-form modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :name, class: 'form-label col-3' %>
+      <%= f.text_field :name, class: 'form-input col-9' %>
     </div>
 
     <div class="form-actions">

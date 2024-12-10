@@ -9,7 +9,6 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log('Dropdown connected')
     document.addEventListener('click', this.hide)
   }
 
@@ -21,9 +20,13 @@ export default class extends Controller {
     this.menuTarget.classList.toggle('sd-dropdown-show')
   }
 
+  close() {
+    this.menuTarget.classList.remove('sd-dropdown-show')
+  }
+
   hide(event) {
     if (!this.element.contains(event.target)) {
-      this.menuTarget.classList.remove('sd-dropdown-show')
+      this.close()
     }
   }
 }

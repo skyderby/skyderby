@@ -53,7 +53,11 @@ class Profile < ApplicationRecord
 
   def cropping? = %w[crop_x crop_y crop_h crop_w].all? { |attr| public_send(attr).present? }
 
-  def name = super.presence || 'Name not set'
+  def name
+    return super if new_record?
+
+    super.presence || 'Name not set'
+  end
 
   def competitor_of_events = event_competitors.select(:event_id).map(&:event)
 

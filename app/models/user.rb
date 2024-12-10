@@ -31,10 +31,6 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :profile
 
-  after_initialize do
-    build_profile if new_record? && profile.blank?
-  end
-
   delegate :name, to: :profile, allow_nil: true
 
   # Include default devise modules. Others available are:

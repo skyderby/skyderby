@@ -1,13 +1,9 @@
 module Countries
   class SelectOptionsController < ApplicationController
-    def index
-      @countries = Country.order(:name)
-                          .search(search_query)
-                          .paginate(page:, per_page: 25)
-    end
+    layout false
 
-    def search_query
-      params[:term]
+    def index
+      @countries = Country.order(:name).search(params[:term]).paginate(page:, per_page: 25)
     end
   end
 end

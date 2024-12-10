@@ -11,4 +11,11 @@ class SpeedSkydivingCompetition::Competitor < ApplicationRecord
   accepts_nested_attributes_for :profile
 
   delegate :name, to: :profile
+
+  def profile_attributes=(attrs)
+    attrs[:id] = profile_id if profile && profile.owner == event
+    attrs[:owner] = event
+
+    super(attrs)
+  end
 end

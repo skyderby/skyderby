@@ -1,7 +1,7 @@
 en:
   competitors:
     form:
-      select_profile: Select existing profile
-      create_profile: Create new profile
+      select_profile: Existing profile
+      create_profile: New profile
       profile: Profile
       suit_and_category: Suit and category
