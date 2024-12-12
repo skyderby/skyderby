@@ -1,6 +1,6 @@
 <%# locals (category:, event:, editable:, standings:, position:) %>
 
-<td colspan="<%= standings.rounds.size + 5 %>" class="scoreboard-category">
+<td colspan="<%= standings.rounds.length + 5 %>" class="scoreboard-category">
   <%= category.name %>
   <% if editable %>
     <div class="category-actions">

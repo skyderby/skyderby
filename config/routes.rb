@@ -122,7 +122,7 @@ Skyderby::Application.routes.draw do
   end
 
   resources :events, only: :index
-  resources :events, path: 'events/performance_competitions', concerns: %i[sponsorable organizable], except: :index do
+  resources :events, path: 'events/performance', concerns: %i[sponsorable organizable], except: :index do
     scope module: :events do
       resource :scoreboard, only: :show
       resource :team_scoreboard, only: :show
@@ -173,6 +173,7 @@ Skyderby::Application.routes.draw do
       end
       resources :competitors, except: %i[index show]
       resources :rounds, only: %i[create update destroy]
+      resources :results, except: :index
     end
   end
 
@@ -196,6 +197,7 @@ Skyderby::Application.routes.draw do
       resource :jump_range, only: :show
       resource :altitude_data, only: :show
       resource :weather_data
+      resource :points, only: :show
 
       collection do
         resource :upload, only: :new, as: :tracks_upload

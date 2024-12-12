@@ -1,0 +1,41 @@
+<%# locals: (result:, **rest) %>
+
+<div class="grid">
+  <div class="result-indicator col-4">
+    <div class="result-indicator-title">
+      Result
+    </div>
+    <div class="result-indicator-value">
+      <%= result.result %>
+      <%= t('units.kmh') %>
+    </div>
+    <div class="result-indicator-info">
+      <%= kmh_to_mph(result.result).truncate(3) %>
+      <%= t('units.mph') %>
+    </div>
+  </div>
+
+  <div class="result-indicator col-4">
+    <div class="result-indicator-title">
+      Exit Altitude
+    </div>
+    <div class="result-indicator-value">
+      <%= result.exit_altitude %>
+      <%= t('units.m') %>
+    </div>
+    <div class="result-indicator-secondary">
+      <%= m_to_ft(result.exit_altitude).round %>
+      <%= t('units.ft') %>
+    </div>
+  </div>
+
+  <div class="result-indicator col-4">
+    <div class="result-indicator-title">
+      Window
+    </div>
+  </div>
+
+  <div class="col-12" data-controller="speed-skydiving-chart" data-track-id="<%= result.track_id %>">
+    Chart
+  </div>
+</div>
