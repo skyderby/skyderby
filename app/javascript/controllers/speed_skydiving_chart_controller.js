@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import { differenceInMilliseconds, isEqual } from 'date-fns'
+import { differenceInMilliseconds } from 'date-fns'
 import { saveSeriesVisibility, restoreSeriesVisibility } from 'utils/chartSeriesSettings'
 import I18n from 'i18n'
 
@@ -23,14 +23,6 @@ const findPositionForAltitude = (points, altitude) => {
 
   return flTime - points[0].flTime
 }
-
-const findResultWindow = (points, windowStartTime, windowEndTime) =>
-  points
-    .filter(
-      point =>
-        isEqual(point.gpsTime, windowStartTime) || isEqual(point.gpsTime, windowEndTime)
-    )
-    .map(point => Math.round(point.altitude))
 
 const accuracySeries = (points, windowEndAltitude) => {
   const validationWindowStart = windowEndAltitude + validationWindowHeight
@@ -267,12 +259,6 @@ export default class SpeedSkydivingChart extends Controller {
     const windowEndAltitude = Math.max(this.exitAltitude - windowHeight, breakoffAltitude)
 
     const plotLineValue = findPositionForAltitude(points, windowEndAltitude)
-
-    const resultWindow = findResultWindow(
-      points,
-      this.windowStartTime,
-      this.windowEndTime
-    )
 
     const chartOptions = {
       chart: {
