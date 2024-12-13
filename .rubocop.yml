@@ -50,6 +50,9 @@ Style/FetchEnvVar:
 Style/HashSyntax:
   EnforcedShorthandSyntax: either
 
+Style/SuperArguments:
+  Enabled: false
+
 Lint/ShadowingOuterLocalVariable:
   Exclude:
     - app/views/**/*.json.jbuilder
