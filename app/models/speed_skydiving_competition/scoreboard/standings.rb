@@ -1,7 +1,5 @@
 class SpeedSkydivingCompetition::Scoreboard::Standings
-  def self.build(...)
-    new(...).build
-  end
+  def self.build(...) = new(...).build
 
   def initialize(competitors, completed_rounds, results)
     @competitors = competitors
@@ -13,7 +11,7 @@ class SpeedSkydivingCompetition::Scoreboard::Standings
     standings = competitors.map do |competitor|
       competitor_results = accountable_results_for(competitor)
       total = competitor_results.sum { |record| record.final_result || 0.0 }
-      average = completed_rounds.present? ? total / completed_rounds.length : 0
+      average = completed_rounds.empty? ? 0 : total / completed_rounds.length
 
       {
         competitor: competitor,

@@ -10,17 +10,23 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
     best_range = scoring.calculate
 
     if best_range
-      assign_attributes \
+      assign_attributes(
         result: best_range[:speed] * 3.6,
         exit_altitude: scoring.exit_altitude,
         window_start_time: best_range.dig(:start_point, :gps_time),
-        window_end_time: best_range.dig(:end_point, :gps_time)
+        window_start_altitude: best_range.dig(:start_point, :altitude),
+        window_end_time: best_range.dig(:end_point, :gps_time),
+        window_end_altitude: best_range.dig(:end_point, :altitude)
+      )
     else
-      assign_attributes \
+      assign_attributes(
         result: nil,
         exit_altitude: nil,
         window_start_time: nil,
-        window_end_time: nil
+        window_start_altitude: nil,
+        window_end_time: nil,
+        window_end_altitude: nil
+      )
     end
   end
 
@@ -47,8 +53,7 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
 
     def ranges
       window_points
-        .map { |start_point| build_range(start_point) }
-        .compact
+        .filter_map { |start_point| build_range(start_point) }
     end
 
     def build_range(start_point)

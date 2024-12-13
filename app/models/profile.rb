@@ -54,8 +54,7 @@ class Profile < ApplicationRecord
            dependent: :restrict_with_error
   has_many :contribution_details,
            class_name: 'Contribution::Detail',
-           as: :contributor,
-           inverse_of: :contributor,
+           inverse_of: :profile,
            dependent: :restrict_with_error
   has_many :contributions, through: :contribution_details
 
