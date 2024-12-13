@@ -1,7 +1,7 @@
 describe PointsQuery::QueryBuilder do
   it 'returns array of all fields unless only option specified' do
     query_builder = PointsQuery::QueryBuilder.new(track)
-    expect(query_builder.execute).to eq(
+    expect(query_builder.execute.sort).to eq(
       [
         'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
         'gps_time_in_seconds - 0.0 AS fl_time',
@@ -9,12 +9,15 @@ describe PointsQuery::QueryBuilder do
         'abs_altitude - 0 AS altitude',
         'latitude',
         'longitude',
+        'sqrt(h_speed * h_speed + v_speed * v_speed) AS full_speed',
         'h_speed',
         'v_speed',
         'distance',
         '0 AS time_diff',
-        'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio'
-      ]
+        'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio',
+        'vertical_accuracy',
+        'speed_accuracy'
+      ].sort
     )
   end
 

@@ -9,8 +9,8 @@
       <th>#</th>
       <th colspan="2">Competitor</th>
       <%= render partial: 'speed_skydiving_competitions/round_cell', collection: standings.rounds, as: :round, locals: { event:, editable: } %>
-      <th class="result">Total</th>
-      <th class="result">Avg</th>
+      <th class="text-right">Total</th>
+      <th class="text-right">Avg</th>
     </tr>
     </thead>
 
@@ -30,16 +30,17 @@
       </tr>
 
       <% data[:standings].each do |row| %>
+        <% competitor = row[:competitor] %>
         <tr>
           <td><%= row[:rank] %></td>
-          <%= render 'speed_skydiving_competitions/competitor_cell', competitor: row[:competitor], event:, editable: %>
-          <td><%= row[:competitor].country_code %></td>
+          <%= render 'speed_skydiving_competitions/competitor_cell', competitor:, event:, editable: %>
+          <td><%= competitor.country_code %></td>
           <% standings.rounds.each do |round| %>
-            <% result_record = row[:results].find { |result| result.round == round } %>
-            <td class="result"><%= result_record&.result&.round(1) %></td>
+            <% result = row[:results].find { |result| result.round == round } %>
+            <%= render 'speed_skydiving_competitions/result_cell', event:, round:, competitor:, result:, editable: %>
           <% end %>
-          <td class="result"><%= row[:total] %></td>
-          <td class="result"><%= row[:average] %></td>
+          <td class="text-right"><%= row[:total] %></td>
+          <td class="text-right"><%= row[:average] %></td>
         </tr>
       <% end %>
       </tbody>

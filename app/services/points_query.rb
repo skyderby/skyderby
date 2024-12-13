@@ -45,21 +45,18 @@ class PointsQuery
   end
 
   def execute
-    points = scope.pluck_to_hash(*select_columns)
-    calc_time_diff points
+    scope
+      .pluck_to_hash(*select_columns)
+      .then { |points| calc_time_diff points }
   end
 
   private
 
   attr_reader :track, :query_opts, :trimmed, :freq_1hz
 
-  def scope
-    ScopeBuilder.call(track, trimmed, freq_1hz)
-  end
+  def scope = ScopeBuilder.call(track, trimmed, freq_1hz)
 
-  def select_columns
-    QueryBuilder.new(track, query_opts).execute
-  end
+  def select_columns = QueryBuilder.new(track, query_opts).execute
 
   def calc_time_diff(points)
     return points unless time_diff_selected
@@ -76,15 +73,11 @@ class PointsQuery
   end
 
   class << self
-    def execute(*args)
-      new(*args).execute
-    end
+    def execute(...) = new(...).execute
   end
 
   class ScopeBuilder
-    def self.call(*args)
-      new(*args).call
-    end
+    def self.call(...) = new(...).call
 
     def initialize(track, trimmed, freq_1hz)
       @track = track
@@ -134,9 +127,12 @@ class PointsQuery
       longitude: 'longitude',
       h_speed: 'h_speed',
       v_speed: 'v_speed',
+      full_speed: 'sqrt(h_speed * h_speed + v_speed * v_speed) AS full_speed',
       distance: 'distance',
       time_diff: '0 AS time_diff',
-      glide_ratio: 'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio'
+      glide_ratio: 'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio',
+      vertical_accuracy: 'vertical_accuracy',
+      speed_accuracy: 'speed_accuracy'
     }.with_indifferent_access.freeze
 
     def initialize(track, opts = {})
@@ -168,8 +164,6 @@ class PointsQuery
       COLUMNS.slice(*only_columns)
     end
 
-    def start_time_in_seconds
-      track.points.first&.gps_time_in_seconds.to_f
-    end
+    def start_time_in_seconds = track.points.first&.gps_time_in_seconds.to_f
   end
 end

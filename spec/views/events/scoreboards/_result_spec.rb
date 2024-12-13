@@ -83,7 +83,7 @@ describe 'events/scoreboards/_result' do
   def show_link(result)
     [
       '<a class="show-result" rel="nofollow" data-remote="true"',
-      %( href="/events/performance_competitions/1/results/#{result.id}">),
+      %( href="/events/performance/1/results/#{result.id}">),
       '<i class="fa fa-search"></i>',
       '</a>'
     ].join

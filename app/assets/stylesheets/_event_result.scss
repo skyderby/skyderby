@@ -1,0 +1,13 @@
+.result-indicator {
+  text-align: center;
+}
+.result-indicator-title {
+  font-family: $pn-bold;
+  color: var(--gray-70);
+  text-transform: uppercase;
+}
+
+.result-indicator-value {
+  color: var(--gray-80);
+  font-size: 2.25rem;
+}

@@ -126,9 +126,53 @@
     background-color: $white;
   }
 
-  .result {
+  .result-cell {
     text-align: right;
+    padding: 0;
   }
+
+  .result-show-cell {
+    width: 100%;
+
+    button {
+      background-color: var(--white);
+      text-align: right;
+      border: 0;
+      padding: 0.5rem;
+      width: 100%;
+      position: relative;
+      cursor: pointer;
+    }
+
+    button:hover::before {
+      content: '';
+      background-color: var(--blue-70);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+  }
+
+  .result-upload-cell {
+    width: 100%;
+
+    button {
+      background-color: var(--white);
+      border: 0;
+      padding: 0.5rem;
+      width: 100%;
+      position: relative;
+      cursor: pointer;
+      color: var(--white);
+    }
+
+    button:hover {
+      background-color: var(--blue-70);
+    }
+  }
+
 
   td,
   th {
