@@ -42,7 +42,7 @@ HighchartsMore(Highcharts)
 
 import 'utils/google_maps_api'
 import 'utils/cesium_api'
-import 'utils/chart_series_settings'
+import 'utils/chartSeriesSettings'
 // Look for controllers inside app/javascripts/packs/controllers/
 const application = Application.start()
 

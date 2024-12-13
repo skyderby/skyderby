@@ -2,6 +2,10 @@
   cursor: pointer;
 }
 
+.speed-skydiving-chart {
+  height: 600px;
+}
+
 .videowrapper {
     float: none;
     clear: both;
@@ -52,7 +56,7 @@
     font-size: x-large;
 }
 
-           
+
 .dropdown-container {
     margin-top:15px;
 }
@@ -140,7 +144,7 @@
 }
 
 #tracks-index tr > td:nth-child(1) { min-width: 55px; }
-#tracks-index tr > td:nth-last-child(1) { 
+#tracks-index tr > td:nth-last-child(1) {
     padding-left: 1px;
     padding-right: 0px;
 }
