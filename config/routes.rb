@@ -18,8 +18,8 @@ Skyderby::Application.routes.draw do
       locale: /#{I18n.available_locales.join('|')}/,
       format: false
 
-  get '/events/:id/*path', to: redirect('/events/performance_competitions/%{id}/%{path}'), constraints: { id: /\d+/ }
-  get '/events/:id', to: redirect('/events/performance_competitions/%{id}'), constraints: { id: /\d+/ }
+  get '/events/:id/*path', to: redirect('/events/performance/%{id}/%{path}'), constraints: { id: /\d+/ }
+  get '/events/:id', to: redirect('/events/performance/%{id}'), constraints: { id: /\d+/ }
   get '/tournaments/:id/*path', to: redirect('/events/tournaments/%{id}/%{path}'), constraints: { id: /\d+/ }
   get '/tournaments/:id', to: redirect('/events/tournaments/%{id}'), constraints: { id: /\d+/ }
 

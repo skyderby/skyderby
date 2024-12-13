@@ -1,7 +1,7 @@
 <% modal ||= false %>
 <% allow_change_rules ||= false %>
 
-<%= form_for @event, url: '/events/performance_competitions', remote: true, html: { class: 'form-horizontal', 'data-controller': 'events--form', role: 'form', id: "#{action_name}_event_form"} do |f| %>
+<%= form_for @event, url: '/events/performance', remote: true, html: { class: 'form-horizontal', 'data-controller': 'events--form', role: 'form', id: "#{action_name}_event_form"} do |f| %>
   <%= display_event_form_params %>
 
   <% if modal %>
