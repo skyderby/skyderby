@@ -9,7 +9,7 @@ class Tracks::PointsController < ApplicationController
       .execute(@track, options)
       .then { |points| PointsPostprocessor.for(@track.gps_type).call(points) }
       .then { |points| convert_speed_to_ms(points) }
-    @zerowind_points ||= Tracks::WindCancellation::Processor.call(points, @track.weather_data)
+    @zerowind_points ||= Tracks::WindCancellation::Processor.call(@points, @track.weather_data)
 
     @points = @points.zip(@zerowind_points).map do |point, zerowind_point|
       point[:zerowind_h_speed] = zerowind_point && zerowind_point[:h_speed]

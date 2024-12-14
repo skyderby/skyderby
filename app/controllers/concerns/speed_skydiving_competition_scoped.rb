@@ -5,8 +5,14 @@ module SpeedSkydivingCompetitionScoped
     before_action :set_event
   end
 
-  def authorize_update_to_event!
+  def authorize_event_update!
     return if @event.editable?
+
+    respond_not_authorized
+  end
+
+  def authorize_event_access!
+    return if @event.viewable?
 
     respond_not_authorized
   end

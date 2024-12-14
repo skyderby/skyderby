@@ -4,6 +4,7 @@ class SpeedSkydivingCompetition < ApplicationRecord
 
   belongs_to :responsible, class_name: 'User', inverse_of: :responsible_of_events
   belongs_to :place
+  has_many :organizers, as: :organizable, dependent: :delete_all
 
   with_options foreign_key: :event_id, inverse_of: :event, dependent: :restrict_with_error do
     has_many :categories
@@ -18,6 +19,14 @@ class SpeedSkydivingCompetition < ApplicationRecord
   def standings = Scoreboard.new(self)
 
   def editable?(user = Current.user)
-    user.admin? || user == responsible
+    @editable ||= user.admin? || user == responsible || organizers.exists?(user:)
+  end
+
+  def viewable?(user = Current.user)
+    return true if editable?
+    return false if draft?
+    return true if public_event? || unlisted_event?
+
+    competitors.exists?(profile_id: user&.profile_id)
   end
 end

@@ -1,7 +1,7 @@
 class SpeedSkydivingCompetitions::CategoriesController < ApplicationController
   include SpeedSkydivingCompetitionScoped
 
-  before_action :authorize_update_to_event!
+  before_action :authorize_event_update!
   before_action :set_category, except: %i[new create]
 
   def new

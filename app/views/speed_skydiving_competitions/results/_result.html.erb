@@ -23,7 +23,7 @@
       <%= result.exit_altitude %>
       <%= t('units.m') %>
     </div>
-    <div class="result-indicator-secondary">
+    <div class="result-indicator-info">
       <%= m_to_ft(result.exit_altitude).round %>
       <%= t('units.ft') %>
     </div>
@@ -37,7 +37,7 @@
       <%= result.window_start_altitude.round(1) %>-<%= result.window_end_altitude.round(1) %>
       <%= t('units.m') %>
     </div>
-    <div class="result-indicator-secondary">
+    <div class="result-indicator-info">
       <%= m_to_ft(result.window_start_altitude).round %>-<%= m_to_ft(result.window_end_altitude).round %>
       <%= t('units.ft') %>
     </div>
