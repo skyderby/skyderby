@@ -9,12 +9,13 @@
 }
 
 .tournament-round-title {
-  font: 16px / 32px $pn-semibold, $fallback-fonts;
+  line-height: 2rem;
+  font-weight: 500;
   text-align: center;
 }
 
 .tournament-match {
-  border: 1px solid $border-color;
+  border: var(--default-border);
   border-radius: 4px;
   margin: 5px 0;
   padding: 10px;
@@ -22,7 +23,8 @@
 }
 
 .tournament-match-links {
-  font: 14px / 18px $pn-regular, $fallback-fonts;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
   margin-right: 5px;
   text-align: right;
 }

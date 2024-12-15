@@ -18,7 +18,7 @@
 }
 
 .place-header__title {
-  font-family: $pn-semibold;
+  font-weight: 500;
   font-size: 36px;
   text-transform: uppercase;
   text-align: center;
@@ -29,7 +29,6 @@
 }
 
 .place-header__geo {
-  font-family: $pn-regular;
   font-size: 16px;
   text-shadow: rgba(0, 0, 0, 0.8) 1px 2px 2px;
   text-align: center;

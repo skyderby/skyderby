@@ -62,7 +62,7 @@
 }
 
 .places__country {
-  font-family: $pn-semibold;
+  font-weight: 500;
   font-size: 20px;
   text-transform: uppercase;
   margin-top: 15px;
@@ -73,7 +73,6 @@
 .places__item {
   display: block;
   color: $main-text-color;
-  font-family: $pn-regular;
   line-height: 2;
   font-size: 16px;
   border-radius: 4px;

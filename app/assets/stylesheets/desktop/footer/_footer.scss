@@ -1,9 +1,10 @@
 footer {
-  background-color: $white;
-  border-top: 1px solid $border-color;
-  color: $dark-gray-text;
+  background-color: var(--white);
+  border-top: var(--default-border);
+  color: var(--gray-70);
   display: flex;
-  font: 14px / 40px $pn-regular, $fallback-fonts;
+  font-size: 0.875rem;
+  line-height: 2.5rem;
   justify-content: space-between;
   margin-top: 20px;
   padding: 0 15px;

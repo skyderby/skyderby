@@ -5,7 +5,7 @@
 }
 
 .form-label {
-  font-family: $pn-semibold;
+  font-weight: 500;
   font-size: 0.875rem;
   text-align: right;
   line-height: 1;
@@ -23,7 +23,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: $pn-semibold;
+  font-weight: 500;
   margin: 0;
   cursor: pointer;
 
@@ -50,7 +50,7 @@
 
 .form-section-title {
   color: var(--gray-80);
-  font-family: $pn-semibold;
+  font-weight: 500;
   font-size: 1.125rem;
   margin: 0;
 }

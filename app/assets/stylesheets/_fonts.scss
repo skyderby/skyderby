@@ -1,0 +1,50 @@
+@mixin font-face(
+  $fontFamily,
+  $fileName,
+  $fontWeight: normal,
+  $fontStyle: normal
+) {
+  @font-face {
+    font-weight: $fontWeight;
+    font-family: $fontFamily;
+    font-style: $fontStyle;
+    src: url('#{$fileName}.ttf') format('truetype');
+    font-display: swap;
+  }
+}
+
+@include font-face('Roboto', 'roboto/Roboto-Thin', 100,);
+@include font-face('Roboto', 'roboto/Roboto-ThinItalic', 100, italic);
+@include font-face('Roboto', 'roboto/Roboto-Light', 200);
+@include font-face('Roboto', 'roboto/Roboto-LightItalic', 200, italic);
+@include font-face('Roboto', 'roboto/Roboto-Regular', 400);
+@include font-face('Roboto', 'roboto/Roboto-Italic', 400, italic);
+@include font-face('Roboto', 'roboto/Roboto-Medium', 500);
+@include font-face('Roboto', 'roboto/Roboto-MediumItalic', 500, italic);
+@include font-face('Roboto', 'roboto/Roboto-Bold', 700);
+@include font-face('Roboto', 'roboto/Roboto-BoldItalic', 700, italic);
+@include font-face('Roboto', 'roboto/Roboto-Black', 900);
+@include font-face('Roboto', 'roboto/Roboto-BlackItalic', 900, italic);
+
+@include font-face('OpenSans', 'open-sans/OpenSans-Thin', 100,);
+@include font-face('OpenSans', 'open-sans/OpenSans-ThinItalic', 100, italic);
+@include font-face('OpenSans', 'open-sans/OpenSans-Light', 200);
+@include font-face('OpenSans', 'open-sans/OpenSans-LightItalic', 200, italic);
+@include font-face('OpenSans', 'open-sans/OpenSans-Regular', 400);
+@include font-face('OpenSans', 'open-sans/OpenSans-Italic', 400, italic);
+@include font-face('OpenSans', 'open-sans/OpenSans-Medium', 500);
+@include font-face('OpenSans', 'open-sans/OpenSans-MediumItalic', 500, italic);
+@include font-face('OpenSans', 'open-sans/OpenSans-Bold', 700);
+@include font-face('OpenSans', 'open-sans/OpenSans-BoldItalic', 700, italic);
+@include font-face('OpenSans', 'open-sans/OpenSans-Black', 900);
+@include font-face('OpenSans', 'open-sans/OpenSans-BlackItalic', 900, italic);
+
+html, body {
+  --fallback-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --primary-font: 'Roboto', sans-serif, var(--fallback-font);
+  --secondary-font: 'OpenSans', sans-serif, var(--fallback-font);
+
+  font-size: 16px;
+  line-height: 1.15;
+  font-family: var(--primary-font);
+}

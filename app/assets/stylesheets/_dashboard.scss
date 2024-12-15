@@ -20,7 +20,6 @@
 .dashboard-block-title {
   font-size: 1rem;
   font-weight: 500;
-  font-family: $pn-semibold;
   text-transform: uppercase;
   color: var(--gray-80);
   grid-column: span 2;
@@ -34,13 +33,11 @@
 .dashboard-value {
   font-size: 2rem;
   font-weight: 500;
-  font-family: $pn-semibold;
   color: var(--gray-80);
 }
 
 .dashboard-label {
   font-size: 1rem;
   font-weight: 500;
-  font-family: $pn-semibold;
   color: var(--gray-60);
 }

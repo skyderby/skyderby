@@ -12,7 +12,7 @@
 .donations-group-header {
   border-bottom: var(--default-border);
   border-bottom-width: 2px;
-  font-family: $pn-semibold;
+  font-weight: 500;
   color: var(--gray-80);
 }
 
@@ -25,5 +25,5 @@
 .donations-group-title {
   font-size: 1rem;
   color: var(--gray-70);
-  font-family: $pn-semibold;
+  font-weight: 500;
 }
