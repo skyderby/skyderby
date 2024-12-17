@@ -1,16 +1,7 @@
 .actions-bar {
-  display: flex;
-  background-color: var(--white);
-  margin: 0 auto;
-  border: var(--default-border);
-  width: 100%;
+  --card-padding: 0;
 
-  @media (min-width: $bp-large) {
-    border: 0;
-    box-shadow: var(--block-box-shadow);
-    border-radius: var(--border-radius-md);
-    width: $bp-large;
-  }
+  display: flex;
 }
 
 .actions-bar-button {

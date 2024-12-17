@@ -1,0 +1,12 @@
+.text-right {
+  text-align: right;
+}
+
+.width-large {
+  width: 100%;
+  margin: 0 auto;
+
+  @media (min-width: $bp-large) {
+    width: $bp-large;
+  }
+}

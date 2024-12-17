@@ -13,6 +13,6 @@ feature 'Creating new competitions', type: :system do
 
     find('input[type="submit"]').click
 
-    expect(page).to have_css('.show-event-title', text: 'TEST EVENT')
+    expect(page).to have_css('.show-page-title', text: 'TEST EVENT')
   end
 end

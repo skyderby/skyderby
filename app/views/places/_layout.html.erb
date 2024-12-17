@@ -1,7 +1,12 @@
-<div class="container">
-  <%= render 'places/header' %>
+<% provide(:title, page_title(@place.name)) %>
+<% editable = policy(@place).update? %>
 
-  <div class="content-block">
-    <%= yield %>
+<div class="show-page place-show">
+  <%= render 'places/header', editable: %>
+
+  <div class="show-page-content">
+    <div class="card">
+      <%= yield %>
+    </div>
   </div>
 </div>

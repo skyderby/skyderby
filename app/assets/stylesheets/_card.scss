@@ -1,0 +1,16 @@
+.card {
+  background-color: var(--white);
+  margin: 0 auto;
+  border: var(--default-border);
+  border-left-width: 0;
+  border-right-width: 0;
+  width: 100%;
+  padding: var(--card-padding, 1rem);
+
+  @media (min-width: $bp-large) {
+    border: 0;
+    box-shadow: var(--block-box-shadow);
+    border-radius: var(--border-radius-md);
+    width: $bp-large;
+  }
+}

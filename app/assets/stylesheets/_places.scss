@@ -1,0 +1,15 @@
+.place-show .show-page-header {
+  padding-top: 0;
+}
+
+.place-cover {
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+  height: 240px;
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+
+  @media (min-width: $bp-large) {
+    height: 320px;
+  }
+}

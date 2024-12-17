@@ -1,5 +1,4 @@
 <% link_to_preview ||= false %>
-<% remote_links = link_to_preview %>
 
 <div class="places__list" data-controller="places--searchable-list">
   <div class="places__search">
@@ -15,8 +14,7 @@
       </div>
       <% places.each do |place| %>
         <%= link_to place.name,
-                    link_to_preview ? place_preview_path(place) : place_path(place),
-                    remote: remote_links,
+                    place_path(place),
                     class: 'places__item',
                     data: { target: 'places--index.place places--searchable-list.place', id: place.id, lat: place.latitude, lon: place.longitude } %>
       <% end %>

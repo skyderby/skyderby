@@ -39,7 +39,7 @@
                           class: 'input', value: index_params[:query] %>
   <% end %>
 
-  <div class='competitions-list' id='competitions-list'>
+  <div class='card competitions-list' id='competitions-list'>
     <% @events.each do |event_entity| %>
       <%= render event_entity.event %>
     <% end %>

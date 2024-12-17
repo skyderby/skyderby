@@ -1,5 +1,5 @@
 <% if event.editable? %>
-  <div class="actions-bar">
+  <div class="card actions-bar">
     <%= button_to new_speed_skydiving_competition_category_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
       <%= svg_icon 'plus-solid' %>
       Category

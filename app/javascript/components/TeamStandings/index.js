@@ -45,7 +45,7 @@ const TeamsCompetition = ({ competitors }) => {
   return (
     <>
       {editable && (
-        <div className="actions-bar">
+        <div className="card actions-bar">
           <button className="actions-bar-button" onClick={handleAddClick}>
             <i className="fa fa-plus" />
             &nbsp; Team

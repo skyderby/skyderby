@@ -1,11 +1,11 @@
 <% editable ||= false %>
 
 <div class="show-page-header">
-  <h1 class="show-event-title">
+  <h1 class="show-page-title">
     <%= @tournament.name %>
   </h1>
 
-  <div class="show-event-info">
+  <div class="show-page-info">
     <%= svg_icon 'location-dot-solid' %>
     <%= place_presentation(@tournament.place) %>
   </div>

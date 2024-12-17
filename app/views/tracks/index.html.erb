@@ -24,18 +24,14 @@
 
   <%= render 'filters' %>
 
-  <div class="content-block">
-    <div class="row">
-      <div class="col-sm-12">
-        <div id="tracks-table" class="table table-hover">
-          <div class="thead">
-            <%= render 'table_header' %>
-          </div>
-          <turbo-frame id="tracks-list" class="tbody" target="_top">
-            <%= render @tracks %>
-          </turbo-frame>
-        </div>
+  <div class="card">
+    <div id="tracks-table" class="table table-hover">
+      <div class="thead">
+        <%= render 'table_header' %>
       </div>
+      <turbo-frame id="tracks-list" class="tbody" target="_top">
+        <%= render @tracks %>
+      </turbo-frame>
     </div>
   </div>
 
