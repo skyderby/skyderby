@@ -13,14 +13,14 @@ module Place::Photos
     endpoint = 'https://maps.googleapis.com/maps/api/staticmap'
     coordinates = [latitude, longitude].join(',')
     params = %W[
-        center=#{coordinates}
-        zoom=13
-        maptype=hybrid
-        size=640x250
-        scale=2
-        markers=color:red|#{coordinates}
-        key=#{ENV['MAPS_API_KEY']}
-      ].join('&')
+      center=#{coordinates}
+      zoom=13
+      maptype=hybrid
+      size=640x250
+      scale=2
+      markers=color:red|#{coordinates}
+      key=#{ENV.fetch('MAPS_API_KEY', nil)}
+    ].join('&')
 
     "#{endpoint}?#{params}"
   end
