@@ -155,7 +155,7 @@ class Track < ApplicationRecord
       where('LOWER(comment) LIKE ?', "%#{query.downcase}%")
     end
 
-    def accessible_by(user)
+    def accessible(user: Current.user)
       return public_track unless user&.profile
 
       if user.admin?

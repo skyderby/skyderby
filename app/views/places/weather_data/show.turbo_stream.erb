@@ -1,0 +1,3 @@
+<%= turbo_stream.replace 'place-weather-data' do %>
+  <%= render 'places/weather_data/weather_data', weather_data: @weather_data %>
+<% end %>

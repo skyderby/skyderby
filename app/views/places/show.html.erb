@@ -6,7 +6,9 @@
 
   <div class="show-page-content">
     <div class="card">
-      <% pilots = @place.pilots_accessible_by(current_user) %>
+      <div class="place-popular-times" data-controller="places--popularity-chart" data-place-id="<%= @place.id %>"></div>
+
+      <% pilots = @place.accessible_profiles %>
       <% unless pilots.blank? %>
         <div class="row top-buffer">
           <div class="col-sm-12">
@@ -20,32 +22,6 @@
         </div>
         <hr>
       <% end %>
-
-      <div id="tracks-table" class="table table-hover">
-        <div class="thead">
-          <div class="tr">
-            <div class="th"><%= t 'activerecord.attributes.track.id' %></div>
-            <div class="th"><%= t 'activerecord.attributes.track.name' %></div>
-            <div class="th"><%= t 'activerecord.attributes.track.suit' %></div>
-            <div class="th"><%= t 'activerecord.attributes.track.comment' %></div>
-            <div class="th result-head text-right"><%= t 'disciplines.distance' %></div>
-            <div class="th result-head text-right"><%= t 'disciplines.speed' %></div>
-            <div class="th result-head text-right"><%= t 'disciplines.time' %></div>
-            <div class="th"><%= t 'activerecord.attributes.track.recorded_at' %></div>
-            <div class="th"></div>
-          </div>
-        </div>
-
-        <div class="tbody">
-          <%= render @tracks, except_columns: [:place] %>
-        </div>
-      </div>
-
-      <div class="text-center top-buffer">
-        <div class="pagination-list">
-          <%= will_paginate @tracks, renderer: BootstrapPagination::Rails %>
-        </div>
-      </div>
     </div>
   </div>
 </div>

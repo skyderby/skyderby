@@ -15,6 +15,16 @@
       <%= t('general.overview') %>
     <% end %>
 
+    <%= link_to place_tracks_path(@place), class: ['page-tab', ('page-tab-active' if current_page?(place_tracks_path(@place)))] do %>
+      <%= t('application.header.tracks') %>
+    <% end %>
+
+    <% if @place.skydive? %>
+      <%= link_to place_weather_data_path(@place),  class: ['page-tab', ('page-tab-active' if current_page?(place_weather_data_path(@place)))] do %>
+        Weather Data
+      <% end %>
+    <% end %>
+
     <% if @place.base? && policy([:place, :finish_line]).index? %>
       <%= link_to place_finish_lines_path(@place), class: ['page-tab', ('page-tab-active' if current_page?(place_finish_lines_path(@place)))] do %>
         Finish lines

@@ -18,21 +18,7 @@ class PlacesController < ApplicationController
     authorize @place
 
     respond_to do |format|
-      format.html do
-        @tracks =
-          Track
-          .where(place: @place)
-          .accessible_by(current_user)
-          .order(recorded_at: :desc)
-          .includes(
-            :distance,
-            :time,
-            :speed,
-            :video,
-            pilot: :contributions,
-            suit: :manufacturer
-          ).paginate(page:, per_page: 50)
-      end
+      format.html
       format.json
     end
   end

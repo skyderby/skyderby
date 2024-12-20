@@ -15,12 +15,12 @@ class SuitsController < ApplicationController
   def show
     authorize @suit
 
-    @tracks = Track.accessible_by(current_user)
+    @tracks = Track.accessible
     @tracks = TrackFilter.new(show_params[:query]).apply(@tracks)
     @tracks =
       @tracks
       .where(suit: @suit)
-      .accessible_by(current_user)
+      .accessible
       .order(recorded_at: :desc)
       .includes(
         :pilot,

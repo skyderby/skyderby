@@ -13,3 +13,13 @@
     height: 320px;
   }
 }
+
+.place-popular-times {
+  height: 200px;
+}
+
+.place-weather-data {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

@@ -1,0 +1,26 @@
+<div id="place-weather-data">
+  <% if weather_data.present? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Altitude</th>
+          <th>Wind Speed, m/s</th>
+          <th>Wind Direction</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% weather_data.each do |data| %>
+          <tr>
+            <td><%= data.altitude.round %></td>
+            <td><%= data.wind_speed.round(1) %></td>
+            <td><%= data.wind_direction %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div>
+      There is no weather data for this time.
+    </div>
+  <% end %>
+</div>

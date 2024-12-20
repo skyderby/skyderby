@@ -1,0 +1,10 @@
+<%= render 'places/layout' do %>
+  <div id="tracks-table" class="table table-hover">
+    <div class="thead">
+      <%= render 'tracks/table_header', except_columns: [:place] %>
+    </div>
+    <div id="tracks-list" class="tbody">
+      <%= render collection: @tracks, partial: 'tracks/track', locals: { except_columns: [:place] } %>
+    </div>
+  </div>
+<% end %>

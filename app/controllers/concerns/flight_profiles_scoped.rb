@@ -6,7 +6,7 @@ module FlightProfilesScoped
   end
 
   def scope_tracks
-    @scope.tracks.includes(:pilot, suit: [:manufacturer]).base.accessible_by(current_user)
+    @scope.tracks.includes(:pilot, suit: [:manufacturer]).base.accessible
   end
 
   def load_scope

@@ -25,11 +25,8 @@ class Suit < ApplicationRecord
   delegate :name, to: :manufacturer, prefix: true, allow_nil: true
   delegate :code, to: :manufacturer, prefix: true, allow_nil: true
 
-  def pilots_accessible_by(user)
-    Profile.where(id: tracks.unscope(:order)
-                            .accessible_by(user)
-                            .select(:profile_id)
-                            .distinct)
+  def accessible_profiles
+    Profile.where(id: tracks.unscope(:order).accessible.select(:profile_id).distinct)
   end
 
   class << self

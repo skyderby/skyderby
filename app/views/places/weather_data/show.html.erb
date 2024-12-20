@@ -1,0 +1,16 @@
+<%= render 'places/layout' do %>
+  <div class="place-weather-data">
+    <%= form_with url: place_weather_data_path, method: :get, class: 'sd-form',
+                  data: { turbo_stream: true, controller: 'auto-submit', action: 'input->auto-submit#submit' } do |form| %>
+      <div class="grid">
+        <%= form.label :day %>
+        <%= form.date_field :day, value: @time.to_date, class: 'form-input' %>
+
+        <%= form.label :hour %>
+        <%= form.number_field :hour, value: @time.hour, step: 1, min: 0, max: 23, class: 'form-input' %>
+      </div>
+    <% end %>
+
+    <%= render 'places/weather_data/weather_data', weather_data: @weather_data %>
+  </div>
+<% end %>

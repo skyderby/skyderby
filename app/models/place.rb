@@ -12,7 +12,7 @@
 #
 
 class Place < ApplicationRecord
-  include Photos
+  include Photos, Stats
 
   enum :kind, { skydive: 0, base: 1 }
 
@@ -34,9 +34,9 @@ class Place < ApplicationRecord
   delegate :name, to: :country, prefix: true, allow_nil: true
   delegate :code, to: :country, prefix: true, allow_nil: true
 
-  def pilots_accessible_by(user)
+  def accessible_profiles
     Profile.where(
-      id: Track.accessible_by(user)
+      id: Track.accessible
                .where(place_id: id)
                .select(:profile_id)
                .distinct

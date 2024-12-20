@@ -250,7 +250,9 @@ Skyderby::Application.routes.draw do
       resources :jump_profiles
       resources :finish_lines
       resources :photos
-      resource :preview, only: :show
+      resource :stats, only: :show
+      resource :tracks, only: :show
+      resource :weather_data, only: :show
 
       collection do
         resources :select_options, only: :index, as: :places_select_options
