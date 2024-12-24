@@ -1,30 +1,29 @@
-<div class="online-competition__navbar">
-  <div class="tabs-navbar">
-    <div class="tabs-navbar__fade-right"></div>
-    <ul class="tabs-navbar__menu">
-      <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if @competition.overall? %>">
-        <%= link_to virtual_competition_overall_path(@competition), remote: true do %>
-          <%= t('.overall') %>
-        <% end %>
-      </li>
+<div class="page-nav">
+  <%= link_to virtual_competition_overall_path(@competition), class: ['page-tab', ('page-tab-active' if current_page?(virtual_competition_overall_path(@competition)))] do %>
+    <%= t('.overall') %>
+  <% end %>
 
-      <% if @competition.annual? %>
-        <% @competition.years.each do |year| %>
-          <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if @competition.year == year.to_s %>">
-            <%= link_to virtual_competition_year_path(@competition, year: year), remote: true do %>
-              <%= year %>
-            <% end %>
-          </li>
-        <% end %>
-      <% elsif @competition.custom_intervals? %>
-        <% @competition.intervals.each do |interval| %>
-          <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if @competition.interval == interval %>">
-            <%= link_to virtual_competition_period_path(@competition, interval), remote: true do %>
-              <%= interval.name %>
-            <% end %>
-          </li>
-        <% end %>
+  <% if @competition.annual? %>
+    <% @competition.years.each do |year| %>
+      <% path = virtual_competition_year_path(@competition, year: year) %>
+      <%= link_to path, class: ['page-tab', ('page-tab-active' if current_page?(path))] do %>
+        <%= year %>
       <% end %>
-    </ul>
-  </div>
+    <% end %>
+  <% elsif @competition.custom_intervals? %>
+    <% @competition.intervals.each do |interval| %>
+      <% path = virtual_competition_period_path(@competition, interval) %>
+      <%= link_to path, class: ['page-tab', ('page-tab-active' if current_page?(path))] do %>
+        <%= interval.name %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if editable %>
+    <%= link_to edit_virtual_competition_path(@competition),
+                class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_virtual_competition_path(@competition)))] do %>
+      <%= svg_icon 'gear-solid' %>
+      <%= t('general.edit') %>
+    <% end %>
+  <% end %>
 </div>

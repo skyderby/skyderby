@@ -17,10 +17,15 @@ module VirtualCompetitions
     def overall? = false
 
     def scores
-      @scores ||= annual_top_scores.where(year: year)
-                                   .wind_cancellation(false)
-                                   .includes(associations)
-                                   .paginate(page: page, per_page: 25)
+      @scores ||= all_scores.paginate(page: page, per_page: 25)
+    end
+
+    def all_scores
+      @all_scores =
+        annual_top_scores
+        .where(year:)
+        .wind_cancellation(false)
+        .includes(associations)
     end
 
     private
@@ -31,7 +36,7 @@ module VirtualCompetitions
       [
         { suit: :manufacturer },
         { track: [{ place: :country }, :video] },
-        :profile
+        { profile: :contributions }
       ]
     end
   end

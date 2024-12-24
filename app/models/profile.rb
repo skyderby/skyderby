@@ -63,6 +63,8 @@ class Profile < ApplicationRecord
 
   def participant_of_events = organizer_of_events + competitor_of_events
 
+  def contributor? = contributions.any?
+
   class << self
     def search(query) = where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%")
   end

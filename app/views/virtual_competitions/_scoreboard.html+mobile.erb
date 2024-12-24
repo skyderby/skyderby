@@ -2,10 +2,14 @@
   <div class="tbody">
     <% @competition.scores.each do |score| %>
       <% current_user_score = current_user && current_user.profile == score.profile %>
-      <%= link_to score.track, class: "tr online-competition__personal-score #{'bg-warning' if current_user_score}" do %>
+      <%= link_to score.track, class: "tr online-competition__personal-score #{'bg-warning' if current_user_score}", data: { rank: score.rank } do %>
         <div class="td online-competition__rank"><%= score.rank %></div>
         <div class="td">
-          <div class="online-competition__profile"><%= score.profile.name.titleize %></div>
+          <div class="online-competition__profile">
+            <span class="<%= 'contributor' if score.profile.contributor? %>">
+              <%= score.profile.name.titleize %>
+            </span>
+          </div>
           <div class="online-competition__suit-place">
             <%= suit_presentation(score.suit) %>
             <% if @competition.worldwide? %>

@@ -5,7 +5,7 @@
   <% unless except_columns.include? :profile %>
     <span class="td">
       <% if track.pilot %>
-        <span class="<%= 'contributor' if track.pilot.contributions.any? %>">
+        <span class="<%= 'contributor' if track.pilot.contributor? %>">
           <%= track.pilot.name %>
         </span>
       <% else %>

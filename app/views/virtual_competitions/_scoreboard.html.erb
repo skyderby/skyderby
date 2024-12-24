@@ -1,8 +1,8 @@
 <div class="online-competition__scoreboard">
-  <% if @competition.scores.size > 2 %>
-    <% leaders = @competition.scores.take(3) %>
-    <%= render 'leaderboard', leaders: leaders %>
+  <% if @competition.all_scores.size > 2 %>
+    <%= render 'leaderboard', leaders: @competition.all_scores.take(3) %>
   <% end %>
+
   <div class="row">
     <div class="col-sm-12">
       <table class="table vc-scoreboard-table">
@@ -28,17 +28,21 @@
         </thead>
         <tbody>
           <% @competition.scores.each do |score| %>
-            <tr>
+            <tr data-rank="<%= score.rank %>">
               <td><%= score.rank %></td>
               <td>
-                <%= link_to score.profile.name.titleize, score.profile, 'data-toggle' => 'tooltip', title: t('.show_profile'), class: 'dotted-underline' %>
+                <%= link_to profile_path(score.profile), class: 'dotted-underline' do %>
+                  <span class="<%= 'contributor' if score.profile.contributor? %>">
+                    <%= score.profile.name.titleize %>
+                  </span>
+                <% end %>
               </td>
               <td><%= suit_presentation(score.suit) %></td>
               <% if @competition.worldwide? %>
                 <td><%= track_place(score.track) %></td>
               <% end %>
               <td class="text-right">
-                <%= link_to format_result(score.result, @competition), score.track, 'data-toggle' => 'tooltip', title: t('.show_details'), class: 'dotted-underline' %>
+                <%= link_to format_result(score.result, @competition), score.track, class: 'dotted-underline' %>
               </td>
               <% if @competition.display_highest_speed %>
                 <td class="text-right"><%= (score.highest_speed || 0.0).round(1) %></td>

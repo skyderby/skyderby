@@ -26,7 +26,11 @@ module VirtualCompetitions
     end
 
     def scores
-      @scores ||= personal_top_scores.wind_cancellation(false).includes(associations).paginate(page: page, per_page: 25)
+      @scores ||= all_scores.paginate(page: page, per_page: 25)
+    end
+
+    def all_scores
+      @all_scores ||= personal_top_scores.wind_cancellation(false).includes(associations)
     end
 
     private
@@ -37,7 +41,7 @@ module VirtualCompetitions
       [
         { suit: :manufacturer },
         { track: [{ place: :country }, :video] },
-        :profile
+        { profile: :contributions }
       ]
     end
   end

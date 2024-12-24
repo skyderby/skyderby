@@ -15,7 +15,7 @@
     <div><%= competition_task(@competition) %></div>
   </div>
 
-  <%= render 'virtual_competitions/navbar' %>
+  <%= render 'virtual_competitions/navbar', editable: %>
   <%= render 'virtual_competitions/scoreboard' %>
 
   <% if @competition.sponsors.exists? %>
