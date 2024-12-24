@@ -27,6 +27,16 @@
 @import '../desktop/navbar/menu/cta';
 @import '../contributions';
 
+@import '../card';
+@import '../show_page';
+@import '../page_navigation';
+@import '../actions_bar';
+@import '../scoreboards';
+@import '../buttons';
+@import '../dropdown';
+@import '../icons';
+@import '../sponsors';
+
 @import 'variables';
 @import '**/*';
 
@@ -55,4 +65,8 @@ body {
 input[readonly] {
   background-color: white !important;
   cursor: text !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
 }

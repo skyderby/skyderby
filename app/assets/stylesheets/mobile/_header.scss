@@ -96,8 +96,9 @@
 
 .header__menu-toggle {
   width: 24px;
-  height: 24px;
-  display: block;
+  height: 100%;
+  display: flex;
+  justify-content: center;
   margin-left: 12.5px;
   position: relative;
   z-index: 5;
@@ -110,7 +111,7 @@
     height: 2px;
     display: block;
     position: absolute;
-    top: 7px;
+    top: 28px;
     left: 0;
     background: #fff;
     transform: rotate(0deg);
@@ -124,7 +125,8 @@
     height: 2px;
     display: block;
     position: absolute;
-    bottom: 7px; left: 0;
+    bottom: 28px;
+    left: 0;
     background: #fff;
     transform: rotate(0deg);
     transition: all 200ms ease-in-out;
@@ -140,6 +142,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 100%;
 }
 
 .header__page-overlay {
