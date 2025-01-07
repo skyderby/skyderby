@@ -3,7 +3,6 @@
   top: 0px;
   right: 0px;
   z-index: 200;
-  padding: 20px;
   max-width: 450px;
   display: flex;
   flex-direction: column;
@@ -19,6 +18,10 @@
   display: flex;
   gap: 0.5rem;
   transition: transform 0.2s ease-in-out;
+}
+
+.toast:first-child {
+  margin-top: 1.25rem;
 }
 
 .toast-dismissed {

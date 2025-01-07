@@ -11,11 +11,18 @@
   border-radius: var(--border-radius-md);
   border: 0;
   transition: background-color 0.2s ease-in-out;
-  background-color: var(--button-bg);
+  background-color: var(--button-bg, var(--white));
+  color: var(--button-text-color, var(--gray-80));
 
   &:hover {
     background-color: var(--button-bg-hover);
   }
+}
+
+.default-button {
+  @extend .base-button;
+
+  border: var(--default-border);
 }
 
 .ghost-button {
@@ -35,7 +42,7 @@
 
   --button-bg: var(--blue-90);
   --button-bg-hover: var(--blue-70);
-  color: var(--white);
+  --button-text-color: var(--white);
 }
 
 .small-button {

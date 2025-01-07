@@ -7,6 +7,10 @@
     <%= stylesheet_link_tag 'desktop/application', media: 'all', 'data-turbo-track': 'reload' %>
   </head>
   <body>
+    <div id="modal-root"></div>
+    <div id="dropdown-root"></div>
+
+
     <div id="wrap" class="<%= yield(:wrapper_classes) %>">
       <%= render 'layouts/header' %>
       <%= render template: 'announcements/active' %>
@@ -24,8 +28,6 @@
       <!-- new track modal -->
       <%= render partial: 'track_files/new_modal' %>
     </div>
-
-    <div id="modal-root"></div>
 
     <%= render 'errors/ajax_error_message' %>
     <%= render 'layouts/footer' %>

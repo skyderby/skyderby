@@ -8,6 +8,8 @@
   </head>
   <body>
     <div id="modal-root"></div>
+    <div id="dropdown-root"></div>
+
     <%= render 'layouts/header' unless mobile_app? %>
     <%= render template: 'announcements/active' unless controller.controller_path == 'static_pages' %>
 

@@ -1,0 +1,15 @@
+<turbo-frame id="<%= sanitize params[:frame_id] %>">
+  <div class="hot-select-options">
+    <% @places.group_by(&:country).each do |country, places| %>
+      <div class="hot-select-option-group">
+        <%= country.name %>
+      </div>
+
+      <% places.each do |place| %>
+        <div class="hot-select-option" data-value="<%= place.id %>">
+          <%= place.name %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</turbo-frame>

@@ -2,32 +2,38 @@ import { Controller } from 'stimulus'
 import { createPopper } from '@popperjs/core'
 
 export default class HotSelect extends Controller {
-  static targets = ['dropdown', 'searchInput', 'selectInput', 'displayValue', 'options']
+  static targets = [
+    'dropdown',
+    'searchInput',
+    'selectInput',
+    'displayValue',
+    'placeholder'
+  ]
 
   connect() {
-    const options = this.selectInputTarget.options
-    if (options.length > 0) {
-      this.optionsTarget.innerHTML = ''
-      Array.from(this.selectInputTarget.options).forEach(this.createOption.bind(this))
-    }
-
-    this.hasSearch =
-      this.element.querySelector('[data-target="hot-select.searchInput"]') !== null
-
-    if (this.selectInputTarget.selectedOptions.length > 0) {
+    if (
+      this.selectInputTarget.selectedOptions.length > 0 &&
+      this.selectInputTarget.selectedOptions[0].value
+    ) {
       this.displayValueTarget.innerHTML = this.selectInputTarget.selectedOptions[0].text
+      this.placeholderTarget.classList.add('hide')
+    } else {
+      this.displayValueTarget.classList.add('hide')
     }
   }
 
   toggle() {
-    this.dropdownTarget.classList.toggle('hot-select--hidden')
-    const isOpen = !this.dropdownTarget.classList.contains('hot-select--hidden')
+    this.dropdownRoot.innerHTML = this.dropdownTarget.innerHTML
+    this.element.classList.toggle('hot-select--open')
+    const isOpen = this.element.classList.contains('hot-select--open')
 
-    if (!isOpen) return
+    if (!isOpen) return this.close()
+    this.copyOptionsFromSelect()
+    this.selectableContainer.addEventListener('click', this.choose.bind(this))
 
-    if (this.hasSearch) this.searchInputTarget.focus()
+    if (this.hasSearch) this.searchInput.focus()
 
-    createPopper(this.element, this.dropdownTarget, {
+    createPopper(this.element, this.dropdown, {
       placement: 'bottom-start',
       modifiers: [
         {
@@ -50,7 +56,8 @@ export default class HotSelect extends Controller {
   }
 
   close() {
-    this.dropdownTarget.classList.add('hot-select--hidden')
+    this.dropdownRoot.replaceChildren()
+    this.element.classList.remove('hot-select--open')
   }
 
   choose(event) {
@@ -59,18 +66,39 @@ export default class HotSelect extends Controller {
     if (!option) {
       const option = document.createElement('option')
       option.value = value
-      option.textContent = value
+      option.textContent = event.target.innerHTML
       this.selectInputTarget.appendChild(option)
     }
     this.selectInputTarget.value = value
     this.displayValueTarget.innerHTML = event.target.innerHTML
+    this.displayValueTarget.classList.remove('hide')
+    this.placeholderTarget.classList.add('hide')
+    this.selectInputTarget.dispatchEvent(new Event('change', { bubbles: true }))
 
     this.close()
   }
 
   clear() {
+    const option = [...this.selectInputTarget.options].find(opt => opt.value === '')
+    if (!option) {
+      const option = document.createElement('option')
+      option.value = ''
+      option.textContent = ''
+      this.selectInputTarget.appendChild(option)
+    }
     this.selectInputTarget.value = ''
+    this.placeholderTarget.classList.remove('hide')
+    this.displayValueTarget.classList.add('hide')
     this.displayValueTarget.innerHTML = '&nbsp;'
+    this.selectInputTarget.dispatchEvent(new Event('change', { bubbles: true }))
+  }
+
+  copyOptionsFromSelect() {
+    const options = this.selectInputTarget.options
+    if (options.length > 0) {
+      this.optionsContainer.innerHTML = ''
+      Array.from(this.selectInputTarget.options).forEach(this.createOption.bind(this))
+    }
   }
 
   createOption(option) {
@@ -79,6 +107,30 @@ export default class HotSelect extends Controller {
     div.textContent = option.text
     div.setAttribute('data-value', option.value)
     div.setAttribute('data-action', 'click->hot-select#choose')
-    this.optionsTarget.insertAdjacentHTML('beforeend', div.outerHTML)
+    this.optionsContainer.insertAdjacentHTML('beforeend', div.outerHTML)
+  }
+
+  get dropdownRoot() {
+    return document.getElementById('dropdown-root')
+  }
+
+  get dropdown() {
+    return this.dropdownRoot.querySelector('.hot-select-dropdown')
+  }
+
+  get optionsContainer() {
+    return this.dropdownRoot.querySelector('.hot-select-options')
+  }
+
+  get selectableContainer() {
+    return this.dropdownRoot.querySelector('.hot-select-selectable')
+  }
+
+  get hasSearch() {
+    return this.dropdown.querySelector('[data-target="hot-select.searchInput"]') !== null
+  }
+
+  get searchInput() {
+    return this.dropdown.querySelector('[data-target="hot-select.searchInput"]')
   }
 }

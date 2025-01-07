@@ -1,6 +1,12 @@
 .tracks-filters {
-  margin-top: 15px;
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: $bp-medium) {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem 0;
+  }
 }
 
 .tracks-filters__modal-footer {

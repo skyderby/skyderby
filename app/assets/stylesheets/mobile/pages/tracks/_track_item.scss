@@ -1,8 +1,14 @@
+.tracks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .track-item {
   display: block;
-  border: 1px solid $border-color;
-  padding: 13px 10px 10px;
-  margin-bottom: 10px;
+  border: var(--default-border);
+  border-radius: var(--border-radius-md);
+  padding: 1rem;
   background: #fff;
 
   &:last-child {

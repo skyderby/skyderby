@@ -1,13 +1,12 @@
-<%# locals(form:, name:, src:, options:) %>
+<%# locals(form:, name:, src:, options:, **rest) %>
 <% frame_id = "hot-select-#{name}" %>
 
 <div class="form-input hot-select-container <%= local_assigns[:class] %>" data-controller="hot-select">
   <%= form.select name, options, {}, class: 'hot-select--hidden', data: { target: 'hot-select.selectInput' } %>
 
   <div class="hot-select-control">
-    <div class="hot-select-value" data-action="click->hot-select#toggle" data-target="hot-select.displayValue">
-      &nbsp;
-    </div>
+    <div class="hot-select-placeholder" data-target="hot-select.placeholder"><%= placeholder || '' %></div>
+    <div class="hot-select-value" data-action="click->hot-select#toggle" data-target="hot-select.displayValue"></div>
     <div class="hot-select-indicators">
       <button type="button" class="hot-select-button" data-action="hot-select#clear">
         <%= svg_icon 'xmark' %>
@@ -19,21 +18,23 @@
     </div>
   </div>
 
-  <div class="hot-select-dropdown hot-select--hidden" data-target="hot-select.dropdown">
-    <turbo-frame id="hot-select-search">
-      <%= form_with url: src,
-                    class: 'hot-select-search-form',
-                    method: :get, data: { controller: 'auto-submit', 'turbo-frame': frame_id } do |f| %>
-        <%= f.hidden_field :frame_id, value: frame_id %>
-        <%= f.text_field :term, class: 'hot-select-search', placeholder: 'Search...',
-                         data: { action: 'input->auto-submit#submit', target: 'hot-select.searchInput' } %>
-      <% end %>
-    </turbo-frame>
+  <template data-target="hot-select.dropdown">
+    <div class="hot-select-dropdown">
+      <turbo-frame id="hot-select-search">
+        <%= form_with url: src,
+                      class: 'hot-select-search-form',
+                      method: :get, data: { controller: 'auto-submit', 'turbo-frame': frame_id } do |f| %>
+          <%= f.hidden_field :frame_id, value: frame_id %>
+          <%= f.text_field :term, class: 'hot-select-search', placeholder: 'Search...',
+                           data: { action: 'input->auto-submit#submit', target: 'hot-select.searchInput' } %>
+        <% end %>
+      </turbo-frame>
 
-    <turbo-frame id="<%= frame_id %>" src="<%= src + "?frame_id=#{frame_id}" %>" loading="lazy" class="hot-select-scrollable">
-      <div class="hot-select-options" data-target="hot-select.options">
-        <div class="hot-select-option">Loading...</div>
-      </div>
-    </turbo-frame>
-  </div>
+      <turbo-frame id="<%= frame_id %>" src="<%= src + "?frame_id=#{frame_id}" %>" loading="lazy" class="hot-select-scrollable hot-select-selectable">
+        <div class="hot-select-options">
+          <div class="hot-select-option">Loading...</div>
+        </div>
+      </turbo-frame>
+    </div>
+  </template>
 </div>

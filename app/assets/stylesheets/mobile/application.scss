@@ -31,11 +31,16 @@
 @import '../show_page';
 @import '../page_navigation';
 @import '../actions_bar';
+@import '../activity_filter';
 @import '../scoreboards';
 @import '../buttons';
 @import '../dropdown';
 @import '../icons';
 @import '../sponsors';
+@import '../modal';
+@import '../utils';
+@import '../forms';
+@import '../hot_select';
 
 @import 'variables';
 @import '**/*';
@@ -69,4 +74,10 @@ input[readonly] {
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
+}
+
+#modal-root, #dropdown-root {
+  position: absolute;
+  top: 0;
+  left: 0;
 }

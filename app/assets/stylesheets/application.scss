@@ -65,6 +65,12 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
+#modal-root, #dropdown-root {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 #wrap {
   min-height: 100%;
   height: auto !important;

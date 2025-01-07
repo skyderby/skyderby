@@ -1,0 +1,18 @@
+<div>
+  <% activity = index_params[:kind] %>
+  <%= link_to t('tracks.index.all'),
+              index_params.except(:kind),
+              class: ['activity-filter-button', ('activity-filter-button--active' unless activity)] %>
+
+  <%= link_to 'Skydive',
+              index_params.merge(kind: 'skydive'),
+              class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'skydive')] %>
+
+  <%= link_to 'BASE',
+              index_params.merge(kind: 'base'),
+              class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'base')] %>
+
+  <%= link_to 'Speed',
+              index_params.merge(kind: 'speed_skydiving'),
+              class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'speed_skydiving')] %>
+</div>

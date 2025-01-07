@@ -1,27 +1,37 @@
+<%# locals: (modal: false) %>
+
 <%= form_with url: tracks_path, params: index_params, class: 'tracks-filters', method: :get,
-              data: { controller: 'tracks--filters', action: 'change->tracks--filters#submit',
+              data: { controller: 'tracks--filters',
+                      action: "#{modal ? 'submit' : 'change'}->tracks--filters#submit",
                       turbo: true } do |f| %>
-  <%= f.select :profile_id,
-               options_for_select([[profile_name_by_id(index_params[:profile_id]), index_params[:profile_id]]]),
-               {},
-               name: 'profile_id',
-               class: 'form-control',
-               data: { controller: 'select2--profiles' },
-               placeholder: t('tracks.index.filter_by_pilot') %>
 
-  <%= f.select :suit_id,
-               options_for_select([[suit_name_by_id(index_params[:suit_id]), index_params[:suit_id]]]),
-               {},
-               name: 'suit_id',
-               class: 'form-control',
-               placeholder: t('tracks.index.filter_by_suit'),
-               'data-controller': 'select2--suits' %>
+  <%= render 'hot_select/select',
+             form: f,
+             name: :profile_id,
+             src: profiles_select_options_path,
+             options: options_for_select([[profile_name_by_id(index_params[:profile_id]), index_params[:profile_id]]]),
+             placeholder: t('tracks.index.filter_by_pilot'),
+             class: 'col-12' %>
 
-  <%= f.select :place_id,
-               options_for_select([[place_name_by_id(index_params[:place_id]), index_params[:place_id]]]),
-               {},
-               name: 'place_id',
-               class: 'form-control',
-               placeholder: t('tracks.index.filter_by_place'),
-               'data-controller': 'select2--places' %>
+  <%= render 'hot_select/select',
+             form: f,
+             name: :suit_id,
+             src: suits_select_options_path,
+             options: options_for_select([[suit_name_by_id(index_params[:suit_id]), index_params[:suit_id]]]),
+             placeholder: t('tracks.index.filter_by_suit'),
+             class: 'col-12' %>
+
+  <%= render 'hot_select/select',
+             form: f,
+             name: :place_id,
+             src: places_select_options_path,
+             options: options_for_select([[place_name_by_id(index_params[:place_id]), index_params[:place_id]]]),
+             placeholder: t('tracks.index.filter_by_place'),
+             class: 'col-12' %>
+
+  <% if modal %>
+    <div class="form-actions">
+      <%= f.submit 'Save', class: 'primary-button' %>
+    </div>
+  <% end %>
 <% end %>

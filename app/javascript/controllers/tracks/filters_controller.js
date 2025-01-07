@@ -1,7 +1,9 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  submit() {
+  submit(e) {
+    e.preventDefault()
+
     const urlParams = new URLSearchParams(window.location.search)
     const formData = new FormData(this.element)
     const fields = ['suit_id', 'place_id', 'profile_id']
