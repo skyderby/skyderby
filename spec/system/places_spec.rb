@@ -19,10 +19,10 @@ describe 'Adding place', type: :system do
       fill_in 'place[longitude]', with: '7.5773933'
     end
 
-    select2 country.name, from: :place_country_id
+    hot_select country.name, from: :country_id
 
     click_button I18n.t('general.save')
 
-    expect(page).to have_content('Gridset')
+    expect(page).to have_content('GRIDSET')
   end
 end
