@@ -1,11 +1,12 @@
-<div class="container">
-  <div class="page-header">
-    <h2>
-      <%= t('activerecord.models.place') %>: <%= @place.name %>
-    </h2>
-  </div>
+<% provide(:title, page_title(@place.name)) %>
+<% editable = policy(@place).update? %>
 
-  <div class="content-block">
-    <%= render 'form' %>
+<div class="show-page place-show">
+  <%= render 'places/header', editable: %>
+
+  <div class="show-page-content">
+    <div class="card">
+      <%= render 'form' %>
+    </div>
   </div>
 </div>

@@ -48,7 +48,7 @@
     <% end %>
 
     <% if editable %>
-      <%= link_to @place, class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_place_path(@place)))] do %>
+      <%= link_to edit_place_path(@place), class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_place_path(@place)))] do %>
         <%= svg_icon 'gear-solid' %>
         <%= t('general.edit') %>
       <% end %>

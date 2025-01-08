@@ -23,3 +23,12 @@
   flex-direction: column;
   gap: 1rem;
 }
+
+.place-form {
+  max-width: 700px;
+  margin: 0 auto;
+
+  label {
+    text-align: right;
+  }
+}

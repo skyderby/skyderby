@@ -47,7 +47,7 @@ class PlacesController < ApplicationController
     @place = Place.new place_params
     respond_to do |format|
       if @place.save
-        format.html { redirect_to places_path }
+        format.html { redirect_to place_path(@place) }
         format.json { @place }
       else
         format.html { render action: 'new' }
