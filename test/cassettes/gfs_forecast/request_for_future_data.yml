@@ -1,0 +1,113 @@
+---
+http_interactions:
+- request:
+    method: head
+    uri: https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25_1hr.pl?bottomlat=-90&dir=/gfs.20550301/00/atmos&file=gfs.t00z.pgrb2.0p25.f003&leftlon=0&lev_1000_mb=on&lev_400_mb=on&lev_450_mb=on&lev_500_mb=on&lev_550_mb=on&lev_600_mb=on&lev_650_mb=on&lev_700_mb=on&lev_750_mb=on&lev_800_mb=on&lev_850_mb=on&lev_900_mb=on&lev_925_mb=on&lev_950_mb=on&lev_975_mb=on&rightlon=360&subregion=&toplat=90&var_HGT=on&var_UGRD=on&var_VGRD=on
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - nomads.ncep.noaa.gov
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - Apache
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      - 1; mode=block
+      Content-Security-Policy:
+      - default-src 'self'
+      - script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+      Referrer-Policy:
+      - no-referrer
+      - no-referrer
+      Content-Length:
+      - '412'
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Sun, 31 Mar 2024 04:22:33 GMT
+      Connection:
+      - keep-alive
+      Strict-Transport-Security:
+      - max-age=31536000 ; preload
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Sun, 31 Mar 2024 04:22:33 GMT
+- request:
+    method: get
+    uri: https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25_1hr.pl?bottomlat=-90&dir=/gfs.20550301/00/atmos&file=gfs.t00z.pgrb2.0p25.f003&leftlon=0&lev_1000_mb=on&lev_400_mb=on&lev_450_mb=on&lev_500_mb=on&lev_550_mb=on&lev_600_mb=on&lev_650_mb=on&lev_700_mb=on&lev_750_mb=on&lev_800_mb=on&lev_850_mb=on&lev_900_mb=on&lev_925_mb=on&lev_950_mb=on&lev_975_mb=on&rightlon=360&subregion=&toplat=90&var_HGT=on&var_UGRD=on&var_VGRD=on
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - nomads.ncep.noaa.gov
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - Apache
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      - 1; mode=block
+      Content-Security-Policy:
+      - default-src 'self'
+      - script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+      Referrer-Policy:
+      - no-referrer
+      - no-referrer
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Length:
+      - '412'
+      Date:
+      - Sun, 31 Mar 2024 04:22:34 GMT
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - NSC_ESNS=c4eae3ce-e509-1608-9678-00e0eddbf4e7_3175719061_2940991090_00000000110677067553;
+        Path=/; Expires=Sun, 31-Mar-2024 04:22:48 GMT
+      Strict-Transport-Security:
+      - max-age=31536000 ; preload
+    body:
+      encoding: UTF-8
+      string: '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html><head><title>data
+        file is not present; /common/data/model/com/gfs/prod/gfs.20550301/00/atmos/gfs.t00z.pgrb2.0p25.f003</title></head><body
+        bgcolor="#ffffff"><p align=center>Data file is not present: /common/data/model/com/gfs/prod/gfs.20550301/00/atmos/gfs.t00z.pgrb2.0p25.f003</p><p
+        align=left><small>NCEP NOMADS Version 1.2<br></small></body></html>
+
+        '
+  recorded_at: Sun, 31 Mar 2024 04:22:34 GMT
+recorded_with: VCR 6.2.0
