@@ -13,7 +13,7 @@ class Track < ApplicationRecord
       weather_data = time_range.step(1.hour).map do |time|
         place.weather_data.for_time(Time.zone.at(time))
       end
-      return Place::WeatherDatum.none if weather_data.any?(&:exists?)
+      return Place::WeatherDatum.none if weather_data.any?(&:empty?)
 
       weather_data.inject(:or)
     end
