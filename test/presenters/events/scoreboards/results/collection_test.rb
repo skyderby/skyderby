@@ -3,7 +3,7 @@ describe Events::Scoreboards::Results::Collection do
     it 'by round and competitor' do
       params = build_params
       collection = Events::Scoreboards::Results::Collection.new(event.results, params)
-      competitor = event_competitors(:competitor_1)
+      competitor = event_competitors(:john)
       round = event_rounds(:speed_round_1)
 
       result = collection.for(competitor: competitor, round: round).result
@@ -13,7 +13,7 @@ describe Events::Scoreboards::Results::Collection do
     it 'by round and competitor, without penalties' do
       params = build_params(omit_penalties: 'true')
       collection = Events::Scoreboards::Results::Collection.new(event.results, params)
-      competitor = event_competitors(:competitor_1)
+      competitor = event_competitors(:john)
       round = event_rounds(:speed_round_1)
 
       result = collection.for(competitor: competitor, round: round).result
@@ -48,6 +48,6 @@ describe Events::Scoreboards::Results::Collection do
   end
 
   def event
-    events(:published_public)
+    events(:nationals)
   end
 end

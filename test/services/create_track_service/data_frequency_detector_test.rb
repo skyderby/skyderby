@@ -1,23 +1,23 @@
-describe CreateTrackService::DataFrequencyDetector do
-  point_mock = Struct.new(:fl_time)
+require 'test_helper'
 
-  it 'calculates most popular frequency' do
+class CreateTrackService::DataFrequencyDetectorTest < ActiveSupport::TestCase
+  test 'calculates most popular frequency' do
     points = [1, 1.2, 1.4, 1.6, 7, 9, 10, 11, 14].map do |fl_time|
-      point_mock.new(fl_time)
+      Point.new(fl_time:)
     end
 
     result = CreateTrackService::DataFrequencyDetector.call(points)
-    expect(result).to eq(5)
+    assert_equal 5, result
   end
 
-  it 'returns 1 unless points given' do
+  test 'returns 1 unless points given' do
     result = CreateTrackService::DataFrequencyDetector.call([])
-    expect(result).to eq(1)
+    assert_equal 1, result
   end
 
-  it 'returns 1 if only one point given' do
-    points = [point_mock.new(1)]
+  test 'returns 1 if only one point given' do
+    points = [Point.new(fl_time: 1)]
     result = CreateTrackService::DataFrequencyDetector.call(points)
-    expect(result).to eq(1)
+    assert_equal 1, result
   end
 end

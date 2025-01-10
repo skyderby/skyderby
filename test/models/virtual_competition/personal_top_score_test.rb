@@ -1,35 +1,37 @@
-describe VirtualCompetition::PersonalTopScore do
-  let(:competition) { virtual_competitions :distance_in_time }
+require 'test_helper'
 
-  before do
-    profile = profiles(:competitor_1)
+class VirtualCompetition::PersonalTopScoreTest < ActiveSupport::TestCase
+  setup do
+    @competition = virtual_competitions(:distance_in_time)
+
+    profile = profiles(:john)
     3.times do |index|
       track = create :empty_track, pilot: profile, recorded_at: Time.zone.parse('2015-01-03') + index.years
-      competition.results.create(track: track, result: 100 * (index + 1))
-      competition.results.create(track: track, result: 90 * (index + 1), wind_cancelled: true)
+      @competition.results.create(track: track, result: 100 * (index + 1))
+      @competition.results.create(track: track, result: 90 * (index + 1), wind_cancelled: true)
     end
 
-    profile = profiles(:competitor_2)
+    profile = profiles(:travis)
     3.times do |index|
       track = create :empty_track, pilot: profile, recorded_at: Time.zone.parse('2015-01-03') + index.years
-      competition.results.create(track: track, result: 70 * (index + 1))
-      competition.results.create(track: track, result: 60 * (index + 1), wind_cancelled: true)
+      @competition.results.create(track: track, result: 70 * (index + 1))
+      @competition.results.create(track: track, result: 60 * (index + 1), wind_cancelled: true)
     end
   end
 
-  it 'return correct non wind cancelled results' do
-    results = competition.personal_top_scores.wind_cancellation(false)
+  test 'return correct non wind cancelled results' do
+    results = @competition.personal_top_scores.wind_cancellation(false)
 
-    expect(results.count).to eq(2)
-    expect(results.first.result).to eq(300)
-    expect(results.second.result).to eq(210)
+    assert_equal 2, results.count
+    assert_equal 300, results.first.result
+    assert_equal 210, results.second.result
   end
 
-  it 'return correct wind cancelled results' do
-    results = competition.personal_top_scores.wind_cancellation(true)
+  test 'return correct wind cancelled results' do
+    results = @competition.personal_top_scores.wind_cancellation(true)
 
-    expect(results.count).to eq(2)
-    expect(results.first.result).to eq(270)
-    expect(results.second.result).to eq(180)
+    assert_equal 2, results.count
+    assert_equal 270, results.first.result
+    assert_equal 180, results.second.result
   end
 end

@@ -24,10 +24,38 @@ distance_in_time:
   results_sort_order: descending
   discipline_parameter: 20
 
-skydive_distance:
-  name: Skydive distance
-  group: main
+skydive_distance_wingsuit:
+  name: Wingsuit distance
+  group: cumulative
+  suits_kind: wingsuit
   jumps_kind: skydive
   discipline: distance
+  period_from: 2015-01-01
+  period_to: 2025-01-01
+
+skydive_speed_wingsuit:
+  name: Wingsuit speed
+  group: cumulative
+  suits_kind: wingsuit
+  jumps_kind: skydive
+  discipline: speed
+  period_from: 2015-01-01
+  period_to: 2025-01-01
+
+skydive_distance_tracksuit:
+  name: Wingsuit distance
+  group: cumulative
+  suits_kind: tracksuit
+  jumps_kind: skydive
+  discipline: distance
+  period_from: 2015-01-01
+  period_to: 2025-01-01
+
+skydive_speed_tracksuit:
+  name: Wingsuit speed
+  group: cumulative
+  suits_kind: tracksuit
+  jumps_kind: skydive
+  discipline: speed
   period_from: 2015-01-01
   period_to: 2025-01-01

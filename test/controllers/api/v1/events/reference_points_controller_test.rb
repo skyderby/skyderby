@@ -3,7 +3,7 @@ describe Api::V1::Events::ReferencePointsController do
 
   describe '#index' do
     it 'happy path' do
-      event = events(:published_public)
+      event = events(:nationals)
       event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
       event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
 

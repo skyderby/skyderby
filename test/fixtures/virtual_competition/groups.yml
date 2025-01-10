@@ -1,2 +1,5 @@
 main:
   name: Main
+
+cumulative:
+  name: Cumulative

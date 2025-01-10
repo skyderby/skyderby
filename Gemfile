@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 7.1.5'
 
+gem 'ffi'
 gem 'puma', '< 7'
 gem 'rack-attack'
 gem 'rack-cors'
@@ -77,6 +78,7 @@ group :development do
   gem 'annotate'
   gem 'bullet'
   gem 'rubocop', require: false
+  gem 'rubocop-minitest', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
 end
@@ -84,8 +86,6 @@ end
 group :development, :test do
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
-  gem 'rspec'
-  gem 'rspec-rails'
 end
 
 group :test do
@@ -93,4 +93,6 @@ group :test do
   gem 'codeclimate-test-reporter', require: false
   gem 'selenium-webdriver'
   gem 'simplecov'
+  gem 'vcr'
+  gem 'webmock'
 end

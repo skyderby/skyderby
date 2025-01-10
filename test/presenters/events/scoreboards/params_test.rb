@@ -1,14 +1,14 @@
 describe Events::Scoreboards::Params do
   describe '#omit_penalties?' do
     it 'without specified params' do
-      event = events(:published_public)
+      event = events(:nationals)
       params = Events::Scoreboards::Params.new(event, {})
 
       expect(params.omit_penalties?).to be_falsey
     end
 
     it 'when specified "true"' do
-      event = events(:published_public)
+      event = events(:nationals)
       params = Events::Scoreboards::Params.new(event, omit_penalties: 'true')
 
       expect(params.omit_penalties?).to be_truthy
@@ -18,7 +18,7 @@ describe Events::Scoreboards::Params do
   describe '#adjust_to_wind?' do
     describe 'wind cancellation disabled' do
       it 'when parameter not specified' do
-        event = events(:published_public)
+        event = events(:nationals)
         event.update!(wind_cancellation: false)
 
         params = Events::Scoreboards::Params.new(event, {})
@@ -27,7 +27,7 @@ describe Events::Scoreboards::Params do
       end
 
       it 'when parameter set to "true"' do
-        event = events(:published_public)
+        event = events(:nationals)
         event.update!(wind_cancellation: false)
 
         params = Events::Scoreboards::Params.new(event, display_raw_results: 'true')
@@ -38,7 +38,7 @@ describe Events::Scoreboards::Params do
 
     describe 'wind cancellation enabled' do
       it 'when parameter not specified' do
-        event = events(:published_public)
+        event = events(:nationals)
         event.update!(wind_cancellation: true)
 
         params = Events::Scoreboards::Params.new(event, {})
@@ -47,7 +47,7 @@ describe Events::Scoreboards::Params do
       end
 
       it 'when parameter specified' do
-        event = events(:published_public)
+        event = events(:nationals)
         event.update!(wind_cancellation: true)
 
         params = Events::Scoreboards::Params.new(event, display_raw_results: 'true')

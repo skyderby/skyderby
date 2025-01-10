@@ -1,6 +1,7 @@
 require:
   - rubocop-rails
   - rubocop-performance
+  - rubocop-minitest
 
 AllCops:
   TargetRubyVersion: 3.1
@@ -15,12 +16,52 @@ AllCops:
 Layout/LineLength:
   Max: 120
 
-#################### Rails   ###############################
+Lint/ShadowingOuterLocalVariable:
+  Exclude:
+    - app/views/**/*.json.jbuilder
+
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: false
+
+Metrics/ClassLength:
+  Description: 'Avoid classes longer than 100 lines of code.'
+  Enabled: false
+
+Metrics/MethodLength:
+  Description: 'Avoid methods longer than 10 lines of code.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#short-methods'
+  Enabled: false
+
+Metrics/ModuleLength:
+  Description: 'Avoid modules longer than 100 lines of code.'
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/BlockLength:
+  Exclude:
+    - app/views/**/*.json.jbuilder
+    - app/views/**/*.xml.builder
+    - config/**/*
+    - test/**/*
+
+Minitest/ MultipleAssertions:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false # TODO: Enable
+
+Rails/ActionOrder:
+  Enabled: false
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
 Rails/SkipsModelValidations:
   Exclude:
-    - spec/**/*
+    - test/**/*
 
-#################### Style   ###############################
 Style/Lambda:
   Enabled: false
 
@@ -52,47 +93,4 @@ Style/OpenStructUse:
   Enabled: false
 
 Style/SuperArguments:
-  Enabled: false
-
-#################### Lint    ################################
-
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - app/views/**/*.json.jbuilder
-
-Lint/AmbiguousOperatorPrecedence:
-  Enabled: false
-
-#################### Metrics ################################
-
-Metrics/ClassLength:
-  Description: 'Avoid classes longer than 100 lines of code.'
-  Enabled: false
-
-Metrics/MethodLength:
-  Description: 'Avoid methods longer than 10 lines of code.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#short-methods'
-  Enabled: false
-
-Metrics/ModuleLength:
-  Description: 'Avoid modules longer than 100 lines of code.'
-  Enabled: false
-
-Metrics/AbcSize:
-  Max: 25
-
-Metrics/BlockLength:
-  Exclude:
-    - app/views/**/*.json.jbuilder
-    - app/views/**/*.xml.builder
-    - config/**/*
-    - spec/**/*
-
-Naming/VariableNumber:
-  Enabled: false # TODO: Enable
-
-Rails/I18nLocaleTexts:
-  Enabled: false
-
-Rails/ActionOrder:
   Enabled: false

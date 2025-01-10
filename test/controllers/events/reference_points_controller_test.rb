@@ -32,6 +32,6 @@ describe Events::ReferencePointsController do
   end
 
   def event
-    events(:published_public)
+    events(:nationals)
   end
 end

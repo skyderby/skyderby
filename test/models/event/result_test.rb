@@ -1,32 +1,57 @@
-# == Schema Information
-#
-# Table name: event_tracks
-#
-#  id                      :integer          not null, primary key
-#  round_id                :integer
-#  track_id                :integer
-#  created_at              :datetime
-#  updated_at              :datetime
-#  competitor_id           :integer
-#  result                  :decimal(10, 2)
-#  profile_id              :integer
-#  result_net              :decimal(10, 2)
-#  is_disqualified         :boolean          default(FALSE)
-#  disqualification_reason :string
-#
+require 'test_helper'
 
-require 'support/event_ongoing_validation'
-
-describe Event::Result do
-  it 'rounds result correctly' do
-    result = event_results(:distance_competitor_1)
-    result.result = 266.3477
-    result.save!
-
-    expect(result.reload.result.round(1)).to eq(266.3)
+class Event::ResultTest < ActiveSupport::TestCase
+  setup do
+    @event = events(:nationals)
+    @result = event_results(:john_distance_1)
   end
 
-  it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { create :event_result }
+  test 'can not be created for finished event' do
+    @event.finished!
+
+    assert_raises(ActiveRecord::RecordInvalid) do
+      @event.results.create!(
+        competitor: event_competitors(:alex),
+        round: event_rounds(:distance_1),
+        uploaded_by: @event.responsible.profile
+      )
+    end
+  end
+
+  test 'can not be updated for finished event' do
+    @event.finished!
+
+    assert_raises(ActiveRecord::RecordInvalid) do
+      @result.update!(result: 120)
+    end
+  end
+
+  test 'can not be destroyed for finished event' do
+    @event.finished!
+
+    assert_raises(ActiveRecord::RecordNotDestroyed) do
+      @result.destroy!
+    end
+  end
+
+  test '#need_review? - true if result is 0' do
+    @result.update_columns(result: 0)
+
+    assert_predicate @result, :need_review?
+  end
+
+  test '#need_review? - true if detected jump range outside competition window' do
+    track = create_track_from_file 'flysight.csv'
+    track.update!(ff_start: 10, ff_end: 30)
+    result = create :event_result, track: track
+
+    assert_predicate result, :need_review?
+  end
+
+  test 'rounds result correctly' do
+    @result.result = 266.3477
+    @result.save!
+
+    assert_in_delta 266.3, @result.reload.result.round(1), 0.01
   end
 end

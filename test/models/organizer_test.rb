@@ -1,28 +1,34 @@
-# == Schema Information
-#
-# Table name: event_organizers
-#
-#  id         :integer          not null, primary key
-#  event_id   :integer
-#  profile_id :integer
-#  created_at :datetime
-#  updated_at :datetime
-#
+require 'test_helper'
 
-require 'support/event_ongoing_validation'
-
-describe Organizer, type: :model do
-  it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { FactoryBot.create(:event_organizer) }
+class OrganizerTest < ActiveSupport::TestCase
+  setup do
+    @event = events(:nationals)
+    @user = users(:regular_user)
   end
 
-  it 'requires event' do
+  test 'can not be created for finished event' do
+    @event.finished!
+    assert_raises(ActiveRecord::RecordInvalid) do
+      @event.organizers.create!(user: @user)
+    end
+  end
+
+  test 'can not be destroyed for finished event' do
+    organizer = @event.organizers.create!(user: @user)
+    @event.finished!
+
+    assert_raises(ActiveRecord::RecordNotDestroyed) do
+      organizer.destroy!
+    end
+  end
+
+  test 'requires event' do
     user = create :user
-    expect(Organizer.create(user: user)).not_to be_valid
+    assert_not Organizer.new(user: user).valid?
   end
 
-  it 'requires user' do
+  test 'requires user' do
     event = create :event
-    expect(Organizer.create(organizable: event)).not_to be_valid
+    assert_not Organizer.new(organizable: event).valid?
   end
 end

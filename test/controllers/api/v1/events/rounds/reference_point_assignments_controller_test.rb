@@ -1,68 +1,69 @@
-describe Api::V1::Events::Rounds::ReferencePointAssignmentsController do
-  describe '#create' do
-    it 'correct user assigns point' do
-      sign_in users(:event_responsible)
+require 'test_helper'
 
-      event = events(:published_public)
-      competitor = event_competitors(:competitor_1)
-      round = event_rounds(:distance_round_1)
-      reference_point = event.reference_points.create! \
-        name: 'R1',
-        latitude: 20,
-        longitude: 20
+class Api::V1::Events::Rounds::ReferencePointAssignmentsControllerTest < ActionDispatch::IntegrationTest
+  test 'correct user assigns point' do
+    sign_in users(:event_responsible)
 
-      params = {
-        event_id: event.id,
-        round_id: round.id,
-        competitor_id: competitor.id,
-        reference_point_id: reference_point.id
-      }
+    event = events(:nationals)
+    competitor = event_competitors(:john)
+    round = event_rounds(:distance_1)
+    reference_point = event.reference_points.create!(
+      name: 'R1',
+      latitude: 20,
+      longitude: 20
+    )
 
-      post :create, params: params, format: :json
+    params = {
+      event_id: event.id,
+      round_id: round.id,
+      competitor_id: competitor.id,
+      reference_point_id: reference_point.id
+    }
 
-      expect(response).to be_successful
+    post api_v1_event_round_reference_point_assignments_path(event_id: event.id, round_id: round.id), params: params, as: :json
 
-      assignment = event.reference_point_assignments.find_by(competitor: competitor, round: round)
-      expect(assignment.reference_point).to eq(reference_point)
-    end
+    assert_response :success
 
-    it 'correct user nullify assignment' do
-      sign_in users(:event_responsible)
+    assignment = event.reference_point_assignments.find_by(competitor: competitor, round: round)
+    assert_equal reference_point, assignment.reference_point
+  end
 
-      event = events(:published_public)
-      competitor = event_competitors(:competitor_1)
-      round = event_rounds(:distance_round_1)
+  test 'correct user nullify assignment' do
+    sign_in users(:event_responsible)
 
-      params = {
-        event_id: event.id,
-        round_id: round.id,
-        competitor_id: competitor.id,
-        reference_point_id: nil
-      }
+    event = events(:nationals)
+    competitor = event_competitors(:john)
+    round = event_rounds(:distance_1)
 
-      post :create, params: params, format: :json
+    params = {
+      event_id: event.id,
+      round_id: round.id,
+      competitor_id: competitor.id,
+      reference_point_id: nil
+    }
 
-      expect(response).to be_successful
+    post api_v1_event_round_reference_point_assignments_path(event_id: event.id, round_id: round.id), params: params, as: :json
 
-      assignment = event.reference_point_assignments.find_by(competitor: competitor, round: round)
-      expect(assignment).not_to be_present
-    end
+    assert_response :success
 
-    it 'incorrect user nullify assignment' do
-      event = events(:published_public)
-      competitor = event_competitors(:competitor_1)
-      round = event_rounds(:distance_round_1)
+    assignment = event.reference_point_assignments.find_by(competitor: competitor, round: round)
+    assert_nil assignment
+  end
 
-      params = {
-        event_id: event.id,
-        round_id: round.id,
-        competitor_id: competitor.id,
-        reference_point_id: nil
-      }
+  test 'incorrect user nullify assignment' do
+    event = events(:nationals)
+    competitor = event_competitors(:john)
+    round = event_rounds(:distance_1)
 
-      post :create, params: params, format: :json
+    params = {
+      event_id: event.id,
+      round_id: round.id,
+      competitor_id: competitor.id,
+      reference_point_id: nil
+    }
 
-      expect(response).to be_forbidden
-    end
+    post api_v1_event_round_reference_point_assignments_path(event_id: event.id, round_id: round.id), params: params, as: :json
+
+    assert_response :forbidden
   end
 end

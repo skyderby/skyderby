@@ -1,25 +1,22 @@
-describe EventPolicy do
-  describe '#index?' do
-    it 'allowed to guest user' do
-      expect(EventPolicy.new(guest_user, Event).index?).to be_truthy
-    end
+require 'test_helper'
 
-    it 'allowed to registered user' do
-      expect(EventPolicy.new(user, Event).index?).to be_truthy
-    end
+class EventPolicyTest < ActiveSupport::TestCase
+  setup do
+    @user ||= create :user
+    @guest_user ||= GuestUser.new({})
   end
 
-  describe '#create?' do
-    it 'not allowed to guest user' do
-      expect(EventPolicy.new(guest_user, Event).create?).to be_falsey
-    end
-
-    it 'allowed to registered user' do
-      expect(EventPolicy.new(user, Event).create?).to be_truthy
-    end
+  test '#index?' do
+    assert_predicate EventPolicy.new(@guest_user, Event), :index?
+    assert_predicate EventPolicy.new(@user, Event), :index?
   end
 
-  describe '#show?' do
+  test '#create?' do
+    assert_not_predicate EventPolicy.new(@guest_user, Event), :create?
+    assert_predicate EventPolicy.new(@user, Event), :create?
+  end
+
+  test '#show?' do
     # rubocop:disable Layout/LineLength
     permissions_map = [
       { status: 'draft',     visibility: 'public_event',   guest: false, registered: false, participant: false, organizer: true },
@@ -34,129 +31,80 @@ describe EventPolicy do
     ]
     # rubocop:enable Layout/LineLength
 
-    permissions_map.each do |set|
-      describe "#{set[:status]} #{set[:visibility]} event" do
-        it "#{'not ' unless set[:guest]}allowed to guest user" do
-          event = create(:event,
-                         status: Event.statuses[set[:status]],
-                         visibility: Event.visibilities[set[:visibility]])
+    permissions_map.each do |params|
+      visibility = params[:visibility]
+      status = params[:status]
+      event = create(:event, status:, visibility:, name: "#{status}/#{visibility}")
 
-          if set[:guest]
-            expect(EventPolicy.new(guest_user, event).show?).to be_truthy
-          else
-            expect(EventPolicy.new(guest_user, event).show?).to be_falsey
-          end
-        end
+      if params[:guest]
+        assert_predicate EventPolicy.new(@guest_user, event), :show?,
+                         "Event #{status}/#{visibility} should be visible to guest user"
+      else
+        assert_not_predicate EventPolicy.new(@guest_user, event), :show?,
+                             "Event #{status}/#{visibility} should NOT be visible to guest user"
+      end
 
-        it "#{'not ' unless set[:registered]}allowed to registered user" do
-          event = create(:event,
-                         status: Event.statuses[set[:status]],
-                         visibility: Event.visibilities[set[:visibility]])
+      if params[:registered]
+        assert_predicate EventPolicy.new(@user, event), :show?,
+                         "Event #{status}/#{visibility} should be visible to registered user"
+      else
+        assert_not_predicate EventPolicy.new(@user, event), :show?,
+                             "Event #{status}/#{visibility} should NOT be visible to registered user"
+      end
 
-          if set[:registered]
-            expect(EventPolicy.new(user, event).show?).to be_truthy
-          else
-            expect(EventPolicy.new(user, event).show?).to be_falsey
-          end
-        end
+      user = create :user
+      was_finished = event.finished?
+      event.published! if was_finished
+      section = event.sections.create(name: 'Open')
+      event.competitors.create!(profile: user.profile, suit: suits(:apache), section:)
+      event.finished! if was_finished
 
-        it "#{'not ' unless set[:participant]}allowed to participants" do
-          event = create(:event,
-                         status: Event.statuses[set[:status]],
-                         visibility: Event.visibilities[set[:visibility]])
+      if params[:participant]
+        assert_predicate EventPolicy.new(user, event), :show?,
+                         "Event #{status}/#{visibility} should be visible to participant"
+      else
+        assert_not_predicate EventPolicy.new(user, event), :show?,
+                             "Event #{status}/#{visibility} should NOT be visible to participant"
+      end
 
-          # in case event finished we have to switch it to published to create competitor
-          was_finished = event.finished?
-          event.published! if was_finished
+      user = create :user
+      event = create(:event, status:, visibility:, responsible: user)
 
-          create :event_competitor, event: event, profile: user.profile
-
-          event.finished! if was_finished
-
-          if set[:participant]
-            expect(EventPolicy.new(user, event).show?).to be_truthy
-          else
-            expect(EventPolicy.new(user, event).show?).to be_falsey
-          end
-        end
-
-        it 'allowed to organizer' do
-          event = create(:event,
-                         status: Event.statuses[set[:status]],
-                         visibility: Event.visibilities[set[:visibility]],
-                         responsible: user)
-
-          if set[:organizer]
-            expect(EventPolicy.new(user, event).show?).to be_truthy
-          else
-            expect(EventPolicy.new(user, event).show?).to be_falsey
-          end
-        end
+      if params[:organizer]
+        assert_predicate EventPolicy.new(user, event), :show?,
+                         "Event #{status}/#{visibility} should be visible to organizer"
+      else
+        assert_predicate EventPolicy.new(user, event), :show?,
+                         "Event #{status}/#{visibility} should NOT be visible to organizer"
       end
     end
   end
 
-  describe '#update?' do
-    it 'not allowed to guest user' do
-      event = create(:event)
+  test '#update?' do
+    event = create(:event)
 
-      expect(EventPolicy.new(guest_user, event).update?).to be_falsey
-    end
+    assert_not_predicate EventPolicy.new(@guest_user, event), :update?
+    assert_not_predicate EventPolicy.new(@user, event), :update?
 
-    it 'not allowed to guest user' do
-      event = create(:event)
+    event = create(:event, responsible: @user)
+    assert_predicate EventPolicy.new(@user, event), :update?
 
-      expect(EventPolicy.new(user, event).update?).to be_falsey
-    end
-
-    it 'allowed to responsible' do
-      event = create(:event, responsible: user)
-
-      expect(EventPolicy.new(user, event).update?).to be_truthy
-    end
-
-    it 'allowed to organizer' do
-      event = create(:event)
-
-      create :event_organizer, organizable: event, user: user
-
-      expect(EventPolicy.new(user, event).update?).to be_truthy
-    end
+    event = create(:event)
+    create(:event_organizer, organizable: event, user: @user)
+    assert_predicate EventPolicy.new(@user, event), :update?
   end
 
-  describe '#destroy?' do
-    it 'not allowed to guest user' do
-      event = create(:event)
+  test '#destroy?' do
+    event = create(:event)
 
-      expect(EventPolicy.new(guest_user, event).destroy?).to be_falsey
-    end
+    assert_not_predicate EventPolicy.new(@guest_user, event), :destroy?
+    assert_not_predicate EventPolicy.new(@user, event), :destroy?
 
-    it 'not allowed to guest user' do
-      event = create(:event)
+    event = create(:event)
+    create :event_organizer, organizable: event, user: @user
+    assert_not_predicate EventPolicy.new(@user, event), :destroy?
 
-      expect(EventPolicy.new(user, event).destroy?).to be_falsey
-    end
-
-    it 'not allowed to organizer' do
-      event = create(:event)
-
-      create :event_organizer, organizable: event, user: user
-
-      expect(EventPolicy.new(user, event).destroy?).to be_falsey
-    end
-
-    it 'allowed to responsible' do
-      event = create :event, responsible: user
-
-      expect(EventPolicy.new(user, event).destroy?).to be_truthy
-    end
-  end
-
-  def user
-    @user ||= create :user
-  end
-
-  def guest_user
-    @guest_user ||= GuestUser.new({})
+    event = create :event, responsible: @user
+    assert_predicate EventPolicy.new(@user, event), :destroy?
   end
 end

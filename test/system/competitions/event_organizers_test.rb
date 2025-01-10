@@ -1,6 +1,6 @@
 feature 'Event organizers', type: :system, js: true do
   scenario 'add organizer' do
-    event = events(:published_public)
+    event = events(:nationals)
     organizer = users(:regular_user)
 
     sign_in users(:event_responsible)

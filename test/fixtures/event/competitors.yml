@@ -1,13 +1,17 @@
-competitor_1:
-  id: 1
-  event_id: 1
+john:
+  event: nationals
   suit: apache
-  section: speed_distance_time_advanced
-  profile: competitor_1
+  section: advanced
+  profile: john
 
-competitor_2:
-  id: 2
-  event_id: 1
+travis:
+  event: nationals
   suit: apache
-  section: speed_distance_time_advanced
-  profile: competitor_2
+  section: advanced
+  profile: travis
+
+alex:
+  event: nationals
+  suit: nala
+  section: advanced
+  profile: alex

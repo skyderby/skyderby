@@ -2,7 +2,7 @@ describe Api::V1::Events::ResultsController do
   render_views
 
   it '#index' do
-    event = events(:published_public)
+    event = events(:nationals)
 
     get :index, params: { event_id: event.id }, format: :json
 
@@ -16,7 +16,7 @@ describe Api::V1::Events::ResultsController do
 
   describe '#create' do
     it 'when not allowed' do
-      event = events(:published_public)
+      event = events(:nationals)
       post :create, params: { event_id: event.id }
 
       expect(response.forbidden?).to be_truthy
@@ -25,9 +25,9 @@ describe Api::V1::Events::ResultsController do
     it 'when allowed, with correct data' do
       sign_in users(:event_responsible)
 
-      event = events(:published_public)
+      event = events(:nationals)
       round = event.rounds.create!(discipline: :distance)
-      competitor = event_competitors(:competitor_1)
+      competitor = event_competitors(:john)
 
       event.reference_points.create!(name: 'Lane 1', latitude: 20, longitude: 20)
 

@@ -1,28 +1,38 @@
-describe Api::V1::Events::CompetitorsController do
-  render_views
+require 'test_helper'
 
-  it '#index' do
-    get :index, params: { event_id: events(:published_public).id }, format: :json
-    expect(response.successful?).to be_truthy
+class Api::V1::Events::CompetitorsControllerTest < ActionDispatch::IntegrationTest
+  test '#index' do
+    get api_v1_event_competitors_path(event_id: events(:nationals).id), as: :json
+    assert_response :success
 
-    expect(response.parsed_body).to eq(JSON.parse(expected_response.to_json))
+    assert_equal expected_response.to_json, response.body
   end
+
+  private
 
   def expected_response
     [
       {
-        id: 1,
+        id: event_competitors(:alex).id,
+        name: 'Alex',
+        suit_id: suits(:nala).id,
+        suit_name: 'Nala',
+        category_id: event_sections(:advanced).id,
+        category_name: 'Advanced'
+      },
+      {
+        id: event_competitors(:john).id,
         name: 'John',
         suit_id: suits(:apache).id,
         suit_name: 'Apache Series',
-        category_id: event_sections(:speed_distance_time_advanced).id,
+        category_id: event_sections(:advanced).id,
         category_name: 'Advanced'
       }, {
-        id: 2,
+        id: event_competitors(:travis).id,
         name: 'Travis',
         suit_id: suits(:apache).id,
         suit_name: 'Apache Series',
-        category_id: event_sections(:speed_distance_time_advanced).id,
+        category_id: event_sections(:advanced).id,
         category_name: 'Advanced'
       }
     ]

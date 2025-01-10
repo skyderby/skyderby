@@ -1,5 +1,4 @@
 admin:
-  id: 1
   name: Admin profile
   owner: admin (User)
 
@@ -12,17 +11,24 @@ event_responsible:
   owner: event_responsible (User)
 
 alex:
-  id: 2
   name: Alex
-  owner_id: 2
-  owner_type: User
 
-competitor_1:
+john:
   name: John
-  owner: published_public (Event)
+  owner: nationals (Event)
   country: norway
 
-competitor_2:
+travis:
   name: Travis
-  owner: published_public (Event)
+  owner: nationals (Event)
+  country: norway
+
+maynard:
+  name: Ingrid Maynard
+  owner: nationals (SpeedSkydivingCompetition)
+  country: norway
+
+hinton:
+  name: Nigel Hinton
+  owner: nationals (SpeedSkydivingCompetition)
   country: norway

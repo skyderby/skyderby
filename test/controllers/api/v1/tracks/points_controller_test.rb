@@ -1,24 +1,24 @@
-describe Api::V1::Tracks::PointsController do
-  render_views
+require 'test_helper'
 
-  describe '#show' do
-    it 'public track' do
-      track = tracks(:hellesylt)
-      track.public_track!
+class Api::V1::Tracks::PointsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @track = tracks(:hellesylt)
+  end
 
-      get :show, params: { track_id: track.id }, format: :json
+  test '#show - public track' do
+    @track.public_track!
 
-      expect(response).to have_http_status(:success)
-      expect(response.parsed_body.count).to eq(34)
-    end
+    get api_v1_track_points_url(@track)
 
-    it 'private track' do
-      track = tracks(:hellesylt)
-      track.private_track!
+    assert_response :success
+    assert_equal 34, response.parsed_body.count
+  end
 
-      get :show, params: { track_id: track.id }, format: :json
+  test '#show - private track' do
+    @track.private_track!
 
-      expect(response).to have_http_status(:forbidden)
-    end
+    get api_v1_track_points_url(@track)
+
+    assert_response :forbidden
   end
 end

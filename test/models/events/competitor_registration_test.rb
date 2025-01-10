@@ -1,86 +1,81 @@
-describe Events::CompetitorRegistration do
-  describe '#create' do
-    it 'create competitor with existed profile' do
-      profile = create :profile
+require 'test_helper'
 
-      params = {
-        event_id: event.id,
-        section_id: section.id,
-        suit_id: suit.id,
-        profile_id: profile.id
-      }
+class Events::CompetitorRegistrationTest < ActiveSupport::TestCase
+  setup do
+    @event = events(:nationals)
+    @section = event_sections(:advanced)
+    @suit = suits(:apache)
+  end
 
-      expect { Events::CompetitorRegistration.new(params).create }
-        .to change { event.competitors.count }.by(1)
-    end
+  test 'create competitor with existed profile' do
+    profile = profiles(:john)
 
-    it 'create competitor with new profile' do
-      country = create :country
-      name = 'Ivan'
+    params = {
+      event_id: @event.id,
+      section_id: @section.id,
+      suit_id: @suit.id,
+      profile_id: profile.id
+    }
 
-      params = {
-        event_id: event.id,
-        section_id: section.id,
-        suit_id: suit.id,
-        new_profile: 'true',
-        name: name,
-        country_id: country.id
-      }
-
-      expect { Events::CompetitorRegistration.new(params).create }
-        .to change { event.competitors.count }.by(1)
-      expect(event.competitors.last.name).to eq(name)
+    assert_difference -> { @event.competitors.count } => 1 do
+      Events::CompetitorRegistration.new(params).create
     end
   end
 
-  describe '#update' do
-    it 'update with existed profile' do
-      competitor = event_competitors(:competitor_1)
-      profile = create :profile
+  test 'create competitor with new profile' do
+    country = countries(:norway)
+    name = 'Ivan'
 
-      params = {
-        id: competitor.id,
-        event_id: event.id,
-        section_id: section.id,
-        suit_id: suit.id,
-        profile_id: profile.id
-      }
+    params = {
+      event_id: @event.id,
+      section_id: @section.id,
+      suit_id: @suit.id,
+      new_profile: 'true',
+      name: name,
+      country_id: country.id
+    }
 
-      Events::CompetitorRegistration.new(params).update
-
-      expect(event.competitors.first.profile).to eq(profile)
+    assert_difference -> { @event.competitors.count } => 1 do
+      Events::CompetitorRegistration.new(params).create
     end
 
-    it 'update with new profile' do
-      competitor = event_competitors(:competitor_1)
-      country = create :country
-      name = 'Ivan'
-
-      params = {
-        id: competitor.id,
-        event_id: event.id,
-        section_id: section.id,
-        suit_id: suit.id,
-        new_profile: 'true',
-        name: name,
-        country_id: country.id
-      }
-
-      Events::CompetitorRegistration.new(params).update
-
-      expect(event.competitors.first.name).to eq(name)
-    end
+    assert_equal name, @event.competitors.last.name
   end
 
-  def event
-    @event ||= events(:published_public)
+  test 'update with existed profile' do
+    competitor = event_competitors(:john)
+    profile = profiles(:travis)
+
+    params = {
+      id: competitor.id,
+      event_id: @event.id,
+      section_id: @section.id,
+      suit_id: @suit.id,
+      profile_id: profile.id
+    }
+
+    Events::CompetitorRegistration.new(params).update
+
+    assert_equal profile, @event.competitors.first.profile
   end
 
-  def section
-    @section ||= event_sections(:speed_distance_time_advanced)
-  end
+  test 'update with new profile' do
+    competitor = event_competitors(:john)
+    country = countries(:norway)
+    name = 'Ivan'
 
-  def suit
-    @suit ||= create :suit
+    params = {
+      id: competitor.id,
+      event_id: @event.id,
+      section_id: @section.id,
+      suit_id: @suit.id,
+      new_profile: 'true',
+      name: name,
+      country_id: country.id
+    }
+
+    Events::CompetitorRegistration.new(params).update
+
+    assert_equal name, competitor.reload.name
   end
 end

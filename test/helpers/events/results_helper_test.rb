@@ -5,9 +5,9 @@ describe Events::ResultsHelper do
   end
 
   it '#new_event_track_link' do
-    event = events(:published_public)
-    competitor = event_competitors(:competitor_1)
-    round = event_rounds(:distance_round_1)
+    event = events(:nationals)
+    competitor = event_competitors(:john)
+    round = event_rounds(:distance_1)
 
     generated_link = helper.new_event_track_link(event, competitor, round)
 
@@ -20,7 +20,7 @@ describe Events::ResultsHelper do
 
   describe '#show_event_track_link' do
     it 'can_update=false' do
-      event = events(:published_public)
+      event = events(:nationals)
       result = event_results(:distance_competitor_1)
 
       generated_link = helper.show_event_track_link(event, result, false)
@@ -29,7 +29,7 @@ describe Events::ResultsHelper do
     end
 
     it 'can_update=true' do
-      event = events(:published_public)
+      event = events(:nationals)
       result = event_results(:distance_competitor_1)
 
       generated_link = helper.show_event_track_link(event, result, true)

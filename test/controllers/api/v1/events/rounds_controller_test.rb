@@ -2,7 +2,7 @@ describe Api::V1::Events::RoundsController do
   render_views
 
   it '#index' do
-    get :index, params: { event_id: events(:published_public).id }, format: :json
+    get :index, params: { event_id: events(:nationals).id }, format: :json
     expect(response.successful?).to be_truthy
 
     expected_response = JSON.parse([

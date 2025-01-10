@@ -1,23 +1,23 @@
-describe SegmentParser::Gpx do
-  let(:path) { file_fixture('tracks/two_tracks.gpx') }
-  let(:file) { File.open(path) }
-  let(:uploaded_file_mock) do
-    double('file').tap { |obj| allow(obj).to receive(:open).and_return(file) }
+require 'test_helper'
+
+class SegmentParser::GpxTest < ActiveSupport::TestCase
+  setup do
+    @file = fixture_file_upload('tracks/two_tracks.gpx')
   end
 
-  it 'should return segments' do
-    parser = described_class.new(uploaded_file_mock)
+  test 'returns segments' do
+    parser = SegmentParser::Gpx.new(@file)
 
-    expect(parser.segments.count).to eq 3
+    assert_equal 3, parser.segments.count
   end
 
-  it 'should parse segment name, point count, gain altitude, loose altitude' do
-    parser = described_class.new(uploaded_file_mock)
+  test 'parses segment name, point count, gain altitude, loose altitude' do
+    parser = SegmentParser::Gpx.new(@file)
 
     segment = parser.segments.first
-    expect(segment.name).to eq 'ACTIVE LOG: 20 SEP 2014 15:10'
-    expect(segment.points_count).to eq 388
-    expect(segment.h_up).to eq 561
-    expect(segment.h_down).to eq 3970
+    assert_equal 'ACTIVE LOG: 20 SEP 2014 15:10', segment.name
+    assert_equal 388, segment.points_count
+    assert_equal 561, segment.h_up
+    assert_equal 3970, segment.h_down
   end
 end

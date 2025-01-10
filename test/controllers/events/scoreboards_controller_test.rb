@@ -1,6 +1,6 @@
 describe Events::ScoreboardsController do
   it '#show, format: :html' do
-    event = events(:published_public)
+    event = events(:nationals)
 
     get :show, params: { event_id: event.id }
 

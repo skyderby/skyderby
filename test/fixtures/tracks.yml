@@ -1,9 +1,15 @@
-hellesylt:
+hellesylt: &default
   pilot: regular_user
   place: hellesylt
   kind: base
-  visibility: public
+  visibility: public_track
   comment: Fixture track
   ge_enabled: true
   ff_start: 0
   ff_end: 33
+
+track_with_video:
+  <<: *default
+
+speed_skydiving_track:
+  <<: *default

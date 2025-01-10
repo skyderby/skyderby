@@ -1,48 +1,23 @@
-# == Schema Information
-#
-# Table name: track_videos
-#
-#  id           :integer          not null, primary key
-#  track_id     :integer
-#  url          :string(510)
-#  video_offset :decimal(10, 2)
-#  track_offset :decimal(10, 2)
-#  created_at   :datetime
-#  updated_at   :datetime
-#  video_code   :string(510)
-#
+require 'test_helper'
 
-describe TrackVideo, type: :model do
-  it 'get correct video code from url' do
-    video = TrackVideo.create(url: 'https://www.youtube.com/watch?v=CHEVKtmncD4')
-    expect(video.video_code).to eq('CHEVKtmncD4')
+class Track::VideoTest < ActiveSupport::TestCase
+  test 'get correct video code from url' do
+    video = Track::Video.create(url: 'https://www.youtube.com/watch?v=CHEVKtmncD4', video_offset: 14, track_offset: 10)
+    assert_equal 'CHEVKtmncD4', video.video_code
   end
 
-  it 'requires video_offset' do
-    video = TrackVideo.new(correct_attributes.merge(video_offset: nil))
-    expect(video).not_to be_valid
-  end
-
-  it 'video_offset should be numeric' do
-    video = TrackVideo.new(correct_attributes.merge(video_offset: 'aaa'))
-    expect(video).not_to be_valid
-  end
-
-  it 'requires track_offset' do
-    video = TrackVideo.new(correct_attributes.merge(track_offset: nil))
-    expect(video).not_to be_valid
-  end
-
-  it 'track_offset should be numeric' do
-    video = TrackVideo.new(correct_attributes.merge(track_offset: 'aaa'))
-    expect(video).not_to be_valid
-  end
-
-  def correct_attributes
-    {
+  test 'validations' do
+    correct_attributes = {
+      track: tracks(:hellesylt),
       url: 'https://www.youtube.com/watch?v=CHEVKtmncD4',
       video_offset: 14,
       track_offset: 10
     }
+
+    assert_predicate Track::Video.new(correct_attributes), :valid?
+    assert_not_predicate Track::Video.new(correct_attributes.merge(video_offset: nil)), :valid?
+    assert_not_predicate Track::Video.new(correct_attributes.merge(video_offset: 'aaa')), :valid?
+    assert_not_predicate Track::Video.new(correct_attributes.merge(track_offset: nil)), :valid?
+    assert_not_predicate Track::Video.new(correct_attributes.merge(track_offset: 'aaa')), :valid?
   end
 end

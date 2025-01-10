@@ -1,25 +1,7 @@
-describe PointsPostprocessor::Default do
-  subject { PointsPostprocessor::Default.call(points) }
+require 'test_helper'
 
-  it 'calculates horizontal speed' do
-    horizontal_speeds = subject.map { |point| point[:h_speed].round(1) }
-
-    expect(horizontal_speeds).to eq(Array.new(6, 22.6))
-  end
-
-  it 'calculates vertical speed' do
-    vertical_speeds = subject.map { |point| point[:v_speed].round(1) }
-
-    expect(vertical_speeds).to eq(Array.new(6, 200))
-  end
-
-  it 'calculates GR' do
-    glide_ratios = subject.map { |point| point[:glide_ratio].round(2) }
-
-    expect(glide_ratios).to eq(Array.new(6, 0.11))
-  end
-
-  def points
+class PointsPostprocessor::DefaultTest < ActiveSupport::TestCase
+  setup do
     start_time = 1.day.ago.beginning_of_hour
 
     # rubocop:disable Layout/LineLength
@@ -32,5 +14,26 @@ describe PointsPostprocessor::Default do
       { gps_time: start_time + 2.5, fl_time: 2.5, altitude: 3000, latitude: 24.8908, longitude: 55.54469, h_speed: 50, v_speed: 70, distance: 20 }
     ]
     # rubocop:enable Layout/LineLength
+  end
+
+  test 'calculates horizontal speed' do
+    horizontal_speeds =
+      PointsPostprocessor::Default.call(@points).map { |point| point[:h_speed].round(1) }
+
+    assert_equal Array.new(6, 22.6), horizontal_speeds
+  end
+
+  test 'calculates vertical speed' do
+    vertical_speeds =
+      PointsPostprocessor::Default.call(@points).map { |point| point[:v_speed].round(1) }
+
+    assert_equal Array.new(6, 200), vertical_speeds
+  end
+
+  test 'calculates GR' do
+    glide_ratios =
+      PointsPostprocessor::Default.call(@points).map { |point| point[:glide_ratio].round(2) }
+
+    assert_equal Array.new(6, 0.11), glide_ratios
   end
 end

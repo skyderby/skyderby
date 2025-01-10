@@ -1,22 +1,20 @@
-describe Tracks::FlaresDetector do
-  it 'finds flare in skydive track', :aggregate_failures do
-    points = points_for '13-31-51_Ravenna.CSV'
+require 'test_helper'
+
+class Tracks::FlaresDetectorTest < ActiveSupport::TestCase
+  test 'finds flare in skydive track' do
+    track = create_track_from_file '13-31-51_Ravenna.CSV'
+    points = PointsQuery.execute track, trimmed: true, only: %i[gps_time altitude v_speed]
 
     flares = Tracks::FlaresDetector.call(points)
 
-    expect(flares.count).to eq(3)
-    expect(flares.first.altitude_gain).to be_within(1).of(7)
-    expect(flares.first.gain_duration).to be_within(0.5).of(4)
+    assert_equal 3, flares.count
+    assert_in_delta 7, flares.first.altitude_gain, 1
+    assert_in_delta 4, flares.first.gain_duration, 0.5
   end
 
-  it 'handles empty points' do
+  test 'handles empty points' do
     flares = Tracks::FlaresDetector.call([])
 
-    expect(flares).to be_empty
-  end
-
-  def points_for(filename)
-    track = create_track_from_file filename
-    PointsQuery.execute track, trimmed: true, only: %i[gps_time altitude v_speed]
+    assert_empty flares
   end
 end

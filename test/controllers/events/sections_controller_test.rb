@@ -1,7 +1,7 @@
 describe Events::SectionsController do
   describe 'event organizer' do
     it 'updates section' do
-      event = events(:published_public)
+      event = events(:nationals)
       section = event_sections(:speed_distance_time_advanced)
 
       sign_in users(:event_responsible)

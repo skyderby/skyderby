@@ -1,25 +1,28 @@
-describe PerformanceCompetitionSeries::Scoreboard::Settings do
-  describe '#display_raw_results' do
-    it 'default value is false' do
-      settings = described_class.new
-      expect(settings.display_raw_results).to eq(false)
-    end
+require 'test_helper'
 
-    {
-      'true' => true,
-      'false' => false,
-      '0' => false,
-      '1' => true
-    }.each do |input, output|
-      it 'converts string "true" to boolean true' do
-        params =
-          ActionController::Parameters
-          .new(display_raw_results: input)
-          .permit(:display_raw_results)
+class PerformanceCompetitionSeries::Scoreboard::SettingsTest < ActiveSupport::TestCase
+  test '#display_raw_results - default value is false' do
+    settings = PerformanceCompetitionSeries::Scoreboard::Settings.new
+    assert_not settings.display_raw_results
+  end
 
-        settings = described_class.new(params)
-        expect(settings.display_raw_results).to eq(output)
-      end
-    end
+  test 'converts string input to boolean' do
+    params = ActionController::Parameters.new.permit(:display_raw_results)
+
+    params[:display_raw_results] = 'true'
+    settings = PerformanceCompetitionSeries::Scoreboard::Settings.new(params)
+    assert settings.display_raw_results
+
+    params[:display_raw_results] = 'false'
+    settings = PerformanceCompetitionSeries::Scoreboard::Settings.new(params)
+    assert_not settings.display_raw_results
+
+    params[:display_raw_results] = '1'
+    settings = PerformanceCompetitionSeries::Scoreboard::Settings.new(params)
+    assert settings.display_raw_results
+
+    params[:display_raw_results] = '0'
+    settings = PerformanceCompetitionSeries::Scoreboard::Settings.new(params)
+    assert_not settings.display_raw_results
   end
 end

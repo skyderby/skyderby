@@ -64,7 +64,7 @@ describe 'events/scoreboards/_result' do
   end
 
   def event
-    @event ||= events(:published_public)
+    @event ||= events(:nationals)
   end
 
   def scoreboard
@@ -73,11 +73,11 @@ describe 'events/scoreboards/_result' do
   end
 
   def competitor
-    @competitor ||= event_competitors(:competitor_1)
+    @competitor ||= event_competitors(:john)
   end
 
   def round
-    @round ||= event_rounds(:distance_round_1)
+    @round ||= event_rounds(:distance_1)
   end
 
   def show_link(result)

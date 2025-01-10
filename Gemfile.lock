@@ -138,6 +138,9 @@ GEM
     concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
     content_disposition (1.0.0)
+    crack (1.0.0)
+      bigdecimal
+      rexml
     crass (1.0.6)
     date (3.4.0)
     devise (4.9.4)
@@ -146,7 +149,6 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    diff-lcs (1.5.1)
     docile (1.4.1)
     dotenv (3.1.4)
     dotenv-rails (3.1.4)
@@ -179,6 +181,7 @@ GEM
     glob (0.4.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hashdiff (1.1.1)
     hashie (5.0.0)
     honeybadger (5.23.0)
       logger
@@ -339,27 +342,6 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.3.9)
-    rspec (3.13.0)
-      rspec-core (~> 3.13.0)
-      rspec-expectations (~> 3.13.0)
-      rspec-mocks (~> 3.13.0)
-    rspec-core (3.13.2)
-      rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.3)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.2)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-rails (7.1.0)
-      actionpack (>= 7.0)
-      activesupport (>= 7.0)
-      railties (>= 7.0)
-      rspec-core (~> 3.13)
-      rspec-expectations (~> 3.13)
-      rspec-mocks (~> 3.13)
-      rspec-support (~> 3.13)
-    rspec-support (3.13.1)
     rubocop (1.68.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -372,10 +354,13 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.36.1)
       parser (>= 3.3.1.0)
+    rubocop-minitest (0.35.1)
+      rubocop (>= 1.61, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-performance (1.23.0)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
-    rubocop-rails (2.27.0)
+    rubocop-rails (2.28.0)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.52.0, < 2.0)
@@ -452,10 +437,16 @@ GEM
     unicode-display_width (2.6.0)
     uniform_notifier (1.16.0)
     uri (1.0.2)
+    vcr (6.3.1)
+      base64
     version_gem (1.1.4)
     vincenty_distance (1.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
+    webmock (3.23.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     webrick (1.9.0)
     websocket (1.2.11)
     websocket-driver (0.7.6)
@@ -485,6 +476,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   factory_bot_rails
+  ffi
   font-awesome-sass (~> 5.8.1)
   honeybadger
   http_accept_language
@@ -506,9 +498,8 @@ DEPENDENCIES
   rack-attack
   rack-cors
   rails (~> 7.1.5)
-  rspec
-  rspec-rails
   rubocop
+  rubocop-minitest
   rubocop-performance
   rubocop-rails
   sassc-rails
@@ -522,7 +513,9 @@ DEPENDENCIES
   skylight
   terser
   turbo-rails
+  vcr
   vincenty_distance
+  webmock
   will_paginate
   will_paginate-bootstrap
 

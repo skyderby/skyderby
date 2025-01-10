@@ -2,7 +2,7 @@ describe Api::V1::Events::ScoreboardsController do
   render_views
 
   it '#show, format: :json' do
-    event = events(:published_public)
+    event = events(:nationals)
 
     get :show, params: { event_id: event.id }, format: :json
 
@@ -78,7 +78,7 @@ describe Api::V1::Events::ScoreboardsController do
   end
 
   def competitor1
-    @competitor1 ||= event_competitors(:competitor_1)
+    @competitor1 ||= event_competitors(:john)
   end
 
   def competitor2

@@ -1,72 +1,64 @@
-describe ProfilePolicy do
-  describe '#index?' do
-    it 'allowed to admins' do
-      user = create :user, :admin
-      expect(ProfilePolicy.new(user, Profile).index?).to be_truthy
-    end
+require 'test_helper'
 
-    it 'not allowed to everyone' do
-      expect(ProfilePolicy.new(nil, Profile).index?).to be_falsey
-    end
+class ProfilePolicyTest < ActiveSupport::TestCase
+  setup do
+    @admin = users(:admin)
   end
 
-  describe '#update?' do
-    it 'allowed to admins' do
-      profile = create :profile
-
-      user = create :user, :admin
-      expect(ProfilePolicy.new(user, profile).update?).to be_truthy
-    end
-
-    it 'allowed to owner' do
-      user = create :user
-      expect(ProfilePolicy.new(user, user.profile).update?).to be_truthy
-    end
-
-    it 'allowed to responsible of event' do
-      user = create :user
-      event = create :event, responsible: user
-
-      profile = create :profile, owner: event
-      expect(ProfilePolicy.new(user, profile).update?).to be_truthy
-    end
-
-    it 'allowed to organizer of event' do
-      user = create :user
-      event = create :event
-      create :event_organizer, organizable: event, user: user
-
-      profile = create :profile, owner: event
-      expect(ProfilePolicy.new(user, profile).update?).to be_truthy
-    end
-
-    it 'not allowed to anyone else' do
-      profile = create :profile
-
-      user = create :user
-      expect(ProfilePolicy.new(user, profile).update?).to be_falsey
-    end
+  test '#index?' do
+    assert_predicate ProfilePolicy.new(@admin, Profile), :index?
+    assert_not_predicate ProfilePolicy.new(nil, Profile), :index?
   end
 
-  describe '#masquerade?' do
-    it 'allowed to admins' do
-      user = create :user, :admin
-      expect(ProfilePolicy.new(user, Profile).masquerade?).to be_truthy
-    end
-
-    it 'not allowed to everyone' do
-      expect(ProfilePolicy.new(nil, Profile).masquerade?).to be_falsey
-    end
+  test '#update? - allowed to admins' do
+    profile = profiles(:john)
+    assert_predicate ProfilePolicy.new(@admin, profile), :update?
   end
 
-  describe '#merge?' do
-    it 'allowed to admins' do
-      user = create :user, :admin
-      expect(ProfilePolicy.new(user, Profile).merge?).to be_truthy
-    end
+  test '#update? - allowed to owner' do
+    user = create :user
+    assert_predicate ProfilePolicy.new(user, user.profile), :update?
+  end
 
-    it 'not allowed to everyone' do
-      expect(ProfilePolicy.new(nil, Profile).merge?).to be_falsey
-    end
+  test '#update? - allowed to responsible of event' do
+    user = create :user
+    event = create :event, responsible: user
+
+    profile = create :profile, owner: event
+    assert_predicate ProfilePolicy.new(user, profile), :update?
+  end
+
+  test '#update? - allowed to organizer of event' do
+    user = create :user
+    event = create :event
+    create :event_organizer, organizable: event, user: user
+
+    profile = create :profile, owner: event
+    assert_predicate ProfilePolicy.new(user, profile), :update?
+  end
+
+  test '#update? not allowed to anyone else' do
+    profile = create :profile
+
+    user = create :user
+    assert_not_predicate ProfilePolicy.new(user, profile), :update?
+  end
+
+  test '#masquerade? - allowed to admins' do
+    user = create :user, :admin
+    assert_predicate ProfilePolicy.new(user, Profile), :masquerade?
+  end
+
+  test '#masquerade? - not allowed to everyone' do
+    assert_not_predicate ProfilePolicy.new(nil, Profile), :masquerade?
+  end
+
+  test '#merge? - allowed to admins' do
+    user = create :user, :admin
+    assert_predicate ProfilePolicy.new(user, Profile), :merge?
+  end
+
+  test '#merge? - not allowed to everyone' do
+    assert_not_predicate ProfilePolicy.new(nil, Profile), :merge?
   end
 end
