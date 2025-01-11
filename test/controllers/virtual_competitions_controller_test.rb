@@ -1,55 +1,44 @@
-describe VirtualCompetitionsController do
-  describe 'regular user' do
-    it '#index' do
-      get :index
+require 'test_helper'
 
-      expect(response.successful?).to be_truthy
+class VirtualCompetitionsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @virtual_competition = virtual_competitions(:base_race)
+  end
+
+  test 'regular user #index' do
+    get virtual_competitions_path
+    assert_response :success
+  end
+
+  test 'regular user #show redirects to overall' do
+    travel_to Time.zone.parse('2018-01-01') do
+      get virtual_competition_path(@virtual_competition)
+      assert_redirected_to virtual_competition_year_path(@virtual_competition.id, year: 2018)
     end
+  end
 
-    it '#show redirects to overall' do
-      travel_to Time.zone.parse('2018-01-01')
-      virtual_competition = virtual_competitions(:base_race)
+  test 'regular user #new' do
+    get new_virtual_competition_path
+    assert_response :forbidden
+  end
 
-      get :show, params: { id: virtual_competition.id }
+  test 'regular user #create' do
+    post virtual_competitions_path, params: { virtual_competition: { name: 'New comp' } }
+    assert_response :forbidden
+  end
 
-      expect(response.redirect?).to be_truthy
-      expect(response.location).to eq(virtual_competition_year_url(virtual_competition.id, year: 2018))
-    end
+  test 'regular user #edit' do
+    get edit_virtual_competition_path(@virtual_competition)
+    assert_response :forbidden
+  end
 
-    it '#new' do
-      get :new
+  test 'regular user #update' do
+    patch virtual_competition_path(@virtual_competition), params: { virtual_competition: { name: 'New name' } }
+    assert_response :forbidden
+  end
 
-      expect(response.forbidden?).to be_truthy
-    end
-
-    it '#create' do
-      post :create, params: { virtual_competition: { name: 'New comp' } }
-
-      expect(response.forbidden?).to be_truthy
-    end
-
-    it '#edit' do
-      virtual_competition = virtual_competitions(:base_race)
-
-      get :edit, params: { id: virtual_competition.id }
-
-      expect(response.forbidden?).to be_truthy
-    end
-
-    it '#update' do
-      virtual_competition = virtual_competitions(:base_race)
-
-      patch :update, params: { id: virtual_competition.id, virtual_competition: { name: 'New name' } }
-
-      expect(response.forbidden?).to be_truthy
-    end
-
-    it '#destroy' do
-      virtual_competition = virtual_competitions(:base_race)
-
-      delete :destroy, params: { id: virtual_competition.id }
-
-      expect(response.forbidden?).to be_truthy
-    end
+  test 'regular user #destroy' do
+    delete virtual_competition_path(@virtual_competition)
+    assert_response :forbidden
   end
 end

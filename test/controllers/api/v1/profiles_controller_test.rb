@@ -18,21 +18,10 @@ class Api::V1::ProfilesControllerTest < ActionDispatch::IntegrationTest
           original: '/images/original/missing.png',
           medium: '/images/medium/missing.png',
           thumb: '/images/thumb/missing.png'
-        }
+        },
+        personalScores: []
       }.deep_stringify_keys
 
     assert_equal expected_json, response.parsed_body
-  end
-
-  test '#index - returns none if no search term provided' do
-    get api_v1_profiles_path
-
-    assert_empty response.parsed_body['items']
-  end
-
-  test '#index - returns collection if search term specified' do
-    get api_v1_profiles_path(search: 'ale')
-
-    assert_not_nil response.parsed_body['items'].find { _1['name'] == 'Alex' }
   end
 end

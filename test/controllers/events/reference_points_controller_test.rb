@@ -1,37 +1,29 @@
-describe Events::ReferencePointsController do
-  describe 'regular user' do
-    it '#show' do
-      get :show, params: { event_id: event.id }
+require 'test_helper'
 
-      expect(response.forbidden?).to be_truthy
-    end
-
-    it '#update' do
-      put :update, params: { event_id: event.id, event: { designated_lane_start: 1 } }
-
-      expect(response.forbidden?).to be_truthy
-    end
+class Events::ReferencePointsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @event = events(:nationals)
   end
 
-  describe 'event organizer' do
-    it '#show' do
-      sign_in users(:event_responsible)
-
-      get :show, params: { event_id: event.id }
-
-      expect(response.successful?).to be_truthy
-    end
-
-    it '#update' do
-      sign_in users(:event_responsible)
-
-      put :update, params: { event_id: event.id, event: { designated_lane_start: 'on_10_sec' } }
-
-      expect(response.redirect?).to be_truthy
-    end
+  test 'regular user #show' do
+    get event_reference_points_path(event_id: @event.id)
+    assert_response :forbidden
   end
 
-  def event
-    events(:nationals)
+  test 'regular user #update' do
+    put event_reference_points_path(event_id: @event.id, event: { designated_lane_start: 1 })
+    assert_response :forbidden
+  end
+
+  test 'event organizer #show' do
+    sign_in users(:event_responsible)
+    get event_reference_points_path(event_id: @event.id)
+    assert_response :success
+  end
+
+  test 'event organizer #update' do
+    sign_in users(:event_responsible)
+    put event_reference_points_path(event_id: @event.id, event: { designated_lane_start: 'on_10_sec' })
+    assert_response :redirect
   end
 end

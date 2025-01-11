@@ -1,31 +1,25 @@
-describe Manage::AccountsController do
-  describe 'guest user' do
-    it '#index not allowed' do
-      get :index
-      expect(response.forbidden?).to be_truthy
-    end
+require 'test_helper'
 
-    it '#show not allowed' do
-      get :show, params: { id: users(:event_responsible).id }
-      expect(response.forbidden?).to be_truthy
-    end
+class Manage::AccountsControllerTest < ActionDispatch::IntegrationTest
+  test 'guest user #index not allowed' do
+    get accounts_path
+    assert_response :forbidden
   end
 
-  describe 'admin user' do
-    it '#index' do
-      sign_in users(:admin)
+  test 'guest user #show not allowed' do
+    get account_path(id: users(:event_responsible).id)
+    assert_response :forbidden
+  end
 
-      get :index
+  test 'admin user #index' do
+    sign_in users(:admin)
+    get accounts_path
+    assert_response :success
+  end
 
-      expect(response.successful?).to be_truthy
-    end
-
-    it '#show' do
-      sign_in users(:admin)
-
-      get :show, params: { id: users(:admin).id }
-
-      expect(response.successful?).to be_truthy
-    end
+  test 'admin user #show' do
+    sign_in users(:admin)
+    get account_path(id: users(:admin).id)
+    assert_response :success
   end
 end

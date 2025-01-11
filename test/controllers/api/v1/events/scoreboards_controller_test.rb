@@ -1,15 +1,17 @@
-describe Api::V1::Events::ScoreboardsController do
-  render_views
+require 'test_helper'
 
-  it '#show, format: :json' do
+class Api::V1::Events::ScoreboardsControllerTest < ActionDispatch::IntegrationTest
+  test '#show, format: :json' do
     event = events(:nationals)
 
-    get :show, params: { event_id: event.id }, format: :json
+    get api_v1_event_scoreboard_path(event_id: event.id), as: :json
 
     expected_json = JSON.parse(expected_result.to_json)
 
-    expect(response.parsed_body).to match(expected_json)
+    assert_equal expected_json, response.parsed_body
   end
+
+  private
 
   def expected_result
     {
@@ -23,12 +25,12 @@ describe Api::V1::Events::ScoreboardsController do
         order: section_intermediate.order
       }],
       rounds: [
-        { id: 1, discipline: 'distance', number: 1 },
-        { id: 2, discipline: 'speed', number: 1 }
+        { id: event_rounds(:distance_1).id, discipline: 'distance', number: 1 },
+        { id: event_rounds(:speed_1).id, discipline: 'speed', number: 1 }
       ],
       teams: [],
       competitors: [{
-        id: competitor2.id,
+        id: event_competitors(:travis).id,
         name: 'Travis',
         section_id: section_advanced.id,
         country_code: 'NOR',
@@ -47,7 +49,7 @@ describe Api::V1::Events::ScoreboardsController do
           points: '100.0'
         }]
       }, {
-        id: competitor1.id,
+        id: event_competitors(:john).id,
         name: 'John',
         section_id: section_advanced.id,
         country_code: 'NOR',
@@ -65,23 +67,25 @@ describe Api::V1::Events::ScoreboardsController do
           result: '200.0',
           points: '74.1'
         }]
+      },
+      {
+        id: event_competitors(:alex).id,
+        name: 'Alex',
+        section_id: section_advanced.id,
+        team_id: nil,
+        country_code: nil,
+        suit_name: 'TS Nala',
+        total_points: 0.0,
+        results: []
       }]
     }
   end
 
   def section_advanced
-    @section_advanced ||= event_sections(:speed_distance_time_advanced)
+    @section_advanced ||= event_sections(:advanced)
   end
 
   def section_intermediate
-    @section_intermediate ||= event_sections(:speed_distance_time_intermediate)
-  end
-
-  def competitor1
-    @competitor1 ||= event_competitors(:john)
-  end
-
-  def competitor2
-    @competitor2 ||= event_competitors(:competitor_2)
+    @section_intermediate ||= event_sections(:intermediate)
   end
 end

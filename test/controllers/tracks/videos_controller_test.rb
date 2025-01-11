@@ -1,13 +1,11 @@
-describe Tracks::VideosController do
-  describe 'regular user' do
-    describe '#show' do
-      it 'allows on public' do
-        track = create_track_from_file 'flysight.csv'
-        create :track_video, track: track
+require 'test_helper'
 
-        get :show, params: { track_id: track.id }
-        expect(response.successful?).to be_truthy
-      end
-    end
+class Tracks::VideosControllerTest < ActionDispatch::IntegrationTest
+  test 'regular user #show allows on public' do
+    track = create_track_from_file 'flysight.csv'
+    create :track_video, track: track
+
+    get track_video_path(track_id: track.id)
+    assert_response :success
   end
 end

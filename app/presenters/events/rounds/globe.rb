@@ -17,7 +17,7 @@ module Events
             .pluck_to_hash(:latitude,
                            :longitude,
                            :abs_altitude,
-                           'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time')
+                           Arel.sql('to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time'))
         end
 
         private

@@ -1,24 +1,21 @@
-describe TournamentsController do
-  describe 'reqular user' do
-    it '#show redirects to qualification if no rounds' do
-      tournament = tournaments(:qualification_loen)
+require 'test_helper'
 
-      get :show, params: { id: tournament.id }
+class TournamentsControllerTest < ActionDispatch::IntegrationTest
+  test 'regular user #show redirects to qualification if no rounds' do
+    tournament = tournaments(:qualification_loen)
 
-      expect(response.redirect?).to be_truthy
-      expect(response.location).to eq(tournament_qualification_url(tournament))
-    end
+    get tournament_path(tournament)
+
+    assert_redirected_to tournament_qualification_path(tournament)
   end
 
-  describe 'organizer' do
-    it '#show' do
-      sign_in users(:regular_user)
+  test 'organizer #show' do
+    sign_in users(:regular_user)
 
-      tournament = tournaments(:qualification_loen)
+    tournament = tournaments(:qualification_loen)
 
-      get :show, params: { id: tournament.id }
+    get tournament_path(tournament)
 
-      expect(response.successful?).to be_truthy
-    end
+    assert_response :success
   end
 end

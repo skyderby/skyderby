@@ -1,13 +1,16 @@
-describe Events::SectionsController do
-  describe 'event organizer' do
-    it 'updates section' do
-      event = events(:nationals)
-      section = event_sections(:speed_distance_time_advanced)
+require 'test_helper'
 
-      sign_in users(:event_responsible)
+class Events::SectionsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @event = events(:nationals)
+    @section = event_sections(:advanced)
+    @user = users(:event_responsible)
+  end
 
-      get :edit, params: { event_id: event.id, id: section.id }, xhr: true
-      expect(response.successful?).to be_truthy
-    end
+  test 'event organizer updates section' do
+    sign_in @user
+
+    get edit_event_section_path(event_id: @event.id, id: @section.id), xhr: true
+    assert_response :success
   end
 end

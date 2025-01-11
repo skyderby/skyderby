@@ -1,10 +1,12 @@
-describe Events::ScoreboardsController do
-  it '#show, format: :html' do
+require 'test_helper'
+
+class Events::ScoreboardsControllerTest < ActionDispatch::IntegrationTest
+  test '#show, format: :html' do
     event = events(:nationals)
 
-    get :show, params: { event_id: event.id }
+    get event_scoreboard_path(event_id: event.id)
 
-    expect(response.redirect?).to be_truthy
-    expect(response.location).to eq(event_url(event))
+    assert_response :redirect
+    assert_redirected_to event_url(event)
   end
 end

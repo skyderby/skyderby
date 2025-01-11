@@ -1,12 +1,10 @@
-describe Tracks::MapsController do
-  describe 'regular user' do
-    describe '#show' do
-      it 'allows on public' do
-        track = create_track_from_file 'flysight.csv'
+require 'test_helper'
 
-        get :show, params: { track_id: track.id }
-        expect(response.successful?).to be_truthy
-      end
-    end
+class Tracks::MapsControllerTest < ActionDispatch::IntegrationTest
+  test 'regular user #show allows on public' do
+    track = create_track_from_file 'flysight.csv'
+
+    get track_map_path(track_id: track.id)
+    assert_response :success
   end
 end

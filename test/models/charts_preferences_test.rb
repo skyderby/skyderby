@@ -1,36 +1,38 @@
-describe ChartsPreferences do
-  it '#metric?' do
+require 'test_helper'
+
+class ChartsPreferencesTest < ActiveSupport::TestCase
+  test '#metric?' do
     preferences = ChartsPreferences.new(preferred_charts_units: 'metric')
-    expect(preferences.metric?).to be_truthy
+    assert preferences.metric?
   end
 
-  it 'returns metric unit system' do
+  test 'returns metric unit system' do
     preferences = ChartsPreferences.new(preferred_charts_units: 'metric')
-    expect(preferences.unit_system).to eq(UnitSystem::Metric)
+    assert_equal UnitSystem::Metric, preferences.unit_system
   end
 
-  it '#imperial?' do
+  test '#imperial?' do
     preferences = ChartsPreferences.new(preferred_charts_units: 'imperial')
-    expect(preferences.imperial?).to be_truthy
+    assert preferences.imperial?
   end
 
-  it 'returns imperial unit system' do
+  test 'returns imperial unit system' do
     preferences = ChartsPreferences.new(preferred_charts_units: 'imperial')
-    expect(preferences.unit_system).to eq(UnitSystem::Imperial)
+    assert_equal UnitSystem::Imperial, preferences.unit_system
   end
 
-  it 'metric if unknown unit system' do
+  test 'metric if unknown unit system' do
     preferences = ChartsPreferences.new(preferred_charts_units: 'pirates')
-    expect(preferences.metric?).to be_truthy
+    assert preferences.metric?
   end
 
-  it 'returns metric if unit system unknown' do
+  test 'returns metric if unit system unknown' do
     preferences = ChartsPreferences.new(preferred_charts_units: 'imperial')
-    expect(preferences.unit_system).to eq(UnitSystem::Imperial)
+    assert_equal UnitSystem::Imperial, preferences.unit_system
   end
 
-  it '#separate?' do
+  test '#separate?' do
     preferences = ChartsPreferences.new(preferred_charts_mode: 'separate')
-    expect(preferences.separate?).to be_truthy
+    assert preferences.separate?
   end
 end

@@ -1,111 +1,73 @@
-describe PlacesController, type: :controller do
-  describe 'regular user' do
-    describe 'allowed actions' do
-      it '#index' do
-        get :index
+require 'test_helper'
 
-        expect(response.successful?).to be_truthy
-      end
-
-      it '#show' do
-        place = create :place
-
-        get :show, params: { id: place.id }
-
-        expect(response.successful?).to be_truthy
-      end
-    end
-
-    describe 'not allowed actions' do
-      it '#new' do
-        get :new
-
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#edit' do
-        place = create :place
-
-        get :edit, params: { id: place.id }
-
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#create' do
-        post :create, params: { place: { name: 'SSSWWW' } }
-
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#update' do
-        place = create :place
-        patch :update, params: { id: place.id, place: { name: 'SSSWWW' } }
-
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#destroy' do
-        place = create :place
-        delete :destroy, params: { id: place.id }
-
-        expect(response.forbidden?).to be_truthy
-      end
-    end
+class PlacesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @place = create(:place)
+    @admin_user = users(:admin)
   end
 
-  describe 'admin user' do
-    it '#new' do
-      login_admin
+  test 'regular user #index' do
+    get places_path
+    assert_response :success
+  end
 
-      get :new
+  test 'regular user #show' do
+    get place_path(@place)
+    assert_response :success
+  end
 
-      expect(response.successful?).to be_truthy
-    end
+  test 'regular user #new' do
+    get new_place_path
+    assert_response :forbidden
+  end
 
-    it '#edit' do
-      login_admin
-      place = create :place
+  test 'regular user #edit' do
+    get edit_place_path(@place)
+    assert_response :forbidden
+  end
 
-      get :edit, params: { id: place.id }
+  test 'regular user #create' do
+    post places_path, params: { place: { name: 'SSSWWW' } }
+    assert_response :forbidden
+  end
 
-      expect(response.successful?).to be_truthy
-    end
+  test 'regular user #update' do
+    patch place_path(@place), params: { place: { name: 'SSSWWW' } }
+    assert_response :forbidden
+  end
 
-    it '#create' do
-      login_admin
+  test 'regular user #destroy' do
+    delete place_path(@place)
+    assert_response :forbidden
+  end
 
-      post :create, params: { place: { name: 'SSSWWW' } }
+  test 'admin user #new' do
+    sign_in @admin_user
+    get new_place_path
+    assert_response :success
+  end
 
-      expect(response.successful?).to be_truthy
-    end
+  test 'admin user #edit' do
+    sign_in @admin_user
+    get edit_place_path(@place)
+    assert_response :success
+  end
 
-    it '#update' do
-      login_admin
-      place = create :place
+  test 'admin user #create' do
+    sign_in @admin_user
+    post places_path, params: { place: { name: 'SSSWWW' } }
+    assert_response :success
+  end
 
-      patch :update, params: { id: place.id, place: { name: 'SSSWWW' } }
+  test 'admin user #update' do
+    sign_in @admin_user
+    patch place_path(@place), params: { place: { name: 'SSSWWW' } }
+    assert_redirected_to place_path(@place)
+  end
 
-      expect(response.redirect?).to be_truthy
-      expect(response.location).to eq(place_url(place))
-    end
-
-    it '#destroy' do
-      login_admin
-      place = create :place
-
-      delete :destroy, params: { id: place.id }
-
-      expect(response.redirect?).to be_truthy
-      expect(response.location).to eq(places_url)
-    end
-
-    def login_admin
-      @request.env['devise.mapping'] = Devise.mappings[:user]
-      sign_in user
-    end
-
-    def user
-      @user ||= users(:admin)
-    end
+  test 'admin user #destroy' do
+    sign_in @admin_user
+    delete place_path(@place)
+    assert_redirected_to places_path
   end
 end

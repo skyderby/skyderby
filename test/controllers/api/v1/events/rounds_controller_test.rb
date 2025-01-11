@@ -1,15 +1,15 @@
-describe Api::V1::Events::RoundsController do
-  render_views
+require 'test_helper'
 
-  it '#index' do
-    get :index, params: { event_id: events(:nationals).id }, format: :json
-    expect(response.successful?).to be_truthy
+class Api::V1::Events::RoundsControllerTest < ActionDispatch::IntegrationTest
+  test '#index' do
+    get api_v1_event_rounds_path(event_id: events(:nationals).id), as: :json
+    assert_response :success
 
-    expected_response = JSON.parse([
-      { id: 1, discipline: 'distance', number: 1 },
-      { id: 2, discipline: 'speed', number: 1 }
-    ].to_json)
+    expected_response = [
+      { id: event_rounds(:distance_1).id, discipline: 'distance', number: 1 },
+      { id: event_rounds(:speed_1).id, discipline: 'speed', number: 1 }
+    ]
 
-    expect(response.parsed_body).to eq(JSON.parse(expected_response.to_json))
+    assert_equal expected_response.to_json, response.body
   end
 end

@@ -1,110 +1,73 @@
-describe CountriesController, type: :controller do
-  describe 'regular user' do
-    describe 'not allowed actions' do
-      it '#index' do
-        get :index
+require 'test_helper'
 
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#show' do
-        country = create :country
-
-        get :show, params: { id: country.id }
-
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#new' do
-        get :new
-
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#edit' do
-        country = create :country
-
-        get :edit, params: { id: country.id }
-
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#create' do
-        post :create, params: { country: { name: 'SSSWWW' } }
-
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#update' do
-        country = create :country
-        patch :update, params: { id: country.id, country: { name: 'SSSWWW' } }
-
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#destroy' do
-        country = create :country
-        delete :destroy, params: { id: country.id }
-
-        expect(response.forbidden?).to be_truthy
-      end
-    end
+class CountriesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @country = create(:country)
+    @admin_user = users(:admin)
   end
 
-  describe 'admin user' do
-    it '#new' do
-      login_admin
+  test 'regular user #index' do
+    get countries_path
+    assert_response :forbidden
+  end
 
-      get :new
+  test 'regular user #show' do
+    get country_path(@country)
+    assert_response :forbidden
+  end
 
-      expect(response.successful?).to be_truthy
-    end
+  test 'regular user #new' do
+    get new_country_path
+    assert_response :forbidden
+  end
 
-    it '#edit' do
-      login_admin
-      country = create :country
+  test 'regular user #edit' do
+    get edit_country_path(@country)
+    assert_response :forbidden
+  end
 
-      get :edit, params: { id: country.id }
+  test 'regular user #create' do
+    post countries_path, params: { country: { name: 'SSSWWW' } }
+    assert_response :forbidden
+  end
 
-      expect(response.successful?).to be_truthy
-    end
+  test 'regular user #update' do
+    patch country_path(@country), params: { country: { name: 'SSSWWW' } }
+    assert_response :forbidden
+  end
 
-    it '#create' do
-      login_admin
+  test 'regular user #destroy' do
+    delete country_path(@country)
+    assert_response :forbidden
+  end
 
-      post :create, params: { country: { name: 'SSSWWW', code: 'SWW' } }
+  test 'admin user #new' do
+    sign_in @admin_user
+    get new_country_path
+    assert_response :success
+  end
 
-      expect(response.redirect?).to be_truthy
-      expect(response.location).to start_with(countries_url)
-    end
+  test 'admin user #edit' do
+    sign_in @admin_user
+    get edit_country_path(@country)
+    assert_response :success
+  end
 
-    it '#update' do
-      login_admin
-      country = create :country
+  test 'admin user #create' do
+    sign_in @admin_user
+    post countries_path, params: { country: { name: 'SSSWWW', code: 'SWW' } }
+    assert_redirected_to country_path(Country.find_by(code: 'SWW'))
+  end
 
-      patch :update, params: { id: country.id, country: { name: 'SSSWWW' } }
+  test 'admin user #update' do
+    sign_in @admin_user
+    patch country_path(@country), params: { country: { name: 'SSSWWW' } }
+    assert_redirected_to country_path(@country)
+  end
 
-      expect(response.redirect?).to be_truthy
-      expect(response.location).to start_with(countries_url)
-    end
-
-    it '#destroy' do
-      login_admin
-      country = create :country
-
-      delete :destroy, params: { id: country.id }
-
-      expect(response.redirect?).to be_truthy
-      expect(response.location).to eq(countries_url)
-    end
-
-    def login_admin
-      @request.env['devise.mapping'] = Devise.mappings[:user]
-      sign_in user
-    end
-
-    def user
-      @user ||= users(:admin)
-    end
+  test 'admin user #destroy' do
+    sign_in @admin_user
+    delete country_path(@country)
+    assert_redirected_to countries_path
   end
 end

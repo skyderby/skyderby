@@ -24,6 +24,7 @@ travis_distance_1:
   round: distance_1
   result: 2500
   result_net: 2400
+  track: hellesylt
   uploaded_by: event_responsible
   created_at: 2018-01-01 12:03:00
 

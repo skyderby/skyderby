@@ -1,53 +1,42 @@
-describe VirtualCompetitions::GroupsController do
-  describe 'regular user' do
-    it '#index' do
-      get :index
+require 'test_helper'
 
-      expect(response.forbidden?).to be_truthy
-    end
+class VirtualCompetitions::GroupsControllerTest < ActionDispatch::IntegrationTest
+  test 'regular user #index' do
+    get virtual_competition_groups_path
+    assert_response :forbidden
+  end
 
-    it '#show redirects to overall' do
-      group = virtual_competition_groups(:main)
+  test 'regular user #show redirects to overall' do
+    group = virtual_competition_groups(:main)
+    get virtual_competition_group_path(id: group.id)
+    assert_response :forbidden
+  end
 
-      get :show, params: { id: group.id }
+  test 'regular user #new' do
+    get new_virtual_competition_group_path
+    assert_response :forbidden
+  end
 
-      expect(response.forbidden?).to be_truthy
-    end
+  test 'regular user #create' do
+    post virtual_competition_groups_path, params: { virtual_comp_group: { name: 'New group' } }
+    assert_response :forbidden
+  end
 
-    it '#new' do
-      get :new
+  test 'regular user #edit' do
+    group = virtual_competition_groups(:main)
+    get edit_virtual_competition_group_path(id: group.id)
+    assert_response :forbidden
+  end
 
-      expect(response.forbidden?).to be_truthy
-    end
+  test 'regular user #update' do
+    group = virtual_competition_groups(:main)
+    patch virtual_competition_group_path(id: group.id), params: { virtual_comp_group: { name: 'New name' } }
+    assert_response :forbidden
+  end
 
-    it '#create' do
-      post :create, params: { virtual_comp_group: { name: 'New group' } }
-
-      expect(response.forbidden?).to be_truthy
-    end
-
-    it '#edit' do
-      group = virtual_competition_groups(:main)
-
-      get :edit, params: { id: group.id }
-
-      expect(response.forbidden?).to be_truthy
-    end
-
-    it '#update' do
-      group = virtual_competition_groups(:main)
-
-      patch :update, params: { id: group.id, virtual_comp_group: { name: 'New name' } }
-
-      expect(response.forbidden?).to be_truthy
-    end
-
-    it '#destroy' do
-      group = virtual_competition_groups(:main)
-
-      delete :destroy, params: { id: group.id }
-
-      expect(response.forbidden?).to be_truthy
-    end
+  test 'regular user #destroy' do
+    group = virtual_competition_groups(:main)
+    delete virtual_competition_group_path(id: group.id)
+    assert_response :forbidden
   end
 end

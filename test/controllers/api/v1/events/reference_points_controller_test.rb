@@ -1,32 +1,29 @@
-describe Api::V1::Events::ReferencePointsController do
-  render_views
+require 'test_helper'
 
-  describe '#index' do
-    it 'happy path' do
-      event = events(:nationals)
-      event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
-      event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
+class Api::V1::Events::ReferencePointsControllerTest < ActionDispatch::IntegrationTest
+  test 'happy path' do
+    event = events(:nationals)
+    event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
+    event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
 
-      get :index, params: { event_id: event.id }, format: :json
+    get api_v1_event_reference_points_path(event_id: event.id), as: :json
 
-      aggregate_failures 'testing response' do
-        expect(response).to be_successful
+    assert_response :success
 
-        response_data = response.parsed_body
-        expect(response_data.pluck('name')).to eq(%w[R1 R2])
-        expect(response_data.pluck('latitude')).to eq(['20.0', '30.0'])
-        expect(response_data.pluck('longitude')).to eq(['25.0', '35.0'])
-      end
-    end
+    response_data = JSON.parse(response.body)
+    assert_equal %w[R1 R2], response_data.pluck('name')
+    assert_equal ['20.0', '30.0'], response_data.pluck('latitude')
+    assert_equal ['25.0', '35.0'], response_data.pluck('longitude')
+  end
 
-    it 'permissions required' do
-      event = events(:draft_public)
-      event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
-      event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
+  test 'permissions required' do
+    event = events(:nationals)
+    event.draft!
+    event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
+    event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
 
-      get :index, params: { event_id: event.id }, format: :json
+    get api_v1_event_reference_points_path(event_id: event.id), as: :json
 
-      expect(response).to be_forbidden
-    end
+    assert_response :forbidden
   end
 end

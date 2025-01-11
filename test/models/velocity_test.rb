@@ -1,23 +1,21 @@
-describe Velocity do
-  describe '.load' do
-    it 'load 100 correctly' do
-      value = Velocity.load(100)
-      expect(value).to eq 100
-    end
+require 'test_helper'
 
-    it 'load Infinity as 0' do
-      value = Velocity.load(Float::INFINITY)
-      expect(value).to eq 0
-    end
+class VelocityTest < ActiveSupport::TestCase
+  test 'load 100 correctly' do
+    value = Velocity.load(100)
+    assert_equal 100, value
   end
 
-  describe '.dump' do
-    it 'dumps Fixnums' do
-      expect(Velocity.dump(281)).to eq(281)
-    end
+  test 'load Infinity as 0' do
+    value = Velocity.load(Float::INFINITY)
+    assert_equal 0, value
+  end
 
-    it 'dumps BigDecimals' do
-      expect(Velocity.dump(BigDecimal(281))).to eq(281)
-    end
+  test 'dumps Fixnums' do
+    assert_equal 281, Velocity.dump(281)
+  end
+
+  test 'dumps BigDecimals' do
+    assert_equal 281, Velocity.dump(BigDecimal(281))
   end
 end

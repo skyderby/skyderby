@@ -1,10 +1,12 @@
-describe Events::Rounds::GlobeController do
-  it '#show' do
+require 'test_helper'
+
+class Events::Rounds::GlobeControllerTest < ActionDispatch::IntegrationTest
+  test '#show' do
     event = events(:nationals)
     round = event_rounds(:distance_1)
 
-    get :show, params: { event_id: event.id, round_id: round.id }
+    get event_round_globe_path(event_id: event.id, round_id: round.id)
 
-    expect(response).to be_successful
+    assert_response :success
   end
 end

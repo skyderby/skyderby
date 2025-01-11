@@ -7,7 +7,7 @@ class ManufacturerStatusJobTest < ActiveJob::TestCase
 
     suit = active_manufacturer.suits.create(name: 'S1', kind: :wingsuit)
 
-    create_list(:empty_track, 10, suit: suit)
+    create_list(:empty_track, 10, suit:)
 
     ManufacturerStatusJob.perform_now
 

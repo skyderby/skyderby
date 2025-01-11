@@ -1,53 +1,70 @@
-describe TrackRange do
-  it 'returns max altitude as from' do
-    range = TrackRange.new(track)
-    expect(range.from).to eq(3100)
+require 'test_helper'
+require 'minitest/mock'
+
+class TrackRangeTest < ActiveSupport::TestCase
+  test 'returns max altitude as from' do
+    create_track do |track|
+      range = TrackRange.new(track)
+      assert_equal 3100, range.from
+    end
   end
 
-  it 'returns from argument' do
-    range = TrackRange.new(track, from: 3000)
-    expect(range.from).to eq(3000)
+  test 'returns from argument' do
+    create_track do |track|
+      range = TrackRange.new(track, from: 3000)
+      assert_equal 3000, range.from
+    end
   end
 
-  it 'returns max altitude if from argument higher than bounds' do
-    range = TrackRange.new(track, from: 3200)
-    expect(range.from).to eq(3100)
+  test 'returns max altitude if from argument higher than bounds' do
+    create_track do |track|
+      range = TrackRange.new(track, from: 3200)
+      assert_equal 3100, range.from
+    end
   end
 
-  it 'returns to argument' do
-    range = TrackRange.new(track, to: 2200)
-    expect(range.to).to eq(2200)
+  test 'returns to argument' do
+    create_track do |track|
+      range = TrackRange.new(track, to: 2200)
+      assert_equal 2200, range.to
+    end
   end
 
-  it 'returns min altitude if to argument lower than bounds' do
-    range = TrackRange.new(track, to: 1100)
-    expect(range.to).to eq(1750)
+  test 'returns min altitude if to argument lower than bounds' do
+    create_track do |track|
+      range = TrackRange.new(track, to: 1100)
+      assert_equal 1750, range.to
+    end
   end
 
-  it 'returns min altitude if to argument higher that from argument' do
-    range = TrackRange.new(track, from: 2500, to: 2600)
-    expect(range.to).to eq(1750)
+  test 'returns min altitude if to argument higher than from argument' do
+    create_track do |track|
+      range = TrackRange.new(track, from: 2500, to: 2600)
+      assert_equal 1750, range.to
+    end
   end
 
-  it 'works with string arguments' do
-    range = TrackRange.new(track, from: '2500', to: '2100')
-    expect(range.from).to eq(2500)
-    expect(range.to).to eq(2100)
+  test 'works with string arguments' do
+    create_track do |track|
+      range = TrackRange.new(track, from: '2500', to: '2100')
+      assert_equal 2500, range.from
+      assert_equal 2100, range.to
+    end
   end
 
-  it 'returns bounds if both arguments outside' do
-    range = TrackRange.new(track, from: '3500', to: '3100')
-    expect(range.from).to eq(3100)
-    expect(range.to).to eq(1750)
+  test 'returns bounds if both arguments outside' do
+    create_track do |track|
+      range = TrackRange.new(track, from: '3500', to: '3100')
+      assert_equal 3100, range.from
+      assert_equal 1750, range.to
+    end
   end
 
-  def track
+  private
+
+  def create_track(&)
     create(:empty_track).tap do |track|
-      allow(track).to receive(:altitude_bounds).and_return(
-        max_altitude: 3100,
-        min_altitude: 1750,
-        elevation: 1350
-      )
+      track.stub(:altitude_bounds, { max_altitude: 3100, min_altitude: 1750, elevation: 1350 }, track, &)
     end
   end
 end

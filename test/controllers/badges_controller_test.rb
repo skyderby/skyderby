@@ -1,71 +1,46 @@
-describe BadgesController, type: :controller do
-  describe 'regular user' do
-    describe 'not allowed actions' do
-      it '#index' do
-        get :index
+require 'test_helper'
 
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#edit' do
-        badge = create :badge
-
-        get :edit, params: { id: badge.id }
-
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#update' do
-        badge = create :badge
-        patch :update, params: { id: badge.id, badge: { name: 'SSSWWW' } }
-
-        expect(response.forbidden?).to be_truthy
-      end
-
-      it '#destroy' do
-        badge = create :badge
-        delete :destroy, params: { id: badge.id }
-
-        expect(response.forbidden?).to be_truthy
-      end
-    end
+class BadgesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @badge = create(:badge)
+    @admin_user = users(:admin)
   end
 
-  describe 'admin user' do
-    it '#edit' do
-      login_admin
-      badge = create :badge
+  test 'regular user #index' do
+    get badges_path
+    assert_response :forbidden
+  end
 
-      get :edit, params: { id: badge.id }, xhr: true
+  test 'regular user #edit' do
+    get edit_badge_path(@badge)
+    assert_response :forbidden
+  end
 
-      expect(response.successful?).to be_truthy
-    end
+  test 'regular user #update' do
+    patch badge_path(@badge), params: { badge: { name: 'SSSWWW' } }
+    assert_response :forbidden
+  end
 
-    it '#update' do
-      login_admin
-      badge = create :badge
+  test 'regular user #destroy' do
+    delete badge_path(@badge)
+    assert_response :forbidden
+  end
 
-      patch :update, params: { id: badge.id, badge: { name: 'SSSWWW' } }, format: :js
+  test 'admin user #edit' do
+    sign_in @admin_user
+    get edit_badge_path(@badge), xhr: true
+    assert_response :success
+  end
 
-      expect(response.successful?).to be_truthy
-    end
+  test 'admin user #update' do
+    sign_in @admin_user
+    patch badge_path(@badge), params: { badge: { name: 'SSSWWW' } }, xhr: true
+    assert_response :success
+  end
 
-    it '#destroy' do
-      login_admin
-      badge = create :badge
-
-      delete :destroy, params: { id: badge.id }, format: :js
-
-      expect(response.successful?).to be_truthy
-    end
-
-    def login_admin
-      @request.env['devise.mapping'] = Devise.mappings[:user]
-      sign_in user
-    end
-
-    def user
-      @user ||= users(:admin)
-    end
+  test 'admin user #destroy' do
+    sign_in @admin_user
+    delete badge_path(@badge), xhr: true
+    assert_response :success
   end
 end

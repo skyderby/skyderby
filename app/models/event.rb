@@ -58,8 +58,8 @@ class Event < ApplicationRecord
   delegate :name, :msl, to: :place, prefix: true, allow_nil: true
 
   after_initialize do
-    self.range_from ||= 3000
-    self.range_to ||= 2000
+    self.range_from ||= 2500
+    self.range_to ||= 1500
   end
 
   def active? = starts_at < Time.zone.now && !finished?
@@ -68,8 +68,8 @@ class Event < ApplicationRecord
 
   def check_name_and_range
     self.name ||= "#{Time.current.strftime('%d.%m.%Y')}: Competition"
-    self.range_from ||= 3000
-    self.range_to ||= 2000
+    self.range_from ||= 2500
+    self.range_to ||= 1500
   end
 
   def broadcast_update

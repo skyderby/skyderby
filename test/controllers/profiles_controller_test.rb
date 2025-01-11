@@ -1,60 +1,39 @@
-describe ProfilesController, type: :controller do
-  describe 'regular and guest user' do
-    it '#index' do
-      get :index
+require 'test_helper'
 
-      expect(response.forbidden?).to be_truthy
-    end
-
-    it '#show' do
-      profile = create :profile
-
-      get :show, params: { id: profile.id }
-
-      expect(response.successful?).to be_truthy
-    end
-
-    it '#edit' do
-      profile = create :profile
-
-      get :edit, params: { id: profile.id }
-
-      expect(response.forbidden?).to be_truthy
-    end
-
-    it '#update' do
-      profile = create :profile
-
-      patch :update, params: { id: profile.id, name: 'SSSWWW' }
-
-      expect(response.forbidden?).to be_truthy
-    end
-
-    it '#destroy' do
-      profile = create :profile
-
-      delete :destroy, params: { id: profile.id }
-
-      expect(response.forbidden?).to be_truthy
-    end
+class ProfilesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @profile = create(:profile)
+    @admin_user = users(:admin)
   end
 
-  describe 'admin user' do
-    it '#index' do
-      login_admin
+  test 'regular user #index' do
+    get profiles_path
+    assert_response :forbidden
+  end
 
-      get :index
+  test 'regular user #show' do
+    get profile_path(@profile)
+    assert_response :success
+  end
 
-      expect(response.successful?).to be_truthy
-    end
+  test 'regular user #edit' do
+    get edit_profile_path(@profile)
+    assert_response :forbidden
+  end
 
-    def login_admin
-      @request.env['devise.mapping'] = Devise.mappings[:user]
-      sign_in user
-    end
+  test 'regular user #update' do
+    patch profile_path(@profile), params: { profile: { name: 'SSSWWW' } }
+    assert_response :forbidden
+  end
 
-    def user
-      @user ||= users(:admin)
-    end
+  test 'regular user #destroy' do
+    delete profile_path(@profile)
+    assert_response :forbidden
+  end
+
+  test 'admin user #index' do
+    sign_in @admin_user
+    get profiles_path
+    assert_response :success
   end
 end

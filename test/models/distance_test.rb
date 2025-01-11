@@ -1,57 +1,51 @@
-describe Distance do
-  describe '.load' do
-    it 'correctly loads decimals' do
-      value = Distance.load(BigDecimal(100))
-      expect(value).to eq(100)
-    end
+require 'test_helper'
 
-    it 'correctly loads floats' do
-      value = Distance.load(100.0)
-      expect(value).to eq(100)
-    end
+class DistanceTest < ActiveSupport::TestCase
+  test 'correctly loads decimals' do
+    value = Distance.load(BigDecimal(100))
+    assert_equal 100, value
   end
 
-  describe '.dump' do
-    it 'dumps Fixnums' do
-      expect(Distance.dump(281)).to eq(281)
-    end
-
-    it 'dumps BigDecimals' do
-      expect(Distance.dump(BigDecimal(281))).to eq(281)
-    end
-
-    it 'dumps self as a BigDecimal' do
-      value = Distance.load(BigDecimal(100))
-      expect(value.dump).to eql(BigDecimal(100))
-    end
+  test 'correctly loads floats' do
+    value = Distance.load(100.0)
+    assert_equal 100, value
   end
 
-  describe 'initialization with different units' do
-    it 'can be initialized with feets' do
-      value = Distance.new(1000, :ft)
-      expect(value).to be_within(0.001).of(304.8)
-    end
-
-    it 'can be initialized with miles' do
-      value = Distance.new(5, :mi)
-      expect(value).to be_within(0.001).of(8046.72)
-    end
-
-    it 'inititalizes without conversion if no unit given' do
-      value = Distance.new(100)
-      expect(value).to eq(100)
-    end
+  test 'dumps Fixnums' do
+    assert_equal 281, Distance.dump(281)
   end
 
-  describe 'conversion to different units' do
-    it 'can be converted to feets' do
-      value = Distance.new(304.8)
-      expect(value.to_ft).to be_within(0.001).of(1000)
-    end
+  test 'dumps BigDecimals' do
+    assert_equal 281, Distance.dump(BigDecimal(281))
+  end
 
-    it 'can be converted to miles' do
-      value = Distance.new(8046.72)
-      expect(value.to_mi).to be_within(0.001).of(5)
-    end
+  test 'dumps self as a BigDecimal' do
+    value = Distance.load(BigDecimal(100))
+    assert_equal BigDecimal(100), value.dump
+  end
+
+  test 'can be initialized with feets' do
+    value = Distance.new(1000, :ft)
+    assert_in_delta 304.8, value, 0.001
+  end
+
+  test 'can be initialized with miles' do
+    value = Distance.new(5, :mi)
+    assert_in_delta 8046.72, value, 0.001
+  end
+
+  test 'initializes without conversion if no unit given' do
+    value = Distance.new(100)
+    assert_equal 100, value
+  end
+
+  test 'can be converted to feets' do
+    value = Distance.new(304.8)
+    assert_in_delta 1000, value.to_ft, 0.001
+  end
+
+  test 'can be converted to miles' do
+    value = Distance.new(8046.72)
+    assert_in_delta 5, value.to_mi, 0.001
   end
 end

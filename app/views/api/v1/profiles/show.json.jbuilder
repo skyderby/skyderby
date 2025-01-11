@@ -1,4 +1,7 @@
-json.extract! @profile, :id, :name
+json.key_format! camelize: :lower
+
+json.extract! @profile, :id, :name, :country_id
+json.contributor @profile.contributor?
 json.photo do |json|
   json.original @profile.userpic_url
   json.medium @profile.userpic_url(:medium)

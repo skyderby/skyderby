@@ -14,7 +14,7 @@
 #
 
 class Event::Competitor < ApplicationRecord
-  include EventOngoingValidation, Event::Namespace
+  include EventOngoingValidation, CompetitorCountry, Event::Namespace
 
   belongs_to :event, touch: true
   belongs_to :section
@@ -25,7 +25,7 @@ class Event::Competitor < ApplicationRecord
   has_many :results, dependent: :restrict_with_error
   has_many :reference_point_assignments, dependent: :delete_all
 
-  delegate :name, :country_id, :country_name, :country_code, to: :profile, allow_nil: true
+  delegate :name, to: :profile, allow_nil: true
   delegate :name, to: :suit, prefix: true, allow_nil: true
   delegate :place, to: :event
 end
