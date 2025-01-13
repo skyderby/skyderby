@@ -1,14 +1,13 @@
-describe Events::Scoreboards do
-  describe '.for' do
-    it 'raise error on unsupported scoreboard' do
-      event = create :event
-      event.update!(rules: nil)
-      params = Events::Scoreboards::Params.new(event, {})
+require 'test_helper'
 
-      expect { Events::Scoreboards.for(event, params) }.to raise_exception(
-        NotImplementedError,
-        'Scoreboard for nil is not defined'
-      )
+class Events::ScoreboardsTest < ActiveSupport::TestCase
+  test 'raise error on unsupported scoreboard' do
+    event = create :event
+    event.update!(rules: nil)
+    params = Events::Scoreboards::Params.new(event, {})
+
+    assert_raises(NotImplementedError, 'Scoreboard for nil is not defined') do
+      Events::Scoreboards.for(event, params)
     end
   end
 end

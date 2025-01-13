@@ -1,5 +1,7 @@
-describe 'User registration', type: :system, js: true do
-  it 'register if all filled' do
+require 'application_system_test_case'
+
+class RegistrationTest < ApplicationSystemTestCase
+  test 'User registration with all fields filled' do
     visit new_user_registration_path
 
     fill_in 'user[profile_attributes][name]', with: 'Ivan Ivanov'
@@ -7,20 +9,23 @@ describe 'User registration', type: :system, js: true do
     fill_in 'user[password]', with: '123456'
     fill_in 'user[password_confirmation]', with: '123456'
 
-    expect { click_button I18n.t('devise.registrations.new.sign_up') }.to change { User.count }.by(1)
-    expect(User.last.name).to eq('Ivan Ivanov')
+    assert_difference 'User.count', 1 do
+      click_button I18n.t('devise.registrations.new.sign_up')
+    end
+    assert_equal 'Ivan Ivanov', User.last.name
   end
 
-  it 'does not create record if honey pot filled' do
+  test 'User registration does not create record if honey pot filled' do
     visit new_user_registration_path
 
     fill_in 'user[profile_attributes][name]', with: 'Ivan Ivanov'
     fill_in 'user[email]', with: 'some@example.com'
     fill_in 'user[password]', with: '123456'
     fill_in 'user[password_confirmation]', with: '123456'
-
     fill_in 'user[profile_attributes][last_name]', with: 'I am a robot', visible: false
 
-    expect { click_button I18n.t('devise.registrations.new.sign_up') }.not_to(change { User.count })
+    assert_no_difference 'User.count' do
+      click_button I18n.t('devise.registrations.new.sign_up')
+    end
   end
 end

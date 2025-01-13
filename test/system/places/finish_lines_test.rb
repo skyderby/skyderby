@@ -1,5 +1,7 @@
-describe 'Place finish lines' do
-  it '#index' do
+require 'application_system_test_case'
+
+class PlaceFinishLinesTest < ApplicationSystemTestCase
+  test '#index' do
     sign_in users(:admin)
 
     place = places(:hellesylt)
@@ -7,20 +9,20 @@ describe 'Place finish lines' do
 
     visit place_finish_lines_path(place)
 
-    expect(page).to have_css('.finish-line-card', text: finish_line.name)
+    assert_selector('.finish-line-card', text: finish_line.name)
   end
 
-  it '#new' do
+  test '#new' do
     sign_in users(:admin)
 
     place = places(:hellesylt)
 
     visit new_place_finish_line_path(place)
 
-    expect(page).to have_css('input#place_finish_line_name')
+    assert_selector('input#place_finish_line_name')
   end
 
-  it '#create' do
+  test '#create' do
     sign_in users(:admin)
 
     place = places(:hellesylt)
@@ -35,20 +37,20 @@ describe 'Place finish lines' do
 
     click_button I18n.t('general.save')
 
-    expect(page).to have_css('.finish-line-card', text: 'Some name')
+    assert_selector('.finish-line-card', text: 'Some name')
   end
 
-  it '#show' do
+  test '#show' do
     sign_in users(:admin)
 
     place = places(:hellesylt)
     finish_line = place_finish_lines(:hellesylt)
 
     visit place_finish_line_path(place, finish_line)
-    expect(page).to have_css('h2', text: finish_line.name)
+    assert_selector('h2', text: finish_line.name)
   end
 
-  it '#edit' do
+  test '#edit' do
     sign_in users(:admin)
 
     place = places(:hellesylt)
@@ -56,10 +58,10 @@ describe 'Place finish lines' do
 
     visit edit_place_finish_line_path(place, finish_line)
 
-    expect(page).to have_css('input#place_finish_line_name')
+    assert_selector('input#place_finish_line_name')
   end
 
-  it '#update', js: true do
+  test '#update' do
     sign_in users(:admin)
 
     place = places(:hellesylt)
@@ -71,10 +73,10 @@ describe 'Place finish lines' do
 
     click_button I18n.t('general.save')
 
-    expect(page).to have_css('.finish-line-card', text: 'ASDFG')
+    assert_selector('.finish-line-card', text: 'ASDFG')
   end
 
-  it '#destroy', js: true do
+  test '#destroy' do
     sign_in users(:admin)
 
     place = places(:hellesylt)
@@ -89,6 +91,6 @@ describe 'Place finish lines' do
     visit place_finish_line_path(place, finish_line)
     click_button I18n.t('general.delete')
 
-    expect(page).not_to have_css('.finish-line-card', text: finish_line.name)
+    assert_no_selector('.finish-line-card', text: finish_line.name)
   end
 end

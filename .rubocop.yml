@@ -46,7 +46,7 @@ Metrics/BlockLength:
     - config/**/*
     - test/**/*
 
-Minitest/ MultipleAssertions:
+Minitest/MultipleAssertions:
   Enabled: false
 
 Naming/VariableNumber:

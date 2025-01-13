@@ -1,5 +1,7 @@
-feature 'Qualification jumps', type: :system, js: true do
-  scenario 'add and score qualification jump' do
+require 'application_system_test_case'
+
+class QualificationJumpsTest < ApplicationSystemTestCase
+  test 'add and score qualification jump' do
     sign_in users(:regular_user)
 
     tournament = tournaments(:qualification_loen)
@@ -7,7 +9,7 @@ feature 'Qualification jumps', type: :system, js: true do
     visit tournament_qualification_path(tournament)
     find('.scoreboard-result').click
 
-    expect(page).to have_css '.modal-dialog'
+    assert_selector '.modal-dialog'
 
     file = file_fixture('tracks/loen_jump_one_08-02-19.CSV')
     attach_file 'result[track_attributes][file]', file, make_visible: true
@@ -18,6 +20,6 @@ feature 'Qualification jumps', type: :system, js: true do
 
     click_button I18n.t('general.save')
 
-    expect(page).to have_content('34.716')
+    assert_text '34.716'
   end
 end

@@ -1,5 +1,7 @@
-feature 'Edit profile', type: :system do
-  scenario 'user changes name' do
+require 'application_system_test_case'
+
+class EditProfileTest < ApplicationSystemTestCase
+  test 'user changes name' do
     user = create :user
     new_profile_name = 'Ivan Popov'
 
@@ -10,13 +12,13 @@ feature 'Edit profile', type: :system do
     fill_in I18n.t('activerecord.attributes.profile.name'), with: new_profile_name
     click_button I18n.t('general.save')
 
-    expect(page).to have_content(new_profile_name)
+    assert_text new_profile_name
   end
 
-  scenario 'guest user attempts to open edit page' do
+  test 'guest user attempts to open edit page' do
     profile = create :profile
     visit edit_profile_path(profile)
 
-    expect(page).to have_content('You are not authorized to access this page')
+    assert_text 'You are not authorized to access this page'
   end
 end

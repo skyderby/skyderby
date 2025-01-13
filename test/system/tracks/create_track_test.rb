@@ -1,52 +1,54 @@
-describe 'Upload tracks', js: true do
-  it 'Flysight file' do
+require 'application_system_test_case'
+
+class CreateTrackTest < ApplicationSystemTestCase
+  test 'Flysight file' do
     upload_track 'flysight.csv'
 
-    expect(page).to have_css('a.page-tab-active', text: I18n.t('tracks.show.charts').upcase)
+    assert_selector 'a.page-tab-active', text: I18n.t('tracks.show.charts').upcase
   end
 
-  it 'Flysight2 file' do
+  test 'Flysight2 file' do
     upload_track 'fs2-track.csv'
 
-    expect(page).to have_css('a.page-tab-active', text: I18n.t('tracks.show.charts').upcase)
+    assert_selector 'a.page-tab-active', text: I18n.t('tracks.show.charts').upcase
   end
 
-  it 'Columbus file' do
+  test 'Columbus file' do
     upload_track 'columbus.csv'
 
-    expect(page).to have_css('a.page-tab-active', text: I18n.t('tracks.show.charts').upcase)
+    assert_selector 'a.page-tab-active', text: I18n.t('tracks.show.charts').upcase
   end
 
-  it 'Wintec file' do
+  test 'Wintec file' do
     upload_track 'wintec.tes'
 
-    expect(page).to have_css('a.page-tab-active', text: I18n.t('tracks.show.charts').upcase)
+    assert_selector 'a.page-tab-active', text: I18n.t('tracks.show.charts').upcase
   end
 
-  it 'Dual XGPS160 file' do
+  test 'Dual XGPS160 file' do
     upload_track 'dual_xgps160.kml'
 
-    expect(page).to have_css('a.page-tab-active', text: I18n.t('tracks.show.charts').upcase)
+    assert_selector 'a.page-tab-active', text: I18n.t('tracks.show.charts').upcase
   end
 
-  it 'CyberEye file' do
+  test 'CyberEye file' do
     upload_track 'cyber_eye.csv'
 
-    expect(page).to have_css('a.page-tab-active', text: I18n.t('tracks.show.charts').upcase)
+    assert_selector 'a.page-tab-active', text: I18n.t('tracks.show.charts').upcase
   end
 
-  it 'Garmin gpx: one track in file' do
+  test 'Garmin gpx: one track in file' do
     upload_track 'one_track.gpx'
 
-    expect(page).to have_css('a.page-tab-active', text: I18n.t('tracks.show.charts').upcase)
+    assert_selector 'a.page-tab-active', text: I18n.t('tracks.show.charts').upcase
   end
 
-  it 'Garmin gps: multiple tracks in file' do
+  test 'Garmin gps: multiple tracks in file' do
     upload_track 'two_tracks.gpx'
     sleep 0.5 # wait for modal
     first('tr.track-segment-row').click
 
-    expect(page).to have_css('a.page-tab-active', text: I18n.t('tracks.show.charts').upcase)
+    assert_selector 'a.page-tab-active', text: I18n.t('tracks.show.charts').upcase
   end
 
   def upload_track(file_name)

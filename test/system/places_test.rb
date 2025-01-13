@@ -1,10 +1,12 @@
-describe 'Adding place', type: :system do
-  it 'Non admin user do not see add button' do
+require 'application_system_test_case'
+
+class PlacesTest < ApplicationSystemTestCase
+  test 'Non admin user do not see add button' do
     visit places_path
-    expect(page).not_to have_css('a', text: I18n.t('places.index.new'))
+    assert_no_selector 'a', text: I18n.t('places.index.new')
   end
 
-  it 'Admin user can add place', js: true do
+  test 'Admin user can add place' do
     user = create :user, :admin
     sign_in user
 
@@ -23,6 +25,6 @@ describe 'Adding place', type: :system do
 
     click_button I18n.t('general.save')
 
-    expect(page).to have_content('GRIDSET')
+    assert_text 'GRIDSET'
   end
 end

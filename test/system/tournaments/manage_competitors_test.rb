@@ -1,5 +1,7 @@
-feature 'Manage tournament competitors', type: :system, js: true do
-  scenario 'add competitor with existed profile' do
+require 'application_system_test_case'
+
+class ManageTournamentCompetitorsTest < ApplicationSystemTestCase
+  test 'add competitor with existed profile' do
     sign_in users(:regular_user)
 
     tournament = tournaments(:world_base_race)
@@ -17,10 +19,10 @@ feature 'Manage tournament competitors', type: :system, js: true do
     click_button I18n.t('general.save')
     sleep 0.1 # wait for ajax and modal
 
-    expect(page).to have_css('.tournament-competitors-table tbody tr td', text: profile.name)
+    assert_selector('.tournament-competitors-table tbody tr td', text: profile.name)
   end
 
-  scenario 'add competitor with new profile' do
+  test 'add competitor with new profile' do
     sign_in users(:regular_user)
 
     tournament = tournaments(:world_base_race)
@@ -44,11 +46,11 @@ feature 'Manage tournament competitors', type: :system, js: true do
     click_button I18n.t('general.save')
     sleep 0.1 # wait for ajax and modal
 
-    expect(page).to have_css('.tournament-competitors-table tbody tr td', text: 'Petr Zh')
-    expect(page).to have_css('.tournament-competitors-table tbody tr td', text: 'RUS')
+    assert_selector('.tournament-competitors-table tbody tr td', text: 'Petr Zh')
+    assert_selector('.tournament-competitors-table tbody tr td', text: 'RUS')
   end
 
-  scenario 'delete competitor' do
+  test 'delete competitor' do
     sign_in users(:regular_user)
 
     tournament = tournaments(:world_base_race)
@@ -60,6 +62,6 @@ feature 'Manage tournament competitors', type: :system, js: true do
       find('tbody > tr > td > .button_to > button').click
     end
 
-    expect(page).not_to have_css('tbody > tr')
+    assert_no_selector('tbody > tr')
   end
 end

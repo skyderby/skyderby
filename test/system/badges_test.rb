@@ -1,14 +1,16 @@
-feature 'Badges', type: :system do
-  scenario 'Index' do
+require 'application_system_test_case'
+
+class BadgesTest < ApplicationSystemTestCase
+  test 'Index' do
     badge = create :badge
     sign_in admin_user
 
     visit badges_path
 
-    expect(page).to have_content(badge.name)
+    assert_text badge.name
   end
 
-  scenario 'Update', js: true do
+  test 'Update' do
     create :badge, name: 'WWL 2020'
 
     sign_in admin_user
@@ -18,10 +20,10 @@ feature 'Badges', type: :system do
     fill_in 'badge[name]', with: 'WBR 2020'
     click_button I18n.t('general.save')
 
-    expect(page).to have_content('WBR 2020')
+    assert_text 'WBR 2020'
   end
 
-  scenario 'Delete', js: true do
+  test 'Delete' do
     create :badge, name: 'WWL 2020'
 
     sign_in admin_user
@@ -31,7 +33,7 @@ feature 'Badges', type: :system do
       click_link I18n.t('general.delete'), visible: false
     end
 
-    expect(page).not_to have_content('WBR 2020')
+    assert_no_text 'WBR 2020'
   end
 
   def admin_user

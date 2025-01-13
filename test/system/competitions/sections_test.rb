@@ -1,5 +1,7 @@
-feature 'Event sections (categories)', type: :system, js: true do
-  scenario 'add section' do
+require 'application_system_test_case'
+
+class EventSectionsTest < ApplicationSystemTestCase
+  test 'add section' do
     user = create :user
     event = create(:event,
                    status: Event.statuses[:published],
@@ -16,6 +18,6 @@ feature 'Event sections (categories)', type: :system, js: true do
     click_button I18n.t('general.save')
     sleep 0.5
 
-    expect(page).to have_css('td .section-name', text: 'CATEGORY: OPEN')
+    assert_selector('td .section-name', text: 'CATEGORY: OPEN')
   end
 end

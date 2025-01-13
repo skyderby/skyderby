@@ -1,14 +1,16 @@
-describe 'Permissions: Competitions', type: :system do
-  it 'User can view published and finished competitions' do
+require 'application_system_test_case'
+
+class PermissionsCompetitionsTest < ApplicationSystemTestCase
+  test 'User can view published and finished competitions' do
     event = create :event
     event.public_event!
     event.published!
 
     visit event_path(event)
-    expect(page).to have_content(event.name)
+    assert_text event.name.upcase
   end
 
-  it 'User can view competition if he compete in it' do
+  test 'User can view competition if he compete in it' do
     event = create :event
     event.private_event!
     event.published!
@@ -19,24 +21,24 @@ describe 'Permissions: Competitions', type: :system do
     sign_in user
     visit event_path(event)
 
-    expect(page).to have_content(event.name)
+    assert_text event.name.upcase
   end
 
-  it 'User can not view public draft competitions' do
+  test 'User can not view public draft competitions' do
     event = create :event
     event.public_event!
     event.draft!
 
     visit event_path(event)
-    expect(page).to have_content('You are not authorized to access this page')
+    assert_text 'You are not authorized to access this page'
   end
 
-  it 'User can not view private finished competitions' do
+  test 'User can not view private finished competitions' do
     event = create :event
     event.private_event!
     event.finished!
 
     visit event_path(event)
-    expect(page).to have_content('You are not authorized to access this page')
+    assert_text 'You are not authorized to access this page'
   end
 end

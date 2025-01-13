@@ -1,31 +1,33 @@
-describe CreateTrackService::ActivityDataLookup do
-  it 'returns true if data recorded' do
+require 'test_helper'
+
+class CreateTrackService::ActivityDataLookupTest < ActiveSupport::TestCase
+  test 'returns true if data recorded' do
     track_file = Track::File.create!(file: File.open(file_fixture('tracks/flysight.csv')))
     track_points = points(track_file)
 
     result = CreateTrackService::ActivityDataLookup.call(track_points)
 
-    expect(result).to be_truthy
+    assert result
   end
 
-  it 'returns true for garmin file' do
+  test 'returns true for garmin file' do
     file = fixture_file_upload('tracks/one_track.gpx')
     track_file = Track::File.create!(file: file)
     track_points = points(track_file)
 
     result = CreateTrackService::ActivityDataLookup.call(track_points)
 
-    expect(result).to be_truthy
+    assert result
   end
 
-  it 'returns false unless data recorded' do
+  test 'returns false unless data recorded' do
     file = fixture_file_upload('tracks/flysight_warmup.csv')
     track_file = Track::File.create!(file: file)
     track_points = points(track_file)
 
     result = CreateTrackService::ActivityDataLookup.call(track_points)
 
-    expect(result).to be_falsey
+    assert_not result
   end
 
   def points(track_file, segment: 0)

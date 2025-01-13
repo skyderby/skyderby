@@ -1,17 +1,19 @@
-describe 'Scoring PPC-like competitions', js: true do
-  it 'complete test' do
+require 'application_system_test_case'
+
+class EventsTest < ApplicationSystemTestCase
+  test 'Scoring PPC-like competitions' do
     user = users(:regular_user)
     sign_in user
 
     create :place, name: 'Awesome DZ', msl: 27, latitude: 28.21975954, longitude: -82.15107322
 
     create_competition
-    expect(page).to have_css('.show-page-title', text: 'TEST EVENT')
+    assert_selector('.show-page-title', text: 'TEST EVENT')
 
     add_category 'Open'
     add_category 'Intermediate'
-    expect(page).to have_css('td .section-name', text: 'OPEN')
-    expect(page).to have_css('td .section-name', text: 'INTERMEDIATE')
+    assert_selector('td .section-name', text: 'OPEN')
+    assert_selector('td .section-name', text: 'INTERMEDIATE')
 
     ## Add competitors
     add_competitor name: 'Aleksandr', category: 'Open', new_profile: true
@@ -57,7 +59,7 @@ describe 'Scoring PPC-like competitions', js: true do
     suit = create :suit
 
     click_link I18n.t('activerecord.models.event/competitor')
-    expect(page).to have_css('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
+    assert_selector('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
     select2 category, from: 'section_id'
     select2 suit.name, from: 'suit_id'
 
@@ -87,15 +89,15 @@ describe 'Scoring PPC-like competitions', js: true do
 
     sleep 0.5
 
-    file = Rails.root.join('spec', 'fixtures', 'files', 'tracks', filename)
+    file = file_fixture( "tracks/#{filename}")
     attach_file 'result[track_attributes][file]', file, make_visible: true
 
     click_button I18n.t('general.save')
   end
 
   def verify_last_result(result:)
-    expect(page).not_to have_css('#modal')
-    expect(page).to have_css('td.scoreboard-result', text: result)
+    assert_no_selector('#modal')
+    assert_selector('td.scoreboard-result', text: result)
   end
 
   def add_penalty_to_last_result(competitor:)
@@ -104,7 +106,7 @@ describe 'Scoring PPC-like competitions', js: true do
     row.find('.show-result').click
 
     modal_title = "#{I18n.t('activerecord.models.event/result')}: #{competitor} | Distance - 1"
-    expect(page).to have_css('.modal-title', text: modal_title)
+    assert_selector('.modal-title', text: modal_title)
 
     click_link 'Penalties'
 

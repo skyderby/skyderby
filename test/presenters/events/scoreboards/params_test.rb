@@ -1,59 +1,53 @@
-describe Events::Scoreboards::Params do
-  describe '#omit_penalties?' do
-    it 'without specified params' do
-      event = events(:nationals)
-      params = Events::Scoreboards::Params.new(event, {})
+require 'test_helper'
 
-      expect(params.omit_penalties?).to be_falsey
-    end
+class Events::Scoreboards::ParamsTest < ActiveSupport::TestCase
+  test 'omit penalties? without specified params' do
+    event = events(:nationals)
+    params = Events::Scoreboards::Params.new(event, {})
 
-    it 'when specified "true"' do
-      event = events(:nationals)
-      params = Events::Scoreboards::Params.new(event, omit_penalties: 'true')
-
-      expect(params.omit_penalties?).to be_truthy
-    end
+    assert_not params.omit_penalties?
   end
 
-  describe '#adjust_to_wind?' do
-    describe 'wind cancellation disabled' do
-      it 'when parameter not specified' do
-        event = events(:nationals)
-        event.update!(wind_cancellation: false)
+  test 'omit penalties? when specified "true"' do
+    event = events(:nationals)
+    params = Events::Scoreboards::Params.new(event, omit_penalties: 'true')
 
-        params = Events::Scoreboards::Params.new(event, {})
+    assert params.omit_penalties?
+  end
 
-        expect(params.adjust_to_wind?).to be_falsey
-      end
+  test 'adjust to wind? wind cancellation disabled when parameter not specified' do
+    event = events(:nationals)
+    event.update!(wind_cancellation: false)
 
-      it 'when parameter set to "true"' do
-        event = events(:nationals)
-        event.update!(wind_cancellation: false)
+    params = Events::Scoreboards::Params.new(event, {})
 
-        params = Events::Scoreboards::Params.new(event, display_raw_results: 'true')
+    assert_not params.adjust_to_wind?
+  end
 
-        expect(params.adjust_to_wind?).to be_falsey
-      end
-    end
+  test 'adjust to wind? wind cancellation disabled when parameter set to "true"' do
+    event = events(:nationals)
+    event.update!(wind_cancellation: false)
 
-    describe 'wind cancellation enabled' do
-      it 'when parameter not specified' do
-        event = events(:nationals)
-        event.update!(wind_cancellation: true)
+    params = Events::Scoreboards::Params.new(event, display_raw_results: 'true')
 
-        params = Events::Scoreboards::Params.new(event, {})
+    assert_not params.adjust_to_wind?
+  end
 
-        expect(params.adjust_to_wind?).to be_truthy
-      end
+  test 'adjust to wind? wind cancellation enabled when parameter not specified' do
+    event = events(:nationals)
+    event.update!(wind_cancellation: true)
 
-      it 'when parameter specified' do
-        event = events(:nationals)
-        event.update!(wind_cancellation: true)
+    params = Events::Scoreboards::Params.new(event, {})
 
-        params = Events::Scoreboards::Params.new(event, display_raw_results: 'true')
+    assert params.adjust_to_wind?
+  end
 
-        expect(params.adjust_to_wind?).to be_falsey
-      end
-    end
+  test 'adjust to wind? wind cancellation enabled when parameter specified' do
+    event = events(:nationals)
+    event.update!(wind_cancellation: true)
+
+    params = Events::Scoreboards::Params.new(event, display_raw_results: 'true')
+
+    assert_not params.adjust_to_wind?
   end
 end

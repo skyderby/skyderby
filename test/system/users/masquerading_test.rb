@@ -1,5 +1,7 @@
-feature 'Masquerading', type: :system do
-  scenario 'Admin can masquerade as another user' do
+require 'application_system_test_case'
+
+class MasqueradingTest < ApplicationSystemTestCase
+  test 'Admin can masquerade as another user' do
     admin = create :user, :admin
     user  = create :user
 
@@ -7,6 +9,6 @@ feature 'Masquerading', type: :system do
     visit profile_path(user.profile)
     click_link 'Masquerade'
 
-    expect(page).to have_content('Now masquerading as')
+    assert_text 'Now masquerading as'
   end
 end

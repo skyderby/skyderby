@@ -1,5 +1,7 @@
-feature 'Profile badges', type: :system do
-  scenario 'Create', js: true do
+require 'application_system_test_case'
+
+class ProfileBadgesTest < ApplicationSystemTestCase
+  test 'Create' do
     user = create :user, :admin
     sign_in user
 
@@ -15,6 +17,6 @@ feature 'Profile badges', type: :system do
     fill_in 'badge[comment]', with: 'Target flight'
     click_button I18n.t('general.save')
 
-    expect(page).to have_content('WWL 2020')
+    assert_text 'WWL 2020'
   end
 end

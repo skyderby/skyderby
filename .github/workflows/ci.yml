@@ -10,9 +10,13 @@ on:
     - dev
     - next
 
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   rubocop:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Setup Ruby
@@ -34,7 +38,7 @@ jobs:
         run: bundle exec rubocop --parallel
 
   eslint:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Setup Nodejs
@@ -54,7 +58,7 @@ jobs:
         run: yarn lint
 
   unit-test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     needs:
       - rubocop
       - eslint
@@ -105,6 +109,8 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+      - name: Install libeccodes-dev
+        run: sudo apt-get update && sudo apt-get install -y libeccodes-dev
       - name: Install gems
         run: |
           bundle config path vendor/bundle
@@ -114,10 +120,10 @@ jobs:
       - run: bundle exec i18n export
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
-      - run: bundle exec rspec spec --tag ~type:system
+      - run: bundle exec rails test
 
   system-test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     needs:
       - rubocop
       - eslint
@@ -169,6 +175,8 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+      - name: Install libeccodes-dev
+        run: sudo apt-get update && sudo apt-get install -y libeccodes-dev
       - name: Install gems
         run: |
           bundle config path vendor/bundle
@@ -178,16 +186,16 @@ jobs:
       - run: bundle exec i18n export
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
-      - run: bundle exec rspec spec --tag type:system
+      - run: bundle exec rails test:system
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: Failure screenshots
-          path: tmp/screenshots
+          path: tmp/capybara
 
   publish-docker-image:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     needs:
       - unit-test
       - system-test

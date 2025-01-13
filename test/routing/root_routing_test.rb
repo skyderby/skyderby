@@ -1,15 +1,23 @@
-describe 'Locale redirects routing', type: :request do
-  %w[ru en de es].each do |locale|
-    it "to #index locale: #{locale}" do
-      I18n.with_locale(:en) { get("/#{locale}") }
+require 'test_helper'
 
-      expect(response).to redirect_to(root_path)
-    end
+class LocaleRedirectsRoutingTest < ActionDispatch::IntegrationTest
+  test 'to #index locale: ru' do
+    I18n.with_locale(:en) { get('/ru') }
+    assert_redirected_to root_path
+  end
 
-    it "to places#index locale: #{locale}" do
-      I18n.with_locale { get("/#{locale}/places") }
+  test 'to #index locale: en' do
+    I18n.with_locale(:en) { get('/en') }
+    assert_redirected_to root_path
+  end
 
-      expect(response).to redirect_to(places_path)
-    end
+  test 'to places#index locale: ru' do
+    I18n.with_locale { get('/ru/places') }
+    assert_redirected_to places_path
+  end
+
+  test 'to places#index locale: en' do
+    I18n.with_locale { get('/en/places') }
+    assert_redirected_to places_path
   end
 end

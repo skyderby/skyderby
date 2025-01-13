@@ -1,47 +1,45 @@
-describe Events::Scoreboards::Results::Collection do
-  describe '#for' do
-    it 'by round and competitor' do
-      params = build_params
-      collection = Events::Scoreboards::Results::Collection.new(event.results, params)
-      competitor = event_competitors(:john)
-      round = event_rounds(:speed_round_1)
+require 'test_helper'
 
-      result = collection.for(competitor: competitor, round: round).result
-      expect(result).to eq(200)
-    end
+class Events::Scoreboards::Results::CollectionTest < ActiveSupport::TestCase
+  def test_for_by_round_and_competitor
+    params = build_params
+    collection = Events::Scoreboards::Results::Collection.new(event.results, params)
+    competitor = event_competitors(:john)
+    round = event_rounds(:speed_1)
 
-    it 'by round and competitor, without penalties' do
-      params = build_params(omit_penalties: 'true')
-      collection = Events::Scoreboards::Results::Collection.new(event.results, params)
-      competitor = event_competitors(:john)
-      round = event_rounds(:speed_round_1)
-
-      result = collection.for(competitor: competitor, round: round).result
-      expect(result).to eq(250)
-    end
+    result = collection.for(competitor: competitor, round: round).result
+    assert_equal 200, result
   end
 
-  describe '#best_in' do
-    it 'round' do
-      params = build_params
-      collection = Events::Scoreboards::Results::Collection.new(event.results, params)
+  def test_for_by_round_and_competitor_without_penalties
+    params = build_params(omit_penalties: 'true')
+    collection = Events::Scoreboards::Results::Collection.new(event.results, params)
+    competitor = event_competitors(:john)
+    round = event_rounds(:speed_1)
 
-      best_in_round = collection.best_in(round: event_rounds(:speed_round_1))
-
-      expect(best_in_round.result).to eq(270)
-    end
+    result = collection.for(competitor: competitor, round: round).result
+    assert_equal 250, result
   end
 
-  describe '#worst_in' do
-    it 'round' do
-      params = build_params
-      collection = Events::Scoreboards::Results::Collection.new(event.results, params)
+  def test_best_in_round
+    params = build_params
+    collection = Events::Scoreboards::Results::Collection.new(event.results, params)
 
-      worst_in_round = collection.worst_in(round: event_rounds(:speed_round_1))
+    best_in_round = collection.best_in(round: event_rounds(:speed_1))
 
-      expect(worst_in_round.result).to eq(200)
-    end
+    assert_equal 270, best_in_round.result
   end
+
+  def test_worst_in_round
+    params = build_params
+    collection = Events::Scoreboards::Results::Collection.new(event.results, params)
+
+    worst_in_round = collection.worst_in(round: event_rounds(:speed_1))
+
+    assert_equal 200, worst_in_round.result
+  end
+
+  private
 
   def build_params(raw_params = {})
     Events::Scoreboards::Params.new(event, raw_params)

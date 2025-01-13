@@ -1,15 +1,21 @@
-feature 'Event competitors', type: :system, js: true do
-  scenario 'add competitor with existing profile' do
-    event = create :event, responsible: user
+require 'application_system_test_case'
+
+class EventsCompetitorsTest < ApplicationSystemTestCase
+  setup do
+    @user = create :user
+  end
+
+  test 'add competitor with existing profile' do
+    event = create :event, responsible: @user
     create :event_section, event: event
 
     suit = create :suit
     profile = create :profile, name: 'Ivan Petrov'
 
-    sign_in user
+    sign_in @user
     visit event_path(event)
     click_link I18n.t('activerecord.models.event/competitor')
-    expect(page).to have_css('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
+    assert_selector('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
 
     find('#select2-profile_id-container').click
     first('li.select2-results__option', text: profile.name).click
@@ -19,23 +25,22 @@ feature 'Event competitors', type: :system, js: true do
 
     click_button I18n.t('general.save')
 
-    expect(page).not_to have_css('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
-
-    expect(page).to have_content(profile.name)
+    assert_no_selector('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
+    assert_text(profile.name)
   end
 
-  scenario 'add competitor with new profile' do
-    event = create :event, responsible: user
+  test 'add competitor with new profile' do
+    event = create :event, responsible: @user
     create :event_section, event: event
 
     suit = create :suit
     country = create :country
     profile_name = 'Ivan Petrov'
 
-    sign_in user
+    sign_in @user
     visit event_path(event)
     click_link I18n.t('activerecord.models.event/competitor')
-    expect(page).to have_css('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
+    assert_selector('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
 
     find('label', text: I18n.t('competitors.form.create_profile')).click
 
@@ -47,12 +52,7 @@ feature 'Event competitors', type: :system, js: true do
     first('li.select2-results__option', text: suit.name).click
 
     click_button I18n.t('general.save')
-    expect(page).not_to have_css('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
-
-    expect(page).to have_content(profile_name)
-  end
-
-  def user
-    @user ||= create :user
+    assert_no_selector('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
+    assert_text(profile_name)
   end
 end

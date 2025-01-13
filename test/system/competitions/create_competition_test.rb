@@ -1,10 +1,12 @@
-feature 'Creating new competitions', type: :system do
-  scenario 'Registered user able to create new competition', js: true do
+require 'application_system_test_case'
+
+class CreateCompetitionTest < ApplicationSystemTestCase
+  test 'Registered user able to create new competition' do
     sign_in users(:regular_user)
     visit events_path
 
     click_link 'Competition'
-    expect(page).to have_css('.modal-title', text: "#{I18n.t('activerecord.models.event')}: New")
+    assert_selector('.modal-title', text: "#{I18n.t('activerecord.models.event')}: New")
 
     fill_in :event_name, with: 'Test event'
     fill_in :event_range_from, with: 3000
@@ -13,6 +15,6 @@ feature 'Creating new competitions', type: :system do
 
     find('input[type="submit"]').click
 
-    expect(page).to have_css('.show-page-title', text: 'TEST EVENT')
+    assert_selector('.show-page-title', text: 'TEST EVENT')
   end
 end

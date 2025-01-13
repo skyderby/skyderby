@@ -1,5 +1,7 @@
-feature 'Deletion event', type: :system, js: true do
-  scenario 'responsible delete his own competition' do
+require 'application_system_test_case'
+
+class DeletionEventTest < ApplicationSystemTestCase
+  test 'responsible delete his own competition' do
     user = create :user
     event = create :event, name: 'event_to_delete', responsible: user
 
@@ -10,6 +12,6 @@ feature 'Deletion event', type: :system, js: true do
     fill_in 'event_deletion_event_name', with: event.name
     click_button I18n.t('general.delete')
 
-    expect(page).not_to have_content(event.name)
+    assert_no_text event.name
   end
 end

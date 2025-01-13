@@ -1,5 +1,7 @@
-feature 'Manage countries', type: :system do
-  scenario 'Add new country' do
+require 'application_system_test_case'
+
+class CountriesTest < ApplicationSystemTestCase
+  test 'Add new country' do
     sign_in users(:admin)
 
     visit countries_path
@@ -12,23 +14,21 @@ feature 'Manage countries', type: :system do
       click_button I18n.t('general.save')
     end
 
-    expect(page).to have_content('Ukraine')
+    assert_text 'Ukraine'
   end
 
-  scenario 'Edit' do
+  test 'Edit' do
     country = countries(:norway)
     sign_in users(:admin)
 
     visit countries_path
     first(:link, 'Edit').click
 
-    within "#edit_country_#{country.id}" do
-      fill_in 'country[name]', with: 'AbraCadabra'
-      fill_in 'country[code]', with: 'ABC'
+    fill_in 'country[name]', with: 'AbraCadabra'
+    fill_in 'country[code]', with: 'ABC'
 
-      click_button I18n.t('general.save')
-    end
+    click_button I18n.t('general.save')
 
-    expect(page).to have_content('AbraCadabra')
+    assert_text 'AbraCadabra'
   end
 end

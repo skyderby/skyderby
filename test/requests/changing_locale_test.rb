@@ -1,6 +1,8 @@
-describe 'Changing locale', type: :request do
-  it 'should handle missing locale gracefully' do
+require 'test_helper'
+
+class ChangingLocaleTest < ActionDispatch::IntegrationTest
+  test 'should handle missing locale gracefully' do
     get root_path(locale: "en'A=0")
-    expect(response.successful?).to be_truthy
+    assert response.successful?
   end
 end

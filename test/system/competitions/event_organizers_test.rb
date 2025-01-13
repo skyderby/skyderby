@@ -1,5 +1,7 @@
-feature 'Event organizers', type: :system, js: true do
-  scenario 'add organizer' do
+require 'application_system_test_case'
+
+class EventOrganizersTest < ApplicationSystemTestCase
+  test 'add organizer' do
     event = events(:nationals)
     organizer = users(:regular_user)
 
@@ -7,13 +9,13 @@ feature 'Event organizers', type: :system, js: true do
     visit event_path(event)
 
     click_link I18n.t('organizers.list.add_judge')
-    expect(page).to have_css('.modal-title', text: "#{I18n.t('activerecord.models.organizer')}: New")
+    assert_selector('.modal-title', text: "#{I18n.t('activerecord.models.organizer')}: New")
 
     select2 organizer.name, from: 'organizer_user_id'
 
     click_button I18n.t('general.save')
-    expect(page).not_to have_css('.modal-title', text: "#{I18n.t('activerecord.models.organizer')}: New")
+    assert_no_selector('.modal-title', text: "#{I18n.t('activerecord.models.organizer')}: New")
 
-    expect(page).to have_content(organizer.name)
+    assert_text organizer.name
   end
 end

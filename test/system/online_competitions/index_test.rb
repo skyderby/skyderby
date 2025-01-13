@@ -1,9 +1,11 @@
-describe 'index' do
-  it 'shows competitions' do
+require 'application_system_test_case'
+
+class OnlineCompetitionsIndexTest < ApplicationSystemTestCase
+  test 'shows competitions' do
     competition = create :virtual_competition
 
     visit virtual_competitions_path
 
-    expect(page).to have_content(competition.name)
+    assert_text competition.name
   end
 end

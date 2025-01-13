@@ -1,5 +1,7 @@
-describe 'Sponsorable', js: true do
-  it 'Competition sponsor' do
+require 'application_system_test_case'
+
+class SponsorableTest < ApplicationSystemTestCase
+  test 'Competition sponsor' do
     user = create :user
     sign_in user
 
@@ -17,6 +19,6 @@ describe 'Sponsorable', js: true do
       click_button I18n.t('general.save')
     end
 
-    expect(page).to have_css('.sponsors > .sponsor')
+    assert_selector '.sponsors > .sponsor'
   end
 end

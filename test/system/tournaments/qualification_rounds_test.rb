@@ -1,5 +1,7 @@
-describe 'Qualification rounds', js: true do
-  it 'add rounds' do
+require 'application_system_test_case'
+
+class QualificationRoundsTest < ApplicationSystemTestCase
+  test 'add rounds' do
     sign_in users(:regular_user)
 
     tournament = tournaments(:qualification_loen)
@@ -7,10 +9,10 @@ describe 'Qualification rounds', js: true do
     visit tournament_qualification_path(tournament)
     click_button 'Round'
 
-    expect(page).to have_css('td', text: 'Round 2')
+    assert_selector 'td', text: 'Round 2'
   end
 
-  it 'delete round' do
+  test 'delete round' do
     sign_in users(:regular_user)
 
     tournament = tournaments(:qualification_loen)
@@ -22,6 +24,6 @@ describe 'Qualification rounds', js: true do
     find('.scoreboard-round-actions .btn-link').click
     click_button I18n.t('general.delete')
 
-    expect(page).to have_no_css('td', text: 'Round 1')
+    assert_no_selector 'td', text: 'Round 1'
   end
 end
