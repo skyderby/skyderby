@@ -1,4 +1,5 @@
 require 'sidekiq/web'
+require 'sidekiq/cron/web'
 
 Skyderby::Application.routes.draw do
   mount ActionCable.server, at: '/cable'
