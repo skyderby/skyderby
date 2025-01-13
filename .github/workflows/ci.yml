@@ -27,9 +27,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-ruby-v2-${{ hashFiles('./Gemfile.lock') }}
+          key: ${{ runner.os }}-ruby-v3-${{ hashFiles('./Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-ruby-v2-
+            ${{ runner.os }}-ruby-v3-
       - name: Install gems
         run: |
           bundle config path vendor/bundle
@@ -49,9 +49,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          key: ${{ runner.os }}-yarn-v3-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-yarn-v3-
       - name: Install packages
         run: yarn install
       - name: Run Eslint and Prettier
@@ -99,16 +99,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-ruby-v2-${{ hashFiles('./Gemfile.lock') }}
+          key: ${{ runner.os }}-ruby-v3-${{ hashFiles('./Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-ruby-v2-
+            ${{ runner.os }}-ruby-v3-
       - name: Cache node modules
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          key: ${{ runner.os }}-yarn-v3-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-yarn-v3-
       - name: Install libeccodes-dev
         run: sudo apt-get update && sudo apt-get install -y libeccodes-dev
       - name: Install gems
@@ -165,16 +165,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-ruby-v2-${{ hashFiles('./Gemfile.lock') }}
+          key: ${{ runner.os }}-ruby-v3-${{ hashFiles('./Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-ruby-v2-
+            ${{ runner.os }}-ruby-v3-
       - name: Cache node modules
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          key: ${{ runner.os }}-yarn-v3-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-yarn-v3-
       - name: Install libeccodes-dev
         run: sudo apt-get update && sudo apt-get install -y libeccodes-dev
       - name: Install gems
