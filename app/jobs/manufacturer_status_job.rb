@@ -18,7 +18,7 @@ class ManufacturerStatusJob < ApplicationJob
   end
 end
 
-if Rails.env.production?
+Sidekiq.configure_server do
   Sidekiq::Cron::Job.create(
     name: 'Update manufacturers statuses - daily',
     cron: '0 0 * * *',
