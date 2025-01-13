@@ -40,7 +40,7 @@ gem 'nokogiri', '~> 1.16'
 
 # Background jobs
 gem 'sidekiq', '< 7'
-gem 'sidekiq-cron', '~> 1.0'
+gem 'sidekiq-cron', '~> 2.0'
 
 # Export to Excel
 gem 'caxlsx'
