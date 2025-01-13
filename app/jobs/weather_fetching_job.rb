@@ -28,12 +28,3 @@ class WeatherFetchingJob < ApplicationJob
     @subregion ||= GfsForecast::Subregion.new(**Place.skydive.to_subregion)
   end
 end
-
-if Rails.env.production?
-  Sidekiq::Cron::Job.create(
-    name: 'Fetch weather - every hour',
-    cron: '30 * * * *',
-    class: 'WeatherFetchingJob',
-    date_as_argument: true
-  )
-end
