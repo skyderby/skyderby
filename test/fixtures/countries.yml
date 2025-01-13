@@ -1,0 +1,15 @@
+norway:
+  name: Norway
+  code: NOR
+
+russia:
+  name: Russia
+  code: RUS
+
+italy:
+  name: Italy
+  code: ITA
+
+usa:
+  name: United States
+  code: USA

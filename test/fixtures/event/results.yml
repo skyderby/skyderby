@@ -1,0 +1,37 @@
+# Event 1, Speed Distance Time
+john_distance_1:
+  competitor: john
+  round: distance_1
+  result: 3000
+  result_net: 2900
+  created_at: 2018-01-01 12:00:00
+  track: hellesylt
+  uploaded_by: event_responsible
+
+john_speed_1:
+  competitor: john
+  round: speed_1
+  result: 250
+  result_net: 240
+  penalized: true
+  penalty_size: 20
+  penalty_reason: Lane violation
+  uploaded_by: event_responsible
+  created_at: 2018-01-01 12:01:00
+
+travis_distance_1:
+  competitor: travis
+  round: distance_1
+  result: 2500
+  result_net: 2400
+  track: hellesylt
+  uploaded_by: event_responsible
+  created_at: 2018-01-01 12:03:00
+
+travis_speed_1:
+  competitor: travis
+  round: speed_1
+  result: 270
+  result_net: 265
+  uploaded_by: event_responsible
+  created_at: 2018-01-01 12:05:00

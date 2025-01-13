@@ -1,0 +1,10 @@
+nationals:
+  name: WS Performance Nationals
+  rules: speed_distance_time
+  range_from: 3000
+  range_to: 2000
+  wind_cancellation: false
+  starts_at: 2015-03-01
+  responsible: event_responsible
+  status: published
+  place: ravenna

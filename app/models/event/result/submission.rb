@@ -73,12 +73,12 @@ class Event < ApplicationRecord
 
       def result_params
         {
-          competitor: competitor,
-          round: round,
-          penalized: penalized,
-          penalty_size: penalty_size,
-          penalty_reason: penalty_reason,
-          track_attributes: track_attributes,
+          competitor:,
+          round:,
+          penalized:,
+          penalty_size:,
+          penalty_reason:,
+          track_attributes:,
           track_from: 'from_file'
         }
       end

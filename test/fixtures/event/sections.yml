@@ -1,0 +1,9 @@
+advanced:
+  event: nationals
+  order: 1
+  name: Advanced
+
+intermediate:
+  event: nationals
+  order: 2
+  name: Intermediate

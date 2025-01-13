@@ -35,7 +35,18 @@ class Profile < ApplicationRecord
   has_many :base_tracks,
            -> { base.order('created_at DESC') }, class_name: 'Track', inverse_of: false, dependent: :nullify
   has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all, inverse_of: :profile
-  has_many :event_competitors, class_name: 'Event::Competitor', dependent: :restrict_with_error
+  has_many :performance_competition_participation,
+           class_name: 'Event::Competitor',
+           dependent: :restrict_with_error
+  has_many :speed_skydiving_competition_participations,
+           class_name: 'SpeedSkydivingCompetition::Competitor',
+           inverse_of: :profile,
+           dependent: :restrict_with_error
+  has_many :events, through: :performance_competition_participation
+  has_many :speed_skydiving_competitions,
+           through: :speed_skydiving_competition_participations,
+           source: :event,
+           dependent: :restrict_with_error
   has_many :personal_top_scores,
            -> { wind_cancellation(false) },
            inverse_of: :profile,
@@ -59,7 +70,7 @@ class Profile < ApplicationRecord
     super.presence || 'Name not set'
   end
 
-  def competitor_of_events = event_competitors.select(:event_id).map(&:event)
+  def competitor_of_events = events + speed_skydiving_competitions
 
   def participant_of_events = organizer_of_events + competitor_of_events
 

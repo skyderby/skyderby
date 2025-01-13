@@ -6,12 +6,14 @@ module CompetitorCountry
   end
 
   def country_code
+    return if profile.blank?
     return profile.country_code unless russia_restricted?
 
     profile.country_code == 'RUS' ? 'RPF' : profile.country_code
   end
 
   def country_name
+    return if profile.blank?
     return profile.country_name unless russia_restricted?
 
     profile.country_code == 'RUS' ? 'Neutral Athletes' : profile.country_name

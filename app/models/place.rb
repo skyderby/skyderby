@@ -12,7 +12,7 @@
 #
 
 class Place < ApplicationRecord
-  include Photos, Stats
+  include Photos, Stats, WeatherData
 
   enum :kind, { skydive: 0, base: 1 }
 
@@ -31,8 +31,7 @@ class Place < ApplicationRecord
 
   validates :name, :latitude, :longitude, presence: true
 
-  delegate :name, to: :country, prefix: true, allow_nil: true
-  delegate :code, to: :country, prefix: true, allow_nil: true
+  delegate :name, :code, to: :country, prefix: true, allow_nil: true
 
   def accessible_profiles
     Profile.where(
@@ -55,19 +54,21 @@ class Place < ApplicationRecord
 
     def nearby(point, radius)
       distance_statement =
-        "SQRT(
+        Arel.sql("SQRT(
           POW(111 * (latitude - #{point[:latitude]}), 2) +
           POW(111 * (#{point[:longitude]} - longitude) * COS(latitude / (180/PI()) ), 2)
-        )"
+        )")
 
-      select(:id,
-             :name,
-             :latitude,
-             :longitude,
-             :msl,
-             "#{distance_statement} AS distance")
-        .where("#{distance_statement} < :radius", radius: radius)
-        .order('distance')
+      where("#{distance_statement} < :radius", radius: radius).order(distance_statement)
+    end
+
+    def to_subregion
+      select(
+        'floor(min(latitude)) - 0.25 bottom_lat',
+        'ceil(max(latitude)) + 0.25 top_lat',
+        'floor(min(longitude)) - 0.25 left_lon',
+        'ceil(max(longitude)) + 0.25 right_lon'
+      ).take.attributes.except('id')
     end
   end
 end

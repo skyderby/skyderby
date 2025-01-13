@@ -1,0 +1,5 @@
+<% 1.upto(8) do |i| %>
+nationals_round_<%= i %>:
+  event: nationals
+  number: <%= i %>
+<% end %>

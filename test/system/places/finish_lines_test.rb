@@ -1,0 +1,96 @@
+require 'application_system_test_case'
+
+class PlaceFinishLinesTest < ApplicationSystemTestCase
+  test '#index' do
+    sign_in users(:admin)
+
+    place = places(:hellesylt)
+    finish_line = place_finish_lines(:hellesylt)
+
+    visit place_finish_lines_path(place)
+
+    assert_selector('.finish-line-card', text: finish_line.name)
+  end
+
+  test '#new' do
+    sign_in users(:admin)
+
+    place = places(:hellesylt)
+
+    visit new_place_finish_line_path(place)
+
+    assert_selector('input#place_finish_line_name')
+  end
+
+  test '#create' do
+    sign_in users(:admin)
+
+    place = places(:hellesylt)
+
+    visit new_place_finish_line_path(place)
+
+    fill_in 'place_finish_line_name', with: 'Some name'
+    fill_in 'place_finish_line_start_latitude', with: '1'
+    fill_in 'place_finish_line_start_longitude', with: '1'
+    fill_in 'place_finish_line_end_latitude', with: '1'
+    fill_in 'place_finish_line_end_longitude', with: '1'
+
+    click_button I18n.t('general.save')
+
+    assert_selector('.finish-line-card', text: 'Some name')
+  end
+
+  test '#show' do
+    sign_in users(:admin)
+
+    place = places(:hellesylt)
+    finish_line = place_finish_lines(:hellesylt)
+
+    visit place_finish_line_path(place, finish_line)
+    assert_selector('h2', text: finish_line.name)
+  end
+
+  test '#edit' do
+    sign_in users(:admin)
+
+    place = places(:hellesylt)
+    finish_line = place_finish_lines(:hellesylt)
+
+    visit edit_place_finish_line_path(place, finish_line)
+
+    assert_selector('input#place_finish_line_name')
+  end
+
+  test '#update' do
+    sign_in users(:admin)
+
+    place = places(:hellesylt)
+    finish_line = place_finish_lines(:hellesylt)
+
+    visit edit_place_finish_line_path(place, finish_line)
+
+    fill_in 'place_finish_line_name', with: 'ASDFG'
+
+    click_button I18n.t('general.save')
+
+    assert_selector('.finish-line-card', text: 'ASDFG')
+  end
+
+  test '#destroy' do
+    sign_in users(:admin)
+
+    place = places(:hellesylt)
+    finish_line = place.finish_lines.create(
+      name: 'ASDF',
+      start_latitude: 1,
+      start_longitude: 1,
+      end_latitude: 1,
+      end_longitude: 1
+    )
+
+    visit place_finish_line_path(place, finish_line)
+    click_button I18n.t('general.delete')
+
+    assert_no_selector('.finish-line-card', text: finish_line.name)
+  end
+end

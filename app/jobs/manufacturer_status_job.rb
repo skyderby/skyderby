@@ -17,3 +17,11 @@ class ManufacturerStatusJob < ApplicationJob
       .where("tracks.recorded_at > NOW() - interval '1 year'")
   end
 end
+
+if Rails.env.production?
+  Sidekiq::Cron::Job.create(
+    name: 'Update manufacturers statuses - daily',
+    cron: '0 0 * * *',
+    class: 'ManufacturerStatusJob'
+  )
+end

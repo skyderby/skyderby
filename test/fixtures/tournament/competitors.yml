@@ -1,0 +1,9 @@
+race_competitor:
+  tournament: world_base_race
+  suit: apache
+  profile: john
+
+qualification_competitor:
+  tournament: qualification_loen
+  suit: apache
+  profile: john
