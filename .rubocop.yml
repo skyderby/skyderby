@@ -46,7 +46,13 @@ Metrics/BlockLength:
     - config/**/*
     - test/**/*
 
+Minitest/AssertInDelta:
+  Enabled: false
+
 Minitest/MultipleAssertions:
+  Enabled: false
+
+Minitest/EmptyLineBeforeAssertionMethods:
   Enabled: false
 
 Naming/VariableNumber:

@@ -20,7 +20,8 @@ class Api::V1::Events::Rounds::ReferencePointAssignmentsControllerTest < ActionD
       reference_point_id: reference_point.id
     }
 
-    post api_v1_event_round_reference_point_assignments_path(event_id: event.id, round_id: round.id), params: params, as: :json
+    post api_v1_event_round_reference_point_assignments_path(event_id: event.id, round_id: round.id),
+         params:, as: :json
 
     assert_response :success
 
@@ -42,7 +43,8 @@ class Api::V1::Events::Rounds::ReferencePointAssignmentsControllerTest < ActionD
       reference_point_id: nil
     }
 
-    post api_v1_event_round_reference_point_assignments_path(event_id: event.id, round_id: round.id), params: params, as: :json
+    post api_v1_event_round_reference_point_assignments_path(event_id: event.id, round_id: round.id),
+         params:, as: :json
 
     assert_response :success
 
@@ -62,7 +64,8 @@ class Api::V1::Events::Rounds::ReferencePointAssignmentsControllerTest < ActionD
       reference_point_id: nil
     }
 
-    post api_v1_event_round_reference_point_assignments_path(event_id: event.id, round_id: round.id), params: params, as: :json
+    post api_v1_event_round_reference_point_assignments_path(event_id: event.id, round_id: round.id),
+         params:, as: :json
 
     assert_response :forbidden
   end

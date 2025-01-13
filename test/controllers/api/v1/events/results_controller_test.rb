@@ -6,7 +6,7 @@ class Api::V1::Events::ResultsControllerTest < ActionDispatch::IntegrationTest
 
     get api_v1_event_results_path(event_id: event.id), as: :json
 
-    response_json = JSON.parse(response.body)
+    response_json = response.parsed_body
     result_numbers = response_json.pluck('result')
     rounds = response_json.pluck('round_name')
 
@@ -44,7 +44,7 @@ class Api::V1::Events::ResultsControllerTest < ActionDispatch::IntegrationTest
       },
       jump_range: {
         exit_time: '2018-02-24T15:23:44.40Z',
-        deploy_time: '2018-02-24T15:26:24.40Z',
+        deploy_time: '2018-02-24T15:26:24.40Z'
       },
       track_attributes: {
         file: fixture_file_upload('tracks/distance_2454.csv', 'text/csv')
@@ -55,7 +55,7 @@ class Api::V1::Events::ResultsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
 
-    response_json = JSON.parse(response.body)
+    response_json = response.parsed_body
 
     result = event.results.last
     assert_equal response_json['id'], result.id

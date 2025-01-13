@@ -67,8 +67,7 @@ class Api::V1::Events::ScoreboardsControllerTest < ActionDispatch::IntegrationTe
           result: '200.0',
           points: '74.1'
         }]
-      },
-      {
+      }, {
         id: event_competitors(:alex).id,
         name: 'Alex',
         section_id: section_advanced.id,

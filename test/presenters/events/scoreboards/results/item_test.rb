@@ -50,7 +50,7 @@ class Events::Scoreboards::Results::ItemTest < ActiveSupport::TestCase
     event_track = event_results(:john_speed_1)
     result = build_result(event_track, {})
 
-    assert result.penalized?
+    assert_predicate result, :penalized?
   end
 
   test 'omit penalties' do
@@ -83,7 +83,7 @@ class Events::Scoreboards::Results::ItemTest < ActiveSupport::TestCase
 
     result = collection.for(competitor: event_competitors(:travis), round: event_rounds(:speed_1))
 
-    assert result.best_in_round_and_category?
+    assert_predicate result, :best_in_round_and_category?
   end
 
   private

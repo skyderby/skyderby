@@ -12,7 +12,7 @@ class Events::Scoreboards::ParamsTest < ActiveSupport::TestCase
     event = events(:nationals)
     params = Events::Scoreboards::Params.new(event, omit_penalties: 'true')
 
-    assert params.omit_penalties?
+    assert_predicate params, :omit_penalties?
   end
 
   test 'adjust to wind? wind cancellation disabled when parameter not specified' do
@@ -39,7 +39,7 @@ class Events::Scoreboards::ParamsTest < ActiveSupport::TestCase
 
     params = Events::Scoreboards::Params.new(event, {})
 
-    assert params.adjust_to_wind?
+    assert_predicate params, :adjust_to_wind?
   end
 
   test 'adjust to wind? wind cancellation enabled when parameter specified' do

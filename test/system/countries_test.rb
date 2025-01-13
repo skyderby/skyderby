@@ -18,7 +18,6 @@ class CountriesTest < ApplicationSystemTestCase
   end
 
   test 'Edit' do
-    country = countries(:norway)
     sign_in users(:admin)
 
     visit countries_path

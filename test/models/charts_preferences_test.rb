@@ -3,7 +3,7 @@ require 'test_helper'
 class ChartsPreferencesTest < ActiveSupport::TestCase
   test '#metric?' do
     preferences = ChartsPreferences.new(preferred_charts_units: 'metric')
-    assert preferences.metric?
+    assert_predicate preferences, :metric?
   end
 
   test 'returns metric unit system' do
@@ -13,7 +13,7 @@ class ChartsPreferencesTest < ActiveSupport::TestCase
 
   test '#imperial?' do
     preferences = ChartsPreferences.new(preferred_charts_units: 'imperial')
-    assert preferences.imperial?
+    assert_predicate preferences, :imperial?
   end
 
   test 'returns imperial unit system' do
@@ -23,7 +23,7 @@ class ChartsPreferencesTest < ActiveSupport::TestCase
 
   test 'metric if unknown unit system' do
     preferences = ChartsPreferences.new(preferred_charts_units: 'pirates')
-    assert preferences.metric?
+    assert_predicate preferences, :metric?
   end
 
   test 'returns metric if unit system unknown' do
@@ -33,6 +33,6 @@ class ChartsPreferencesTest < ActiveSupport::TestCase
 
   test '#separate?' do
     preferences = ChartsPreferences.new(preferred_charts_mode: 'separate')
-    assert preferences.separate?
+    assert_predicate preferences, :separate?
   end
 end

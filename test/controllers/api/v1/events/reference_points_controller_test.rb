@@ -10,7 +10,7 @@ class Api::V1::Events::ReferencePointsControllerTest < ActionDispatch::Integrati
 
     assert_response :success
 
-    response_data = JSON.parse(response.body)
+    response_data = response.parsed_body
     assert_equal %w[R1 R2], response_data.pluck('name')
     assert_equal ['20.0', '30.0'], response_data.pluck('latitude')
     assert_equal ['25.0', '35.0'], response_data.pluck('longitude')

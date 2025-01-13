@@ -161,13 +161,19 @@ class Tracks::TrackViewTest < ActiveSupport::TestCase
 
   def stub_points_fetch(object, &)
     start_time = 1.day.ago
-    object.stub(:track_points, [
-      { gps_time: start_time,     altitude: 3500, latitude: 24.8903, longitude: 55.54479, h_speed: 20, v_speed: 20, distance: 20, glide_ratio: 2.1 },
-      { gps_time: start_time + 1, altitude: 3400, latitude: 24.8904, longitude: 55.54477, h_speed: 30, v_speed: 30, distance: 20, glide_ratio: 2.2 },
-      { gps_time: start_time + 2, altitude: 3300, latitude: 24.8905, longitude: 55.54475, h_speed: 40, v_speed: 40, distance: 20, glide_ratio: 2.3 },
-      { gps_time: start_time + 3, altitude: 3200, latitude: 24.8906, longitude: 55.54473, h_speed: 50, v_speed: 50, distance: 20, glide_ratio: 2.4 },
-      { gps_time: start_time + 4, altitude: 3100, latitude: 24.8907, longitude: 55.54471, h_speed: 50, v_speed: 60, distance: 20, glide_ratio: 2.5 },
-      { gps_time: start_time + 5, altitude: 3000, latitude: 24.8908, longitude: 55.54469, h_speed: 50, v_speed: 70, distance: 20, glide_ratio: 2.2 }
-    ], &)
+    # rubocop:disable Layout/LineLength
+    object.stub(
+      :track_points,
+      [
+        { gps_time: start_time,     altitude: 3500, latitude: 24.8903, longitude: 55.54479, h_speed: 20, v_speed: 20, distance: 20, glide_ratio: 2.1 },
+        { gps_time: start_time + 1, altitude: 3400, latitude: 24.8904, longitude: 55.54477, h_speed: 30, v_speed: 30, distance: 20, glide_ratio: 2.2 },
+        { gps_time: start_time + 2, altitude: 3300, latitude: 24.8905, longitude: 55.54475, h_speed: 40, v_speed: 40, distance: 20, glide_ratio: 2.3 },
+        { gps_time: start_time + 3, altitude: 3200, latitude: 24.8906, longitude: 55.54473, h_speed: 50, v_speed: 50, distance: 20, glide_ratio: 2.4 },
+        { gps_time: start_time + 4, altitude: 3100, latitude: 24.8907, longitude: 55.54471, h_speed: 50, v_speed: 60, distance: 20, glide_ratio: 2.5 },
+        { gps_time: start_time + 5, altitude: 3000, latitude: 24.8908, longitude: 55.54469, h_speed: 50, v_speed: 70, distance: 20, glide_ratio: 2.2 }
+      ],
+      &
+    )
+    # rubocop:enable Layout/LineLength
   end
 end
