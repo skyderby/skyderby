@@ -8,13 +8,13 @@
         <%= detail_form.label :profile_id, class: 'form-label col-3' %>
         <% options = options_for_select([([details.profile_name, details.profile_id] if details.profile)], details.profile_id) %>
         <%= render 'hot_select/select',
-                   form: detail_form, name: :profile_id, src: profiles_select_options_path, options: %>
+                   form: detail_form, name: :profile_id, src: profiles_select_options_path, options:, class: 'col-9' %>
       </div>
     <% end %>
 
     <div class="grid">
       <%= f.label :amount, class: 'form-label col-3' %>
-      <%= f.number_field :amount, class: 'form-input col-9' %>
+      <%= f.number_field :amount, class: 'form-input col-9', step: 0.01 %>
     </div>
 
     <div class="grid">
