@@ -4,10 +4,10 @@
                   data: { turbo_stream: true, controller: 'auto-submit', action: 'input->auto-submit#submit' } do |form| %>
       <div class="grid">
         <%= form.label :day %>
-        <%= form.date_field :day, value: @time.to_date, class: 'form-input' %>
+        <%= form.date_field :day, value: @time.to_date, class: 'form-input col-2' %>
 
         <%= form.label :hour %>
-        <%= form.number_field :hour, value: @time.hour, step: 1, min: 0, max: 23, class: 'form-input' %>
+        <%= form.number_field :hour, value: @time.hour, step: 1, min: 0, max: 23, class: 'form-input col-1' %>
       </div>
     <% end %>
 
