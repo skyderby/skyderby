@@ -9,12 +9,13 @@ export default class Trajectory {
   }
 
   get polylines() {
-    return this.segments.map(coordinates =>
-      ({
-        path: coordinates.map(el => ({ lat: Number(el.latitude), lng: Number(el.longitude) })),
-        color: coordinates[0].color
-      })
-    )
+    return this.segments.map(coordinates => ({
+      path: coordinates.map(el => ({
+        lat: Number(el.latitude),
+        lng: Number(el.longitude)
+      })),
+      color: coordinates[0].color
+    }))
   }
 
   get segments() {

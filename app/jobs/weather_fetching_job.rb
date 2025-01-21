@@ -3,7 +3,7 @@ class WeatherFetchingJob < ApplicationJob
 
   retry_on DownloadError, wait: 5.minutes, attempts: 10
 
-  def perform(time_in_seconds)
+  def perform(time_in_seconds) # rubocop:disable Metrics/AbcSize
     time = Time.zone.at(time_in_seconds).beginning_of_hour + 1.hour
     Rails.logger.info("Fetching weather for #{time.iso8601}. Subregion: #{subregion}")
 
