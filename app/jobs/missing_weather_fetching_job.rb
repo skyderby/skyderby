@@ -18,7 +18,7 @@ class MissingWeatherFetchingJob < ApplicationJob
       Subregion: #{subregion}
     MSG
 
-    import_weather(place, forecast_hour)
+    import_weather(place, forecast_hour, subregion)
   end
 
   private
@@ -30,7 +30,7 @@ class MissingWeatherFetchingJob < ApplicationJob
     @gps_time.beginning_of_hour
   end
 
-  def import_weather(place, forecast_hour)
+  def import_weather(place, forecast_hour, subregion)
     result = GfsForecast.new(forecast_hour, subregion:, fallback_cycles: 1).download do |path|
       grib_file = GribApi.open(path)
       Rails.logger.info "Downloaded file #{path}."
