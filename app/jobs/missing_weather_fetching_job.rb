@@ -25,9 +25,9 @@ class MissingWeatherFetchingJob < ApplicationJob
 
   def forecast_hour
     @gps_time ||= @track.points.trimmed.first&.gps_time
-    return if gps_time.blank?
+    return if @gps_time.blank?
 
-    gps_time.beginning_of_hour
+    @gps_time.beginning_of_hour
   end
 
   def import_weather(place, forecast_hour)
