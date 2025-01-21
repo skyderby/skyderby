@@ -12,6 +12,8 @@ class WeatherFetchingJob < ApplicationJob
       Rails.logger.info("Downloaded file #{path}. ")
 
       Place.skydive.each do |place|
+        next if place.weather_forecasts.exists?(actual_on: time)
+
         place.import_weather_from_gfs_file(grib_file)
       end
     end
