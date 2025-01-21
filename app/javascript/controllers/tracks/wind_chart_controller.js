@@ -1,49 +1,30 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
+  static targets = ['data']
+
   connect() {
-    if (this.element.getAttribute('data-ready')) return
-
-    this.init_chart()
-    this.fetch_data()
-
-    this.element.setAttribute('data-ready', true)
+    this.initChart()
   }
 
-  init_chart() {
-    this.element.highcharts = new Highcharts.Chart(this.element, this.chart_options)
-    this.element.highcharts.showLoading()
+  initChart() {
+    this.weatherData = JSON.parse(this.dataTarget.textContent)
+    this.element.highcharts = new Highcharts.Chart(this.element, this.getChartOptions())
+    this.element.highcharts.reflow()
   }
 
-  fetch_data() {
-    fetch(this.element.getAttribute('data-url'), {
-      credentials: 'same-origin',
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.weather_data = data
-        this.set_chart_data()
-      })
-  }
-
-  set_chart_data() {
-    this.element.highcharts.series[0].setData(this.chart_data)
-    this.element.highcharts.hideLoading()
-  }
-
-  get chart_data() {
-    return this.weather_data
+  getChartData() {
+    return this.weatherData
       .filter(el => el.altitude <= 5000)
       .map(el => ({
-        x: Number(el.wind_direction),
+        x: Number(el.windDirection),
         y: Math.round(el.altitude / 100) / 10,
         altitude: Math.round(el.altitude),
-        wind_speed: el.wind_speed
+        windSpeed: el.windSpeed
       }))
   }
 
-  get chart_options() {
+  getChartOptions() {
     return {
       chart: {
         polar: true
@@ -58,7 +39,7 @@ export default class extends Controller {
       tooltip: {
         formatter: function () {
           const altitude = this.point.options.altitude
-          const windSpeed = Math.round(Number(this.point.options.wind_speed) * 10) / 10
+          const windSpeed = Math.round(Number(this.point.options.windSpeed) * 10) / 10
           const direction = Math.round(this.x)
 
           return `
@@ -95,7 +76,7 @@ export default class extends Controller {
             verticalAlign: 'middle',
             color: '#606060',
             formatter: function () {
-              return `${Math.round(this.point.wind_speed * 10) / 10} m/s`
+              return `${Math.round(this.point.windSpeed * 10) / 10} m/s`
             }
           }
         },
@@ -111,7 +92,7 @@ export default class extends Controller {
         {
           type: 'scatter',
           name: 'Wind speed',
-          data: [],
+          data: this.getChartData(),
           pointPlacement: 'between'
         }
       ],

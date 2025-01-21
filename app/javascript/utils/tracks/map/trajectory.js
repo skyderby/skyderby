@@ -1,22 +1,20 @@
-import color_by_speed from 'utils/color_by_speed'
+import colorBySpeed from 'utils/color_by_speed'
 
 export default class Trajectory {
   constructor(points) {
     this.points = points
     this.points.forEach(el => {
-      el.color = color_by_speed(el.h_speed)
+      el.color = colorBySpeed(el.hSpeed)
     })
   }
 
   get polylines() {
-    return this.segments.map(coordinates => {
-      return {
-        path: coordinates.map(el => {
-          return { lat: Number(el.latitude), lng: Number(el.longitude) }
-        }),
+    return this.segments.map(coordinates =>
+      ({
+        path: coordinates.map(el => ({ lat: Number(el.latitude), lng: Number(el.longitude) })),
         color: coordinates[0].color
-      }
-    })
+      })
+    )
   }
 
   get segments() {

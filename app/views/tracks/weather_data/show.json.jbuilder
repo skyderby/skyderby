@@ -1,1 +1,1 @@
-json.array! @weather_data.rows
+json.partial! 'tracks/weather_data/weather_data', weather_data: @weather_data

@@ -5,10 +5,7 @@ module Tracks
     def show
       authorize @track
 
-      respond_to do |format|
-        format.html
-        format.json { @track_data = Skyderby::Tracks::MapsData.new(@track) }
-      end
+      @map_data = Track::MapData.new(@track)
     end
 
     private
