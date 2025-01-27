@@ -474,7 +474,6 @@ DEPENDENCIES
   bootstrap-sass (~> 3.4.1)
   browser
   bullet
-  bundler (~> 2.5.23)
   capybara
   caxlsx
   caxlsx_rails

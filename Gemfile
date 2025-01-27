@@ -1,8 +1,6 @@
 ruby '3.2.3'
 source 'https://rubygems.org'
 
-gem 'bundler', '~> 2.5.23'
-
 gem 'rails', '~> 7.1.5'
 
 gem 'ffi'
