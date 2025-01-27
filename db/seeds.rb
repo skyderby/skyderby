@@ -6,11 +6,11 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-[:admin, :user].each do |name|
-  next if Role.find_by(name: name)
-  Role.create!(name: name)
-  p "Role #{name} created"
-end
+# [:admin, :user].each do |name|
+#   next if Role.find_by(name: name)
+#   Role.create!(name: name)
+#   p "Role #{name} created"
+# end
 
 manufacturers = YAML.load(File.open(Rails.root.join('db', 'seeds', 'manufacturers.yml')))
 manufacturers.each do |attrs|
