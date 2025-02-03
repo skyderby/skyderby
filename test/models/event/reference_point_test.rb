@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Event::ReferencePointTest < ActiveSupport::TestCase
+class PerformanceCompetition::ReferencePointTest < ActiveSupport::TestCase
   test '.find_or_create - find when only name given' do
     event = events(:nationals)
     created_point = event.reference_points.create!(name: 'R1', latitude: 20, longitude: 20)

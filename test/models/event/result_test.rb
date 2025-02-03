@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Event::ResultTest < ActiveSupport::TestCase
+class PerformanceCompetition::ResultTest < ActiveSupport::TestCase
   setup do
     @event = events(:nationals)
     @result = event_results(:john_distance_1)

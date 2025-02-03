@@ -12,7 +12,7 @@ class PerformanceCompetitionSeries::Scoreboard
 
   def categories
     @categories ||=
-      Event::Section
+      PerformanceCompetition::Section
       .where(event: series.competitions)
       .select('MIN(name) AS name', 'avg("order") AS order')
       .order('avg("order")')
@@ -30,7 +30,7 @@ class PerformanceCompetitionSeries::Scoreboard
 
   def competitors
     @competitors ||=
-      Event::Competitor
+      PerformanceCompetition::Competitor
       .includes(:section, event: :place, suit: :manufacturer, profile: :country)
       .where(event: series.competitions)
   end
@@ -48,9 +48,9 @@ class PerformanceCompetitionSeries::Scoreboard
 
   def results
     @results ||=
-      Event::Result
+      PerformanceCompetition::Result
       .includes(:round, :competitor)
-      .where(round: Event::Round.where(event: series.competitions))
+      .where(round: PerformanceCompetition::Round.where(event: series.competitions))
       .map { |record| Standings::Result.new(record, settings) }
   end
 end

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Event::CompetitorTest < ActiveSupport::TestCase
+class PerformanceCompetition::CompetitorTest < ActiveSupport::TestCase
   setup do
     @event = events(:nationals)
     @category = event_sections(:advanced)

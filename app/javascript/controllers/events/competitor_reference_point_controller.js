@@ -98,7 +98,7 @@ export default class extends Controller {
     this.reference_point.innerHTML = this.reference_point.getAttribute('data-prev-html')
   }
 
-  show_dl(e) {
+  showDl(e) {
     e.preventDefault()
 
     if (this.reference_point_id === '') return

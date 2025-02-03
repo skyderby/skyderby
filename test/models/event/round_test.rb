@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class Event::RoundTest < ActiveSupport::TestCase
+class PerformanceCompetition::RoundTest < ActiveSupport::TestCase
   setup do
-    @event = Event.create!(
+    @event = PerformanceCompetition.create!(
       name: 'Test Event',
       starts_at: Time.zone.today,
       place: places(:ravenna),

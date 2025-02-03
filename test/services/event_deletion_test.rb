@@ -20,10 +20,10 @@ class EventDeletionTest < ActiveSupport::TestCase
     EventDeletion.execute(@event)
 
     assert_predicate @event, :destroyed?
-    assert_empty Event::Section.where(event: @event)
-    assert_empty Event::Competitor.where(event: @event)
-    assert_empty Event::Round.where(event: @event)
-    assert_empty Event::Result.where(round: @event.rounds)
+    assert_empty PerformanceCompetition::Section.where(event: @event)
+    assert_empty PerformanceCompetition::Competitor.where(event: @event)
+    assert_empty PerformanceCompetition::Round.where(event: @event)
+    assert_empty PerformanceCompetition::Result.where(round: @event.rounds)
 
     tracks = Track.includes(event_result: :round)
                   .where(event_results: { event_rounds: { event_id: @event.id } })

@@ -14,7 +14,7 @@
 #
 
 FactoryBot.define do
-  factory :event_competitor, class: Event::Competitor do
+  factory :event_competitor, class: PerformanceCompetition::Competitor do
     profile
     suit
     section factory: 'event_section'

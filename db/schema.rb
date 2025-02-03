@@ -924,7 +924,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
       SELECT events.event_type,
       events.event_id,
       events.name,
-      events.rules,
       events.starts_at,
       events.status,
       events.visibility,
@@ -937,10 +936,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
       events.country_ids,
       events.updated_at,
       events.created_at
-     FROM ( SELECT 'Event'::text AS event_type,
+     FROM ( SELECT
+                  CASE
+                      WHEN (events_1.rules = 2) THEN 'Boogie'::text
+                      ELSE 'PerformanceCompetition'::text
+                  END AS event_type,
               events_1.id AS event_id,
               events_1.name,
-              events_1.rules,
               events_1.starts_at,
               events_1.status,
               events_1.visibility,
@@ -949,7 +951,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
               events_1.range_from,
               events_1.range_to,
               events_1.is_official,
-              COALESCE(json_object_agg(competitors_count.section_name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (competitors_count.section_name IS NOT NULL)), '{}'::json) AS competitors_count,
+              COALESCE(json_object_agg(COALESCE(competitors_count.section_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.section_name IS NOT NULL)), '{}'::json) AS competitors_count,
               participant_countries.country_ids,
               events_1.updated_at,
               events_1.created_at
@@ -970,7 +972,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
            SELECT 'Tournament'::text,
               tournaments.id,
               tournaments.name,
-              3 AS rules,
               tournaments.starts_at,
               1,
               0,
@@ -991,7 +992,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
            SELECT 'SpeedSkydivingCompetition'::text,
               events_1.id,
               events_1.name,
-              NULL::integer,
               events_1.starts_at,
               events_1.status,
               events_1.visibility,
@@ -1000,7 +1000,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
               NULL::integer,
               NULL::integer,
               events_1.is_official,
-              COALESCE(json_object_agg(competitors_count.category_name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (competitors_count.category_name IS NOT NULL)), '{}'::json) AS "coalesce",
+              COALESCE(json_object_agg(COALESCE(competitors_count.category_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.category_name IS NOT NULL)), '{}'::json) AS "coalesce",
               participant_countries.country_ids,
               events_1.updated_at,
               events_1.created_at
@@ -1021,7 +1021,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
            SELECT 'PerformanceCompetitionSeries'::text,
               series.id,
               series.name,
-              NULL::integer,
               min(events_1.starts_at) AS min,
               series.status,
               series.visibility,
@@ -1030,7 +1029,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
               NULL::integer,
               NULL::integer,
               true,
-              json_object_agg(events_1.name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
+              json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
               participant_countries.country_ids,
               series.updated_at,
               series.created_at
@@ -1053,7 +1052,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
            SELECT 'SpeedSkydivingCompetitionSeries'::text,
               series.id,
               series.name,
-              NULL::integer,
               min(events_1.starts_at) AS min,
               series.status,
               series.visibility,
@@ -1062,7 +1060,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
               NULL::integer,
               NULL::integer,
               true,
-              json_object_agg(events_1.name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
+              json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
               participant_countries.country_ids,
               series.updated_at,
               series.created_at

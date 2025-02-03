@@ -1,0 +1,102 @@
+<%= form_with model: @event, url: '/events/performance', html: { class: 'form-horizontal', 'data-controller': 'events--form', role: 'form', id: "#{action_name}_event_form"} do |f| %>
+  <%= display_event_form_params %>
+
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :name, class: 'form-label col-4' %>
+      <%= f.text_field :name, class: 'form-input col-8' %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :starts_at, class: 'form-label col-4' %>
+      <%= f.date_field :starts_at, class: 'form-input col-8', value: (@event.starts_at || Date.today).iso8601 %>
+    </div>
+
+    <div class="grid">
+      <%= f.label t('events.show.comp_window'), class: 'form-label col-4' %>
+      <div class="col-8 flex gap-0_5 items-center">
+        <%= f.text_field :range_from, class: 'form-input', type: 'number' %>
+        <span>&mdash;</span>
+        <%= f.text_field :range_to, class: 'form-input', type: 'number' %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :place, class: 'form-label col-4' %>
+      <%= render 'hot_select/select',
+                 form: f,
+                 name: :place_id,
+                 src: places_select_options_path,
+                 options: options_for_select([[@event.place_name, @event.place_id], @event.place_id]),
+                 placeholder: t('events.show.place_placeholder'),
+                 class: 'col-8' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :rules, class: 'control-label col-sm-4' %>
+      <div class="btn-group col-sm-8" data-toggle="buttons">
+        <label class="btn btn-default <%= 'active' if @event.rules == 'speed_distance_time' %>" data-action="click->events--form#on_change_rules" disabled="<%= @event.rounds.any? %>">
+          <%= f.radio_button 'rules', 'speed_distance_time' %>
+          Speed-Distance-Time
+        </label>
+        <label class="btn btn-default <%= 'active' if @event.rules == 'hungary_boogie' %>" data-action="click->events--form#on_change_rules" disabled="<%= @event.rounds.any? %>">
+          <%= f.radio_button 'rules', 'hungary_boogie' %>
+          Hungary Boogie
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group" data-target="events--form.only_hungary_boogie">
+      <%= f.label :number_of_results_for_total, class: 'control-label col-sm-4' %>
+      <div class="col-sm-8">
+        <%= f.number_field :number_of_results_for_total, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :use_teams, class: 'control-label col-sm-4' %>
+      <div class="btn-group col-sm-8" data-toggle="buttons">
+        <label class="btn btn-default <%= 'active' unless @event.use_teams %>">
+          <%= f.radio_button :use_teams, false %>
+          <%= t('general.disabled') %>
+        </label>
+        <label class="btn btn-default <%= 'active' if @event.use_teams %>">
+          <%= f.radio_button :use_teams, true %>
+          <%= t('general.enabled') %>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :visibility, class: 'control-label col-sm-4' %>
+      <div class="btn-group col-sm-8" data-toggle="buttons">
+        <% Event.visibilities.each do |key, _value| %>
+          <label class="btn btn-default <%= 'active' if @event.visibility == key %>">
+            <%= f.radio_button 'visibility', key %>
+            <%= t("activerecord.attributes.event.visibilities.#{key}") %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :wind_cancellation, class: 'control-label col-sm-4' %>
+      <div class="btn-group col-sm-8" data-toggle="buttons">
+        <label class="btn btn-default <%= 'active' unless @event.wind_cancellation %>">
+          <%= f.radio_button 'wind_cancellation', 'false' %>
+          <%= t('general.disabled') %>
+        </label>
+        <label class="btn btn-default <%= 'active' if @event.wind_cancellation %>">
+          <%= f.radio_button 'wind_cancellation', 'true' %>
+          <%= t('general.enabled') %>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="text-right">
+    <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+    <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
+  </div>
+<% end %>

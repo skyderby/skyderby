@@ -36,7 +36,7 @@ module Events
       end
 
       def to_partial_path
-        'events/scoreboards/hungary_boogie'
+        'boogies/scoreboards/hungary_boogie'
       end
 
       private

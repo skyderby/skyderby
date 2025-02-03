@@ -67,8 +67,10 @@ export default class HotSelect extends Controller {
   }
 
   close() {
-    this.dropdownRoot.replaceChildren()
-    this.element.classList.remove('hot-select--open')
+    if (this.isOpen) {
+      this.dropdownRoot.replaceChildren()
+      this.element.classList.remove('hot-select--open')
+    }
   }
 
   onClickOutside(event) {
@@ -80,6 +82,7 @@ export default class HotSelect extends Controller {
   }
 
   choose(event) {
+    console.log(event)
     const value = event.target.closest('.hot-select-option').getAttribute('data-value')
     const option = [...this.selectInputTarget.options].find(opt => opt.value === value)
     if (!option) {

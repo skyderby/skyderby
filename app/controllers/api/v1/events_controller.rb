@@ -10,7 +10,7 @@ module Api
       private
 
       def set_event
-        @event = Event.find(params[:id])
+        @event = PerformanceCompetition.find(params[:id])
       end
     end
   end

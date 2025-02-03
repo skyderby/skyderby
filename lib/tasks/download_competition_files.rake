@@ -6,7 +6,7 @@ task :download_competition_files, [:event_id, :path] => [:environment] do |task,
   target_folder = File.expand_path(args.path)
   puts "## Downloading files to #{target_folder}"
 
-  results = Event.find(args.event_id).results
+  results = PerformanceCompetition.find(args.event_id).results
 
   results.find_each do |result|
     file = result.track.track_file.file

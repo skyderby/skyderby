@@ -34,6 +34,8 @@
 @import './profiles/**/*';
 @import './tournaments/**/*';
 @import './online_competitions/**/*';
+@import './inside_iframe';
+@import './contributions';
 @import './*';
 
 html, body {
@@ -67,6 +69,11 @@ h1, h2, h3, h4, h5, h6 {
 ul {
   list-style: none;
   margin: 0;
+}
+
+label {
+  font-weight: 500;
+  font-size: 0.875rem;
 }
 
 #modal-root, #dropdown-root {

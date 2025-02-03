@@ -54,8 +54,8 @@
     color: var(--gray-70);
   }
 
-  thead th:first-child,
-  tbody td:first-child {
+  thead tr:first-child th:first-child,
+  tbody tr:not(:first-child) td:first-child {
     width: 1%;
   }
 
@@ -126,11 +126,13 @@
   }
 
   .result-cell {
+    height: 1rem;
     text-align: right;
     padding: 0;
   }
 
   .result-show-cell {
+    height: 100%;
     width: 100%;
 
     button {
@@ -138,6 +140,7 @@
       text-align: right;
       border: 0;
       padding: 0.5rem;
+      height: 100%;
       width: 100%;
       position: relative;
       cursor: pointer;
@@ -155,16 +158,19 @@
   }
 
   .result-upload-cell {
+    height: 100%;
     width: 100%;
 
     button {
       background-color: var(--white);
       border: 0;
       padding: 0.5rem;
+      height: 100%;
       width: 100%;
       position: relative;
       cursor: pointer;
       color: var(--white);
+      font-size: 1.125rem;
     }
 
     button:hover {
@@ -252,43 +258,38 @@
 
 td.scoreboard-result {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  position: relative;
+  padding: 0;
   text-align: right;
+  height: 1rem;
 
   &.text-center {
     text-align: center;
   }
 
-  span {
-    background-color: transparent;
+  .show-result {
+    color: var(--gray-90);
     height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding: 0.5rem;
+    position: relative;
+  }
 
-    &:hover a {
-      opacity: 1;
-    }
+  .show-result::before {
+    background-color: transparent;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    transition: background-color 0.2s ease;
+  }
 
-    a {
-      background-color: rgba(146, 231, 240, 0.7);
-      color: transparent;
-      float: right;
-      font-size: 14px;
-      height: 100%;
-      line-height: 14px;
-      opacity: 0;
-      padding-bottom: 8px;
-      padding-top: 8px;
-      text-align: center;
-      width: 100%;
-
-      &:hover {
-        background-color: #428bca;
-        color: $white;
-      }
-    }
+  .show-result:hover::before {
+    background-color: var(--blue-70);
   }
 }
 

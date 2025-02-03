@@ -37,16 +37,14 @@
                 end
             %>
             <td class="scoreboard-result <%= result_class %>">
-              <%= result.formatted_result %>
-              <% if result.penalized %>
-                <sup class="text-danger">
-                  <%= "-#{result.penalty_size}%" %>
-                </sup>
+              <%  link_to(performance_competition_result_path(event, result), remote: !mobile?, class: 'show-result', rel: 'nofollow') do %>
+                <%= result.formatted_result %>
+                <% if result.penalized %>
+                  <sup class="text-danger">
+                    <%= "-#{result.penalty_size}%" %>
+                  </sup>
+                <% end %>
               <% end %>
-
-              <span>
-                <%= show_event_track_link(result.record.round.event, result.record, false) %>
-              </span>
             </td>
 
             <td class="text-right <%= 'text-gray' unless round.completed %>">

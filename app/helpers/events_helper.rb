@@ -10,7 +10,7 @@ module EventsHelper
 
   def change_event_status_button(event, status)
     button_to(t("event_status.#{status}"),
-              event_path(event),
+              performance_competition_path(event),
               method: :patch,
               remote: true,
               params: { 'event[status]' => status },

@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import init_maps_api from 'utils/google_maps_api'
+import initMapsApi from 'utils/google_maps_api'
 import getLaneViolation from 'utils/checkLaneViolation'
 
 const START_POINT_COLOR = '#ff1053'
@@ -8,51 +8,34 @@ const AFTER_EXIT_POINT_COLOR = '#124E78'
 const LINE_COLOR = '#7cb5ec'
 
 const MAPS_API_FAIL_TEMPLATE = `
-  <i class='fa fa-3x fa-exclamation-triangle text-danger'></i>
+  <i class="fa fa-3x fa-exclamation-triangle text-danger"></i>
   <p>Failed to load Google Maps API.</p>
 `
 
 export default class extends Controller {
-  static targets = ['map', 'loading_placeholder']
+  static targets = ['map', 'mapData', 'loadingPlaceholder']
 
   connect() {
-    init_maps_api()
-    this.fetch_data()
+    initMapsApi()
+    this.mapData = JSON.parse(this.mapDataTarget.textContent)
   }
 
-  fetch_data() {
-    const url = this.element.getAttribute('data-url')
-    fetch(url, {
-      credentials: 'same-origin',
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => {
-        return response.json()
-      })
-      .then(this.on_data_ready)
+  onMapsReady = () => {
+    this.mapsReady = true
+    this.renderMap()
   }
 
-  on_maps_ready = () => {
-    this.maps_ready = true
-    this.render_map()
+  onMapsFailedLoad = () => {
+    this.mapsReady = false
+    this.loadingPlaceholderTarget.innerHTML = MAPS_API_FAIL_TEMPLATE
   }
 
-  on_maps_failed_load = () => {
-    this.maps_ready = false
-    this.loading_placeholderTarget.innerHTML = MAPS_API_FAIL_TEMPLATE
-  }
-
-  on_data_ready = data => {
-    this.map_data = data
-    this.render_map()
-  }
-
-  render_map() {
-    if (!this.maps_ready || !this.map_data) return
+  renderMap() {
+    if (!this.mapsReady || !this.mapData) return
 
     const {
       place: { latitude, longitude }
-    } = this.map_data
+    } = this.mapData
     var center = new google.maps.LatLng(latitude, longitude)
 
     const options = {
@@ -61,49 +44,48 @@ export default class extends Controller {
       center: center
     }
 
-    this.mapTarget.map_instance = new google.maps.Map(this.mapTarget, options)
-    this.draw_map()
+    this.mapTarget.mapInstance = new google.maps.Map(this.mapTarget, options)
+    this.drawMap()
   }
 
-  draw_map() {
-    this.draw_polyline(this.map_data.path_coordinates, LINE_COLOR)
+  drawMap() {
+    this.drawPolyline(this.mapData.pathCoordinates, LINE_COLOR)
 
-    this.draw_point(this.map_data.start_point, START_POINT_COLOR)
-    this.draw_point(this.map_data.end_point, END_POINT_COLOR)
-    this.draw_point(this.map_data.after_exit_point, AFTER_EXIT_POINT_COLOR)
+    this.drawPoint(this.mapData.startPoint, START_POINT_COLOR)
+    this.drawPoint(this.mapData.endPoint, END_POINT_COLOR)
+    this.drawPoint(this.mapData.afterExitPoint, AFTER_EXIT_POINT_COLOR)
 
-    this.draw_most_distant_point()
+    this.drawMostDistantPoint()
 
-    this.show_designated_lane()
+    this.showDesignatedLane()
 
     this.resize()
   }
 
-  draw_most_distant_point() {
-    const { after_exit_point, reference_point, end_point, path_coordinates } =
-      this.map_data
+  drawMostDistantPoint() {
+    const { afterExitPoint, referencePoint, endPoint, pathCoordinates } = this.mapData
 
-    if (!reference_point) return
+    if (!referencePoint) return
 
     const point = getLaneViolation(
-      path_coordinates.map(el => ({
+      pathCoordinates.map(el => ({
         latitude: el.lat,
         longitude: el.lng,
         gpsTime: el.gpsTime
       })),
       {
-        ...after_exit_point,
-        latitude: after_exit_point.lat,
-        longitude: after_exit_point.lng
+        ...afterExitPoint,
+        latitude: afterExitPoint.lat,
+        longitude: afterExitPoint.lng
       },
       {
-        latitude: reference_point.lat,
-        longitude: reference_point.lng
+        latitude: referencePoint.lat,
+        longitude: referencePoint.lng
       },
       {
-        ...end_point,
-        latitude: end_point.lat,
-        longitude: end_point.lng
+        ...endPoint,
+        latitude: endPoint.lat,
+        longitude: endPoint.lng
       }
     )
 
@@ -120,24 +102,24 @@ export default class extends Controller {
     }
   }
 
-  show_designated_lane() {
-    if (!this.map_data.reference_point) return
+  showDesignatedLane() {
+    if (!this.mapData.referencePoint) return
 
-    this.draw_reference_point()
+    this.drawReferencePoint()
 
-    let start_point = {}
-    if (this.map_data.designated_lane_start === 'on_enter_window') {
-      start_point = this.map_data.start_point
+    let startPoint = {}
+    if (this.mapData.designatedLaneStart === 'on_enter_window') {
+      startPoint = this.mapData.startPoint
     } else {
-      start_point = this.map_data.after_exit_point
+      startPoint = this.mapData.afterExitPoint
     }
 
     const event = new CustomEvent('round-map:show-dl', {
       detail: {
-        start_point_position: new google.maps.LatLng(start_point.lat, start_point.lng),
-        reference_point_position: new google.maps.LatLng(
-          this.map_data.reference_point.lat,
-          this.map_data.reference_point.lng
+        startPointPosition: new google.maps.LatLng(startPoint.lat, startPoint.lng),
+        referencePointPosition: new google.maps.LatLng(
+          this.mapData.referencePoint.lat,
+          this.mapData.referencePoint.lng
         )
       },
       bubbles: true,
@@ -147,14 +129,14 @@ export default class extends Controller {
     this.element.dispatchEvent(event)
   }
 
-  draw_reference_point() {
+  drawReferencePoint() {
     new google.maps.Marker({
-      position: this.map_data.reference_point,
+      position: this.mapData.referencePoint,
       map: this.map
     })
   }
 
-  draw_polyline(path, color) {
+  drawPolyline(path, color) {
     const polyline = new google.maps.Polyline({
       path: path,
       strokeColor: color,
@@ -167,7 +149,7 @@ export default class extends Controller {
     return polyline
   }
 
-  draw_point(position, color) {
+  drawPoint(position, color) {
     return new google.maps.Marker({
       position: position,
       icon: {
@@ -190,26 +172,24 @@ export default class extends Controller {
   }
 
   get bounds() {
-    if (!this.map_data) return undefined
+    if (!this.mapData) return undefined
     if (this._bounds) return this._bounds
 
     const bounds = new google.maps.LatLngBounds()
 
-    const start_point = this.map_data.after_exit_point
-    let end_point = this.map_data.end_point
-    if (this.map_data.reference_point) end_point = this.map_data.reference_point
+    const startPoint = this.mapData.afterExitPoint
+    let endPoint = this.mapData.endPoint
+    if (this.mapData.referencePoint) endPoint = this.mapData.referencePoint
 
-    bounds.extend(
-      new google.maps.LatLng(Number(start_point.lat), Number(start_point.lng))
-    )
+    bounds.extend(new google.maps.LatLng(Number(startPoint.lat), Number(startPoint.lng)))
 
-    bounds.extend(new google.maps.LatLng(Number(end_point.lat), Number(end_point.lng)))
+    bounds.extend(new google.maps.LatLng(Number(endPoint.lat), Number(endPoint.lng)))
 
     this._bounds = bounds
     return this._bounds
   }
 
   get map() {
-    return this.mapTarget.map_instance
+    return this.mapTarget.mapInstance
   }
 }

@@ -69,7 +69,7 @@ export default class extends Controller {
       this.center_lat,
       this.center_lon
     )
-    const start_point = Geospatial.destiantion_by_bearing_and_distance(
+    const start_point = Geospatial.destiantionByBearingAndDistance(
       this.center_lat,
       this.center_lon,
       bearing + 90,
@@ -79,7 +79,7 @@ export default class extends Controller {
     this.finish_start_lat = start_point.latitude
     this.finish_start_lon = start_point.longitude
 
-    const end_point = Geospatial.destiantion_by_bearing_and_distance(
+    const end_point = Geospatial.destiantionByBearingAndDistance(
       this.center_lat,
       this.center_lon,
       bearing - 90,

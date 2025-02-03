@@ -9,7 +9,7 @@
 #
 
 FactoryBot.define do
-  factory :event_section, class: Event::Section do
+  factory :event_section, class: PerformanceCompetition::Section do
     sequence(:name) { |n| "Section-#{n}" }
     sequence(:order) { |n| n }
     event

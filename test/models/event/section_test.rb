@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Event::SectionTest < ActiveSupport::TestCase
+class PerformanceCompetition::SectionTest < ActiveSupport::TestCase
   setup do
     @event = events(:nationals)
   end

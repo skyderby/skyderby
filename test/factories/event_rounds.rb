@@ -12,8 +12,8 @@
 #
 
 FactoryBot.define do
-  factory :event_round, class: Event::Round do
+  factory :event_round, class: PerformanceCompetition::Round do
     event
-    discipline { Event::Round.disciplines.keys.sample }
+    discipline { PerformanceCompetition::Round.disciplines.keys.sample }
   end
 end

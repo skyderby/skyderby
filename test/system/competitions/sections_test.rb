@@ -4,8 +4,8 @@ class EventSectionsTest < ApplicationSystemTestCase
   test 'add section' do
     user = create :user
     event = create(:event,
-                   status: Event.statuses[:published],
-                   visibility: Event.visibilities[:public_event],
+                   status: PerformanceCompetition.statuses[:published],
+                   visibility: PerformanceCompetition.visibilities[:public_event],
                    responsible: user)
 
     sign_in user

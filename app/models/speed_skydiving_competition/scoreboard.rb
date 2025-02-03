@@ -4,7 +4,7 @@ class SpeedSkydivingCompetition::Scoreboard
   end
 
   def categories
-    @categories ||= event.categories.sorted.map { |record| category_standings(record) }
+    @categories ||= event.categories.ordered.map { |record| category_standings(record) }
   end
 
   def rounds

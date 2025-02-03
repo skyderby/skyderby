@@ -5,8 +5,6 @@
 }
 
 .form-label {
-  font-weight: 500;
-  font-size: 0.875rem;
   text-align: right;
   line-height: 1;
   margin: 0;
@@ -39,6 +37,42 @@
   border: var(--default-border);
   border-radius: var(--border-radius-md);
   width: 100%;
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin: 0;
+
+  input[type="checkbox"] {
+    margin: 0;
+    height: 1.125rem;
+    width: 1.125rem;
+  }
+}
+
+.form-radio-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-radio-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin: 0;
+
+  input[type="radio"] {
+    margin: 0;
+    height: 1.125rem;
+    width: 1.125rem;
+  }
 }
 
 .search-input-container {

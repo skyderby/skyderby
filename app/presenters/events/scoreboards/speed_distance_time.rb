@@ -41,7 +41,7 @@ module Events
       end
 
       def to_partial_path
-        'events/scoreboards/speed_distance_time'
+        'performance_competitions/scoreboard'
       end
 
       private

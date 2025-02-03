@@ -2,6 +2,18 @@
   display: flex;
 }
 
+.gap-1 {
+  gap: 1rem;
+}
+
+.gap-0_5 {
+  gap: 0.5rem;
+}
+
+.items-center {
+  align-items: center;
+}
+
 .justify-between {
   justify-content: space-between;
 }

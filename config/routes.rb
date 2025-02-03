@@ -120,9 +120,9 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :events, only: :index
-  resources :events, path: 'events/performance', concerns: %i[sponsorable organizable], except: :index do
-    scope module: :events do
+  resources :events, only: %i[index new]
+  resources :performance_competitions, path: 'events/performance', concerns: %i[sponsorable organizable], except: :index do
+    scope module: :performance_competitions do
       resource :scoreboard, only: :show
       resource :team_scoreboard, only: :show
       resource :teams, only: :show
@@ -138,7 +138,7 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resources :sections do
+      resources :categories do
         member do
           patch 'move_upper'
           patch 'move_lower'
@@ -155,6 +155,43 @@ Skyderby::Application.routes.draw do
       end
 
       resource :reference_points
+      resource :deletion, only: [:new, :create]
+      collection do
+        resources :select_options, only: :index, as: :events_select_options
+      end
+    end
+  end
+
+  resources :boogies, path: 'events/boogie', concerns: %i[sponsorable organizable], except: :index do
+    scope module: :boogies do
+      resource :scoreboard, only: :show
+
+      resources :rounds do
+        scope module: :rounds do
+          resource :map, only: :show do
+            resources :penalties, only: %i[show update], module: :maps
+          end
+          resource :globe, controller: 'globe', only: :show
+          resource :replay, only: :show
+        end
+      end
+
+      resources :categories do
+        member do
+          patch 'move_upper'
+          patch 'move_lower'
+        end
+      end
+
+      resources :competitors
+      resources :results do
+        scope module: :results do
+          resource :jump_range, only: %i[show update]
+          resource :penalty, only: %i[show update]
+          resource :map, only: :show
+        end
+      end
+
       resource :deletion, only: [:new, :create]
       collection do
         resources :select_options, only: :index, as: :events_select_options

@@ -3,7 +3,7 @@ module Api
     module Events
       class CompetitorsController < Api::ApplicationController
         def index
-          event = Event.find(params[:event_id])
+          event = PerformanceCompetition.find(params[:event_id])
 
           authorize event, :show?
 

@@ -1,0 +1,24 @@
+<% show_cancel ||= false %>
+
+<div class="container-fluid">
+  <%= render 'performance_competitions/results/header' %>
+  <hr>
+
+  <%= form_for :jump_range, url: performance_competition_result_jump_range_path(@result.event, @result), method: :put, data: { turbo_stream: true } do |f| %>
+    <%= render 'concerns/jump_range_form', track: @result.track, form: f %>
+
+    <hr>
+    <div class="modal-actions">
+      <div class="modal-actions__left">
+        <%= delete_event_track_link(@result) %>
+      </div>
+
+      <div class="modal-actions__right">
+        <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+        <% if show_cancel %>
+          <button class="btn btn-default" type="button" data-dismiss="modal"><%= t 'general.cancel' %></button>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

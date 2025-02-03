@@ -5,7 +5,7 @@ class EventTest < ActiveSupport::TestCase
     date = Time.zone.local(2024, 3, 24)
     travel_to date
     user = create :user
-    event = Event.create!(responsible: user, starts_at: Time.zone.today)
+    event = PerformanceCompetition.create!(responsible: user, starts_at: Time.zone.today)
     assert_equal 'draft', event.status
     assert_equal '24.03.2024: Competition', event.name
     assert_equal 2500, event.range_from
@@ -15,7 +15,7 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test 'changes visibility to public from private makes tracks public' do
-    event = create :event, visibility: Event.visibilities[:private_event]
+    event = create :event, visibility: PerformanceCompetition.visibilities[:private_event]
     section = create :event_section, event: event
     competitor = create :event_competitor, section: section
     round = create :event_round, event: event
@@ -29,7 +29,7 @@ class EventTest < ActiveSupport::TestCase
   end
 
   test 'changes visibility to unlisted from public makes tracks unlisted' do
-    event = create :event, visibility: Event.visibilities[:public_event]
+    event = create :event, visibility: PerformanceCompetition.visibilities[:public_event]
     section = create :event_section, event: event
     competitor = create :event_competitor, section: section
     round = create :event_round, event: event

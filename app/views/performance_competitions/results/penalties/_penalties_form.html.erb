@@ -1,0 +1,56 @@
+<% show_cancel ||= false %>
+<% show_delete_button ||= false %>
+<% url ||= performance_competition_result_penalty_path(@event, @result) %>
+
+<div class="container-fluid">
+  <%= render 'performance_competitions/results/header' %>
+  <hr>
+
+  <%= form_with model: @result, scope: :penalty, url:, method: :put, data: { turbo_stream: true }, html: { class: 'form-horizontal' } do |f| %>
+    <div class="form-group">
+      <%= f.label :penalized, class: 'control-label col-sm-4' %>
+      <div class="col-sm-8">
+        <div class="checkbox">
+          <label>
+            <%= f.check_box :penalized %>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :penalty_size, class: 'control-label col-sm-4' %>
+      <div class="col-sm-8 btn-group" data-toggle="buttons">
+        <% PerformanceCompetition::Result.penalty_sizes.each do |penalty_size| %>
+          <label class="btn btn-default <%= 'active' if @result.penalty_size == penalty_size %>">
+            <%= f.radio_button :penalty_size, penalty_size %>
+            <%= "#{penalty_size} %" %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :penalty_reason, class: 'control-label col-sm-4' %>
+      <div class="col-sm-8">
+        <%= f.text_field :penalty_reason, class: 'form-control' %>
+      </div>
+    </div>
+
+    <hr>
+    <div class="modal-actions">
+      <div class="modal-actions__left">
+        <% if show_delete_button %>
+          <%= delete_event_track_link(@result) %>
+        <% end %>
+      </div>
+
+      <div class="modal-actions__right">
+        <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+        <% if show_cancel %>
+          <button class="btn btn-default" type="button" data-dismiss="modal"><%= t 'general.cancel' %></button>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

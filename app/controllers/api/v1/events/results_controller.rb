@@ -13,7 +13,7 @@ module Api
         def create
           authorize @event, :update?
 
-          submission = Event::Result::Submission.new result_params
+          submission = PerformanceCompetition::Result::Submission.new result_params
 
           respond_to do |format|
             if submission.save
@@ -31,7 +31,7 @@ module Api
         private
 
         def set_event
-          @event = Event.find(params[:event_id])
+          @event = PerformanceCompetition.find(params[:event_id])
         end
 
         def result_params
