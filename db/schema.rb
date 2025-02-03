@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_13_025706) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_03_070009) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -666,7 +666,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_13_025706) do
 
   create_table "weather_fetching_logs", force: :cascade do |t|
     t.datetime "time"
-    t.text "errors"
+    t.text "error_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

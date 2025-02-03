@@ -1,0 +1,14 @@
+<div class="index-page">
+  <div class="index-page-header">
+    <h1>Weather Fetching Logs</h1>
+  </div>
+
+  <div class="card">
+    <% @records.each do |record| %>
+      <div>
+        <p><%= record.time %></p>
+        <p><%= record.errors %></p>
+      </div>
+    <% end %>
+  </div>
+</div>

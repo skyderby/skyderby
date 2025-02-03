@@ -40,7 +40,7 @@ class MissingWeatherFetchingJob < ApplicationJob
 
     return if result.success
 
-    WeatherFetchingLog.create!(time:, errors: result.errors)
+    WeatherFetchingLog.create!(time:, error_description: result.errors)
     raise DownloadError, result.errors.join("\n")
   end
 end

@@ -319,6 +319,7 @@ Skyderby::Application.routes.draw do
   resources :performance_competition_series, only: :show
   resources :speed_skydiving_competition_series, only: :show
   resources :donations
+  resources :weather_fetching_logs, only: :index
 
   root 'static_pages#index'
 end
