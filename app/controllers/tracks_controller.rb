@@ -59,7 +59,7 @@ class TracksController < ApplicationController
     authorize @track
 
     if @track.update(track_params)
-      [ResultsJob, OnlineCompetitionJob, WeatherCheckingJob].each do |job|
+      [ResultsJob, OnlineCompetitionJob, MissingWeatherFetchingJob].each do |job|
         job.perform_later(@track.id)
       end
 
