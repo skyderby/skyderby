@@ -45,6 +45,7 @@ export default class extends Controller {
 
   hide(event) {
     if (!this.isOpen) return
+    if (!this.isOpen) return
     if (!this.dropdown?.contains(event.target) && !this.element.contains(event.target)) {
       this.close()
     }

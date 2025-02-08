@@ -23,16 +23,18 @@
         <%= svg_icon 'angle-down-solid' %>
       </button>
 
-      <div class="sd-dropdown-menu" data-target="dropdown.menu">
-        <% %i[distance speed time].each do |task| %>
-          <%= button_to t("disciplines.#{task}"),
-                        performance_competition_rounds_path(@event),
-                        method: :post,
-                        params: { 'round[discipline]' => task }.merge(action_params),
-                        form: { data: { turbo_stream: true } },
-                        class: 'dropdown-item' %>
-        <% end %>
-      </div>
+      <template data-target="dropdown.menu">
+        <div class="sd-dropdown-menu">
+          <% %i[distance speed time].each do |task| %>
+            <%= button_to t("disciplines.#{task}"),
+                          performance_competition_rounds_path(@event),
+                          method: :post,
+                          params: { 'round[discipline]' => task }.merge(action_params),
+                          form: { data: { turbo_stream: true } },
+                          class: 'dropdown-item' %>
+          <% end %>
+        </div>
+      </template>
     </div>
   <% end %>
 
@@ -42,16 +44,18 @@
       <%= svg_icon 'angle-down-solid' %>
     </button>
 
-    <div class="sd-dropdown-menu" data-target="dropdown.menu">
-      <% PerformanceCompetition.statuses.each do |status, _index| %>
-        <%= button_to(t("event_status.#{status}"),
-                      performance_competition_path(@event),
-                      method: :patch,
-                      form: { data: { turbo_stream: true } },
-                      params: { 'event[status]' => status },
-                      class: "dropdown-item #{'active' if @event.status == status}") %>
-      <% end %>
-    </div>
+    <template data-target="dropdown.menu">
+      <div class="sd-dropdown-menu">
+        <% PerformanceCompetition.statuses.each do |status, _index| %>
+          <%= button_to(t("event_status.#{status}"),
+                        performance_competition_path(@event),
+                        method: :patch,
+                        form: { data: { turbo_stream: true } },
+                        params: { 'event[status]' => status },
+                        class: "dropdown-item #{'active' if @event.status == status}") %>
+        <% end %>
+      </div>
+    </template>
   </div>
 
   <div class="btn-group">

@@ -1,13 +1,12 @@
 class EventsController < ApplicationController
   def index
-    authorize Event
-
     rows_per_page = request.variant.include?(:mobile) ? 5 : 10
 
     @events =
-      policy_scope(Event.all)
-      .includes(place: :country)
+      Event
+      .visible
       .by_activity(index_params[:kind])
+      .includes(place: :country)
       .search(index_params[:query])
       .paginate(page:, per_page: rows_per_page)
 

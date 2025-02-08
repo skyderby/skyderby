@@ -12,6 +12,15 @@ class Event < ApplicationRecord
     starts_at < Time.zone.now && !finished?
   end
 
+  def self.visible(user = Current.user)
+    return all if user.admin?
+
+    public_event
+      .where(status: [Event.statuses[:published], Event.statuses[:finished]])
+      .or(where(responsible: user))
+      .or(where(event: user.participant_of_events))
+  end
+
   def self.by_activity(activity)
     speed_types = %w[SpeedSkydivingCompetition SpeedSkydivingCompetitionSeries]
 
