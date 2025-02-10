@@ -3,6 +3,12 @@ name: Renew SSL certificates
 on:
   schedule:
     - cron: 0 2 * * *
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force renewal'
+        type: boolean
+        required: false
 
 jobs:
   renew_certificates:
@@ -55,7 +61,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
     needs:
       - renew_certificates
-    if: needs.renew_certificates.outputs.renewal_exit_code == 0
+    if: needs.renew_certificates.outputs.renewal_exit_code == 0 || inputs.force
     steps:
       - name: Download Certificates
         working-directory: /opt/app/skyderby/certificates
