@@ -72,8 +72,11 @@ class TracksController < ApplicationController
   def destroy
     authorize @track
 
-    @track.destroy
-    redirect_to tracks_url
+    if @track.destroy
+      redirect_to tracks_url(format: :html), status: :see_other
+    else
+      respond_with_errors(@track)
+    end
   end
 
   rescue_from ActiveRecord::RecordNotFound, Pundit::NotAuthorizedError do |_ex|
