@@ -1,5 +1,4 @@
 name: Renew SSL certificates
-name: Renew SSL certificates
 
 on:
   schedule:
