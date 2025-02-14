@@ -124,6 +124,8 @@ Skyderby::Application.routes.draw do
   resources :performance_competitions, path: 'events/performance', concerns: %i[sponsorable organizable], except: :index do
     scope module: :performance_competitions do
       resource :scoreboard, only: :show
+      resource :open_scoreboard, only: :show
+      resource :individual_task_scoreboard, only: :show
       resource :team_scoreboard, only: :show
       resource :teams, only: :show
 

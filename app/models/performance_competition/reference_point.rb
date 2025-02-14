@@ -1,5 +1,7 @@
 class PerformanceCompetition::ReferencePoint < ApplicationRecord
-  belongs_to :event
+  self.table_name = 'event_reference_points'
+
+  belongs_to :event, class_name: 'PerformanceCompetition'
 
   class << self
     def find_or_create(opts)

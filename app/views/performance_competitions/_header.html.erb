@@ -29,10 +29,29 @@
       Scoreboard
     <% end %>
 
+    <% if @event.sections.many? %>
+      <%= link_to performance_competition_open_scoreboard_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(performance_competition_open_scoreboard_path(@event)))] do %>
+        <%= svg_icon 'list-ul-solid' %>
+        Open Scoreboard
+      <% end %>
+    <% end %>
+
+    <%= link_to performance_competition_individual_task_scoreboard_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(performance_competition_individual_task_scoreboard_path(@event)))] do %>
+      <%= svg_icon 'list-ul-solid' %>
+      Individual Tasks
+    <% end %>
+
     <% if @event.use_teams %>
       <%= link_to performance_competition_teams_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(performance_competition_teams_path(@event)))] do %>
         <%= svg_icon 'list-ul-solid' %>
-        <span>Team Standings</span>
+        <span>Teams</span>
+      <% end %>
+    <% end %>
+
+    <% if @event.reference_points.any? || editable %>
+      <%= link_to performance_competition_reference_points_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(performance_competition_reference_points_path(@event)))] do %>
+        <%= svg_icon 'location-dot-solid' %>
+        <span>Ref. points</span>
       <% end %>
     <% end %>
 

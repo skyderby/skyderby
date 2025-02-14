@@ -1,0 +1,6 @@
+<% provide :title, @event.name %>
+<% editable = @event.editable? %>
+
+<div class="show-page">
+  <%= render 'performance_competitions/header', editable: %>
+</div>
