@@ -1,6 +1,5 @@
 import { Controller } from 'stimulus'
 import initMapsApi from 'utils/google_maps_api'
-import handleRemote from 'utils/handle_remote'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
 
 export default class extends Controller {
