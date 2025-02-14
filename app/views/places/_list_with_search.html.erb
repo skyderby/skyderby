@@ -8,7 +8,7 @@
     <input class="index-search__input" type="text" data-action="input->places--searchable-list#filter_places" placeholder="Search...">
   </div>
   <div class="places__list-container">
-    <% @places.each do |country, places| %>
+    <% @places.group_by(&:country).each do |country, places| %>
       <div class="places__country" data-target="places--index.country places--searchable-list.country">
         <%= country.name %>
       </div>

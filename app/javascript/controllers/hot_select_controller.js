@@ -11,6 +11,11 @@ export default class HotSelect extends Controller {
   ]
 
   connect() {
+    this.onClickOutside = this.onClickOutside.bind(this)
+    this.close = this.close.bind(this)
+
+    document.addEventListener('click', this.onClickOutside)
+    document.addEventListener('turbo:before-render', this.close)
     if (
       this.selectInputTarget.selectedOptions.length > 0 &&
       this.selectInputTarget.selectedOptions[0].value
@@ -22,12 +27,18 @@ export default class HotSelect extends Controller {
     }
   }
 
-  toggle() {
-    this.dropdownRoot.innerHTML = this.dropdownTarget.innerHTML
-    this.element.classList.toggle('hot-select--open')
-    const isOpen = this.element.classList.contains('hot-select--open')
+  disconnect() {
+    document.removeEventListener('click', this.onClickOutside)
+    document.removeEventListener('turbo:before-render', this.close)
 
-    if (!isOpen) return this.close()
+    if (this.isOpen) this.close()
+  }
+
+  toggle() {
+    this.element.classList.toggle('hot-select--open')
+    if (!this.isOpen) return this.close()
+
+    this.dropdownRoot.innerHTML = this.dropdownTarget.innerHTML
     this.copyOptionsFromSelect()
     this.selectableContainer.addEventListener('click', this.choose.bind(this))
 
@@ -60,8 +71,14 @@ export default class HotSelect extends Controller {
     this.element.classList.remove('hot-select--open')
   }
 
+  onClickOutside(event) {
+    if (!this.element.contains(event.target)) {
+      this.close()
+    }
+  }
+
   choose(event) {
-    const value = event.target.getAttribute('data-value')
+    const value = event.target.closest('.hot-select-option').getAttribute('data-value')
     const option = [...this.selectInputTarget.options].find(opt => opt.value === value)
     if (!option) {
       const option = document.createElement('option')
@@ -108,6 +125,10 @@ export default class HotSelect extends Controller {
     div.setAttribute('data-value', option.value)
     div.setAttribute('data-action', 'click->hot-select#choose')
     this.optionsContainer.insertAdjacentHTML('beforeend', div.outerHTML)
+  }
+
+  get isOpen() {
+    return this.element.classList.contains('hot-select--open')
   }
 
   get dropdownRoot() {

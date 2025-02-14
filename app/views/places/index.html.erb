@@ -1,9 +1,7 @@
 <% provide :title, page_title(t('application.header.places')) %>
 
 <div class="places" data-controller="places--index"
-     data-action="maps_api:ready@window->places--index#onMapsReady
-                  maps_api:failed@window->places--index#on_maps_load_failed
-                  ajax:before->places--index#beforeRequestPreview
+     data-action="ajax:before->places--index#beforeRequestPreview
                   ajax:success->places--index#requestPreviewSuccess
                   ajax:error->places--index#requestPreviewError">
 

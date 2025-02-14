@@ -1,18 +1,13 @@
 import { Controller } from 'stimulus'
 import initMapsApi from 'utils/google_maps_api'
 import handleRemote from 'utils/handle_remote'
-import MarkerClusterer from '@google/markerclusterer'
+import { MarkerClusterer } from '@googlemaps/markerclusterer'
 
 export default class extends Controller {
   static targets = ['map', 'place', 'country', 'preview', 'previewLoading']
 
   connect() {
-    initMapsApi()
-  }
-
-  onMapsReady() {
-    this.initMap()
-    this.renderMap()
+    initMapsApi().then(() => this.renderMap())
   }
 
   beforeRequestPreview() {
@@ -32,23 +27,34 @@ export default class extends Controller {
 
   requestPreviewError() {}
 
-  initMap() {
-    this.map = new google.maps.Map(this.mapTarget, this.mapsOptions)
-  }
-
   renderMap() {
-    const markers = this.places.map(({ element, position }) => {
-      const marker = new google.maps.Marker({ position: position })
-      google.maps.event.addListener(marker, 'click', () => handleRemote(element))
+    const infoWindow = new google.maps.InfoWindow()
+
+    this.map = new google.maps.Map(this.mapTarget, {
+      zoom: 3,
+      center: new google.maps.LatLng(20, 20),
+      mapTypeId: 'terrain',
+      mapId: 'PLACES_INDEX_MAP'
+    })
+
+    const markers = this.places.map(place => {
+      const pin = new google.maps.marker.PinElement()
+      const marker = new google.maps.marker.AdvancedMarkerElement({
+        map: this.map,
+        title: place.name,
+        position: place.position,
+        content: pin.element
+      })
+      marker.addListener('click', () => {
+        infoWindow.close()
+        infoWindow.setContent(`<a href="/places/${place.id}">${marker.title}</a>`)
+        infoWindow.open(marker.map, marker)
+      })
 
       return marker
     })
 
-    new MarkerClusterer(this.map, markers, {
-      gridSize: 50,
-      maxZoom: 6,
-      imagePath: '/markerclusterer/m'
-    })
+    new MarkerClusterer({ map: this.map, markers })
   }
 
   get places() {
@@ -65,13 +71,5 @@ export default class extends Controller {
     }
 
     return this._places
-  }
-
-  get mapsOptions() {
-    return {
-      zoom: 3,
-      center: new google.maps.LatLng(20, 20),
-      mapTypeId: 'terrain'
-    }
   }
 }

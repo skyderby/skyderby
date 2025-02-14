@@ -1,76 +1,62 @@
 class PlacesController < ApplicationController
   before_action :set_place, only: [:show, :edit, :update, :destroy]
+  before_action :set_places, only: %i[index edit new]
 
-  def index
-    authorize Place
+  def index; end
 
-    @places = Place.includes(:country)
-                   .order('countries.name, places.name')
-                   .group_by(&:country)
-
-    respond_to do |format|
-      format.html
-      format.json
-    end
-  end
-
-  def show
-    authorize @place
-
-    respond_to do |format|
-      format.html
-      format.json
-    end
-  end
+  def show; end
 
   def edit
-    authorize @place
-
-    respond_to do |format|
-      format.html
-    end
+    respond_not_authorized unless @place.editable?
   end
 
   def new
-    authorize :place
+    unless Place.creatable?
+      respond_not_authorized
+      return
+    end
 
     @place = Place.new
-
-    respond_to do |format|
-      format.html
-    end
   end
 
   def create
-    authorize :place
+    unless Place.creatable?
+      respond_not_authorized
+      return
+    end
 
     @place = Place.new place_params
-    respond_to do |format|
-      if @place.save
-        format.html { redirect_to place_path(@place) }
-        format.json { @place }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @place.errors, status: :unprocessible_entry }
-      end
+    if @place.save
+      redirect_to place_path(@place)
+    else
+      respond_with_errors @place
     end
   end
 
   def update
-    authorize @place
+    unless @place.editable?
+      respond_not_authorized
+      return
+    end
 
     if @place.update place_params
       redirect_to @place
     else
-      render action: 'edit'
+      respond_with_errors @place
     end
   end
 
   def destroy
-    authorize @place
+    unless @place.editable?
+      respond_not_authorized
+      return
+    end
 
-    @place.destroy
-    redirect_to places_path
+    if @place.destroy
+      redirect_to places_path
+    else
+      respond_with_errors @place
+    end
   end
 
   private
@@ -79,13 +65,11 @@ class PlacesController < ApplicationController
     @place = Place.find(params[:id])
   end
 
+  def set_places
+    @places = Place.includes(:country).order('countries.name, places.name')
+  end
+
   def place_params
-    params.require(:place).permit \
-      :name,
-      :country_id,
-      :latitude,
-      :longitude,
-      :msl,
-      :kind
+    params.require(:place).permit(:name, :country_id, :latitude, :longitude, :msl, :kind)
   end
 end

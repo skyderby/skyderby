@@ -1,4 +1,5 @@
-<%# locals(form:, name:, src:, options:, **rest) %>
+<%# locals: (form:, name:, src:, options: [], **local_assigns) %>
+
 <% select_id = "hot-select-#{name}" %>
 
 <div id="<%= select_id %>-container" class="form-input hot-select-container <%= local_assigns[:class] %>"

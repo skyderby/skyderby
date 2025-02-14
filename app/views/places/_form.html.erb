@@ -1,58 +1,66 @@
-<%= form_for @place, html: { class: 'sd-form place-form' } do |f| %>
-  <div class="grid">
-    <%= f.label :name, class: 'col-4', for: :name %>
-    <div class="col-8">
-      <%= f.text_field :name, autofocus: true, required: true, class: 'form-input' %>
+<%= form_with model: @place, class: 'grid', data: { controller: 'places--form' } do |f| %>
+  <script type="application/json" data-target="places--form.allPlaces">
+    <%= raw render template: 'places/index', collection: @places[0..10], as: :place, formats: [:json] %>
+  </script>
+
+  <div class="col-6 sd-form">
+    <div class="grid">
+      <%= f.label :name, class: 'col-4', for: :name %>
+      <div class="col-8">
+        <%= f.text_field :name, autofocus: true, required: true, class: 'form-input' %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :kind, class: 'col-4', for: :kind %>
+      <div class="btn-group col-8" data-toggle="buttons">
+        <label class="btn btn-default <%= 'active' if @place.skydive? %>">
+          <%= f.radio_button 'kind', 'skydive' %>
+          Skydive
+        </label>
+
+        <label class="btn btn-default <%= 'active' if @place.base? %>">
+          <%= f.radio_button 'kind', 'base' %>
+          B.A.S.E
+        </label>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :country, class: 'col-4', for: :country %>
+      <div class="col-8">
+        <% options = options_for_select([[@place.country_name, @place.country_id]]) %>
+        <%= render 'hot_select/select', form: f, name: :country_id, options:, src: countries_select_options_path %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :latitude, class: 'col-4', for: :latitude %>
+      <div class="col-8">
+        <%= f.text_field :latitude, required: true, class: 'form-input', 'data-target': 'places--form.latitude', 'data-action': 'input->places--form#onCoordinatesChange' %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :longitude, class: 'col-4', for: :longitude %>
+      <div class="col-8">
+        <%= f.text_field :longitude, required: true, class: 'form-input', 'data-target': 'places--form.longitude', 'data-action': 'input->places--form#onCoordinatesChange' %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :msl, class: 'col-4', for: :msl %>
+      <div class="col-8">
+        <%= f.text_field :msl, class: 'form-input' %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="col-start-5 col-8">
+        <%= f.submit t('general.save'), class: 'primary-button' %>
+      </div>
     </div>
   </div>
 
-  <div class="grid">
-    <%= f.label :kind, class: 'col-4', for: :kind %>
-    <div class="btn-group col-8" data-toggle="buttons">
-      <label class="btn btn-default <%= 'active' if @place.skydive? %>">
-        <%= f.radio_button 'kind', 'skydive' %>
-        Skydive
-      </label>
-
-      <label class="btn btn-default <%= 'active' if @place.base? %>">
-        <%= f.radio_button 'kind', 'base' %>
-        B.A.S.E
-      </label>
-    </div>
-  </div>
-
-  <div class="grid">
-    <%= f.label :country, class: 'col-4', for: :country %>
-    <div class="col-8">
-      <% options = options_for_select([[@place.country_name, @place.country_id]]) %>
-      <%= render 'hot_select/select', form: f, name: :country_id, options:, src: countries_select_options_path %>
-    </div>
-  </div>
-
-  <div class="grid">
-    <%= f.label :latitude, class: 'col-4', for: :latitude %>
-    <div class="col-8">
-      <%= f.text_field :latitude, required: true, class: 'form-input' %>
-    </div>
-  </div>
-
-  <div class="grid">
-    <%= f.label :longitude, class: 'col-4', for: :longitude %>
-    <div class="col-8">
-      <%= f.text_field :longitude, required: true, class: 'form-input' %>
-    </div>
-  </div>
-
-  <div class="grid">
-    <%= f.label :msl, class: 'col-4', for: :msl %>
-    <div class="col-8">
-      <%= f.text_field :msl, class: 'form-input' %>
-    </div>
-  </div>
-
-  <div class="grid">
-    <div class="col-start-5 col-8">
-      <%= f.submit t('general.save'), class: 'primary-button' %>
-    </div>
-  </div>
+  <div class="col-6 place-form--map" data-target="places--form.map"></div>
 <% end %>
