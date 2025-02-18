@@ -26,7 +26,11 @@ module ErrorHandling
       :toasts,
       partial: 'toasts/toast',
       locals: {
-        message: I18n.t('errors.messages.not_saved', count: object.errors),
+        message: I18n.t(
+          'errors.messages.not_saved',
+          count: object.errors.count,
+          resource: object.model_name.element
+        ),
         type: 'error',
         errors: object.errors.full_messages
       }

@@ -15,11 +15,9 @@ class PlacesTest < ApplicationSystemTestCase
     visit places_path
     click_link I18n.t('places.index.new')
 
-    within '#new_place' do
-      fill_in 'place[name]', with: 'Gridset'
-      fill_in 'place[latitude]', with: '62.5203062'
-      fill_in 'place[longitude]', with: '7.5773933'
-    end
+    fill_in 'place[name]', with: 'Gridset'
+    fill_in 'place[latitude]', with: '62.5203062'
+    fill_in 'place[longitude]', with: '7.5773933'
 
     hot_select country.name, from: :country_id
 
