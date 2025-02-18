@@ -72,6 +72,8 @@ export default class HotSelect extends Controller {
   }
 
   onClickOutside(event) {
+    if (!this.isOpen) return
+
     if (!this.element.contains(event.target)) {
       this.close()
     }

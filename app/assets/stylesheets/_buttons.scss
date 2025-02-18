@@ -16,6 +16,15 @@
 
   &:hover {
     background-color: var(--button-bg-hover);
+    color: var(--button-text-color-hover);
+  }
+
+  &:focus {
+    outline-offset: 0.25rem;
+  }
+
+  svg {
+    pointer-events: none;
   }
 }
 
