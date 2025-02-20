@@ -17,6 +17,4 @@ en:
       online_competitions: World ranking
       places: Places
     footer:
-      made_with: Made with
-      owner: by Aleksandr Kunin
-      fb_page: Application's page
+      text: Made with ❤️ by Aleksandr Kunin

@@ -1,16 +1,57 @@
 .places {
-  @include full-screen-container;
+  width: 100%;
+  height: 100%;
+  display: flex;
   background-color: white;
 }
 
 .places__sidebar {
-  width: 30%;
-  min-width: 200px;
-  max-width: 300px;
+  width: 300px;
+  flex-shrink: 0;
+  flex-grow: 0;
   position: relative;
-  border-right: rgba(0, 0, 0, 0.14) solid 1px;
-  overflow: hidden;
+  border-right: var(--default-border);
+  overflow-y: hidden;
 }
+
+.places__sidebar.collapsed {
+  width: 0;
+}
+
+.places-sidebar-toggle {
+  position: fixed;
+  top: 50%;
+  left: 275px;
+  z-index: 1000;
+
+  @media (min-width: $bp-large) {
+    display: none;
+  }
+}
+
+.places__sidebar.collapsed .places-sidebar-toggle {
+  left: -0.5rem;
+}
+
+.places-sidebar-toggle button {
+  --button-bg-hover: white;
+
+  height: 3rem;
+  border-width: 2px;
+}
+
+.places-sidebar-toggle .places-sidebar-toggle-closed {
+  display: none;
+}
+
+.places__sidebar.collapsed .places-sidebar-toggle .places-sidebar-toggle-closed {
+  display: block;
+}
+
+.places__sidebar.collapsed .places-sidebar-toggle .places-sidebar-toggle-opened {
+  display: none;
+}
+
 
 .places__sidebar-create {
   position: absolute;
@@ -47,41 +88,55 @@
   padding-top: 60px;
 }
 
+.places-list {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
 .places__list-container {
   @include sidebar-menu;
 
-  width: 100%;
-  padding: 0px 5px;
   overflow-y: scroll;
 }
 
 .places__sidebar .places__list-container {
   position: absolute;
   top: 60px;
-  bottom: 0px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.places__country {
+.places-country {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.places-country-name {
   font-weight: 500;
   font-size: 20px;
   text-transform: uppercase;
-  margin-top: 15px;
-  color: #555;
-  padding: 0 10px;
+  color: var(--gray-80);
+  padding: 0.5rem;
 }
 
 .places__item {
   display: block;
-  color: $main-text-color;
-  line-height: 2;
-  font-size: 16px;
-  border-radius: 4px;
+  color: var(--gray-90);
+  border-radius: var(--border-radius-md);
   cursor: pointer;
-  padding: 4px 10px;
+  width: 100%;
+  padding: 0.5rem;
 
   &:hover {
-    background-color: #f7f7f9;
-    color: $main-text-color;
+    background-color: var(--gray-20);
+    color: var(--gray-90);
     text-decoration: none;
   }
 }

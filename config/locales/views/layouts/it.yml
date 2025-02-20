@@ -17,6 +17,4 @@ it:
       profile: Profilo
       upload_track: Carica traccia
     footer:
-      made_with: Fatto con il
-      owner: da Aleksandr Kunin
-      fb_page: Pagina dell'applicazione
+      text: Fatto con il ❤️ da Aleksandr Kunin

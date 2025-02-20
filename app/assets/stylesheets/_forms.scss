@@ -41,6 +41,34 @@
   width: 100%;
 }
 
+.search-input-container {
+  display: flex;
+  background-color: var(--gray-20);
+  border-radius: var(--border-radius-md);
+  align-items: center;
+  gap: 0.25rem;
+  position: relative;
+}
+
+.search-input {
+  background-color: transparent;
+  flex-grow: 1;
+  border: 0;
+  border-radius: var(--border-radius-md);
+  padding: 0.5rem 0.75rem 0.5rem 2rem;
+}
+
+.search-input-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  color: var(--gray-70);
+  padding: 0.5rem;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;

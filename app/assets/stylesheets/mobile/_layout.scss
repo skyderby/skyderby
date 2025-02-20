@@ -1,6 +1,10 @@
-#wrap {
-  min-height: 400px;
-  padding-top: 50px;
-  padding-bottom: 20px;
+.page {
+  min-height: 100vh;
   background-color: #fafafa;
+  display: grid;
+  grid-template-rows: min-content 1fr min-content;
+}
+
+.page-content {
+  height: 100%;
 }

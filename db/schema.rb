@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_03_070009) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -255,6 +255,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_03_070009) do
     t.integer "country_id"
     t.decimal "msl", precision: 5, scale: 1
     t.integer "kind", default: 0, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "points", id: :serial, force: :cascade do |t|
@@ -288,6 +290,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_03_070009) do
     t.string "owner_type"
     t.integer "owner_id"
     t.jsonb "userpic_data"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["country_id"], name: "index_profiles_on_country_id"
     t.index ["country_id"], name: "user_profiles_country_id_idx"
     t.index ["owner_type", "owner_id"], name: "index_profiles_on_owner_type_and_owner_id"
@@ -444,6 +448,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_03_070009) do
     t.string "name", limit: 510
     t.integer "kind", default: 0
     t.text "description"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["manufacturer_id"], name: "index_suits_on_manufacturer_id"
   end
 

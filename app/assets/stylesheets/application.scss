@@ -71,10 +71,10 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
 }
 
-#wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: min-content 1fr min-content;
 
   &.wrap--no-top-padding {
     padding-top: 0px;
@@ -82,7 +82,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media print {
-  #wrap {
+  .page {
     padding: 0;
   }
 }

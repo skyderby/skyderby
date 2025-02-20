@@ -3,11 +3,9 @@ footer {
   border-top: var(--default-border);
   color: var(--gray-70);
   display: flex;
-  font-size: 0.875rem;
-  line-height: 2.5rem;
+  font-size: 0.75rem;
   justify-content: space-between;
-  margin-top: 20px;
-  padding: 0 15px;
+  padding: 0.5rem 1rem;
 }
 
 @media print {

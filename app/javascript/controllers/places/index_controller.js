@@ -3,28 +3,15 @@ import initMapsApi from 'utils/google_maps_api'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
 
 export default class extends Controller {
-  static targets = ['map', 'place', 'country', 'preview', 'previewLoading']
+  static targets = ['map', 'place', 'country', 'sidebar']
 
   connect() {
     initMapsApi().then(() => this.renderMap())
   }
 
-  beforeRequestPreview() {
-    this.previewTarget.classList.add('visible')
+  toggleSidebar() {
+    this.sidebarTarget.classList.toggle('collapsed')
   }
-
-  close_preview() {
-    this.previewTarget.classList.remove('visible')
-    setTimeout(() => {
-      this.previewLoadingTarget.style.visibility = 'visible'
-    }, 300)
-  }
-
-  requestPreviewSuccess() {
-    this.previewLoadingTarget.style.visibility = 'hidden'
-  }
-
-  requestPreviewError() {}
 
   renderMap() {
     const infoWindow = new google.maps.InfoWindow()
