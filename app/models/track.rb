@@ -84,6 +84,11 @@ class Track < ApplicationRecord
 
   before_destroy :used_in_competition?
 
+  scope :chronologically, -> { order(id: :desc) }
+  scope :sorted_by_speed, ->(dir) { left_joins(:speed).order("track_results.result #{dir} NULLS LAST") }
+  scope :sorted_by_distance, ->(dir) { left_joins(:distance).order("track_results.result #{dir} NULLS LAST") }
+  scope :sorted_by_time, ->(dir) { left_joins(:time).order("track_results.result #{dir} NULLS LAST") }
+
   delegate :tracksuit?, :wingsuit?, :slick?, to: :suit, allow_nil: true
   delegate :kind, to: :suit, allow_nil: true, prefix: true
   delegate :msl, to: :place, allow_nil: true, prefix: true
@@ -162,6 +167,20 @@ class Track < ApplicationRecord
         all
       else
         where('profile_id = :profile OR visibility = 0', profile: user.profile)
+      end
+    end
+
+    def sorted(order = nil)
+      return chronologically if order.blank?
+
+      attribute, direction = order.split
+      return chronologically unless %w[asc desc].include?(direction.downcase)
+
+      case attribute
+      when 'speed' then sorted_by_speed(direction)
+      when 'distance' then sorted_by_distance(direction)
+      when 'time' then sorted_by_time(direction)
+      else order(attribute => direction)
       end
     end
   end

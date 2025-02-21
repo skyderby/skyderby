@@ -8,7 +8,7 @@ class Places::TracksController < ApplicationController
       .tracks
       .accessible
       .then { |tracks| TrackFilter.new(index_params).apply(tracks) }
-      .then { |tracks| TrackOrder.new(index_params[:order]).apply(tracks) }
+      .sorted(index_params[:order])
       .includes(:distance, :time, :speed, :video, pilot: :contributions, suit: :manufacturer)
       .paginate(page:, per_page: 25)
   end
@@ -16,7 +16,7 @@ class Places::TracksController < ApplicationController
   private
 
   def index_params
-    params.permit(:order, :page, :kind, :profile_id, :profile_name, :suit_id, :place_id, :term)
+    params.permit(:order, :page, :kind, :profile_id, :suit_id, :term)
   end
   helper_method :index_params
 end

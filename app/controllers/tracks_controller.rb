@@ -10,10 +10,10 @@ class TracksController < ApplicationController
     @tracks = policy_scope(Track.all)
 
     @tracks = TrackFilter.new(index_params).apply(@tracks)
-    @tracks = TrackOrder.new(index_params[:order]).apply(@tracks)
 
     @tracks = @tracks
               .left_outer_joins(:time, :distance, :speed)
+              .sorted(index_params[:order])
               .includes(
                 :video,
                 :distance,
