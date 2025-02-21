@@ -9,7 +9,9 @@
     <%= t 'activerecord.attributes.track.id' %>
     <%= tracks_sort_header(order_field, order_direction, 'id', 'ID') %>
   </div>
-  <div class="th"><%= t 'activerecord.attributes.track.name' %></div>
+  <% unless except_columns.include? :profile %>
+    <div class="th"><%= t 'activerecord.attributes.track.name' %></div>
+  <% end %>
   <div class="th"><%= t 'activerecord.attributes.track.suit' %></div>
   <% unless except_columns.include? :place %>
     <div class="th"><%= t 'activerecord.attributes.track.place' %></div>

@@ -11,15 +11,15 @@
 }
 
 .online-competition-winner:nth-child(1) {
-  border-top-color: $gold;
+  border-top-color: var(--yellow-50);
 }
 
 .online-competition-winner:nth-child(2) {
-  border-top-color: $silver;
+  border-top-color: var(--blue-gray-20);
 }
 
 .online-competition-winner:nth-child(3) {
-  border-top-color: $bronze;
+  border-top-color: var(--orange-70);
 }
 
 .online-competition-leaderboard--horizontal .online-competition-winner {

@@ -1,5 +1,5 @@
 class Places::TracksController < ApplicationController
-  def show
+  def index
     @place = Place.find(params[:place_id])
     authorize @place, :show?
 
@@ -7,15 +7,9 @@ class Places::TracksController < ApplicationController
       @place
       .tracks
       .accessible
-      .order(recorded_at: :desc)
-      .includes(
-        :distance,
-        :time,
-        :speed,
-        :video,
-        pilot: :contributions,
-        suit: :manufacturer
-      )
+      .then { |tracks| TrackFilter.new(index_params).apply(tracks) }
+      .then { |tracks| TrackOrder.new(index_params[:order]).apply(tracks) }
+      .includes(:distance, :time, :speed, :video, pilot: :contributions, suit: :manufacturer)
       .paginate(page:, per_page: 25)
   end
 

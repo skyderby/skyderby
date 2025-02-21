@@ -159,7 +159,7 @@ class Track < ApplicationRecord
       return public_track unless user&.profile
 
       if user.admin?
-        where('1 = 1')
+        all
       else
         where('profile_id = :profile OR visibility = 0', profile: user.profile)
       end

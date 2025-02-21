@@ -1,68 +1,55 @@
-<div class="profile-header">
-  <div class="profile-header__avatar">
-    <%= image_tag(profile.userpic_url(:medium), class: 'profile-header__avatar-image') %>
-    <% if policy(profile).edit? %>
-      <%= link_to new_profile_avatar_path(profile), remote: true, class: 'profile-header__avatar-change', rel: 'nofollow' do %>
-        <i class="fa fa-pencil-alt"></i>
+<div class="show-page-header">
+  <div class="profile-header">
+    <div class="profile-header__avatar">
+      <%= image_tag(profile.userpic_url(:medium), class: 'profile-header__avatar-image') %>
+      <% if policy(profile).edit? %>
+        <%= link_to new_profile_avatar_path(profile), remote: true, class: 'profile-header__avatar-change', rel: 'nofollow' do %>
+          <i class="fa fa-pencil-alt"></i>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
+    </div>
 
-  <div class="profile-header__name">
-    <h1>
+    <h1 class="show-page-title <%= 'contributor' if profile.contributor? %>">
       <%= profile.name %>
       <% if profile.country %>
-        <small>
-          //
-          <span class="text-warning" data-toggle="tooltip" title="<%= profile.country.name %>">
-            <%= profile.country.code.upcase %>
-          </span>
-        </small>
+        <span class="separator">//</span>
+        <span class="tip-text" data-controller="tooltip" data-tooltip="<%= profile.country.name %>">
+          <%= profile.country.code.upcase %>
+        </span>
       <% end %>
     </h1>
   </div>
-</div>
 
-<div class="profile-navigation">
-  <% controller_path = controller.controller_path %>
-  <div class="tabs-navbar">
-    <div class="tabs-navbar__fade-right">
-      <ul class="tabs-navbar__menu">
-        <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'profiles' %>">
-          <%= link_to t('general.overview'), profile %>
-        </li>
-        <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'profiles/tracks' %>">
-          <%= link_to t('.tracks'), profile_tracks_path(profile) %>
-        </li>
-        <li class="tabs-navbar__menuitem <%= 'tabs-navbar--active' if controller_path == 'profiles/flight_profiles' %>">
-          <%= link_to t('flight_profiles'), profile_flight_profiles_path(profile) %>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="profile-commands">
-    <% if policy(@profile).edit? %>
-      <%= link_to edit_profile_path(@profile), class: 'btn-flat' do %>
-        <i class="fa fa-pencil-alt"></i>
-        <%= t('general.edit') %>
-      <% end %>
+  <div class="page-nav">
+    <%= link_to profile, class: ['page-tab', ('page-tab-active' if current_page?(profile_path(profile)))] do %>
+      <%= t('general.overview') %>
     <% end %>
 
-    <% if policy(@profile).destroy? %>
-      <%= link_to t('general.delete'), @profile, method: :delete, remote: true, data: { confirm: 'Are you sure you want to delete this profile?' }, class: 'btn-flat text-danger' %>
-    <% end %>
+    <%= link_to t('.tracks'), profile_tracks_path(profile), class: ['page-tab', ('page-tab-active' if current_page?(profile_tracks_path(profile)))] %>
+
+    <%= link_to t('flight_profiles'), profile_flight_profiles_path(profile), class: ['page-tab', ('page-tab-active' if current_page?(profile_flight_profiles_path(profile)))] %>
 
     <% if @profile.belongs_to_user? && policy(@profile).masquerade? %>
-      <%= link_to new_user_masquerades_path(@profile.owner), class: 'btn-flat' do %>
+      <%= link_to new_user_masquerades_path(@profile.owner), class: 'page-tab page-tab-right' do %>
         <i class="fa fa-magic"></i>
         Masquerade
       <% end %>
     <% end %>
 
     <% if policy(@profile).merge? %>
-      <%= link_to new_profile_merge_path(@profile), remote: true, class: 'btn-flat' do %>
+      <%= link_to new_profile_merge_path(@profile), remote: true, class: 'page-tab' do %>
         Merge
+      <% end %>
+    <% end %>
+
+    <% if policy(@profile).destroy? %>
+      <%= link_to t('general.delete'), @profile, method: :delete, remote: true, data: { confirm: 'Are you sure you want to delete this profile?' }, class: 'page-tab' %>
+    <% end %>
+
+    <% if policy(profile).edit? %>
+      <%= link_to edit_profile_path(profile), class: ['page-tab', ('page-tab-active' if current_page?(edit_profile_path(profile)))] do %>
+        <%= svg_icon 'gear-solid' %>
+        <%= t('general.edit') %>
       <% end %>
     <% end %>
   </div>

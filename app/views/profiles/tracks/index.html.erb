@@ -1,28 +1,18 @@
-<div class="container">
+<div class="show-page">
   <%= render 'profiles/header', profile: @profile %>
 
-  <div class="content-block">
-    <div id="profile-tracks-table" class="table table-hover">
-      <div class="thead">
-        <div class="tr">
-          <div class="th"><%= t('activerecord.attributes.track.id') %></div>
-          <div class="th"><%= t('activerecord.attributes.track.suit') %></div>
-          <div class="th"><%= t('activerecord.attributes.track.place') %></div>
-          <div class="th"><%= t('activerecord.attributes.track.comment') %></div>
-          <div class="th text-right"><%= t('disciplines.distance') %></div>
-          <div class="th text-right"><%= t('disciplines.speed') %></div>
-          <div class="th text-right"><%= t('disciplines.time') %></div>
-          <div class="th text-right"><%= t('activerecord.attributes.track.recorded_at') %></div>
-          <div class="th"></div>
+  <div class="show-page-content">
+    <div class="card">
+      <div id="tracks-table" class="table table-hover">
+        <div class="thead">
+          <%= render 'tracks/table_header', except_columns: [:profile] %>
+        </div>
+        <div id="tracks-list" class="tbody">
+          <%= render collection: @tracks, partial: 'tracks/track', locals: { except_columns: [:profile] } %>
         </div>
       </div>
-      <div class="tbody">
-        <%= render partial: 'tracks/track', collection: @profile.tracks, locals: { except_columns: [:profile] } %>
-      </div>
-    </div>
-    <div class="text-center">
-      <div class="pagination-list">
-        <%= will_paginate @profile.tracks, renderer: BootstrapPagination::Rails %>
+      <div class="flex justify-center">
+        <%= will_paginate @tracks, renderer: BootstrapPagination::Rails %>
       </div>
     </div>
   </div>

@@ -64,27 +64,24 @@ module TracksHelper
 
   def tracks_sort_header(order_field, order_direction, field, field_presentation)
     if order_field == field.upcase && order_direction == 'DESC'
-      tag.a(nil, href: tracks_path(index_params.merge(order: "#{field} ASC")),
-                 'data-remote' => true,
-                 'data-toggle' => 'tooltip',
-                 title: "Sort by #{field_presentation} ascending",
+      tag.a(nil, href: url_for(index_params.merge(order: "#{field} ASC")),
+                 'data-controller': 'tooltip',
+                 'data-tooltip': "Sort by #{field_presentation} ascending",
                  rel: 'nofollow') do
         tag.i(nil, class: 'fa fa-sort-amount-down')
       end
     elsif order_field == field.upcase && order_direction == 'ASC'
-      tag.a(nil, href: tracks_path(index_params.merge(order: "#{field} DESC")),
-                 'data-remote' => true,
-                 'data-toggle' => 'tooltip',
-                 title: "Sort by #{field_presentation} descending",
+      tag.a(nil, href: url_for(index_params.merge(order: "#{field} DESC")),
+                 'data-controller': 'tooltip',
+                 'data-tooltip': "Sort by #{field_presentation} descending",
                  rel: 'nofollow') do
         tag.i(nil, class: 'fa fa-sort-amount-up')
       end
     else
       tag.a(nil, class: 'text-muted',
-                 href: tracks_path(index_params.merge(order: "#{field} DESC")),
-                 'data-remote' => true,
-                 'data-toggle' => 'tooltip',
-                 title: "Sort by #{field_presentation} descending",
+                 href: url_for(index_params.merge(order: "#{field} DESC")),
+                 'data-controller' => 'tooltip',
+                 'data-tooltip': "Sort by #{field_presentation} descending",
                  rel: 'nofollow') do
         tag.i(nil, class: 'fa fa-sort-amount-down')
       end

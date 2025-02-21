@@ -52,14 +52,15 @@
   overflow: hidden;
 }
 
+
 .gold {
-  color: $gold;
+  color: var(--yellow-50);
 }
 
 .silver {
-  color: $silver;
+  color: var(--blue-gray-20);
 }
 
 .bronze {
-  color: $bronze;
+  color: var(--orange-70);
 }

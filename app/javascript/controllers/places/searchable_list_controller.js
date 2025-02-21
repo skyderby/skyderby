@@ -3,34 +3,36 @@ import { Controller } from 'stimulus'
 export default class extends Controller {
   static targets = ['place', 'country']
 
-  filter_places(event) {
+  filterPlaces(event) {
     const term = event.target.value
 
     if (term === '') {
-      this.show_countries()
-      this.show_all_places()
+      this.showCountries()
+      this.showAllPlaces()
       return
     }
 
-    this.hide_countries()
-
-    if (this.timer_id) clearTimeout(this.timer_id)
-    this.timer_id = setTimeout(() => this.filter_places_by_term(term), 100)
+    this.filterPlacesByTerm(term)
+    this.hideEmptyCountries()
   }
 
-  show_countries() {
+  showCountries() {
     this.countryTargets.forEach(el => (el.style.display = 'block'))
   }
 
-  hide_countries() {
-    this.countryTargets.forEach(el => (el.style.display = 'none'))
+  hideEmptyCountries() {
+    this.countryTargets.forEach(country => {
+      const places = country.querySelectorAll('.places__item')
+      const allHidden = Array.from(places).every(place => place.style.display === 'none')
+      country.style.display = allHidden ? 'none' : 'block'
+    })
   }
 
-  show_all_places() {
+  showAllPlaces() {
     this.placeTargets.forEach(el => (el.style.display = 'block'))
   }
 
-  filter_places_by_term(term) {
+  filterPlacesByTerm(term) {
     this.placeTargets.forEach(el => {
       el.style.display =
         el.innerText.toLowerCase().indexOf(term.toLowerCase()) === -1 ? 'none' : 'block'

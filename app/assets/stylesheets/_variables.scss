@@ -74,6 +74,7 @@
   --border-color: var(--gray-40);
   --default-border: solid 1px var(--gray-40);
   --text-color: var(--gray-90);
+  --text-secondary: var(--gray-70);
   --border-radius-lg: 1rem;
   --border-radius-md: 0.5rem;
   --border-radius-sm: 0.375rem;
@@ -86,18 +87,6 @@
 
 $bp-medium: 960px;
 $bp-large: 1200px;
-
-$gold:   #fc0;
-$gold-light: #ffe57c;
-$gold-dark: #e1b400;
-
-$silver: #dfdfdf;
-$silver-light: #eaeaea;
-$silver-dark: #c6c6c6;
-
-$bronze: #df8250;
-$bronze-light: #ffaa72;
-$bronze-dark: #c87548;
 
 $blue:       #75a4ba;
 $blue-light: #8fc8e3;
