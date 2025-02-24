@@ -2,15 +2,14 @@ import { Controller } from 'stimulus'
 import format from 'date-fns/format'
 
 export default class extends Controller {
-  static targets = ['chart']
+  static targets = ['chart', 'data']
 
   connect() {
-    fetch('/api/v1/donation_stats')
-      .then(response => response.json())
-      .then(data => this.renderChart(data))
+    this.renderChart()
   }
 
-  renderChart(data) {
+  renderChart() {
+    const data = JSON.parse(this.dataTarget.textContent)
     this.chartTarget.highcharts = new Highcharts.Chart(
       this.chartTarget,
       this.chartOptions(data)

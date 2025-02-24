@@ -114,8 +114,6 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resource :donation_stats, only: :show
-
       namespace :stats, module: :stats do
         resources :registrations, only: :index
       end
