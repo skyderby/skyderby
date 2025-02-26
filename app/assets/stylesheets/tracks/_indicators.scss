@@ -5,12 +5,12 @@
 
   .units {
     font-size: 28px;
-    color: #555;
+    color: var(--gray-80);
   }
 
   .avg-val {
     font-size: 42px;
-    color: #555;
+    color: var(--gray-80);
     font-weight: 200;
   }
 
@@ -23,7 +23,7 @@
     text-align: right;
     display: inline-block;
     margin-left: 3px;
-    margin-right: 25px;
+    margin-right: 5px;
 
     :first-child::after {
       transform: rotate(-90deg);
@@ -46,14 +46,6 @@
 
   .min-val, .max-val {
     position: relative;
-
-    &::after {
-      content: $icon-arrow-light;
-      font: 12px/12px $application-icon-font;
-      display: inline-block;
-      position: absolute;
-      right: -15px;
-    }
   }
 
   .param-val {
@@ -62,7 +54,7 @@
 }
 
 .track-indicators__param {
-  color: #aaa;
+  color: var(--gray-70);
   font-weight: 500;
   text-transform: uppercase;
   white-space: nowrap;

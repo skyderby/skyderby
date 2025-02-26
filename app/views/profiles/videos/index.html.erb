@@ -1,0 +1,9 @@
+<div class="show-page">
+  <%= render 'profiles/header', profile: @profile %>
+
+  <div class="show-page-content">
+    <div class="thumbnails">
+      <%= render collection: @videos, partial: 'profiles/videos/thumbnail', as: :video %>
+    </div>
+  </div>
+</div>

@@ -1,23 +1,29 @@
-<% provide :title, title(@track_data.track) %>
+<% provide :title, title(@track) %>
 
-<div class="track-video-show" data-controller="tracks--videos"
-     data-action="youtube_api:ready@window->tracks--videos#on_youtube_api_ready"
-     data-url="<%= url_for %>"
-     data-video-id="<%= @track_data.video_code %>">
-  <div class="container">
-    <%= render partial: 'tracks/header', locals: { track: @track_data.track } %>
+<div class="show-page">
+  <%= render partial: 'tracks/header', locals: { track: @track } %>
 
-    <div class="content-block content-block--bordered">
-      <% if policy(@track_data.track).edit? %>
+  <div class="track-show-content">
+    <div data-controller="tracks--videos"
+         data-action="youtube_api:ready@window->tracks--videos#on_youtube_api_ready"
+         data-video-id="<%= @video.video_code %>">
+      <script type="application/json" data-target="tracks--videos.data">
+        <%= raw render partial: 'tracks/videos/video',
+                       locals: { video: @video, points: @points },
+                       formats: [:json] %>
+      </script>
+
+      <% if policy(@track).edit? %>
         <div class="card-action">
           <div class="position-right">
-            <%= link_to edit_track_video_path(@track_data.track), class: 'btn-flat same-padding' do %>
+            <%= link_to edit_track_video_path(@track), class: 'btn-flat same-padding' do %>
               <i class="fas fa-cog"></i>
               <%= t('general.settings') %>
             <% end %>
           </div>
         </div>
       <% end %>
+
       <div class="row">
         <div class="col-sm-12">
           <div class="videowrapper">
@@ -34,7 +40,7 @@
                 <div class="min-max text-right">
                   <div class="min-val">
                     <span data-target="tracks--videos.altitude_spent">---</span>
-                    <i class="fa fa-lg fa-caret-down"></i>
+                    <%= svg_icon 'angle-down-solid' %>
                   </div>
                 </div>
                 <div class="units"><%= t 'units.m' %></div>
@@ -78,9 +84,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12 text-center top-buffer"></div>
       </div>
     </div>
   </div>

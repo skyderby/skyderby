@@ -3,29 +3,22 @@ import VideoData from 'models/tracks/video'
 import { initYoutubeApi } from 'utils/youtube'
 
 export default class extends Controller {
-  static targets = ['altitude', 'altitude_spent', 'h_speed', 'v_speed', 'glide_ratio']
+  static targets = [
+    'data',
+    'altitude',
+    'altitude_spent',
+    'h_speed',
+    'v_speed',
+    'glide_ratio'
+  ]
 
   connect() {
     initYoutubeApi()
-    this.fetchData()
-  }
-
-  fetchData() {
-    const url = this.element.getAttribute('data-url')
-    fetch(url, {
-      credentials: 'same-origin',
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => response.json())
-      .then(this.on_data_ready)
+    this.model = new VideoData(JSON.parse(this.dataTarget.textContent))
   }
 
   on_youtube_api_ready() {
     this.init_player()
-  }
-
-  on_data_ready = data => {
-    this.model = new VideoData(data)
   }
 
   init_player() {

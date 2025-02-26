@@ -1,0 +1,21 @@
+<%# locals: (video:) %>
+<% track = video.track %>
+
+<%= link_to track_video_path(video.track), class: 'video-thumbnail', style: "background-image: url(#{video.thumbnail_url})" do %>
+  <div class="video-thumbnail-details">
+    <strong><%= track.pilot_name || track.name %></strong>
+    <%= track.recorded_at&.strftime('%d %b %Y') %>
+
+    <hr />
+
+    <div class="video-thhumbnail-description"}>
+      <span>
+        <%= track.suit_name || track.missing_suit_name %>
+      </span>
+      <span>
+        <%= svg_icon 'location-dot-solid' %>
+        <%= track.place_name || track.location %>
+      </span>
+    </div>
+  </div>
+<% end %>

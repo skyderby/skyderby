@@ -218,6 +218,7 @@ Skyderby::Application.routes.draw do
     scope module: :profiles do
       resources :badges, only: [:new, :create]
       resources :tracks, only: :index
+      resources :videos, only: :index
       resource :avatar, only: [:new, :create]
       resource :merge, only: [:new, :create]
       collection do

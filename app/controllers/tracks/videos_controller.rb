@@ -17,12 +17,16 @@ module Tracks
     def show
       authorize @track
 
-      @track_data = Tracks::VideoPresenter.new(@track)
+      @video = @track.video
+      return redirect_to @track unless @video
 
-      respond_to do |format|
-        format.html { redirect_to @track unless @track.video }
-        format.json
-      end
+      @points =
+        PointsQuery
+        .execute(@track,
+                 trimmed: { seconds_before_start: 20 },
+                 freq_1hz: true,
+                 only: %i[gps_time fl_time latitude longitude altitude h_speed v_speed glide_ratio])
+        .then { |raw_points| PointsPostprocessor.for(@track.gps_type).call(raw_points, speed_units: :kmh) }
     end
 
     def create

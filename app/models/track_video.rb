@@ -22,6 +22,8 @@ class TrackVideo < ApplicationRecord
 
   before_validation :parse_url
 
+  def thumbnail_url = "https://img.youtube.com/vi/#{video_code}/mqdefault.jpg"
+
   private
 
   def parse_url
