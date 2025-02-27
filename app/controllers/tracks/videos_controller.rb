@@ -25,7 +25,7 @@ module Tracks
         .execute(@track,
                  trimmed: { seconds_before_start: 20 },
                  freq_1hz: true,
-                 only: %i[gps_time fl_time latitude longitude altitude h_speed v_speed glide_ratio])
+                 only: %i[gps_time fl_time latitude longitude altitude full_speed h_speed v_speed glide_ratio])
         .then { |raw_points| PointsPostprocessor.for(@track.gps_type).call(raw_points, speed_units: :kmh) }
     end
 

@@ -12,6 +12,7 @@ en:
       elevation: Height diff.
       altitude: Height
       ground_speed: Ground speed
+      full_speed: Full speed
       vertical_speed: Vertical speed
       duration: Time
       glide_ratio: Glide ratio

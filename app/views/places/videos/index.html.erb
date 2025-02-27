@@ -1,5 +1,7 @@
-<div class="show-page">
-  <%= render 'profiles/header', profile: @profile %>
+<% editable = policy(@place).update? %>
+
+<div class="show-page place-show">
+  <%= render 'places/header', editable: %>
 
   <div class="show-page-content">
     <div class="thumbnails">

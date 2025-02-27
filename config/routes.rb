@@ -248,6 +248,7 @@ Skyderby::Application.routes.draw do
   resources :places, concerns: :flight_profiles do
     scope module: :places do
       resources :tracks, only: :index
+      resources :videos, only: :index
       resources :jump_profiles
       resources :finish_lines
       resources :photos

@@ -13,6 +13,7 @@ ru:
       altitude: Высота
       ground_speed: Путевая скорость
       vertical_speed: Вертикальная скорость
+      full_speed: Полная скорость
       duration: Продолжительность
       glide_ratio: Качество полета
     show:

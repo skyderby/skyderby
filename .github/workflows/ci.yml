@@ -122,6 +122,29 @@ jobs:
       - run: bundle exec rails db:test:prepare
       - run: bundle exec rails test
 
+  unit-test-js:
+    runs-on: ubuntu-latest
+    needs:
+      - rubocop
+      - eslint
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.4.1
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-v3-${{ hashFiles('./yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-v3-
+      - name: Install packages
+        run: yarn install
+      - name: Run Eslint and Prettier
+        run: yarn test
+
   system-test:
     runs-on: ubuntu-latest
     needs:
