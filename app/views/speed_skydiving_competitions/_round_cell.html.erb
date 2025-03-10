@@ -7,7 +7,7 @@
     <% elsif editable %>
       data-tooltip="Mark round as completed when results are final"
     <% end %>
-    >
+  >
     <% if round.completed %>
       <%= svg_icon 'circle-check-regular', class: 'round-completed' %>
     <% elsif editable %>
@@ -24,27 +24,29 @@
           <%= svg_icon 'ellipsis-vertical-solid' %>
         </button>
 
-        <div class="sd-dropdown-menu" data-target="dropdown.menu">
-          <% if round.completed? %>
-            <%= button_to speed_skydiving_competition_round_path(event, round),
-                          class: 'dropdown-item',
-                          method: :patch, params: { round: { completed: false } },
-                          form: { data: { turbo_stream: true } } do %>
-              Mark not completed
+        <template data-target="dropdown.menu">
+          <div class="sd-dropdown-menu">
+            <% if round.completed? %>
+              <%= button_to speed_skydiving_competition_round_path(event, round),
+                            class: 'dropdown-item',
+                            method: :patch, params: { round: { completed: false } },
+                            form: { data: { turbo_stream: true } } do %>
+                Mark not completed
+              <% end %>
+            <% else%>
+              <%= button_to speed_skydiving_competition_round_path(event, round),
+                            class: 'dropdown-item',
+                            method: :patch, params: { round: { completed: true } },
+                            form: { data: { turbo_stream: true } } do %>
+                Mark completed
+              <% end %>
             <% end %>
-          <% else%>
-            <%= button_to speed_skydiving_competition_round_path(event, round),
-                          class: 'dropdown-item',
-                          method: :patch, params: { round: { completed: true } },
-                          form: { data: { turbo_stream: true } } do %>
-              Mark completed
-            <% end %>
-          <% end %>
 
-          <%= button_to speed_skydiving_competition_round_path(event, round), class: 'dropdown-item', method: :delete, form: { data: { turbo_stream: true } } do %>
-            Delete
-          <% end %>
-        </div>
+            <%= button_to speed_skydiving_competition_round_path(event, round), class: 'dropdown-item', method: :delete, form: { data: { turbo_stream: true } } do %>
+              Delete
+            <% end %>
+          </div>
+        </template>
       </div>
     </div>
   <% end %>

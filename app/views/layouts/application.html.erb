@@ -2,9 +2,10 @@
 <html>
   <head>
     <%= render 'layouts/head' %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
     <%= stylesheet_link_tag 'desktop/application', media: 'all', 'data-turbo-track': 'reload' %>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
     <div id="modal-root"></div>
@@ -18,16 +19,13 @@
 
     <div class="page">
       <%= render 'layouts/header' %>
-
       <div class="page-content"><%= yield %></div>
-
       <%= render 'layouts/footer' %>
     </div>
 
     <%= render partial: 'track_files/new_modal' %>
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
     <%= render 'errors/ajax_error_message' %>
-
 
     <%= yield :page_js %>
   </body>

@@ -6,6 +6,12 @@ footer {
   font-size: 0.75rem;
   justify-content: space-between;
   padding: 0.5rem 1rem;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
 
 @media print {

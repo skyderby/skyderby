@@ -1,15 +1,15 @@
 .track-indicators {
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   font-weight: 200;
+  gap: 1.25rem;
 
   .units {
-    font-size: 28px;
+    font-size: 0.75em;
     color: var(--gray-80);
   }
 
   .avg-val {
-    font-size: 42px;
     color: var(--gray-80);
     font-weight: 200;
   }
@@ -20,6 +20,7 @@
   }
 
   .min-max {
+    font-size: 0.375em;
     text-align: right;
     display: inline-block;
     margin-left: 3px;
@@ -49,24 +50,84 @@
   }
 
   .param-val {
+    font-size: 2rem;
     white-space: nowrap;
+
+    @media (min-width: $bp-small) {
+      font-size: 2.5rem;
+      text-align: center;
+    }
   }
+
+  @media (min-width: $bp-small) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.range-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.track-indicator {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.track-indicator-distance {
+  order: 1;
+}
+
+.track-indicator-h-speed {
+  order: 3;
+
+  @media (min-width: $bp-small) {
+    order: 2;
+  }
+}
+
+.track-indicator-glide {
+  order: 2;
+
+  @media (min-width: $bp-small) {
+    order: 3;
+  }
+}
+
+.track-indicator-v-speed {
+  order: 4;
+
+  @media (min-width: $bp-small) {
+    order: 5;
+  }
+}
+
+.track-indicator-elevation {
+  order: 5;
+
+  @media (min-width: $bp-small) {
+    order: 4;
+  }
+}
+
+.track-indicator-time {
+  order: 6;
 }
 
 .track-indicators__param {
   color: var(--gray-70);
+  font-size: 0.875rem;
   font-weight: 500;
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
 
-.track-indicators__indicator {
-  margin-top: 40px;
-
-  &:first-child {
-    margin-top: 15px;
+  @media (min-width: $bp-small) {
+    text-align: center;
   }
 }
 

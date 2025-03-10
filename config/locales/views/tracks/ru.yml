@@ -11,11 +11,11 @@ ru:
       distance: Дистанция
       elevation: Перепад высот
       altitude: Высота
-      ground_speed: Путевая скорость
-      vertical_speed: Вертикальная скорость
+      ground_speed: Гориз. скорость
+      vertical_speed: Верт. скорость
       full_speed: Полная скорость
-      duration: Продолжительность
-      glide_ratio: Качество полета
+      duration: Время
+      glide_ratio: Качество
     show:
       title_track: 'Трек'
       title_suit: 'Вингсьют'

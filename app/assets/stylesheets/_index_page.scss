@@ -4,7 +4,7 @@
   gap: 1rem;
   margin: 0 auto;
   width: 100%;
-  padding: 1rem 0;
+  padding: 1rem;
 
   @media (min-width: $bp-large) {
     width: $bp-large;
@@ -13,10 +13,16 @@
 
 .index-page-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
 
-  h1 {
+  @media (min-width: $bp-small) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .index-page-title {
     font-weight: 700;
     margin: 0;
   }

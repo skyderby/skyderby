@@ -10,18 +10,20 @@
           <%= svg_icon 'ellipsis-vertical-solid' %>
         </button>
 
-        <div class="sd-dropdown-menu" data-target="dropdown.menu" data-action="click->dropdown#close">
-          <%= button_to edit_speed_skydiving_competition_competitor_path(event, competitor),
-                        class: 'dropdown-item',
-                        method: :get, form: { data: { turbo_stream: true } } do %>
-              Edit
-          <% end %>
+        <template data-target="dropdown.menu">
+          <div class="sd-dropdown-menu">
+            <%= button_to edit_speed_skydiving_competition_competitor_path(event, competitor),
+                          class: 'dropdown-item',
+                          method: :get, form: { data: { turbo_stream: true } } do %>
+                Edit
+            <% end %>
 
-          <%= button_to speed_skydiving_competition_competitor_path(event, competitor),
-                        class: 'dropdown-item', method: :delete, form: { data: { turbo_stream: true } } do %>
-            Delete
-          <% end %>
-        </div>
+            <%= button_to speed_skydiving_competition_competitor_path(event, competitor),
+                          class: 'dropdown-item', method: :delete, form: { data: { turbo_stream: true } } do %>
+              Delete
+            <% end %>
+          </div>
+        </template>
       </div>
     </div>
   <% end %>

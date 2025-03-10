@@ -25,7 +25,6 @@
 @import 'variables';
 @import './mixins/**/*';
 @import './fonts/**/*';
-@import './*';
 @import './common/**/*';
 @import './blocks/**/*';
 @import './events/**/*';
@@ -35,11 +34,11 @@
 @import './profiles/**/*';
 @import './tournaments/**/*';
 @import './online_competitions/**/*';
-@import './inside_iframe';
-@import './contributions';
+@import './*';
 
 html, body {
   height: 100%;
+  width: 100%;
   background-color: #fafafa;
 }
 
@@ -62,6 +61,11 @@ a, button, label, span {
 }
 
 h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
   margin: 0;
 }
 
@@ -96,7 +100,9 @@ label.valid {
   width: 32px;
 }
 
-a.dropdown-toggle.profile-dropdown {
+.dropdown-toggle.profile-dropdown {
+  background-color: transparent;
+  border: 0;
   padding-bottom: 9px;
   padding-top: 9px;
 }

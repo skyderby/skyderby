@@ -24,7 +24,6 @@
 @import '../scoreboards';
 @import '../toasts';
 @import '../announcements';
-@import '../desktop/navbar/menu/cta';
 @import '../contributions';
 
 @import '../card';
@@ -34,12 +33,18 @@
 @import '../activity_filter';
 @import '../scoreboards';
 @import '../buttons';
+@import '../content_blocks';
+@import '../dashboard';
 @import '../dropdown';
 @import '../icons';
+@import '../index_page';
+@import '../track_list_item';
+@import '../tracks_index';
 @import '../sponsors';
 @import '../modal';
 @import '../utils';
 @import '../forms';
+@import '../navbar';
 @import '../hot_select';
 
 @import 'variables';
@@ -61,7 +66,6 @@ html, body {
 
 body {
   color: $main-text-color;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: #f8f8f8;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
@@ -73,6 +77,11 @@ input[readonly] {
 }
 
 h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
   margin: 0;
 }
 
