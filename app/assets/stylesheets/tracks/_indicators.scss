@@ -23,8 +23,6 @@
     font-size: 0.375em;
     text-align: right;
     display: inline-block;
-    margin-left: 3px;
-    margin-right: 5px;
 
     :first-child::after {
       transform: rotate(-90deg);
@@ -52,6 +50,7 @@
   .param-val {
     font-size: 2rem;
     white-space: nowrap;
+    margin: 0 auto;
 
     @media (min-width: $bp-small) {
       font-size: 2.5rem;
@@ -132,9 +131,9 @@
 }
 
 .track-indicators__wind-effect {
-  border-radius: 0px;
-  height: 2px;
-  margin-bottom: 0px;
+  border-radius: 2px;
+  height: 4px;
+  margin-bottom: 2px;
 
   .progress-bar-success {
     background-color: #00ba65;
@@ -146,6 +145,7 @@
 }
 
 .track-indicators__components {
+  font-size: 0.375em;
   display: table;
   width: 100%;
 }
@@ -168,10 +168,7 @@
   }
 }
 
-
-
 .modal-body .track-indicators {
-
   .avg-val {
     font-size: 2em;
   }
