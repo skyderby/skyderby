@@ -1,52 +1,58 @@
-<% except_columns ||= [] %>
-
-<%= link_to track_path(id: track.id), class: 'tr' do %>
-  <span class="td"><%= track.id %></span>
-  <% unless except_columns.include? :profile %>
-    <span class="td">
-      <% if track.pilot %>
-        <span class="<%= 'contributor' if track.pilot.contributor? %>">
-          <%= track.pilot.name %>
-        </span>
-      <% else %>
-        <%= track.name %>
-      <% end %>
-    </span>
-  <% end %>
-  <% unless except_columns.include? :suit %>
-    <span class="td">
-      <% if track.suit %>
-        <%= suit_presentation(track.suit) %>
-      <% else %>
-        <span class="text-info">
-          <%= track.missing_suit_name %>
-        </span>
-      <% end %>
-    </span>
-  <% end %>
-  <% unless except_columns.include? :place %>
-    <span class="td"><%= track_place(track) %></span>
-  <% end %>
-  <span class="td text-muted"><%= track.comment %></span>
-
-  <% result_formatter = { default: ->(res) { res.to_i }, time: ->(res) { res.round(1) } } %>
-  <% [:distance, :speed, :time].each do |task| %>
-    <span class="td text-right">
-      <% task_result = track.public_send(task) %>
-      <% result = task_result&.result %>
-      <% range_from = task_result&.range_from %>
-      <% range_to = task_result&.range_to %>
-      <% if task_result && !result.nan? && !result.infinite? && !result.zero? %>
-        <span class="text-info" data-toggle="tooltip" title="<%= "#{range_from} - #{range_to}" %>">
-          <% formatter = result_formatter[task] || result_formatter[:default] %>
-          <%= formatter.call(result) %>
-        </span>
-      <% else %>
-        <span class="text-info">&mdash;</span>
-      <% end %>
-    </span>
-  <% end %>
-
-  <span class="td text-info"><%= track.recorded_at&.strftime('%d.%m.%Y') %></span>
-  <span class="td"><%= track_icons(track) %></span>
+<%= link_to track_path(id: track.id), class: 'tracks-item' do %>
+  <div class="tracks-item-attribute tracks-item-id">
+    <%= track.id %>
+    <%= track_icons(track) %>
+  </div>
+  <div class="tracks-item-attribute tracks-item-pilot">
+    <% if track.pilot %>
+      <span class="<%= 'contributor' if track.pilot.contributor? %>">
+        <%= track.pilot.name %>
+      </span>
+    <% else %>
+      <%= track.name %>
+    <% end %>
+  </div>
+  <div class="tracks-item-attribute tracks-item-suit">
+    <% if track.suit %>
+      <%= suit_presentation(track.suit) %>
+    <% else %>
+      <span class="text-info">
+        <%= track.missing_suit_name %>
+      </span>
+    <% end %>
+  </div>
+  <div class="tracks-item-attribute tracks-item-place">
+    <%= track_place(track) %>
+  </div>
+  <div class="tracks-item-attribute tracks-item-comment"><%= track.comment %></div>
+  <div class="tracks-item-attribute tracks-item-result">
+    <% if track.distance %>
+      <span data-controller="tooltip" data-tooltip="<%= "#{track.distance.range_from} - #{track.distance.range_to}" %>">
+        <%= track.distance.result&.to_i %>
+      </span>
+    <% else %>
+      &mdash;
+    <% end %>
+  </div>
+  <div class="tracks-item-attribute tracks-item-result">
+    <% if track.speed %>
+      <span data-controller="tooltip" data-tooltip="<%= "#{track.speed.range_from} - #{track.speed.range_to}" %>">
+        <%= track.speed.result&.to_i %>
+      </span>
+    <% else %>
+      &mdash;
+    <% end %>
+  </div>
+  <div class="tracks-item-attribute tracks-item-result">
+    <% if track.time %>
+      <span data-controller="tooltip" data-tooltip="<%= "#{track.time.range_from} - #{track.time.range_to}" %>">
+        <%= track.time.result&.round(1) %>
+      </span>
+    <% else %>
+      &mdash;
+    <% end %>
+  </div>
+  <div class="tracks-item-attribute tracks-item-timestamp">
+    <%= track.recorded_at&.strftime('%d.%m.%Y') %>
+  </div>
 <% end %>

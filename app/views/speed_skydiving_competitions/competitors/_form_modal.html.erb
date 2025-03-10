@@ -48,7 +48,7 @@
 
     <div class="grid">
       <%= f.label :category_id, class: 'form-label col-4' %>
-      <% options = options_from_collection_for_select(@event.categories.sorted, :id, :name, @competitor.category_id) %>
+      <% options = options_from_collection_for_select(@event.categories.ordered, :id, :name, @competitor.category_id) %>
       <%= render 'hot_select/local_select', form: f, name: :category_id, options:, class: 'col-8' %>
     </div>
 

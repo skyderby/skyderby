@@ -1,0 +1,54 @@
+.tracks-index-filters {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tracks-index-filters-button {
+  @media (min-width: $bp-small) {
+    display: none;
+  }
+}
+
+.tracks-index-search {
+  display: none;
+
+  @media (min-width: $bp-small) {
+    display: block;
+  }
+}
+
+.tracks-list {
+  @media (min-width: $bp-small) {
+    background-color: var(--white);
+    margin: 0 auto;
+    border: var(--default-border);
+    border-radius: var(--border-radius-md);
+    width: 100%;
+    box-shadow: var(--block-box-shadow);
+    padding: 0.5rem;
+  }
+}
+
+.tracks-table-header {
+  display: none;
+
+  @media (min-width: $bp-small) {
+    display: table-header-group;
+  }
+}
+
+.tracks-table-body {
+  display: block;
+
+  @media (min-width: $bp-small) {
+      display: table-row-group;
+  }
+}
+
+.tracks-table {
+  display: block;
+
+  @media (min-width: $bp-small) {
+    display: table;
+  }
+}

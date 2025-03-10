@@ -1,19 +1,19 @@
 <div class="show-page-header">
   <div class="track-header">
-    <div class="track-header__info">
-      <% if track.pilot %>
-        <a href="<%= profile_path(track.pilot) %>">
-          <span class="<%= ['track-header-profile', ('contributor' if track.pilot.contributions.any?)].join(' ') %>">
-            <%= image_tag track.pilot.userpic_url(:thumb), class: 'track-header__photo loading-bg' %>
-            <%= track.pilot.name %>
-          </span>
-        </a>
-      <% else %>
-        <span class="track-header-profile"><%= track.name %></span>
-      <% end %>
+    <% if track.pilot %>
+      <a href="<%= profile_path(track.pilot) %>">
+        <span class="<%= ['track-header-profile', ('contributor' if track.pilot.contributions.any?)].join(' ') %>">
+          <%= image_tag track.pilot.userpic_url(:thumb), class: 'track-header__photo loading-bg' %>
+          <%= track.pilot.name %>
+        </span>
+      </a>
+    <% else %>
+      <span class="track-header-profile"><%= track.name %></span>
+    <% end %>
 
-      <span>
-        <%= t('tracks.show.title_suit') %>:
+    <div class="track-header-info">
+      <span class="track-header-suit">
+        <%= svg_icon 'wingsuit' %>
         <% if track.suit %>
           <% manufacturer = track.suit.manufacturer %>
           <a href="<%= suit_path(track.suit) %>">
@@ -23,8 +23,9 @@
           <span><%= track.missing_suit_name %></span>
         <% end %>
       </span>
-      <span>
-        @
+
+      <span class="track-header-place">
+        <%= svg_icon 'location-dot-solid' %>
         <% if track.place %>
           <a href="<%= place_path(track.place) %>">
             <span><%= place_presentation(track.place) %></span>
@@ -33,14 +34,18 @@
           <span><%= track.location %></span>
         <% end %>
       </span>
-
-      <% if track.unlisted_track? %>
-        <i class="fa fa-eye-slash" data-toggle="tooltip" title="<%= t('visibility.unlisted') %>"></i>
-      <% elsif track.private_track? %>
-        <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
-      <% end %>
     </div>
-    <div class="track-header__id">#<%= track.id %></div>
+
+    <div class="track-header-id">
+      <div class="track-header-icons">
+        <% if track.unlisted_track? %>
+          <%= svg_icon 'eye-lash-solid' %>
+        <% elsif track.private_track? %>
+          <%= svg_icon 'lock-solid' %>
+        <% end %>
+      </div>
+      #<%= track.id %>
+    </div>
   </div>
 
   <div class="page-nav">

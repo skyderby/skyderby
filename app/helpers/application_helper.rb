@@ -4,26 +4,6 @@ module ApplicationHelper
     title.present? ? "#{title} - Skyderby" : "Skyderby: #{base_title}"
   end
 
-  def lang_presentation(lang_code)
-    {
-      en: 'English',
-      ru: 'Русский',
-      de: 'Deutsch',
-      fr: 'Francais',
-      it: 'Italiano',
-      es: 'Spanish'
-    }[lang_code]
-  end
-
-  def lang_menu
-    tag.ul(class: 'dropdown-menu dropdown-menu-right', role: 'menu') do
-      I18n.available_locales.each do |locale_code|
-        link = link_to(lang_presentation(locale_code), { locale: locale_code }, rel: 'nofollow')
-        concat tag.li(link, class: (I18n.locale == locale_code ? 'active' : ''))
-      end
-    end
-  end
-
   def svg_icon(name, options = {})
     tag.svg(fill: 'currentColor', class: "svg-icon #{options[:class]}", height: '100%', width: '100%') do
       tag.use(href: "#{image_path("icons/#{name}.svg")}#icon")

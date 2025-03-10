@@ -1,8 +1,13 @@
 .page-nav {
   display: flex;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
   gap: 0.25rem;
+  max-width: calc(100vw - 2rem);
+}
+
+.page-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .page-nav-right {
@@ -11,6 +16,7 @@
 
 .page-tab {
   display: inline-flex;
+  flex: none;
   align-items: center;
   position: relative;
   border-radius: var(--border-radius-md);

@@ -10,7 +10,7 @@ class FiltersTest < ApplicationSystemTestCase
 
     hot_select('suit-1', from: :suit_id)
 
-    assert_selector('#tracks-table > .tbody > .tr', count: 1)
-    assert_selector('#tracks-table > .tbody > .tr > .td', text: 'suit-1')
+    assert_selector('#tracks-table > .tbody > .tracks-item', count: 1)
+    assert_selector('#tracks-table > .tbody > .tracks-item > .tracks-item-suit', text: 'suit-1')
   end
 end

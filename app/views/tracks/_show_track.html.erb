@@ -4,7 +4,6 @@
   <div class="track-show-content">
     <div class="card-action">
       <%= link_to show_params.merge('straight-line': !straight_line_distance),
-                  remote: true,
                   class: ['btn-flat toggle-straight-line', ('active' if straight_line_distance)] do %>
         Straight-line distance
       <% end %>
@@ -22,7 +21,7 @@
         <%= render 'range_selector', presenter: @track_presenter %>
       </div>
 
-      <div class="form-group text-center">
+      <div class="range-shortcuts">
         <% if @track.skydive? && @track_presenter.max_altitude > 3000 && @track_presenter.min_altitude < 2000 %>
           <%= link_to '3000 — 2000m', track_path(@track.id, f: 3000, t: 2000), class: 'btn btn-xs btn-default button--rounded' %>
         <% end %>

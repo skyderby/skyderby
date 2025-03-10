@@ -23,9 +23,9 @@ export default class extends Controller {
     if (!this.isOpen) return this.close()
 
     this.dropdownRoot.innerHTML = this.menuTarget.innerHTML
-    const dropdown = this.dropdownRoot.querySelector('.sd-dropdown-menu')
+    this.dropdown = this.dropdownRoot.querySelector('.sd-dropdown-menu')
 
-    createPopper(this.element, dropdown, {
+    createPopper(this.element, this.dropdown, {
       placement: 'bottom-end',
       modifiers: [
         {
@@ -45,7 +45,7 @@ export default class extends Controller {
 
   hide(event) {
     if (!this.isOpen) return
-    if (!this.element.contains(event.target)) {
+    if (!this.dropdown?.contains(event.target) && !this.element.contains(event.target)) {
       this.close()
     }
   }

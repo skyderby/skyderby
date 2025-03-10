@@ -3,8 +3,16 @@
   max-width: $bp-large;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   padding: 1rem;
+  gap: 1rem;
+
+  @media (min-width: $bp-medium) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: $bp-large) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .dashboard-block {
