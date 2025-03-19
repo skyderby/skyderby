@@ -18,7 +18,7 @@
           <%= image_tag avatar, id: 'userpic-thumb', class: 'nav-profile' %>
         </button>
 
-        <template data-target="dropdown.menu">
+        <template data-dropdown-target="menu">
           <div class="sd-dropdown-menu">
             <% if current_user.admin? %>
               <%= link_to t('application.header.admin_panel'), manage_path, class: 'dropdown-item' %>
@@ -63,9 +63,9 @@
     </li>
   </ul>
 
-  <div class="header__page-overlay overlay--hidden" data-target="mobile--header.overlay" data-action="click->mobile--header#close_menu"></div>
+  <div class="header__page-overlay overlay--hidden" data-mobile--header-target="overlay" data-action="click->mobile--header#close_menu"></div>
 
-  <div class="main-menu" data-target="mobile--header.menu">
+  <div class="main-menu" data-mobile--header-target="menu">
     <div class="main-menu-header">
       <% if user_signed_in? %>
         <%= link_to profile_path(current_user.profile), class: 'main-menu__profile' do %>

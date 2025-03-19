@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import { initYoutubeApi } from 'utils/youtube'
 import getPointsAroundTime from 'utils/getPointsAroundTime'
 

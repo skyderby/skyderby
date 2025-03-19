@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'

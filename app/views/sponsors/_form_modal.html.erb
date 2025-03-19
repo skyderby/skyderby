@@ -35,11 +35,11 @@
           <%= f.label :logo, class: 'control-label col-sm-4' %>
           <div class="col-sm-8">
             <div class="input-group" data-controller="filefield">
-              <input type="text" class="form-control" readonly data-target="filefield.text_field">
+              <input type="text" class="form-control" readonly data-filefield-target="text_field">
               <span class="input-group-btn">
                 <span class="btn btn-default btn-file">
                   &hellip;
-                  <%= f.file_field :logo, class: 'form-control', data: { target: 'filefield.file_field', action: 'change->filefield#change' } %>
+                  <%= f.file_field :logo, class: 'form-control', 'data-filefield-target': 'file_field', 'data-action': 'change->filefield#change' %>
                 </span>
               </span>
             </div>

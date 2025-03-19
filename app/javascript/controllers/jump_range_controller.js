@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import I18n from 'i18n'
 
 export default class extends Controller {

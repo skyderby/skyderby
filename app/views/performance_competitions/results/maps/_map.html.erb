@@ -7,7 +7,7 @@
   <%= render 'performance_competitions/results/header' %>
   <hr>
 
-  <script type="application/json" data-target="events--result-map.mapData">
+  <script type="application/json" data-events--result-map-target="mapData">
     <%= raw render partial: 'performance_competitions/results/maps/map_data', map_data: @map_data, formats: [:json] %>
   </script>
 
@@ -18,8 +18,8 @@
         <%= render 'performance_competitions/maps/designated_lane_form' %>
       </div>
 
-      <div class="event-track__map" data-target="events--result-map.map events--designated-lane.map">
-        <div class="round-map-loading" data-target="events--round-map.loadingPlaceholder">
+      <div class="event-track__map" data-events--result-map-target="map" data-events--designated-lane-target="map">
+        <div class="round-map-loading" data-events--round-map-target="loadingPlaceholder">
           <i class="fa fa-3x fa-circle-notch fa-spin"></i>
           <p>Loading...</p>
         </div>

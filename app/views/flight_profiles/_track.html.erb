@@ -7,8 +7,8 @@
         <span><%= track.recorded_at&.strftime('%d.%m.%Y') %></span>
       </div>
       <div>
-        <div data-target="flight-profiles--track.profile"><%= track_pilot_name(track) %></div>
-        <span data-target="flight-profiles--track.place">
+        <div data-flight-profiles--track-target="profile"><%= track_pilot_name(track) %></div>
+        <span data-flight-profiles--track-target="place">
           <i class="fa fa-map-marker-alt"></i>
           <%= track_place(track) %>
         </span>

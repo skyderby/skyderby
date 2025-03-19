@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import { initCesiumApi } from 'utils/cesium_api'
 
 export default class extends Controller {

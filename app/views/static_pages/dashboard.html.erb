@@ -12,12 +12,12 @@
       <div class="dashboard-label">in past 30 days</div>
     </div>
     <div class="dashboard-chart" data-controller="donation-stats">
-      <script type="application/json" data-target="donation-stats.data">
+      <script type="application/json" data-donation-stats-target="data">
         <%= raw render partial: 'static_pages/donation_stats',
                        locals: { donations: @dashboard.donation_stats },
                        formats: [:json] %>
       </script>
-      <div data-target="donation-stats.chart"></div>
+      <div data-donation-stats-target="chart"></div>
     </div>
   </div>
 </div>

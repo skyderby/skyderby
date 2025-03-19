@@ -24,7 +24,7 @@
           <%= svg_icon 'ellipsis-vertical-solid' %>
         </button>
 
-        <template data-target="dropdown.menu">
+        <template data-dropdown-target="menu">
           <div class="sd-dropdown-menu">
             <% if round.completed? %>
               <%= button_to speed_skydiving_competition_round_path(event, round),

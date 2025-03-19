@@ -8,11 +8,11 @@
       <div class="form-group">
         <%= f.label :file %>
         <div class="input-group" data-controller="filefield">
-          <input class="form-control input-lg" type="text" readonly="true" data-target="filefield.text_field">
+          <input class="form-control input-lg" type="text" readonly="true" data-filefield-target="text_field">
           <span class="input-group-btn">
             <span class="btn btn-default btn-lg btn-file">
               &hellip;
-              <%= f.file_field :file, required: true, accept: '.csv,.gpx,.tes,.kml', data: { target: 'filefield.file_field', action: 'change->filefield#change' } %>
+              <%= f.file_field :file, required: true, accept: '.csv,.gpx,.tes,.kml', 'data-filefield-target': 'file_field', 'data-action': 'change->filefield#change' %>
             </span>
           </span>
         </div>

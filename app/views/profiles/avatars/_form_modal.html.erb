@@ -12,29 +12,29 @@
       <div class="modal-body" data-controller="croppable">
         <div class="form-group">
           <div class="input-group" data-controller="filefield">
-            <input type="text" class="form-control" readonly placeholder="<%= t('.file_placeholder') %>" data-target="filefield.text_field">
+            <input type="text" class="form-control" readonly placeholder="<%= t('.file_placeholder') %>" data-filefield-target="text_field">
             <span class="input-group-btn">
               <span class="btn btn-default btn-file">
                 &hellip;
-                <%= f.file_field :userpic, class: 'form-control', data: { target: 'filefield.file_field', action: 'change->filefield#change change->croppable#readFile' } %>
+                <%= f.file_field :userpic, class: 'form-control', 'data-filefield-target': 'file_field', 'data-action': 'change->filefield#change change->croppable#readFile' %>
               </span>
             </span>
           </div>
         </div>
 
         <% %w( x y h w ).each do |crop_field| %>
-          <%= f.hidden_field "crop_#{crop_field}", data: { target: "croppable.#{crop_field}" } %>
+          <%= f.hidden_field "crop_#{crop_field}", 'data-croppable-target': crop_field %>
         <% end %>
 
         <div class="row">
           <div class="col-sm-8">
             <p class="avatar-edit__title"><%= t('.crop_label') %></p>
-            <img class="avatar-edit__crop" data-target="croppable.crop">
+            <img class="avatar-edit__crop" data-croppable-target="crop">
           </div>
           <div class="col-sm-4">
             <p class="avatar-edit__title"><%= t('.preview_label') %></p>
             <div class="avatar-edit__preview-container">
-              <img class="avatar-edit__preview" data-target="croppable.preview">
+              <img class="avatar-edit__preview" data-croppable-target="preview">
             </div>
           </div>
         </div>

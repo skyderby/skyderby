@@ -10,13 +10,15 @@
 
   <div class="places__list-container">
     <% @places.group_by(&:country).each do |country, places| %>
-      <div class="places-country" data-target="places--index.country places--searchable-list.country">
+      <div class="places-country" data-places--index-target="country" data-places--searchable-list-target="country">
         <div class="places-country-name"><%= country.name %></div>
         <% places.each do |place| %>
           <%= link_to place.name,
                       place_path(place),
                       class: 'places__item',
-                      data: { target: 'places--index.place places--searchable-list.place', id: place.id, lat: place.latitude, lon: place.longitude } %>
+                      'data-places--index-target': 'place',
+                      'data-places--searchable-list-target': 'place',
+                      data: { id: place.id, lat: place.latitude, lon: place.longitude } %>
         <% end %>
       </div>
     <% end %>
