@@ -1,0 +1,42 @@
+<% provide :title, @event.name %>
+<% editable = @event.editable? %>
+
+<div class="show-page">
+  <%= render 'performance_competitions/header', editable: %>
+
+  <div class="card reference-points">
+    <div class="reference-points-map"
+         data-controller="events--reference-points-map"
+         data-center-lat="<%= @event.place.latitude %>"
+         data-center-lon="<%= @event.place.longitude %>">
+    </div>
+
+    <div class="reference-points-list">
+      <div class="reference-points-actions">
+        <%= button_to performance_competition_reference_points_path(@event), class: 'default-button' do %>
+          <%= svg_icon 'plus-solid' %>
+          <%= t('general.create') %>
+        <% end %>
+      </div>
+      <div class="reference-points-table" id="reference-points-table">
+        <div class="reference-points-table-header">
+          <div><%= t('activerecord.attributes.reference_point.name') %></div>
+          <div><%= t('activerecord.attributes.reference_point.latitude') %></div>
+          <div><%= t('activerecord.attributes.reference_point.longitude') %></div>
+          <div></div>
+        </div>
+
+        <%= render partial: 'form', collection: @reference_points, as: :reference_point %>
+      </div>
+
+      <div>
+        <% PerformanceCompetition.designated_lane_starts.each do |value, index| %>
+          <%= button_to performance_competition_path(@event), class: 'ghost-button' do %>
+            <%= radio_button_tag :designated_lane_start, value %>
+            <%= t "activerecord.attributes.event.designated_lane_starts.#{value}" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

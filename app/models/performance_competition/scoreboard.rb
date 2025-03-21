@@ -34,7 +34,7 @@ class PerformanceCompetition::Scoreboard
   end
 
   def competitors
-    @competitors ||= event.competitors.includes(:section)
+    @competitors ||= event.competitors.includes(:section, profile: :country, suit: :manufacturer)
   end
 
   def results

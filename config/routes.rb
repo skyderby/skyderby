@@ -156,7 +156,7 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resource :reference_points
+      resources :reference_points
       resource :deletion, only: [:new, :create]
       collection do
         resources :select_options, only: :index, as: :events_select_options

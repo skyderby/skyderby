@@ -1,11 +1,9 @@
 import { Controller } from '@hotwired/stimulus'
-import init_maps_api from 'utils/google_maps_api'
+import initMapsApi from 'utils/google_maps_api'
 
 export default class extends Controller {
-  static targets = ['map', 'template', 'point', 'container']
-
   connect() {
-    this.init_maps()
+    this.initMap = initMapsApi().then(() => this.renderMap())
   }
 
   remove(e) {
@@ -33,30 +31,36 @@ export default class extends Controller {
     return new Date().getTime()
   }
 
-  init_maps() {
-    document.addEventListener('maps_api:ready', this.on_maps_ready, { once: true })
-    document.addEventListener('maps_api:failed', this.on_maps_failed_load, { once: true })
-
-    init_maps_api()
-  }
-
-  on_maps_ready = () => {
-    this.maps_ready = true
-    this.render_map()
-  }
-
-  render_map() {
-    if (!this.maps_ready) return
-
+  renderMap() {
     const options = {
       zoom: 13,
       mapTypeId: google.maps.MapTypeId.SATELLITE,
-      center: this.map_center
+      center: this.mapCenter,
+      mapId: 'REFERENCE_POINTS_MAP'
     }
 
-    this.mapTarget.map_instance = new google.maps.Map(this.mapTarget, options)
+    this.element.mapInstance = new google.maps.Map(this.element, options)
 
-    this.draw_points()
+    // this.draw_points()
+  }
+
+  createMarker(latitude, longitude, name, readOnly) {
+    return this.initMap.then(() => {
+      const pin = new google.maps.marker.PinElement({
+        glyph: name,
+        glyphColor: 'white'
+      })
+      const marker = new google.maps.marker.AdvancedMarkerElement({
+        map: this.map,
+        title: name,
+        position: new google.maps.LatLng(latitude, longitude),
+        content: pin.element,
+        gmpDraggable: !readOnly
+      })
+      marker.pin = pin
+
+      return marker
+    })
   }
 
   draw_points() {
@@ -89,19 +93,19 @@ export default class extends Controller {
   }
 
   get map() {
-    return this.mapTarget.map_instance
+    return this.element.mapInstance
   }
 
-  get map_center() {
+  get mapCenter() {
     return new google.maps.LatLng(this.center_latitude, this.center_longitude)
   }
 
   get center_latitude() {
-    return Number(this.mapTarget.getAttribute('data-center-lat'))
+    return Number(this.element.getAttribute('data-center-lat'))
   }
 
   get center_longitude() {
-    return Number(this.mapTarget.getAttribute('data-center-lon'))
+    return Number(this.element.getAttribute('data-center-lon'))
   }
 
   get point_rows() {

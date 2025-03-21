@@ -1,4 +1,69 @@
-.event-reference-points__map {
+.reference-points {
+  --card-padding: 0;
+  height: 100%;
+  display: flex;
+}
+
+.reference-points-map {
+  width: 60%;
+  height: 100%;
+}
+
+.reference-points-list {
+  height: 100%;
+  width: 40%;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.reference-points-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr max-content;
   width: 100%;
-  height: 45vh;
+
+  input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+
+  input:focus {
+    outline: 1px solid var(--blue-80);
+  }
+}
+
+.reference-points-table-header {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / 5;
+  color: var(--gray-80);
+  font-weight: bold;
+
+  > * {
+    border: var(--default-border);
+    padding: 0.5rem;
+  }
+}
+
+.reference-points-row {
+  display: grid;
+  grid-column: 1 / 5;
+  grid-template-columns: subgrid;
+
+  > * {
+    border: var(--default-border);
+    padding: 1px;
+  }
+}
+
+.reference-point-actions {
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

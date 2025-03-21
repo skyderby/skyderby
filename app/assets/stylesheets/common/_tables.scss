@@ -1,5 +1,4 @@
 $table-cell-padding: 8px;
-$table-head-color: rgba(0,0,0, 0.54);
 $table-border-color: #ddd;
 $table-border-width: 1px;
 
@@ -41,6 +40,6 @@ a.tr {
 
 .table > thead > tr > th,
 .table > .thead > .tr > .th {
-  color: $table-head-color ;
+  color: var(--gray-80);
   font-weight: bold;
 }
