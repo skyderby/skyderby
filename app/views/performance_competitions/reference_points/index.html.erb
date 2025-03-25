@@ -26,14 +26,18 @@
           <div></div>
         </div>
 
-        <%= render partial: 'form', collection: @reference_points, as: :reference_point %>
+        <%= render partial: 'form', collection: @reference_points, as: :reference_point, locals: { event: @event } %>
       </div>
 
       <div>
-        <% PerformanceCompetition.designated_lane_starts.each do |value, index| %>
-          <%= button_to performance_competition_path(@event), class: 'ghost-button' do %>
-            <%= radio_button_tag :designated_lane_start, value %>
-            <%= t "activerecord.attributes.event.designated_lane_starts.#{value}" %>
+        <%= form_with model: @event, url: performance_competition_designated_lane_start_path(@event), data: { controller: 'auto-submit', action: 'change->auto-submit#submit' } do |f| %>
+          <%= f.label :designated_lane_start_on_10_sec, class: 'ghost-button' do %>
+            <%= f.radio_button :designated_lane_start, :on_10_sec, disabled: !editable %>
+            <%= t "activerecord.attributes.event.designated_lane_starts.on_10_sec" %>
+          <% end %>
+          <%= f.label :designated_lane_start_on_enter_window, class: 'ghost-button' do %>
+            <%= f.radio_button :designated_lane_start, :on_enter_window, disabled: !editable %>
+            <%= t "activerecord.attributes.event.designated_lane_starts.on_enter_window" %>
           <% end %>
         <% end %>
       </div>

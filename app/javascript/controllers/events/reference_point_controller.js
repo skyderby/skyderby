@@ -27,7 +27,9 @@ export default class extends Controller {
   }
 
   disconnect() {
-    if (this.marker) this.marker.remove()
+    if (this.marker && this.hasEventsReferencePointsMapOutlet) {
+      this.eventsReferencePointsMapOutlet.removeMarker(this.marker)
+    }
   }
 
   onNameChange() {

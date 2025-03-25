@@ -74,6 +74,7 @@ ul {
 label {
   font-weight: 500;
   font-size: 0.875rem;
+  margin: 0;
 }
 
 #modal-root, #dropdown-root {
@@ -100,6 +101,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+input[type=radio] {
+  margin: 0;
 }
 
 @media print {

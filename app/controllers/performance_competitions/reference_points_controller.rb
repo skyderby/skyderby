@@ -13,7 +13,7 @@ class PerformanceCompetitions::ReferencePointsController < ApplicationController
   end
 
   def index
-    @reference_points = @event.reference_points.order(:name)
+    @reference_points = @event.reference_points.includes(:assignments).order(:name)
   end
 
   def update
