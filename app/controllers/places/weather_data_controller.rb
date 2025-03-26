@@ -11,7 +11,7 @@ class Places::WeatherDataController < ApplicationController
         @place.weather_data.order(actual_on: :desc).pick(:actual_on) || Time.zone.now
       end
 
-    @weather_data = @place.weather_data.for_time(@time)
+    @weather_data = @place.weather_data.for_time(@time).order(:altitude)
   end
 
   private
