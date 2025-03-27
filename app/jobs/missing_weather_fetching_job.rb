@@ -15,7 +15,7 @@ class MissingWeatherFetchingJob < ApplicationJob
       Place: #{place.name} (#{place.latitude}, #{place.longitude})
     MSG
 
-    import_weather(place, forecast_hour, subregion)
+    import_weather(place, forecast_hour)
   end
 
   private
