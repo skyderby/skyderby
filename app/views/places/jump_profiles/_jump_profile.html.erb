@@ -1,3 +1,6 @@
-<%= link_to edit_place_jump_profile_path(jump_profile.place, jump_profile), class: 'tr' do %>
-  <div class="td"><%= jump_profile.name %></div>
+<%= link_to edit_place_jump_profile_path(jump_profile.place, jump_profile), class: 'jump-profile-card', data: { controller: 'jump-profile-card' } do %>
+  <div class="jump-profile-chart">
+    <%= render 'places/jump_profiles/chart', measurements: jump_profile.measurements %>
+  </div>
+  <div><%= jump_profile.name %></div>
 <% end %>

@@ -15,6 +15,7 @@ en:
     saving: Saving…
     update: Update
     delete: Delete
+    confirm_delete: This action is irreversible. Proceed?
     edit: Edit
     enabled: Enabled
     disabled: Disabled

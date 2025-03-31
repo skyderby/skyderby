@@ -1,1 +1,14 @@
-<%= render partial: 'jump_profiles', layout: 'places/layout' %>
+<%= render 'places/layout' do %>
+  <div class="sd-container">
+    <div>
+      <%= link_to new_place_jump_profile_path(@place), class: 'default-button' do %>
+        <%= svg_icon 'plus-solid' %>
+        <%= t('general.create') %>
+      <% end %>
+    </div>
+
+    <div class="place-jump-profiles">
+      <%= render collection: @jump_profiles, partial: 'places/jump_profiles/jump_profile' %>
+    </div>
+  </div>
+<% end %>

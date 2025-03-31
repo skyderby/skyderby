@@ -1,53 +1,50 @@
 module Places
   class JumpProfilesController < ApplicationController
     before_action :set_place
+    before_action :set_jump_profile, only: %i[edit update destroy]
     before_action :authorize_action, except: :index
 
     def index
-      @jump_profiles = @place.jump_lines
+      @jump_profiles = @place.jump_lines.order(:name).includes(:measurements)
     end
 
     def new
       @jump_profile = @place.jump_lines.new
     end
 
-    def edit
-      @jump_profile = @place.jump_lines.find(params[:id])
-    end
+    def edit; end
 
     def create
-      jump_profile = @place.jump_lines.new(jump_line_params)
+      @jump_profile = @place.jump_lines.new(jump_line_params)
 
-      respond_to do |format|
-        if jump_profile.save
-          format.js { redirect_to place_jump_profiles_path(@place) }
-        else
-          format.js do
-            render template: 'errors/ajax_errors',
-                   locals: { errors: jump_profile.errors },
-                   status: :unprocessable_entity
-          end
-        end
+      if @jump_profile.save
+        redirect_to place_jump_profiles_path(@place)
+      else
+        respond_with_errors(@jump_profile)
       end
     end
 
     def update
-      jump_profile = @place.jump_lines.find(params[:id])
+      if @jump_profile.update(jump_line_params)
+        redirect_to place_jump_profiles_path(@place)
+      else
+        respond_with_errors(@jump_profile)
+      end
+    end
 
-      respond_to do |format|
-        if jump_profile.update(jump_line_params)
-          format.js { redirect_to place_jump_profiles_path(@place) }
-        else
-          format.js do
-            render template: 'errors/ajax_errors',
-                   locals: { errors: jump_profile.errors },
-                   status: :unprocessable_entity
-          end
-        end
+    def destroy
+      if @jump_profile.destroy
+        redirect_to place_jump_profiles_path(@place)
+      else
+        respond_with_errors(@jump_profile)
       end
     end
 
     private
+
+    def set_jump_profile
+      @jump_profile = @place.jump_lines.find(params[:id])
+    end
 
     def set_place
       @place = Place.find(params[:place_id])
