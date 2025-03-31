@@ -44,6 +44,7 @@ export default class extends Controller {
 
   setupViewer() {
     this.viewer = new Cesium.Viewer(this.viewerTarget, {
+      imageryProvider: new Cesium.IonImageryProvider({ assetId: 3954 }),
       terrainProvider: Cesium.createWorldTerrain(),
       infoBox: false,
       homeButton: false,
