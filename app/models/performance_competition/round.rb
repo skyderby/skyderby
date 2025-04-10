@@ -34,6 +34,8 @@ class PerformanceCompetition::Round < ApplicationRecord
 
   def tracks_visibility = completed ? event.tracks_visibility : Track.visibilities[:private_track]
 
+  def presentation = "#{discipline.humanize} - #{number}"
+
   private
 
   def set_number

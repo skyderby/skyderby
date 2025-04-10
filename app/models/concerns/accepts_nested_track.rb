@@ -12,25 +12,13 @@ module AcceptsNestedTrack
 
     after_commit :enque_jobs
 
-    before_validation :create_track_from_file
-
-    def self.validate_duplicates_on_file_with(validator)
-      define_method(:duplication_on_file_validator) { validator }
-    end
-
-    validate_duplicates_on_file_with NullDuplicatesValidator
-  end
-
-  class NullDuplicatesValidator
-    def self.call(*_args)
-      false
-    end
+    before_validation :create_track_from_file, on: :create
   end
 
   private
 
   def create_track_from_file # rubocop:disable Metrics/AbcSize
-    return if track_from != 'from_file'
+    return if track_attributes.blank?
 
     if track_attributes&.fetch(:file).blank?
       errors.add(:base, :track_file_blank)
@@ -46,7 +34,7 @@ module AcceptsNestedTrack
       kind: track_activity,
       track_file_id: track_file.id,
       profile_id: competitor.profile_id,
-      suit_id: competitor.suit_id,
+      suit_id:,
       visibility: tracks_visibility,
       comment: track_comment
     ).except(:file)
@@ -60,7 +48,7 @@ module AcceptsNestedTrack
   end
 
   def check_duplicates_for(track_file)
-    has_duplicates = duplication_on_file_validator.call(self, track_file)
-    throw(:abort) if has_duplicates
+    FileDuplicationValidator.new.validate(self, track_file)
+    throw(:abort) if errors.any?
   end
 end

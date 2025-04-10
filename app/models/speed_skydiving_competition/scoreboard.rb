@@ -11,6 +11,10 @@ class SpeedSkydivingCompetition::Scoreboard
     @rounds ||= event.rounds.ordered
   end
 
+  def completed_rounds
+    @completed_rounds ||= event.rounds.completed
+  end
+
   private
 
   attr_reader :event
@@ -20,13 +24,9 @@ class SpeedSkydivingCompetition::Scoreboard
     category_results = results.select { |result| category_competitors.include? result.competitor }
 
     {
-      category: category,
+      category:,
       standings: Standings.build(category_competitors, completed_rounds, category_results)
     }
-  end
-
-  def completed_rounds
-    @completed_rounds ||= event.rounds.completed
   end
 
   def competitors

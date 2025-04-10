@@ -1,17 +1,18 @@
 <%# locals (event:, editable:) %>
 
 <% standings = event.standings %>
+<% at_least_one_round_completed = standings.completed_rounds.length > 0 %>
 
 <div class="scoreboard-container" id="scoreboard">
   <table class="scoreboard-table">
     <thead>
-    <tr>
-      <th>#</th>
-      <th colspan="2">Competitor</th>
-      <%= render partial: 'speed_skydiving_competitions/round_cell', collection: standings.rounds, as: :round, locals: { event:, editable: } %>
-      <th class="text-right">Total</th>
-      <th class="text-right">Avg</th>
-    </tr>
+      <tr>
+        <th>#</th>
+        <th colspan="2">Competitor</th>
+        <%= render partial: 'speed_skydiving_competitions/round_cell', collection: standings.rounds, as: :round, locals: { event:, editable: } %>
+        <th class="text-right">Total</th>
+        <th class="text-right">Avg</th>
+      </tr>
     </thead>
 
     <% standings.categories.each_with_index do |data, index| %>
@@ -25,24 +26,30 @@
       %>
 
       <tbody id="<%= dom_id category %>">
-      <tr>
-        <%= render 'speed_skydiving_competitions/category_cell', category:, event:, editable:, standings:, position: %>
-      </tr>
-
-      <% data[:standings].each do |row| %>
-        <% competitor = row[:competitor] %>
         <tr>
-          <td><%= row[:rank] %></td>
-          <%= render 'speed_skydiving_competitions/competitor_cell', competitor:, event:, editable: %>
-          <td><%= competitor.country_code %></td>
-          <% standings.rounds.each do |round| %>
-            <% result = row[:results].find { |result| result.round == round } %>
-            <%= render 'speed_skydiving_competitions/result_cell', event:, round:, competitor:, result:, editable: %>
-          <% end %>
-          <td class="text-right"><%= row[:total] %></td>
-          <td class="text-right"><%= row[:average] %></td>
+          <%= render 'speed_skydiving_competitions/category_cell', category:, event:, editable:, standings:, position: %>
         </tr>
-      <% end %>
+
+        <% data[:standings].each do |row| %>
+          <% competitor = row[:competitor] %>
+          <% competitor_results = editable ? row[:all_results] : row[:accountable_results] %>
+          <tr>
+            <td><%= row[:rank] %></td>
+            <%= render 'speed_skydiving_competitions/competitor_cell', competitor:, event:, editable: %>
+            <td><%= competitor.country_code %></td>
+            <% standings.rounds.each do |round| %>
+              <% result = competitor_results.find { |result| result.round == round } %>
+              <%= render 'speed_skydiving_competitions/result_cell', event:, round:, competitor:, result:, editable: %>
+            <% end %>
+            <% if at_least_one_round_completed %>
+              <td class="text-right"><%= '%.2f' % row[:total] %></td>
+              <td class="text-right"><%= '%.2f' % row[:average] %></td>
+            <% else %>
+              <td></td>
+              <td></td>
+            <% end %>
+          </tr>
+        <% end %>
       </tbody>
     <% end %>
   </table>

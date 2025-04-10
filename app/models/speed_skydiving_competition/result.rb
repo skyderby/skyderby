@@ -31,6 +31,8 @@ class SpeedSkydivingCompetition::Result < ApplicationRecord
 
   def track_activity = :speed_skydiving
 
+  def suit_id = nil
+
   def can_be_destroyed? = round_must_be_in_progress || throw(:abort)
 
   def round_must_be_in_progress

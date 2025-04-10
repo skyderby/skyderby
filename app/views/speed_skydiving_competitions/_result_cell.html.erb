@@ -7,7 +7,8 @@
       <%= result.result.round(1) %>
     <% end %>
   <% elsif editable %>
-    <%= button_to new_speed_skydiving_competition_result_path(event, round: round, competitor: competitor),
+    <%= button_to new_speed_skydiving_competition_result_path(event),
+                  params: { round_id: round.id, competitor_id: competitor.id },
                   method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } do %>
       <%= svg_icon 'upload-solid' %>
     <% end %>
