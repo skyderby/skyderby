@@ -14,7 +14,7 @@ class Profile::MergeableTest < ActiveSupport::TestCase
   test 'merge' do
     merged_profile = Profile.create!(
       name: 'Peter',
-      owner: events(:nationals)
+      owner: performance_competitions(:nationals)
     ).tap { |profile| profile.merge_with(@source) }
 
     assert_equal 'Peter', merged_profile.name

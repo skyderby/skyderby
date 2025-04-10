@@ -1,7 +1,7 @@
 class PerformanceCompetition::Section < ApplicationRecord
   include EventOngoingValidation, PerformanceCompetition::Namespace
 
-  belongs_to :event, touch: true
+  belongs_to :event, class_name: 'PerformanceCompetition', touch: true
   has_many :competitors, dependent: :restrict_with_error
   has_many :results, through: :competitors
 

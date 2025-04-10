@@ -29,18 +29,14 @@
   border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
 }
 
-.actions-bar > :last-child {
+.actions-bar > :last-child,
+.actions-bar-right > :last-child,
+.actions-bar-right > :last-child .actions-bar-button {
   border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
 }
 
-.actions-bar > .btn-group:last-child {
-  .actions-bar-button {
-    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
-  }
-}
-
-
 .actions-bar-right {
+  display: flex;
   margin-left: auto;
   border-left: var(--default-border);
 }

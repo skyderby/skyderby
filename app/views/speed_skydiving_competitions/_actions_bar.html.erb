@@ -1,18 +1,36 @@
-<% if event.editable? %>
-  <div class="card actions-bar">
-    <%= button_to new_speed_skydiving_competition_category_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
-      <%= svg_icon 'plus-solid' %>
-      Category
-    <% end %>
+<div class="card actions-bar">
+  <%= button_to new_speed_skydiving_competition_category_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+    <%= svg_icon 'plus-solid' %>
+    Category
+  <% end %>
 
-    <%= button_to new_speed_skydiving_competition_competitor_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
-      <%= svg_icon 'plus-solid' %>
-      Competitor
-    <% end %>
+  <%= button_to new_speed_skydiving_competition_competitor_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+    <%= svg_icon 'plus-solid' %>
+    Competitor
+  <% end %>
 
-    <%= button_to speed_skydiving_competition_rounds_path(event), form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
-      <%= svg_icon 'plus-solid' %>
-      Round
-    <% end %>
+  <%= button_to speed_skydiving_competition_rounds_path(event), form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+    <%= svg_icon 'plus-solid' %>
+    Round
+  <% end %>
+
+  <div class="sd-dropdown actions-bar-right" data-controller="dropdown">
+    <button class="actions-bar-button" data-action="click->dropdown#toggle">
+      <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + @event.status) %>
+      <%= svg_icon 'angle-down-solid' %>
+
+      <template data-dropdown-target="menu">
+        <div class="sd-dropdown-menu">
+          <% SpeedSkydivingCompetition.statuses.each do |status, _index| %>
+            <%= button_to(t("event_status.#{status}"),
+                          speed_skydiving_competition_path(@event),
+                          method: :patch,
+                          form: { data: { turbo_stream: true } },
+                          params: { 'event[status]' => status },
+                          class: "dropdown-item #{'active' if @event.status == status}") %>
+          <% end %>
+        </div>
+      </template>
+    </button>
   </div>
-<% end %>
+</div>

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PerformanceCompetition::SectionTest < ActiveSupport::TestCase
   setup do
-    @event = events(:nationals)
+    @event = performance_competitions(:nationals)
   end
 
   test 'can not be created for finished event' do

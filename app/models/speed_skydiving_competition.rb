@@ -32,4 +32,8 @@ class SpeedSkydivingCompetition < ApplicationRecord
 
     competitors.exists?(profile_id: user&.profile_id)
   end
+
+  def become_surprise? = saved_change_to_attribute?(:status, to: :surprise)
+
+  def revert_from_surprise? = saved_change_to_attribute?(:status, from: :surprise)
 end

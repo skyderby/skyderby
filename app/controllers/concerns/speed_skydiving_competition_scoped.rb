@@ -1,10 +1,6 @@
 module SpeedSkydivingCompetitionScoped
   extend ActiveSupport::Concern
 
-  included do
-    before_action :set_event
-  end
-
   def authorize_event_update!
     return if @event.editable?
 
@@ -27,9 +23,15 @@ module SpeedSkydivingCompetitionScoped
                                                partial: 'speed_skydiving_competitions/scoreboard',
                                                locals: { event: @event, editable: !@event.finished? }
 
-    Turbo::StreamsChannel.broadcast_replace_to @event, :scoreboard, :read_only,
-                                               target: 'scoreboard',
-                                               partial: 'speed_skydiving_competitions/scoreboard',
-                                               locals: { event: @event, editable: false }
+    if @event.surprise?
+      Turbo::StreamsChannel.broadcast_replace_to @event, :scoreboard, :read_only,
+                                                 target: 'scoreboard',
+                                                 partial: 'speed_skydiving_competitions/surprise'
+    else
+      Turbo::StreamsChannel.broadcast_replace_to @event, :scoreboard, :read_only,
+                                                 target: 'scoreboard',
+                                                 partial: 'speed_skydiving_competitions/scoreboard',
+                                                 locals: { event: @event, editable: false }
+    end
   end
 end

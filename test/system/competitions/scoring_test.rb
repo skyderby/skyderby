@@ -58,7 +58,7 @@ class ScoringTracksInCompetitionsTest < ActiveSupport::TestCase
   private
 
   def event
-    @event ||= events(:nationals)
+    @event ||= performance_competitions(:nationals)
   end
 
   def create_round(task)

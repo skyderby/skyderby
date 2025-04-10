@@ -50,7 +50,7 @@ class PerformanceCompetition::RoundTest < ActiveSupport::TestCase
   end
 
   test '.by_name' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     assert_equal event_rounds(:distance_1), event.rounds.by_name('Distance-1')
   end
 end

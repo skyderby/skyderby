@@ -20,10 +20,11 @@
     <div class="sd-dropdown-menu">
       <% I18n.available_locales.each do |locale| %>
         <% active = I18n.locale == locale %>
-        <%= link_to( {locale: }, rel: 'nofollow', data: { 'turbo-prefetch': 'false' }, class: class_names('dropdown-item', active && 'active')) do %>
-          <div class="active-indicator"></div>
-          <%= locale_local_names[locale] %>
-        <% end %>
+        <%= link_to(locale_local_names[locale],
+                    {locale: },
+                    rel: 'nofollow',
+                    data: { 'turbo-prefetch': 'false' },
+                    class: class_names('dropdown-item', active && 'active'))%>
       <% end %>
     </div>
   </template>

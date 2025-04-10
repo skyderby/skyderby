@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::Events::ReferencePointsControllerTest < ActionDispatch::IntegrationTest
   test 'happy path' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
     event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
 
@@ -17,7 +17,7 @@ class Api::V1::Events::ReferencePointsControllerTest < ActionDispatch::Integrati
   end
 
   test 'permissions required' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     event.draft!
     event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
     event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)

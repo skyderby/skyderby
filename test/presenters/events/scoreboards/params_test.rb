@@ -2,21 +2,21 @@ require 'test_helper'
 
 class Events::Scoreboards::ParamsTest < ActiveSupport::TestCase
   test 'omit penalties? without specified params' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     params = Events::Scoreboards::Params.new(event, {})
 
     assert_not params.omit_penalties?
   end
 
   test 'omit penalties? when specified "true"' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     params = Events::Scoreboards::Params.new(event, omit_penalties: 'true')
 
     assert_predicate params, :omit_penalties?
   end
 
   test 'adjust to wind? wind cancellation disabled when parameter not specified' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     event.update!(wind_cancellation: false)
 
     params = Events::Scoreboards::Params.new(event, {})
@@ -25,7 +25,7 @@ class Events::Scoreboards::ParamsTest < ActiveSupport::TestCase
   end
 
   test 'adjust to wind? wind cancellation disabled when parameter set to "true"' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     event.update!(wind_cancellation: false)
 
     params = Events::Scoreboards::Params.new(event, display_raw_results: 'true')
@@ -34,7 +34,7 @@ class Events::Scoreboards::ParamsTest < ActiveSupport::TestCase
   end
 
   test 'adjust to wind? wind cancellation enabled when parameter not specified' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     event.update!(wind_cancellation: true)
 
     params = Events::Scoreboards::Params.new(event, {})
@@ -43,7 +43,7 @@ class Events::Scoreboards::ParamsTest < ActiveSupport::TestCase
   end
 
   test 'adjust to wind? wind cancellation enabled when parameter specified' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     event.update!(wind_cancellation: true)
 
     params = Events::Scoreboards::Params.new(event, display_raw_results: 'true')

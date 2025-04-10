@@ -4,23 +4,23 @@ class EventPolicy::ScopeTest < ActiveSupport::TestCase
   test 'public competitions visible to non-participants' do
     user = create :user
 
-    events(:nationals).update!(name: 'Finished/Public', status: :finished, visibility: :public_event)
-    events(:nationals).dup.tap do |event|
+    performance_competitions(:nationals).update!(name: 'Finished/Public', status: :finished, visibility: :public_event)
+    performance_competitions(:nationals).dup.tap do |event|
       event.update!(name: 'Published/Public', status: :published, visibility: :public_event)
     end
-    events(:nationals).dup.tap do |event|
+    performance_competitions(:nationals).dup.tap do |event|
       event.update!(name: 'Draft/Public', status: :draft, visibility: :public_event)
     end
-    events(:nationals).dup.tap do |event|
+    performance_competitions(:nationals).dup.tap do |event|
       event.update!(name: 'Draft/Public/WhenResponsible', status: :draft, visibility: :public_event, responsible: user)
     end
-    events(:nationals).dup.tap do |event|
+    performance_competitions(:nationals).dup.tap do |event|
       event.update!(name: 'Published/Unlisted', status: :published, visibility: :unlisted_event)
     end
-    events(:nationals).dup.tap do |event|
+    performance_competitions(:nationals).dup.tap do |event|
       event.update!(name: 'Published/Private', status: :draft, visibility: :private_event)
     end
-    events(:nationals).dup.tap do |event|
+    performance_competitions(:nationals).dup.tap do |event|
       event.update!(name: 'Published/Private/WhenCompetitor', status: :draft, visibility: :private_event)
       section = event.sections.create!(name: 'Open')
       event.competitors.create!(profile: user.profile, suit: suits(:apache), section:)

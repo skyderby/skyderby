@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Events::ReferencePointsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @event = events(:nationals)
+    @event = performance_competitions(:nationals)
   end
 
   test 'regular user #show' do

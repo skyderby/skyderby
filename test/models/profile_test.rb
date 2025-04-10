@@ -35,7 +35,7 @@ class ProfileTest < ActiveSupport::TestCase
 
   test '#competitor_of_events' do
     profile = Profile.create!(name: 'Piotr')
-    performance_event = events(:nationals)
+    performance_event = performance_competitions(:nationals)
     category = performance_event.sections.first
     performance_event.competitors.create!(profile:, suit: suits(:apache), section: category)
 
@@ -43,7 +43,7 @@ class ProfileTest < ActiveSupport::TestCase
     category = speed_event.categories.first
     speed_event.competitors.create!(profile:, category:)
 
-    non_participation_event = events(:nationals).dup.tap(&:save!)
+    non_participation_event = performance_competitions(:nationals).dup.tap(&:save!)
 
     participations = profile.competitor_of_events
     assert_includes participations, performance_event

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class EventDeletionTest < ActiveSupport::TestCase
   setup do
-    @event = events(:nationals)
+    @event = performance_competitions(:nationals)
     section = @event.sections.first
     round = @event.rounds.first
 
