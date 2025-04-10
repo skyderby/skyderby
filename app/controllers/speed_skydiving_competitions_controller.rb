@@ -1,12 +1,14 @@
 class SpeedSkydivingCompetitionsController < ApplicationController
   include SpeedSkydivingCompetitionScoped
 
-  before_action :set_event, only: [:show, :update]
+  before_action :set_event, only: %i[show edit update]
 
   before_action :authorize_event_update!, except: %i[show]
   before_action :authorize_event_access!, only: %i[show]
 
   def show; end
+
+  def edit; end
 
   def update
     if @event.update event_params

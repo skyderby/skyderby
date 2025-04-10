@@ -1,0 +1,9 @@
+<% editable = @event.editable? %>
+
+<div class="show-page">
+  <%= render 'header', editable: %>
+
+  <div class="card">
+    <%= render 'form' %>
+  </div>
+</div>

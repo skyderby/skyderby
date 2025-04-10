@@ -1,0 +1,24 @@
+<%# locals: (editable:) %>
+
+<div class="show-page-header">
+  <h1 class="show-page-title"><%= @event.name %></h1>
+  <div class="show-page-info">
+    <%= svg_icon 'location-dot-solid' %>
+    <%= place_presentation(@event.place) %>
+  </div>
+
+  <div class="page-nav">
+    <% controller_path = controller.controller_path %>
+    <%= link_to speed_skydiving_competition_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_path(@event)))] do %>
+      <%= svg_icon 'list-ul-solid' %>
+      Scoreboard
+    <% end %>
+
+    <% if editable %>
+      <%= link_to edit_speed_skydiving_competition_path(@event), class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_speed_skydiving_competition_path(@event)))] do %>
+        <%= svg_icon 'gear-solid' %>
+        <%= t('general.edit') %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

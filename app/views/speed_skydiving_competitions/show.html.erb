@@ -2,21 +2,7 @@
 <%= turbo_stream_from @event, :scoreboard, editable ? :editable : :read_only %>
 
 <div class="show-page">
-  <div class="show-page-header">
-    <h1 class="show-page-title"><%= @event.name %></h1>
-    <div class="show-page-info">
-      <%= svg_icon 'location-dot-solid' %>
-      <%= place_presentation(@event.place) %>
-    </div>
-
-    <div class="page-nav">
-      <% controller_path = controller.controller_path %>
-      <%= link_to speed_skydiving_competition_path(@event), class: ['page-tab', ('page-tab-active' if controller_path == 'speed_skydiving_competitions')] do %>
-        <%= svg_icon 'list-ul-solid' %>
-        Scoreboard
-      <% end %>
-    </div>
-  </div>
+  <%= render 'header', editable: %>
 
   <div class="show-page-content">
     <%= render 'actions_bar', event: @event if editable %>
