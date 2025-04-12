@@ -24,7 +24,8 @@
             <% end %>
 
             <%= button_to speed_skydiving_competition_competitor_path(event, competitor),
-                          class: 'dropdown-item', method: :delete, form: { data: { turbo_stream: true } } do %>
+                          class: 'dropdown-item',
+                          method: :delete, form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } } do %>
               Delete
             <% end %>
           </div>

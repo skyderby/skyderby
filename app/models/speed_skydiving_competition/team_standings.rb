@@ -5,7 +5,7 @@ class SpeedSkydivingCompetition::TeamStandings
 
   def rows
     teams
-      .map { |team| { team: team, total: calculate_team_score(team) } }
+      .map { |team| { team:, competitors: [], scores_by_competitor: {}, total: calculate_team_score(team) } }
       .sort_by { |row| -row[:total].to_f }
       .tap { |standings| assign_ranks(standings) }
   end

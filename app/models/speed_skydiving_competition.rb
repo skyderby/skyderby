@@ -22,6 +22,8 @@ class SpeedSkydivingCompetition < ApplicationRecord
 
   def standings = Scoreboard.new(self)
 
+  def team_standings = TeamStandings.new(self)
+
   def editable?(user = Current.user)
     @editable ||= user.admin? || user == responsible || organizers.exists?(user:)
   end

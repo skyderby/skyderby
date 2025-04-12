@@ -26,6 +26,7 @@ export default class extends Controller {
 
     this.dropdownRoot.innerHTML = this.menuTarget.innerHTML
     this.dropdown = this.dropdownRoot.querySelector('.sd-dropdown-menu')
+    this.dropdown.addEventListener('turbo:submit-end', this.close.bind(this))
 
     createPopper(this.element, this.dropdown, {
       placement: 'bottom-end',
@@ -46,7 +47,6 @@ export default class extends Controller {
   }
 
   hide(event) {
-    if (!this.isOpen) return
     if (!this.isOpen) return
     if (!this.dropdown?.contains(event.target) && !this.element.contains(event.target)) {
       this.close()
