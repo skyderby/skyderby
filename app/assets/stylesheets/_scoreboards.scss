@@ -66,7 +66,7 @@
   }
 
   tbody td.competitor {
-    padding-right: 1.75rem;
+    padding: 0.25rem 1.75rem 0.25rem 0.25rem;
     position: relative;
   }
 
@@ -192,7 +192,7 @@
   }
 
   a {
-    color: $blue-dark;
+    color: var(--gray-90);
     text-decoration: none;
 
     &.text-green {
@@ -204,6 +204,7 @@
     }
 
     &:hover {
+      color: var(--gray-90);
       text-decoration: none;
     }
   }
@@ -325,3 +326,19 @@ td.scoreboard-total-result {
   }
 }
 
+.competitor-country {
+  text-align: center;
+}
+
+.competitor-profile {
+  padding: 0.25rem 0.5rem;
+}
+
+.competitor-profile:hover {
+  background-color: var(--gray-20);
+  border-radius: var(--border-radius-sm);
+}
+
+.assigned-number {
+  color: var(--gray-70);
+}

@@ -36,7 +36,11 @@
           <tr>
             <td><%= row[:rank] %></td>
             <%= render 'speed_skydiving_competitions/competitor_cell', competitor:, event:, editable: %>
-            <td><%= competitor.country_code %></td>
+            <td class="competitor-country">
+              <span data-controller="tooltip" data-tooltip="<%= competitor.country_name %>">
+                <%= competitor.country_code %>
+              </span>
+            </td>
             <% standings.rounds.each do |round| %>
               <% result = competitor_results.find { |result| result.round == round } %>
               <%= render 'speed_skydiving_competitions/result_cell', event:, round:, competitor:, result:, editable: %>

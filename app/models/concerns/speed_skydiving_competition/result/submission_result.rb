@@ -33,6 +33,7 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
   class ResultScore
     delegate :track, to: :result
 
+    V_SPEED_THRESHOLD = 36 # km/h
     BREAKOFF_ALTITUDE = 1707 # 5600 ft
     WINDOW = 2256 # 7400 ft
     LOOKUP_TIME = 3
@@ -70,27 +71,17 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
       @points_by_time ||= window_points.index_by { |point| point[:gps_time].iso8601(3) }
     end
 
+    def exit_point = window_points.first
+
     def window_points
       @window_points ||=
         WindowRangeFinder
         .new(points)
         .execute(
-          from_gps_time: exit_time,
+          from_vertical_speed: V_SPEED_THRESHOLD,
           elevation_with_breakoff: { altitude: WINDOW, breakoff: BREAKOFF_ALTITUDE }
         )
         .points
-    end
-
-    def exit_time = exit_point[:gps_time]
-
-    def exit_point
-      gr_threshold = 10
-
-      points
-        .each_cons(15).find([points.first]) do |range|
-          range.all? { |point| point[:glide_ratio] < gr_threshold }
-        end
-        .first
     end
 
     def points

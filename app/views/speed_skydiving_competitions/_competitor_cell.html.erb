@@ -1,7 +1,12 @@
 <%# locals(event:, competitor:, editable:) %>
 
 <td class="competitor">
-  <%= competitor.name %>
+  <%= link_to profile_path(competitor.profile_id), class: 'competitor-profile' do %>
+    <%= competitor.name %>
+    <% if competitor.assigned_number.present? %>
+      <span class="assigned-number">#<%= competitor.assigned_number %></span>
+    <% end %>
+  <% end %>
 
   <% if editable %>
     <div class="cell-actions">

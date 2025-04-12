@@ -16,6 +16,8 @@ export default class extends Controller {
   disconnect() {
     document.removeEventListener('click', this.hide)
     document.removeEventListener('turbo:before-render', this.forceClose)
+
+    this.close()
   }
 
   toggle() {

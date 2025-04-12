@@ -21,7 +21,7 @@ export default class HotSelect extends Controller {
       this.selectInputTarget.selectedOptions[0].value
     ) {
       this.displayValueTarget.innerHTML = this.selectInputTarget.selectedOptions[0].text
-      this.placeholderTarget.classList.add('hide')
+      if (this.hasPlaceholderTarget) this.placeholderTarget.classList.add('hide')
     } else {
       this.displayValueTarget.classList.add('hide')
     }
@@ -72,12 +72,6 @@ export default class HotSelect extends Controller {
   }
 
   onClickOutside(event) {
-    if (!this.element.contains(event.target)) {
-      this.close()
-    }
-  }
-
-  onClickOutside(event) {
     if (!this.isOpen) return
 
     if (!this.element.contains(event.target)) {
@@ -86,7 +80,6 @@ export default class HotSelect extends Controller {
   }
 
   choose(event) {
-    console.log(event)
     const value = event.target.closest('.hot-select-option').getAttribute('data-value')
     const option = [...this.selectInputTarget.options].find(opt => opt.value === value)
     if (!option) {
@@ -98,7 +91,7 @@ export default class HotSelect extends Controller {
     this.selectInputTarget.value = value
     this.displayValueTarget.innerHTML = event.target.innerHTML
     this.displayValueTarget.classList.remove('hide')
-    this.placeholderTarget.classList.add('hide')
+    if (this.hasPlaceholderTarget) this.placeholderTarget.classList.add('hide')
     this.selectInputTarget.dispatchEvent(new Event('change', { bubbles: true }))
 
     this.close()
@@ -113,7 +106,7 @@ export default class HotSelect extends Controller {
       this.selectInputTarget.appendChild(option)
     }
     this.selectInputTarget.value = ''
-    this.placeholderTarget.classList.remove('hide')
+    if (this.hasPlaceholderTarget) this.placeholderTarget.classList.remove('hide')
     this.displayValueTarget.classList.add('hide')
     this.displayValueTarget.innerHTML = '&nbsp;'
     this.selectInputTarget.dispatchEvent(new Event('change', { bubbles: true }))

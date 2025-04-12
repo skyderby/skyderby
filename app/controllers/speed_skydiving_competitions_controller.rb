@@ -3,8 +3,24 @@ class SpeedSkydivingCompetitionsController < ApplicationController
 
   before_action :set_event, only: %i[show edit update]
 
-  before_action :authorize_event_update!, except: %i[show]
+  before_action :authorize_event_create!, only: %i[new create]
+  before_action :authorize_event_update!, except: %i[show new create]
   before_action :authorize_event_access!, only: %i[show]
+
+  def new
+    @event = SpeedSkydivingCompetition.new(starts_at: Date.today)
+  end
+
+  def create
+    @event = SpeedSkydivingCompetition.new(event_params)
+    @event.responsible = Current.user
+
+    if @event.save
+      redirect_to speed_skydiving_competition_path(@event)
+    else
+      respond_with_errors(@event)
+    end
+  end
 
   def show; end
 
@@ -12,7 +28,6 @@ class SpeedSkydivingCompetitionsController < ApplicationController
 
   def update
     if @event.update event_params
-      broadcast_scoreboard
       redirect_to speed_skydiving_competition_path(@event)
     else
       respond_with_errors(@event)
@@ -23,14 +38,6 @@ class SpeedSkydivingCompetitionsController < ApplicationController
 
   def set_event
     @event = SpeedSkydivingCompetition.includes(:categories, :competitors, :results).find(params[:id])
-  end
-
-  def authorize_event_update!
-    respond_not_authorized unless @event.editable?
-  end
-
-  def authorize_event_access!
-    respond_not_authorized unless @event.viewable?
   end
 
   def event_params

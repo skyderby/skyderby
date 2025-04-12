@@ -18,7 +18,11 @@
     </div>
   </div>
 
-  <div class="hot-select-dropdown hot-select--hidden" data-hot-select-target="dropdown">
-    <div class="hot-select-options" data-hot-select-target="options"></div>
-  </div>
+  <template data-hot-select-target="dropdown">
+    <div class="hot-select-scrollable hot-select-selectable">
+      <div class="hot-select-dropdown">
+        <div class="hot-select-options" data-hot-select-target="options"></div>
+      </div>
+    </div>
+  </template>
 </div>

@@ -1,4 +1,5 @@
 <% editable = @event.editable? %>
+<%= turbo_stream_from @event, :actions_bar if editable %>
 <%= turbo_stream_from @event, :scoreboard, editable ? :editable : :read_only %>
 
 <div class="show-page">
@@ -6,6 +7,7 @@
 
   <div class="show-page-content">
     <%= render 'actions_bar', event: @event if editable %>
+
     <% if @event.surprise? && !editable %>
       <%= render 'speed_skydiving_competitions/surprise' %>
     <% else %>

@@ -213,6 +213,7 @@ Skyderby::Application.routes.draw do
       resources :competitors, except: %i[index show]
       resources :rounds, only: %i[create update destroy]
       resources :results, except: :index
+      resource :status, only: :update
     end
   end
 

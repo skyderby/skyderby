@@ -16,7 +16,7 @@ class SpeedSkydivingCompetition < ApplicationRecord
   end
   has_many :tracks, through: :results
 
-  delegate :name, to: :place, prefix: true
+  delegate :name, to: :place, prefix: true, allow_nil: true
 
   def active? = starts_at < Time.zone.now && !finished?
 
@@ -32,6 +32,10 @@ class SpeedSkydivingCompetition < ApplicationRecord
     return true if public_event? || unlisted_event?
 
     competitors.exists?(profile_id: user&.profile_id)
+  end
+
+  def self.creatable?(user = Current.user)
+    user.registered?
   end
 
   def become_surprise? = saved_change_to_attribute?(:status, to: :surprise)
