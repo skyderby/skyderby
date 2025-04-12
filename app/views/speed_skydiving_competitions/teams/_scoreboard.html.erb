@@ -8,14 +8,14 @@
         <th>#</th>
         <th>Team</th>
         <th>Competitor</th>
-        <th>Score</th>
+        <th colspan="2">Score</th>
         <th>Total</th>
       </tr>
     </thead>
     <tbody>
       <% standings.rows.each do |row| %>
         <% first_competitor, *other_competitors = row[:competitors] %>
-        <% rowspan = [other_competitors.size, 1].max %>
+        <% rowspan = [row[:competitors].size, 1].max %>
         <tr>
           <td rowspan="<%= rowspan %>"><%= row[:rank] %></td>
           <td rowspan="<%= rowspan %>" class="team">
@@ -29,31 +29,26 @@
 
                   <template data-dropdown-target="menu">
                     <div class="sd-dropdown-menu">
-                      <%= button_to edit_speed_skydiving_competition_team_path(event, row[:team]),
+                      <%= button_to 'Edit', edit_speed_skydiving_competition_team_path(event, row[:team]),
                                     class: 'dropdown-item',
-                                    method: :get, form: { data: { turbo_stream: true } } do %>
-                        Edit
-                      <% end %>
+                                    method: :get, form: { data: { turbo_stream: true } } %>
 
-                      <%= button_to speed_skydiving_competition_team_path(event, row[:team]),
+                      <%= button_to 'Delete', speed_skydiving_competition_team_path(event, row[:team]),
                                     class: 'dropdown-item',
-                                    method: :delete, form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } } do %>
-                        Delete
-                      <% end %>
+                                    method: :delete, form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } } %>
                     </div>
                   </template>
                 </div>
               </div>
             <% end %>
           </td>
-          <td><%= first_competitor&.name %></td>
-          <td><%= row[:scores_by_competitor][first_competitor] %></td>
-          <td rowspan="<%= rowspan %>"><%= row[:total] %></td>
+          <%= render 'speed_skydiving_competitions/teams/competitor_cells',
+                     competitor: first_competitor, event:, editable:, score: row[:scores_by_competitor][first_competitor] %>
+          <td rowspan="<%= rowspan %>" class="text-right"><%= row[:total] %></td>
         </tr>
         <% other_competitors.each do |competitor| %>
           <tr>
-            <td><%= competitor.name %></td>
-            <td><%= row[:scores_by_competitor][competitor] %></td>
+            <%= render 'speed_skydiving_competitions/teams/competitor_cells', competitor:, event:, editable:, score: row[:scores_by_competitor][competitor] %>
           </tr>
         <% end %>
       <% end %>
