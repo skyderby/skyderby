@@ -67,7 +67,7 @@ export default class HotSelect extends Controller {
   }
 
   close() {
-    this.dropdownRoot.replaceChildren()
+    this.dropdownRoot?.replaceChildren()
     this.element.classList.remove('hot-select--open')
   }
 

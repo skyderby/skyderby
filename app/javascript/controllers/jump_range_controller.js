@@ -63,7 +63,7 @@ export default class extends Controller {
         zoomType: 'x'
       },
       title: {
-        text: I18n.t('tracks.edit.elev_chart')
+        text: this.element.getAttribute('data-title')
       },
       plotOptions: {
         series: {

@@ -1,4 +1,4 @@
-<%# locals(form:, name:, options:) %>
+<%# locals(form:, name:, options: [], **local_assigns) %>
 
 <div class="form-input hot-select-container <%= local_assigns[:class] %>" data-controller="hot-select">
   <%= form.select name, options, {}, class: 'hot-select--hidden', 'data-hot-select-target': 'selectInput' %>
@@ -8,10 +8,12 @@
       &nbsp;
     </div>
     <div class="hot-select-indicators">
-      <button type="button" class="hot-select-button" data-action="hot-select#clear">
-        <%= svg_icon 'xmark' %>
-      </button>
-      <div class="hot-select-separator"></div>
+      <% unless local_assigns[:hide_clear_button] %>
+        <button type="button" class="hot-select-button" data-action="hot-select#clear">
+          <%= svg_icon 'xmark' %>
+        </button>
+        <div class="hot-select-separator"></div>
+      <% end %>
       <button type="button" class="hot-select-button" data-action="hot-select#toggle">
         <%= svg_icon 'angle-down-solid' %>
       </button>

@@ -1,4 +1,4 @@
-<div class="row" data-controller="jump-range" data-track-id="<%= track.id %>">
+<div class="row" data-controller="jump-range" data-track-id="<%= track.id %>" data-title="<%= t('tracks.edit.elev_chart') %>">
   <div class="col-sm-12" data-jump-range-target="chart"></div>
   <div class="col-sm-12">
     <%= link_to track_jump_range_path(track.id), remote: true, class: 'track-edit__refresh-range' do %>

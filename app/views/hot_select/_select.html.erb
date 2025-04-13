@@ -17,10 +17,12 @@
          data-hot-select-target="displayValue">
     </div>
     <div class="hot-select-indicators">
-      <button type="button" class="hot-select-button" data-action="hot-select#clear">
-        <%= svg_icon 'xmark' %>
-      </button>
-      <div class="hot-select-separator"></div>
+      <% unless local_assigns[:hide_clear_button] %>
+        <button type="button" class="hot-select-button" data-action="hot-select#clear">
+          <%= svg_icon 'xmark' %>
+        </button>
+        <div class="hot-select-separator"></div>
+      <% end %>
       <button type="button" class="hot-select-button" data-action="hot-select#toggle">
         <%= svg_icon 'angle-down-solid' %>
       </button>

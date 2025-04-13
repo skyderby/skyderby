@@ -1,6 +1,5 @@
 class SpeedSkydivingCompetitions::TeamCompetitorsController < ApplicationController
   include SpeedSkydivingCompetitionScoped
-  include SpeedSkydivingCompetitionTeams
 
   before_action :set_event
   before_action :authorize_event_update!

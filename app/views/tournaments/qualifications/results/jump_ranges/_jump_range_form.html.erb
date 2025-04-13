@@ -1,7 +1,7 @@
 <% show_cancel ||= false %>
 
 <%= form_for :jump_range, url: tournament_qualification_result_jump_range_path(@tournament, @result), method: :put, remote: true do |f| %>
-  <%= render 'concerns/jump_range_form', track: @result.track, form: f %>
+  <%= render 'components/jump_range_form', track: @result.track, form: f %>
 
   <hr>
 

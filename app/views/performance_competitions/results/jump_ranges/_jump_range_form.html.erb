@@ -5,7 +5,7 @@
   <hr>
 
   <%= form_for :jump_range, url: performance_competition_result_jump_range_path(@result.event, @result), method: :put, data: { turbo_stream: true } do |f| %>
-    <%= render 'concerns/jump_range_form', track: @result.track, form: f %>
+    <%= render 'components/jump_range_form', track: @result.track, form: f %>
 
     <hr>
     <div class="modal-actions">

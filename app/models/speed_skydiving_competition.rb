@@ -22,6 +22,8 @@ class SpeedSkydivingCompetition < ApplicationRecord
 
   def standings = Scoreboard.new(self)
 
+  def open_standings = OpenScoreboard.new(self)
+
   def team_standings = TeamStandings.new(self)
 
   def editable?(user = Current.user)

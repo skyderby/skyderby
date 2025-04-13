@@ -43,7 +43,7 @@ export default class extends Controller {
 
   close() {
     this.element.classList.remove('dropdown--open')
-    this.dropdownRoot.replaceChildren()
+    this.dropdownRoot?.replaceChildren()
   }
 
   hide(event) {

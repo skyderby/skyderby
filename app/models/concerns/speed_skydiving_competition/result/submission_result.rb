@@ -85,11 +85,7 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
     end
 
     def points
-      @points ||= PointsQuery.execute(
-        track,
-        trimmed: { seconds_before_start: 5 },
-        only: %i[gps_time altitude glide_ratio]
-      )
+      @points ||= PointsQuery.execute(track, trimmed: { seconds_before_start: 5 })
     end
   end
 end

@@ -1,6 +1,5 @@
 class SpeedSkydivingCompetitions::TeamsController < ApplicationController
   include SpeedSkydivingCompetitionScoped
-  include SpeedSkydivingCompetitionTeams
 
   before_action :set_event
   before_action :set_team, only: %i[edit update destroy]

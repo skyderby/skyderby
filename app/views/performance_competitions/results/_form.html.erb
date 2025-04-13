@@ -2,7 +2,7 @@
 <%= form_with model: @result, scope: :result, url:, multipart: true, class: 'sd-form', data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
   <%= f.hidden_field :competitor_id, value: @result.competitor_id %>
   <%= f.hidden_field :round_id, value: @result.round_id %>
-  <%= render 'concerns/upload_progress' %>
+  <%= render 'components/upload_progress' %>
 
   <label class="radio-label">
     <%= radio_button_tag :track_from, :from_file, checked: true %>

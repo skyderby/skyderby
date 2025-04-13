@@ -212,10 +212,16 @@ Skyderby::Application.routes.draw do
       end
       resources :competitors, except: %i[index show]
       resources :rounds, only: %i[create update destroy]
-      resources :results, except: :index
+      resources :results, except: :index do
+        scope module: :results do
+          resource :penalties, only: %i[show new update]
+          resource :jump_range, only: %i[show update]
+        end
+      end
       resources :teams
       resources :team_competitors, only: %i[new create destroy]
       resource :status, only: :update
+      resource :open_scoreboard, only: :show
     end
   end
 
