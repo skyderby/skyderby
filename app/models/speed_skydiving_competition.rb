@@ -26,6 +26,12 @@ class SpeedSkydivingCompetition < ApplicationRecord
 
   def team_standings = TeamStandings.new(self)
 
+  def team_standings_code = "skyderby-speed-skydiving-#{id}-teams"
+
+  def open_standings_code = "skyderby-speed-skydiving-open-#{id}"
+
+  def standings_code(category_id) = "skyderby-speed-skydiving-#{id}-#{category_id}"
+
   def editable?(user = Current.user)
     @editable ||= user.admin? || user == responsible || organizers.exists?(user:)
   end

@@ -1,0 +1,19 @@
+.downloads-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.downloads-row:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.downloads-title{
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.downloads-title > :first-child {
+  font-weight: 500;
+}

@@ -77,6 +77,14 @@ label {
   margin: 0;
 }
 
+code {
+  padding: 0.125rem 0.25rem;
+  font-size: 0.875rem;
+  color: var(--gray-80);
+  background-color: var(--gray-20);
+  border-radius: var(--border-radius-sm);
+}
+
 #modal-root, #dropdown-root {
   position: absolute;
   top: 0;

@@ -1,0 +1,35 @@
+<div class="show-page">
+  <%= render 'speed_skydiving_competitions/header', editable: @event.editable? %>
+
+  <div class="card card-sm">
+    <div class="downloads-row">
+      <div class="downloads-title">
+        <div>Scoreboard (by category)</div>
+        <% @event.categories.ordered.each do |category| %>
+          <div><%= category.name %> - <code><%= @event.standings_code(category.id) %></code></div>
+        <% end %>
+      </div>
+      <%= link_to 'ISC XML', speed_skydiving_competition_downloads_scoreboard_path(@event, format: :xml), class: 'default-button', download: true %>
+    </div>
+    <div class="downloads-row">
+      <div class="downloads-title">
+        <div>Open-Event Scoreboard</div>
+        <code><%= @event.open_standings_code %></code>
+      </div>
+      <%= link_to 'ISC XML', speed_skydiving_competition_downloads_open_event_scoreboard_path(@event, format: :xml), class: 'default-button', download: true %>
+    </div>
+    <% if @event.use_teams %>
+      <div class="downloads-row">
+        <div class="downloads-title">
+          <div>Team standings</div>
+          <code><%= @event.team_standings_code %></code>
+        </div>
+        <%= link_to 'ISC XML', speed_skydiving_competition_downloads_team_standings_path(@event, format: :xml), class: 'default-button', download: true %>
+      </div>
+    <% end %>
+    <div class="downloads-row">
+      <div class="downloads-title">GPS Recordings</div>
+      <%= link_to 'ZIP Archive', speed_skydiving_competition_downloads_gps_recordings_path(@event), class: 'default-button', download: true %>
+    </div>
+  </div>
+</div>
