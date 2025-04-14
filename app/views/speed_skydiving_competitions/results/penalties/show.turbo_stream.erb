@@ -1,5 +1,5 @@
 <%= turbo_stream.update 'modal-root' do %>
-  <%= render partial: 'penalties', layout: 'modals/modal', locals: {
+  <%= render partial: 'penalties', layout: 'components/modal', locals: {
     title: "Result: #{@result.competitor.name} - Round #{@result.round.number}",
     modal_size: 'lg',
     event: @event,
