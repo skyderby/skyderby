@@ -45,6 +45,4 @@ Rails.application.configure do
   config.active_support.disallowed_deprecation_warnings = []
 
   config.active_job.queue_adapter = :test
-
-  Rack::Attack.enabled = false
 end

@@ -94,6 +94,4 @@ Rails.application.configure do
   config.hosts << '.skyderby.io'
   config.hosts << '.skyderby.ru'
   config.hosts << '.skyder.by'
-
-  config.middleware.use Rack::Attack
 end

@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 gem 'rails', '~> 7.1.3'
 
 gem 'puma', '< 7'
-gem 'rack-attack'
 gem 'rack-cors'
 
 # DB
