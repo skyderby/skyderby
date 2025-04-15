@@ -5,7 +5,6 @@ gem 'rails', '~> 7.1.5'
 
 gem 'ffi'
 gem 'puma', '< 7'
-gem 'rack-attack'
 gem 'rack-cors'
 
 # DB
