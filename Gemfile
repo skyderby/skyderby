@@ -35,7 +35,7 @@ gem 'image_processing', '~> 1.12'
 gem 'shrine', '~> 3.0'
 
 # XML
-gem 'nokogiri', '~> 1.16'
+gem 'nokogiri', '~> 1.18'
 
 # Background jobs
 gem 'sidekiq', '< 7'
