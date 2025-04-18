@@ -6,6 +6,7 @@ gem 'rails', '~> 7.1.5'
 gem 'ffi'
 gem 'puma', '< 7'
 gem 'rack-cors'
+gem "thruster", require: false
 
 # DB
 gem 'pg', '~> 1.5'
@@ -76,6 +77,7 @@ gem 'net-smtp', require: false
 group :development do
   gem 'annotate'
   gem 'bullet'
+  gem 'kamal', '~> 2.5'
   gem 'rubocop', require: false
   gem 'rubocop-minitest', require: false
   gem 'rubocop-performance', require: false

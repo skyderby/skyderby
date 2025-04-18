@@ -47,8 +47,8 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = ENV['ACTIONCABLE_ALLOWED_ORIGINS']&.split
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
-  config.ssl_options = { hsts: { preload: true, expires: 1.year } }
+  # config.force_ssl = true
+  # config.ssl_options = { hsts: { preload: true, expires: 1.year } }
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -100,8 +100,4 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   config.active_job.queue_adapter = :sidekiq
-
-  config.hosts << '.skyderby.io'
-  config.hosts << '.skyderby.ru'
-  config.hosts << '.skyder.by'
 end

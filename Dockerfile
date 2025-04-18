@@ -1,39 +1,65 @@
-FROM ruby:3.2.3
+# syntax=docker/dockerfile:1
+
+ARG RUBY_VERSION=3.2.3
+
+FROM ruby:$RUBY_VERSION-slim AS base
 
 LABEL org.opencontainers.image.source=https://github.com/skyderby/skyderby \
       org.opencontainers.image.authors="Aleksandr Kunin <skyksandr@gmail.com>"
 
-RUN apt-get update -qq && apt-get install -y -qq apt-transport-https ca-certificates \
-    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && curl -sL https://deb.nodesource.com/setup_22.x | bash - \
-    && apt-get install -y -qq --no-install-recommends postgresql-client nodejs yarn libeccodes-dev \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 
-RUN echo "gem: --no-rdoc --no-ri" >> ~/.gemrc
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y libjemalloc2 libpq-dev postgresql-client libvips libeccodes-dev curl && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-ENV RAILS_ENV=production NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider
+ENV RAILS_ENV=production \
+    BUNDLE_DEPLOYMENT=1 \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="development"
 
-WORKDIR /tmp
-COPY ./Gemfile Gemfile
-COPY ./Gemfile.lock Gemfile.lock
-RUN bundle config set --local without 'development test' && bundle install --jobs 20 --retry 5
+FROM base AS build
 
-WORKDIR /opt/app
-COPY ./package.json package.json
-COPY ./yarn.lock yarn.lock
-RUN yarn install --production
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential git pkg-config libyaml-dev unzip && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-RUN mkdir -p /opt/app \
-  && mkdir -p /tmp/pids \
-  && mkdir -p /tmp/sockets
-COPY ./ /opt/app
+ARG NODE_VERSION=22.14.0
+ARG YARN_VERSION=1.22.22
+ARG NODE_OPTIONS=--openssl-legacy-provider
+ENV PATH=/usr/local/node/bin:$PATH
+RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
+    npm install -g yarn@$YARN_VERSION && \
+    rm -rf /tmp/node-build-master
 
-RUN SECRET_KEY_BASE_DUMMY=1 bundle exec i18n export
-RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile && rm -rf node_modules
+COPY Gemfile Gemfile.lock vendor ./
+RUN bundle config build.nio4r --with-cflags="-Wno-incompatible-pointer-types" && \
+    bundle config build.msgpack --with-cflags="-Wno-incompatible-function-pointer-types" && \
+    bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+    bundle exec bootsnap precompile --gemfile
 
-VOLUME /opt/app/public/assets
-VOLUME /opt/app/public/packs
-VOLUME /opt/app/public
+COPY package.json yarn.lock ./
+RUN yarn install --immutable
 
-CMD rails db:migrate && bundle exec puma -C config/puma.rb
+COPY . .
+
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec i18n export && \
+    bundle exec bootsnap precompile app/ lib/ && \
+    SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile && \
+    rm -rf node_modules
+
+FROM base
+
+RUN groupadd --system --gid 1000 rails && \
+    useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash
+USER rails:rails
+
+COPY --chown=rails:rails --from=build ${BUNDLE_PATH} ${BUNDLE_PATH}
+COPY --chown=rails:rails --from=build /app /app
+
+ENTRYPOINT ["/app/bin/docker-entrypoint"]
+
+EXPOSE 80
+CMD ["./bin/thrust", "./bin/rails", "server"]

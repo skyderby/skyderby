@@ -1,0 +1,127 @@
+service: skyderby
+
+image: skyderby/app
+
+servers:
+  web:
+    - 88.99.213.244
+  workers:
+    cmd: bundle exec sidekiq
+    hosts:
+      - 88.99.213.244
+
+# Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
+# Remove this section when using multiple web servers and ensure you terminate SSL at your load balancer.
+#
+# Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
+proxy:
+  ssl: true
+  hosts:
+    - skyderby.io
+    - skyder.by
+    - skyderby.ru
+    - www.skyderby.io
+    - www.skyder.by
+    - www.skyderby.ru
+    - next.skyderby.ru
+  # Proxy connects to your container on port 80 by default.
+  # app_port: 3000
+
+env:
+  clear:
+    WEB_CONCURRENCY: 4
+    RAILS_MAX_THREADS: 5
+    PORT: 80
+    TRACK_SCANNER_URL: http://track-scanner/
+    ACTIONCABLE_ALLOWED_ORIGINS: https://skyderby.ru,https://skyderby.io,https://skyder.by
+    RAILS_SERVE_STATIC_FILES: 1
+    REDIS_DB: 12
+    REDIS_CABLE_DB: 11
+  secret: &secrets
+    - RAILS_MASTER_KEY
+    - SECRET_KEY_BASE
+    - DB_HOST
+    - DB_NAME
+    - DB_USERNAME
+    - DB_PASSWORD
+    - MAILER_ASSET_HOST
+    - MAILER_URL_HOST
+    - SMTP_ADDRESS
+    - SMTP_PORT
+    - SMTP_DOMAIN
+    - SMTP_USER_NAME
+    - SMTP_PASSWORD
+    - REDIS_HOST
+    - REDIS_PORT
+    - MAPS_API_KEY
+    - CESIUM_API_TOKEN
+    - HONEYBADGER_API_KEY
+    - SKYLIGHT_AUTHENTICATION
+    - FB_APP_ID
+    - FB_APP_SECRET
+    - SHRINE_S3_BUCKET
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+    - AWS_REGION
+
+registry: &registry
+  server: ghcr.io
+  username: skyksandr
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+  # Pass in additional build args needed for your Dockerfile.
+  # args:
+  #   RUBY_VERSION: <%= ENV["RBENV_VERSION"] || ENV["rvm_ruby_string"] || "#{RUBY_ENGINE}-#{RUBY_ENGINE_VERSION}" %>
+
+
+# Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
+# "bin/kamal app logs -r job" will tail logs from the first server in the job section.
+#
+# aliases:
+#   shell: app exec --interactive --reuse "bash"
+
+# Use a different ssh user than root
+#
+# ssh:
+#   user: app
+
+volumes:
+ - app_storage:/app/public/system
+
+asset_path: /app/public/assets
+
+# Configure rolling deploys by setting a wait time between batches of restarts.
+#
+# boot:
+#   limit: 10 # Can also specify as a percentage of total hosts, such as "25%"
+#   wait: 2
+
+accessories:
+  track-scanner:
+    service: track-scanner
+    image: skyderby/track-scanner:latest
+    host: 88.99.213.244
+  next-web:
+    image: skyderby/app:next
+    registry:
+      <<: *registry
+    host: 88.99.213.244
+    proxy:
+      host: next.skyderby.ru
+      app_port: 3000
+    env: &next-env
+      clear:
+        MAILER_URL_HOST: next.skyderby.ru
+        REDIS_DB: 1
+        REDIS_CABLE_DB: 2
+      secret: *secrets
+  next-workers:
+    image: skyderby/app:next
+    registry:
+      <<: *registry
+    host: 88.99.213.244
+    env: *next-env
+    cmd: bundle exec sidekiq -C config/sidekiq_next.yml
