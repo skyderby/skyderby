@@ -6,7 +6,7 @@ gem 'rails', '~> 7.1.5'
 gem 'ffi'
 gem 'puma', '< 7'
 gem 'rack-cors'
-gem "thruster", require: false
+gem 'thruster', require: false
 
 # DB
 gem 'pg', '~> 1.5'
