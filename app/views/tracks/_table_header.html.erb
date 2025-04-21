@@ -1,8 +1,6 @@
 <%# locals: (except_columns: []) %>
 
-<% params_order = (index_params[:order] || '').split(' ') %>
-<% order_field = (params_order[0] || 'id').upcase %>
-<% order_direction = (params_order[1] || 'DESC').upcase %>
+<% order_field, order_direction = order_params %>
 
 <div class="tr">
   <div class="th">

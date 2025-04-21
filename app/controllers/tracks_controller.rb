@@ -13,7 +13,7 @@ class TracksController < ApplicationController
 
     @tracks = @tracks
               .left_outer_joins(:time, :distance, :speed)
-              .sorted(index_params[:order])
+              .sorted(*order_params)
               .includes(
                 :video,
                 :distance,
@@ -121,6 +121,18 @@ class TracksController < ApplicationController
     params.permit(:order, :page, :kind, :profile_id, :profile_name, :suit_id, :place_id, :term)
   end
   helper_method :index_params
+
+  def order_params
+    order = index_params[:order].to_s
+    return [nil, nil] if order.blank?
+
+    if order[0] == '-'
+      [order[1..], :desc]
+    else
+      [order, :asc]
+    end
+  end
+  helper_method :order_params
 
   def show_params
     params.permit(:range, :f, :t, :charts_mode, :charts_units, 'straight-line')

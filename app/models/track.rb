@@ -170,11 +170,8 @@ class Track < ApplicationRecord
       end
     end
 
-    def sorted(order = nil)
-      return chronologically if order.blank?
-
-      attribute, direction = order.split
-      return chronologically unless %w[asc desc].include?(direction.downcase)
+    def sorted(attribute, direction)
+      return chronologically if attribute.blank? || %i[asc desc].exclude?(direction&.downcase)
 
       case attribute
       when 'speed' then sorted_by_speed(direction)

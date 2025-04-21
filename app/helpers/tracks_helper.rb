@@ -63,15 +63,15 @@ module TracksHelper
   end
 
   def tracks_sort_header(order_field, order_direction, field, field_presentation)
-    if order_field == field.upcase && order_direction == 'DESC'
-      tag.a(nil, href: url_for(index_params.merge(order: "#{field} ASC")),
+    if order_field.casecmp?(field) && order_direction == :desc
+      tag.a(nil, href: url_for(index_params.merge(order: field)),
                  'data-controller': 'tooltip',
                  'data-tooltip': "Sort by #{field_presentation} ascending",
                  rel: 'nofollow') do
         tag.i(nil, class: 'fa fa-sort-amount-down')
       end
-    elsif order_field == field.upcase && order_direction == 'ASC'
-      tag.a(nil, href: url_for(index_params.merge(order: "#{field} DESC")),
+    elsif order_field.casecmp?(field) && order_direction == :asc
+      tag.a(nil, href: url_for(index_params.merge(order: "-#{field}")),
                  'data-controller': 'tooltip',
                  'data-tooltip': "Sort by #{field_presentation} descending",
                  rel: 'nofollow') do
@@ -79,7 +79,7 @@ module TracksHelper
       end
     else
       tag.a(nil, class: 'text-muted',
-                 href: url_for(index_params.merge(order: "#{field} DESC")),
+                 href: url_for(index_params.merge(order: "-#{field}")),
                  'data-controller' => 'tooltip',
                  'data-tooltip': "Sort by #{field_presentation} descending",
                  rel: 'nofollow') do
