@@ -23,7 +23,6 @@ proxy:
     - www.skyderby.io
     - www.skyder.by
     - www.skyderby.ru
-    - next.skyderby.ru
   # Proxy connects to your container on port 80 by default.
   # app_port: 3000
 
@@ -110,6 +109,7 @@ accessories:
       <<: *registry
     host: 88.99.213.244
     proxy:
+      ssl: true
       host: next.skyderby.ru
       app_port: 3000
     env: &next-env
