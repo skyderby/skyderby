@@ -5,7 +5,7 @@ class Profiles::TracksController < ApplicationController
       @profile
       .tracks
       .accessible
-      .sorted(index_params[:order])
+      .sorted(*order_params)
       .includes(:distance, :speed, :time, :video, suit: :manufacturer, place: :country)
       .then { |tracks| TrackFilter.new(index_params).apply(tracks) }
       .paginate(page:, per_page: 25)

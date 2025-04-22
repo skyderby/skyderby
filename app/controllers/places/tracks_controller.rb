@@ -8,7 +8,7 @@ class Places::TracksController < ApplicationController
       .tracks
       .accessible
       .then { |tracks| TrackFilter.new(index_params).apply(tracks) }
-      .sorted(index_params[:order])
+      .sorted(*order_params)
       .includes(:distance, :time, :speed, :video, pilot: :contributions, suit: :manufacturer)
       .paginate(page:, per_page: 25)
   end

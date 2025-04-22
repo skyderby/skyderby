@@ -122,18 +122,6 @@ class TracksController < ApplicationController
   end
   helper_method :index_params
 
-  def order_params
-    order = index_params[:order].to_s
-    return [nil, nil] if order.blank?
-
-    if order[0] == '-'
-      [order[1..], :desc]
-    else
-      [order, :asc]
-    end
-  end
-  helper_method :order_params
-
   def show_params
     params.permit(:range, :f, :t, :charts_mode, :charts_units, 'straight-line')
   end

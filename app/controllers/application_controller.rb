@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   include Internationalization
 
   include CurrentAnnouncements
+  include OrderParams
 
   layout :layout_by_resource
 
