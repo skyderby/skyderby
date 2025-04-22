@@ -171,7 +171,7 @@ class Track < ApplicationRecord
     end
 
     def sorted(attribute, direction)
-      return chronologically if attribute.blank? || %i[asc desc].exclude?(direction&.downcase)
+      return chronologically if !allowed_attribute_to_sort?(attribute) || %i[asc desc].exclude?(direction)
 
       case attribute
       when 'speed' then sorted_by_speed(direction)
@@ -179,6 +179,10 @@ class Track < ApplicationRecord
       when 'time' then sorted_by_time(direction)
       else order(attribute => direction)
       end
+    end
+
+    def allowed_attribute_to_sort?(attribute)
+      %w[speed distance time id recorded_at].include?(attribute)
     end
   end
 end
