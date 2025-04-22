@@ -6,11 +6,11 @@ class Place::Photo::ImageUploader < Shrine
   Attacher.default_url { '/images/place_photo.jpg' }
 
   Attacher.derivatives do |original|
-    magick = ImageProcessing::MiniMagick.source(original)
+    vips = ImageProcessing::Vips.source(original)
 
     {
-      thumb: magick.strip.quality(75).resize_to_fill(200, 120).call,
-      large: magick.strip.quality(75).resize_to_fill(1000, 300).call
+      thumb: vips.resize_to_fill(200, 120).call,
+      large: vips.resize_to_fill(1000, 300).call
     }
   end
 

@@ -8,12 +8,12 @@ class Profile::AvatarUploader < Shrine
   end
 
   Attacher.derivatives do |original|
-    magick = ImageProcessing::MiniMagick.source(original).then { |img| apply_crop(img) }
+    vips = ImageProcessing::Vips.source(original).then { |img| apply_crop(img) }
 
     {
-      thumb: magick.strip.quality(75).resize_to_fill(40, 40).call,
-      medium: magick.strip.quality(75).resize_to_fill(150, 150).call,
-      large: magick.strip.quality(75).resize_to_limit(500, 500).call
+      thumb: vips.resize_to_fill(40, 40).call,
+      medium: vips.resize_to_fill(150, 150).call,
+      large: vips.resize_to_limit(500, 500).call
     }
   end
 
@@ -23,14 +23,14 @@ class Profile::AvatarUploader < Shrine
   end
 
   class Attacher
-    def apply_crop(magick)
-      return magick unless record.cropping?
+    def apply_crop(vips)
+      return vips unless record.cropping?
 
-      magick.crop(
-        record.crop_x,
-        record.crop_y,
-        record.crop_w,
-        record.crop_h
+      vips.crop(
+        record.crop_x.to_i,
+        record.crop_y.to_i,
+        record.crop_w.to_i,
+        record.crop_h.to_i
       )
     end
   end

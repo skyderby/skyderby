@@ -3,10 +3,10 @@ class Sponsor::LogoUploader < Shrine
   plugin :pretty_location
 
   Attacher.derivatives do |original|
-    magick = ImageProcessing::MiniMagick.source(original)
+    vips = ImageProcessing::Vips.source(original)
 
     {
-      medium: magick.strip.quality(75).resize_to_limit(300, 120).call
+      medium: vips.resize_to_limit(300, 120).call
     }
   end
 
