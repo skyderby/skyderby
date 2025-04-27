@@ -1,0 +1,5 @@
+<%# locals: (organizable:, editable:) %>
+
+<%= turbo_stream_from organizable, :organizers, editable ? :editable : :read_only %>
+
+<%= render 'organizers/list', organizable:, editable: %>

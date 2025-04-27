@@ -3,6 +3,7 @@
 <% action_params = @event.wind_cancellation && !@standings.wind_cancelled ? { display_raw_results: true } : {} %>
 
 <%= turbo_stream_from [@event, :scoreboard, editable ? :editable : :read_only, @standings.wind_cancelled ? :wind_cancelled : nil].compact %>
+<%= turbo_stream_from @event, :organizers, editable ? :editable : :read_only %>
 
 <div class="show-page">
   <%= render 'header', editable: %>
@@ -40,7 +41,7 @@
     <% end %>
 
     <div class="show-page-content top-buffer">
-      <%= render 'organizers/list', organizable: @event, editable: (editable && !@event.finished?) %>
+      <%= render 'organizers/organizers', organizable: @event, editable: (editable && !@event.finished?) %>
 
       <%= render 'sponsors/list', sponsorable: @event, editable: (editable && !@event.finished?) %>
     </div>
