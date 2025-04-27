@@ -1,0 +1,52 @@
+<%# locals: (event:, scoreboard:, row:, editable:) %>
+
+<tr class="scoreboard-competitor">
+  <td class="text-center"><%= row.rank %></td>
+  <%= render 'performance_competitions/competitors/competitor_cells', event:, competitor: row.competitor, editable: %>
+  <% scoreboard.rounds_by_discipline.each do |discipline, rounds| %>
+    <% rounds.each do |round| %>
+      <% result = row.results.find { |result| result.round == round } %>
+      <% if result && (round.completed || editable) %>
+        <%= render 'performance_competitions/scoreboards/result', event:, result:, can_update: editable, result_class: ('text-green' if result.best_result) %>
+
+        <td class="text-right">
+          <% if round.completed %>
+            <% if result.penalized? %>
+                          <span class="dotted-underline" data-toggle="tooltip" title="<%= result.penalty_reason %>">
+                            <%= result.formatted_points %>
+                            <% if result.apply_penalty_to_score? %>
+                              <sup class="text-danger">-<%= result.penalty_size %>%</sup>
+                            <% end %>
+                          </span>
+            <% else %>
+              <%= result.formatted_points %>
+            <% end %>
+          <% end %>
+        </td>
+      <% elsif editable %>
+        <td class="result-cell">
+          <%= button_to new_performance_competition_result_path(event),
+                        params: { competitor_id: row.competitor.id, round_id: round.id },
+                        method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } do %>
+            <%= svg_icon 'upload-solid' %>
+          <% end %>
+        </td>
+        <td></td>
+      <% else %>
+        <td></td>
+        <td></td>
+      <% end %>
+    <% end %>
+    <td class="text-right">
+      <% points_in_discipline = row.points_in_disciplines[discipline] %>
+      <% if points_in_discipline&.positive? %>
+        <%= '%.1f' % points_in_discipline %>
+      <% end %>
+    </td>
+  <% end %>
+  <td class="scoreboard-total-result">
+    <% if row.total_points.positive? %>
+      <%= '%.1f' % row.total_points %>
+    <% end %>
+  </td>
+</tr>

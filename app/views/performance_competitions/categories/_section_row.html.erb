@@ -1,6 +1,6 @@
-<%# locals: (event:, section:, editable:, standings:, action_params:) %>
+<%# locals: (event:, section:, editable:, scoreboard:, action_params:) %>
 
-<% columns_count = standings.rounds.count * 2 + standings.rounds_by_discipline.count + 4 %>
+<% columns_count = scoreboard.rounds.count * 2 + scoreboard.rounds_by_discipline.count + 4 %>
 <% return unless section.id %>
 
 <tr>

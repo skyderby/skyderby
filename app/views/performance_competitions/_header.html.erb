@@ -32,13 +32,13 @@
     <% if @event.sections.many? %>
       <%= link_to performance_competition_open_scoreboard_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(performance_competition_open_scoreboard_path(@event)))] do %>
         <%= svg_icon 'list-ul-solid' %>
-        Open Scoreboard
+        Open Event
       <% end %>
     <% end %>
 
     <%= link_to performance_competition_individual_task_scoreboard_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(performance_competition_individual_task_scoreboard_path(@event)))] do %>
       <%= svg_icon 'list-ul-solid' %>
-      Individual Tasks
+      By Task
     <% end %>
 
     <% if @event.use_teams %>

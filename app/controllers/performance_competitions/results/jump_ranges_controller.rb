@@ -12,7 +12,7 @@ class PerformanceCompetitions::Results::JumpRangesController < ApplicationContro
       @result.save!
     end
 
-    respond_with_scoreboard
+    broadcast_scoreboard
   rescue ActiveRecord::RecordInvalid
     respond_with_errors(@result)
   end

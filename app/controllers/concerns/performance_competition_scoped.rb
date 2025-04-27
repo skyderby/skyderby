@@ -7,15 +7,15 @@ module PerformanceCompetitionScoped
   end
 
   def authorize_event_update!
-    return if @event.editable?
-
-    respond_not_authorized
+    respond_not_authorized unless @event.editable?
   end
 
   def authorize_event_access!
-    return if @event.viewable?
+    respond_not_authorized unless @event.viewable?
+  end
 
-    respond_not_authorized
+  def authorize_event_create!
+    respond_not_authorized unless PerformanceCompetition.creatable?
   end
 
   def set_event
@@ -36,7 +36,7 @@ module PerformanceCompetitionScoped
       locals: {
         event: @event,
         editable: !@event.finished?,
-        standings: @event.standings,
+        scoreboard: @event.standings,
         action_params:
       }
     )
@@ -48,7 +48,7 @@ module PerformanceCompetitionScoped
       locals: {
         event: @event,
         editable: false,
-        standings: @event.standings,
+        scoreboard: @event.standings,
         action_params:
       }
     )
@@ -60,7 +60,7 @@ module PerformanceCompetitionScoped
       locals: {
         event: @event,
         editable: !@event.finished?,
-        standings: @event.standings(wind_cancelled: true),
+        scoreboard: @event.standings(wind_cancelled: true),
         action_params:
       }
     )
@@ -72,7 +72,7 @@ module PerformanceCompetitionScoped
       locals: {
         event: @event,
         editable: false,
-        standings: @event.standings(wind_cancelled: true),
+        scoreboard: @event.standings(wind_cancelled: true),
         action_params:
       }
     )

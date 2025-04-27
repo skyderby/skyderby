@@ -42,6 +42,8 @@ class PerformanceCompetition < ApplicationRecord
 
   def standings(opts = {}) = Scoreboard.new(self, opts)
 
+  def open_standings(opts = {}) = OpenScoreboard.new(self, opts)
+
   def active? = starts_at < Time.zone.now && !finished?
 
   def editable?(user = Current.user)
@@ -54,6 +56,10 @@ class PerformanceCompetition < ApplicationRecord
     return true if public_event? || unlisted_event?
 
     competitors.exists?(profile_id: user&.profile_id)
+  end
+
+  def self.creatable?(user = Current.user)
+    user.registered?
   end
 
   def apply_penalty_to_result? = !apply_penalty_to_score?

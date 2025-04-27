@@ -15,9 +15,9 @@
 
   <div>
     <% if !@event.surprise? || can_manage %>
-      <%= render 'performance_competitions/scoreboard', event: @event, editable:, standings: @standings, action_params: %>
+      <%= render 'performance_competitions/scoreboard', event: @event, editable:, scoreboard: @standings, action_params: %>
     <% else %>
-      <h1 class="text-muted text-center">🙅 Let it be a Surprise</h1>
+      <%= render 'performance_competitions/surprise' %>
     <% end %>
 
     <% if @scoreboard.wind_cancellation %>
