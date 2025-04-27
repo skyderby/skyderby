@@ -163,7 +163,7 @@ Skyderby::Application.routes.draw do
       resources :reference_points
       resource :deletion, only: [:new, :create]
       collection do
-        resources :select_options, only: :index, as: :events_select_options
+        resources :select_options, only: :index, as: :performance_competitions_select_options
       end
     end
   end

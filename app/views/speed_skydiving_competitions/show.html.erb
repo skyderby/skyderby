@@ -17,7 +17,7 @@
     <div class="show-page-content">
       <%= render 'organizers/organizers', organizable: @event, editable: (editable && !@event.finished?) %>
 
-      <%= render 'sponsors/list', sponsorable: @event, editable: (editable && !@event.finished?) %>
+      <%= render 'sponsors/sponsors', sponsorable: @event, editable: (editable && !@event.finished?) %>
     </div>
   </div>
 </div>

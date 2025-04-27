@@ -1,56 +1,38 @@
-<div class="modal-dialog">
-  <div class="modal-content">
-    <%= form_for [@sponsorable, @sponsor], remote: true, html: { multipart: true, class: "form-horizontal" } do |f| %>
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-        <h4 class="modal-title">
-          <%= t('activerecord.models.sponsor') %>:
-          <% if @sponsor.new_record? %>
-            <%= t('events.index.new') %>
-          <% else %>
-            <%= @sponsor.name %>
-          <% end %>
-        </h4>
-      </div>
+<% url = @sponsor.new_record? ?
+           polymorphic_path([@sponsorable, @sponsor]) :
+           polymorphic_path([@sponsorable, @sponsor]) %>
 
-      <div class="modal-body">
-        <div class="form-group">
-          <%= f.label :name, class: 'control-label col-sm-4' %>
-          <div class="col-sm-8">
-            <%= f.text_field :name, class: 'form-control' %>
-          </div>
-        </div>
+<%= form_with model: @sponsor, url:, scope: :sponsor, multipart: true,
+              data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :name, class: 'form-label col-3' %>
+      <%= f.text_field :name, class: 'form-input col-9', required: true %>
+    </div>
 
-        <div class="form-group">
-          <%= f.label :website, class: 'control-label col-sm-4' %>
-          <div class="col-sm-8">
-            <%= f.text_field :website, class: 'form-control', placeholder: 'http://www.example.com' %>
-          </div>
-        </div>
+    <div class="grid">
+      <%= f.label :website, class: 'form-label col-3' %>
+      <%= f.text_field :website, class: 'form-input col-9', placeholder: 'https://example.com', required: true %>
+    </div>
 
-        <div class="form-group">
-          <%= f.label :logo, class: 'control-label col-sm-4' %>
-          <div class="col-sm-8">
-            <div class="input-group" data-controller="filefield">
-              <input type="text" class="form-control" readonly data-filefield-target="text_field">
-              <span class="input-group-btn">
-                <span class="btn btn-default btn-file">
-                  &hellip;
-                  <%= f.file_field :logo, class: 'form-control', 'data-filefield-target': 'file_field', 'data-action': 'change->filefield#change' %>
-                </span>
-              </span>
-            </div>
-          </div>
+    <div class="grid">
+      <%= f.label :logo, class: 'form-label col-3' %>
+      <div class="col-9">
+        <div data-controller="filefield">
+          <%= f.file_field :logo, class: 'form-input',
+                         data: {
+                           filefield_target: 'file_field',
+                           action: 'change->filefield#change'
+                         },
+                         required: true %>
+          <div class="file-name" data-filefield-target="text_field"></div>
         </div>
       </div>
+    </div>
 
-      <div class="modal-footer">
-        <%= f.submit t('general.save'), class: 'btn btn-primary' %>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
-      </div>
-    <% end %>
+    <div class="form-actions">
+      <%= f.submit t('general.save'), class: 'primary-button' %>
+      <button type="button" class="default-button" data-action="modal#close"><%= t 'general.cancel' %></button>
+    </div>
   </div>
-</div>
+<% end %>
