@@ -13,5 +13,11 @@
     <% else %>
       <%= render 'speed_skydiving_competitions/scoreboard', event: @event, editable: editable && !@event.finished? %>
     <% end %>
+
+    <div class="show-page-content">
+      <%= render 'organizers/list', organizable: @event, editable: (editable && !@event.finished?) %>
+
+      <%= render 'sponsors/list', sponsorable: @event, editable: (editable && !@event.finished?) %>
+    </div>
   </div>
 </div>

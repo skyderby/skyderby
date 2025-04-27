@@ -121,7 +121,10 @@ Skyderby::Application.routes.draw do
   end
 
   resources :events, only: %i[index new]
-  resources :performance_competitions, path: 'events/performance', concerns: %i[sponsorable organizable], except: :index do
+  resources :performance_competitions,
+            path: 'events/performance',
+            concerns: %i[sponsorable organizable],
+            except: :index do
     scope module: :performance_competitions do
       resource :scoreboard, only: :show
       resource :open_scoreboard, only: :show
@@ -202,7 +205,10 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :speed_skydiving_competitions, path: '/events/speed_skydiving', except: :index do
+  resources :speed_skydiving_competitions,
+            path: '/events/speed_skydiving',
+            concerns: %i[sponsorable organizable],
+            except: :index do
     scope module: :speed_skydiving_competitions do
       resources :categories, except: %i[index show] do
         member do

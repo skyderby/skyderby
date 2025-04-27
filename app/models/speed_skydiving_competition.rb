@@ -6,7 +6,6 @@ class SpeedSkydivingCompetition < ApplicationRecord
 
   belongs_to :responsible, class_name: 'User', inverse_of: :responsible_of_events
   belongs_to :place
-  has_many :organizers, as: :organizable, dependent: :delete_all
   with_options foreign_key: :event_id, inverse_of: :event, dependent: :restrict_with_error do
     has_many :categories
     has_many :rounds
@@ -15,6 +14,13 @@ class SpeedSkydivingCompetition < ApplicationRecord
     has_many :teams
   end
   has_many :tracks, through: :results
+  has_many :organizers, as: :organizable, dependent: :delete_all
+  has_many :sponsors,
+           -> { order(:created_at) },
+           as: :sponsorable,
+           dependent: :delete_all,
+           inverse_of: :sponsorable
+
 
   delegate :name, to: :place, prefix: true, allow_nil: true
 

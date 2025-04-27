@@ -50,10 +50,10 @@ class OrganizersController < ApplicationController
   end
 
   def organizable_class
-    @organizable_class ||= [Event, Tournament].detect { |c| params["#{c.name.underscore}_id"] }
+    @organizable_class ||=
+      [PerformanceCompetition, SpeedSkydivingCompetition, Boogie, Tournament]
+      .detect { |c| params["#{c.name.underscore}_id"] }
   end
 
-  def authorize_organizable
-    authorize organizable, :update?
-  end
+  def authorize_organizable = organizable.editable?
 end
