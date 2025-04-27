@@ -1,3 +1,3 @@
 <%= render partial: 'penalties_form',
            layout: 'performance_competitions/results/layout',
-           locals: { result: @result, show_delete_button: true } %>
+           locals: { result: @result, show_delete_button: true, editable: @event.editable? } %>

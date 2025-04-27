@@ -1,15 +1,15 @@
 <%# locals: (event:, result:) %>
 
 <div class="tab-bar">
-  <%= button_to 'Charts', speed_skydiving_competition_result_path(event, result),
+  <%= button_to t('general.charts'), speed_skydiving_competition_result_path(event, result),
                 method: :get, form: { data: { turbo_stream: true } },
                 class: class_names('tab-bar-item', current_page?(speed_skydiving_competition_result_path(event, result)) && 'active') %>
 
-  <%= button_to 'Jump Range', speed_skydiving_competition_result_jump_range_path(event, result),
+  <%= button_to t('general.jump_range'), speed_skydiving_competition_result_jump_range_path(event, result),
                 method: :get, form: { data: { turbo_stream: true } },
                 class: class_names('tab-bar-item', current_page?(speed_skydiving_competition_result_jump_range_path(event, result)) && 'active') %>
 
-  <%= button_to 'Penalties', speed_skydiving_competition_result_penalties_path(event, result),
+  <%= button_to t('event_tracks.show.penalties'), speed_skydiving_competition_result_penalties_path(event, result),
                 method: :get, form: { data: { turbo_stream: true } },
                 class: class_names('tab-bar-item', current_page?(speed_skydiving_competition_result_penalties_path(event, result)) && 'active') %>
 </div>

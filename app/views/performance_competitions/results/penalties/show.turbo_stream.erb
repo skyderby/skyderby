@@ -5,6 +5,9 @@
                title: event_result_presentation(@result),
                modal: true,
                modal_size: 'lg',
+               modal: true,
+               result: @result,
+               editable: @event.editable?,
                show_cancel: true,
                show_delete_button: true
              } %>

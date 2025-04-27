@@ -1,8 +1,9 @@
-<% show_cancel ||= false %>
+<%# locals: (editable:, show_cancel: false, modal: false, **rest) %>
 
-<div class="container-fluid">
-  <%= render 'performance_competitions/results/header' %>
-  <hr>
+<div class="sd-container">
+  <% if modal %>
+    <%= render 'performance_competitions/results/header', editable:, modal: %>
+  <% end %>
 
   <%= form_for :jump_range, url: performance_competition_result_jump_range_path(@result.event, @result), method: :put, data: { turbo_stream: true } do |f| %>
     <%= render 'components/jump_range_form', track: @result.track, form: f %>

@@ -1,9 +1,11 @@
-<%# locals: (result:, modal: false, show_cancel: false, show_delete_button: false) %>
+<%# locals: (result:, editable:, modal: false, show_cancel: false, show_delete_button: false, **rest) %>
+
 <% url ||= performance_competition_result_penalty_path(@event, @result) %>
 
-<div class="container-fluid">
-  <%= render 'performance_competitions/results/header', modal: %>
-  <hr>
+<div class="sd-container">
+  <% if modal %>
+    <%= render 'performance_competitions/results/header', modal:, editable: %>
+  <% end %>
 
   <%= form_with model: @result, scope: :penalty, url:, method: :put, data: { turbo_stream: true }, html: { class: 'form-horizontal' } do |f| %>
     <div class="form-group">

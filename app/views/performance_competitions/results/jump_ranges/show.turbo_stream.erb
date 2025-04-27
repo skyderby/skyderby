@@ -4,7 +4,9 @@
              locals: {
                title: event_result_presentation(@result),
                modal_size: 'lg',
+               modal: true,
                show_cancel: true,
+               editable: @event.editable?
              }
   %>
 <% end %>

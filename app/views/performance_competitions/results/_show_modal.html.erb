@@ -1,6 +1,8 @@
-<div class="container-fluid">
-  <%= render 'performance_competitions/results/header' %>
-  <hr>
+<%# locals: (editable:, **rest) %>
+
+<div class="sd-container">
+  <%= render 'performance_competitions/results/header', editable:, modal: true %>
+
   <div class="row">
     <div class="col-sm-12">
       <div class="pull-right">
@@ -26,12 +28,12 @@
 <hr>
 <div class="modal-actions">
   <div class="modal-actions__left">
-    <% if policy(@event).update? %>
+    <% if editable %>
       <%= delete_event_track_link(@result) %>
     <% end %>
   </div>
   <div class="modal-actions__right">
-    <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
+    <button type="button" class="default-button" data-action="modal#close"><%= t 'general.cancel' %></button>
   </div>
 </div>
 

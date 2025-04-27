@@ -1,6 +1,8 @@
+<%# locals: (editable:, **rest) %>
+
 <% provide :title, event_result_presentation(@result) %>
 
-<div class="<%= mobile? ? 'event-result' : 'container' %>">
+<div class="<%= mobile? ? 'event-result' : '' %>">
   <div class="event-result__header">
     <%= link_to @event, class: 'btn-back' do %>
       <i class="fa fa-chevron-left"></i>
@@ -8,7 +10,7 @@
     <% end %>
   </div>
 
-  <div class="<%= mobile? ? 'event-result__body' : 'content-block content-block--bordered' %>">
+  <div class="<%= mobile? ? 'event-result__body' : 'card sd-container' %>">
     <div class="event-result__title-bar">
       <%= image_tag @result.competitor.profile.userpic_url(:thumb) %>
       <%= @result.competitor.name %>
@@ -16,9 +18,7 @@
       <%= "#{t('disciplines.' + @result.round_discipline)} - #{@result.round_number}" %>
     </div>
 
-    <%= render 'performance_competitions/results/header' %>
-
-    <hr>
+    <%= render 'performance_competitions/results/header', editable: %>
 
     <%= yield %>
   </div>
