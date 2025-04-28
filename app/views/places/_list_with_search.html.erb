@@ -16,7 +16,7 @@
           <%= link_to place.name,
                       place_path(place),
                       class: 'places__item',
-                      data: { target: 'places--index.place places--searchable-list.place', id: place.id, lat: place.latitude, lon: place.longitude } %>
+                      data: { target: 'places--index.place places--searchable-list.place', id: place.id, kind: place.kind, lat: place.latitude, lon: place.longitude } %>
         <% end %>
       </div>
     <% end %>

@@ -24,7 +24,24 @@ export default class extends Controller {
     })
 
     const markers = this.places.map(place => {
-      const pin = new google.maps.marker.PinElement()
+      const pinOptions =
+        place.kind === 'skydive'
+          ? {
+              glyph: 'S',
+              background: '#1993e0',
+              borderColor: '#0071b2'
+            }
+          : {
+              glyph: 'B',
+              background: '#ec961a',
+              borderColor: '#a36200'
+            }
+
+      const pin = new google.maps.marker.PinElement({
+        ...pinOptions,
+        glyphColor: 'white'
+      })
+
       const marker = new google.maps.marker.AdvancedMarkerElement({
         map: this.map,
         title: place.name,
@@ -47,6 +64,7 @@ export default class extends Controller {
     if (!this._places) {
       this._places = this.placeTargets.map(el => ({
         id: Number(el.getAttribute('data-id')),
+        kind: el.getAttribute('data-kind'),
         name: el.innerText,
         position: {
           lat: Number(el.getAttribute('data-lat')),
