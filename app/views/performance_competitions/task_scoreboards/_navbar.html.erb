@@ -1,0 +1,10 @@
+<% tasks = @event.rounds.map(&:discipline).uniq %>
+<% if tasks.any? %>
+  <div class="tab-bar">
+    <% tasks.each do |task| %>
+      <%= link_to t("disciplines.#{task}"),
+                  performance_competition_task_scoreboard_path(@event, task),
+                  class: class_names('tab-bar-item', @scoreboard.discipline == task && 'active') %>
+    <% end %>
+  </div>
+<% end %>

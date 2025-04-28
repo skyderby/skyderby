@@ -36,7 +36,7 @@
       <% end %>
     <% end %>
 
-    <%= link_to performance_competition_individual_task_scoreboard_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(performance_competition_individual_task_scoreboard_path(@event)))] do %>
+    <%= link_to performance_competition_task_scoreboards_path(@event), class: ['page-tab', ('page-tab-active' if controller_path.include?('task_scoreboards'))] do %>
       <%= svg_icon 'list-ul-solid' %>
       By Task
     <% end %>

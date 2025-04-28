@@ -44,6 +44,8 @@ class PerformanceCompetition < ApplicationRecord
 
   def open_standings(opts = {}) = OpenScoreboard.new(self, opts)
 
+  def task_scoreboard(task, opts = {}) = TaskScoreboard.new(self, task, opts)
+
   def active? = starts_at < Time.zone.now && !finished?
 
   def editable?(user = Current.user)

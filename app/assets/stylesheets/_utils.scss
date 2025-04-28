@@ -35,6 +35,11 @@
   }
 }
 
+.bounded-width {
+  max-width: 1200px;
+  width: 100%;
+}
+
 .sd-container {
   display: flex;
   flex-direction: column;

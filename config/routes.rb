@@ -128,7 +128,7 @@ Skyderby::Application.routes.draw do
     scope module: :performance_competitions do
       resource :scoreboard, only: :show
       resource :open_scoreboard, only: :show
-      resource :individual_task_scoreboard, only: :show
+      resources :task_scoreboards, only: [:index, :show], path: :by_task, param: :task
       resource :team_scoreboard, only: :show
       resource :teams, only: :show
       resource :designated_lane_start, only: :update
