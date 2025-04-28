@@ -117,6 +117,7 @@ accessories:
         MAILER_URL_HOST: next.skyderby.ru
         REDIS_DB: 1
         REDIS_CABLE_DB: 2
+        RAILS_SERVE_STATIC_FILES: 1
       secret: *secrets
   next-workers:
     image: skyderby/app:next
