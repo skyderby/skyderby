@@ -1,10 +1,15 @@
-<% size = measurements.map { [_1.altitude, _1.distance].max }.max %>
+<%# locals: (measurements:) %>
+
+<% size = measurements.map { [_1.altitude, _1.distance].max }.max || 150 %>
 <% ordered_measurements = measurements.sort_by { [_1.altitude, _1.distance] }%>
 <% points = '0,0 ' + ordered_measurements.map { "#{_1.distance},#{_1.altitude}" }.join(' ') %>
 
 <svg viewBox="0 0 <%= size %> <%= size %>" >
   <line x1="0" y1="0" x2="0" y2="<%= size %>" stroke="#333" vector-effect='non-scaling-stroke'></line>
   <line x1="0" y1="<%= size %>" x2="<%= size %>" y2="<%= size %>" stroke="#333" vector-effect='non-scaling-stroke'></line>
-  <polyline points="<%= points %>" stroke="#a36200" fill="none" vector-effect='non-scaling-stroke' stroke-width="3"></polyline>
-  <polyline points="<%= points + " 0,#{ordered_measurements.last.altitude}" %>" stroke="none" fill="#a36200" opacity="0.2" vector-effect='non-scaling-stroke' stroke-width="3"></polyline>
+
+  <% if measurements.any? %>
+    <polyline points="<%= points %>" stroke="#a36200" fill="none" vector-effect='non-scaling-stroke' stroke-width="3"></polyline>
+    <polyline points="<%= points + " 0,#{ordered_measurements.last.altitude}" %>" stroke="none" fill="#a36200" opacity="0.2" vector-effect='non-scaling-stroke' stroke-width="3"></polyline>
+  <% end %>
 </svg>
