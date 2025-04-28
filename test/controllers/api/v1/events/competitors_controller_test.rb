@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::Events::CompetitorsControllerTest < ActionDispatch::IntegrationTest
   test '#index' do
-    get api_v1_event_competitors_path(event_id: events(:nationals).id), as: :json
+    get api_v1_event_competitors_path(event_id: performance_competitions(:nationals).id), as: :json
     assert_response :success
 
     assert_equal expected_response.to_json, response.body

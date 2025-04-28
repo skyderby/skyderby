@@ -1,0 +1,68 @@
+<th class="round" colspan="2">
+  <div
+    class="round-status"
+    data-controller="tooltip"
+    <% if round.completed %>
+      data-tooltip="Round results are final"
+    <% elsif editable %>
+      data-tooltip="Mark round as completed when results are final"
+    <% end %>
+  >
+    <% if round.completed %>
+      <%= svg_icon 'circle-check-regular', class: 'round-completed' %>
+    <% elsif editable %>
+      <%= svg_icon 'circle-regular', class: 'round-not-completed-icon' %>
+    <% end %>
+  </div>
+
+  <%= round.number %>
+
+  <div class="cell-actions">
+    <div class="sd-dropdown" data-controller="dropdown">
+      <button class="dropdown-toggle ghost-button small-button" data-action="click->dropdown#toggle">
+        <%= svg_icon 'ellipsis-vertical-solid' %>
+      </button>
+
+      <template data-dropdown-target="menu">
+        <div class="sd-dropdown-menu">
+          <%= link_to performance_competition_round_map_path(event, round), class: 'dropdown-item', rel: 'nofollow' do %>
+            <i class="fa fa-fw far fa-compass text-muted"></i>
+            Google maps
+          <% end %>
+          <%= link_to performance_competition_round_globe_path(event, round), remote: true, class: 'dropdown-item', rel: 'nofollow' do %>
+            <i class="fa fa-fw far fa-compass text-muted"></i>
+            3D maps
+          <% end %>
+          <%= link_to performance_competition_round_replay_path(event, round), class: 'dropdown-item', rel: 'nofollow' do %>
+            <i class="fa fa-fw fas fa-play text-muted"></i>
+            Replay
+          <% end %>
+
+          <% if editable %>
+            <% if round.completed %>
+              <%= button_to performance_competition_round_path(event, round),
+                            method: :put, params: { round: { completed: false } },
+                            form: { data: { turbo_stream: true } },
+                            class: 'dropdown-item' do %>
+                Mark uncomplete
+              <% end %>
+            <% else %>
+              <%= button_to performance_competition_round_path(event, round),
+                            method: :put,
+                            params: { round: { completed: true } },
+                            form: { data: { turbo_stream: true } },
+                            class: 'dropdown-item' do %>
+                Mark complete
+              <% end %>
+            <% end %>
+
+            <%= button_to performance_competition_round_path(event, round), method: :delete, remote: true, class: 'btn-link' do %>
+              <i class="fa fa-fw fa-times text-muted"></i>
+              <%= t('general.delete') %>
+            <% end %>
+          <% end %>
+        </div>
+      </template>
+    </div>
+  </div>
+</th>

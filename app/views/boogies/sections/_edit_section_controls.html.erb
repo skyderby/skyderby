@@ -1,0 +1,43 @@
+<%= link_to tag.i(nil, class: 'fas fa-pencil-alt text-muted'),
+            edit_performance_competition_section_path(event, section),
+            remote: true,
+            'data-params': display_event_params.to_param,
+            class: 'scoreboard-controls' %>
+
+<% if @event.sections.many? %>
+  <span class="scoreboard-controls">
+    |
+  </span>
+
+  <% unless section.first_position? %>
+    <%= button_to(move_upper_performance_competition_section_path(event, section),
+                  remote: true,
+                  params: display_event_params,
+                  method: :patch,
+                  class: 'btn-link scoreboard-controls') do %>
+      <i class="fa fa-chevron-up text-muted"></i>
+    <% end %>
+  <% end %>
+  <% unless section.last_position? %>
+    <%= button_to(move_lower_event_section_path(event, section),
+                  remote: true,
+                  params: display_event_params,
+                  method: :patch,
+                  class: 'btn-link scoreboard-controls') do %>
+      <i class="fa fa-chevron-down text-muted"></i>
+    <% end %>
+  <% end %>
+
+  <span class="scoreboard-controls">
+    |
+  </span>
+<% end %>
+
+<%= button_to(performance_competition_section_path(event, section),
+              method: :delete,
+              params: display_event_params,
+              confirm: t('sections.show.delete_confirmation'),
+              class: 'btn-link scoreboard-controls',
+              remote: true) do %>
+  <i class="fa fa-times text-muted"></i>
+<% end %>

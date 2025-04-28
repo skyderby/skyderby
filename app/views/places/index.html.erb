@@ -1,7 +1,7 @@
 <% provide :title, page_title(t('application.header.places')) %>
 
 <div class="places" data-controller="places--index">
-  <div class="places__sidebar" data-target="places--index.sidebar">
+  <div class="places__sidebar" data-places--index-target="sidebar">
     <%= render 'list_with_search' %>
 
     <% if policy(Place).create? %>
@@ -15,6 +15,6 @@
   </div>
 
   <div class="places__container">
-    <div class="places__map" data-target="places--index.map"></div>
+    <div class="places__map" data-places--index-target="map"></div>
   </div>
 </div>

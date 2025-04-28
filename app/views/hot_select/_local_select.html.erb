@@ -1,24 +1,30 @@
-<%# locals(form:, name:, options:) %>
+<%# locals(form:, name:, options: [], **local_assigns) %>
 
 <div class="form-input hot-select-container <%= local_assigns[:class] %>" data-controller="hot-select">
-  <%= form.select name, options, {}, class: 'hot-select--hidden', data: { target: 'hot-select.selectInput' } %>
+  <%= form.select name, options, {}, class: 'hot-select--hidden', 'data-hot-select-target': 'selectInput' %>
 
   <div class="hot-select-control">
-    <div class="hot-select-value" data-action="click->hot-select#toggle" data-target="hot-select.displayValue">
+    <div class="hot-select-value" data-action="click->hot-select#toggle" data-hot-select-target="displayValue">
       &nbsp;
     </div>
     <div class="hot-select-indicators">
-      <button type="button" class="hot-select-button" data-action="hot-select#clear">
-        <%= svg_icon 'xmark' %>
-      </button>
-      <div class="hot-select-separator"></div>
+      <% unless local_assigns[:hide_clear_button] %>
+        <button type="button" class="hot-select-button" data-action="hot-select#clear">
+          <%= svg_icon 'xmark' %>
+        </button>
+        <div class="hot-select-separator"></div>
+      <% end %>
       <button type="button" class="hot-select-button" data-action="hot-select#toggle">
         <%= svg_icon 'angle-down-solid' %>
       </button>
     </div>
   </div>
 
-  <div class="hot-select-dropdown hot-select--hidden" data-target="hot-select.dropdown">
-    <div class="hot-select-options" data-target="hot-select.options"></div>
-  </div>
+  <template data-hot-select-target="dropdown">
+    <div class="hot-select-scrollable hot-select-selectable">
+      <div class="hot-select-dropdown">
+        <div class="hot-select-options" data-hot-select-target="options"></div>
+      </div>
+    </div>
+  </template>
 </div>

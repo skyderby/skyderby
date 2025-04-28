@@ -1,0 +1,13 @@
+<%# locals: (form:) %>
+
+<div class="penalties-row" data-controller="removable">
+  <% if form.object.persisted? %>
+    <%= form.hidden_field :id %>
+    <%= form.hidden_field :_destroy, value: false %>
+  <% end %>
+  <%= form.number_field :percent, class: 'form-input' %>
+  <%= form.text_field :reason, class: 'form-input' %>
+  <button type="button" class="ghost-button" data-action="removable#remove">
+    <%= svg_icon 'xmark' %>
+  </button>
+</div>

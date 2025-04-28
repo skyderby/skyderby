@@ -1,0 +1,20 @@
+<%# locals: (event:, scoreboard:, editable:) %>
+
+<% can_update = editable && !event.finished? %>
+
+<div class="<%= class_names 'scoreboard-container', (scoreboard.rounds.size > 6 && 'scoreboard-container-fluid') %>"
+     data-controller="events--sticky-header"
+     id="scoreboard"
+>
+  <div class="scoreboard-scroll" data-events--sticky-header-target="container" data-action="scroll->events--sticky-header#on_horizontal_scroll">
+    <table class="scoreboard-table" data-events--sticky-header-target="table">
+      <%= render 'performance_competitions/scoreboard_header', event:, scoreboard:, editable: can_update %>
+
+      <tbody>
+        <% scoreboard.standings.each do |row| %>
+          <%= render 'performance_competitions/scoreboard_row', event:, scoreboard:, row:, editable: can_update %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

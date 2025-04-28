@@ -15,12 +15,12 @@ alex:
 
 john:
   name: John
-  owner: nationals (Event)
+  owner: nationals (PerformanceCompetition)
   country: norway
 
 travis:
   name: Travis
-  owner: nationals (Event)
+  owner: nationals (PerformanceCompetition)
   country: norway
 
 maynard:

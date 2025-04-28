@@ -4,7 +4,7 @@ class Api::V1::Events::Rounds::ReferencePointAssignmentsControllerTest < ActionD
   test 'correct user assigns point' do
     sign_in users(:event_responsible)
 
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     competitor = event_competitors(:john)
     round = event_rounds(:distance_1)
     reference_point = event.reference_points.create!(
@@ -32,7 +32,7 @@ class Api::V1::Events::Rounds::ReferencePointAssignmentsControllerTest < ActionD
   test 'correct user nullify assignment' do
     sign_in users(:event_responsible)
 
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     competitor = event_competitors(:john)
     round = event_rounds(:distance_1)
 
@@ -53,7 +53,7 @@ class Api::V1::Events::Rounds::ReferencePointAssignmentsControllerTest < ActionD
   end
 
   test 'incorrect user nullify assignment' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     competitor = event_competitors(:john)
     round = event_rounds(:distance_1)
 

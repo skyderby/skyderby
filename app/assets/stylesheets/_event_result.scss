@@ -16,3 +16,17 @@
 .result-indicator-info {
   color: var(--gray-70);
 }
+
+.penalties, .penalties-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.penalties-row {
+  display: grid;
+  grid-template-columns: 6rem 20rem max-content;
+  gap: 0.5rem;
+}
+

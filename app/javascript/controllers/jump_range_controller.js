@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import I18n from 'i18n'
 
 export default class extends Controller {
@@ -63,7 +63,7 @@ export default class extends Controller {
         zoomType: 'x'
       },
       title: {
-        text: I18n.t('tracks.edit.elev_chart')
+        text: this.element.getAttribute('data-title')
       },
       plotOptions: {
         series: {

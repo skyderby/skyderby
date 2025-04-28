@@ -24,8 +24,8 @@
 
   <% if policy(Event).create? %>
     <div>
-      <%= link_to new_event_path, remote: true, class: 'btn btn-default btn-info' do %>
-        <i class="fa fa-plus"></i>
+      <%= link_to new_event_path, class: 'primary-button' do %>
+        <%= svg_icon 'plus-solid' %>
         <%= t('activerecord.models.event') %>
       <% end %>
     </div>
@@ -40,8 +40,8 @@
   <% end %>
 
   <div class='card competitions-list' id='competitions-list'>
-    <% @events.each do |event_entity| %>
-      <%= render event_entity.event %>
+    <% @events.each do |record| %>
+      <%= render record.event %>
     <% end %>
 
     <% if @events.total_pages > 1 %>

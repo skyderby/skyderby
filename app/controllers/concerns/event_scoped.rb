@@ -31,7 +31,7 @@ module EventScoped
   end
 
   def load_event(event_id)
-    @event = Event.includes(
+    @event = PerformanceCompetition.includes(
       organizers: [{ user: :profile }],
       sponsors: :sponsorable
     ).find(event_id)
@@ -48,6 +48,6 @@ module EventScoped
   end
 
   def set_event
-    @event = Event.find(params[:event_id])
+    @event = PerformanceCompetition.find(params[:event_id])
   end
 end

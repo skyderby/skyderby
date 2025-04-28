@@ -1,0 +1,14 @@
+<div class="event-edit__sidebar-container">
+  <ul class="event-edit__sections">
+    <% controller_path = controller.controller_path %>
+    <li class="<%= 'active' if controller_path == 'events' %>">
+      <%= link_to 'Main', edit_performance_competition_path(@event) %>
+    </li>
+    <li class="<%= 'active' if controller_path == 'events/reference_points' %>">
+      <%= link_to 'Reference points', performance_competition_reference_points_path(@event) %>
+    </li>
+    <li class="<%= 'active' if controller_path == 'events/deletion' %>">
+      <%= link_to 'Delete event', new_performance_competition_deletion_path(@event) %>
+    </li>
+  </ul>
+</div>

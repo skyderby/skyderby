@@ -1,0 +1,13 @@
+<div class="row" data-controller="jump-range" data-track-id="<%= track.id %>">
+  <div class="col-sm-12" data-jump-range-target="chart"></div>
+  <div class="col-sm-12">
+    <div class="time-selector">
+      <%= form.text_field :jump_range,
+        value: track.jump_range,
+        'data-max-value': track.duration,
+        'data-controller': 'jump-range-select',
+        'data-action': 'change->jump-range#on_change_range',
+        'data-jump-range-target': 'select' %>
+    </div>
+  </div>
+</div>

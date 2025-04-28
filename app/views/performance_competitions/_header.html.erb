@@ -1,0 +1,65 @@
+<% editable ||= false %>
+
+<div class="show-page-header">
+  <h1 class="show-page-title">
+    <%= @event.name %>
+    <small>
+      <% if @event.unlisted_event? %>
+        <i class="fa fa-eye-slash" data-toggle="tooltip" title="<%= t('visibility.unlisted') %>"></i>
+      <% elsif @event.private_event? %>
+        <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
+      <% end %>
+    </small>
+  </h1>
+  <div class="show-page-info">
+    <%= svg_icon 'location-dot-solid' %>
+    <%= place_presentation(@event.place) %>
+    <% if @event.place_msl %>
+      <span>(MSL: <%= @event.place_msl %> <%= t('units.m') %>)</span>
+    <% end %>
+  </div>
+  <div class="show-page-info">
+    <%= "#{t('events.show.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}" %>
+  </div>
+
+  <div class="page-nav">
+    <% controller_path = controller.controller_path %>
+    <%= link_to performance_competition_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(performance_competition_path(@event)))] do %>
+      <%= svg_icon 'list-ul-solid' %>
+      Scoreboard
+    <% end %>
+
+    <% if @event.sections.many? %>
+      <%= link_to performance_competition_open_scoreboard_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(performance_competition_open_scoreboard_path(@event)))] do %>
+        <%= svg_icon 'list-ul-solid' %>
+        Open Event
+      <% end %>
+    <% end %>
+
+    <%= link_to performance_competition_task_scoreboards_path(@event), class: ['page-tab', ('page-tab-active' if controller_path.include?('task_scoreboards'))] do %>
+      <%= svg_icon 'list-ul-solid' %>
+      By Task
+    <% end %>
+
+    <% if @event.use_teams %>
+      <%= link_to performance_competition_teams_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(performance_competition_teams_path(@event)))] do %>
+        <%= svg_icon 'list-ul-solid' %>
+        <span>Teams</span>
+      <% end %>
+    <% end %>
+
+    <% if @event.reference_points.any? || editable %>
+      <%= link_to performance_competition_reference_points_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(performance_competition_reference_points_path(@event)))] do %>
+        <%= svg_icon 'location-dot-solid' %>
+        <span>Ref. points</span>
+      <% end %>
+    <% end %>
+
+    <% if editable %>
+      <%= link_to edit_performance_competition_path(@event), class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_performance_competition_path(@event)))] do %>
+        <%= svg_icon 'gear-solid' %>
+        <%= t('general.edit') %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

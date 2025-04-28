@@ -120,12 +120,18 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :events, only: :index
-  resources :events, path: 'events/performance', concerns: %i[sponsorable organizable], except: :index do
-    scope module: :events do
+  resources :events, only: %i[index new]
+  resources :performance_competitions,
+            path: 'events/performance',
+            concerns: %i[sponsorable organizable],
+            except: :index do
+    scope module: :performance_competitions do
       resource :scoreboard, only: :show
+      resource :open_scoreboard, only: :show
+      resources :task_scoreboards, only: [:index, :show], path: :by_task, param: :task
       resource :team_scoreboard, only: :show
       resource :teams, only: :show
+      resource :designated_lane_start, only: :update
 
       resources :rounds do
         scope module: :rounds do
@@ -138,7 +144,7 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resources :sections do
+      resources :categories do
         member do
           patch 'move_upper'
           patch 'move_lower'
@@ -154,7 +160,44 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resource :reference_points
+      resources :reference_points
+      resource :deletion, only: [:new, :create]
+      collection do
+        resources :select_options, only: :index, as: :performance_competitions_select_options
+      end
+    end
+  end
+
+  resources :boogies, path: 'events/boogie', concerns: %i[sponsorable organizable], except: :index do
+    scope module: :boogies do
+      resource :scoreboard, only: :show
+
+      resources :rounds do
+        scope module: :rounds do
+          resource :map, only: :show do
+            resources :penalties, only: %i[show update], module: :maps
+          end
+          resource :globe, controller: 'globe', only: :show
+          resource :replay, only: :show
+        end
+      end
+
+      resources :categories do
+        member do
+          patch 'move_upper'
+          patch 'move_lower'
+        end
+      end
+
+      resources :competitors
+      resources :results do
+        scope module: :results do
+          resource :jump_range, only: %i[show update]
+          resource :penalty, only: %i[show update]
+          resource :map, only: :show
+        end
+      end
+
       resource :deletion, only: [:new, :create]
       collection do
         resources :select_options, only: :index, as: :events_select_options
@@ -162,7 +205,10 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :speed_skydiving_competitions, path: '/events/speed_skydiving', except: :index do
+  resources :speed_skydiving_competitions,
+            path: '/events/speed_skydiving',
+            concerns: %i[sponsorable organizable],
+            except: :index do
     scope module: :speed_skydiving_competitions do
       resources :categories, except: %i[index show] do
         member do
@@ -172,7 +218,25 @@ Skyderby::Application.routes.draw do
       end
       resources :competitors, except: %i[index show]
       resources :rounds, only: %i[create update destroy]
-      resources :results, except: :index
+      resources :results, except: :index do
+        scope module: :results do
+          resource :penalties, only: %i[show new update]
+          resource :jump_range, only: %i[show update]
+          resource :iframe, only: :show
+        end
+      end
+      resources :teams
+      resources :team_competitors, only: %i[new create destroy]
+      resource :status, only: :update
+      resource :open_scoreboard, only: :show
+      resource :downloads, only: :show do
+        scope module: :downloads do
+          resource :scoreboard, only: :show
+          resource :open_event_scoreboard, only: :show
+          resource :team_standings, only: :show
+          resource :gps_recordings, only: :show
+        end
+      end
     end
   end
 

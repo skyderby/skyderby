@@ -46,6 +46,6 @@ class Events::Scoreboards::Results::CollectionTest < ActiveSupport::TestCase
   end
 
   def event
-    events(:nationals)
+    performance_competitions(:nationals)
   end
 end

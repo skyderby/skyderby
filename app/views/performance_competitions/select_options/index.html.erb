@@ -1,0 +1,9 @@
+<turbo-frame id="<%= sanitize params[:frame_id] %>">
+  <div class="hot-select-options">
+    <% @events.each do |event| %>
+      <div class="hot-select-option" data-value="<%= event.id %>">
+        <%= event.name %>
+      </div>
+    <% end %>
+  </div>
+</turbo-frame>

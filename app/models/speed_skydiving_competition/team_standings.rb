@@ -5,7 +5,7 @@ class SpeedSkydivingCompetition::TeamStandings
 
   def rows
     teams
-      .map { |team| { team: team, total: calculate_team_score(team) } }
+      .map { |team| { team:, competitors: team.competitors, **calculate_team_score(team) } }
       .sort_by { |row| -row[:total].to_f }
       .tap { |standings| assign_ranks(standings) }
   end
@@ -16,12 +16,18 @@ class SpeedSkydivingCompetition::TeamStandings
 
   def calculate_team_score(team)
     team_results = accountable_team_results(team)
-    return if team_results.blank?
+    return { scores_by_competitor: {}, total: nil } if team_results.blank?
 
-    team_results
-      .select { |record| record.final_result.present? }
-      .sum(&:final_result)
-      .round(2)
+    total = team_results.select { |record| record.final_result.present? }.sum(&:final_result).round(2)
+
+    scores_by_competitor = team.competitors.each_with_object({}) do |competitor, scores|
+      score = team_results.select { |result| result.competitor == competitor }.sum(&:final_result).round(2)
+      percent = (score / total * 100).round(1)
+
+      scores[competitor] = { score:, percent: }
+    end
+
+    { scores_by_competitor:, total: }
   end
 
   def accountable_team_results(team)
@@ -45,7 +51,7 @@ class SpeedSkydivingCompetition::TeamStandings
   end
 
   def teams
-    @teams ||= event.teams.includes(:competitors)
+    @teams ||= event.teams.includes(competitors: :profile)
   end
 
   def results

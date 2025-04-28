@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EventListTest < ActiveSupport::TestCase
+class EventTest < ActiveSupport::TestCase
   setup do
     @responsible = users(:event_responsible)
   end
@@ -14,7 +14,7 @@ class EventListTest < ActiveSupport::TestCase
       name: 'With two locations',
       responsible: @responsible
     ).tap do |series|
-      series.competitions << Event.create!(
+      series.competitions << PerformanceCompetition.create!(
         name: 'First location',
         responsible: @responsible,
         starts_at: '2022-04-15'
@@ -27,7 +27,7 @@ class EventListTest < ActiveSupport::TestCase
         )
       end
 
-      series.competitions << Event.create!(
+      series.competitions << PerformanceCompetition.create!(
         name: 'Second location',
         responsible: @responsible,
         starts_at: '2022-04-24'
@@ -41,7 +41,7 @@ class EventListTest < ActiveSupport::TestCase
       end
     end
 
-    records = EventList.where(event_type: 'PerformanceCompetitionSeries')
+    records = Event.where(event_type: 'PerformanceCompetitionSeries')
     assert_equal 2, records.count
     empty_series = records.find { |r| r.name == 'Empty one' }
 

@@ -1,6 +1,7 @@
 class SpeedSkydivingCompetitions::CompetitorsController < ApplicationController
   include SpeedSkydivingCompetitionScoped
 
+  before_action :set_event
   before_action :authorize_event_update!
   before_action :set_competitor, except: %i[new create]
 

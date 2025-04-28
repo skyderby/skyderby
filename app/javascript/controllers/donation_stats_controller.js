@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import format from 'date-fns/format'
 
 export default class extends Controller {

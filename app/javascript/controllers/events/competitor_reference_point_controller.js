@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import Rails from '@rails/ujs'
 
 const CARET_ICON = '<i class="fa fa-fw fa-caret-down"></i>'
@@ -98,7 +98,7 @@ export default class extends Controller {
     this.reference_point.innerHTML = this.reference_point.getAttribute('data-prev-html')
   }
 
-  show_dl(e) {
+  showDl(e) {
     e.preventDefault()
 
     if (this.reference_point_id === '') return

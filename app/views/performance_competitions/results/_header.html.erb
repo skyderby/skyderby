@@ -1,0 +1,23 @@
+<%# locals: (editable:, modal: false) %>
+
+<% form_attributes = { data: modal ? { turbo_stream: true } : {} }  %>
+
+<div class="tab-bar">
+  <%= button_to t('general.charts'), performance_competition_result_path(@result.event, @result),
+                method: :get, form: form_attributes,
+                class: class_names('tab-bar-item', current_page?(performance_competition_result_path(@result.event, @result)) && 'active') %>
+
+  <%= button_to t('event_tracks.show.maps'), performance_competition_result_map_path(@result.event, @result),
+                method: :get, form: form_attributes,
+                class: class_names('tab-bar-item', current_page?(performance_competition_result_map_path(@result.event, @result)) && 'active') %>
+
+  <% if editable %>
+    <%= button_to t('general.jump_range'), performance_competition_result_jump_range_path(@result.event, @result),
+                  method: :get, form: form_attributes,
+                  class: class_names('tab-bar-item', current_page?(performance_competition_result_jump_range_path(@result.event, @result)) && 'active') %>
+
+    <%= button_to t('event_tracks.show.penalties'), performance_competition_result_penalty_path(@result.event, @result),
+                  method: :get, form: form_attributes,
+                  class: class_names('tab-bar-item', current_page?(performance_competition_result_penalty_path(@result.event, @result)) && 'active') %>
+  <% end %>
+</div>

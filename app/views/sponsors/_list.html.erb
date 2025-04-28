@@ -1,18 +1,41 @@
-<% copyable = sponsorable.is_a? Event %>
+<%# locals: (sponsorable:, editable:) %>
+
+<% copyable = sponsorable.is_a? PerformanceCompetition%>
 
 <% if sponsorable.sponsors.any? || editable %>
-  <div class="sponsors" id="sponsors">
+  <div class="sponsors" id="<%= "#{sponsorable.class.name.underscore}_#{sponsorable.id}_sponsors" %>">
     <h4 class="sponsors-title"><%= t('sponsors.list.event_sponsors') %></h4>
 
     <div class="sponsors-list">
-      <%= render partial: 'sponsors/sponsor', collection: sponsorable.sponsors, as: :sponsor, locals: { editable: editable } %>
+      <% sponsorable.sponsors.each do |sponsor| %>
+        <div class="sponsor" id="<%= dom_id(sponsor) %>">
+          <a href="<%= sponsor.website %>" target="_blank" rel="noopener noreferrer">
+            <img src="<%= sponsor.logo_url(:medium) %>" title="<%= sponsor.name %>" alt="<%= sponsor.name %>">
+          </a>
+          <% if editable %>
+            <%= button_to polymorphic_path([sponsor.sponsorable, sponsor]),
+                          method: :delete,
+                          form: { data: { turbo: true } },
+                          class: 'delete-sponsor ghost-button',
+                          title: t('general.delete') do %>
+              <%= svg_icon 'xmark' %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
 
     <% if editable %>
-      <div>
-        <%= new_sponsor_link(sponsorable) %>
+      <div class="sponsors-actions">
+        <%= button_to polymorphic_path([:new, sponsorable, :sponsor]), method: :get, form: { data: { turbo_stream: true } }, class: 'default-button' do %>
+          <%= svg_icon 'plus-solid' %>
+          <%= t('sponsors.list.add_sponsor') %>
+        <% end %>
         <% if copyable %>
-          <%= copy_sponsors_link(sponsorable) %>
+          <%= button_to polymorphic_path([:new, sponsorable, :sponsors_copy]), method: :get, form: { data: { turbo_stream: true } }, class: 'default-button' do %>
+            <%= svg_icon 'copy-regular' %>
+            <%= t('sponsors.list.copy_sponsor') %>
+          <% end %>
         <% end %>
       </div>
     <% end %>

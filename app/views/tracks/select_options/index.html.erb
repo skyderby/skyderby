@@ -1,0 +1,14 @@
+<turbo-frame id="<%= sanitize params[:frame_id] %>">
+  <div class="hot-select-options">
+    <% @tracks.each do |track| %>
+      <div class="hot-select-option" data-value="<%= track.id %>">
+        <div>
+          #<%= track.id %> Recorded at: <%= track.recorded_at %>
+        </div>
+        <div>
+          <%= track.comment %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</turbo-frame>

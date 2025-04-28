@@ -38,6 +38,28 @@
   border-radius: var(--border-radius-md);
 }
 
+.place-link {
+  display: flex;
+  color: inherit;
+  display: inline-flex;
+  align-items: baseline;
+  border-radius: var(--border-radius-md);
+  padding: 0.25rem;
+
+  svg {
+    margin-right: 0.125rem;
+  }
+}
+
+.show-page-info .place-link {
+  margin-left: -0.25rem;
+}
+
+.place-link:hover {
+  color: inherit;
+  background-color: var(--gray-20);
+}
+
 .place-jump-profiles {
   display: flex;
   flex-wrap: wrap;

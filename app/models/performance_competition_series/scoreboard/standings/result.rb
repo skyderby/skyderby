@@ -11,7 +11,7 @@ class PerformanceCompetitionSeries::Scoreboard::Standings::Result
   end
 
   def formatted_result
-    return '' if result.zero? && !penalized
+    return '' unless valid?
 
     if round.distance?
       format('%d', result.truncate)
@@ -21,9 +21,13 @@ class PerformanceCompetitionSeries::Scoreboard::Standings::Result
   end
 
   def formatted_points
-    return '' if result.zero? && !penalized
+    return '' unless valid?
 
     format('%.1f', points.to_f.round(1))
+  end
+
+  def valid?
+    result.positive? || penalized
   end
 
   def result
@@ -39,7 +43,9 @@ class PerformanceCompetitionSeries::Scoreboard::Standings::Result
     @points = result.to_d / best_result * 100
   end
 
-  def best_result! = @best_result = true
+  def best_result!
+    @best_result = true
+  end
 
   private
 

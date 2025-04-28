@@ -1,0 +1,57 @@
+<%# locals: (event:, editable:) %>
+<% standings = event.team_standings %>
+
+<div class="scoreboard-container" id="teams-scoreboard">
+  <table class="scoreboard-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Team</th>
+        <th>Competitor</th>
+        <th colspan="2">Score</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% standings.rows.each do |row| %>
+        <% first_competitor, *other_competitors = row[:competitors] %>
+        <% rowspan = [row[:competitors].size, 1].max %>
+        <tr>
+          <td rowspan="<%= rowspan %>"><%= row[:rank] %></td>
+          <td rowspan="<%= rowspan %>" class="team">
+            <%= row[:team].name %>
+            <% if editable %>
+              <div class="cell-actions">
+                <div class="sd-dropdown" data-controller="dropdown">
+                  <button class="dropdown-toggle ghost-button small-button" data-action="click->dropdown#toggle">
+                    <%= svg_icon 'ellipsis-vertical-solid' %>
+                  </button>
+
+                  <template data-dropdown-target="menu">
+                    <div class="sd-dropdown-menu">
+                      <%= button_to 'Edit', edit_speed_skydiving_competition_team_path(event, row[:team]),
+                                    class: 'dropdown-item',
+                                    method: :get, form: { data: { turbo_stream: true } } %>
+
+                      <%= button_to 'Delete', speed_skydiving_competition_team_path(event, row[:team]),
+                                    class: 'dropdown-item',
+                                    method: :delete, form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } } %>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            <% end %>
+          </td>
+          <%= render 'speed_skydiving_competitions/teams/competitor_cells',
+                     competitor: first_competitor, event:, editable:, score: row[:scores_by_competitor][first_competitor] %>
+          <td rowspan="<%= rowspan %>" class="text-right"><%= row[:total] %></td>
+        </tr>
+        <% other_competitors.each do |competitor| %>
+          <tr>
+            <%= render 'speed_skydiving_competitions/teams/competitor_cells', competitor:, event:, editable:, score: row[:scores_by_competitor][competitor] %>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

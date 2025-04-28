@@ -5,8 +5,6 @@
 }
 
 .form-label {
-  font-weight: 500;
-  font-size: 0.875rem;
   text-align: right;
   line-height: 1;
   margin: 0;
@@ -33,12 +31,55 @@
 }
 
 .form-input {
+  --input-padding-x: 0.75rem;
+  --input-padding-y: 0.5rem;
+
   font-size: 0.875rem;
-  padding: 0.5rem 0.75rem;
+  padding: var(--input-padding-y) var(--input-padding-x);
   background-color: var(--white);
   border: var(--default-border);
   border-radius: var(--border-radius-md);
   width: 100%;
+
+  &:focus {
+    outline-offset: 0.25rem;
+  }
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin: 0;
+
+  input[type="checkbox"] {
+    margin: 0;
+    height: 1.125rem;
+    width: 1.125rem;
+  }
+}
+
+.form-radio-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-radio-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin: 0;
+
+  input[type="radio"] {
+    margin: 0;
+    height: 1.125rem;
+    width: 1.125rem;
+  }
 }
 
 .search-input-container {
@@ -81,4 +122,34 @@
   font-weight: 500;
   font-size: 1.125rem;
   margin: 0;
+}
+
+.form-input[type="file"] {
+  overflow: hidden;
+
+  &:not(:disabled):not([readonly]) {
+    cursor: pointer;
+  }
+
+  &::file-selector-button {
+    padding: var(--input-padding-y) var(--input-padding-x);
+    margin: -0.5rem -0.75rem;
+    margin-inline-end: var(--input-padding-x);
+    color: var(--gray-80);
+    background-color: var(--gray-10);
+    pointer-events: none;
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    border-inline-end-width: 1px;
+    border-radius: 0;
+  }
+
+  &:hover:not(:disabled):not([readonly])::file-selector-button {
+    background-color: var(--gray-20);
+  }
+
+  &:focus {
+    outline-offset: 0.25rem;
+  }
 }

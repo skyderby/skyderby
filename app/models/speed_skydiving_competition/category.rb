@@ -7,7 +7,7 @@ class SpeedSkydivingCompetition::Category < ApplicationRecord
            inverse_of: :category,
            dependent: :restrict_with_error
 
-  scope :sorted, -> { order(:position) }
+  scope :ordered, -> { order(:position) }
   validates :name, presence: true
 
   before_create :set_position

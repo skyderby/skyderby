@@ -1,0 +1,67 @@
+<%= form_with model: @event, url: '/events/performance', html: { class: 'form-horizontal', role: 'form', id: "#{action_name}_event_form"} do |f| %>
+  <%= display_event_form_params %>
+
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :name, class: 'form-label col-4' %>
+      <%= f.text_field :name, required: true, class: 'form-input col-8' %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :starts_at, class: 'form-label col-4' %>
+      <%= f.date_field :starts_at, class: 'form-input col-8', value: (@event.starts_at || Date.today).iso8601 %>
+    </div>
+
+    <div class="grid">
+      <%= f.label t('events.show.comp_window'), class: 'form-label col-4' %>
+      <div class="col-8 flex gap-0_5 items-center">
+        <%= f.text_field :range_from, required: true, class: 'form-input', type: 'number' %>
+        <span>&mdash;</span>
+        <%= f.text_field :range_to, required: true, class: 'form-input', type: 'number' %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :place, class: 'form-label col-4' %>
+      <%= render 'hot_select/select',
+                 form: f,
+                 name: :place_id,
+                 src: places_select_options_path,
+                 options: options_for_select([[@event.place_name, @event.place_id], @event.place_id]),
+                 placeholder: t('events.show.place_placeholder'),
+                 class: 'col-8' %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :visibility, class: 'form-label col-4' %>
+      <div class="col-8 form-radio-input-group">
+        <% PerformanceCompetition.visibilities.each do |key, _value| %>
+          <label class="form-radio-input">
+            <%= f.radio_button 'visibility', key %>
+            <%= t("activerecord.attributes.event.visibilities.#{key}") %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :use_teams, class: 'form-checkbox col-8 col-start-5' do %>
+        <%= f.check_box :use_teams %>
+        <%= t('activerecord.attributes.event.use_teams') %>
+      <% end %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :wind_cancellation, class: 'form-checkbox col-8 col-start-5' do %>
+        <%= f.check_box :wind_cancellation %>
+        <%= t('activerecord.attributes.event.wind_cancellation') %>
+      <% end %>
+    </div>
+  </div>
+
+  <hr>
+  <div class="text-right">
+    <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+    <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
+  </div>
+<% end %>

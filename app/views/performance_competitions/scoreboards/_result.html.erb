@@ -1,0 +1,15 @@
+<% can_update ||= false %>
+<% result_class ||= '' %>
+
+<td class="<%= class_names 'scoreboard-result', result_class %>">
+  <%= link_to performance_competition_result_path(event, result.record), class: 'show-result', rel: 'nofollow', data: { turbo_stream: true } do %>
+    <% if result.valid? %>
+      <%= result.formatted_result %>
+      <% if result.penalized? && event.apply_penalty_to_result? %>
+        <sup class="text-danger">-<%= result.penalty_size %>%</sup>
+      <% end %>
+    <% elsif can_update %>
+      <i class="far fa-question-circle text-danger"></i>
+    <% end %>
+  <% end %>
+</td>

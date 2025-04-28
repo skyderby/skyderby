@@ -55,8 +55,8 @@ class EventPolicyTest < ActiveSupport::TestCase
 
       event = create(:event,
                      responsible: current_user,
-                     status: Event.statuses[status],
-                     visibility: Event.visibilities[visibility])
+                     status: PerformanceCompetition.statuses[status],
+                     visibility: PerformanceCompetition.visibilities[visibility])
 
       assert_includes EventPolicy::Scope.new(current_user, Event).resolve, event
     end

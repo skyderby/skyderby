@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class Event::RoundTest < ActiveSupport::TestCase
+class PerformanceCompetition::RoundTest < ActiveSupport::TestCase
   setup do
-    @event = Event.create!(
+    @event = PerformanceCompetition.create!(
       name: 'Test Event',
       starts_at: Time.zone.today,
       place: places(:ravenna),
@@ -50,7 +50,7 @@ class Event::RoundTest < ActiveSupport::TestCase
   end
 
   test '.by_name' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     assert_equal event_rounds(:distance_1), event.rounds.by_name('Distance-1')
   end
 end

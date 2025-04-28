@@ -1,0 +1,43 @@
+<div class="container-fluid round-map">
+  <div class="row" data-controller="events--round-globe" data-url="<%= url_for %>" data-action="cesium_api:ready@window->events--round-globe#onCesiumReady cesium_api:failed@window->events--round-globe#onCesiumFailed">
+    <div class="col-sm-9">
+      <div id="round-map" data-events--round-globe-target="viewer">
+        <div id="track-map-loading" class="text-muted" data-events--round-globe-target="loadingProgress">
+          <div id="track-map-loading-api" class="fa-2x">
+            <i class="fa fa-fw fa-spin fa-circle-notch" data-events--round-globe-target="cesiumStatus"></i>
+            Loading Cesium API
+          </div>
+          <div id="track-map-loading-data" class="fa-2x">
+            <i class="fa fa-fw fa-spin fa-circle-notch" data-events--round-globe-target="dataStatus"></i>
+            Loading map data
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th><%= t('events.rounds.globe.fast_forward') %>:</th>
+          </tr>
+        </thead>
+        <% @round_map.competitors_by_groups.each_with_index do |group, index| %>
+          <tbody>
+            <tr>
+              <td><%= t('events.rounds.globe.group') %> <%= index + 1 %></td>
+            </tr>
+            <% group.each do |competitor| %>
+              <tr>
+                <td>
+                  <a class="fast-forward-competitor" href="#" data-action="events--round-globe#fastForward" data-start-time="<%= competitor.points.first[:gps_time].xmlschema %>">
+                    <%= competitor.name %>
+                  </a>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

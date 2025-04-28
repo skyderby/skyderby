@@ -13,7 +13,7 @@
       </div>
 
       <div class="modal-body">
-        <%= render 'concerns/upload_progress' %>
+        <%= render 'components/upload_progress' %>
 
         <div class="radio">
           <%= f.label :track_from, value: :from_file do %>
@@ -27,11 +27,11 @@
             <%= builder.label :file, t('activerecord.attributes.event/result.file'), class: 'control-label col-sm-4' %>
             <div class="col-sm-8">
               <div class="input-group" data-controller="filefield">
-                <input type="text" class="form-control" readonly="true" data-target="filefield.text_field">
+                <input type="text" class="form-control" readonly="true" data-filefield-target="text_field">
                 <span class="input-group-btn">
                   <span class="btn btn-default btn-file">
                     &hellip;
-                    <%= builder.file_field :file, class: 'form-control', data: { target: 'filefield.file_field', action: 'change->filefield#change' } %>
+                    <%= builder.file_field :file, class: 'form-control', 'data-filefield-target': 'file_field', 'data-action': 'change->filefield#change' %>
                   </span>
                 </span>
               </div>

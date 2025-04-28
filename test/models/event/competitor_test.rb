@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class Event::CompetitorTest < ActiveSupport::TestCase
+class PerformanceCompetition::CompetitorTest < ActiveSupport::TestCase
   setup do
-    @event = events(:nationals)
+    @event = performance_competitions(:nationals)
     @category = event_sections(:advanced)
     @norwegian = Profile.create! name: 'Natural Athlete', country: countries(:norway)
     @russian = Profile.create! name: 'Natural Athlete', country: countries(:russia)

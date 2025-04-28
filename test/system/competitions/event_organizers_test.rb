@@ -2,7 +2,7 @@ require 'application_system_test_case'
 
 class EventOrganizersTest < ApplicationSystemTestCase
   test 'add organizer' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     organizer = users(:regular_user)
 
     sign_in users(:event_responsible)

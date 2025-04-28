@@ -9,12 +9,12 @@ export default class Geospatial {
     return n * (180 / Math.PI)
   }
 
-  static normalize_angle(n) {
+  static normalizeAngle(n) {
     const angle = Number(n)
     return (angle + 360) % 360
   }
 
-  static destiantion_by_bearing_and_distance(
+  static destiantionByBearingAndDistance(
     latitude_deg,
     longitude_deg,
     bearing_deg,
@@ -62,7 +62,7 @@ export default class Geospatial {
       }
     }
 
-    return this.normalize_angle(this.degrees(Math.atan2(d_lon, d_phi)))
+    return this.normalizeAngle(this.degrees(Math.atan2(d_lon, d_phi)))
   }
 
   static distance(lat1_deg, lon1_deg, lat2_deg, lon2_deg) {

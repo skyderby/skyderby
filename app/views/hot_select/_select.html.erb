@@ -4,30 +4,32 @@
 
 <div id="<%= select_id %>-container" class="form-input hot-select-container <%= local_assigns[:class] %>"
      data-controller="hot-select">
-  <%= form.select name, options, {}, class: 'hot-select--hidden', data: { target: 'hot-select.selectInput' } %>
+  <%= form.select name, options, {}, class: 'hot-select--hidden', 'data-hot-select-target': 'selectInput' %>
 
   <div class="hot-select-control">
     <div class="hot-select-placeholder"
          data-action="click->hot-select#toggle"
-         data-target="hot-select.placeholder">
+         data-hot-select-target="placeholder">
       <%= local_assigns[:placeholder] || raw('&nbsp;') %>
     </div>
     <div class="hot-select-value"
          data-action="click->hot-select#toggle"
-         data-target="hot-select.displayValue">
+         data-hot-select-target="displayValue">
     </div>
     <div class="hot-select-indicators">
-      <button type="button" class="hot-select-button" data-action="hot-select#clear">
-        <%= svg_icon 'xmark' %>
-      </button>
-      <div class="hot-select-separator"></div>
+      <% unless local_assigns[:hide_clear_button] %>
+        <button type="button" class="hot-select-button" data-action="hot-select#clear">
+          <%= svg_icon 'xmark' %>
+        </button>
+        <div class="hot-select-separator"></div>
+      <% end %>
       <button type="button" class="hot-select-button" data-action="hot-select#toggle">
         <%= svg_icon 'angle-down-solid' %>
       </button>
     </div>
   </div>
 
-  <template data-target="hot-select.dropdown">
+  <template data-hot-select-target="dropdown">
     <div class="hot-select-dropdown">
       <turbo-frame id="hot-select-search">
         <%= form_with url: src,
@@ -35,11 +37,11 @@
                       method: :get, data: { controller: 'auto-submit', 'turbo-frame': select_id } do |f| %>
           <%= f.hidden_field :frame_id, value: select_id %>
           <%= f.text_field :term, class: 'hot-select-search', placeholder: 'Search...',
-                           data: { action: 'input->auto-submit#submit', target: 'hot-select.searchInput' } %>
+                           'data-action': 'input->auto-submit#submit', 'data-hot-select-target': 'searchInput' %>
         <% end %>
       </turbo-frame>
 
-      <turbo-frame id="<%= select_id %>" src="<%= src + "?frame_id=#{select_id}" %>" loading="lazy" class="hot-select-scrollable hot-select-selectable">
+      <turbo-frame id="<%= select_id %>" src="<%= merge_query_params(src, frame_id: select_id) %>" loading="lazy" class="hot-select-scrollable hot-select-selectable">
         <div class="hot-select-options">
           <div class="hot-select-option">Loading...</div>
         </div>

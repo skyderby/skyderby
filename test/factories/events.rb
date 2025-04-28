@@ -33,11 +33,11 @@ FactoryBot.define do
     end
 
     trait :draft do
-      status { Event.statuses['draft'] }
+      status { PerformanceCompetition.statuses['draft'] }
     end
 
     trait :published do
-      status { Event.statuses['published'] }
+      status { PerformanceCompetition.statuses['published'] }
     end
   end
 end

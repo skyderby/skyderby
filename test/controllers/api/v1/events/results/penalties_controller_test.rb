@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::Events::Results::PenaltiesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @event = events(:nationals)
+    @event = performance_competitions(:nationals)
   end
 
   test 'when authorized' do

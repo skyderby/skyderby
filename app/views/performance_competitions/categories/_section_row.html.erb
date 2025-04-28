@@ -1,0 +1,48 @@
+<%# locals: (event:, section:, editable:, scoreboard:, action_params:) %>
+
+<% columns_count = scoreboard.rounds.count * 2 + scoreboard.rounds_by_discipline.count + 4 %>
+<% return unless section.id %>
+
+<tr>
+  <td class="scoreboard-category" colspan="<%= columns_count %>">
+    <span class="section-name"><%= section.name %></span>
+
+    <% if editable %>
+      <div class="category-actions">
+        <%= button_to edit_performance_competition_category_path(event, section),
+                      params: action_params,
+                      class: 'ghost-button small-button',
+                      method: :get, form: { data: { turbo_stream: true } } do %>
+          <%= svg_icon 'pencil-solid' %>
+        <% end %>
+
+        <% if event.sections.many? %>
+          <% unless section.first_position? %>
+            <%= button_to move_upper_performance_competition_category_path(event, section),
+                          params: action_params,
+                          class: 'ghost-button small-button',
+                          method: :patch, form: { data: { turbo_stream: true } } do %>
+              <%= svg_icon 'angle-up-solid' %>
+            <% end %>
+          <% end %>
+          <% unless section.last_position? %>
+            <%= button_to move_lower_performance_competition_category_path(event, section),
+                          params: action_params,
+                          class: 'ghost-button small-button',
+                          method: :patch, form: { data: { turbo_stream: true } } do %>
+              <%= svg_icon 'angle-down-solid' %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <%= button_to performance_competition_category_path(event, section),
+                      params: action_params,
+                      confirm: t('sections.show.delete_confirmation'),
+                      class: 'ghost-button small-button',
+                      method: :delete do %>
+          <%= svg_icon 'xmark' %>
+        <% end %>
+      </div>
+    <% end %>
+  </td>
+</tr>

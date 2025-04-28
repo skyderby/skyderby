@@ -15,7 +15,7 @@
         <%= f.text_field :url,
                          class: 'form-control',
                          placeholder: t('.url_placeholder'),
-                         'data-target': 'tracks--video-form.url',
+                         'data-tracks--video-form-target': 'url',
                          'data-action': 'change->tracks--video-form#on_change_url input->tracks--video-form#on_change_url' %>
       </div>
       <%= f.hidden_field :video_code %>
@@ -31,11 +31,11 @@
       <p><%= t '.video_offset_description' %></p>
     </div>
     <div class="col-sm-8">
-      <div data-target="tracks--video-form.player"></div>
+      <div data-tracks--video-form-target="player"></div>
     </div>
     <div class="col-sm-3 col-sm-offset-4 top-buffer">
       <div class="input-group">
-        <%= f.text_field :video_offset, class: 'form-control text-center', 'data-target': 'tracks--video-form.video_offset' %>
+        <%= f.text_field :video_offset, class: 'form-control text-center', 'data-tracks--video-form-target': 'video_offset' %>
         <span class="input-group-btn">
           <button class="btn btn-default" data-action="click->tracks--video-form#set_video_offset"><%= t '.set' %></button>
         </span>
@@ -51,7 +51,7 @@
       <p><%= t '.track_offset_description' %></p>
     </div>
     <div class="col-sm-8">
-      <div id="chart" data-target="tracks--video-form.chart"></div>
+      <div id="chart" data-tracks--video-form-target="chart"></div>
     </div>
     <div class="col-sm-3 col-sm-offset-4">
       <div class="input-group">
@@ -60,7 +60,7 @@
             <i class="fa fa-chevron-left"></i>
           </button>
         </span>
-        <%= f.text_field :track_offset, class: 'form-control text-center', 'data-target': 'tracks--video-form.track_offset' %>
+        <%= f.text_field :track_offset, class: 'form-control text-center', 'data-tracks--video-form-target': 'track_offset' %>
         <span class="input-group-btn">
           <button class="btn btn-default" data-action="click->tracks--video-form#increase_track_offset">
             <i class="fa fa-chevron-right"></i>

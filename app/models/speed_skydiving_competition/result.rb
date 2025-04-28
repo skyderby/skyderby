@@ -17,9 +17,13 @@ class SpeedSkydivingCompetition::Result < ApplicationRecord
   delegate :tracks_visibility, to: :event
 
   accepts_nested_attributes_for :track, update_only: true, reject_if: :new_record?
-  accepts_nested_attributes_for :penalties, update_only: true
+  accepts_nested_attributes_for :penalties, reject_if: :all_blank, allow_destroy: true
 
   def penalty_size = 100 - penalties.inject(100) { |sum, penalty| sum * penalty.factor }
+
+  def penalty_reason = penalties.map(&:reason).join(', ')
+
+  def penalized? = penalties.any?
 
   def final_result = result.to_f * (1 - (penalty_size / 100))
 
@@ -30,6 +34,8 @@ class SpeedSkydivingCompetition::Result < ApplicationRecord
   def track_comment = "#{event.name} - Round #{round_number}"
 
   def track_activity = :speed_skydiving
+
+  def suit_id = nil
 
   def can_be_destroyed? = round_must_be_in_progress || throw(:abort)
 

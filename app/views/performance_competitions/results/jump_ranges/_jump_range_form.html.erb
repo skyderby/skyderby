@@ -1,0 +1,26 @@
+<%# locals: (editable:, show_cancel: false, modal: false, **rest) %>
+
+<div class="sd-container">
+  <% if modal %>
+    <%= render 'performance_competitions/results/header', editable:, modal: %>
+  <% end %>
+
+  <%= form_for :jump_range, url: performance_competition_result_jump_range_path(@result.event, @result),
+               method: :put, data: { turbo_stream: true, controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+    <%= render 'components/jump_range_form', track: @result.track, form: f %>
+
+    <hr>
+    <div class="modal-actions">
+      <div class="modal-actions__left">
+        <%= delete_event_track_link(@result) %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit t('general.save'), class: 'primary-button' %>
+        <% if show_cancel %>
+          <button class="default-button" type="button" data-action="modal#close"><%= t 'general.cancel' %></button>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::Events::ResultsControllerTest < ActionDispatch::IntegrationTest
   test '#index' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
 
     get api_v1_event_results_path(event_id: event.id), as: :json
 
@@ -16,7 +16,7 @@ class Api::V1::Events::ResultsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test '#create when not allowed' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     post api_v1_event_results_path(event_id: event.id), as: :json
 
     assert_response :forbidden
@@ -25,7 +25,7 @@ class Api::V1::Events::ResultsControllerTest < ActionDispatch::IntegrationTest
   test '#create when allowed, with correct data' do
     sign_in users(:event_responsible)
 
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
     round = event.rounds.create!(discipline: :distance)
     competitor = event_competitors(:john)
 

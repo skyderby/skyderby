@@ -7,7 +7,7 @@ class PerformanceCompetitionSeries::ScoreboardTest < ActiveSupport::TestCase
   end
 
   test 'group categories by name' do
-    @series.competitions << Event.create!(
+    @series.competitions << PerformanceCompetition.create!(
       name: 'First',
       responsible: @responsible,
       starts_at: '2022-04-20'
@@ -16,7 +16,7 @@ class PerformanceCompetitionSeries::ScoreboardTest < ActiveSupport::TestCase
       event.sections.create!(name: 'intermediate')
     end
 
-    @series.competitions << Event.create!(
+    @series.competitions << PerformanceCompetition.create!(
       name: 'Second',
       responsible: @responsible,
       starts_at: '2022-04-20'

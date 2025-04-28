@@ -1,0 +1,50 @@
+<%# locals: (editable:, show_cancel: false, modal: false, **rest) %>
+
+<div class="sd-container"
+     data-controller="events--result-map"
+     data-action="maps_api:ready@window->events--result-map#onMapsReady maps_api:failed@window->events--result-map#onMapsFailedLoad">
+
+  <% if modal %>
+    <%= render 'performance_competitions/results/header', editable:, modal: %>
+  <% end %>
+
+  <script type="application/json" data-events--result-map-target="mapData">
+    <%= raw render partial: 'performance_competitions/results/maps/map_data', map_data: @map_data, formats: [:json] %>
+  </script>
+
+  <div class="row">
+    <div class="col-sm-12" data-controller="events--designated-lane"
+         data-action="round-map:show-dl@window->events--designated-lane#showDl">
+      <div class="<%= mobile? ? 'hide' : '' %>">
+        <%= render 'performance_competitions/maps/designated_lane_form' %>
+      </div>
+
+      <div class="event-track__map" data-events--result-map-target="map" data-events--designated-lane-target="map">
+        <div class="round-map-loading" data-events--round-map-target="loadingPlaceholder">
+          <i class="fa fa-3x fa-circle-notch fa-spin"></i>
+          <p>Loading...</p>
+        </div>
+      </div>
+
+      <%= render 'performance_competitions/maps/legend' %>
+    </div>
+  </div>
+
+  <% show_actions = policy(@result.event).update? || show_cancel %>
+  <% if show_actions %>
+    <hr>
+    <div class="modal-actions">
+      <div class="modal-actions__left">
+        <% if policy(@result.event).update? %>
+          <%= delete_event_track_link(@result) %>
+        <% end %>
+      </div>
+
+      <% if show_cancel %>
+        <div class="modal-actions__right">
+          <button class="btn btn-default" type="button" data-dismiss="modal"><%= t 'general.cancel' %></button>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

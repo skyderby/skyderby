@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import { differenceInMilliseconds } from 'date-fns'
 import { saveSeriesVisibility, restoreSeriesVisibility } from 'utils/chartSeriesSettings'
 import I18n from 'i18n'

@@ -1,4 +1,4 @@
-<%= link_to event_path(event), class: 'comp-list-item' do %>
+<%= link_to performance_competition_path(event), class: 'comp-list-item' do %>
   <div class="event-start-date text-center">
     <div class="start-date-day"><%= event.starts_at.strftime '%d' %></div>
     <div class="start-date-month"><%= event.starts_at.strftime '%b\'%y' %></div>

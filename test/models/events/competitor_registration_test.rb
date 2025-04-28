@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Events::CompetitorRegistrationTest < ActiveSupport::TestCase
   setup do
-    @event = events(:nationals)
+    @event = performance_competitions(:nationals)
     @section = event_sections(:advanced)
     @suit = suits(:apache)
   end

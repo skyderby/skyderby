@@ -4,7 +4,7 @@ module Api
       module Results
         class PenaltiesController < ApplicationController
           def update
-            event = Event.find(params[:event_id])
+            event = PerformanceCompetition.find(params[:event_id])
 
             authorize event, :update?
 

@@ -1,6 +1,5 @@
-import '@stimulus/polyfills'
-import { Application } from 'stimulus'
-import { definitionsFromContext } from 'stimulus/webpack-helpers'
+import { Application } from '@hotwired/stimulus'
+import { definitionsFromContext } from '@hotwired/stimulus-webpack-helpers'
 import Rails from '@rails/ujs'
 import '@hotwired/turbo-rails'
 import 'utils/googleAnalytics'
@@ -43,12 +42,11 @@ HighchartsMore(Highcharts)
 import 'utils/google_maps_api'
 import 'utils/cesium_api'
 import 'utils/chartSeriesSettings'
-// Look for controllers inside app/javascripts/packs/controllers/
-const application = Application.start()
 
+window.Stimulus = Application.start()
 // eslint-disable-next-line no-undef
-const context = require.context('controllers', true, /\.js$/)
-application.load(definitionsFromContext(context))
+const context = require.context('../controllers', true, /\.js$/)
+window.Stimulus.load(definitionsFromContext(context))
 
 import { createConsumer } from '@rails/actioncable'
 window.cable = createConsumer()

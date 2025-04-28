@@ -1,49 +1,55 @@
-<%# locals: (result:, **rest) %>
+<%# locals: (event:, result:, editable:, **rest) %>
 
-<div class="grid">
-  <div class="result-indicator col-4">
-    <div class="result-indicator-title">
-      Result
+<div class="sd-container">
+  <% if editable %>
+    <%= render 'navbar', event:, result: %>
+  <% end %>
+
+  <div class="grid">
+    <div class="result-indicator col-4">
+      <div class="result-indicator-title">
+        Result
+      </div>
+      <div class="result-indicator-value">
+        <%= result.result.round(1) %>
+        <%= t('units.kmh') %>
+      </div>
+      <div class="result-indicator-info">
+        <%= kmh_to_mph(result.result).round(1) %>
+        <%= t('units.mph') %>
+      </div>
     </div>
-    <div class="result-indicator-value">
-      <%= result.result.round(1) %>
-      <%= t('units.kmh') %>
+
+    <div class="result-indicator col-4">
+      <div class="result-indicator-title">
+        Exit Altitude
+      </div>
+      <div class="result-indicator-value">
+        <%= result.exit_altitude.round %>
+        <%= t('units.m') %>
+      </div>
+      <div class="result-indicator-info">
+        <%= m_to_ft(result.exit_altitude).round %>
+        <%= t('units.ft') %>
+      </div>
     </div>
-    <div class="result-indicator-info">
-      <%= kmh_to_mph(result.result).round(1) %>
-      <%= t('units.mph') %>
+
+    <div class="result-indicator col-4">
+      <div class="result-indicator-title">
+        Window
+      </div>
+      <div class="result-indicator-value">
+        <%= result.window_start_altitude.round %>-<%= result.window_end_altitude.round %>
+        <%= t('units.m') %>
+      </div>
+      <div class="result-indicator-info">
+        <%= m_to_ft(result.window_start_altitude).round %>-<%= m_to_ft(result.window_end_altitude).round %>
+        <%= t('units.ft') %>
+      </div>
     </div>
   </div>
 
-  <div class="result-indicator col-4">
-    <div class="result-indicator-title">
-      Exit Altitude
-    </div>
-    <div class="result-indicator-value">
-      <%= result.exit_altitude %>
-      <%= t('units.m') %>
-    </div>
-    <div class="result-indicator-info">
-      <%= m_to_ft(result.exit_altitude).round %>
-      <%= t('units.ft') %>
-    </div>
-  </div>
-
-  <div class="result-indicator col-4">
-    <div class="result-indicator-title">
-      Window
-    </div>
-    <div class="result-indicator-value">
-      <%= result.window_start_altitude.round(1) %>-<%= result.window_end_altitude.round(1) %>
-      <%= t('units.m') %>
-    </div>
-    <div class="result-indicator-info">
-      <%= m_to_ft(result.window_start_altitude).round %>-<%= m_to_ft(result.window_end_altitude).round %>
-      <%= t('units.ft') %>
-    </div>
-  </div>
-
-  <div class="col-12 speed-skydiving-chart"
+  <div class="speed-skydiving-chart"
        data-controller="speed-skydiving-chart"
        data-track-id="<%= result.track_id %>"
        data-result="<%= result.result %>"

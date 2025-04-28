@@ -2,7 +2,7 @@ require 'test_helper'
 
 class OrganizerTest < ActiveSupport::TestCase
   setup do
-    @event = events(:nationals)
+    @event = performance_competitions(:nationals)
     @user = users(:regular_user)
   end
 

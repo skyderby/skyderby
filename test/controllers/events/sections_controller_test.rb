@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Events::SectionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @event = events(:nationals)
+    @event = performance_competitions(:nationals)
     @section = event_sections(:advanced)
     @user = users(:event_responsible)
   end

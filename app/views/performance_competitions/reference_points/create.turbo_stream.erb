@@ -1,0 +1,3 @@
+<%= turbo_stream.append 'reference-points-table' do %>
+  <%= render partial: 'form', locals: { event: @event, reference_point: @reference_point } %>
+<% end %>

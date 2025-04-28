@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import init_maps_api from 'utils/google_maps_api'
 import FinishLine from 'utils/tournaments/map/finish_line'
 import CenterLine from 'utils/tournaments/map/center_line'

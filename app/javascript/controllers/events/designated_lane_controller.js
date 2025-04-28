@@ -1,5 +1,5 @@
-import { Controller } from 'stimulus'
-import DesignatedLane from 'utils/designated_lane'
+import { Controller } from '@hotwired/stimulus'
+import DesignatedLane from 'utils/designatedLane'
 import Geospatial from 'utils/geospatial'
 
 const DEFAULT_DL_DIRECTION = 0
@@ -10,70 +10,67 @@ export default class extends Controller {
   static targets = ['map', 'button', 'length', 'width', 'direction']
 
   connect() {
-    this.directionTarget.value =
-      localStorage.last_used_dl_direction || DEFAULT_DL_DIRECTION
-    this.lengthTarget.value = localStorage.last_used_dl_length || DEFAULT_DL_LENGTH
-    this.widthTarget.value = localStorage.last_used_dl_width || DEFAULT_DL_WIDTH
+    this.directionTarget.value = localStorage.lastUsedDlDirection || DEFAULT_DL_DIRECTION
+    this.lengthTarget.value = localStorage.lastUsedDlLength || DEFAULT_DL_LENGTH
+    this.widthTarget.value = localStorage.lastUsedDlWidth || DEFAULT_DL_WIDTH
   }
 
   toggle() {
     this.button.blur()
     this.button.classList.toggle('active')
 
-    this.toggle_dl()
+    this.toggleDl()
   }
 
-  on_change_length(event) {
+  onChangeLength(event) {
     const length = Number(event.currentTarget.value)
-    localStorage.last_used_dl_length = length
+    localStorage.lastUsedDlLength = length
 
-    this.designated_lane.set_length(length)
+    this.designatedLane.setLength(length)
   }
 
-  on_change_width(event) {
+  onChangeWidth(event) {
     const width = Number(event.currentTarget.value)
-    localStorage.last_used_dl_width = width
+    localStorage.lastUsedDlWidth = width
 
-    this.designated_lane.set_width(width)
+    this.designatedLane.setWidth(width)
   }
 
-  on_change_direction(event) {
+  onChangeDirection(event) {
     const direction = Number(event.currentTarget.value)
-    localStorage.last_used_dl_direction = direction
+    localStorage.lastUsedDlDirection = direction
 
-    this.designated_lane.set_direction(direction)
+    this.designatedLane.setDirection(direction)
   }
 
-  show_dl(event) {
-    const { reference_point_position, start_point_position } = event.detail
-    const middle_point_lat =
-      (start_point_position.lat() + reference_point_position.lat()) / 2
-    const middle_point_lon =
-      (start_point_position.lng() + reference_point_position.lng()) / 2
+  showDl(event) {
+    const { referencePointPosition, startPointPosition } = event.detail
+    const middlePointLat = (startPointPosition.lat() + referencePointPosition.lat()) / 2
+    const middlePointLon = (startPointPosition.lng() + referencePointPosition.lng()) / 2
     const direction = Geospatial.bearing(
-      middle_point_lat,
-      middle_point_lon,
-      reference_point_position.lat(),
-      reference_point_position.lng()
+      middlePointLat,
+      middlePointLon,
+      referencePointPosition.lat(),
+      referencePointPosition.lng()
     )
     this.directionTarget.value = Math.round(direction * 10) / 10
 
-    const set_dl_position = () => {
-      this.designated_lane.set_position(middle_point_lat, middle_point_lon)
-      this.designated_lane.set_direction(direction)
+    const setDlPosition = () => {
+      this.designatedLane.setPosition(middlePointLat, middlePointLon)
+      this.designatedLane.setDirection(direction)
     }
 
     if (!this.button.classList.contains('active')) {
-      this.mapTarget.addEventListener('map:dl-shown', set_dl_position, { once: true })
+      this.mapTarget.addEventListener('map:dl-shown', setDlPosition, { once: true })
 
       this.button.classList.add('active')
       this.enable()
     } else {
-      set_dl_position()
+      setDlPosition()
     }
   }
 
-  toggle_dl() {
+  toggleDl() {
     if (this.button.classList.contains('active')) {
       this.enable()
     } else {
@@ -86,23 +83,23 @@ export default class extends Controller {
     this.widthTarget.disabled = false
     this.directionTarget.disabled = false
 
-    if (!this.designated_lane) {
-      this.designated_lane = new DesignatedLane(
+    if (!this.designatedLane) {
+      this.designatedLane = new DesignatedLane(
         google,
         this.map,
         this.widthTarget.value,
         this.lengthTarget.value,
         this.directionTarget.value,
         {
-          on_rotate: angle => {
+          onRotate: angle => {
             this.directionTarget.value = angle
-            localStorage.last_used_dl_direction = angle
+            localStorage.lastUsedDlDirection = angle
           }
         }
       )
     }
 
-    this.designated_lane.show()
+    this.designatedLane.show()
   }
 
   disable() {
@@ -110,7 +107,7 @@ export default class extends Controller {
     this.widthTarget.disabled = true
     this.directionTarget.disabled = true
 
-    this.designated_lane.hide()
+    this.designatedLane.hide()
   }
 
   get button() {
@@ -118,6 +115,6 @@ export default class extends Controller {
   }
 
   get map() {
-    return this.mapTarget.map_instance
+    return this.mapTarget.mapInstance
   }
 }

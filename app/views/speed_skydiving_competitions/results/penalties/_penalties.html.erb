@@ -1,0 +1,31 @@
+<%# locals: (event:, result:, editable:, **rest) %>
+
+<div class="sd-container">
+  <%= render 'speed_skydiving_competitions/results/navbar', event:, result: %>
+
+  <div>
+    <div class="penalties-header">
+      <div class="penalties-row">
+        <label>Size, %</label>
+        <label>Reason</label>
+        <%= button_to new_speed_skydiving_competition_result_penalties_path(event, result),
+                      method: :get, form: { data: { turbo_stream: true } }, class: 'ghost-button' do %>
+          <%= svg_icon 'plus-solid' %>
+        <% end %>
+      </div>
+    </div>
+
+    <%= form_with model: result, scope: :result, url: speed_skydiving_competition_result_penalties_path(event, result),
+                  data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+      <div class="penalties" id="penalties">
+        <%= f.fields_for :penalties do |form| %>
+          <%= render 'penalty_fields', form: %>
+        <% end %>
+      </div>
+      <div class="form-actions">
+        <%= f.submit t('general.save'), class: 'primary-button' %>
+        <button data-action="modal#close" type="button" class="default-button"><%= t('general.cancel') %></button>
+      </div>
+    <% end %>
+  </div>
+</div>

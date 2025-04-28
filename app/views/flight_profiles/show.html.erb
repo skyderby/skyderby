@@ -22,6 +22,6 @@
         <%= select_tag :place, select_options, include_blank: true, placeholder: 'Choose exit measurement', class: 'form-control', data: { controller: 'select2--exit-measurements', action: 'change->flight-profiles--exit-measurement#toggle' } %>
       </div>
     </div>
-    <div class="flight-profiles__chart-container" data-controller="flight-profiles--chart" data-target="flight-profiles.chart"></div>
+    <div class="flight-profiles__chart-container" data-controller="flight-profiles--chart" data-flight-profiles-target="chart"></div>
   </div>
 </div>

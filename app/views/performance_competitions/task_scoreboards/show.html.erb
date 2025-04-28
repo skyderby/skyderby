@@ -1,0 +1,15 @@
+<% provide :title, @event.name %>
+<% editable = @event.editable? %>
+<%= turbo_stream_from [@event, :task_scoreboard, @scoreboard.discipline, editable ? :editable : :read_only, @scoreboard.wind_cancelled ? :wind_cancelled : nil].compact %>
+
+<div class="show-page">
+  <%= render 'performance_competitions/header', editable: %>
+
+  <%= render 'performance_competitions/task_scoreboards/navbar' %>
+
+  <% if @event.surprise? && !editable %>
+    <%= render 'performance_competitions/surprise' %>
+  <% else %>
+    <%= render 'performance_competitions/open_scoreboards/scoreboard', event: @event, editable:, scoreboard: @scoreboard %>
+  <% end %>
+</div>

@@ -1,0 +1,20 @@
+<% url = @category.new_record? ?
+           performance_competition_categories_path(@event) :
+           performance_competition_category_path(@event, @category) %>
+
+<%= form_with model: @category, url:, scope: :category,
+              data: { controller: 'events--categories-form modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+  <%= display_event_form_params %>
+
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :name, class: 'form-label col-3' %>
+      <%= f.text_field :name, required: true, class: 'form-input col-9' %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit t('general.save'), class: 'primary-button' %>
+      <button type="button" class="default-button" data-action="modal#close"><%= t 'general.cancel' %></button>
+    </div>
+  </div>
+<% end %>

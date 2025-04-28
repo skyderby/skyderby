@@ -1,5 +1,5 @@
 <%= form_with model: @place, class: 'grid', data: { controller: 'places--form' } do |f| %>
-  <script type="application/json" data-target="places--form.allPlaces">
+  <script type="application/json" data-places--form-target="allPlaces">
     <%= raw render template: 'places/index', collection: @places[0..10], as: :place, formats: [:json] %>
   </script>
 
@@ -37,14 +37,14 @@
     <div class="grid">
       <%= f.label :latitude, class: 'col-4', for: :latitude %>
       <div class="col-8">
-        <%= f.text_field :latitude, required: true, class: 'form-input', 'data-target': 'places--form.latitude', 'data-action': 'input->places--form#onCoordinatesChange' %>
+        <%= f.text_field :latitude, required: true, class: 'form-input', 'data-places--form-target': 'latitude', 'data-action': 'input->places--form#onCoordinatesChange' %>
       </div>
     </div>
 
     <div class="grid">
       <%= f.label :longitude, class: 'col-4', for: :longitude %>
       <div class="col-8">
-        <%= f.text_field :longitude, required: true, class: 'form-input', 'data-target': 'places--form.longitude', 'data-action': 'input->places--form#onCoordinatesChange' %>
+        <%= f.text_field :longitude, required: true, class: 'form-input', 'data-places--form-target': 'longitude', 'data-action': 'input->places--form#onCoordinatesChange' %>
       </div>
     </div>
 
@@ -62,5 +62,5 @@
     </div>
   </div>
 
-  <div class="col-6 place-form--map" data-target="places--form.map"></div>
+  <div class="col-6 place-form--map" data-places--form-target="map"></div>
 <% end %>

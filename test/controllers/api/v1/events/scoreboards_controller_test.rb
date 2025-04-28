@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::Events::ScoreboardsControllerTest < ActionDispatch::IntegrationTest
   test '#show, format: :json' do
-    event = events(:nationals)
+    event = performance_competitions(:nationals)
 
     get api_v1_event_scoreboard_path(event_id: event.id), as: :json
 
