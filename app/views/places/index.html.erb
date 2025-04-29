@@ -1,20 +1,20 @@
 <% provide :title, page_title(t('application.header.places')) %>
 
-<div class="places" data-controller="places--index">
-  <div class="places__sidebar" data-target="places--index.sidebar">
+<div class="explorer" data-controller="places--index">
+  <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
     <%= render 'list_with_search' %>
 
     <% if policy(Place).create? %>
-      <div class="places__sidebar-create">
+      <div class="explorer-sidebar-footer">
         <%= link_to new_place_path, class: 'btn btn-default' do %>
           <%= svg_icon 'plus-solid' %>
           <%= t('.new') %>
         <% end %>
       </div>
     <% end %>
-  </div>
+  </aside>
 
-  <div class="places__container">
+  <main class="explorer-main">
     <div class="places__map" data-target="places--index.map"></div>
-  </div>
+  </main>
 </div>

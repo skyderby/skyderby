@@ -17,4 +17,7 @@
   <li class="nav-menu-item <%= 'nav-menu-item--active' if root_controller == 'places' %>">
     <%= link_to t('application.header.places'), places_path %>
   </li>
+  <li class="nav-menu-item <%= 'nav-menu-item--active' if root_controller == 'flight_profiles' %>">
+    <%= link_to t('application.header.flight_profiles'), flight_profiles_path %>
+  </li>
 </ul>

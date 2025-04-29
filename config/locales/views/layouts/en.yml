@@ -2,6 +2,7 @@ en:
   application:
     header:
       tracks: Tracks
+      flight_profiles: Flight profiles
       about: About project
       sign_in: Log in
       sign_up: Sign up

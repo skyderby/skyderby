@@ -1,27 +1,37 @@
-<div class="flight-profiles" data-controller="flight-profiles">
-  <div class="flight-profiles__header">
-    <%= link_to @scope, class: 'btn-back' do %>
-      <i class="fa fa-chevron-left"></i>
-      <%= @scope.name %>
-    <% end %>
-    <span>//</span>
-    <%= t('flight_profiles') %>
-  </div>
-  <div class="flight-profiles__body">
-    <div class="flight-profiles__sidebar">
-      <div class="flight-profiles__tracks-container">
-        <%= render 'tracks' %>
+<% provide :title, page_title(t('application.header.flight_profiles')) %>
+
+<div class="explorer">
+  <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
+    <div class="explorer-sidebar-container" data-controller="places--searchable-list">
+      <div class="search-input-container">
+        <div class="search-input-icon">
+          <%= svg_icon 'magnifying-glass-solid' %>
+        </div>
+        <input class="search-input" type="text" data-action="input->places--searchable-list#filterPlaces" placeholder="Search...">
       </div>
-      <div class="flight-profiles__place-container" data-controller="flight-profiles--exit-measurement">
-        <% if @scope.is_a?(Place) && @scope.jump_lines.any? %>
-          <% line = @scope.jump_lines.first %>
-          <% select_options = options_for_select([[line.full_name, line.id]], line.id) %>
-        <% else %>
-          <% select_options = nil %>
-        <% end %>
-        <%= select_tag :place, select_options, include_blank: true, placeholder: 'Choose exit measurement', class: 'form-control', data: { controller: 'select2--exit-measurements', action: 'change->flight-profiles--exit-measurement#toggle' } %>
+
+      <div class="explorer-sidebar-scrollable">
+
+      </div>
+
+      <div class="explorer-sidebar-toggle">
+        <button class="default-button" data-action="toggleable#toggle">
+          <%= svg_icon 'angle-left-solid', class: 'explorer-sidebar-toggle-opened' %>
+          <%= svg_icon 'angle-right-solid', class: 'explorer-sidebar-toggle-closed' %>
+        </button>
       </div>
     </div>
-    <div class="flight-profiles__chart-container" data-controller="flight-profiles--chart" data-target="flight-profiles.chart"></div>
-  </div>
+
+    <div class="explorer-sidebar-footer">
+      Footer
+    </div>
+  </aside>
+
+  <main class="explorer-main">
+    <div class="flight-profiles-charts">
+      <div>Chart A</div>
+      <div>Tagbar</div>
+      <div>Chart B</div>
+    </div>
+  </main>
 </div>

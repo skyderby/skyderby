@@ -1,6 +1,6 @@
 <% link_to_preview ||= false %>
 
-<div class="places-list" data-controller="places--searchable-list">
+<div class="explorer-sidebar-container" data-controller="places--searchable-list">
   <div class="search-input-container">
     <div class="search-input-icon">
       <%= svg_icon 'magnifying-glass-solid' %>
@@ -8,7 +8,7 @@
     <input class="search-input" type="text" data-action="input->places--searchable-list#filterPlaces" placeholder="Search...">
   </div>
 
-  <div class="places__list-container">
+  <div class="explorer-sidebar-scrollable">
     <% @places.group_by(&:country).each do |country, places| %>
       <div class="places-country" data-target="places--index.country places--searchable-list.country">
         <div class="places-country-name"><%= country.name %></div>
@@ -22,10 +22,10 @@
     <% end %>
   </div>
 
-  <div class="places-sidebar-toggle">
-    <button class="default-button" data-action="places--index#toggleSidebar">
-      <%= svg_icon 'angle-left-solid', class: 'places-sidebar-toggle-opened' %>
-      <%= svg_icon 'angle-right-solid', class: 'places-sidebar-toggle-closed' %>
+  <div class="explorer-sidebar-toggle">
+    <button class="default-button" data-action="toggleable#toggle">
+      <%= svg_icon 'angle-left-solid', class: 'explorer-sidebar-toggle-opened' %>
+      <%= svg_icon 'angle-right-solid', class: 'explorer-sidebar-toggle-closed' %>
     </button>
   </div>
 </div>

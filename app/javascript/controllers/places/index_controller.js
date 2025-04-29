@@ -3,14 +3,10 @@ import initMapsApi from 'utils/google_maps_api'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
 
 export default class extends Controller {
-  static targets = ['map', 'place', 'country', 'sidebar']
+  static targets = ['map', 'place', 'country']
 
   connect() {
     initMapsApi().then(() => this.renderMap())
-  }
-
-  toggleSidebar() {
-    this.sidebarTarget.classList.toggle('collapsed')
   }
 
   renderMap() {

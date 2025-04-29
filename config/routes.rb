@@ -249,6 +249,8 @@ Skyderby::Application.routes.draw do
   end
   resources :badges
 
+  resource :flight_profiles, only: :show
+
   resources :manufacturers
   resources :suits do
     scope module: :suits do
