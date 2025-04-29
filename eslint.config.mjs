@@ -38,7 +38,7 @@ export default [
         Cesium: false,
         Turbo: false,
         Highcharts: false,
-        ga: false,
+        gtag: false,
         module: false,
         process: false,
         __dirname: false

@@ -9,9 +9,11 @@ export default class extends Controller {
 
       const url = event.target.getAttribute('href')
 
-      ga('send', 'event', 'announcement', 'click', url, {
-        transport: 'beacon',
-        hitCallback: function () {
+      gtag('event', 'click', {
+        event_category: 'announcement',
+        event_label: url,
+        transport_type: 'beacon',
+        event_callback: function () {
           document.location = url
         }
       })

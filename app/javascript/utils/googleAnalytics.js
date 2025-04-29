@@ -1,3 +1,3 @@
 document.addEventListener('turbo:load', () => {
-  ga('send', 'pageview', window.location.pathname)
+  gtag('event', 'page_view', { page_path: window.location.pathname })
 })
