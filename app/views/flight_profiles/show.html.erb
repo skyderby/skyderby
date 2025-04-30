@@ -1,6 +1,6 @@
-<% provide :title, page_title(t('application.header.flight_profiles')) %>
+<% provide :title, page_title(t('flight_profiles.title')) %>
 
-<div class="explorer">
+<div class="explorer" data-controller="flight-profiles">
   <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
     <div class="explorer-sidebar-container" data-controller="places--searchable-list">
       <div class="search-input-container">
@@ -23,7 +23,10 @@
     </div>
 
     <div class="explorer-sidebar-footer">
-      Footer
+      <%= render 'hot_select/select', name: :jump_line_id, src: places_jump_profiles_select_options_path,
+                placeholder: t('flight_profiles.show.select_jump_line'),
+                options: @jump_profile.present? ? options_for_select([["#{@jump_profile.place.name} - #{@jump_profile.name}", @jump_profile.id]]) : [],
+                select: { data: { action: 'flight-profiles#handleJumpLineSelection' }}%>
     </div>
   </aside>
 

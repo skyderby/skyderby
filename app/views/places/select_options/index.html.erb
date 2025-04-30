@@ -12,10 +12,9 @@
       <% end %>
     <% end %>
 
-    <% if @places.total_pages > @places.current_page %>
-      <% next_page = @places.current_page + 1 %>
-      <% frame_id = "#{sanitize params[:frame_id]}-#{next_page}" %>
-      <%= render 'hot_select/load_more', page: next_page, frame_id:, term: params[:term] %>
+    <% if @places.next_page %>
+      <% frame_id = "#{sanitize params[:frame_id]}-#{@places.next_page}" %>
+      <%= render 'hot_select/load_more', page: @places.next_page, frame_id:, term: params[:term] %>
     <% end %>
   </div>
 </turbo-frame>

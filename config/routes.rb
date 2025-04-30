@@ -279,6 +279,9 @@ Skyderby::Application.routes.draw do
       resource :weather_data, only: :show
 
       collection do
+        resources :select_options,
+                  only: :index, path: 'jump_profiles/select_options',
+                  module: :jump_profiles, as: :places_jump_profiles_select_options
         resources :select_options, only: :index, as: :places_select_options
       end
     end

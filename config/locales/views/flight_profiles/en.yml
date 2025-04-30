@@ -1,2 +1,5 @@
 en:
-  flight_profiles: Flight profiles
+  flight_profiles:
+    title: Flight Profiles
+    show:
+      select_jump_line: Select jump line

@@ -1,0 +1,14 @@
+<turbo-frame id="<%= sanitize params[:frame_id] %>">
+  <div class="hot-select-options">
+    <% @jump_lines.each do |jump_line| %>
+      <div class="hot-select-option" data-value="<%= jump_line.id %>">
+        <%= jump_line.place.name %> - <%= jump_line.name %>
+      </div>
+    <% end %>
+
+    <% if @jump_lines.next_page %>
+      <% frame_id = "#{sanitize params[:frame_id]}-#{@jump_lines.next_page}" %>
+      <%= render 'hot_select/load_more', page: @jump_lines.next_page, frame_id:, term: params[:term] %>
+    <% end %>
+  </div>
+</turbo-frame>
