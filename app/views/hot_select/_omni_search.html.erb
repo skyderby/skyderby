@@ -1,0 +1,10 @@
+<%# locals: (**local_assigns) %>
+<div data-controller="omni-search" class="form-input hot-select-container">
+  <div class="hot-select-placeholder"
+       data-action="click->omni-search#toggle"
+       data-target="hot-select.placeholder">
+    <%= local_assigns[:placeholder] || raw('&nbsp;') %>
+  </div>
+
+  <%= yield %>
+</div>

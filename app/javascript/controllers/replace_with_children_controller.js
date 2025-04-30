@@ -3,13 +3,15 @@ import { Controller } from 'stimulus'
 export default class extends Controller {
   trigger() {
     this.ensureGroupUniqueness()
-    this.element.replaceWith(...this.element.children)
+    this.element.replaceWith(
+      ...this.element.querySelector('.hot-select-options').children
+    )
   }
 
   ensureGroupUniqueness() {
     const parent = this.element.parentElement
 
-    if (!parent || !parent.classList.contains('hot-select-options')) return
+    if (!parent || !parent.classList.contains('.hot-select-options')) return
 
     const existingGroups = parent.querySelectorAll('.hot-select-option-group')
     const lastGroup =

@@ -226,8 +226,6 @@ export default class HotSelect extends Controller {
     div.setAttribute('data-value', option.value)
     div.setAttribute('tabindex', '-1')
     div.setAttribute('role', 'option')
-    div.setAttribute('tabindex', '-1') // Make it programmatically focusable but not in tab order
-    div.setAttribute('role', 'option')
     this.optionsContainer.insertAdjacentHTML('beforeend', div.outerHTML)
   }
 

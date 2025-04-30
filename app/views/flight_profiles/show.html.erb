@@ -2,13 +2,8 @@
 
 <div class="explorer" data-controller="flight-profiles">
   <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
-    <div class="explorer-sidebar-container" data-controller="places--searchable-list">
-      <div class="search-input-container">
-        <div class="search-input-icon">
-          <%= svg_icon 'magnifying-glass-solid' %>
-        </div>
-        <input class="search-input" type="text" data-action="input->places--searchable-list#filterPlaces" placeholder="Search...">
-      </div>
+    <div class="explorer-sidebar-container">
+      <%= render 'flight_profiles/search_bar' %>
 
       <div class="explorer-sidebar-scrollable">
 
