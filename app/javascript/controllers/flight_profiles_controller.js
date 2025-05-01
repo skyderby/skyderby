@@ -17,4 +17,12 @@ export default class FlightProfilesController extends Controller {
 
     window.history.replaceState({}, '', url)
   }
+
+  handleTrackClick(event) {
+    event.preventDefault()
+    const trackElement = event.target.closest('a')
+    const trackId = trackElement.dataset.id
+    trackElement.classList.toggle('active')
+    console.log('Track clicked:', trackId)
+  }
 }
