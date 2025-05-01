@@ -14,9 +14,9 @@
       <div class="thead tracks-table-header">
         <%= render 'table_header' %>
       </div>
-      <div id="tracks-list" class="tbody tracks-table-body">
+      <turbo-frame id="tracks-list" class="tbody tracks-table-body" target="_top">
         <%= render @tracks %>
-      </div>
+      </turbo-frame>
     </div>
   </div>
 

@@ -6,7 +6,8 @@
       <%= render 'flight_profiles/search_bar' %>
 
       <div class="explorer-sidebar-scrollable">
-
+        <turbo-frame id="tracks-list" src="<%= tracks_path(kind: :base) %>" loading="lazy">
+        </turbo-frame>
       </div>
 
       <div class="explorer-sidebar-toggle">
