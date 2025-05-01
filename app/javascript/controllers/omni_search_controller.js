@@ -2,7 +2,7 @@ import { Controller } from 'stimulus'
 import { createPopper } from '@popperjs/core'
 
 export default class OmniSearchController extends Controller {
-  static targets = ['model', 'typeSelect']
+  static targets = ['model', 'typeSelect', 'tagsContainer', 'tagTemplate']
 
   connect() {
     this.onClickOutside = this.onClickOutside.bind(this)
@@ -39,26 +39,25 @@ export default class OmniSearchController extends Controller {
     const optionElement = event.target.closest('.hot-select-option')
     if (!optionElement) return
 
-    const type = optionElement.getAttribute('data-value')
+    const type = optionElement.dataset.value
+    const label = optionElement.dataset.label
 
-    const matchingModel = this.modelTargets.find(
-      model => model.getAttribute('name') === type
-    )
-
-    if (matchingModel) {
-      setTimeout(() => {
-        this.openModelDropdown(matchingModel)
-      }, 0)
-    }
+    setTimeout(() => this.openModelDropdown(type, label), 0)
   }
 
-  openModelDropdown(modelElement) {
+  openModelDropdown(type, label) {
+    const modelElement = this.modelTargets.find(model => model.dataset.name === type)
+
+    if (!modelElement) throw new Error(`Can not find elements dropdown for type: ${type}`)
+
     this.dropdownRoot.innerHTML = modelElement.innerHTML
 
     const optionsContainer = this.dropdownRoot.querySelector('.hot-select-dropdown')
-    if (optionsContainer) {
-      optionsContainer.addEventListener('click', this.selectModel.bind(this))
-    }
+    if (!optionsContainer) throw new Error(`Can not find dropdown element for ${type}`)
+
+    optionsContainer.addEventListener('click', event =>
+      this.selectModel(event, type, label)
+    )
 
     const searchInput = this.dropdownRoot.querySelector(
       '[data-target="hot-select.searchInput"]'
@@ -91,16 +90,51 @@ export default class OmniSearchController extends Controller {
     })
   }
 
-  selectModel(event) {
+  selectModel(event, type, label) {
     const optionElement = event.target.closest('.hot-select-option')
     if (!optionElement) return
 
-    const value = optionElement.getAttribute('data-value')
+    const value = optionElement.dataset.value
     const text = optionElement.textContent.trim()
 
-    console.log(`Selected: ${text} (${value})`)
+    this.addFilterTag(type, label, value, text)
 
     this.close()
+  }
+
+  addFilterTag(type, label, value, text) {
+    const tagElement = this.tagTemplateTarget.content
+      .querySelector('.filter-tag')
+      .cloneNode(true)
+    tagElement.dataset.value = value
+    tagElement.dataset.type = type
+    tagElement.querySelector('.filter-tag-type').textContent = label
+    tagElement.querySelector('.filter-tag-value').textContent = text
+
+    this.tagsContainerTarget.appendChild(tagElement)
+
+    this.element.dispatchEvent(
+      new CustomEvent('filter:added', {
+        detail: { type, value }
+      })
+    )
+  }
+
+  removeTag(event) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const tagElement = event.target.parentElement
+    const type = tagElement.dataset.type
+    const value = tagElement.dataset.value
+
+    tagElement.remove()
+
+    this.element.dispatchEvent(
+      new CustomEvent('filter:removed', {
+        detail: { type, value }
+      })
+    )
   }
 
   onClickOutside(event) {

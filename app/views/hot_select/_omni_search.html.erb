@@ -1,5 +1,18 @@
 <%# locals: (**local_assigns) %>
-<div data-controller="omni-search" class="form-input hot-select-container">
+<div data-controller="omni-search" class="form-input hot-select-container omni-search-container">
+  <template data-target="omni-search.tagTemplate">
+    <div class="filter-tag">
+      <span class="filter-tag-type">${typeLabel}</span>
+      <span class="filter-tag-separator">|</span>
+      <span class="filter-tag-value">${text}</span>
+      <button class="filter-tag-remove" data-action="click->omni-search#removeTag">×</button>
+    </div>
+  </template>
+
+  <div class="selected-tags-container" data-target="omni-search.tagsContainer">
+
+  </div>
+
   <div class="hot-select-placeholder"
        data-action="click->omni-search#toggle"
        data-target="hot-select.placeholder">

@@ -1,26 +1,26 @@
 <%= render 'hot_select/omni_search' do %>
   <%= render 'hot_select/local_options', 'data-target': 'omni-search.typeSelect' do %>
-    <div class="hot-select-option" data-value="year">
+    <div class="hot-select-option" data-value="year" data-label="Year">
       <%= svg_icon 'calendar-days-solid' %>
       Year
     </div>
-    <div class="hot-select-option" data-value="profile">
+    <div class="hot-select-option" data-value="profile" data-label="Profile">
       <%= svg_icon 'user-solid' %>
       Profile
     </div>
-    <div class="hot-select-option" data-value="place">
+    <div class="hot-select-option" data-value="place" data-label="Place">
       <%= svg_icon 'location-dot-solid' %>
       Place
     </div>
-    <div class="hot-select-option" data-value="suit">
+    <div class="hot-select-option" data-value="suit" data-label="Suit">
       <%= svg_icon 'wingsuit' %>
       Suit
     </div>
   <% end %>
 
-  <%= render 'hot_select/local_options', options: 2014..2025, 'data-target': 'omni-search.model', name: 'year' %>
-  <%= render 'hot_select/async_options', src: profiles_select_options_path, select_id: :profile, 'data-target': 'omni-search.model', name: 'profile' %>
-  <%= render 'hot_select/async_options', src: places_select_options_path, select_id: :place, 'data-target': 'omni-search.model', name: 'place' %>
-  <%= render 'hot_select/async_options', src: suits_select_options_path, select_id: :suit, 'data-target': 'omni-search.model', name: 'suit' %>
+  <%= render 'hot_select/local_options', options: 2014..2025, 'data-target': 'omni-search.model', 'data-name': 'year' %>
+  <%= render 'hot_select/async_options', src: profiles_select_options_path, select_id: :profile, 'data-target': 'omni-search.model', 'data-name': 'profile' %>
+  <%= render 'hot_select/async_options', src: places_select_options_path, select_id: :place, 'data-target': 'omni-search.model', 'data-name': 'place' %>
+  <%= render 'hot_select/async_options', src: suits_select_options_path, select_id: :suit, 'data-target': 'omni-search.model', 'data-name': 'suit' %>
 <% end %>
 
