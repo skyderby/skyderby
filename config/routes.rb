@@ -249,6 +249,7 @@ Skyderby::Application.routes.draw do
   end
   resources :badges
 
+  resources :exit_measurements, only: :show
   resource :flight_profiles, only: :show
 
   resources :manufacturers

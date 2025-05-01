@@ -41,7 +41,7 @@ class TracksController < ApplicationController
     respond_to do |format|
       format.html
       format.js
-      format.json { @track_data }
+      format.json
     end
   end
 

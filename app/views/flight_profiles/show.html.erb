@@ -1,4 +1,5 @@
 <% provide :title, page_title(t('flight_profiles.title')) %>
+<% provide :page_class, 'fullscreen' %>
 
 <div class="explorer" data-controller="flight-profiles">
   <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
@@ -6,14 +7,16 @@
       <%= render 'flight_profiles/search_bar' %>
 
       <div class="explorer-sidebar-scrollable" data-action="click->flight-profiles#handleTrackClick">
-        <turbo-frame id="tracks-list" src="<%= tracks_path(kind: :base) %>"
+        <turbo-frame id="tracks-list"
+                     data-target="flight-profiles.tracksList"
+                     src="<%= tracks_path(kind: :base) %>"
                      loading="lazy"
-                     data-action="turbo:frame-render->flight-profiles#setActiveTracks">
+                     data-action="turbo:frame-render->flight-profiles#processTrackLinks">
         </turbo-frame>
       </div>
 
       <div class="explorer-sidebar-toggle">
-        <button class="default-button" data-action="toggleable#toggle">
+        <button class="default-button" data-action="toggleable#toggle flight-profiles#resizeCharts">
           <%= svg_icon 'angle-left-solid', class: 'explorer-sidebar-toggle-opened' %>
           <%= svg_icon 'angle-right-solid', class: 'explorer-sidebar-toggle-closed' %>
         </button>
@@ -30,9 +33,20 @@
 
   <main class="explorer-main">
     <div class="flight-profiles-charts">
-      <div>Chart A</div>
-      <div>Tagbar</div>
-      <div>Chart B</div>
+      <div>
+        <div data-target="flight-profiles.flightProfilesChart"></div>
+      </div>
+      <div class="flight-profiles-tagbar" data-target="flight-profiles.tagbar">
+        <template data-target="flight-profiles.tagTemplate">
+          <div class="filter-tag">
+            <span class="filter-tag-type"></span>
+            <button class="filter-tag-remove" data-action="flight-profiles#removeTag">×</button>
+          </div>
+        </template>
+      </div>
+      <div>
+        <div data-target="flight-profiles.terrainClearanceChart"></div>
+      </div>
     </div>
   </main>
 </div>
