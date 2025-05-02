@@ -118,7 +118,19 @@ class TracksController < ApplicationController
   end
 
   def index_params
-    params.permit(:order, :page, :kind, :profile_id, :profile_name, :suit_id, :place_id, :term)
+    params.permit(
+      :order,
+      :page,
+      :kind,
+      :profile_name,
+      :term,
+      :profile_id,
+      :suit_id,
+      :place_id,
+      profile_id: [],
+      suit_id: [],
+      place_id: []
+    )
   end
   helper_method :index_params
 

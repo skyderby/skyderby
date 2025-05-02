@@ -1,26 +1,28 @@
-<%= render 'hot_select/omni_search' do %>
+<%# locals: (**local_assigns) %>
+
+<%= render 'hot_select/omni_search', **local_assigns, placeholder: 'Search of filter tracks...' do %>
   <%= render 'hot_select/local_options', 'data-target': 'omni-search.typeSelect' do %>
-    <div class="hot-select-option" data-value="year" data-label="Year">
+    <div class="hot-select-option" data-value="year[]" data-label="Year">
       <%= svg_icon 'calendar-days-solid' %>
       Year
     </div>
-    <div class="hot-select-option" data-value="profile" data-label="Profile">
+    <div class="hot-select-option" data-value="profile_id[]" data-label="Profile">
       <%= svg_icon 'user-solid' %>
       Profile
     </div>
-    <div class="hot-select-option" data-value="place" data-label="Place">
+    <div class="hot-select-option" data-value="place_id[]" data-label="Place">
       <%= svg_icon 'location-dot-solid' %>
       Place
     </div>
-    <div class="hot-select-option" data-value="suit" data-label="Suit">
+    <div class="hot-select-option" data-value="suit_id[]" data-label="Suit">
       <%= svg_icon 'wingsuit' %>
       Suit
     </div>
   <% end %>
 
-  <%= render 'hot_select/local_options', options: 2014..2025, 'data-target': 'omni-search.model', 'data-name': 'year' %>
-  <%= render 'hot_select/async_options', src: profiles_select_options_path, select_id: :profile, 'data-target': 'omni-search.model', 'data-name': 'profile' %>
-  <%= render 'hot_select/async_options', src: places_select_options_path, select_id: :place, 'data-target': 'omni-search.model', 'data-name': 'place' %>
-  <%= render 'hot_select/async_options', src: suits_select_options_path, select_id: :suit, 'data-target': 'omni-search.model', 'data-name': 'suit' %>
+  <%= render 'hot_select/local_options', options: 2014..2025, 'data-target': 'omni-search.model', 'data-name': 'year[]' %>
+  <%= render 'hot_select/async_options', src: profiles_select_options_path, select_id: :profile, 'data-target': 'omni-search.model', 'data-name': 'profile_id[]' %>
+  <%= render 'hot_select/async_options', src: places_select_options_path, select_id: :place, 'data-target': 'omni-search.model', 'data-name': 'place_id[]' %>
+  <%= render 'hot_select/async_options', src: suits_select_options_path, select_id: :suit, 'data-target': 'omni-search.model', 'data-name': 'suit_id[]' %>
 <% end %>
 

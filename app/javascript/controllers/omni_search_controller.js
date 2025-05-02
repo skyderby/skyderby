@@ -124,7 +124,7 @@ export default class OmniSearchController extends Controller {
     event.preventDefault()
     event.stopPropagation()
 
-    const tagElement = event.target.parentElement
+    const tagElement = event.target.closest('.filter-tag')
     const type = tagElement.dataset.type
     const value = tagElement.dataset.value
 

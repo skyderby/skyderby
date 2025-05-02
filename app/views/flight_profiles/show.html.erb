@@ -3,24 +3,31 @@
 
 <div class="explorer" data-controller="flight-profiles">
   <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
-    <div class="explorer-sidebar-container">
-      <%= render 'flight_profiles/search_bar' %>
+    <turbo-frame id="hot-select-search" class="explorer-search">
+      <%= form_with url: tracks_path, method: :get, data: { controller: 'tracks-search', turbo_frame: 'tracks-list' } do |f| %>
+        <%= f.hidden_field :kind, value: :base %>
 
-      <div class="explorer-sidebar-scrollable" data-action="click->flight-profiles#handleTrackClick">
-        <turbo-frame id="tracks-list"
-                     data-target="flight-profiles.tracksList"
-                     src="<%= tracks_path(kind: :base) %>"
-                     loading="lazy"
-                     data-action="turbo:frame-render->flight-profiles#processTrackLinks">
-        </turbo-frame>
-      </div>
+        <%= render 'flight_profiles/search_bar', 'data-action': [
+            'filter:added->tracks-search#handleFilterAdd',
+            'filter:removed->tracks-search#handleFilterRemove',
+          ].join(' ') %>
+      <% end %>
+    </turbo-frame>
 
-      <div class="explorer-sidebar-toggle">
-        <button class="default-button" data-action="toggleable#toggle flight-profiles#resizeCharts">
-          <%= svg_icon 'angle-left-solid', class: 'explorer-sidebar-toggle-opened' %>
-          <%= svg_icon 'angle-right-solid', class: 'explorer-sidebar-toggle-closed' %>
-        </button>
-      </div>
+    <div class="explorer-sidebar-scrollable" data-action="click->flight-profiles#handleTrackClick">
+      <turbo-frame id="tracks-list"
+                   data-target="flight-profiles.tracksList"
+                   src="<%= tracks_path(kind: :base) %>"
+                   loading="lazy"
+                   data-action="turbo:frame-render->flight-profiles#processTrackLinks">
+      </turbo-frame>
+    </div>
+
+    <div class="explorer-sidebar-toggle">
+      <button class="default-button" data-action="toggleable#toggle flight-profiles#resizeCharts">
+        <%= svg_icon 'angle-left-solid', class: 'explorer-sidebar-toggle-opened' %>
+        <%= svg_icon 'angle-right-solid', class: 'explorer-sidebar-toggle-closed' %>
+      </button>
     </div>
 
     <div class="explorer-sidebar-footer">
