@@ -157,6 +157,11 @@ export default class OmniSearchController extends Controller {
     )
   }
 
+  clear() {
+    this.element.dispatchEvent(new CustomEvent('filter:clear'))
+    this.tagsContainerTarget.replaceChildren()
+  }
+
   onClickOutside(event) {
     if (!this.element.classList.contains('hot-select--open')) return
 
@@ -250,8 +255,7 @@ export default class OmniSearchController extends Controller {
   }
 
   close() {
-    const dropdownRoot = document.getElementById('dropdown-root')
-    dropdownRoot.innerHTML = ''
+    this.dropdownRoot.replaceChildren()
     this.element.classList.remove('hot-select--open')
     document.removeEventListener('keydown', this.onKeyDown)
     this.focusedOptionIndex = -1

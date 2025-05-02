@@ -18,4 +18,12 @@ export default class TracksSearchController extends Controller {
 
     this.element.closest('form').requestSubmit()
   }
+
+  handleFilterClear() {
+    this.element
+      .querySelectorAll('input:not([name="kind"])')
+      .forEach(element => element.remove())
+
+    this.element.closest('form').requestSubmit()
+  }
 }

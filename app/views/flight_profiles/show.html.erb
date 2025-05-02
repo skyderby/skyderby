@@ -10,6 +10,7 @@
         <%= render 'flight_profiles/search_bar', 'data-action': [
             'filter:added->tracks-search#handleFilterAdd',
             'filter:removed->tracks-search#handleFilterRemove',
+            'filter:clear->tracks-search#handleFilterClear',
           ].join(' ') %>
       <% end %>
     </turbo-frame>

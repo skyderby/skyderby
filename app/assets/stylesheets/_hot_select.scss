@@ -6,14 +6,19 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  flex-grow: 1;
 }
 
 .selected-tags-container {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem 0.5rem;
-  padding: 0.25rem;
+
+  &:not(:empty) {
+    padding: 0.25rem;
+  }
 }
+
 
 .filter-tag {
   display: inline-flex;
@@ -90,6 +95,7 @@
   padding: 0.5rem;
   height: 100%;
   color: var(--gray-70);
+  height: 100%;
 
   &:last-child {
     border-top-right-radius: var(--border-radius-md);
