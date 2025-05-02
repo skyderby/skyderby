@@ -84,8 +84,8 @@ class EventsTest < ApplicationSystemTestCase
   end
 
   def submit_result(competitor:, filename:)
-    competitor_row(competitor).find('.scoreboard-result').hover
-    competitor_row(competitor).find('i.fa.fa-upload').click
+    competitor_row(competitor).find('.result-cell').hover
+    competitor_row(competitor).find('svg').click
 
     sleep 0.5
 
@@ -97,13 +97,13 @@ class EventsTest < ApplicationSystemTestCase
 
   def verify_last_result(result:)
     assert_no_selector('#modal')
-    assert_selector('td.scoreboard-result', text: result)
+    assert_selector('td.result-cell', text: result)
   end
 
   def add_penalty_to_last_result(competitor:)
     row = competitor_row(competitor)
-    row.find('.scoreboard-result').hover
-    row.find('.show-result').click
+    row.find('.result-cell').hover
+    row.find('.result-cell a').click
 
     modal_title = "#{I18n.t('activerecord.models.event/result')}: #{competitor} | Distance - 1"
     assert_selector('.modal-title', text: modal_title)

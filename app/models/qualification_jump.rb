@@ -20,12 +20,14 @@ class QualificationJump < ApplicationRecord
   belongs_to :qualification_round
   belongs_to :track, optional: true
 
-  alias_attribute :round, :qualification_round
-
   delegate :tournament, to: :qualification_round
   delegate :start_time, to: :track, prefix: true, allow_nil: true
   delegate :name, to: :competitor, prefix: true, allow_nil: true
   delegate :order, to: :round, prefix: true, allow_nil: true
+  delegate :suit_id, to: :competitor
+
+  alias round qualification_round
+  alias event tournament
 
   def start_time
     return unless start_time_in_seconds
@@ -37,21 +39,13 @@ class QualificationJump < ApplicationRecord
     self.start_time_in_seconds = Time.zone.parse(val).to_f
   end
 
-  def track_owner
-    tournament
-  end
+  def track_owner = tournament
 
-  def tracks_visibility
-    :public_track
-  end
+  def tracks_visibility = :public_track
 
-  def track_activity
-    :base
-  end
+  def track_activity = :base
 
-  def track_comment
-    "#{tournament.name} - Qualification #{qualification_round.order}"
-  end
+  def track_comment = "#{tournament.name} - Qualification #{qualification_round.order}"
 
   private
 

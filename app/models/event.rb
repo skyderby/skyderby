@@ -64,6 +64,8 @@ class Event < ApplicationRecord
 
   def active? = starts_at < Time.zone.now && !finished?
 
+  def editable?(user = Current.user) = EventPolicy.new(user, self).update?
+
   private
 
   def check_name_and_range

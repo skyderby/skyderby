@@ -162,6 +162,28 @@
     }
   }
 
+  // TODO: Remove when performance competitions are migrated
+  a.result-show-cell {
+    background-color: var(--white);
+    text-align: right;
+    border: 0;
+    padding: 0.5rem;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+  }
+
+  a.result-show-cell:hover::before {
+    content: '';
+    background-color: var(--blue-70);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+
   .result-upload-cell {
     height: 100%;
     width: 100%;
@@ -183,6 +205,22 @@
     }
   }
 
+  // TODO: Remove when performance competitions are migrated
+  a.result-upload-cell {
+    background-color: var(--white);
+    border: 0;
+    padding: 0.5rem;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+    color: var(--white);
+    font-size: 1.125rem;
+  }
+
+  a.result-upload-cell:hover {
+    background-color: var(--blue-70);
+  }
 
   td,
   th {
