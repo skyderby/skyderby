@@ -1,103 +1,8 @@
 import { Controller } from 'stimulus'
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import { calculateFlightProfile, calculateTerrainClearance } from 'utils/flightProfiles'
 import I18n from 'i18n'
 
-const headerFormat = `
-  <span style="font-size: 14px">{series.name}</span><br/>
-`
-
-const msToKmh = value => value * 3.6
-
-const calculateDistance = (first, second) => {
-  const firstPosition = new LatLon(first.latitude, first.longitude)
-  const secondPosition = new LatLon(second.latitude, second.longitude)
-
-  return firstPosition.distanceTo(secondPosition)
-}
-
-const getTerrainElevation = (measurements, distance) => {
-  for (let idx = 0; idx < measurements.length - 1; idx++) {
-    const prevRecord = measurements[idx]
-    const nextRecord = measurements[idx + 1]
-
-    if (!prevRecord || !nextRecord) continue
-
-    const { distance: prevDistance, altitude: prevAltitude } = prevRecord
-    const { distance: nextDistance, altitude: nextAltitude } = nextRecord
-
-    if (prevDistance <= distance && nextDistance >= distance) {
-      const altitudeDiff = nextAltitude - prevAltitude
-      const coeff = (distance - prevDistance) / (nextDistance - prevDistance)
-
-      return prevAltitude + altitudeDiff * coeff
-    }
-  }
-
-  return null
-}
-
-const distanceToTerrainValue = value => {
-  if (value < 1) return '<1'
-  if (value > 120) return '>120'
-
-  return Math.round(value)
-}
-
-const distanceToTerrainY = y => Math.max(1, Math.min(y, 120))
-
-const calculateFlightProfile = (points, straightLine) => {
-  const firstPoint = points[0]
-  if (!firstPoint) return []
-
-  let accumulatedDistance = 0
-
-  return points.map((point, idx) => {
-    const prevPoint = points[idx - 1] ?? firstPoint
-    const distance = straightLine
-      ? calculateDistance(point, firstPoint)
-      : accumulatedDistance + calculateDistance(prevPoint, point)
-
-    accumulatedDistance = distance
-
-    return {
-      x: distance,
-      y: Math.round(Math.max(0, firstPoint.altitude - point.altitude)),
-      custom: {
-        fullSpeed: Math.round(msToKmh(point.fullSpeed)),
-        hSpeed: Math.round(msToKmh(point.hSpeed)),
-        vSpeed: Math.round(msToKmh(point.vSpeed))
-      }
-    }
-  })
-}
-
-const calculateTerrainClearance = (points, measurements, straightLine) => {
-  const flightProfile = calculateFlightProfile(points, straightLine)
-
-  return flightProfile.map(({ x: distance, y: altitude }) => {
-    const terrainElevation = getTerrainElevation(measurements, distance)
-
-    if (terrainElevation === null) {
-      return {
-        x: distance,
-        y: 120,
-        custom: {
-          presentation: '>120'
-        }
-      }
-    }
-
-    const distanceToTerrain = terrainElevation - altitude
-
-    return {
-      x: distance,
-      y: distanceToTerrainY(distanceToTerrain),
-      custom: {
-        presentation: distanceToTerrainValue(distanceToTerrain)
-      }
-    }
-  })
-}
+const headerFormat = '<span style="font-size: 14px">{series.name}</span><br/>'
 
 export default class FlightProfilesController extends Controller {
   static targets = [
@@ -133,7 +38,7 @@ export default class FlightProfilesController extends Controller {
   }
 
   disconnect() {
-    window.removeEventListener('resize', this.resizeHandler)
+    window.removeEventListener('resize', this.resizeCharts)
   }
 
   handleJumpLineSelection(event) {
@@ -142,6 +47,7 @@ export default class FlightProfilesController extends Controller {
 
     if (jumpLineId) {
       url.searchParams.set('jump_profile_id', jumpLineId)
+      this.removeTerrainProfile()
       this.displayTerrainProfile(jumpLineId)
     } else {
       url.searchParams.delete('jump_profile_id')
@@ -238,7 +144,7 @@ export default class FlightProfilesController extends Controller {
     const { points } = await this.fetchPoints(trackId)
     const data = calculateFlightProfile(points, this.straightLine)
 
-    this.flightProfilesChartTarget.chart.addSeries({
+    const series = this.flightProfilesChartTarget.chart.addSeries({
       name: `#${trackId} ${track.name}`,
       id: `track-${trackId}`,
       type: 'spline',
@@ -256,7 +162,7 @@ export default class FlightProfilesController extends Controller {
     })
 
     this.addTrackToTagbar(track)
-    this.displayTerrainClearance(track, points)
+    this.displayTerrainClearance(track, points, series.color)
   }
 
   addTrackToTagbar(track) {
@@ -291,6 +197,7 @@ export default class FlightProfilesController extends Controller {
 
   removeTrackFromCharts(trackId) {
     this.flightProfilesChartTarget.chart.get(`track-${trackId}`)?.remove()
+    this.terrainClearanceChartTarget.chart.get(`track-${trackId}`)?.remove()
   }
 
   fetchTrack(trackId) {
@@ -319,7 +226,7 @@ export default class FlightProfilesController extends Controller {
       })
   }
 
-  displayTerrainClearance(track, points) {
+  displayTerrainClearance(track, points, color) {
     const pointFormatter = function () {
       return `
         <span style="margin-top: 10px"><b>${I18n.t('flight_profiles.distance_traveled')}:</b>
@@ -341,6 +248,7 @@ export default class FlightProfilesController extends Controller {
       id: `track-${track.id}`,
       type: 'spline',
       data: terrainClearance,
+      color,
       tooltip: {
         headerFormat,
         pointFormatter
@@ -386,17 +294,31 @@ export default class FlightProfilesController extends Controller {
           enableMouseTracking: false,
           showInLegend: false
         })
-
-        this.updateTerrainClearanceChart()
       })
+      .then(() => this.updateTerrainClearanceChart())
   }
 
   removeTerrainProfile() {
-    this.terrainClearanceChartTarget.chart.get('placeMeasurementsLine')?.remove()
-    this.terrainClearanceChartTarget.chart.get('placeMeasurementsArea')?.remove()
+    this.flightProfilesChartTarget.chart.get('placeMeasurementsLine')?.remove()
+    this.flightProfilesChartTarget.chart.get('placeMeasurementsArea')?.remove()
   }
 
-  updateTerrainClearanceChart() {}
+  async updateTerrainClearanceChart() {
+    this.selectedTracks.forEach(trackId => {
+      this.terrainClearanceChartTarget.chart.get(`track-${trackId}`)?.remove()
+    })
+
+    if (this.currentMeasurements) {
+      this.selectedTracks.forEach(async trackId => {
+        const series = this.flightProfilesChartTarget.chart.get(`track-${trackId}`)
+        if (!series) return
+
+        const track = this.fetchTrack(trackId)
+        const { points } = this.fetchPoints(trackId)
+        this.displayTerrainClearance(track, points, series.color)
+      })
+    }
+  }
 
   onZoomChange(extremes) {
     if (!extremes) {
