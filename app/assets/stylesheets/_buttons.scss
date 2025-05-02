@@ -42,7 +42,21 @@
 
   &:disabled {
     opacity: 0.5;
-    cursor: none;
+    cursor: not-allowed;
+  }
+}
+
+.ghost-danger-button {
+  @extend .base-button;
+
+  --button-bg: transparent;
+  --button-bg-hover: var(--gray-20);
+  --button-text-color: var(--red-80);
+  --button-text-color-hover: var(--red-90);
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 }
 
@@ -53,6 +67,11 @@
   --button-bg-hover: var(--blue-70);
   --button-text-color: var(--white);
   --button-text-color-hover: var(--white);
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
 .small-button {

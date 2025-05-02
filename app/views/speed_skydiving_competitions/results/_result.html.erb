@@ -58,4 +58,17 @@
        data-window-end="<%= result.window_end_time.iso8601 %>"
   >
   </div>
+
+  <% if editable %>
+    <div class="form-actions justify-between" data-action="turbo:submit-end->modal#close">
+      <%= button_to t('general.delete'), speed_skydiving_competition_result_path(event, result),
+                    method: :delete,
+                    form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } },
+                    class: 'ghost-danger-button' %>
+
+      <button type="button" class="default-button" data-action="modal#close">
+        <%= t('general.cancel') %>
+      </button>
+    </div>
+  <% end %>
 </div>

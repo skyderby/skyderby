@@ -10,7 +10,7 @@
           <sup class="text-danger">-<%= result.penalty_size.round %>%</sup>
         </span>
       <% else %>
-        <%= result.final_result.round(1) %>
+        <%= result.final_result.round(2) %>
       <% end %>
     <% end %>
   <% elsif editable %>

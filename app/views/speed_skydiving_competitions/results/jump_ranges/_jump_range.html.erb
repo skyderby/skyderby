@@ -7,11 +7,9 @@
                method: :put, data: { turbo_stream: true , controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
     <%= render 'concerns/jump_range_form', track: @result.track, form: f %>
 
-    <% if editable %>
-      <div class="form-actions">
-        <%= f.submit t('general.save'), class: 'primary-button' %>
-        <button type="button" class="default-button" data-action="modal#close"><%= t('general.cancel') %></button>
-      </div>
-    <% end %>
+    <div class="form-actions">
+      <%= f.submit t('general.save'), class: 'primary-button', disabled: !editable %>
+      <button type="button" class="default-button" data-action="modal#close"><%= t('general.cancel') %></button>
+    </div>
   <% end %>
 </div>

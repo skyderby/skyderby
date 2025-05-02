@@ -11,4 +11,12 @@ module ApplicationHelper
   end
 
   def maps_api_key = ENV.fetch('MAPS_API_KEY', nil)
+
+  def merge_query_params(src, params)
+    uri = URI.parse(src)
+    new_query = URI.decode_www_form(uri.query.to_s) + params.to_a
+    uri.query = URI.encode_www_form(new_query.uniq { |k, _| k })
+
+    uri.to_s
+  end
 end

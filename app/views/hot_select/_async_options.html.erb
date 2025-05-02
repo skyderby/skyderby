@@ -12,7 +12,7 @@
       <% end %>
     </turbo-frame>
 
-    <turbo-frame id="<%= select_id %>" src="<%= src + "?frame_id=#{select_id}" %>" loading="lazy" class="hot-select-scrollable hot-select-selectable">
+    <turbo-frame id="<%= select_id %>" src="<%= merge_query_params(src, frame_id: select_id) %>" loading="lazy" class="hot-select-scrollable hot-select-selectable">
       <div class="hot-select-options">
         <div class="hot-select-option" role="option">Loading...</div>
       </div>

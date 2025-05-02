@@ -23,6 +23,15 @@ class SpeedSkydivingCompetitions::ResultsController < ApplicationController
     end
   end
 
+  def destroy
+    if @result.destroy
+      broadcast_scoreboard
+      head :no_content
+    else
+      respond_with_errors(@result)
+    end
+  end
+
   private
 
   def new_result_params
