@@ -10,7 +10,7 @@
     <% end %>
   </div>
 
-  <div>
+  <div class="show-page-content">
     <% if !@event.surprise? || can_manage %>
       <%= render @scoreboard, can_manage: can_manage %>
     <% else %>
@@ -36,10 +36,10 @@
       </div>
     <% end %>
 
-    <div class="show-page-content top-buffer">
-      <%= render 'organizers/list', organizable: @event, editable: (can_manage && !@event.finished?) %>
+    <div class="show-page-content">
+      <%= render 'organizers/organizers', organizable: @event, editable: (can_manage && !@event.finished?) %>
 
-      <%= render 'sponsors/list', sponsorable: @event, editable: (can_manage && !@event.finished?) %>
+      <%= render 'sponsors/sponsors', sponsorable: @event, editable: (can_manage && !@event.finished?) %>
     </div>
   </div>
 

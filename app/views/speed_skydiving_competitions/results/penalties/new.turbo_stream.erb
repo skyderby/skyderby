@@ -1,0 +1,5 @@
+<%= turbo_stream.append :penalties do %>
+  <%= fields_for 'result[penalties_attributes][]', SpeedSkydivingCompetition::Result::Penalty.new, index: Time.current.to_i do |form| %>
+    <%= render "speed_skydiving_competitions/results/penalties/penalty_fields", form: %>
+  <% end %>
+<% end %>

@@ -28,7 +28,6 @@ class Event < ApplicationRecord
     scope :chronologically, -> { order(:created_at) }
 
     validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
-    validate_duplicates_on_file_with EventTracks::FileDuplicationValidator
 
     delegate :event, :event_id, :range_from, :range_to, to: :round
     delegate :discipline, :number, to: :round, prefix: true
@@ -48,5 +47,7 @@ class Event < ApplicationRecord
     def track_comment = "#{event.name} - #{round_discipline.humanize} #{round_number}"
 
     def track_activity = :skydive
+
+    def suit_id = competitor.suit_id
   end
 end

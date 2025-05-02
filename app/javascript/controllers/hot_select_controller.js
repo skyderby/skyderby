@@ -21,7 +21,7 @@ export default class HotSelect extends Controller {
       this.selectInputTarget.selectedOptions[0].value
     ) {
       this.displayValueTarget.innerHTML = this.selectInputTarget.selectedOptions[0].text
-      this.placeholderTarget.classList.add('hide')
+      if (this.hasPlaceholderTarget) this.placeholderTarget.classList.add('hide')
     } else {
       this.displayValueTarget.classList.add('hide')
     }
@@ -67,7 +67,7 @@ export default class HotSelect extends Controller {
   }
 
   close() {
-    this.dropdownRoot.replaceChildren()
+    this.dropdownRoot?.replaceChildren()
     this.element.classList.remove('hot-select--open')
   }
 
@@ -91,7 +91,7 @@ export default class HotSelect extends Controller {
     this.selectInputTarget.value = value
     this.displayValueTarget.innerHTML = event.target.innerHTML
     this.displayValueTarget.classList.remove('hide')
-    this.placeholderTarget.classList.add('hide')
+    if (this.hasPlaceholderTarget) this.placeholderTarget.classList.add('hide')
     this.selectInputTarget.dispatchEvent(new Event('change', { bubbles: true }))
 
     this.close()
@@ -106,7 +106,7 @@ export default class HotSelect extends Controller {
       this.selectInputTarget.appendChild(option)
     }
     this.selectInputTarget.value = ''
-    this.placeholderTarget.classList.remove('hide')
+    if (this.hasPlaceholderTarget) this.placeholderTarget.classList.remove('hide')
     this.displayValueTarget.classList.add('hide')
     this.displayValueTarget.innerHTML = '&nbsp;'
     this.selectInputTarget.dispatchEvent(new Event('change', { bubbles: true }))

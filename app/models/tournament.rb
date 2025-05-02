@@ -48,6 +48,8 @@ class Tournament < ApplicationRecord
 
   delegate :name, to: :place, prefix: true, allow_nil: true
 
+  alias results qualification_jumps
+
   after_initialize :set_default_values
 
   def active? = starts_at < Time.zone.now && !finished?

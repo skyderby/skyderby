@@ -48,22 +48,22 @@
         <li class="<%= 'active' if @event.status == status %>"><%= change_event_status_button(@event, status) %></li>
       <% end %>
     </ul>
-  </div>
 
-  <div class="btn-group">
-    <button class="actions-bar-button dropdown-toggle" type="button" data-toggle="dropdown">
-      <%= svg_icon 'gear-solid' %>
-    </button>
-    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-      <li class="dropdown-header">Penalties</li>
-      <% omit_penalties = display_event_params[:omit_penalties] == 'true' %>
-      <li class="<%= 'active' if !omit_penalties %>"><%= link_to 'Show with penalties', display_event_params.except(:omit_penalties), rel: 'nofollow' %></li>
-      <li class="<%= 'active' if omit_penalties %>"><%= link_to 'Omit penalties', display_event_params.merge(omit_penalties: 'true'), rel: 'nofollow' %></li>
+    <div class="btn-group">
+      <button class="actions-bar-button dropdown-toggle" type="button" data-toggle="dropdown">
+        <%= svg_icon 'gear-solid' %>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        <li class="dropdown-header">Penalties</li>
+        <% omit_penalties = display_event_params[:omit_penalties] == 'true' %>
+        <li class="<%= 'active' if !omit_penalties %>"><%= link_to 'Show with penalties', display_event_params.except(:omit_penalties), rel: 'nofollow' %></li>
+        <li class="<%= 'active' if omit_penalties %>"><%= link_to 'Omit penalties', display_event_params.merge(omit_penalties: 'true'), rel: 'nofollow' %></li>
 
-      <li class="divider" role="separator"></li>
-      <li><%= link_to 'Export to Excel', event_scoreboard_path(@event, format: :xlsx), rel: 'nofollow' %></li>
-      <li><%= link_to 'Export to ISC format', event_scoreboard_path(@event, format: :xml), rel: 'nofollow' %></li>
-      <li><%= link_to 'Export Teams to ISC format', event_team_scoreboard_path(@event, format: :xml), rel: 'nofollow' %></li>
-    </ul>
+        <li class="divider" role="separator"></li>
+        <li><%= link_to 'Export to Excel', event_scoreboard_path(@event, format: :xlsx), rel: 'nofollow' %></li>
+        <li><%= link_to 'Export to ISC format', event_scoreboard_path(@event, format: :xml), rel: 'nofollow' %></li>
+        <li><%= link_to 'Export Teams to ISC format', event_team_scoreboard_path(@event, format: :xml), rel: 'nofollow' %></li>
+      </ul>
+    </div>
   </div>
 </div>

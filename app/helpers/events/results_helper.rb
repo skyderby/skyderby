@@ -6,11 +6,11 @@ module Events
         'result[round_id]' => round.id
       }.merge(display_event_params).to_param
 
-      link_to tag.i(nil, class: 'fa fa-upload'),
+      link_to svg_icon('upload-solid'),
               new_event_result_path(event),
               remote: true,
               'data-params': data_params.to_param,
-              class: 'create-result-cell__link',
+              class: 'result-upload-cell',
               rel: 'nofollow'
     end
 

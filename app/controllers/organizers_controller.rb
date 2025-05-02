@@ -1,59 +1,64 @@
 class OrganizersController < ApplicationController
+  before_action :set_organizable
   before_action :authorize_organizable
 
   def new
-    @organizer = organizable.organizers.new
-
-    respond_to do |format|
-      format.js
-    end
+    @organizer = @organizable.organizers.new
   end
 
   def create
-    @organizer = organizable.organizers.new organizer_params
+    @organizer = @organizable.organizers.new organizer_params
 
     if @organizer.save
-      respond_to do |format|
-        format.js
-      end
+      broadcast_organizers_update
     else
-      respond_with_error
+      respond_with_error @organizer
     end
   end
 
   def destroy
-    @organizer = organizable.organizers.find(params[:id])
+    @organizer = @organizable.organizers.find(params[:id])
 
     if @organizer.destroy
-      respond_to do |format|
-        format.js
-      end
+      broadcast_organizers_update
     else
-      respond_with_error
+      respond_with_error @organizer
     end
   end
 
   private
 
-  def respond_with_error
-    respond_to do |format|
-      format.js { render 'errors/ajax_errors', locals: { errors: @organizer.errors } }
-    end
+  def broadcast_organizers_update
+    Turbo::StreamsChannel.broadcast_replace_to(
+      [@organizable, :organizers, :editable],
+      target: "#{@organizable.class.name.underscore}_#{@organizable.id}_organizers",
+      partial: 'organizers/list',
+      locals: { organizable: @organizable, editable: !@organizable.finished? }
+    )
+
+    Turbo::StreamsChannel.broadcast_replace_to(
+      [@organizable, :organizers, :read_only],
+      target: "#{@organizable.class.name.underscore}_#{@organizable.id}_organizers",
+      partial: 'organizers/list',
+      locals: { organizable: @organizable, editable: false }
+    )
   end
 
   def organizer_params
     params.require(:organizer).permit(:user_id)
   end
 
-  def organizable
-    @organizable ||= organizable_class.find(params["#{organizable_class.name.underscore}_id"])
+  def set_organizable
+    @organizable = organizable_class.find(params["#{organizable_class.name.underscore}_id"])
   end
 
   def organizable_class
-    @organizable_class ||= [Event, Tournament].detect { |c| params["#{c.name.underscore}_id"] }
+    @organizable_class ||=
+      [Event, SpeedSkydivingCompetition, Tournament]
+      .detect { |c| params["#{c.name.underscore}_id"] }
   end
 
   def authorize_organizable
-    authorize organizable, :update?
+    respond_not_authorized unless @organizable.editable?
   end
 end

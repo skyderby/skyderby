@@ -8,13 +8,13 @@ class EventOrganizersTest < ApplicationSystemTestCase
     sign_in users(:event_responsible)
     visit event_path(event)
 
-    click_link I18n.t('organizers.list.add_judge')
-    assert_selector('.modal-title', text: "#{I18n.t('activerecord.models.organizer')}: New")
+    click_button I18n.t('organizers.list.add_judge')
+    assert_selector('.modal-title', text: I18n.t('activerecord.models.organizer').to_s)
 
-    select2 organizer.name, from: 'organizer_user_id'
+    hot_select organizer.name, from: :user_id
 
     click_button I18n.t('general.save')
-    assert_no_selector('.modal-title', text: "#{I18n.t('activerecord.models.organizer')}: New")
+    assert_no_selector('.modal-title', text: I18n.t('activerecord.models.organizer').to_s)
 
     assert_text organizer.name
   end

@@ -2,6 +2,18 @@
   display: flex;
 }
 
+.gap-1 {
+  gap: 1rem;
+}
+
+.gap-0_5 {
+  gap: 0.5rem;
+}
+
+.items-center {
+  align-items: center;
+}
+
 .justify-between {
   justify-content: space-between;
 }
@@ -21,4 +33,15 @@
   @media (min-width: $bp-large) {
     width: $bp-large;
   }
+}
+
+.bounded-width {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.sd-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }

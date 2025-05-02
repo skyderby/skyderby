@@ -8,6 +8,8 @@ class SpeedSkydivingCompetition::Competitor < ApplicationRecord
 
   has_many :results, dependent: :restrict_with_error
 
+  scope :ordered, -> { left_joins(:profile).order('profiles.name') }
+
   accepts_nested_attributes_for :profile
 
   delegate :name, to: :profile

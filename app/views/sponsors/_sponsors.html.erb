@@ -1,0 +1,5 @@
+<%# locals: (sponsorable:, editable:) %>
+
+<%= turbo_stream_from @event, :sponsors, editable ? :editable : :read_only %>
+
+<%= render 'sponsors/list', sponsorable:, editable: %>

@@ -1,6 +1,4 @@
 class SpeedSkydivingCompetition::OpenScoreboard
-  Category = Struct.new(:id)
-
   attr_reader :event
 
   delegate :competitors, to: :event
@@ -9,7 +7,7 @@ class SpeedSkydivingCompetition::OpenScoreboard
     @event = event
   end
 
-  def standings
+  def rows
     SpeedSkydivingCompetition::Scoreboard::Standings.build(
       competitors,
       completed_rounds,
@@ -17,11 +15,11 @@ class SpeedSkydivingCompetition::OpenScoreboard
     )
   end
 
-  private
+  def completed_rounds = event.rounds.select(&:completed?)
 
-  def completed_rounds
-    event.rounds.completed
-  end
+  def rounds = event.rounds.ordered
+
+  private
 
   def results
     event.results.includes(:competitor, :round, :penalties)

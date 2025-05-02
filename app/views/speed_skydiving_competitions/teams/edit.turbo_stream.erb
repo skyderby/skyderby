@@ -1,0 +1,3 @@
+<%= turbo_stream.update 'modal-root' do %>
+  <%= render partial: 'form', layout: 'components/modal', locals: { title: I18n.t('events.add_team') } %>
+<% end %>

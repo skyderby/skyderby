@@ -10,6 +10,8 @@ class SpeedSkydivingCompetition::Round < ApplicationRecord
 
   scope :ordered, -> { order(:number, :created_at) }
 
+  def presentation = number
+
   private
 
   def set_number
