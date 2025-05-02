@@ -9,8 +9,21 @@ export default class OmniSearchController extends Controller {
     this.close = this.close.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
 
+    this.focusedOptionIndex = -1
+    this.currentView = null
+    this.currentType = null
+    this.currentTypeLabel = null
+
     document.addEventListener('click', this.onClickOutside)
     document.addEventListener('turbo:before-render', this.close)
+  }
+
+  disconnect() {
+    document.removeEventListener('click', this.onClickOutside)
+    document.removeEventListener('turbo:before-render', this.close)
+    document.removeEventListener('keydown', this.onKeyDown)
+
+    if (this.element.classList.contains('hot-select--open')) this.close()
   }
 
   toggle() {
@@ -32,32 +45,36 @@ export default class OmniSearchController extends Controller {
 
     this.positionDropdown()
 
+    this.currentView = 'type'
+    this.focusedOptionIndex = -1
     document.addEventListener('keydown', this.onKeyDown)
   }
 
-  selectType(event) {
-    const optionElement = event.target.closest('.hot-select-option')
+  selectType({ target }) {
+    const optionElement = target.closest('.hot-select-option')
     if (!optionElement) return
 
-    const type = optionElement.dataset.value
-    const label = optionElement.dataset.label
+    this.currentType = optionElement.dataset.value
+    this.currentTypeLabel = optionElement.dataset.label
 
-    setTimeout(() => this.openModelDropdown(type, label), 0)
+    setTimeout(() => this.openModelDropdown(), 0)
   }
 
-  openModelDropdown(type, label) {
-    const modelElement = this.modelTargets.find(model => model.dataset.name === type)
+  openModelDropdown() {
+    const modelElement = this.modelTargets.find(
+      model => model.dataset.name === this.currentType
+    )
 
-    if (!modelElement) throw new Error(`Can not find elements dropdown for type: ${type}`)
+    if (!modelElement)
+      throw new Error(`Can not find elements dropdown for type: ${this.currentType}`)
 
     this.dropdownRoot.innerHTML = modelElement.innerHTML
 
     const optionsContainer = this.dropdownRoot.querySelector('.hot-select-dropdown')
-    if (!optionsContainer) throw new Error(`Can not find dropdown element for ${type}`)
+    if (!optionsContainer)
+      throw new Error(`Can not find dropdown element for ${this.currentType}`)
 
-    optionsContainer.addEventListener('click', event =>
-      this.selectModel(event, type, label)
-    )
+    optionsContainer.addEventListener('click', this.selectModel.bind(this))
 
     const searchInput = this.dropdownRoot.querySelector(
       '[data-target="hot-select.searchInput"]'
@@ -65,6 +82,9 @@ export default class OmniSearchController extends Controller {
     if (searchInput) searchInput.focus()
 
     this.positionDropdown()
+
+    this.currentView = 'model'
+    this.focusedOptionIndex = -1
   }
 
   positionDropdown() {
@@ -90,14 +110,14 @@ export default class OmniSearchController extends Controller {
     })
   }
 
-  selectModel(event, type, label) {
+  selectModel(event) {
     const optionElement = event.target.closest('.hot-select-option')
     if (!optionElement) return
 
     const value = optionElement.dataset.value
     const text = optionElement.textContent.trim()
 
-    this.addFilterTag(type, label, value, text)
+    this.addFilterTag(this.currentType, this.currentTypeLabel, value, text)
 
     this.close()
   }
@@ -149,10 +169,84 @@ export default class OmniSearchController extends Controller {
   }
 
   onKeyDown(event) {
-    if (event.key === 'Escape') {
-      event.preventDefault()
-      this.close()
+    if (!this.element.classList.contains('hot-select--open')) return
+
+    const options = this.getOptions()
+
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault()
+        this.focusedOptionIndex = Math.min(
+          this.focusedOptionIndex + 1,
+          options.length - 1
+        )
+        this.updateFocusedOption()
+        break
+      case 'ArrowUp':
+        event.preventDefault()
+        this.focusedOptionIndex = Math.max(this.focusedOptionIndex - 1, 0)
+        this.updateFocusedOption()
+        break
+      case 'Enter':
+        event.preventDefault()
+        if (this.focusedOptionIndex >= 0 && this.focusedOptionIndex < options.length) {
+          const selectedOption = options[this.focusedOptionIndex]
+          if (this.currentView === 'type') {
+            this.selectType({ target: selectedOption })
+          } else if (this.currentView === 'model') {
+            this.selectModel({ target: selectedOption })
+          }
+        }
+        break
+      case 'Escape':
+        event.preventDefault()
+        if (this.currentView === 'model') {
+          this.openTypeSelect()
+        } else {
+          this.close()
+        }
+        break
+      case 'Tab':
+        this.close()
+        break
     }
+  }
+
+  updateFocusedOption() {
+    const options = this.getOptions()
+
+    options.forEach(option => {
+      option.classList.remove('hot-select-option--focused')
+    })
+
+    if (this.focusedOptionIndex >= 0 && this.focusedOptionIndex < options.length) {
+      options[this.focusedOptionIndex].classList.add('hot-select-option--focused')
+    }
+
+    this.scrollToFocusedOption()
+  }
+
+  scrollToFocusedOption() {
+    const options = this.getOptions()
+    if (this.focusedOptionIndex >= 0 && this.focusedOptionIndex < options.length) {
+      const focusedOption = options[this.focusedOptionIndex]
+      const container = this.dropdownRoot.querySelector('.hot-select-selectable')
+
+      const optionTop = focusedOption.offsetTop
+      const optionBottom = optionTop + focusedOption.offsetHeight
+      const containerTop = container.scrollTop
+      const containerBottom = containerTop + container.offsetHeight
+
+      if (optionBottom > containerBottom) {
+        container.scrollTop = optionBottom - container.offsetHeight
+      } else if (optionTop < containerTop) {
+        container.scrollTop = optionTop
+      }
+    }
+  }
+
+  getOptions() {
+    return Array.from(this.dropdownRoot.querySelectorAll('.hot-select-option'))
   }
 
   close() {
@@ -160,6 +254,9 @@ export default class OmniSearchController extends Controller {
     dropdownRoot.innerHTML = ''
     this.element.classList.remove('hot-select--open')
     document.removeEventListener('keydown', this.onKeyDown)
+    this.focusedOptionIndex = -1
+    this.currentView = null
+    this.currentType = null
   }
 
   get dropdownRoot() {
