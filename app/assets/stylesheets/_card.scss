@@ -6,6 +6,7 @@
   border-right-width: 0;
   width: 100%;
   padding: var(--card-padding, 1rem);
+  overflow: hidden;
 
   @media (min-width: $bp-large) {
     border: 0;
@@ -13,4 +14,12 @@
     border-radius: var(--border-radius-md);
     width: $bp-large;
   }
+}
+
+.fill-entirely {
+  --card-padding: 0;
+}
+
+.card-sm {
+  width: $bp-small;
 }

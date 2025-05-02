@@ -1,49 +1,34 @@
 class SponsorsController < ApplicationController
-  include SponsorableLoading
+  include SponsorableContext
 
-  before_action :set_sponsor, only: [:destroy]
+  before_action :set_sponsorable
+  before_action :authorize_sponsorable
 
   def new
     @sponsor = Sponsor.new
-
-    respond_to do |format|
-      format.js
-    end
   end
 
   def create
     @sponsor = @sponsorable.sponsors.new sponsor_params
 
     if @sponsor.save
-      @sponsor
+      broadcast_sponsors_update
     else
-      respond_with_error
+      respond_with_error @sponsor
     end
   end
 
   def destroy
+    @sponsor = Sponsor.find(params[:id])
+
     if @sponsor.destroy
-      respond_to do |format|
-        format.js
-        format.json { head :no_content }
-      end
+      broadcast_sponsors_update
     else
-      respond_with_error
+      respond_with_error @sponsor
     end
   end
 
   private
-
-  def respond_with_error
-    respond_to do |format|
-      format.js { render template: 'errors/ajax_errors', locals: { errors: @sponsor.errors } }
-      format.json { render json: @sponsor.errors, status: :unprocessible_entry }
-    end
-  end
-
-  def set_sponsor
-    @sponsor = Sponsor.find(params[:id])
-  end
 
   def sponsor_params
     params.require(:sponsor).permit(:name, :website, :logo, :event_id)

@@ -34,6 +34,8 @@
 @import './profiles/**/*';
 @import './tournaments/**/*';
 @import './online_competitions/**/*';
+@import './inside_iframe';
+@import './contributions';
 @import './*';
 
 html, body {
@@ -69,6 +71,20 @@ ul {
   margin: 0;
 }
 
+label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+code {
+  padding: 0.125rem 0.25rem;
+  font-size: 0.875rem;
+  color: var(--gray-80);
+  background-color: var(--gray-20);
+  border-radius: var(--border-radius-sm);
+}
+
 #modal-root, #dropdown-root {
   position: absolute;
   top: 0;
@@ -83,6 +99,20 @@ ul {
   &.wrap--no-top-padding {
     padding-top: 0px;
   }
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input[type=radio] {
+  margin: 0;
 }
 
 @media print {
@@ -124,4 +154,8 @@ input[readonly] {
 
 .no-right-space {
   margin-right: -5px;
+}
+
+turbo-cable-stream-source {
+  display: none;
 }

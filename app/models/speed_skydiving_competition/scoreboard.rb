@@ -4,11 +4,15 @@ class SpeedSkydivingCompetition::Scoreboard
   end
 
   def categories
-    @categories ||= event.categories.sorted.map { |record| category_standings(record) }
+    @categories ||= event.categories.ordered.map { |record| category_standings(record) }
   end
 
   def rounds
     @rounds ||= event.rounds.ordered
+  end
+
+  def completed_rounds
+    @completed_rounds ||= event.rounds.completed
   end
 
   private
@@ -20,13 +24,9 @@ class SpeedSkydivingCompetition::Scoreboard
     category_results = results.select { |result| category_competitors.include? result.competitor }
 
     {
-      category: category,
+      category:,
       standings: Standings.build(category_competitors, completed_rounds, category_results)
     }
-  end
-
-  def completed_rounds
-    @completed_rounds ||= event.rounds.completed
   end
 
   def competitors

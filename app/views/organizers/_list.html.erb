@@ -1,4 +1,6 @@
-<div class="organizers">
+<%# locals: (organizable:, editable:) %>
+
+<div id="<%= "#{organizable.class.name.underscore}_#{organizable.id}_organizers" %>" class="organizers">
   <h4><%= t('.judges') %></h4>
   <ol class="organizers__list">
     <% if organizable.responsible.present? %>
@@ -6,13 +8,26 @@
         <span><%= organizable.responsible.name %></span>
       </li>
     <% end %>
-    <%= render organizable.organizers %>
+    <% organizable.organizers.each do |organizer| %>
+      <li class="organizers__item" id="<%= dom_id(organizer) %>">
+        <span><%= organizer.name %></span>
+        <% if editable %>
+          <%= button_to polymorphic_path([organizer.organizable, organizer]),
+                        method: :delete,
+                        form: { data: { turbo: true } },
+                        class: 'delete-organizer ghost-button' do %>
+            <%= svg_icon 'xmark' %>
+          <% end %>
+        <% end %>
+      </li>
+  <% end %>
   </ol>
+
   <% if editable %>
     <div>
-      <%= link_to polymorphic_path([:new, organizable, :organizer]), remote: true, class: 'add-organizer button button--minimal' do %>
-        <i class="fa fa-plus"></i>
-        <%= t('.add_judge') %>
+      <%= button_to polymorphic_path([:new, organizable, :organizer]), method: :get, form: { data: { turbo_stream: true } }, class: 'default-button' do %>
+        <%= svg_icon 'plus-solid' %>
+        <%= t('organizers.list.add_judge') %>
       <% end %>
     </div>
   <% end %>

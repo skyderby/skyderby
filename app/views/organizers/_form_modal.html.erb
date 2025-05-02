@@ -1,39 +1,19 @@
-<div class="modal-dialog">
-  <div class="modal-content">
-    <%= form_for [organizer.organizable, organizer], remote: true, html: {class: 'form-horizontal'} do |f| %>
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-        <h4 class="modal-title">
-          <%= t('activerecord.models.organizer') %>:
-          <% if organizer.new_record? %>
-            <%= t('events.index.new') %>
-          <% else %>
-            <%= organizer.name %>
-          <% end %>
-        </h4>
-      </div>
+<% url = @organizer.new_record? ?
+           polymorphic_path([@organizer.organizable, @organizer]) :
+           polymorphic_path([@organizer.organizable, @organizer]) %>
 
-      <div class="modal-body">
-        <div class="form-group">
-          <%= f.label :user, class: 'control-label col-sm-4' %>
-          <div class="col-sm-8">
-            <%= f.select :user_id,
-                         options_for_select([[organizer.name, organizer.user_id]]),
-                         {},
-                         'data-controller': 'select2--users',
-                         'data-placeholder': t('organizers.form.profile_placeholder'),
-                         class: 'form-control' %>
-          </div>
-        </div>
-      </div>
+<%= form_with model: @organizer, url:, scope: :organizer,
+              data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :user_id, class: 'form-label col-3' %>
+      <% options = @organizer.user ? options_for_select([[@organizer.name, @organizer.user_id]]) : [] %>
+      <%= render 'hot_select/select', form: f, name: :user_id, src: users_select_options_path, options:, class: 'col-9' %>
+    </div>
 
-      <div class="modal-footer">
-        <%= f.submit t('general.save'), class: 'btn btn-primary' %>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
-      </div>
-    <% end %>
+    <div class="form-actions">
+      <%= f.submit t('general.save'), class: 'primary-button' %>
+      <button type="button" class="default-button" data-action="modal#close"><%= t 'general.cancel' %></button>
+    </div>
   </div>
-</div>
+<% end %>

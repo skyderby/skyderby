@@ -1,20 +1,16 @@
 module SpeedSkydivingCompetitionScoped
   extend ActiveSupport::Concern
 
-  included do
-    before_action :set_event
-  end
-
   def authorize_event_update!
-    return if @event.editable?
-
-    respond_not_authorized
+    respond_not_authorized unless @event.editable?
   end
 
   def authorize_event_access!
-    return if @event.viewable?
+    respond_not_authorized unless @event.viewable?
+  end
 
-    respond_not_authorized
+  def authorize_event_create!
+    respond_not_authorized unless SpeedSkydivingCompetition.creatable?
   end
 
   def set_event
@@ -26,10 +22,47 @@ module SpeedSkydivingCompetitionScoped
                                                target: 'scoreboard',
                                                partial: 'speed_skydiving_competitions/scoreboard',
                                                locals: { event: @event, editable: !@event.finished? }
+    Turbo::StreamsChannel.broadcast_replace_to @event, :open_scoreboard, :editable,
+                                               target: 'open-scoreboard',
+                                               partial: 'speed_skydiving_competitions/open_scoreboards/scoreboard',
+                                               locals: { event: @event, editable: !@event.finished? }
 
-    Turbo::StreamsChannel.broadcast_replace_to @event, :scoreboard, :read_only,
-                                               target: 'scoreboard',
-                                               partial: 'speed_skydiving_competitions/scoreboard',
-                                               locals: { event: @event, editable: false }
+    if @event.surprise?
+      Turbo::StreamsChannel.broadcast_replace_to @event, :scoreboard, :read_only,
+                                                 target: 'scoreboard',
+                                                 partial: 'speed_skydiving_competitions/surprise'
+      Turbo::StreamsChannel.broadcast_replace_to @event, :open_scoreboard, :read_only,
+                                                 target: 'open-scoreboard',
+                                                 partial: 'speed_skydiving_competitions/surprise'
+    else
+      Turbo::StreamsChannel.broadcast_replace_to @event, :scoreboard, :read_only,
+                                                 target: 'scoreboard',
+                                                 partial: 'speed_skydiving_competitions/scoreboard',
+                                                 locals: { event: @event, editable: false }
+      Turbo::StreamsChannel.broadcast_replace_to @event, :open_scoreboard, :read_only,
+                                                 target: 'open-scoreboard',
+                                                 partial: 'speed_skydiving_competitions/open_scoreboards/scoreboard',
+                                                 locals: { event: @event, editable: false }
+    end
+
+    broadcast_teams_scoreboard
+  end
+
+  def broadcast_teams_scoreboard
+    Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :editable,
+                                               target: 'teams-scoreboard',
+                                               partial: 'speed_skydiving_competitions/teams/scoreboard',
+                                               locals: { event: @event, editable: !@event.finished? }
+
+    if @event.surprise?
+      Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :read_only,
+                                                 target: 'teams-scoreboard',
+                                                 partial: 'speed_skydiving_competitions/surprise'
+    else
+      Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :read_only,
+                                                 target: 'teams-scoreboard',
+                                                 partial: 'speed_skydiving_competitions/teams/scoreboard',
+                                                 locals: { event: @event, editable: false }
+    end
   end
 end

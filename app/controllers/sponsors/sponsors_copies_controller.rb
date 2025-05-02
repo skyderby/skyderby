@@ -1,6 +1,9 @@
 module Sponsors
   class SponsorsCopiesController < ApplicationController
-    include SponsorableLoading
+    include SponsorableContext
+
+    before_action :set_sponsorable
+    before_action :authorize_sponsorable
 
     def new; end
 
@@ -9,6 +12,8 @@ module Sponsors
         source: sponsorable_class.find(copy_params[:source_event_id]),
         target: @sponsorable
       )
+
+      broadcast_sponsors_update
     end
 
     private

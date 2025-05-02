@@ -9,15 +9,17 @@ class SpeedSkydivingCompetition::Scoreboard::Standings
 
   def build
     standings = competitors.map do |competitor|
-      competitor_results = accountable_results_for(competitor)
-      total = competitor_results.sum { |record| record.final_result || 0.0 }
+      all_results = results.select { |result| result.competitor == competitor }
+      accountable_results = accountable_results_for(competitor)
+      total = accountable_results.sum { |record| record.final_result || 0.0 }
       average = completed_rounds.empty? ? 0 : total / completed_rounds.length
 
       {
         competitor: competitor,
         total: total.round(2),
         average: average.round(2),
-        results: competitor_results
+        all_results:,
+        accountable_results:
       }
     end
 

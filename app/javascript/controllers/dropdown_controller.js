@@ -16,6 +16,8 @@ export default class extends Controller {
   disconnect() {
     document.removeEventListener('click', this.hide)
     document.removeEventListener('turbo:before-render', this.forceClose)
+
+    this.close()
   }
 
   toggle() {
@@ -24,6 +26,7 @@ export default class extends Controller {
 
     this.dropdownRoot.innerHTML = this.menuTarget.innerHTML
     this.dropdown = this.dropdownRoot.querySelector('.sd-dropdown-menu')
+    this.dropdown.addEventListener('turbo:submit-end', this.close.bind(this))
 
     createPopper(this.element, this.dropdown, {
       placement: 'bottom-end',
@@ -40,7 +43,7 @@ export default class extends Controller {
 
   close() {
     this.element.classList.remove('dropdown--open')
-    this.dropdownRoot.replaceChildren()
+    this.dropdownRoot?.replaceChildren()
   }
 
   hide(event) {

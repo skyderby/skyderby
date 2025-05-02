@@ -162,7 +162,10 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :speed_skydiving_competitions, path: '/events/speed_skydiving', except: :index do
+  resources :speed_skydiving_competitions,
+            path: '/events/speed_skydiving',
+            concerns: %i[sponsorable organizable],
+            except: :index do
     scope module: :speed_skydiving_competitions do
       resources :categories, except: %i[index show] do
         member do
@@ -172,7 +175,25 @@ Skyderby::Application.routes.draw do
       end
       resources :competitors, except: %i[index show]
       resources :rounds, only: %i[create update destroy]
-      resources :results, except: :index
+      resources :results, except: :index do
+        scope module: :results do
+          resource :penalties, only: %i[show new update]
+          resource :jump_range, only: %i[show update]
+          resource :iframe, only: :show
+        end
+      end
+      resources :teams
+      resources :team_competitors, only: %i[new create destroy]
+      resource :status, only: :update
+      resource :open_scoreboard, only: :show
+      resource :downloads, only: :show do
+        scope module: :downloads do
+          resource :scoreboard, only: :show
+          resource :open_event_scoreboard, only: :show
+          resource :team_standings, only: :show
+          resource :gps_recordings, only: :show
+        end
+      end
     end
   end
 

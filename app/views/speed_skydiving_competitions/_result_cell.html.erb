@@ -4,10 +4,18 @@
   <% if result %>
     <%= button_to speed_skydiving_competition_result_path(event, result),
                   method: :get, form: { data: { turbo_stream: true }, class: 'result-show-cell' } do %>
-      <%= result.result.round(1) %>
+      <% if result.penalized? %>
+        <span data-controller="tooltip" data-tooltip="<%= result.result.round(1) %> - <%= result.penalty_size.round %>%. Reason: <%= result.penalty_reason %>">
+          <%= result.final_result.round(1) %>
+          <sup class="text-danger">-<%= result.penalty_size.round %>%</sup>
+        </span>
+      <% else %>
+        <%= result.final_result.round(1) %>
+      <% end %>
     <% end %>
   <% elsif editable %>
-    <%= button_to new_speed_skydiving_competition_result_path(event, round: round, competitor: competitor),
+    <%= button_to new_speed_skydiving_competition_result_path(event),
+                  params: { round_id: round.id, competitor_id: competitor.id },
                   method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } do %>
       <%= svg_icon 'upload-solid' %>
     <% end %>
