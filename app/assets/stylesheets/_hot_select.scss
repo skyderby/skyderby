@@ -18,6 +18,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
+  text-align: left;
 }
 
 .hot-select-placeholder {
@@ -83,10 +84,22 @@
 
 .hot-select-option {
   padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
   cursor: pointer;
+
+  svg {
+    margin-right: 0.25rem;
+    color: var(--gray-80);
+  }
 
   &:hover {
     background-color: var(--gray-10);
+  }
+
+  &.hot-select-option--focused {
+    background-color: var(--gray-20);
+    outline: none;
   }
 }
 

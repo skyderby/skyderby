@@ -27,6 +27,7 @@ en:
     charts: Charts
     jump_range: Jump range
     or: Or
+    clear: Clear
   users:
     profile:
       edit:

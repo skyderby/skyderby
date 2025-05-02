@@ -1,24 +1,6 @@
-<%# locals(form:, name:, options:) %>
+<%# locals: (name:, **local_assigns) %>
 
-<div class="form-input hot-select-container <%= local_assigns[:class] %>" data-controller="hot-select">
-  <%= form.select name, options, {}, class: 'hot-select--hidden', data: { target: 'hot-select.selectInput' } %>
-
-  <div class="hot-select-control">
-    <div class="hot-select-value" data-action="click->hot-select#toggle" data-target="hot-select.displayValue">
-      &nbsp;
-    </div>
-    <div class="hot-select-indicators">
-      <button type="button" class="hot-select-button" data-action="hot-select#clear">
-        <%= svg_icon 'xmark' %>
-      </button>
-      <div class="hot-select-separator"></div>
-      <button type="button" class="hot-select-button" data-action="hot-select#toggle">
-        <%= svg_icon 'angle-down-solid' %>
-      </button>
-    </div>
-  </div>
-
-  <div class="hot-select-dropdown hot-select--hidden" data-target="hot-select.dropdown">
-    <div class="hot-select-options" data-target="hot-select.options"></div>
-  </div>
-</div>
+<% select_id = "hot-select-#{name}" %>
+<%= render 'hot_select/layout', select_id:, name:, **local_assigns do %>
+  <%= render 'hot_select/local_options', 'data-target': 'hot-select.dropdown' %>
+<% end %>
