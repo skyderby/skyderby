@@ -16,7 +16,7 @@ class Places::TracksController < ApplicationController
   private
 
   def index_params
-    params.permit(:order, :page, :kind, :profile_id, :suit_id, :term)
+    params.permit(:order, :page, :kind, :profile_id, :suit_id, :year, :term)
   end
   helper_method :index_params
 end

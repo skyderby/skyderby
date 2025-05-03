@@ -127,9 +127,11 @@ class TracksController < ApplicationController
       :profile_id,
       :suit_id,
       :place_id,
+      :year,
       profile_id: [],
       suit_id: [],
-      place_id: []
+      place_id: [],
+      year: []
     )
   end
   helper_method :index_params

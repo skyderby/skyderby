@@ -12,7 +12,7 @@ class FlightProfilesController < ApplicationController
       Place
         .where(id: params[:place_id])
         .pluck(:id, :name).map { |id, name| [id, name, 'place_id[]', 'Place'] },
-      params[:year]&.map { |year| [year, year, "'year[]'", "'Year'"] }
+      params[:year]&.map { |year| [year, year, 'year[]', 'Year'] }
     ].flatten(1).compact
   end
 end

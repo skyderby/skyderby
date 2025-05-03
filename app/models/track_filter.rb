@@ -11,7 +11,7 @@ class TrackFilter
     end
 
     relation = relation.public_send(query[:kind]) if Track.kinds.key? query[:kind]
-
+    relation = relation.by_year(query[:year]) if query[:year].present?
     relation = relation.search(query[:term]) if query[:term]
 
     relation
