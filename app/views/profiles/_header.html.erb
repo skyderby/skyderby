@@ -29,7 +29,7 @@
 
     <%= link_to 'Videos', profile_videos_path(profile), class: ['page-tab', ('page-tab-active' if current_page?(profile_videos_path(profile)))] %>
 
-    <%= link_to t('flight_profiles'), profile_flight_profiles_path(profile), class: ['page-tab', ('page-tab-active' if current_page?(profile_flight_profiles_path(profile)))] %>
+    <%= link_to t('flight_profiles.title'), flight_profiles_path(profile_id: [profile.id]), class: 'page-tab' %>
 
     <% if @profile.belongs_to_user? && policy(@profile).masquerade? %>
       <%= link_to new_user_masquerades_path(@profile.owner), class: 'page-tab page-tab-right' do %>
