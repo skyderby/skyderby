@@ -1,19 +1,16 @@
-<%# locals: (**local_assigns) %>
+<%# locals: (options: [], **local_assigns) %>
 
 <%= tag.div 'data-controller': 'omni-search', class: 'form-input hot-select-container hot-select-control', **local_assigns do %>
   <template data-target="omni-search.tagTemplate">
-    <div class="filter-tag">
-      <span class="filter-tag-type"></span>
-      <span class="filter-tag-separator">|</span>
-      <span class="filter-tag-value"></span>
-      <button class="filter-tag-remove" data-action="omni-search#removeTag">
-        <%= svg_icon 'xmark' %>
-      </button>
-    </div>
+    <%= render 'hot_select/tag' %>
   </template>
 
   <div class="omni-search-container">
-    <div class="selected-tags-container" data-target="omni-search.tagsContainer"></div>
+    <div class="selected-tags-container" data-target="omni-search.tagsContainer">
+      <% options.each do |value, name, param, label| %>
+        <%= render 'hot_select/tag', type: label, param:, name:, value: %>
+      <% end %>
+    </div>
 
     <div class="hot-select-placeholder"
          data-action="click->omni-search#toggle"

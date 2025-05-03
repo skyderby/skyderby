@@ -1,0 +1,10 @@
+<%# locals: (type: '', param: '', name: '', value: '') %>
+
+<div class="filter-tag" data-type="<%= param %>" data-value="<%= value %>">
+  <span class="filter-tag-type"><%= type %></span>
+  <span class="filter-tag-separator">|</span>
+  <span class="filter-tag-value"><%= name %></span>
+  <button class="filter-tag-remove" data-action="omni-search#removeTag">
+    <%= svg_icon 'xmark' %>
+  </button>
+</div>

@@ -6,8 +6,11 @@
     <turbo-frame id="hot-select-search" class="explorer-search">
       <%= form_with url: tracks_path, method: :get, data: { controller: 'tracks-search', turbo_frame: 'tracks-list' } do |f| %>
         <%= f.hidden_field :kind, value: :base %>
+        <% @filters.each do |value, _name, param, _label| %>
+          <%= f.hidden_field param, value:, skip_default_ids: true %>
+        <% end %>
 
-        <%= render 'flight_profiles/search_bar', 'data-action': [
+        <%= render 'flight_profiles/search_bar', options: @filters, 'data-action': [
             'filter:added->tracks-search#handleFilterAdd',
             'filter:removed->tracks-search#handleFilterRemove',
             'filter:clear->tracks-search#handleFilterClear',
@@ -18,7 +21,6 @@
     <div class="explorer-sidebar-scrollable" data-action="click->flight-profiles#handleTrackClick">
       <turbo-frame id="tracks-list"
                    data-target="flight-profiles.tracksList"
-                   src="<%= tracks_path(kind: :base) %>"
                    loading="lazy"
                    data-action="turbo:frame-render->flight-profiles#processTrackLinks">
       </turbo-frame>

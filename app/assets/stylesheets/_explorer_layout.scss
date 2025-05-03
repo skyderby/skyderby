@@ -56,8 +56,6 @@
 }
 
 .explorer-sidebar-footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   padding: 10px;
   border-top: rgba(0, 0, 0, 0.14) solid 1px;
@@ -74,6 +72,7 @@
 .explorer-sidebar-scrollable {
   @include sidebar-menu;
 
+  flex-grow: 1;
   overflow-y: scroll;
 }
 
