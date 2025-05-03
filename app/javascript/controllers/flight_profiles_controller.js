@@ -60,6 +60,7 @@ export default class FlightProfilesController extends Controller {
   handleTrackClick(event) {
     event.preventDefault()
     const trackElement = event.target.closest('a')
+    if (!trackElement) return
     const trackId = trackElement.dataset.id
 
     if (this.selectedTracks.has(trackId)) {
