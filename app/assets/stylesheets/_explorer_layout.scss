@@ -3,6 +3,7 @@
   height: 100%;
   display: flex;
   background-color: white;
+  position: relative;
 }
 
 .explorer-sidebar {
@@ -10,15 +11,51 @@
   height: 100%;
   flex-shrink: 0;
   flex-grow: 0;
-  position: relative;
+  background-color: var(--white);
   border-right: var(--default-border);
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  box-shadow: rgba(0, 0, 0, 0.08) 6px 0px 16px 0px,
+              rgba(0, 0, 0, 0.12) 3px 0px 6px -4px,
+              rgba(0, 0, 0, 0.05) 9px 0px 28px 8px;
+
+  @media (min-width: 576px) {
+    position: unset;
+    top: unset;
+    bottom: unset;
+    left: unset;
+    z-index: unset;
+    box-shadow: none;
+  }
+}
+
+.explorer-sidebar-mask {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  @media (min-width: 576px) {
+    display:none;
+  }
 }
 
 .explorer-sidebar.collapsed {
   width: 0;
+}
+
+.explorer-sidebar.collapsed + .explorer-sidebar-mask {
+  display: none;
 }
 
 .explorer-sidebar-toggle {

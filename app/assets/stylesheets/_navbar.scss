@@ -7,7 +7,7 @@
   height: 60px;
   width: 100%;
   padding: 0 0.5rem;
-  z-index: 3;
+  z-index: 2000;
 
   @media (min-width: $bp-small) {
     padding: 0 1rem;
@@ -308,7 +308,10 @@
 
   &.active {
     opacity: 1;
-    right: 0;
+    right: 0 !important;
+    box-shadow: rgba(0, 0, 0, 0.08) -6px 0px 16px 0px,
+                rgba(0, 0, 0, 0.12) -3px 0px 6px -4px,
+                rgba(0, 0, 0, 0.05) -9px 0px 28px 8px;
     transition: all 200ms ease-in-out;
     transition-delay: 100ms;
   }

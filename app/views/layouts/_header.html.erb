@@ -108,6 +108,14 @@
           <%= t('application.header.online_competitions') %>
         <% end %>
       </li>
+
+      <li class="main-menu__item <%= 'active' if root_controller == 'flight_profiles' %>">
+        <%= link_to flight_profiles_path do %>
+          <%= svg_icon 'chart-line-solid' %>
+          <%= t('flight_profiles.title') %>
+        <% end %>
+      </li>
+
       <li class="main-menu__item <%= 'active' if root_controller == 'places' %>">
         <%= link_to places_path do %>
           <%= svg_icon 'location-dot-solid' %>
