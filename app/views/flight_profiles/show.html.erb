@@ -6,6 +6,8 @@
     <turbo-frame id="hot-select-search" class="explorer-search">
       <%= form_with url: tracks_path, method: :get, data: { controller: 'tracks-search', turbo_frame: 'tracks-list' } do |f| %>
         <%= f.hidden_field :kind, value: :base %>
+        <%= f.hidden_field :infinite, value: true %>
+
         <% @filters.each do |value, _name, param, _label| %>
           <%= f.hidden_field param, value:, skip_default_ids: true %>
         <% end %>

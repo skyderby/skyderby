@@ -3,9 +3,12 @@ import { Controller } from 'stimulus'
 export default class extends Controller {
   trigger() {
     this.ensureGroupUniqueness()
-    this.element.replaceWith(
-      ...this.element.querySelector('.hot-select-options').children
-    )
+    const parentSelector = this.element.dataset('parentSelector')
+    const container = parentSelector
+      ? this.element.querySelector(parentSelector)
+      : this.element
+
+    this.element.replaceWith(...container.children)
   }
 
   ensureGroupUniqueness() {
