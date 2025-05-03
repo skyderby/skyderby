@@ -2,6 +2,7 @@ ru:
   application:
     header:
       tracks: Треки
+      flight_profiles: Профили полетов
       about: О проекте
       sign_in: Войти
       sign_up: Зарегистрироваться

@@ -1,74 +1,18 @@
-@import "./mixins/full-screen";
-
-.flight-profiles {
-  @include full-screen-container;
-  flex-direction: column;
-}
-
-.flight-profiles__header {
-  @include full-screen-container-header;
-}
-
-.flight-profiles__body {
-  bottom: 0;
-  display: flex;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 49px;
-}
-
-.flight-profiles__sidebar {
-  width: 30%;
-  height: 100%;
-  padding-bottom: 55px;
+.flight-profiles-charts {
   position: relative;
-  border-right: rgba(0, 0, 0, 0.14) solid 1px;
-  overflow: hidden;
-}
-
-.flight-profiles__tracks-container {
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-row: 1;
+  grid-template-rows: minmax(300px, 1fr) 2rem 150px;
+  grid-template-columns: minmax(250px, 1fr);
+  min-width: 0;
   height: 100%;
-  padding: 15px 10px;
-  overflow-y: scroll;
+  background-color: var(--white);
 }
 
-.flight-profiles__place-container {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  padding: 10px;
-  border-top: rgba(0, 0, 0, 0.14) solid 1px;
-  background-color: #fff;
-}
-
-.flight-profiles__chart-container {
-  width: 70%;
-  height: 100%;
-  background-color: white;
-}
-
-.flight-profiles__tracks-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.flight-profiles__track {
-  border-radius: 4px;
-  padding: 1px 7px;
-
-  &:hover {
-    background-color: rgba(3, 169, 244, 0.24);
-  }
-
-  & > .checkbox > label {
-    width: 100%;
-  }
-}
-
-.flight-profiles__track-header {
-  display: flex;
-  justify-content: space-between;
+.flight-profiles-tagbar {
+  overflow-y: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  padding: 0 1rem 0 2rem;
 }

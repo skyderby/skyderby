@@ -51,14 +51,6 @@ Skyderby::Application.routes.draw do
     resources :accounts, only: [:index, :show]
   end
 
-  concern :flight_profiles do
-    resource :flight_profiles, only: :show do
-      scope module: :flight_profiles do
-        resources :tracks, only: :index
-      end
-    end
-  end
-
   concern :sponsorable do
     resources :sponsors, only: [:new, :create, :destroy]
     scope module: :sponsors do
@@ -213,7 +205,6 @@ Skyderby::Application.routes.draw do
       end
       resource :results, only: :show
       resource :download, only: :show
-      resource :flight_profile, only: :show
       resource :jump_range, only: :show
       resource :altitude_data, only: :show
       resource :weather_data
@@ -235,7 +226,7 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :profiles, concerns: :flight_profiles do
+  resources :profiles do
     scope module: :profiles do
       resources :badges, only: [:new, :create]
       resources :tracks, only: :index
@@ -248,6 +239,9 @@ Skyderby::Application.routes.draw do
     end
   end
   resources :badges
+
+  resources :exit_measurements, only: :show
+  resource :flight_profiles, only: :show
 
   resources :manufacturers
   resources :suits do
@@ -266,7 +260,7 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :places, concerns: :flight_profiles do
+  resources :places do
     scope module: :places do
       resources :tracks, only: :index
       resources :videos, only: :index
@@ -277,6 +271,9 @@ Skyderby::Application.routes.draw do
       resource :weather_data, only: :show
 
       collection do
+        resources :select_options,
+                  only: :index, path: 'jump_profiles/select_options',
+                  module: :jump_profiles, as: :places_jump_profiles_select_options
         resources :select_options, only: :index, as: :places_select_options
       end
     end

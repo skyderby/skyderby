@@ -17,18 +17,6 @@
   }
 }
 
-.tracks-list {
-  @media (min-width: $bp-small) {
-    background-color: var(--white);
-    margin: 0 auto;
-    border: var(--default-border);
-    border-radius: var(--border-radius-md);
-    width: 100%;
-    box-shadow: var(--block-box-shadow);
-    padding: 0.5rem;
-  }
-}
-
 .tracks-table-header {
   display: none;
 

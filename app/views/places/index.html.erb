@@ -1,20 +1,39 @@
 <% provide :title, page_title(t('application.header.places')) %>
+<% provide :page_class, 'fullscreen' %>
 
-<div class="places" data-controller="places--index">
-  <div class="places__sidebar" data-target="places--index.sidebar">
-    <%= render 'list_with_search' %>
+<div class="explorer" data-controller="places--index">
+  <aside class="explorer-sidebar" data-controller="toggleable places--searchable-list" data-toggle-class="collapsed">
+    <div class="explorer-search">
+      <div class="search-input-container">
+        <div class="search-input-icon">
+          <%= svg_icon 'magnifying-glass-solid' %>
+        </div>
+        <input class="search-input" type="text" data-action="input->places--searchable-list#filterPlaces" placeholder="Search...">
+      </div>
+    </div>
+
+    <div class="explorer-sidebar-scrollable">
+      <%= render 'list_with_search' %>
+    </div>
+
+    <div class="explorer-sidebar-toggle">
+      <button class="default-button" data-action="toggleable#toggle">
+        <%= svg_icon 'angle-left-solid', class: 'explorer-sidebar-toggle-opened' %>
+        <%= svg_icon 'angle-right-solid', class: 'explorer-sidebar-toggle-closed' %>
+      </button>
+    </div>
 
     <% if policy(Place).create? %>
-      <div class="places__sidebar-create">
+      <div class="explorer-sidebar-footer">
         <%= link_to new_place_path, class: 'btn btn-default' do %>
           <%= svg_icon 'plus-solid' %>
           <%= t('.new') %>
         <% end %>
       </div>
     <% end %>
-  </div>
+  </aside>
 
-  <div class="places__container">
+  <main class="explorer-main">
     <div class="places__map" data-target="places--index.map"></div>
-  </div>
+  </main>
 </div>

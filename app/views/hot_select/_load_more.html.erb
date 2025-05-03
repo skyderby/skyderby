@@ -4,6 +4,7 @@
   id="<%= frame_id %>"
   src="<%= url_for(page:, frame_id:, term:) %>"
   data-controller="replace-with-children"
+  data-parent-selector=".hot-select-options"
   data-action="turbo:frame-render->replace-with-children#trigger"
   loading="lazy"
 >

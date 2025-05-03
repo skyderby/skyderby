@@ -115,6 +115,15 @@ input[type=radio] {
   margin: 0;
 }
 
+.fullscreen {
+  height: 100%;
+}
+
+.page-content {
+  height: 100%;
+  min-height: 0;
+}
+
 @media print {
   .page {
     padding: 0;

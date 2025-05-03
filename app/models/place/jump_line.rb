@@ -19,4 +19,15 @@ class Place::JumpLine < ApplicationRecord
   def full_name
     "#{place_name} - #{name}"
   end
+
+  class << self
+    def search(query)
+      return all if query.blank?
+
+      joins(:place).where(
+        'LOWER(place_jump_lines.name) LIKE :query OR LOWER(places.name) LIKE :query',
+        query: "%#{query.downcase}%"
+      )
+    end
+  end
 end

@@ -1,2 +1,7 @@
 ru:
-  flight_profiles: Профили полетов
+  flight_profiles:
+    title: Профили полета
+    distance_traveled: Расстояние от экзита
+    distance_to_terrain: Расстояние до рельефа
+    show:
+      select_jump_line: Профиль рельефа

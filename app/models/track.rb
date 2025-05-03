@@ -88,6 +88,7 @@ class Track < ApplicationRecord
   scope :sorted_by_speed, ->(dir) { left_joins(:speed).order("track_results.result #{dir} NULLS LAST") }
   scope :sorted_by_distance, ->(dir) { left_joins(:distance).order("track_results.result #{dir} NULLS LAST") }
   scope :sorted_by_time, ->(dir) { left_joins(:time).order("track_results.result #{dir} NULLS LAST") }
+  scope :by_year, ->(year) { where('EXTRACT(YEAR FROM tracks.recorded_at) = ?', year) }
 
   delegate :tracksuit?, :wingsuit?, :slick?, to: :suit, allow_nil: true
   delegate :kind, to: :suit, allow_nil: true, prefix: true

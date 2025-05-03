@@ -1,9 +1,14 @@
 <turbo-frame id="<%= sanitize params[:frame_id] %>">
   <div class="hot-select-options">
     <% @countries.each do |country| %>
-      <div class="hot-select-option" data-value="<%= country.id %>" data-action="click->hot-select#choose">
+      <div class="hot-select-option" data-value="<%= country.id %>">
         <%= country.name %>
       </div>
+    <% end %>
+
+    <% if @countries.next_page %>
+      <% frame_id = "#{sanitize params[:frame_id]}-#{@countries.next_page}" %>
+      <%= render 'hot_select/load_more', page: @countries.next_page, frame_id:, term: params[:term] %>
     <% end %>
   </div>
 </turbo-frame>

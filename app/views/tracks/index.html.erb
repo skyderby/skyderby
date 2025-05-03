@@ -14,9 +14,21 @@
       <div class="thead tracks-table-header">
         <%= render 'table_header' %>
       </div>
-      <div id="tracks-list" class="tbody tracks-table-body">
+      <turbo-frame id="tracks-list" class="tbody tracks-table-body" target="_top">
         <%= render @tracks %>
-      </div>
+
+        <% if params[:infinite] && @tracks.next_page %>
+          <turbo-frame
+            id="tracks-list"
+            src="<%= url_for(index_params.merge(page: @tracks.next_page)) %>"
+            data-controller="replace-with-children"
+            data-action="turbo:frame-render->replace-with-children#trigger"
+            loading="lazy"
+          >
+            Loading...
+          </turbo-frame>
+        <% end %>
+      </turbo-frame>
     </div>
   </div>
 

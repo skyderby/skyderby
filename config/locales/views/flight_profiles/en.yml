@@ -1,2 +1,7 @@
 en:
-  flight_profiles: Flight profiles
+  flight_profiles:
+    title: Flight Profiles
+    distance_traveled: Distance from exit
+    distance_to_terrain: Distance to terrain
+    show:
+      select_jump_line: Select jump line

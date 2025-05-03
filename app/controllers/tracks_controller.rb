@@ -41,7 +41,7 @@ class TracksController < ApplicationController
     respond_to do |format|
       format.html
       format.js
-      format.json { @track_data }
+      format.json
     end
   end
 
@@ -118,7 +118,22 @@ class TracksController < ApplicationController
   end
 
   def index_params
-    params.permit(:order, :page, :kind, :profile_id, :profile_name, :suit_id, :place_id, :term)
+    params.permit(
+      :order,
+      :page,
+      :kind,
+      :profile_name,
+      :term,
+      :profile_id,
+      :suit_id,
+      :place_id,
+      :year,
+      :infinite,
+      profile_id: [],
+      suit_id: [],
+      place_id: [],
+      year: []
+    )
   end
   helper_method :index_params
 

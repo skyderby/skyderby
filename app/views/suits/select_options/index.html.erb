@@ -5,5 +5,10 @@
         <%= suit_presentation suit %>
       </div>
     <% end %>
+
+    <% if @suits.next_page %>
+      <% frame_id = "#{sanitize params[:frame_id]}-#{@suits.next_page}" %>
+      <%= render 'hot_select/load_more', page: @suits.next_page, frame_id:, term: params[:term] %>
+    <% end %>
   </div>
 </turbo-frame>

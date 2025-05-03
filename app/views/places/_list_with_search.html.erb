@@ -1,31 +1,11 @@
-<% link_to_preview ||= false %>
-
-<div class="places-list" data-controller="places--searchable-list">
-  <div class="search-input-container">
-    <div class="search-input-icon">
-      <%= svg_icon 'magnifying-glass-solid' %>
-    </div>
-    <input class="search-input" type="text" data-action="input->places--searchable-list#filterPlaces" placeholder="Search...">
-  </div>
-
-  <div class="places__list-container">
-    <% @places.group_by(&:country).each do |country, places| %>
-      <div class="places-country" data-target="places--index.country places--searchable-list.country">
-        <div class="places-country-name"><%= country.name %></div>
-        <% places.each do |place| %>
-          <%= link_to place.name,
-                      place_path(place),
-                      class: 'places__item',
-                      data: { target: 'places--index.place places--searchable-list.place', id: place.id, kind: place.kind, lat: place.latitude, lon: place.longitude } %>
-        <% end %>
-      </div>
+<% @places.group_by(&:country).each do |country, places| %>
+  <div class="places-country" data-target="places--index.country places--searchable-list.country">
+    <div class="places-country-name"><%= country.name %></div>
+    <% places.each do |place| %>
+      <%= link_to place.name,
+                  place_path(place),
+                  class: 'places__item',
+                  data: { target: 'places--index.place places--searchable-list.place', id: place.id, kind: place.kind, lat: place.latitude, lon: place.longitude } %>
     <% end %>
   </div>
-
-  <div class="places-sidebar-toggle">
-    <button class="default-button" data-action="places--index#toggleSidebar">
-      <%= svg_icon 'angle-left-solid', class: 'places-sidebar-toggle-opened' %>
-      <%= svg_icon 'angle-right-solid', class: 'places-sidebar-toggle-closed' %>
-    </button>
-  </div>
-</div>
+<% end %>

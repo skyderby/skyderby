@@ -1,27 +1,64 @@
-<div class="flight-profiles" data-controller="flight-profiles">
-  <div class="flight-profiles__header">
-    <%= link_to @scope, class: 'btn-back' do %>
-      <i class="fa fa-chevron-left"></i>
-      <%= @scope.name %>
-    <% end %>
-    <span>//</span>
-    <%= t('flight_profiles') %>
-  </div>
-  <div class="flight-profiles__body">
-    <div class="flight-profiles__sidebar">
-      <div class="flight-profiles__tracks-container">
-        <%= render 'tracks' %>
-      </div>
-      <div class="flight-profiles__place-container" data-controller="flight-profiles--exit-measurement">
-        <% if @scope.is_a?(Place) && @scope.jump_lines.any? %>
-          <% line = @scope.jump_lines.first %>
-          <% select_options = options_for_select([[line.full_name, line.id]], line.id) %>
-        <% else %>
-          <% select_options = nil %>
+<% provide :title, page_title(t('flight_profiles.title')) %>
+<% provide :page_class, 'fullscreen' %>
+
+<div class="explorer" data-controller="flight-profiles">
+  <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
+    <turbo-frame id="hot-select-search" class="explorer-search">
+      <%= form_with url: tracks_path, method: :get, data: { controller: 'tracks-search', turbo_frame: 'tracks-list' } do |f| %>
+        <%= f.hidden_field :kind, value: :base %>
+        <%= f.hidden_field :infinite, value: true %>
+
+        <% @filters.each do |value, _name, param, _label| %>
+          <%= f.hidden_field param, value:, skip_default_ids: true %>
         <% end %>
-        <%= select_tag :place, select_options, include_blank: true, placeholder: 'Choose exit measurement', class: 'form-control', data: { controller: 'select2--exit-measurements', action: 'change->flight-profiles--exit-measurement#toggle' } %>
+
+        <%= render 'flight_profiles/search_bar', options: @filters, 'data-action': [
+            'filter:added->tracks-search#handleFilterAdd',
+            'filter:removed->tracks-search#handleFilterRemove',
+            'filter:clear->tracks-search#handleFilterClear',
+          ].join(' ') %>
+      <% end %>
+    </turbo-frame>
+
+    <div class="explorer-sidebar-scrollable" data-action="click->flight-profiles#handleTrackClick">
+      <turbo-frame id="tracks-list"
+                   data-target="flight-profiles.tracksList"
+                   loading="lazy"
+                   data-action="turbo:frame-render->flight-profiles#processTrackLinks">
+      </turbo-frame>
+    </div>
+
+    <div class="explorer-sidebar-toggle">
+      <button class="default-button" data-action="toggleable#toggle flight-profiles#resizeCharts">
+        <%= svg_icon 'angle-left-solid', class: 'explorer-sidebar-toggle-opened' %>
+        <%= svg_icon 'angle-right-solid', class: 'explorer-sidebar-toggle-closed' %>
+      </button>
+    </div>
+
+    <div class="explorer-sidebar-footer">
+      <%= render 'hot_select/select', name: :jump_line_id, src: places_jump_profiles_select_options_path,
+                placeholder: t('flight_profiles.show.select_jump_line'),
+                options: @jump_profile.present? ? options_for_select([["#{@jump_profile.place.name} - #{@jump_profile.name}", @jump_profile.id]]) : [],
+                select: { data: { action: 'flight-profiles#handleJumpLineSelection' }}%>
+    </div>
+  </aside>
+
+  <main class="explorer-main">
+    <div class="flight-profiles-charts">
+      <div>
+        <div data-target="flight-profiles.flightProfilesChart"></div>
+      </div>
+      <div class="flight-profiles-tagbar" data-target="flight-profiles.tagbar">
+        <template data-target="flight-profiles.tagTemplate">
+          <div class="filter-tag">
+            <span class="filter-tag-type"></span>
+            <button class="filter-tag-remove" data-action="flight-profiles#removeTag">×</button>
+          </div>
+        </template>
+      </div>
+      <div>
+        <div data-target="flight-profiles.terrainClearanceChart"></div>
       </div>
     </div>
-    <div class="flight-profiles__chart-container" data-controller="flight-profiles--chart" data-target="flight-profiles.chart"></div>
-  </div>
+  </main>
 </div>

@@ -42,7 +42,7 @@
     <% end %>
 
     <% if @place.base? %>
-      <%= link_to t('flight_profiles'), place_flight_profiles_path(@place), class: ['page-tab'] %>
+      <%= link_to t('flight_profiles.title'), flight_profiles_path(place_id: [@place], jump_profile_id: @place.jump_lines.pick(:id)), class: ['page-tab'] %>
     <% end %>
 
     <% if @place.base? && policy(@place).edit? %>

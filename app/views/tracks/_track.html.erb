@@ -1,4 +1,6 @@
-<%= link_to track_path(id: track.id), class: 'tracks-item' do %>
+<%# locals: (track:, **local_assigns) %>
+
+<%= link_to track_path(id: track.id), class: "tracks-item", 'data-id': track.id do %>
   <div class="tracks-item-attribute tracks-item-id">
     <%= track.id %>
     <%= track_icons(track) %>
