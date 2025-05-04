@@ -1,0 +1,73 @@
+<div class="new-event">
+  <h1>Choose an event type</h1>
+
+  <div class="paid-notice">
+    Starting May 2025, the cost for scoring a competition is <b>$15 per competitor</b>.
+    <br>
+    To ensure a seamless experience, please <a href="https://www.paypal.com/paypalme/AleksandrKuninUAE">complete your payment</a> before finishing the 3rd round of the competition.
+    <br>
+    Custom quotations are available. Feel free to <a href="mailto:skyksandr@gmail.com">reach out via email</a> for more details.
+  </div>
+
+  <div class="item">
+    <h2>Wingsuit Performance Competition</h2>
+    <p>
+      The objective is to fly a single wingsuit in three separate tasks to demonstrate a combination of best time, distance and speed.
+      <br>
+      FAI rules compliant and approved to be used for first category events.
+    </p>
+    <div>
+      <%= link_to new_performance_competition_path, class: 'primary-button' do %>
+        <%= svg_icon 'plus-solid' %>
+        Create Wingsuit Performance Competition
+      <% end %>
+    </div>
+  </div>
+
+  <div class="item">
+    <h2>Speed Skydiving Competition</h2>
+    <p>
+      The objective for the competitors to fly their body as fast as possible to achieve the highest average vertical speed through a 3 second window.
+      <br>
+      FAI rules compliant and approved to be used for first category events.
+    </p>
+    <div>
+      <%= link_to new_speed_skydiving_competition_path, class: 'primary-button' do %>
+        <%= svg_icon 'plus-solid' %>
+        Create Speed Skydiving Competition
+      <% end %>
+    </div>
+  </div>
+
+  <div class="item">
+    <h2>Boogie</h2>
+    <p>
+      The objective is to fly a single task (currently distance or high speed exit flare).
+      Competitors complete a series of jumps, the average result of specified number of jumps counts as competitor result.
+      Organizers specify how many jumps should be averaged for total.
+      This number will be the number of obligatory jumps for competitors to complete.
+      <a href="mailto:skyksandr@gmail.com">Reach out via email</a> for more details.
+    </p>
+  </div>
+
+  <div class="item">
+    <h2>Tournament</h2>
+    <p>
+      Single elimination tournament. Usually used (but not limited) to score
+      <a href="https://worldbaserace.com">World BASE Race</a> and
+      <a href="https://www.instagram.com/pordoi_base_race/">Pordoi BASE Race</a> competitions.
+      <br>
+      <a href="mailto:skyksandr@gmail.com">Reach out via email</a> for more details.
+    </p>
+  </div>
+
+  <div class="item">
+    <h2>Cumulative scoreboard</h2>
+    <p>
+      Aggregate multiple Wingsuit Performance competitions or Speed Skydiving competitions into single cumulative scoreboard.
+      Create multi-location or even cross-continent competitions.
+      <br>
+      <a href="mailto:skyksandr@gmail.com">Reach out via email</a> for more details.
+    </p>
+  </div>
+</div>

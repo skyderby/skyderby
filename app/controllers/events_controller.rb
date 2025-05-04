@@ -26,11 +26,6 @@ class EventsController < ApplicationController
 
   def new
     authorize Event
-    @event = Event.new
-
-    respond_to do |format|
-      format.js
-    end
   end
 
   def create
