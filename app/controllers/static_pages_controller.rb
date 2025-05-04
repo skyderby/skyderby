@@ -15,5 +15,7 @@ class StaticPagesController < ApplicationController
     authorize! :manage, :all
   end
 
+  def site_webmanifest; end
+
   def about; end
 end

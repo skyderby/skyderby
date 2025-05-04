@@ -33,6 +33,7 @@ Skyderby::Application.routes.draw do
 
   get '/wingsuits/:id', to: 'suits#show'
   get '/wingsuits', to: 'suits#index'
+  get '/site.webmanifest', to: 'static_pages#site_webmanifest', defaults: { format: :json }
 
   get '/manage', to: 'manage/dashboards#show'
 
