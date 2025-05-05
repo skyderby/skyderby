@@ -5,9 +5,9 @@
     class="round-status"
     data-controller="tooltip"
     <% if round.completed %>
-      data-tooltip="Round results are final"
+      data-tooltip="<%= t('events.rounds.completed_tooltip') %>"
     <% elsif editable %>
-      data-tooltip="Mark round as completed when results are final"
+      data-tooltip="<%= t('events.rounds.mark_completed_tooltip') %>"
     <% end %>
   >
     <% if round.completed %>
@@ -33,19 +33,19 @@
                             class: 'dropdown-item',
                             method: :patch, params: { round: { completed: false } },
                             form: { data: { turbo_stream: true } } do %>
-                Mark not completed
+                <%= t('events.rounds.mark_not_completed') %>
               <% end %>
             <% else%>
               <%= button_to speed_skydiving_competition_round_path(event, round),
                             class: 'dropdown-item',
                             method: :patch, params: { round: { completed: true } },
                             form: { data: { turbo_stream: true } } do %>
-                Mark completed
+                <%= t('events.rounds.mark_completed') %>
               <% end %>
             <% end %>
 
             <%= button_to speed_skydiving_competition_round_path(event, round), class: 'dropdown-item', method: :delete, form: { data: { turbo_stream: true } } do %>
-              Delete
+              <%= t('general.delete') %>
             <% end %>
           </div>
         </template>

@@ -17,6 +17,10 @@ en:
       sign_in_to_create: Creating classic competitions available only for registered users.
       new: 'New'
     rounds:
+      completed_tooltip: Round results are final
+      mark_completed_tooltip: Mark round as completed when results are final
+      mark_completed: Mark completed
+      mark_not_completed: Mark not completed
       globe:
         fast_forward: Fast-forward to competitor
         group: Group

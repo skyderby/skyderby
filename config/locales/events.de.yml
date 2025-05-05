@@ -16,6 +16,11 @@ de:
     index:
       sign_in_to_create: Nur registrierte Nutzer können einen Wettbewerb anlegen
       new: 'Neu'
+    rounds:
+      completed_tooltip: Rundenergebnisse sind endgültig
+      mark_completed_tooltip: Markieren Sie die Runde als abgeschlossen, wenn die Ergebnisse endgültig sind
+      mark_completed: Als abgeschlossen markieren
+      mark_not_completed: Als nicht abgeschlossen markieren
     show:
       round_map_view: Rundentracks auf der Karte
       comp_window: Wettkampf Messfenster

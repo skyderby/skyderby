@@ -13,6 +13,11 @@ es:
     teams: Equipos
     downloads: Descargas
 
+    rounds:
+      completed_tooltip: Los resultados de la ronda son definitivos
+      mark_completed_tooltip: Marque la ronda como completada cuando los resultados sean definitivos
+      mark_completed: Marcar como completada
+      mark_not_completed: Marcar como no completada
     show:
       competitor: Competitor
       round_map_view: 'Round tracks on map'
