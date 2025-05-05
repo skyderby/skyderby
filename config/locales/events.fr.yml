@@ -8,6 +8,10 @@ fr:
     category: Catégorie
     competitor: Compétiteur
     round: Manche
+    scoreboard: Tableau des scores
+    open_event: Classe ouverte
+    teams: Équipes
+    downloads: Téléchargements
 
     index:
       sign_in_to_create: Se connecter ou s'enregistrer pour créer une compétition.

@@ -8,7 +8,7 @@
     <thead>
       <tr>
         <th>#</th>
-        <th colspan="2">Competitor</th>
+        <th colspan="2"><%= t('events.competitor') %></th>
         <%= render partial: 'speed_skydiving_competitions/round_cell', collection: standings.rounds, as: :round, locals: { event:, editable: } %>
         <th class="text-right">Total</th>
         <th class="text-right">Avg</th>

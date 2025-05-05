@@ -8,6 +8,10 @@ it:
     category: Categoria
     competitor: Concorrente
     round: Round
+    scoreboard: Tabella dei punteggi
+    open_event: Classe aperta
+    teams: Squadre
+    downloads: Download
 
     index:
       sign_in_to_create: Accedi o registrati per creare una competizione.

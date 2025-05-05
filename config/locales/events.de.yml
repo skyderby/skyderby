@@ -8,6 +8,10 @@ de:
     category: Kategorie
     competitor: Teilnehmer
     round: Runde
+    scoreboard: Anzeigetafel
+    open_event: Offene Klasse
+    teams: Teams
+    downloads: Downloads
 
     index:
       sign_in_to_create: Nur registrierte Nutzer können einen Wettbewerb anlegen

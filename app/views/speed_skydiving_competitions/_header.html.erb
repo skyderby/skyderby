@@ -12,21 +12,21 @@
   <div class="page-nav">
     <%= link_to speed_skydiving_competition_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_path(@event)))] do %>
       <%= svg_icon 'list-ul-solid' %>
-      Scoreboard
+      <%= t('events.scoreboard') %>
     <% end %>
 
     <%= link_to speed_skydiving_competition_open_scoreboard_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_open_scoreboard_path(@event)))] do %>
       <%= svg_icon 'list-ul-solid' %>
-      Open Event
+      <%= t('events.open_event') %>
     <% end %>
 
     <%= link_to speed_skydiving_competition_teams_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_teams_path(@event)))] do %>
       <%= svg_icon 'list-ul-solid' %>
-      Teams
+      <%= t('events.teams') %>
     <% end %>
 
     <% if editable %>
-      <%= link_to 'Downloads', speed_skydiving_competition_downloads_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_downloads_path(@event)))] %>
+      <%= link_to t('events.downloads'), speed_skydiving_competition_downloads_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_downloads_path(@event)))] %>
 
       <%= link_to edit_speed_skydiving_competition_path(@event), class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_speed_skydiving_competition_path(@event)))] do %>
         <%= svg_icon 'gear-solid' %>

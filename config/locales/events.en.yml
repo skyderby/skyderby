@@ -8,6 +8,10 @@ en:
     category: Category
     competitor: Competitor
     round: Round
+    scoreboard: Scoreboard
+    open_event: Open Class
+    teams: Teams
+    downloads: Downloads
 
     index:
       sign_in_to_create: Creating classic competitions available only for registered users.

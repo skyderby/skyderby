@@ -8,6 +8,10 @@ ru:
     category: Категория
     competitor: Участник
     round: Раунд
+    scoreboard: Таблица результатов
+    open_event: Open класс
+    teams: Команды
+    downloads: Загрузки
 
     index:
       sign_in_to_create: Войдите или зарегистрируйтеся для создания соревнования

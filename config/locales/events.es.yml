@@ -8,6 +8,10 @@ es:
     category: Categoría
     competitor: Competidor
     round: Ronda
+    scoreboard: Marcador
+    open_event: Clase abierta
+    teams: Equipos
+    downloads: Descargas
 
     show:
       competitor: Competitor
