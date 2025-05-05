@@ -5,6 +5,9 @@ ru:
     add_competitor: Добавление участника
     edit_competitor: Редактирование участника
     add_team: Добавление команды
+    category: Категория
+    competitor: Участник
+    round: Раунд
 
     index:
       sign_in_to_create: Войдите или зарегистрируйтеся для создания соревнования

@@ -2,6 +2,12 @@ de:
   events:
     add_category: Neue Kategorie
     edit_category: Kategorie bearbeiten
+    add_competitor: Neuer Teilnehmer
+    edit_competitor: Teilnehmer bearbeiten
+    add_team: Neues Team
+    category: Kategorie
+    competitor: Teilnehmer
+    round: Runde
 
     index:
       sign_in_to_create: Nur registrierte Nutzer können einen Wettbewerb anlegen

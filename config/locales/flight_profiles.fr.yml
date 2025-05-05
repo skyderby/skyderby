@@ -1,0 +1,7 @@
+fr:
+  flight_profiles:
+    title: Profils de vol
+    distance_traveled: Distance depuis la sortie
+    distance_to_terrain: Distance au terrain
+    show:
+      select_jump_line: Sélectionner la ligne de saut

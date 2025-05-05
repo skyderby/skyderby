@@ -2,6 +2,12 @@ it:
   events:
     add_category: Nuova categoria
     edit_category: Modifica categoria
+    add_competitor: Nuovo concorrente
+    edit_competitor: Modifica concorrente
+    add_team: Nuova squadra
+    category: Categoria
+    competitor: Concorrente
+    round: Round
 
     index:
       sign_in_to_create: Accedi o registrati per creare una competizione.

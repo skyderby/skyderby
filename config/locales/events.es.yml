@@ -2,6 +2,12 @@ es:
   events:
     add_category: Nueva categoría
     edit_category: Editar categoría
+    add_competitor: Nuevo competidor
+    edit_competitor: Editar competidor
+    add_team: Nuevo equipo
+    category: Categoría
+    competitor: Competidor
+    round: Ronda
 
     show:
       competitor: Competitor

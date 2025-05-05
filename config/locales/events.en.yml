@@ -5,6 +5,9 @@ en:
     add_competitor: New competitor
     edit_competitor: Edit competitor
     add_team: New team
+    category: Category
+    competitor: Competitor
+    round: Round
 
     index:
       sign_in_to_create: Creating classic competitions available only for registered users.

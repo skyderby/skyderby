@@ -96,7 +96,7 @@
           <%= t('application.header.tracks') %>
         <% end %>
       </li>
-      <li class="main-menu__item <%= 'active' if ['events', 'tournaments'].include? root_controller %>">
+      <li class="main-menu__item <%= 'active' if ['events', 'speed_skydiving_competitions', 'tournaments'].include? root_controller %>">
         <%= link_to events_path do %>
           <%= svg_icon 'trophy-solid' %>
           <%= t('application.header.competitions') %>

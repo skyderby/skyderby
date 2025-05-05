@@ -9,7 +9,7 @@
           <th>#</th>
           <th>Name</th>
           <th>Created at</th>
-          <th><%= t('.actions', default: t("helpers.actions")) %></th>
+          <th><%= t('.actions') %></th>
         </tr>
       </thead>
       <tbody>
@@ -24,14 +24,14 @@
                           virtual_competition_group_path(group),
                           remote: true,
                           method: :delete,
-                          data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?')) },
+                          data: { confirm: t('.confirm', default: t("general.confirm_delete")) },
                           class: 'btn btn-xs btn-danger' %>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
-    <%= link_to t('.new', default: t("helpers.links.new")),
+    <%= link_to t('general.new'),
                 new_virtual_competition_group_path,
                 class: 'btn btn-primary' %>
     <%= link_to t('general.back'), virtual_competitions_path, class: 'btn btn-default' %>
