@@ -7,7 +7,7 @@
     <div data-controller="tracks--videos"
          data-action="youtube_api:ready@window->tracks--videos#onYoutubeApiReady"
          data-video-id="<%= @video.video_code %>">
-      <script type="application/json" data-target="tracks--videos.data">
+      <script type="application/json" data-tracks--videos-target="data">
         <%= raw render partial: 'tracks/videos/video',
                        locals: { video: @video, points: @points },
                        formats: [:json] %>

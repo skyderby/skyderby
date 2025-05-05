@@ -3,7 +3,7 @@
 <%= tag.template **local_assigns do %>
   <div class="hot-select-dropdown" role="listbox">
     <div class="hot-select-scrollable hot-select-selectable">
-      <div class="hot-select-options" data-target="hot-select.options">
+      <div class="hot-select-options" data-hot-select-target="options">
         <% if options.any? %>
           <% options.each do |value, label| %>
             <div class="hot-select-option" data-value="<%= value %>">

@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import Geospatial from 'utils/geospatial'
 import init_maps_api from 'utils/google_maps_api'
 import I18n from 'i18n'

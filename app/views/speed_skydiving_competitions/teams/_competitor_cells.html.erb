@@ -9,7 +9,7 @@
           <button class="dropdown-toggle ghost-button small-button" data-action="click->dropdown#toggle">
             <%= svg_icon 'ellipsis-vertical-solid' %>
           </button>
-          <template data-target="dropdown.menu">
+          <template data-dropdown-target="menu">
             <div class="sd-dropdown-menu">
               <%= button_to 'Delete', speed_skydiving_competition_team_competitor_path(event, competitor),
                             class: 'dropdown-item',

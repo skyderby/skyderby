@@ -21,12 +21,12 @@
 
         <%= form_for :jump_range, url: tournament_match_slot_jump_range_path(@tournament, @match, @slot), method: :put, remote: true do |f| %>
           <div class="row" data-controller="jump-range" data-track-id="<%= @slot.track_id %>">
-            <div class="col-sm-12" data-target="jump-range.chart"></div>
+            <div class="col-sm-12" data-jump-range-target="chart"></div>
             <div class="col-sm-12">
               <div class="time-selector">
                 <%= f.text_field :jump_range,
                   value: @slot.track.jump_range,
-                  data: { max_value: @slot.track.duration, controller: 'jump-range-select', action: 'change->jump-range#on_change_range', target: 'jump-range.select' } %>
+                  data: { max_value: @slot.track.duration, controller: 'jump-range-select', action: 'change->jump-range#on_change_range', 'jump-range-target': 'select' } %>
               </div>
             </div>
           </div>

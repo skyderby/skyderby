@@ -1,7 +1,7 @@
 <%# locals: (**local_assigns) %>
 
 <%= render 'hot_select/omni_search', **local_assigns, placeholder: 'Search of filter tracks...' do %>
-  <%= render 'hot_select/local_options', 'data-target': 'omni-search.typeSelect' do %>
+  <%= render 'hot_select/local_options', 'data-omni-search-target': 'typeSelect' do %>
     <div class="hot-select-option" data-value="year[]" data-label="Year">
       <%= svg_icon 'calendar-days-solid' %>
       Year
@@ -20,9 +20,9 @@
     </div>
   <% end %>
 
-  <%= render 'hot_select/local_options', options: 2014..2025, 'data-target': 'omni-search.model', 'data-name': 'year[]' %>
-  <%= render 'hot_select/async_options', src: profiles_select_options_path, select_id: :profile, 'data-target': 'omni-search.model', 'data-name': 'profile_id[]' %>
-  <%= render 'hot_select/async_options', src: places_select_options_path, select_id: :place, 'data-target': 'omni-search.model', 'data-name': 'place_id[]' %>
-  <%= render 'hot_select/async_options', src: suits_select_options_path, select_id: :suit, 'data-target': 'omni-search.model', 'data-name': 'suit_id[]' %>
+  <%= render 'hot_select/local_options', options: 2014..2025, 'data-omni-search-target': 'model', 'data-name': 'year[]' %>
+  <%= render 'hot_select/async_options', src: profiles_select_options_path, select_id: :profile, 'data-omni-search-target': 'model', 'data-name': 'profile_id[]' %>
+  <%= render 'hot_select/async_options', src: places_select_options_path, select_id: :place, 'data-omni-search-target': 'model', 'data-name': 'place_id[]' %>
+  <%= render 'hot_select/async_options', src: suits_select_options_path, select_id: :suit, 'data-omni-search-target': 'model', 'data-name': 'suit_id[]' %>
 <% end %>
 

@@ -2,14 +2,14 @@
   <div class="col-sm-12" data-controller="tournaments--match-globe"
        data-url="<%= url_for %>"
        data-action="cesium_api:ready@window->tournaments--match-globe#onCesiumReady cesium_api:failed@window->tournaments--match-globe#onCesiumFailed">
-    <div id="match-globe" data-target="tournaments--match-globe.viewer">
-      <div id="track-map-loading" class="text-muted" data-target="tournaments--match-globe.loadingProgress">
+    <div id="match-globe" data-tournaments--match-globe-target="viewer">
+      <div id="track-map-loading" class="text-muted" data-tournaments--match-globe-target="loadingProgress">
         <div id="track-map-loading-api" class="fa-2x">
-          <i class="fa fa-fw fa-spin fa-circle-notch" data-target="tournaments--match-globe.cesiumStatus"></i>
+          <i class="fa fa-fw fa-spin fa-circle-notch" data-tournaments--match-globe-target="cesiumStatus"></i>
           Loading Cesium API
         </div>
         <div id="track-map-loading-data" class="fa-2x">
-          <i class="fa fa-fw fa-spin fa-circle-notch" data-target="tournaments--match-globe.dataStatus"></i>
+          <i class="fa fa-fw fa-spin fa-circle-notch" data-tournaments--match-globe-target="dataStatus"></i>
           Loading map data
         </div>
       </div>

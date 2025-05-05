@@ -2,8 +2,8 @@
 
 <% cache ['scoreboard', I18n.locale, @scoreboard.event, display_event_params, can_update] do %>
   <div class="scoreboard-container" data-controller="events--sticky-header">
-    <div class="scoreboard-scroll" data-target="events--sticky-header.container" data-action="scroll->events--sticky-header#on_horizontal_scroll">
-      <table class="scoreboard-table" data-target="events--sticky-header.table">
+    <div class="scoreboard-scroll" data-events--sticky-header-target="container" data-action="scroll->events--sticky-header#on_horizontal_scroll">
+      <table class="scoreboard-table" data-events--sticky-header-target="table">
         <thead>
           <tr>
             <th class="text-center" rowspan="3">#</th>

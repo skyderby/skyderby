@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import { createPopper } from '@popperjs/core'
 
 export default class HotSelect extends Controller {
@@ -254,10 +254,10 @@ export default class HotSelect extends Controller {
   }
 
   get hasSearch() {
-    return this.dropdown.querySelector('[data-target="hot-select.searchInput"]') !== null
+    return this.dropdown.querySelector('[data-hot-select-target="searchInput"]') !== null
   }
 
   get searchInput() {
-    return this.dropdown.querySelector('[data-target="hot-select.searchInput"]')
+    return this.dropdown.querySelector('[data-hot-select-target="searchInput"]')
   }
 }

@@ -27,16 +27,16 @@
                      { include_blank: true },
                      placeholder: t('tracks.form.place_select_placeholder'),
                      class: 'form-control input-lg',
-                     data: { controller: 'select2--places', target: 'tracks--place-field.select' } %>
+                     data: { controller: 'select2--places', 'tracks--place-field-target': 'select' } %>
 
         <%= f.text_field 'location',
                          class: 'form-control input-lg',
                          placeholder: t('static_pages.index.track_form.location_plh'),
-                         data: { target: 'tracks--place-field.text' } %>
+                         data: { 'tracks--place-field-target': 'text' } %>
 
         <p class="help-block">
-          <span data-target="tracks--place-field.caption"></span>
-          <a data-target="tracks--place-field.link" data-action="tracks--place-field#trigger" href="#"></a>
+          <span data-tracks--place-field-target="caption"></span>
+          <a data-tracks--place-field-target="link" data-action="tracks--place-field#trigger" href="#"></a>
         </p>
       </div>
 

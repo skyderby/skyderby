@@ -20,7 +20,7 @@
       <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + event.status) %>
       <%= svg_icon 'angle-down-solid' %>
 
-      <template data-target="dropdown.menu">
+      <template data-dropdown-target="menu">
         <div class="sd-dropdown-menu">
           <% SpeedSkydivingCompetition.statuses.each do |status, _index| %>
             <%= button_to(t("event_status.#{status}"),

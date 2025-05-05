@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'

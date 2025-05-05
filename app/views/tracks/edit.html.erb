@@ -20,17 +20,17 @@
                          options_for_select([([@track.suit_name, @track.suit_id] if @track.suit)], @track.suit_id),
                          { include_blank: true },
                          class: 'form-control suit-group',
-                         data: { controller: 'select2--suits', target: 'tracks--suit-field.select' } %>
+                         data: { controller: 'select2--suits', 'tracks--suit-field-target': 'select' } %>
 
             <%= f.text_field :missing_suit_name,
                              class: 'form-control suit-group',
                              placeholder: t('tracks.form.suit_text_placeholder'),
                              type: 'text',
-                             data: { target: 'tracks--suit-field.text' } %>
+                             data: { 'tracks--suit-field-target': 'text' } %>
 
             <p class="help-block">
-              <span data-target="tracks--suit-field.caption"><%= t('tracks.form.toggle_suit_caption') %></span>
-              <a data-target="tracks--suit-field.link" data-action="tracks--suit-field#trigger" href="#"><%= t('tracks.form.toggle_suit_link') %></a>
+              <span data-tracks--suit-field-target="caption"><%= t('tracks.form.toggle_suit_caption') %></span>
+              <a data-tracks--suit-field-target="link" data-action="tracks--suit-field#trigger" href="#"><%= t('tracks.form.toggle_suit_link') %></a>
             </p>
           </div>
         </div>
@@ -43,16 +43,16 @@
                          { include_blank: true },
                          placeholder: t('tracks.form.place_select_placeholder'),
                          class: 'form-control place-group',
-                         data: { controller: 'select2--places', target: 'tracks--place-field.select' } %>
+                         data: { controller: 'select2--places', 'tracks--place-field-target': 'select' } %>
 
             <%= f.text_field 'location',
                              class: 'form-control place-group',
                              placeholder: t('static_pages.index.track_form.location_plh'),
-                             data: { target: 'tracks--place-field.text' } %>
+                             data: { 'tracks--place-field-target': 'text' } %>
 
             <p class="help-block">
-              <span data-target="tracks--place-field.caption"></span>
-              <a data-target="tracks--place-field.link" data-action="tracks--place-field#trigger" href="#"></a>
+              <span data-tracks--place-field-target="caption"></span>
+              <a data-tracks--place-field-target="link" data-action="tracks--place-field#trigger" href="#"></a>
             </p>
           </div>
         </div>

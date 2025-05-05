@@ -31,13 +31,13 @@
             <div class="form-group" data-controller="tracks--suit-field" data-mode="<%= suit_mode %>">
               <%= builder.label :suit, t('activerecord.attributes.track.suit'), class: 'col-sm-3 control-label' %>
               <div class="col-sm-9">
-                <%= builder.select :suit_id, options_for_select([[suit_name_by_id(recent_suit_id), recent_suit_id]], recent_suit_id), { include_blank: true }, class: 'form-control new-track-suit-select suit-group', data: { controller: 'select2--suits', target: 'tracks--suit-field.select' } %>
-                <%= builder.text_field :missing_suit_name, class: 'form-control suit-group', placeholder: t('tracks.form.suit_text_placeholder'), value: recent_suit_name, data: { target: 'tracks--suit-field.text' } %>
+                <%= builder.select :suit_id, options_for_select([[suit_name_by_id(recent_suit_id), recent_suit_id]], recent_suit_id), { include_blank: true }, class: 'form-control new-track-suit-select suit-group', data: { controller: 'select2--suits', 'tracks--suit-field-target': 'select' } %>
+                <%= builder.text_field :missing_suit_name, class: 'form-control suit-group', placeholder: t('tracks.form.suit_text_placeholder'), value: recent_suit_name, data: { 'tracks--suit-field-target': 'text' } %>
               </div>
               <div class="col-sm-9 col-sm-offset-3">
                 <p class="help-block">
-                  <span data-target="tracks--suit-field.caption"><%= t('tracks.form.toggle_suit_caption') %></span>
-                  <a href="#" data-target="tracks--suit-field.link" data-action="tracks--suit-field#trigger"><%= t('tracks.form.toggle_suit_link') %></a>
+                  <span data-tracks--suit-field-target="caption"><%= t('tracks.form.toggle_suit_caption') %></span>
+                  <a href="#" data-tracks--suit-field-target="link" data-action="tracks--suit-field#trigger"><%= t('tracks.form.toggle_suit_link') %></a>
                 </p>
               </div>
             </div>
@@ -57,11 +57,11 @@
             <%= f.label :file, class: 'col-sm-3 control-label' %>
             <div class="col-sm-9">
               <div class="input-group" data-controller="filefield">
-                <input type="text" class="form-control" readonly data-target="filefield.text_field">
+                <input type="text" class="form-control" readonly data-filefield-target="text_field">
                 <span class="input-group-btn">
                   <span class="btn btn-default btn-file">
                     &hellip;
-                    <%= f.file_field :file, accept: '.csv,.gpx,.tes,.kml', data: { target: 'filefield.file_field', action: 'change->filefield#change' } %>
+                    <%= f.file_field :file, accept: '.csv,.gpx,.tes,.kml', data: { 'filefield-target': 'file_field', action: 'change->filefield#change' } %>
                   </span>
                 </span>
               </div>

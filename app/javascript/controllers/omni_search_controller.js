@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import { createPopper } from '@popperjs/core'
 
 export default class OmniSearchController extends Controller {
@@ -77,7 +77,7 @@ export default class OmniSearchController extends Controller {
     optionsContainer.addEventListener('click', this.selectModel.bind(this))
 
     const searchInput = this.dropdownRoot.querySelector(
-      '[data-target="hot-select.searchInput"]'
+      '[data-hot-select-target="searchInput"]'
     )
     if (searchInput) searchInput.focus()
 

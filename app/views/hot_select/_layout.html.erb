@@ -6,7 +6,7 @@
      role="combobox"
      aria-haspopup="listbox"
      aria-expanded="false">
-  <% select_html_options = { class: 'hot-select--hidden', data: { target: 'hot-select.selectInput' } }.deep_merge(local_assigns[:select] || {}) %>
+  <% select_html_options = { class: 'hot-select--hidden', data: { 'hot-select-target': 'selectInput' } }.deep_merge(local_assigns[:select] || {}) %>
   <% if form %>
     <%= form.select name, options, {}, select_html_options %>
   <% else %>
@@ -16,12 +16,12 @@
   <div class="hot-select-control" tabindex="0">
     <div class="hot-select-placeholder"
          data-action="click->hot-select#toggle"
-         data-target="hot-select.placeholder">
+         data-hot-select-target="placeholder">
       <%= local_assigns[:placeholder] || raw('&nbsp;') %>
     </div>
     <div class="hot-select-value"
          data-action="click->hot-select#toggle"
-         data-target="hot-select.displayValue">
+         data-hot-select-target="displayValue">
     </div>
     <div class="hot-select-indicators">
       <button type="button" class="hot-select-button" data-action="hot-select#clear" aria-label="<%= t('general.clear') %>">

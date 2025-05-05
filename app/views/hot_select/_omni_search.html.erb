@@ -1,12 +1,12 @@
 <%# locals: (options: [], **local_assigns) %>
 
 <%= tag.div 'data-controller': 'omni-search', class: 'form-input hot-select-container hot-select-control', **local_assigns do %>
-  <template data-target="omni-search.tagTemplate">
+  <template data-omni-search-target="tagTemplate">
     <%= render 'hot_select/tag' %>
   </template>
 
   <div class="omni-search-container">
-    <div class="selected-tags-container" data-target="omni-search.tagsContainer">
+    <div class="selected-tags-container" data-omni-search-target="tagsContainer">
       <% options.each do |value, name, param, label| %>
         <%= render 'hot_select/tag', type: label, param:, name:, value: %>
       <% end %>
@@ -14,7 +14,7 @@
 
     <div class="hot-select-placeholder"
          data-action="click->omni-search#toggle"
-         data-target="hot-select.placeholder">
+         data-hot-select-target="placeholder">
       <%= local_assigns[:placeholder] || raw('&nbsp;') %>
     </div>
   </div>

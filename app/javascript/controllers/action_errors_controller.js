@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 
 const DEFAULT_MESSAGE = 'Something went wrong with that request. Please try again.'
 const ESC_KEY = 27

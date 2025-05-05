@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import DesignatedLane from 'utils/designated_lane'
 import Geospatial from 'utils/geospatial'
 

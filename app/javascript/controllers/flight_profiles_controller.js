@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import { calculateFlightProfile, calculateTerrainClearance } from 'utils/flightProfiles'
 import I18n from 'i18n'
 

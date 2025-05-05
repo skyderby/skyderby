@@ -17,10 +17,10 @@
             <th></th>
           </tr>
         </thead>
-        <tbody class="hide exit-measurement__template" data-target="places--exit-measurements.template">
+        <tbody class="hide exit-measurement__template" data-places--exit-measurements-target="template">
           <%= render 'places/jump_profiles/exit_measurements_template', form: form, line: form.object %>
         </tbody>
-        <tbody data-target="places--exit-measurements.container">
+        <tbody data-places--exit-measurements-target="container">
           <%= render 'places/jump_profiles/exit_measurements', form: form %>
         </tbody>
       </table>
@@ -32,7 +32,7 @@
         <i class="fa fa-plus"></i>
         Add from text
       </a>
-      <textarea rows="10" data-target="places--exit-measurements.textarea"></textarea>
+      <textarea rows="10" data-places--exit-measurements-target="textarea"></textarea>
     </div>
   </div>
 

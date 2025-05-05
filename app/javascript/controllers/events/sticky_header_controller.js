@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
   static targets = ['container', 'table']
@@ -100,7 +100,7 @@ export default class extends Controller {
   get fixed_header() {
     if (!this._fixed_header) {
       this._fixed_header = this.tableTarget.cloneNode(true)
-      this._fixed_header.removeAttribute('data-target')
+      this._fixed_header.removeAttribute('data-events--sticky-header-target')
       this._fixed_header.querySelectorAll('tbody').forEach(el => {
         el.remove()
       })

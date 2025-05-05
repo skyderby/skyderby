@@ -22,7 +22,7 @@
 
     <div class="explorer-sidebar-scrollable" data-action="click->flight-profiles#handleTrackClick">
       <turbo-frame id="tracks-list"
-                   data-target="flight-profiles.tracksList"
+                   data-flight-profiles-target="tracksList"
                    loading="lazy"
                    data-action="turbo:frame-render->flight-profiles#processTrackLinks">
       </turbo-frame>
@@ -47,10 +47,10 @@
   <main class="explorer-main">
     <div class="flight-profiles-charts">
       <div>
-        <div data-target="flight-profiles.flightProfilesChart"></div>
+        <div data-flight-profiles-target="flightProfilesChart"></div>
       </div>
-      <div class="flight-profiles-tagbar" data-target="flight-profiles.tagbar">
-        <template data-target="flight-profiles.tagTemplate">
+      <div class="flight-profiles-tagbar" data-flight-profiles-target="tagbar">
+        <template data-flight-profiles-target="tagTemplate">
           <div class="filter-tag">
             <span class="filter-tag-type"></span>
             <button class="filter-tag-remove" data-action="flight-profiles#removeTag">×</button>
@@ -58,7 +58,7 @@
         </template>
       </div>
       <div>
-        <div data-target="flight-profiles.terrainClearanceChart"></div>
+        <div data-flight-profiles-target="terrainClearanceChart"></div>
       </div>
     </div>
   </main>

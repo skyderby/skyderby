@@ -16,7 +16,7 @@
     <%= svg_icon 'angle-up-solid' %>
   </button>
 
-  <template data-target="dropdown.menu">
+  <template data-dropdown-target="menu">
     <div class="sd-dropdown-menu">
       <% I18n.available_locales.each do |locale| %>
         <% active = I18n.locale == locale %>

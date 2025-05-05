@@ -1,6 +1,5 @@
-import '@stimulus/polyfills'
-import { Application } from 'stimulus'
-import { definitionsFromContext } from 'stimulus/webpack-helpers'
+import { Application } from '@hotwired/stimulus'
+import { definitionsFromContext } from '@hotwired/stimulus-webpack-helpers'
 import Rails from '@rails/ujs'
 import '@hotwired/turbo-rails'
 import 'utils/googleAnalytics'

@@ -2,5 +2,5 @@
 
 <% select_id = "hot-select-#{name}" %>
 <%= render 'hot_select/layout', select_id:, name:, **local_assigns do %>
-  <%= render 'hot_select/local_options', 'data-target': 'hot-select.dropdown' %>
+  <%= render 'hot_select/local_options', 'data-hot-select-target': 'dropdown' %>
 <% end %>
