@@ -5,8 +5,9 @@ class Track < ApplicationRecord
     def weather_data # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
       return Place::WeatherDatum.none if place.blank? || base?
 
-      time_on_recording_start = points.trimmed.first&.gps_time
-      time_on_recording_end = points.trimmed.last&.gps_time
+      trimmed_points = points.order(:gps_time_in_seconds).trimmed
+      time_on_recording_start = trimmed_points.first&.gps_time
+      time_on_recording_end = trimmed_points.last&.gps_time
       return Place::WeatherDatum.none if time_on_recording_start.blank? || time_on_recording_end.blank?
 
       time_range = time_on_recording_start.beginning_of_hour.to_i..time_on_recording_end.beginning_of_hour.to_i

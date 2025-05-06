@@ -11,7 +11,7 @@ module Tracks
       end_point = points[end_index]
 
       result_array = []
-      unless start_point[:altitude] == range_from
+      if start_point[:altitude] != range_from && start_index > 0
         interpolated_start = interpolate_by_altitude(points[start_index - 1], start_point, range_from)
         result_array += [interpolated_start]
       end
