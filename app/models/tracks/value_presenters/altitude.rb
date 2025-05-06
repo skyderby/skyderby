@@ -6,7 +6,10 @@ module Tracks
       end
 
       def call(value)
-        convert(value).round.truncate
+        converted = convert(value)
+        return 0 if converted.nil? || (converted.is_a?(Float) && converted.nan?)
+
+        converted.round.truncate
       end
 
       private
@@ -14,6 +17,8 @@ module Tracks
       attr_reader :unit_system
 
       def convert(value)
+        return nil if value.nil?
+
         if unit_system == 'metric'
           value
         else
