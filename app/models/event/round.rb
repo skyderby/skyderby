@@ -1,18 +1,5 @@
-# == Schema Information
-#
-# Table name: rounds
-#
-#  id         :integer          not null, primary key
-#  name       :string(510)
-#  event_id   :integer
-#  created_at :datetime
-#  updated_at :datetime
-#  discipline :integer
-#  profile_id :integer
-#
-
 class Event::Round < ApplicationRecord
-  include EventOngoingValidation, Event::Namespace
+  include Completable, EventOngoingValidation
 
   enum :discipline, { time: 0, distance: 1, speed: 2, vertical_speed: 3, flare: 4 }
 

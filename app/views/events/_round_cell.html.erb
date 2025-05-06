@@ -1,0 +1,71 @@
+<%# locals: (event:, round:, editable: false) %>
+
+<th class="round" colspan="2">
+  <div
+    class="round-status"
+    data-controller="tooltip"
+    <% if round.completed %>
+      data-tooltip="<%= t('events.rounds.completed_tooltip') %>"
+    <% elsif editable %>
+      data-tooltip="<%= t('events.rounds.mark_completed_tooltip') %>"
+    <% end %>
+  >
+    <% if round.completed %>
+      <%= svg_icon 'circle-check-regular', class: 'round-completed' %>
+    <% elsif editable %>
+      <%= svg_icon 'circle-regular', class: 'round-not-completed-icon' %>
+    <% end %>
+  </div>
+
+  <%= round.number %>
+
+  <% if editable %>
+    <div class="cell-actions">
+      <div class="sd-dropdown" data-controller="dropdown">
+        <button class="dropdown-toggle ghost-button small-button" data-action="click->dropdown#toggle">
+          <%= svg_icon 'ellipsis-vertical-solid' %>
+        </button>
+
+        <template data-dropdown-target="menu">
+          <div class="sd-dropdown-menu">
+            <% if round.completed? %>
+              <%= button_to event_round_path(event, round),
+                          class: 'dropdown-item',
+                          method: :patch, params: { round: { completed: false } },
+                          form: { data: { turbo_stream: true } } do %>
+                <%= t('events.rounds.mark_not_completed') %>
+              <% end %>
+            <% else %>
+              <%= button_to event_round_path(event, round),
+                          class: 'dropdown-item',
+                          method: :patch, params: { round: { completed: true } },
+                          form: { data: { turbo_stream: true } } do %>
+                <%= t('events.rounds.mark_completed') %>
+              <% end %>
+            <% end %>
+
+            <div class="dropdown-divider"></div>
+
+            <%= link_to event_round_map_path(event, round), class: 'dropdown-item', rel: 'nofollow' do %>
+              Google maps
+            <% end %>
+
+            <%= link_to event_round_globe_path(event, round), class: 'dropdown-item', data: { turbo: false }, rel: 'nofollow' do %>
+              3D maps
+            <% end %>
+
+            <%= link_to event_round_replay_path(event, round), class: 'dropdown-item', rel: 'nofollow' do %>
+              Replay
+            <% end %>
+
+            <div class="dropdown-divider"></div>
+
+            <%= button_to event_round_path(event, round), class: 'dropdown-item', method: :delete, form: { data: { turbo_stream: true } } do %>
+              <%= t('general.delete') %>
+            <% end %>
+          </div>
+        </template>
+      </div>
+    </div>
+  <% end %>
+</th>

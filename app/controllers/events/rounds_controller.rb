@@ -10,33 +10,25 @@ module Events
       @round = @event.rounds.new round_params
 
       if @round.save
-        respond_to do |format|
-          format.json
-          format.js { respond_with_scoreboard }
-        end
+        respond_with_scoreboard
       else
-        respond_with_errors(@round.errors)
+        respond_with_errors @round
       end
     end
 
     def update
       if @round.update(update_round_params)
-        respond_to do |format|
-          format.js { respond_with_scoreboard }
-        end
+        respond_with_scoreboard
       else
-        respond_with_errors(@round.errors)
+        respond_with_errors @round
       end
     end
 
     def destroy
       if @round.destroy
-        respond_to do |format|
-          format.json { head :no_content }
-          format.js { respond_with_scoreboard }
-        end
+        respond_with_scoreboard
       else
-        respond_with_errors(@round.errors)
+        respond_with_errors @round
       end
     end
 
