@@ -5,10 +5,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ### Ruby Tests
-- Run all Ruby tests: `rails test`
-- Run a specific test file: `rails test test/path/to/test_file.rb`
-- Run a specific test method: `rails test test/path/to/test_file.rb:line_number`
-- Run system tests: `rails test:system`
+- Run all Ruby tests: `bin/rails test`
+- Run a specific test file: `bin/rails test test/path/to/test_file.rb`
+- Run a specific test method: `bin/rails test test/path/to/test_file.rb:line_number`
+- Run system tests: `bin/rails test:system`
 
 ### JavaScript
 - Lint JavaScript: `yarn lint`
