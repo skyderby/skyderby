@@ -37,11 +37,11 @@
     <div class="grid">
       <%= f.label :kind, class: 'form-label col-4', for: :kind %>
       <div class="col-8">
-        <div class="btn-group btn-group-justified" data-toggle="buttons">
+        <div class="tab-bar">
           <% Badge.kinds.keys.each do |kind| %>
-            <label class="btn btn-default <%= 'active' if @badge.kind == kind %>">
-              <%= f.radio_button 'kind', kind %>
-              <%= t("activerecord.attributes.badge.kinds.#{kind}") %>
+            <label class="tab-bar-item" data-tab-bar-target="item">
+              <%= f.radio_button 'kind', kind, class: 'tab-bar-radio' %>
+              <span><%= t("activerecord.attributes.badge.kinds.#{kind}") %></span>
             </label>
           <% end %>
         </div>
