@@ -50,7 +50,14 @@
     <div class="form-group">
       <%= f.label :place, class: 'control-label col-sm-4' %>
       <div class="col-sm-8">
-        <%= f.select :place_id, options_for_select([[@event.place_name, @event.place_id]], @event.place_id), { include_blank: true }, placeholder: t('events.show.place_placeholder'), class: 'form-control', 'data-controller': 'select2--places' %>
+        <% options = options_for_select([[@event.place_name, @event.place_id]], @event.place_id) %>
+        <%= render 'hot_select/select',
+                   form: f,
+                   name: :place_id,
+                   options: options,
+                   placeholder: t('events.show.place_placeholder'),
+                   src: places_select_options_path,
+                   class: 'form-input' %>
       </div>
     </div>
 
