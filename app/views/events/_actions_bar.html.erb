@@ -1,69 +1,85 @@
-<div class="card actions-bar">
-  <% if !@event.finished? %>
-    <%= link_to(new_event_section_path(@event),
-                remote: true,
-                'data-params': display_event_params.to_param,
-                class: 'actions-bar-button') do %>
+<%# locals: (event:) %>
+
+<div class="card actions-bar" id="actions-bar">
+  <% if !event.finished? %>
+    <%= button_to new_event_section_path(event), method: :get, form: { data: { turbo_stream: true, params: display_event_params.to_param } }, class: 'actions-bar-button' do %>
       <%= svg_icon 'plus-solid' %>
       <%= t('activerecord.models.event/section') %>
     <% end %>
 
-    <%= link_to(new_event_competitor_path(@event),
-                remote: true,
-                'data-params': display_event_params.to_param,
-                class: 'actions-bar-button') do %>
+    <%= button_to new_event_competitor_path(event), method: :get, form: { data: { turbo_stream: true, params: display_event_params.to_param } }, class: 'actions-bar-button' do %>
       <%= svg_icon 'plus-solid' %>
       <%= t('activerecord.models.event/competitor') %>
     <% end %>
 
-    <% if @event.hungary_boogie? %>
-      <%= button_to event_rounds_path(@event), method: :post, remote: true, params: { 'round[discipline]' => :distance }.merge(display_event_params), class: 'actions-bar-button' do %>
+    <% if event.hungary_boogie? %>
+      <%= button_to event_rounds_path(event),
+                    method: :post,
+                    form: { data: { turbo_stream: true } },
+                    params: { 'round[discipline]' => :distance }.merge(display_event_params),
+                    class: 'actions-bar-button' do %>
         <%= svg_icon 'plus-solid' %>
         <%= t('activerecord.models.event/round') %>
       <% end %>
     <% else %>
-      <div class="btn-group">
-        <button class="actions-bar-button" data-toggle="dropdown">
+      <div class="sd-dropdown" data-controller="dropdown">
+        <button class="actions-bar-button" data-action="click->dropdown#toggle">
           <%= svg_icon 'plus-solid' %>
           <%= t('activerecord.models.event/round') %>
           <%= svg_icon 'angle-down-solid' %>
-        </button>
 
-        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-          <li><%= add_round_button(@event, :distance) %></li>
-          <li><%= add_round_button(@event, :speed) %></li>
-          <li><%= add_round_button(@event, :time) %></li>
-        </ul>
+          <template data-dropdown-target="menu">
+            <div class="sd-dropdown-menu">
+              <% %i[distance speed time].each do |task| %>
+                <%= button_to(t("disciplines.#{task}"),
+                              event_rounds_path(event),
+                              method: :post,
+                              remote: true,
+                              params: { 'round[discipline]' => task }.merge(display_event_params),
+                              class: 'dropdown-item') %>
+              <% end %>
+            </div>
+          </template>
+        </button>
       </div>
     <% end %>
   <% end %>
 
-  <div class="btn-group event-status-group actions-bar-right">
-    <button class="actions-bar-button event-status-button" data-toggle="dropdown">
-      <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + @event.status) %>
+  <div class="sd-dropdown actions-bar-right">
+    <button class="actions-bar-button" data-controller="dropdown" data-action="click->dropdown#toggle">
+      <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + event.status) %>
       <%= svg_icon 'angle-down-solid' %>
+
+      <template data-dropdown-target="menu">
+        <div class="sd-dropdown-menu">
+          <% Event.statuses.each do |status, _index| %>
+            <%= button_to(t("event_status.#{status}"),
+                        event_path(event),
+                        method: :patch,
+                        form: { data: { turbo_stream: true } },
+                        params: { 'event[status]' => status },
+                        class: "dropdown-item #{'active' if event.status == status}") %>
+          <% end %>
+        </div>
+      </template>
     </button>
-    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-      <% Event.statuses.each do |status, _index| %>
-        <li class="<%= 'active' if @event.status == status %>"><%= change_event_status_button(@event, status) %></li>
-      <% end %>
-    </ul>
 
-    <div class="btn-group">
-      <button class="actions-bar-button dropdown-toggle" type="button" data-toggle="dropdown">
-        <%= svg_icon 'gear-solid' %>
-      </button>
-      <ul class="dropdown-menu dropdown-menu-right" role="menu">
-        <li class="dropdown-header">Penalties</li>
-        <% omit_penalties = display_event_params[:omit_penalties] == 'true' %>
-        <li class="<%= 'active' if !omit_penalties %>"><%= link_to 'Show with penalties', display_event_params.except(:omit_penalties), rel: 'nofollow' %></li>
-        <li class="<%= 'active' if omit_penalties %>"><%= link_to 'Omit penalties', display_event_params.merge(omit_penalties: 'true'), rel: 'nofollow' %></li>
+    <button class="actions-bar-button" data-controller="dropdown" data-action="click->dropdown#toggle">
+      <%= svg_icon 'gear-solid' %>
 
-        <li class="divider" role="separator"></li>
-        <li><%= link_to 'Export to Excel', event_scoreboard_path(@event, format: :xlsx), rel: 'nofollow' %></li>
-        <li><%= link_to 'Export to ISC format', event_scoreboard_path(@event, format: :xml), rel: 'nofollow' %></li>
-        <li><%= link_to 'Export Teams to ISC format', event_team_scoreboard_path(@event, format: :xml), rel: 'nofollow' %></li>
-      </ul>
-    </div>
+      <template data-dropdown-target="menu">
+        <div class="sd-dropdown-menu">
+          <div class="dropdown-header">Penalties</div>
+          <% omit_penalties = display_event_params[:omit_penalties] == 'true' %>
+          <%= link_to 'Show with penalties', display_event_params.except(:omit_penalties), class: "dropdown-item #{'active' if !omit_penalties}", rel: 'nofollow' %>
+          <%= link_to 'Omit penalties', display_event_params.merge(omit_penalties: 'true'), class: "dropdown-item #{'active' if omit_penalties}", rel: 'nofollow' %>
+
+          <div class="dropdown-divider"></div>
+          <%= link_to 'Export to Excel', event_scoreboard_path(event, format: :xlsx), class: 'dropdown-item', rel: 'nofollow' %>
+          <%= link_to 'Export to ISC format', event_scoreboard_path(event, format: :xml), class: 'dropdown-item', rel: 'nofollow' %>
+          <%= link_to 'Export Teams to ISC format', event_team_scoreboard_path(event, format: :xml), class: 'dropdown-item', rel: 'nofollow' %>
+        </div>
+      </template>
+    </button>
   </div>
 </div>

@@ -1,18 +1,3 @@
-# == Schema Information
-#
-# Table name: competitors
-#
-#  id         :integer          not null, primary key
-#  event_id   :integer
-#  user_id    :integer
-#  created_at :datetime
-#  updated_at :datetime
-#  suit_id    :integer
-#  name       :string(510)
-#  section_id :integer
-#  profile_id :integer
-#
-
 class Event::Competitor < ApplicationRecord
   include EventOngoingValidation, CompetitorCountry, Event::Namespace
 
@@ -25,7 +10,18 @@ class Event::Competitor < ApplicationRecord
   has_many :results, dependent: :restrict_with_error
   has_many :reference_point_assignments, dependent: :delete_all
 
+  scope :ordered, -> { left_joins(:profile).order('profiles.name') }
+
+  accepts_nested_attributes_for :profile
+
   delegate :name, to: :profile, allow_nil: true
   delegate :name, to: :suit, prefix: true, allow_nil: true
   delegate :place, to: :event
+
+  def profile_attributes=(attrs)
+    attrs[:id] = profile_id if profile && profile.owner == event
+    attrs[:owner] = event
+
+    super(attrs)
+  end
 end

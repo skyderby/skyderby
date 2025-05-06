@@ -40,11 +40,11 @@
         </thead>
         <% @scoreboard.sections.each do |section| %>
           <tbody>
-            <%= render 'events/sections/section_row', section: section, columns_count: @scoreboard.columns_count, editable: can_update %>
+            <%= render 'events/sections/section_row', event: @event, section: section, columns_count: @scoreboard.columns_count, editable: can_update %>
             <% section.competitors.each_with_index do |competitor, index| %>
               <tr class="scoreboard-competitor" id="<%= dom_id(competitor) %>">
                 <td class="text-center"><%= index + 1 %></td>
-                <%= render 'events/competitors/competitor_cells', competitor: competitor, editable: can_update %>
+                <%= render 'events/competitors/competitor_cells', event: @event, competitor:, editable: can_update %>
                 <% @scoreboard.rounds.each do |round| %>
                   <% result = @scoreboard.results.for(competitor: competitor, round: round) %>
                   <% if result %>

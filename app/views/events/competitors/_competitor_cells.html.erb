@@ -1,22 +1,51 @@
-<td class="competitor-cell">
-  <%= link_to competitor.name.titleize, profile_path(competitor.profile), class: 'competitor-name' %>
-  <% if competitor.assigned_number %>
-    <span class="text-gray">#<%= competitor.assigned_number %></span>
+<%# locals(event:, competitor:, editable:) %>
+
+<td class="competitor">
+  <%= link_to profile_path(competitor.profile), class: 'competitor-profile' do %>
+    <%= competitor.name.titleize %>
+    <% if competitor.assigned_number.present? %>
+      <span class="assigned-number">#<%= competitor.assigned_number %></span>
+    <% end %>
   <% end %>
-  <% if editable %>
-    <span>
-      <%= edit_competitor_link(@event, competitor) %>
-      <%= delete_competitor_button(@event, competitor) %>
-    </span>
-  <% end %>
+
   <div class="competitor-suit text-gray">
     <%= competitor.suit.manufacturer_code %>
     <%= competitor.suit_name %>
   </div>
+
+  <% if editable %>
+    <div class="cell-actions">
+      <div class="sd-dropdown" data-controller="dropdown">
+        <button class="dropdown-toggle ghost-button small-button" data-action="click->dropdown#toggle">
+          <%= svg_icon 'ellipsis-vertical-solid' %>
+        </button>
+
+        <template data-dropdown-target="menu">
+          <div class="sd-dropdown-menu">
+            <%= button_to edit_event_competitor_path(event, competitor),
+                          class: 'dropdown-item',
+                          method: :get,
+                          params: display_event_params,
+                          form: { data: { turbo_stream: true } } do %>
+              <%= t('general.edit') %>
+            <% end %>
+
+            <%= button_to event_competitor_path(event, competitor),
+                          class: 'dropdown-item',
+                          method: :delete,
+                          params: display_event_params,
+                          form: { data: { turbo_stream: true, confirm: t('general.confirm_delete') } } do %>
+              <%= t('general.delete') %>
+            <% end %>
+          </div>
+        </template>
+      </div>
+    </div>
+  <% end %>
 </td>
 
 <td class="text-center">
-  <% russia_restricted = @event.is_official && [2020, 2021].include?(@event.starts_at.year) %>
+  <% russia_restricted = event.is_official && [2020, 2021].include?(event.starts_at.year) %>
   <% if russia_restricted && competitor.country_code == 'RUS' %>
     <span data-toggle="tooltip" title="Neutral Athletes">RPF</span>
   <% else %>

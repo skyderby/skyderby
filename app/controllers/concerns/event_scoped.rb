@@ -11,17 +11,9 @@ module EventScoped
 
   def respond_with_scoreboard
     create_scoreboard(params[:event_id])
-    render template: 'events/update_scoreboard'
-  end
-
-  def respond_with_errors(errors)
     respond_to do |format|
-      format.js do
-        render template: 'errors/ajax_errors',
-               locals: { errors: errors },
-               status: :unprocessable_entity
-      end
-      format.json { render json: errors, status: :unprocessable_entity }
+      format.js { render template: 'events/update_scoreboard' }
+      format.turbo_stream { render template: 'events/update_scoreboard' }
     end
   end
 

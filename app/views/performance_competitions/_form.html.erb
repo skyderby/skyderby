@@ -59,7 +59,7 @@
 
   <hr>
   <div class="text-right">
-    <%= f.submit t('general.save'), class: 'btn btn-primary' %>
-    <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
+    <%= f.submit t('general.save'), class: 'primary-button' %>
+    <%= link_to t('general.cancel'), new_event_path, class: 'default-button' %>
   </div>
 <% end %>

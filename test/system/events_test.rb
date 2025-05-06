@@ -40,17 +40,18 @@ class EventsTest < ApplicationSystemTestCase
   def create_competition
     visit events_path
     click_link 'Competition'
+    click_link 'Create Wingsuit Performance Competition'
 
     fill_in :event_name, with: 'Test event'
     fill_in :event_range_from, with: 3000
     fill_in :event_range_to, with: 2000
 
-    select2 'Awesome DZ', from: 'event_place_id'
-    find('input[type="submit"]').click
+    hot_select 'Awesome DZ', from: 'place_id'
+    click_button I18n.t('general.save')
   end
 
   def add_category(name)
-    click_link I18n.t('activerecord.models.event/section')
+    click_button I18n.t('activerecord.models.event/section')
     fill_in :section_name, with: name
     click_button I18n.t('general.save')
   end
@@ -58,21 +59,21 @@ class EventsTest < ApplicationSystemTestCase
   def add_competitor(name:, category:, new_profile: false)
     suit = create :suit
 
-    click_link I18n.t('activerecord.models.event/competitor')
-    assert_selector('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
-    select2 category, from: 'section_id'
-    select2 suit.name, from: 'suit_id'
+    click_button I18n.t('activerecord.models.event/competitor')
+    assert_selector('.modal-title', text: I18n.t('events.add_competitor'))
+    hot_select category, from: 'section_id'
+    hot_select suit.name, from: 'suit_id'
 
     if new_profile
       country = create :country
 
       find('label', text: I18n.t('competitors.form.create_profile')).click
 
-      fill_in 'competitor_name', with: name
-      select2 country.name, from: 'country_id'
+      fill_in 'competitor[profile_attributes][name]', with: name
+      hot_select country.name, from: 'country_id'
     else
       profile = create :profile, name: name
-      select2 profile.name, from: 'profile_id'
+      hot_select profile.name, from: 'profile_id'
     end
 
     click_button I18n.t('general.save')
@@ -80,6 +81,7 @@ class EventsTest < ApplicationSystemTestCase
 
   def add_round(discipline)
     click_button 'Round'
+    assert_selector('.sd-dropdown-menu')
     click_button discipline
   end
 
@@ -87,7 +89,6 @@ class EventsTest < ApplicationSystemTestCase
     competitor_row(competitor).find('.result-cell').hover
     competitor_row(competitor).find('svg').click
 
-    sleep 0.5
 
     file = file_fixture("tracks/#{filename}")
     attach_file 'result[track_attributes][file]', file, make_visible: true
@@ -120,6 +121,6 @@ class EventsTest < ApplicationSystemTestCase
   end
 
   def competitor_row(competitor_name)
-    find('.competitor-cell', text: competitor_name).find(:xpath, '..')
+    find('td.competitor', text: competitor_name).find(:xpath, '..')
   end
 end

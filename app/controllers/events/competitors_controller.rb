@@ -3,34 +3,29 @@ module Events
     include EventScoped
 
     before_action :set_event, :authorize_event
-    before_action :set_competitor, only: [:edit, :update, :destroy]
+    before_action :set_competitor, except: %i[new create]
 
     def new
       @competitor = @event.competitors.new
     end
 
     def create
-      @registration = CompetitorRegistration.new(competitor_params)
+      @competitor = @event.competitors.new(competitor_params)
 
-      if @registration.create
-        respond_to do |format|
-          format.js { respond_with_scoreboard }
-        end
+      if @competitor.save
+        respond_with_scoreboard
       else
-        respond_with_errors(@registration.errors)
+        respond_with_errors @competitor
       end
     end
 
-    def update
-      @registration = CompetitorRegistration.new(competitor_params)
+    def edit; end
 
-      if @registration.update
-        respond_to do |format|
-          format.json
-          format.js { respond_with_scoreboard }
-        end
+    def update
+      if @competitor.update(competitor_params)
+        respond_with_scoreboard
       else
-        respond_with_errors(@competitor.errors)
+        respond_with_errors @competitor
       end
     end
 
@@ -38,32 +33,30 @@ module Events
       if @competitor.destroy
         respond_to do |format|
           format.js { respond_with_scoreboard }
+          format.turbo_stream { respond_with_scoreboard }
         end
       else
-        respond_with_errors(@competitor.errors)
+        respond_with_errors @competitor
       end
     end
 
-    def edit; end
-
     private
+
+    def competitor_params
+      new_profile = ActiveModel::Type::Boolean.new.cast(params.delete(:new_profile))
+
+      if new_profile
+        params[:competitor].delete(:profile_id)
+      else
+        params[:competitor].delete(:profile_attributes)
+      end
+
+      params.require(:competitor)
+            .permit(:assigned_number, :section_id, :suit_id, :profile_id, profile_attributes: %i[name country_id])
+    end
 
     def set_competitor
       @competitor = @event.competitors.find(params[:id])
-    end
-
-    def competitor_params
-      params.permit(
-        :id,
-        :name,
-        :country_id,
-        :new_profile,
-        :profile_id,
-        :suit_id,
-        :section_id,
-        :event_id,
-        :assigned_number
-      )
     end
   end
 end

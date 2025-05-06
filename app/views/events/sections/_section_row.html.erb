@@ -1,12 +1,5 @@
 <%# Open category (when splitting by categories is disabled) doesn't have id %>
+<%# locals: (event:, section:, editable:, columns_count:) %>
 <% return unless section.id %>
 
-<tr id="<%= dom_id(section) %>">
-  <td class="scoreboard-section" colspan="<%= columns_count %>">
-    <span class="section-name"><%= section.name %></span>
-
-    <% if editable %>
-      <%= render 'events/sections/edit_section_controls', event: @event, section: section %>
-    <% end %>
-  </td>
-</tr>
+<%= render 'events/sections/section_cell', section:, event:, editable:, columns_count: %>

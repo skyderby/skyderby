@@ -1,0 +1,5 @@
+<%= turbo_stream.append(
+  :toasts,
+  partial: 'toasts/toast',
+  locals: { message: t('events.section_created') })
+%>

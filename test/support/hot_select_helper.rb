@@ -1,6 +1,6 @@
 module HotSelectHelper
   def hot_select(value, from:)
-    find("div[id='hot-select-#{from}-container'] .hot-select-placeholder").click
+    find("div[id='hot-select-#{from}-container'] .hot-select-control").click
     assert_selector '.hot-select-options'
     find('.hot-select-option', text: value).click
   end
