@@ -1,13 +1,53 @@
-<%= render partial: 'tracks/indicators', locals: { presenter: @track_presenter } %>
-<hr>
-<%= render 'tracks/charts', presenter: @track_presenter %>
+<%# locals: (result:, editable:, modal: false, **rest) %>
 
-<%= content_for :page_js do %>
-  <script>
-    <% if @track_presenter.separate_charts? %>
+<div class="sd-container">
+  <%= render partial: 'events/results/navbar', locals: { result:, modal: } %>
+
+  <%= render partial: 'tracks/indicators', locals: { presenter: @track_presenter } %>
+
+  <%= render 'tracks/charts', presenter: @track_presenter %>
+
+  <% if @track_presenter.separate_charts? %>
+    <script>
       <%= render partial: 'tracks/separate_charts', locals: { presenter: @track_presenter }, formats: [:js] %>
-    <% else %>
+
+      document.addEventListener('turbo:frame-render', function() {
+        if (document.getElementById('glideratio_chart').highcharts()) {
+          document.getElementById('glideratio_chart').highcharts().reflow();
+        }
+        if (document.getElementById('speeds_chart').highcharts()) {
+          document.getElementById('speeds_chart').highcharts().reflow();
+        }
+        if (document.getElementById('elevation_distance_chart').highcharts()) {
+          document.getElementById('elevation_distance_chart').highcharts().reflow();
+        }
+      }, { once: true });
+    </script>
+  <% else %>
+    <script>
       <%= render partial: 'tracks/single_chart', locals: { presenter: @track_presenter }, formats: [:js] %>
-    <% end %>
-  </script>
-<% end %>
+
+      document.addEventListener('turbo:frame-render', function() {
+        if (document.getElementById('all_data_chart').highcharts()) {
+          document.getElementById('all_data_chart').highcharts().reflow();
+        }
+      }, { once: true });
+    </script>
+  <% end %>
+
+  <div class="form-actions justify-between">
+    <div>
+      <% if editable %>
+        <% if policy(@result.event).update? %>
+          <%= delete_event_track_link(@result) %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div>
+      <% if modal %>
+        <button class="default-button" type="button" data-action="modal#close"><%= t 'general.cancel' %></button>
+      <% end %>
+    </div>
+  </div>
+</div>

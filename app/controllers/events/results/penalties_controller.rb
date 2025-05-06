@@ -3,18 +3,13 @@ module Events
     class PenaltiesController < ApplicationController
       include EventTrackScoped, EventScoped
 
-      def show
-        respond_to do |format|
-          format.html
-          format.js
-        end
-      end
+      def show; end
 
       def update
         if @result.update(penalty_params)
           respond_with_scoreboard
         else
-          respond_with_errors(@result.errors)
+          respond_with_errors @result
         end
       end
 

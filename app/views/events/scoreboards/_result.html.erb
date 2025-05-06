@@ -3,7 +3,7 @@
 
 <td class="<%= class_names 'result-cell', result_class %>">
   <%= link_to(event_result_path(event, result),
-              remote: !mobile?,
+              **(mobile? ? { target: '_blank' } : { 'data-turbo-stream' => 'true' }),
               class: 'result-show-cell',
               rel: 'nofollow') do  %>
     <% if result.valid? %>

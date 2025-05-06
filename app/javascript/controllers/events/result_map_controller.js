@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import init_maps_api from 'utils/google_maps_api'
+import initMapsApi from 'utils/google_maps_api'
 import getLaneViolation from 'utils/checkLaneViolation'
 
 const START_POINT_COLOR = '#ff1053'
@@ -7,17 +7,11 @@ const END_POINT_COLOR = '#5FAD41'
 const AFTER_EXIT_POINT_COLOR = '#124E78'
 const LINE_COLOR = '#7cb5ec'
 
-const MAPS_API_FAIL_TEMPLATE = `
-  <i class='fa fa-3x fa-exclamation-triangle text-danger'></i>
-  <p>Failed to load Google Maps API.</p>
-`
-
 export default class extends Controller {
   static targets = ['map', 'loading_placeholder']
 
   connect() {
-    init_maps_api()
-    this.fetch_data()
+    initMapsApi().then(() => this.fetch_data())
   }
 
   fetch_data() {
@@ -32,23 +26,13 @@ export default class extends Controller {
       .then(this.on_data_ready)
   }
 
-  on_maps_ready = () => {
-    this.maps_ready = true
-    this.render_map()
-  }
-
-  on_maps_failed_load = () => {
-    this.maps_ready = false
-    this.loading_placeholderTarget.innerHTML = MAPS_API_FAIL_TEMPLATE
-  }
-
   on_data_ready = data => {
     this.map_data = data
     this.render_map()
   }
 
   render_map() {
-    if (!this.maps_ready || !this.map_data) return
+    if (!this.map_data) return
 
     const {
       place: { latitude, longitude }

@@ -1,0 +1,13 @@
+<% editable = policy(@event).update? && !@event.finished? && !@result.round.completed? %>
+
+<%= turbo_stream.update 'modal-root' do %>
+  <%= render partial: 'jump_range_form',
+             layout: 'components/modal',
+             locals: {
+               title: event_result_presentation(@result),
+               result: @result,
+               modal: true,
+               modal_size: 'lg',
+               editable:
+             } %>
+<% end %>

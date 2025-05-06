@@ -1,1 +1,8 @@
-<%= render partial: 'result', layout: 'layout' %>
+<% editable = policy(@event).update? && !@event.finished? && !@result.round.completed? %>
+
+<%= render partial: 'result',
+           layout: 'layout',
+           locals: {
+             result: @result,
+             editable:
+           }  %>

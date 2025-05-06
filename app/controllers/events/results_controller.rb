@@ -12,32 +12,25 @@ module Events
       @result = @event.results.new result_params
 
       if @result.save
-        respond_to do |format|
-          format.js { respond_with_scoreboard }
-        end
+        respond_with_scoreboard
       else
-        respond_with_errors @result.errors
+        respond_with_errors @result
       end
     end
 
     def update
       if @result.update result_params
-        respond_to do |format|
-          format.js { respond_with_scoreboard }
-        end
+        respond_with_scoreboard
       else
-        respond_with_errors @result.errors
+        respond_with_errors @result
       end
     end
 
     def destroy
       if @result.destroy
-        respond_to do |format|
-          format.js { respond_with_scoreboard }
-          format.json { head :no_content }
-        end
+        respond_with_scoreboard
       else
-        respond_with_errors @result.errors
+        respond_with_errors @result
       end
     end
 
@@ -50,16 +43,11 @@ module Events
     def show
       response.headers['X-FRAME-OPTIONS'] = 'ALLOWALL'
 
-      raise Pundit::NotAuthorizedError unless policy(@event).show?
+      return respond_not_authorized unless policy(@event).show?
 
       @track_presenter = Tracks::CompetitionTrackView.new \
         @result,
         ChartsPreferences.new(session)
-
-      respond_to do |format|
-        format.html
-        format.js
-      end
     end
 
     private
@@ -68,19 +56,8 @@ module Events
       @result = @event.results.find(params[:id])
     end
 
-    def respond_with_scoreboard
-      create_scoreboard(params[:event_id])
-      render template: 'events/results/scoreboard_with_highlight'
-    end
-
     def result_params
-      params.require(:result).permit(
-        :competitor_id,
-        :round_id,
-        :track_id,
-        :track_from,
-        track_attributes: [:file]
-      )
+      params.require(:result).permit(:competitor_id, :round_id, :track_id, :track_from, track_attributes: [:file])
     end
 
     def show_params

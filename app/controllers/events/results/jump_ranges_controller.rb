@@ -3,12 +3,7 @@ module Events
     class JumpRangesController < ApplicationController
       include EventTrackScoped, EventScoped
 
-      def show
-        respond_to do |format|
-          format.html
-          format.js
-        end
-      end
+      def show; end
 
       def update
         @result.transaction do
@@ -19,7 +14,7 @@ module Events
 
         respond_with_scoreboard
       rescue ActiveRecord::RecordInvalid
-        respond_with_errors(@result.errors)
+        respond_with_errors @result
       end
 
       private

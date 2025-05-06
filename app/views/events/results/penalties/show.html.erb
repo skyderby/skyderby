@@ -1,3 +1,5 @@
+<% editable = policy(@event).update? && !@event.finished? && !@result.round.completed? %>
+
 <%= render partial: 'penalties_form',
            layout: 'events/results/layout',
-           locals: { local: true, result: @result, show_delete_button: true } %>
+           locals: { result: @result, editable: } %>

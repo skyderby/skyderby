@@ -8,17 +8,13 @@
     <% end %>
   </div>
 
-  <div class="<%= mobile? ? 'event-result__body' : 'content-block content-block--bordered' %>">
+  <div class="content-block content-block--bordered sd-container">
     <div class="event-result__title-bar">
       <%= image_tag @result.competitor.profile.userpic_url(:thumb) %>
       <%= @result.competitor.name %>
       |
       <%= "#{t('disciplines.' + @result.round_discipline)} - #{@result.round_number}" %>
     </div>
-
-    <%= render 'events/results/header', local: true %>
-
-    <hr>
 
     <%= yield %>
   </div>

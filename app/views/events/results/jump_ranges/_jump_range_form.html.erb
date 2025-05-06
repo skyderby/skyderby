@@ -1,18 +1,24 @@
-<% show_cancel ||= false %>
+<%# locals: (result:, editable:, modal: false, **rest) %>
 
-<%= form_for :jump_range, url: event_result_jump_range_path(@result.event, @result), method: :put, remote: true do |f| %>
+<%= render 'events/results/navbar', result:, modal: %>
+
+<%= form_with scope: :jump_range, url: event_result_jump_range_path(@result.event, @result),
+              method: :put, class: 'sd-form', data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
   <%= render 'concerns/jump_range_form', track: @result.track, form: f %>
 
-  <hr>
-  <div class="modal-actions">
-    <div class="modal-actions__left">
-      <%= delete_event_track_link(@result) %>
+  <div class="form-actions justify-between">
+    <div>
+      <% if editable %>
+        <%= delete_event_track_link(@result) %>
+      <% end %>
     </div>
 
-    <div class="modal-actions__right">
-      <%= f.submit t('general.save'), class: 'btn btn-primary' %>
-      <% if show_cancel %>
-        <button class="btn btn-default" type="button" data-dismiss="modal"><%= t 'general.cancel' %></button>
+    <div>
+      <% if editable %>
+        <%= f.submit t('general.save'), class: 'primary-button' %>
+      <% end %>
+      <% if modal %>
+        <button class="default-button" type="button" data-action="modal#close"><%= t 'general.cancel' %></button>
       <% end %>
     </div>
   </div>
