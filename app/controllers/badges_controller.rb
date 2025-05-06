@@ -2,7 +2,7 @@ class BadgesController < ApplicationController
   before_action :set_badge, only: %i[edit update destroy]
 
   def index
-    authorize Badge
+    return respond_not_authorized unless Badge.viewable?
 
     @badges =
       Badge
@@ -10,9 +10,23 @@ class BadgesController < ApplicationController
       .left_outer_joins(:profile)
       .order('profiles.name', 'achieved_at desc')
       .paginate(page: page, per_page: 25)
+  end
 
-    respond_to do |format|
-      format.html
+  def new
+    return respond_not_authorized unless Badge.creatable?
+
+    @badge = Badge.new
+  end
+
+  def create
+    return respond_not_authorized unless Badge.creatable?
+
+    @badge = Badge.new(badge_params)
+
+    if @badge.save
+      render
+    else
+      respond_with_errors @badge
     end
   end
 
@@ -20,31 +34,31 @@ class BadgesController < ApplicationController
     authorize @badge
 
     respond_to do |format|
-      format.js
+      format.turbo_stream
     end
   end
 
   def update
-    authorize @badge
+    return respond_not_authorized unless @badge.editable?
 
-    respond_to do |format|
-      if @badge.update(badge_params)
-        format.js
-      else
-        format.js { render 'errors/ajax_errors', locals: { errors: @badge.errors } }
+    if @badge.update(badge_params)
+      respond_to do |format|
+        format.turbo_stream
       end
+    else
+      respond_with_errors @badge
     end
   end
 
   def destroy
-    authorize @badge
+    return respond_not_authorized unless @badge.editable?
 
-    respond_to do |format|
-      if @badge.destroy
-        format.js
-      else
-        format.js { render 'errors/ajax_errors', locals: { errors: @badge.errors } }
+    if @badge.destroy
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.remove(@badge) }
       end
+    else
+      respond_with_errors @badge
     end
   end
 
@@ -55,10 +69,6 @@ class BadgesController < ApplicationController
   end
 
   def badge_params
-    params.require(:badge).permit(:name,
-                                  :kind,
-                                  :category,
-                                  :comment,
-                                  :achieved_at)
+    params.require(:badge).permit(:name, :kind, :category, :comment, :achieved_at, :profile_id)
   end
 end

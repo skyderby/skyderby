@@ -1,0 +1,8 @@
+it:
+  badges:
+    index:
+      title: Medaglie
+    new:
+      title: Nuovo badge
+    edit:
+      title: Modifica badge

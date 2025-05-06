@@ -1,21 +1,30 @@
 <div class="container">
   <div class="page-header">
-    <h1>Бэйджи</h1>
+    <div class="row">
+      <div class="col-sm-6">
+        <h1><%= t('badges.index.title') %></h1>
+      </div>
+      <% if policy(Badge).create? %>
+        <div class="col-sm-6 text-right">
+          <%= link_to t('general.create'), new_badge_path, class: 'primary-button', data: { turbo_stream: true } %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
   <div class="content-block">
     <table class="table">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Comment</th>
-          <th>Category</th>
-          <th>Kind</th>
-          <th>Achieved at</th>
+          <th><%= t('activerecord.attributes.badge.name') %></th>
+          <th><%= t('activerecord.attributes.badge.comment') %></th>
+          <th><%= t('activerecord.attributes.badge.category') %></th>
+          <th><%= t('activerecord.attributes.badge.kind') %></th>
+          <th><%= t('activerecord.attributes.badge.achieved_at') %></th>
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="badges">
         <% badges_by_profile = @badges.group_by(&:profile) %>
         <% badges_by_profile.each do |profile, profile_badges| %>
           <tr>

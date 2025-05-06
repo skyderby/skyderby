@@ -1,0 +1,8 @@
+ru:
+  badges:
+    index:
+      title: Бэйджи
+    new:
+      title: Новый бейдж
+    edit:
+      title: Редактирование бейджа

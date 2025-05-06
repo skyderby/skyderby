@@ -6,6 +6,20 @@ de:
       badge:
         name: Name
         kind: Art
+        category: Kategorie
+        comment: Kommentar
+        achieved_at: Erreicht am
+        profile: Profil
+        categories:
+          competition: Wettbewerb
+          online: Online
+          sponsor: Sponsor
+          skyderby: Skyderby
+          special: Spezial
+        kinds:
+          gold: Gold
+          silver: Silber
+          bronze: Bronze
     errors:
       models:
         badge:

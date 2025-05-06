@@ -7,6 +7,9 @@ en:
         name: Name
         kind: Kind
         category: Category
+        comment: Comment
+        achieved_at: Achieved at
+        profile: Profile
         categories:
           competition: Competition
           online: Online

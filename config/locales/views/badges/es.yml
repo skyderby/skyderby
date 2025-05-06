@@ -1,0 +1,8 @@
+es:
+  badges:
+    index:
+      title: Medallas
+    new:
+      title: Nueva insignia
+    edit:
+      title: Editar insignia

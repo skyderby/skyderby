@@ -1,0 +1,8 @@
+fr:
+  badges:
+    index:
+      title: Badges
+    new:
+      title: Nouveau badge
+    edit:
+      title: Modifier le badge

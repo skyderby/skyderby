@@ -1,0 +1,8 @@
+en:
+  badges:
+    index:
+      title: Badges
+    new:
+      title: New Badge
+    edit:
+      title: Edit Badge

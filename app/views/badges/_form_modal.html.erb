@@ -1,81 +1,61 @@
-<% form_model ||= @badge %>
+<% url = @badge.new_record? ? badges_path : badge_path(@badge) %>
 
-<div class="modal-dialog">
-  <div class="modal-content">
-    <%= form_for form_model, remote: true, html: { class: 'form-horizontal' } do |f| %>
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-        <h4 class="modal-title">
-          <%= t('activerecord.models.badge') %>:
-          <% if @badge.new_record? %>
-            <%= t('events.index.new') %>
-          <% else %>
-            <%= @badge.name %>
-          <% end %>
-        </h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <%= f.label :profile, class: 'col-sm-4 control-label' %>
-          <div class="col-sm-8">
-            <% if @badge.profile.blank? %>
-              <%= f.select :profile_id, { include_blank: true }, placeholder: t('tracks.form.profile_select_placeholder'), class: 'form-control', 'data-controller': 'select2--profiles' %>
-            <% else %>
-              <p class="form-control-static"><%= @badge.profile.name %></p>
-            <% end %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :name, class: 'col-sm-4 control-label' %>
-          <div class="col-sm-8">
-            <%= f.text_field :name, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :comment, class: 'col-sm-4 control-label' %>
-          <div class="col-sm-8">
-            <%= f.text_field :comment, class: 'form-control' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :category, class: 'col-sm-4 control-label', for: :category %>
-          <div class="col-sm-8">
-            <% category_options = Badge.categories.keys.map { |key| [t("activerecord.attributes.badge.categories.#{key}"), key] } %>
-            <%= f.select :category, category_options, {}, class: 'form-control', 'data-controller': 'select2--local' %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :kind, class: 'col-sm-4 control-label', for: :kind %>
-          <div class="col-sm-8">
-            <div class="btn-group btn-group-justified" data-toggle="buttons">
-              <% Badge.kinds.keys.each do |kind| %>
-                <label class="btn btn-default <%= 'active' if @badge.kind == kind %>">
-                  <%= f.radio_button 'kind', kind %>
-                  <%= t("activerecord.attributes.badge.kinds.#{kind}") %>
-                </label>
-              <% end %>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :achieved_at, class: 'col-sm-4 control-label' %>
-          <div class="col-sm-8">
-            <%= f.text_field :achieved_at, class: 'form-control', value: @badge.achieved_at.strftime('%d.%m.%Y'), 'data-controller': 'datepicker' %>
-          </div>
+<%= form_with model: @badge, url:, data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+  <div class="sd-form">
+    <% if @badge.profile.blank? %>
+      <div class="grid">
+        <%= f.label :profile_id, class: 'form-label col-4' %>
+        <div class="col-8">
+          <%= render 'hot_select/select', form: f, name: :profile_id, src: profiles_select_options_path, options: [] %>
         </div>
       </div>
-      <div class="modal-footer">
-        <%= f.submit t('general.save'), class: 'btn btn-primary' %>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
+    <% else %>
+      <div class="grid">
+        <%= f.label :profile, class: 'form-label col-4' %>
+        <div class="col-8">
+          <p class="form-control-static"><%= @badge.profile.name %></p>
+        </div>
       </div>
     <% end %>
+
+    <div class="grid">
+      <%= f.label :name, class: 'form-label col-4' %>
+      <%= f.text_field :name, class: 'form-input col-8' %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :comment, class: 'form-label col-4' %>
+      <%= f.text_field :comment, class: 'form-input col-8' %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :category, class: 'form-label col-4', for: :category %>
+      <% category_options = Badge.categories.keys.map { |key| [t("activerecord.attributes.badge.categories.#{key}"), key] } %>
+      <%= render 'hot_select/local_select', form: f, name: :category, options: options_for_select(category_options), class: 'col-8', hide_clear_button: true %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :kind, class: 'form-label col-4', for: :kind %>
+      <div class="col-8">
+        <div class="btn-group btn-group-justified" data-toggle="buttons">
+          <% Badge.kinds.keys.each do |kind| %>
+            <label class="btn btn-default <%= 'active' if @badge.kind == kind %>">
+              <%= f.radio_button 'kind', kind %>
+              <%= t("activerecord.attributes.badge.kinds.#{kind}") %>
+            </label>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :achieved_at, class: 'form-label col-4' %>
+      <%= f.date_field :achieved_at, class: 'form-input col-8', value: (@badge.achieved_at || Date.today)&.strftime('%Y-%m-%d') %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit t('general.save'), class: 'primary-button' %>
+      <button type="button" class="default-button" data-action="modal#close"><%= t 'general.cancel' %></button>
+    </div>
   </div>
-</div>
+<% end %>

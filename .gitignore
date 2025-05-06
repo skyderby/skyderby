@@ -34,3 +34,5 @@ yarn-debug.log*
 yarn-error.log
 
 /config/credentials/production.key
+
+**/.claude/settings.local.json

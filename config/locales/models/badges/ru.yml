@@ -7,6 +7,9 @@ ru:
         name: Название
         kind: Тип
         category: Категория
+        comment: Комментарий
+        achieved_at: Получен
+        profile: Профиль
         categories:
           competition: Соревнования
           online: Онлайн

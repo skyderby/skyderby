@@ -1,0 +1,5 @@
+<%= turbo_stream.append 'badges' do %>
+  <%= render @badge %>
+<% end %>
+
+<%= turbo_stream.update 'modal-root' %>
