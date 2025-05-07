@@ -1,0 +1,19 @@
+<% provide :title, page_title(t('application.header.suits')) %>
+
+<%= render 'suits/layout' do %>
+  <div class="suits-overview">
+    <div class="suits-index-filters">
+      <div class="tab-bar">
+        <%= link_to 'All', suits_path, class: ['tab-bar-item', ('active' if params[:activity].blank?)] %>
+        <%= link_to 'Skydive', suits_path(activity: 'skydive'), class: ['tab-bar-item', ('active' if params[:activity] == 'skydive')] %>
+        <%= link_to 'B.A.S.E.', suits_path(activity: 'base'), class: ['tab-bar-item', ('active' if params[:activity] == 'base')] %>
+      </div>
+    </div>
+    <div class="suits-overview-chart" data-controller="suits-overview-chart">
+      <div data-suits-overview-chart-target="chart"></div>
+      <script type="application/json" data-suits-overview-chart-target="data">
+        <%= raw @suits_popularity.to_json %>
+      </script>
+    </div>
+  </div>
+<% end %>

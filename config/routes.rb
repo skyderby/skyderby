@@ -246,11 +246,11 @@ Skyderby::Application.routes.draw do
   resource :flight_profiles, only: :show
 
   resources :manufacturers
-  resources :suits do
-    scope module: :suits do
-      collection do
-        resources :select_options, only: :index, as: :suits_select_options
-      end
+  resources :suits, except: :index do
+    collection do
+      get '/', to: 'suits/overviews#show', constraints: ->(req) { req.params[:manufacturer_id].blank? }
+      get '/', to: 'suits#index', constraints: ->(req) { req.params[:manufacturer_id].present? }
+      resources :select_options, only: :index, as: :suits_select_options, module: :suits
     end
   end
 

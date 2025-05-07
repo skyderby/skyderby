@@ -1,4 +1,7 @@
 class SuitsController < ApplicationController
+  include SuitsContext
+
+  before_action :set_manufacturers, only: :index
   before_action :set_suit, only: [:show, :edit, :update, :destroy]
 
   def index

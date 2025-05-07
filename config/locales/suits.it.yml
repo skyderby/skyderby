@@ -1,0 +1,8 @@
+it:
+  application:
+    header:
+      suits: Tute
+  suits:
+    title: Tute
+    index:
+      new: Nuova tuta

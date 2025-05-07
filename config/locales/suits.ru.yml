@@ -1,0 +1,8 @@
+ru:
+  application:
+    header:
+      suits: Костюмы
+  suits:
+    title: Костюмы
+    index:
+      new: Новый костюм

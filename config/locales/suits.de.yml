@@ -1,0 +1,8 @@
+de:
+  application:
+    header:
+      suits: Anzüge
+  suits:
+    title: Anzüge
+    index:
+      new: Neuer Anzug

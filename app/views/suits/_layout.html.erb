@@ -1,0 +1,52 @@
+<% provide :page_class, 'fullscreen' %>
+
+<div class="explorer" data-controller="suits--index">
+  <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
+    <div class="explorer-sidebar-scrollable">
+      <ul class="explorer-list">
+        <li class="explorer-list-item <%= 'active' if params[:manufacturer_id].nil? %>" data-overview="true">
+          <%= link_to t('general.overview'), suits_path %>
+        </li>
+
+        <% if @popular_manufacturers.any? %>
+          <li class="explorer-list-spacer"></li>
+        <% end %>
+        <% @popular_manufacturers.each do |manufacturer| %>
+          <li class="explorer-list-item <%= 'active' if current_page?(suits_path(manufacturer_id: manufacturer.id)) %>" data-manufacturer="<%= manufacturer.id %>">
+            <%= link_to manufacturer.name, suits_path(manufacturer_id: manufacturer.id) %>
+          </li>
+        <% end %>
+
+        <% if @other_manufacturers.any? %>
+          <li class="explorer-list-spacer"></li>
+        <% end %>
+        <% @other_manufacturers.each do |manufacturer| %>
+          <li class="explorer-list-item <%= 'active' if current_page?(suits_path(manufacturer_id: manufacturer.id)) %>" data-manufacturer="<%= manufacturer.id %>">
+            <%= link_to manufacturer.name, suits_path(manufacturer_id: manufacturer.id) %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="explorer-sidebar-toggle">
+      <button class="default-button" data-action="toggleable#toggle suits-overview-chart#resizeCharts">
+        <%= svg_icon 'angle-left-solid', class: 'explorer-sidebar-toggle-opened' %>
+        <%= svg_icon 'angle-right-solid', class: 'explorer-sidebar-toggle-closed' %>
+      </button>
+    </div>
+
+    <% if policy(Suit).create? %>
+      <div class="explorer-sidebar-footer">
+        <%= link_to new_suit_path, class: 'default-button' do %>
+          <%= svg_icon 'plus-solid' %>
+          <%= t('suits.index.new') %>
+        <% end %>
+      </div>
+    <% end %>
+  </aside>
+  <aside class="explorer-sidebar-mask"></aside>
+
+  <main class="explorer-main">
+    <%= yield %>
+  </main>
+</div>

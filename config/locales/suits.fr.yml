@@ -1,0 +1,8 @@
+fr:
+  application:
+    header:
+      suits: Combinaisons
+  suits:
+    title: Combinaisons
+    index:
+      new: Nouvelle combinaison

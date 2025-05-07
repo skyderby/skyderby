@@ -109,8 +109,6 @@
 }
 
 .explorer-sidebar-scrollable {
-  @include sidebar-menu;
-
   flex-grow: 1;
   overflow-y: scroll;
 }
@@ -125,4 +123,61 @@
 .explorer-main {
   width: 100%;
   height: 100%;
+  overflow: auto;
+}
+
+.explorer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.25rem;
+}
+
+.explorer-list-item {
+  position: relative;
+  display: flex;
+}
+
+.explorer-list-item a {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  color: var(--gray-80);
+  text-decoration: none;
+  display: block;
+  border-radius: var(--border-radius-md);
+  transition: background-color 0.2s ease;
+}
+
+.explorer-list-item a:hover {
+  background-color: var(--gray-20);
+}
+
+.explorer-list-item::before {
+  content: '';
+  position: absolute;
+  left: 0.375rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 1.25em;
+  border-radius: 3px;
+  background-color: transparent;
+}
+
+.explorer-list-item.active::before {
+  background-color: var(--blue-40);
+}
+
+.explorer-list-item.active a {
+  font-weight: 500;
+}
+
+.explorer-list-spacer {
+  height: 0;
+  margin: 0.75rem 0;
+  overflow: hidden;
+  border-top: var(--default-border);
 }

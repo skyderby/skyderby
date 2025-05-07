@@ -1,0 +1,8 @@
+es:
+  application:
+    header:
+      suits: Trajes
+  suits:
+    title: Trajes
+    index:
+      new: Nuevo traje

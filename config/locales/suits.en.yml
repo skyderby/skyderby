@@ -1,0 +1,8 @@
+en:
+  application:
+    header:
+      suits: Suits
+  suits:
+    title: Suits
+    index:
+      new: New suit

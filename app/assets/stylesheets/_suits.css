@@ -1,0 +1,57 @@
+.suits-index {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 100%;
+}
+
+.suits-overview {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: max-content 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  height: 100%;
+  min-width: 0;
+}
+
+.suits-overview-chart {
+  width: 100%;
+  overflow: hidden;
+}
+
+.suits-index__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suits-index__list-title {
+  font-size: 24px;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+
+.suits-index__list-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+  padding: 5px 15px 5px 35px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.07);
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.suits-index__suit-name {
+  flex-basis: 60%;
+  font-size: 18px;
+  line-height: 40px;
+}
