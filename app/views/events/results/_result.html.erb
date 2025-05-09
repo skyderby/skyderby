@@ -35,7 +35,7 @@
     </script>
   <% end %>
 
-  <div class="form-actions justify-between">
+  <div class="form-actions justify-between" data-action="turbo:submit-end->modal#close">
     <div>
       <% if editable %>
         <% if policy(@result.event).update? %>

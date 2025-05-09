@@ -24,7 +24,7 @@ module Events
                   turbo: true
                 },
                 method: :delete,
-                class: 'btn-flat btn-flat--danger')
+                class: 'ghost-danger-button')
     end
 
     def event_result_presentation(event_track)
