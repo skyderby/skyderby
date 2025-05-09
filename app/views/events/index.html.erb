@@ -1,45 +1,47 @@
-<div class='index-page'>
-  <div class='index-page-header'>
-    <h1><%= t('application.header.competitions') %></h1>
+<div class="container-lg">
+  <div class="index-page-header-content">
+    <div class='index-page-header'>
+      <h1><%= t('application.header.competitions') %></h1>
 
-    <div>
-      <% activity = index_params[:kind] %>
-      <%= link_to t('tracks.index.all'),
-                  index_params.except(:kind),
-                  class: ['activity-filter-button', ('activity-filter-button--active' unless activity)] %>
+      <div>
+        <% activity = index_params[:kind] %>
+        <%= link_to t('tracks.index.all'),
+                    index_params.except(:kind),
+                    class: ['activity-filter-button', ('activity-filter-button--active' unless activity)] %>
 
-      <%= link_to 'Skydive',
-                  index_params.merge(kind: 'skydive'),
-                  class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'skydive')] %>
+        <%= link_to 'Skydive',
+                    index_params.merge(kind: 'skydive'),
+                    class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'skydive')] %>
 
-      <%= link_to 'BASE',
-                  index_params.merge(kind: 'base'),
-                  class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'base')] %>
+        <%= link_to 'BASE',
+                    index_params.merge(kind: 'base'),
+                    class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'base')] %>
 
-      <%= link_to 'Speed',
-                  index_params.merge(kind: 'speed_skydiving'),
-                  class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'speed_skydiving')] %>
+        <%= link_to 'Speed',
+                    index_params.merge(kind: 'speed_skydiving'),
+                    class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'speed_skydiving')] %>
+      </div>
     </div>
+
+    <% if policy(Event).create? %>
+      <div>
+        <%= link_to new_event_path, class: 'primary-button' do %>
+          <%= svg_icon 'plus-solid' %>
+          <%= t('activerecord.models.event') %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= form_with url: events_path, method: :get,
+                  data: { turbo_stream: true, params: index_params.except(:query), controller: 'auto-submit' } do |form| %>
+      <%= form.search_field :query,
+                            placeholder: 'Search for events',
+                            data: { action: 'input->auto-submit#submit' },
+                            class: 'input', value: index_params[:query] %>
+    <% end %>
   </div>
 
-  <% if policy(Event).create? %>
-    <div>
-      <%= link_to new_event_path, class: 'primary-button' do %>
-        <%= svg_icon 'plus-solid' %>
-        <%= t('activerecord.models.event') %>
-      <% end %>
-    </div>
-  <% end %>
-
-  <%= form_with url: events_path, method: :get,
-                data: { turbo_stream: true, params: index_params.except(:query), controller: 'auto-submit' } do |form| %>
-    <%= form.search_field :query,
-                          placeholder: 'Search for events',
-                          data: { action: 'input->auto-submit#submit' },
-                          class: 'input', value: index_params[:query] %>
-  <% end %>
-
-  <div class='card competitions-list' id='competitions-list'>
+  <div class="index-page-content" id='competitions-list'>
     <% @events.each do |record| %>
       <%= render record.event %>
     <% end %>

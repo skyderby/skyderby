@@ -1,15 +1,17 @@
-<div class="index-page">
-  <div class="index-page-header">
-    <h1 class="index-page-title"><%= t('application.header.tracks') %></h1>
+<div class="container-lg">
+  <div class="index-page-header-content">
+    <div class="index-page-header">
+      <h1 class="index-page-title"><%= t('application.header.tracks') %></h1>
 
-    <%= render 'activity_filter' %>
+      <%= render 'activity_filter' %>
+    </div>
+
+    <div class="tracks-index-search">
+      <%= render 'filters' %>
+    </div>
   </div>
 
-  <div class="tracks-index-search">
-    <%= render 'filters' %>
-  </div>
-
-  <div class="tracks-list">
+  <div class="index-page-content">
     <div id="tracks-table" class="table table-hover tracks-table">
       <div class="thead tracks-table-header">
         <%= render 'table_header' %>

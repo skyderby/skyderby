@@ -33,6 +33,9 @@
   font-size: 1.25rem;
   color: #bbb;
   text-align: right;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
 }
 
 .track-header__photo {
