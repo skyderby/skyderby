@@ -11,10 +11,13 @@ json.points @points do |point|
                 :v_speed,
                 :full_speed,
                 :glide_ratio,
+                :horizontal_accuracy,
                 :vertical_accuracy,
                 :speed_accuracy,
                 :zerowind_h_speed,
                 :zerowind_glide_ratio
+
+  json.sep50 0.5127 * (2 * point[:horizontal_accuracy] + point[:vertical_accuracy])
 
   json.latitude point[:latitude].to_f
   json.longitude point[:longitude].to_f

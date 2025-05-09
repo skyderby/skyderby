@@ -3,37 +3,24 @@
 <div class="sd-container">
   <%= render partial: 'events/results/navbar', locals: { result:, modal: } %>
 
-  <%= render partial: 'tracks/indicators', locals: { presenter: @track_presenter } %>
-
-  <%= render 'tracks/charts', presenter: @track_presenter %>
-
-  <% if @track_presenter.separate_charts? %>
-    <script>
-      <%= render partial: 'tracks/separate_charts', locals: { presenter: @track_presenter }, formats: [:js] %>
-
-      document.addEventListener('turbo:frame-render', function() {
-        if (document.getElementById('glideratio_chart').highcharts()) {
-          document.getElementById('glideratio_chart').highcharts().reflow();
-        }
-        if (document.getElementById('speeds_chart').highcharts()) {
-          document.getElementById('speeds_chart').highcharts().reflow();
-        }
-        if (document.getElementById('elevation_distance_chart').highcharts()) {
-          document.getElementById('elevation_distance_chart').highcharts().reflow();
-        }
-      }, { once: true });
-    </script>
-  <% else %>
-    <script>
-      <%= render partial: 'tracks/single_chart', locals: { presenter: @track_presenter }, formats: [:js] %>
-
-      document.addEventListener('turbo:frame-render', function() {
-        if (document.getElementById('all_data_chart').highcharts()) {
-          document.getElementById('all_data_chart').highcharts().reflow();
-        }
-      }, { once: true });
-    </script>
-  <% end %>
+  <div data-controller="performance-flying-charts"
+       data-track-id="<%= result.track_id %>"
+       data-result="<%= result.result %>"
+       data-exit-altitude="<%= result.exit_altitude %>"
+       data-chart-type="<%= Current.charts_mode %>"
+  >
+    <%= render partial: 'tracks/indicators', locals: { presenter: @track_presenter } %>
+    <% if Current.charts_mode.separate? %>
+      <div class="performance-flying-separate-charts">
+        <div data-performance-flying-charts-target="accuracyChart"></div>
+        <div data-performance-flying-charts-target="glideChart"></div>
+        <div data-performance-flying-charts-target="speedChart"></div>
+        <div data-performance-flying-charts-target="altitudeDistanceChart"></div>
+      </div>
+    <% else %>
+      <div class="tracking-performance-combined-chart" data-performance-flying-charts-target="combinedChart"></div>
+    <% end %>
+  </div>
 
   <div class="form-actions justify-between" data-action="turbo:submit-end->modal#close">
     <div>
