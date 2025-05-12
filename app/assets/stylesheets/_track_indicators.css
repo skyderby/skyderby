@@ -1,8 +1,9 @@
 .track-indicators {
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: 2rem 1.5rem;
   grid-template-columns: 1fr 1fr;
   justify-content: space-around;
+  justify-items: center;
 
   @media (min-width: 576px) {
     grid-gap: 1rem;
@@ -12,8 +13,13 @@
 }
 
 .track-indicator {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   overflow: hidden;
   text-align: center;
+  width: auto;
+  max-width: 100%;
 
   &[data-value='glide-ratio'] {
     grid-row: 1;
@@ -85,8 +91,14 @@
   text-overflow: ellipsis;
 }
 
-.track-indicator-value-container {
+.track-indicator-value-wrapper {
   display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.track-indicator-value-container {
+  display: inline-flex;
   gap: 0.5rem;
   align-items: baseline;
   justify-content: center;
@@ -117,90 +129,72 @@
 
   >:first-child {
     display: flex;
+    gap: 0.25rem;
+    font-size: 0.875rem;
     align-items: flex-start;
   }
 
   >:last-child {
     display: flex;
-    align-items: flex-end;
-  }
-
-  > * {
+    gap: 0.25rem;
     font-size: 0.875rem;
-
-    > * {
-      margin-right: 0.25rem;
-    }
+    align-items: flex-end;
   }
 }
 
 .track-indicator-max {
-  --text-color: var(--green-90);
-  --icon-color: var(--green-70);
-
-  span {
-    color: var(--text-color);
-  }
-
-  svg {
-    height: 1em;
-    color: var(--icon-color);
-  }
+  color: var(--green-90);
 }
 
 .track-indicator-min {
-  --text-color: var(--red-90);
-  --icon-color: var(--red-70);
-
-  span {
-    color: var(--text-color);
-  }
-
-  svg {
-    height: 1em;
-    color: var(--icon-color);
-  }
+  color: var(--red-80);
 }
 
 .wind-effect-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
+}
+
+.wind-effect-values {
+  display: flex;
 }
 
 .wind-effect-rail {
   display: flex;
-  flex-basis: 100%;
-  height: 3px;
+  flex-basis: 50%;
+  height: 4px;
 }
 
 .wind-effect-result-percent {
   display: block;
-  height: 2px;
+  height: 4px;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 
-  background-color: var(--green-70);
+  background-color: var(--green-80);
 }
 
 .wind-effect-wind-percent {
-  height: 2px;
+  height: 4px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
 
-  background-color: var(--red-70);
+  background-color: var(--red-80);
 }
 
 .wind-effect-result {
   flex-basis: 50%;
 
   color: var(--green-90);
-  font-weight: 200;
   font-size: 0.875rem;
+  text-align: left;
 }
 
 .wind-effect-wind {
   flex-basis: 50%;
 
-  color: var(--red-90);
-  font-weight: 200;
+  color: var(--red-80);
   font-size: 0.875rem;
   text-align: right;
 }
