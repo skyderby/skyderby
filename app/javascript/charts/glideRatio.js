@@ -38,9 +38,8 @@ export const zeroWindGlideRatioSeries = (points, options) => ({
       }
     }
   }),
-  yAxis: 2,
   color: 'rgba(63, 136, 167, 0.3)',
   lineWidth: 1,
   dashStyle: 'ShortDash',
-  options
+  ...options
 })

@@ -1,6 +1,6 @@
 import I18n from 'i18n'
 
-export const horizontalSpeedSeries = points => ({
+export const horizontalSpeedSeries = (points, options) => ({
   name: I18n.t('charts.all_data.series.horiz_speed'),
   custom: { code: 'ground_speed' },
   type: 'spline',
@@ -13,10 +13,11 @@ export const horizontalSpeedSeries = points => ({
       tooltipValue: `${Math.round(point.hSpeed)} ${I18n.t('units.kmh')}`
     }
   })),
-  color: '#52A964'
+  color: '#52A964',
+  ...options
 })
 
-export const verticalSpeedSeries = points => ({
+export const verticalSpeedSeries = (points, options) => ({
   name: I18n.t('charts.all_data.series.vert_speed'),
   custom: { code: 'vertical_speed' },
   type: 'spline',
@@ -29,10 +30,11 @@ export const verticalSpeedSeries = points => ({
       tooltipValue: `${Math.round(point.vSpeed)} ${I18n.t('units.kmh')}`
     }
   })),
-  color: '#A7414E'
+  color: '#A7414E',
+  ...options
 })
 
-export const fullSpeedSeries = points => ({
+export const fullSpeedSeries = (points, options) => ({
   name: I18n.t('charts.all_data.series.full_speed'),
   custom: { code: 'full_speed' },
   type: 'spline',
@@ -46,10 +48,11 @@ export const fullSpeedSeries = points => ({
     }
   })),
   color: '#D6A184',
-  visible: false
+  visible: false,
+  ...options
 })
 
-export const zeroWindSpeedSeries = points => ({
+export const zeroWindSpeedSeries = (points, options) => ({
   name: I18n.t('charts.spd.series.wind_effect'),
   custom: { code: 'speed_wind_effect' },
   data: points.map(point => {
@@ -70,5 +73,6 @@ export const zeroWindSpeedSeries = points => ({
   type: 'arearange',
   color: 'rgba(178, 201, 171, 0.5)',
   lineWidth: 1,
-  dashStyle: 'ShortDash'
+  dashStyle: 'ShortDash',
+  ...options
 })
