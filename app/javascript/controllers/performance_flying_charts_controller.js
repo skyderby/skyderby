@@ -13,10 +13,11 @@ import {
   tooltipFormatter,
   findPositionForAltitude
 } from 'charts'
+import cropPoints from 'utils/cropPoints'
+import RangeSummary from 'charts/RangeSummary'
 
 const sep50Series = (points, options) => {
   const clampAccuracy = val => Math.round(Math.min(Math.max(val, 0), 15) * 10) / 10
-  // const validationWindowStart = windowEndAltitude + validationWindowHeight
 
   return {
     name: 'SEP 50',
@@ -91,6 +92,12 @@ export default class PerformanceFlyingChartsController extends Controller {
 
     this.fetchPoints(this.trackId).then(data => {
       this.points = data.points
+      this.windowPoints = cropPoints(
+        this.points,
+        this.windowStartAltitude,
+        this.windowEndAltitude
+      )
+      this.rangeSummary = new RangeSummary(this.windowPoints, { straightLine: true })
       this.windCancellation = data.windCancellation
 
       initCharts()
@@ -116,7 +123,20 @@ export default class PerformanceFlyingChartsController extends Controller {
       })
   }
 
-  updateTrackIndicators() {}
+  updateTrackIndicators() {
+    this.distanceTarget.innerText = Math.floor(this.rangeSummary.distance)
+    this.glideRatioTarget.innerText = this.rangeSummary.glideRatio.avg.toFixed(2)
+    this.glideRatioMinTarget.innerText = this.rangeSummary.glideRatio.min.toFixed(2)
+    this.glideRatioMaxTarget.innerText = this.rangeSummary.glideRatio.max.toFixed(2)
+    this.groundSpeedTarget.innerText = this.rangeSummary.horizontalSpeed.avg.toFixed(0)
+    this.groundSpeedMinTarget.innerText = this.rangeSummary.horizontalSpeed.min.toFixed(0)
+    this.groundSpeedMaxTarget.innerText = this.rangeSummary.horizontalSpeed.max.toFixed(0)
+    this.elevationTarget.innerText = this.rangeSummary.elevation.toFixed(0)
+    this.verticalSpeedTarget.innerText = this.rangeSummary.verticalSpeed.avg.toFixed(0)
+    this.verticalSpeedMinTarget.innerText = this.rangeSummary.verticalSpeed.min.toFixed(0)
+    this.verticalSpeedMaxTarget.innerText = this.rangeSummary.verticalSpeed.max.toFixed(0)
+    this.durationTarget.innerText = this.rangeSummary.time.toFixed(1)
+  }
 
   initSeparateCharts() {
     this.initAccuracyChart()

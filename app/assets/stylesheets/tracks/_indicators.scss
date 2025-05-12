@@ -1,4 +1,4 @@
-.track-indicators {
+.old-track-indicators {
   display: grid;
   grid-template-columns: 1fr 1fr;
   font-weight: 200;
@@ -70,7 +70,7 @@
   gap: 0.5rem;
 }
 
-.track-indicator {
+.old-track-indicator {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;

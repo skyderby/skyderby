@@ -1,18 +1,19 @@
 .track-indicators {
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(2, 45%);
+  grid-template-columns: 1fr 1fr;
   justify-content: space-around;
 
   @media (min-width: 576px) {
-    grid-gap: 2rem;
-    grid-template-columns: repeat(3, fit-content(25%));
+    grid-gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr;
     justify-content: space-evenly;
   }
 }
 
 .track-indicator {
   overflow: hidden;
+  text-align: center;
 
   &[data-value='glide-ratio'] {
     grid-row: 1;
@@ -81,38 +82,30 @@
   color: var(--gray-70);
   text-transform: uppercase;
   white-space: nowrap;
-  text-transform: uppercase;
   text-overflow: ellipsis;
 }
 
 .track-indicator-value-container {
   display: flex;
+  gap: 0.5rem;
   align-items: baseline;
-
+  justify-content: center;
   color: var(--gray-80);
-  font-weight: 200;
+  font-size: 2.25rem;
   white-space: nowrap;
-
-  > :not(:last-child) {
-    margin-right: 0.5rem;
-  }
 }
 
 .track-indicator-value {
-  font-weight: 100;
-  font-size: 2.5rem;
+  font-size: 2.25rem;
+  color: var(--gray-80);
+}
 
-  @media (min-width: 576px) {
-    font-size: 2.625rem;
-  }
+.track-indicator-info {
+  color: var(--gray-70);
 }
 
 .track-indicator-units {
   font-size: 1.75rem;
-
-  @media (min-width: 576px) {
-    font-size: 2rem;
-  }
 }
 
 .track-indicator-minmax-value {
@@ -151,10 +144,7 @@
 
   svg {
     height: 1em;
-
-    path {
-      fill: var(--icon-color);
-    }
+    color: var(--icon-color);
   }
 }
 
@@ -168,10 +158,7 @@
 
   svg {
     height: 1em;
-
-    path {
-      fill: var(--icon-color);
-    }
+    color: var(--icon-color);
   }
 }
 
