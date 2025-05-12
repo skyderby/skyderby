@@ -45,7 +45,36 @@ export default class PerformanceFlyingChartsController extends Controller {
     'glideChart',
     'speedChart',
     'altitudeDistanceChart',
-    'combinedChart'
+    'combinedChart',
+    // Track indicators targets
+    'distance',
+    'groundSpeed',
+    'groundSpeedMax',
+    'groundSpeedMin',
+    'glideRatio',
+    'glideRatioMax',
+    'glideRatioMin',
+    'elevation',
+    'verticalSpeed',
+    'verticalSpeedMax',
+    'verticalSpeedMin',
+    'duration',
+    // Wind effect targets
+    'windEffectContainerDistance',
+    'windEffectDistancePercent',
+    'windEffectDistanceWindPercent',
+    'windEffectDistance',
+    'windEffectDistanceWind',
+    'windEffectContainerSpeed',
+    'windEffectSpeedPercent',
+    'windEffectSpeedWindPercent',
+    'windEffectSpeed',
+    'windEffectSpeedWind',
+    'windEffectContainerGlideRatio',
+    'windEffectGlideRatioPercent',
+    'windEffectGlideRatioWindPercent',
+    'windEffectGlideRatio',
+    'windEffectGlideRatioWind'
   ]
 
   connect() {
@@ -65,6 +94,7 @@ export default class PerformanceFlyingChartsController extends Controller {
       this.windCancellation = data.windCancellation
 
       initCharts()
+      this.updateTrackIndicators()
     })
   }
 
@@ -85,6 +115,8 @@ export default class PerformanceFlyingChartsController extends Controller {
         return data
       })
   }
+
+  updateTrackIndicators() {}
 
   initSeparateCharts() {
     this.initAccuracyChart()

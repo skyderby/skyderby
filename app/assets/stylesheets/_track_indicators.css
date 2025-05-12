@@ -11,7 +11,7 @@
   }
 }
 
-.summaryItem {
+.track-indicator {
   overflow: hidden;
 
   &[data-value='glide-ratio'] {
@@ -75,23 +75,21 @@
   }
 }
 
-.title {
+.track-indicator-title {
   overflow: hidden;
-
-  color: var(--grey-70);
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1.75;
+  font-weight: 700;
+  color: var(--gray-70);
+  text-transform: uppercase;
   white-space: nowrap;
   text-transform: uppercase;
   text-overflow: ellipsis;
 }
 
-.valueContainer {
+.track-indicator-value-container {
   display: flex;
   align-items: baseline;
 
-  color: var(--grey-80);
+  color: var(--gray-80);
   font-weight: 200;
   white-space: nowrap;
 
@@ -100,7 +98,7 @@
   }
 }
 
-.value {
+.track-indicator-value {
   font-weight: 100;
   font-size: 2.5rem;
 
@@ -109,7 +107,7 @@
   }
 }
 
-.units {
+.track-indicator-units {
   font-size: 1.75rem;
 
   @media (min-width: 576px) {
@@ -117,7 +115,7 @@
   }
 }
 
-.minMaxValue {
+.track-indicator-minmax-value {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -143,7 +141,7 @@
   }
 }
 
-.max {
+.track-indicator-max {
   --text-color: var(--green-90);
   --icon-color: var(--green-70);
 
@@ -160,7 +158,7 @@
   }
 }
 
-.min {
+.track-indicator-min {
   --text-color: var(--red-90);
   --icon-color: var(--red-70);
 
@@ -177,18 +175,18 @@
   }
 }
 
-.windEffectContainer {
+.wind-effect-container {
   display: flex;
   flex-wrap: wrap;
 }
 
-.windEffectRail {
+.wind-effect-rail {
   display: flex;
   flex-basis: 100%;
   height: 3px;
 }
 
-.resultPercent {
+.wind-effect-result-percent {
   display: block;
   height: 2px;
   border-top-left-radius: 3px;
@@ -197,13 +195,13 @@
   background-color: var(--green-70);
 }
 
-.windEffectPercent {
+.wind-effect-wind-percent {
   height: 2px;
 
   background-color: var(--red-70);
 }
 
-.zeroWindValue {
+.wind-effect-result {
   flex-basis: 50%;
 
   color: var(--green-90);
@@ -211,7 +209,7 @@
   font-size: 0.875rem;
 }
 
-.windEffectValue {
+.wind-effect-wind {
   flex-basis: 50%;
 
   color: var(--red-90);
@@ -219,4 +217,3 @@
   font-size: 0.875rem;
   text-align: right;
 }
-
