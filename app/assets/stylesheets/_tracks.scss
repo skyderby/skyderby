@@ -2,6 +2,13 @@
   cursor: pointer;
 }
 
+.range-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 .track-charts-container {
   display: grid;
   grid-template-rows: 250px 400px 400px;
