@@ -1,0 +1,138 @@
+<div class="track-indicators">
+  <div class="track-indicator" data-value="distance">
+    <div class="track-indicator-title"><%= t('tracks.indicators.distance') %></div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value"
+           aria-label="distance"
+           data-performance-flying-charts-target="distance"></div>
+      <div class="track-indicator-units"><%= t('units.m') %></div>
+    </div>
+
+    <div class="wind-effect-container"
+         data-performance-flying-charts-target="windEffectContainerDistance">>
+      <div class="wind-effect-rail">
+        <div class="wind-effect-result-percent"
+             data-performance-flying-charts-target="windEffectDistancePercent" />
+        <div class="wind-effect-wind-percent"
+             data-performance-flying-charts-target="windEffectDistanceWindPercent" />
+      </div>
+
+      <div class="wind-effect-result"
+           aria-label="wind cancelled value"
+           data-performance-flying-charts-target="windEffectDistance"></div>
+      <div class="wind-effect-wind"
+           data-performance-flying-charts-target="windEffectDistanceWind"
+           aria-label="wind effect"></div>
+    </div>
+  </div>
+
+  <div class={styles.summaryItem} data-value="ground-speed">
+    <div class={styles.title}>{t('tracks.indicators.ground_speed')}</div>
+    <div class={styles.valueContainer}>
+      <div class={styles.value} aria-label="average horizontal speed">
+      </div>
+      <div class={styles.minMaxValue}>
+        <div class={styles.max}>
+          <span aria-label="maximum horizontal speed">
+          </span>
+          <%= svg_icon 'angle-up-solid' %>
+        </div>
+        <div class={styles.min}>
+          <span aria-label="minimum horizontal speed">
+          </span>
+          <%= svg_icon 'angle-down-solid' %>
+        </div>
+      </div>
+      <div class={styles.units}><%= t(`units.kmh`) %></div>
+    </div>
+
+    <div class="wind-effect-container">
+      <div class="wind-effect-rail">
+        <div class="wind-effect-result-percent"
+             data-performance-flying-charts-target="windEffectDistancePercent" />
+        <div class="wind-effect-wind-percent"
+             data-performance-flying-charts-target="windEffectDistanceWindPercent" />
+      </div>
+
+      <div class="wind-effect-result"
+           aria-label="wind cancelled value"
+           data-performance-flying-charts-target="windEffectDistance"></div>
+      <div class="wind-effect-wind"
+           data-performance-flying-charts-target="windEffectDistanceWind"
+           aria-label="wind effect"></div>
+    </div>
+  </div>
+
+  <div class={styles.summaryItem} data-value="glide-ratio">
+    <div class={styles.title}>{t('tracks.indicators.glide_ratio')}</div>
+    <div class={styles.valueContainer}>
+      <div class={styles.value} aria-label="average glide ratio">
+        {valuePresentation(avg)}
+      </div>
+      <div class={styles.minMaxValue}>
+        <div class={styles.max}>
+          <span aria-label="maximum glide ratio">{valuePresentation(max)}</span>
+          <%= svg_icon 'angle-up-solid' %>
+        </div>
+        <div class={styles.min}>
+          <span aria-label="minimum glide ratio">{valuePresentation(min)}</span>
+          <%= svg_icon 'angle-down-solid' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="wind-effect-container">
+      <div class="wind-effect-rail">
+        <div class="wind-effect-result-percent"
+             data-performance-flying-charts-target="windEffectDistancePercent" />
+        <div class="wind-effect-wind-percent"
+             data-performance-flying-charts-target="windEffectDistanceWindPercent" />
+      </div>
+
+      <div class="wind-effect-result"
+           aria-label="wind cancelled value"
+           data-performance-flying-charts-target="windEffectDistance"></div>
+      <div class="wind-effect-wind"
+           data-performance-flying-charts-target="windEffectDistanceWind"
+           aria-label="wind effect"></div>
+    </div>
+  </div>
+
+  <div class={styles.summaryItem} data-value="elevation">
+    <div class={styles.title}>{t('tracks.indicators.elevation')}</div>
+    <div class={styles.valueContainer}>
+      <div class={styles.value} aria-label="elevation"></div>
+      <div class="track-indicator-units"><%= t('units.m') %></div>
+    </div>
+  </div>
+
+  <div class={styles.summaryItem} data-value="vertical-speed">
+    <div class={styles.title}>{t('tracks.indicators.vertical_speed')}</div>
+    <div class={styles.valueContainer}>
+      <div class={styles.value} aria-label="average vertical speed">
+      </div>
+
+      <div class={styles.minMaxValue}>
+        <div class={styles.min}>
+            <span aria-label="maximum vertical speed">
+            </span>
+          <%= svg_icon 'angle-up-solid' %>
+        </div>
+        <div class={styles.max}>
+            <span aria-label="minimum vertical speed"></span>
+          <%= svg_icon 'angle-down-solid' %>
+        </div>
+      </div>
+
+      <div class="track-indicator-units"><%= t('units.kmh') %></div>
+    </div>
+  </div>
+
+  <div class={styles.summaryItem} data-value="time">
+    <div class={styles.title}>{t('tracks.indicators.duration')}</div>
+    <div class={styles.valueContainer}>
+      <div class={styles.value} aria-label="duration"></div>
+      <div class="track-indicator-units"><%= t('units.sec') %></div>
+    </div>
+  </div>
+</div>

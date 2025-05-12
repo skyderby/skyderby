@@ -1,28 +1,24 @@
 import { Controller } from '@hotwired/stimulus'
 import { differenceInMilliseconds } from 'date-fns'
-import { saveSeriesVisibility, restoreSeriesVisibility } from 'utils/chartSeriesSettings'
 import I18n from 'i18n'
+import {
+  saveSeriesVisibility,
+  restoreSeriesVisibility,
+  glideRatioSeries,
+  zeroWindGlideRatioSeries,
+  horizontalSpeedSeries,
+  verticalSpeedSeries,
+  fullSpeedSeries,
+  zeroWindSpeedSeries,
+  altitudeSeries,
+  tooltipFormatter,
+  findPositionForAltitude
+} from 'charts'
 
 const breakoffAltitude = 1707 // 5600 ft
 const windowHeight = 2256 // 7400 ft
 const validationWindowHeight = 1000
 const chartName = 'SpeedSkydivingCombinedChart'
-
-const findPositionForAltitude = (points, altitude) => {
-  const idx = points.findIndex(point => point.altitude <= altitude)
-  if (idx === -1) return null
-
-  const firstPoint = points[idx]
-  const secondPoint = points[idx + 1]
-
-  const flTime =
-    firstPoint.flTime +
-    ((secondPoint.flTime - firstPoint.flTime) /
-      (firstPoint.altitude - secondPoint.altitude)) *
-      (firstPoint.altitude - altitude)
-
-  return flTime - points[0].flTime
-}
 
 const accuracySeries = (points, windowEndAltitude) => {
   const validationWindowStart = windowEndAltitude + validationWindowHeight
@@ -37,194 +33,18 @@ const accuracySeries = (points, windowEndAltitude) => {
         point =>
           point.altitude <= validationWindowStart && point.altitude >= windowEndAltitude
       )
-      .map(point => [
-        point.flTime - points[0].flTime,
-        (Math.sqrt(2) * point.verticalAccuracy) / 3
-      ])
+      .map(point => ({
+        x: point.flTime - points[0].flTime,
+        y: (Math.sqrt(2) * point.verticalAccuracy) / 3,
+        custom: {
+          tooltipValue:
+            Math.round(((Math.sqrt(2) * point.verticalAccuracy) / 3) * 10) / 10,
+          altitude: Math.round(point.altitude),
+          gpsTime: point.gpsTime
+        }
+      }))
   }
 }
-
-const altitudeSeries = points => ({
-  name: I18n.t('charts.all_data.series.height'),
-  custom: {
-    code: 'height'
-  },
-  type: 'spline',
-  data: points.map(el => ({
-    x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-    y: Math.round(el.altitude)
-  })),
-  yAxis: 0,
-  color: '#aaa',
-  tooltip: {
-    valueSuffix: ` ${I18n.t('units.m')}`,
-    valueDecimals: 0
-  }
-})
-
-const clampGlideValue = val => Math.round(Math.min(Math.max(val, 0), 7) * 100) / 100
-
-const glideRatioSeries = points => ({
-  name: I18n.t('charts.all_data.series.gr'),
-  custom: {
-    code: 'gr'
-  },
-  type: 'spline',
-  data: points.map(el => ({
-    x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-    y: clampGlideValue(el.glideRatio),
-    custom: {
-      trueValue: Math.round(el.glideRatio * 100) / 100,
-      altitude: Math.round(el.altitude)
-    }
-  })),
-  yAxis: 2,
-  tooltip: {
-    valueSuffix: '',
-    valueDecimals: 2
-  },
-  zones: [
-    {
-      value: 0.1,
-      color: 'red'
-    },
-    {
-      value: 6.8,
-      color: '#37889B'
-    },
-    {
-      color: 'red'
-    }
-  ],
-  color: '#37889B'
-})
-
-const zeroWindGlideRatioSeries = points => ({
-  name: I18n.t('charts.gr.series.wind_effect'),
-  custom: {
-    code: 'gr_wind_effect'
-  },
-  type: 'arearange',
-  data: points.map(el => ({
-    x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-    low: clampGlideValue(el.glideRatio),
-    high: clampGlideValue(el.zerowindGlideRatio),
-    custom: {
-      trueValue: Math.round(el.glideRatio * 100) / 100
-    }
-  })),
-  yAxis: 2,
-  color: 'rgba(63, 136, 167, 0.3)',
-  lineWidth: 1,
-  dashStyle: 'ShortDash',
-  tooltip: {
-    pointFormatter: function () {
-      const { high = 0, low = 0 } = this.options
-      const windEffect = high - low
-      const effectSign = windEffect > 0 ? '+' : ''
-      return `
-        <span style="color: ${this.series.options.color}">●</span>
-        ${this.series.name}: <b>${effectSign}${windEffect.toFixed(2)}</b>
-      `
-    }
-  }
-})
-
-const horizontalSpeedSeries = points => ({
-  name: I18n.t('charts.all_data.series.horiz_speed'),
-  custom: {
-    code: 'ground_speed'
-  },
-  type: 'spline',
-  data: points.map(el => ({
-    x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-    y: Math.round(el.hSpeed),
-    custom: {
-      altitude: Math.round(el.altitude)
-    }
-  })),
-  yAxis: 1,
-  color: '#52A964',
-  tooltip: {
-    valueSuffix: ` ${I18n.t('units.kmh')}`,
-    valueDecimals: 0
-  }
-})
-
-const verticalSpeedSeries = points => ({
-  name: I18n.t('charts.all_data.series.vert_speed'),
-  custom: {
-    code: 'vertical_speed'
-  },
-  type: 'spline',
-  data: points.map(el => ({
-    x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-    y: Math.round(el.vSpeed),
-    custom: {
-      altitude: Math.round(el.altitude)
-    }
-  })),
-  yAxis: 1,
-  color: '#A7414E',
-  tooltip: {
-    valueSuffix: ` ${I18n.t('units.kmh')}`,
-    valueDecimals: 0
-  }
-})
-
-const fullSpeedSeries = points => ({
-  name: I18n.t('charts.all_data.series.full_speed'),
-  custom: {
-    code: 'full_speed'
-  },
-  type: 'spline',
-  data: points.map(el => ({
-    x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-    y: Math.round(el.fullSpeed),
-    custom: {
-      altitude: Math.round(el.altitude)
-    }
-  })),
-  yAxis: 1,
-  color: '#D6A184',
-  visible: false,
-  tooltip: {
-    valueSuffix: ` ${I18n.t('units.kmh')}`,
-    valueDecimals: 0
-  }
-})
-
-const zeroWindSpeedSeries = points => ({
-  name: I18n.t('charts.spd.series.wind_effect'),
-  custom: {
-    code: 'speed_wind_effect'
-  },
-  data: points.map(point => ({
-    x: Math.round((point.flTime - points[0].flTime) * 10) / 10,
-    low: Math.round(point.hSpeed),
-    high: Math.round(point.zerowindHSpeed),
-    custom: {
-      altitude: Math.round(point.altitude)
-    }
-  })),
-  yAxis: 1,
-  type: 'arearange',
-  color: 'rgba(178, 201, 171, 0.5)',
-  lineWidth: 1,
-  dashStyle: 'ShortDash',
-  tooltip: {
-    pointFormatter: function () {
-      const { high = 0, low = 0 } = this.options
-      const windEffect = high - low
-      const effectSign = windEffect > 0 ? '+' : ''
-      return `
-        <span style="color: ${this.series.options.color}">●</span>
-        ${this.series.name}: <b> ${effectSign}${windEffect} ${this.series.options.tooltip?.valueSuffix}</b>
-      `
-    },
-    valueSuffix: ` ${I18n.t('units.kmh')}`
-  }
-})
 
 export default class SpeedSkydivingChart extends Controller {
   connect() {
@@ -363,30 +183,20 @@ export default class SpeedSkydivingChart extends Controller {
       ],
       tooltip: {
         shared: true,
-        formatter: function () {
-          const points = this.points ?? []
-          return points
-            .map(point => {
-              const seriesName = point.series.name
-              const value = point.point.options.custom?.trueValue || point.y
-              const valueSuffix = point.series.options.tooltip?.valueSuffix || ''
-
-              return `${seriesName}: ${value} ${valueSuffix}`
-            })
-            .join('<br />')
-        }
+        useHTML: true,
+        formatter: tooltipFormatter
       },
       credits: {
         enabled: false
       },
       series: [
-        altitudeSeries(points),
-        horizontalSpeedSeries(points),
-        verticalSpeedSeries(points),
-        fullSpeedSeries(points),
-        windCancellation && zeroWindSpeedSeries(points),
-        glideRatioSeries(points),
-        windCancellation && zeroWindGlideRatioSeries(points),
+        altitudeSeries(points, { yAxis: 0, color: '#aaa', type: 'spline' }),
+        horizontalSpeedSeries(points, { yAxis: 1 }),
+        verticalSpeedSeries(points, { yAxis: 1 }),
+        fullSpeedSeries(points, { yAxis: 1 }),
+        windCancellation && zeroWindSpeedSeries(points, { yAxis: 1 }),
+        glideRatioSeries(points, { yAxis: 2 }),
+        windCancellation && zeroWindGlideRatioSeries(points, { yAxis: 2 }),
         accuracySeries(points, windowEndAltitude)
       ].filter(Boolean)
     }

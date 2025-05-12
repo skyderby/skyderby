@@ -1,4 +1,18 @@
 import { Controller } from '@hotwired/stimulus'
+import I18n from 'i18n'
+import {
+  glideRatioSeries,
+  zeroWindGlideRatioSeries,
+  horizontalSpeedSeries,
+  verticalSpeedSeries,
+  fullSpeedSeries,
+  zeroWindSpeedSeries,
+  altitudeSeries,
+  restoreSeriesVisibility,
+  saveSeriesVisibility,
+  tooltipFormatter,
+  findPositionForAltitude
+} from 'charts'
 
 const sep50Series = (points, options) => {
   const clampAccuracy = val => Math.round(Math.min(Math.max(val, 0), 15) * 10) / 10
@@ -6,7 +20,7 @@ const sep50Series = (points, options) => {
 
   return {
     name: 'SEP 50',
-    type: 'column',
+    type: 'area',
     zones: [
       { value: 0, color: '#A6AFBB' },
       { value: 10, color: '#A6AFBB' },
@@ -16,7 +30,7 @@ const sep50Series = (points, options) => {
       x: point.flTime - points[0].flTime,
       y: clampAccuracy(point.sep50),
       custom: {
-        trueValue: Math.round(point.sep50 * 10) / 10,
+        tooltipValue: Math.round(point.sep50 * 10) / 10,
         altitude: Math.round(point.altitude),
         gpsTime: point.gpsTime
       }
@@ -38,13 +52,20 @@ export default class PerformanceFlyingChartsController extends Controller {
     this.trackId = this.element.dataset.trackId
     this.result = Number(this.element.dataset.result)
     this.exitAltitude = Number(this.element.dataset.exitAltitude)
+    this.windowStartAltitude = Number(this.element.dataset.windowStart)
+    this.windowEndAltitude = Number(this.element.dataset.windowEnd)
     this.chartType = this.element.dataset.chartType
     const initCharts =
       this.chartType === 'separate'
         ? this.initSeparateCharts.bind(this)
         : this.initCombinedCharts.bind(this)
 
-    this.fetchPoints(this.trackId).then(data => initCharts(data))
+    this.fetchPoints(this.trackId).then(data => {
+      this.points = data.points
+      this.windCancellation = data.windCancellation
+
+      initCharts()
+    })
   }
 
   fetchPoints(trackId) {
@@ -65,30 +86,41 @@ export default class PerformanceFlyingChartsController extends Controller {
       })
   }
 
-  initSeparateCharts(data) {
-    this.initAccuracyChart(data)
-    console.log(data)
+  initSeparateCharts() {
+    this.initAccuracyChart()
+    this.initGlideChart()
+    this.initSpeedsChart()
+    this.initAltitudeDistanceChart()
   }
 
-  initCombinedCharts(data) {
-    console.log(data)
+  initCombinedCharts() {
+    console.log(this.points)
   }
 
-  initAccuracyChart(data) {
+  initAccuracyChart() {
     const chartOptions = {
       chart: {
-        type: 'column'
+        type: 'area'
       },
       title: undefined,
       credits: { enabled: false },
       legend: { enabled: false },
-      xAxis: { visible: false },
+      xAxis: {
+        labels: {
+          enabled: false
+        },
+        tickWidth: 0,
+        plotLines: this.windowPlotLines()
+      },
       yAxis: [
         {
           min: 0,
           max: 15,
           tickAmount: 3,
           title: undefined,
+          labels: {
+            enabled: false
+          },
           plotLines: [
             {
               value: 10,
@@ -104,22 +136,264 @@ export default class PerformanceFlyingChartsController extends Controller {
         crosshair: true,
         shared: true,
         useHTML: true,
-        formatter: function () {
-          const point = this.points[0].point
-
-          return `
-            <div>Altitude: ${point.custom.altitude}</div>
-            <div>Time: ${point.custom.gpsTime.toISOString().split('T').at(-1)}</div>
-            <div>SEP 50: ${point.custom.trueValue}</div>
-          `
-        }
+        formatter: tooltipFormatter
       },
-      series: [sep50Series(data.points)]
+      series: [sep50Series(this.points)]
     }
 
     this.accuracyChartTarget.chart = Highcharts.chart(
       this.accuracyChartTarget,
       chartOptions
     )
+  }
+
+  initGlideChart() {
+    const chartName = 'GlideChart'
+
+    const chartOptions = {
+      chart: {
+        type: 'spline',
+        styledMode: true,
+        events: function () {
+          restoreSeriesVisibility(chartName, this.series)
+        }
+      },
+      title: {
+        text: I18n.t('charts.gr.title'),
+        style: { color: 'var(--gray-80)', fontSize: '16px' }
+      },
+      plotOptions: {
+        spline: {
+          marker: {
+            enabled: false
+          }
+        },
+        series: {
+          marker: {
+            radius: 1
+          },
+          events: {
+            legendItemClick: function () {
+              saveSeriesVisibility(chartName, this.options.custom?.code, !this.visible)
+            }
+          }
+        }
+      },
+      tooltip: {
+        crosshairs: true,
+        shared: true,
+        valueDecimals: 2,
+        useHTML: true,
+        formatter: tooltipFormatter
+      },
+      xAxis: {
+        labels: {
+          enabled: false
+        },
+        tickWidth: 0,
+        plotLines: this.windowPlotLines({ includeLabels: true })
+      },
+      yAxis: {
+        min: 0,
+        max: 7.5,
+        startOnTick: false,
+        endOnTick: false,
+        minPadding: 0.2,
+        maxPadding: 0.2,
+        tickInterval: 1,
+        title: {
+          text: null
+        },
+        labels: {
+          x: 20,
+          y: -2,
+          formatter: function () {
+            return this.isLast ? '≥ 7' : this.value
+          }
+        }
+      },
+      credits: { enabled: false },
+      series: [
+        glideRatioSeries(this.points),
+        this.windCancellation && zeroWindGlideRatioSeries(this.points)
+      ].filter(Boolean)
+    }
+
+    this.glideChartTarget.chart = Highcharts.chart(this.glideChartTarget, chartOptions)
+  }
+
+  initSpeedsChart() {
+    const chartName = 'SpeedsChart'
+
+    const chartOptions = {
+      chart: {
+        type: 'spline',
+        styledMode: true,
+        events: {
+          load: function () {
+            restoreSeriesVisibility(chartName, this.series)
+          }
+        }
+      },
+      title: {
+        text: I18n.t('charts.spd.title'),
+        style: { color: 'var(--gray-80)', fontSize: '16px' }
+      },
+      plotOptions: {
+        spline: {
+          marker: {
+            enabled: false
+          }
+        },
+        series: {
+          marker: {
+            radius: 1
+          },
+          events: {
+            legendItemClick: function () {
+              saveSeriesVisibility(chartName, this.options.custom?.code, !this.visible)
+            }
+          }
+        }
+      },
+      xAxis: {
+        labels: {
+          enabled: false
+        },
+        tickWidth: 0,
+        plotLines: this.windowPlotLines()
+      },
+      yAxis: [
+        {
+          //Speed yAxis
+          min: 0,
+          labels: {
+            x: 20,
+            y: -2,
+            style: {
+              color: Highcharts.getOptions().colors[1]
+            }
+          },
+          title: {
+            text: null,
+            style: {
+              color: Highcharts.getOptions().colors[1]
+            }
+          }
+        }
+      ],
+      tooltip: {
+        shared: true,
+        crosshairs: true,
+        useHTML: true,
+        valueDecimals: 0,
+        formatter: tooltipFormatter
+      },
+      credits: { enabled: false },
+      series: [
+        horizontalSpeedSeries(this.points),
+        verticalSpeedSeries(this.points),
+        fullSpeedSeries(this.points),
+        this.windCancellation && zeroWindSpeedSeries(this.points)
+      ].filter(Boolean)
+    }
+
+    this.speedChartTarget.chart = Highcharts.chart(this.speedChartTarget, chartOptions)
+  }
+
+  initAltitudeDistanceChart() {
+    const chartName = 'AltitudeDistance'
+
+    const chartOptions = {
+      chart: {
+        type: 'spline',
+        styledMode: true,
+        events: {
+          load: function () {
+            restoreSeriesVisibility(chartName, this.series)
+          }
+        }
+      },
+      title: {
+        text: I18n.t('charts.elev.title'),
+        style: { color: '#777', fontSize: '16px' }
+      },
+      plotOptions: {
+        spline: {
+          marker: {
+            enabled: false
+          }
+        },
+        area: {
+          marker: {
+            enabled: false
+          }
+        },
+        series: {
+          marker: {
+            radius: 1
+          },
+          events: {
+            legendItemClick: function () {
+              saveSeriesVisibility(chartName, this.options.custom?.code, !this.visible)
+            }
+          }
+        }
+      },
+      xAxis: {
+        labels: {
+          enabled: false
+        },
+        tickWidth: 0,
+        plotLines: this.windowPlotLines()
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: ''
+        },
+        labels: {
+          x: 20,
+          y: -2
+        }
+      },
+      tooltip: {
+        shared: true,
+        crosshairs: true,
+        useHTML: true,
+        formatter: tooltipFormatter
+      },
+      credits: { enabled: false },
+      series: [altitudeSeries(this.points)]
+    }
+
+    this.altitudeDistanceChartTarget.chart = Highcharts.chart(
+      this.altitudeDistanceChartTarget,
+      chartOptions
+    )
+  }
+
+  windowPlotLines({ includeLabels } = {}) {
+    if (!this.windowPlotLinePositions) {
+      this.windowPlotLinePositions = [
+        this.windowStartAltitude,
+        this.windowEndAltitude
+      ].map(altitude => [altitude, findPositionForAltitude(this.points, altitude)])
+    }
+
+    return this.windowPlotLinePositions.map(([altitude, position]) => ({
+      value: position,
+      width: 1,
+      color: 'red',
+      ...(includeLabels
+        ? {
+            label: {
+              text: `${altitude.toFixed()} ${I18n.t('units.m')}`,
+              style: { color: 'red' },
+              y: 10
+            }
+          }
+        : {})
+    }))
   }
 }

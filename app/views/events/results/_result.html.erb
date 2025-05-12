@@ -3,13 +3,19 @@
 <div class="sd-container">
   <%= render partial: 'events/results/navbar', locals: { result:, modal: } %>
 
+  <%= render 'indicators', result: %>
+  <hr />
+
   <div data-controller="performance-flying-charts"
        data-track-id="<%= result.track_id %>"
        data-result="<%= result.result %>"
+       data-window-start="<%= result.event.range_from %>"
+       data-window-end="<%= result.event.range_to %>"
        data-exit-altitude="<%= result.exit_altitude %>"
        data-chart-type="<%= Current.charts_mode %>"
   >
-    <%= render partial: 'tracks/indicators', locals: { presenter: @track_presenter } %>
+    <%= render 'track_indicators' %>
+
     <% if Current.charts_mode.separate? %>
       <div class="performance-flying-separate-charts">
         <div data-performance-flying-charts-target="accuracyChart"></div>

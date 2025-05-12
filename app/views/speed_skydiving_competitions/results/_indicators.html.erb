@@ -1,0 +1,45 @@
+<%# locals: (result:) %>
+
+<div class="result-indicators">
+  <div class="result-indicator">
+    <div class="result-indicator-title">
+      Exit Altitude
+    </div>
+    <div class="result-indicator-value">
+      <%= result.exit_altitude.round %>
+      <%= t('units.m') %>
+    </div>
+    <div class="result-indicator-info">
+      <%= m_to_ft(result.exit_altitude).round %>
+      <%= t('units.ft') %>
+    </div>
+  </div>
+
+  <div class="result-indicator">
+    <div class="result-indicator-title">
+      Result
+    </div>
+    <div class="result-indicator-value">
+      <%= result.result.round(1) %>
+      <%= t('units.kmh') %>
+    </div>
+    <div class="result-indicator-info">
+      <%= kmh_to_mph(result.result).round(1) %>
+      <%= t('units.mph') %>
+    </div>
+  </div>
+
+  <div class="result-indicator">
+    <div class="result-indicator-title">
+      Window
+    </div>
+    <div class="result-indicator-value">
+      <%= result.window_start_altitude.round %>-<%= result.window_end_altitude.round %>
+      <%= t('units.m') %>
+    </div>
+    <div class="result-indicator-info">
+      <%= m_to_ft(result.window_start_altitude).round %>-<%= m_to_ft(result.window_end_altitude).round %>
+      <%= t('units.ft') %>
+    </div>
+  </div>
+</div>

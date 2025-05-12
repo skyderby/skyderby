@@ -5,7 +5,7 @@ module DisciplinesHelper
     vertical_speed: :kmh,
     time: :sec,
     distance_in_time: :m
-  }.freeze
+  }.with_indifferent_access.freeze
 
   def discipline_unit(discipline)
     DISCIPLINE_UNITS.fetch(discipline)

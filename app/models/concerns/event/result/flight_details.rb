@@ -11,6 +11,7 @@ class Event::Result < ApplicationRecord
 
       self.exited_at = exit_point[:gps_time]
       self.exit_altitude = exit_point[:altitude]
+      self.pull_altitude = points.last[:altitude]
       self.heading_within_window = window_points.direction
     end
 

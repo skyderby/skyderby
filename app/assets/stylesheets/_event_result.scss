@@ -1,5 +1,11 @@
+.result-indicators {
+  display: flex;
+  width: 100%;
+}
+
 .result-indicator {
   text-align: center;
+  flex: 1;
 }
 
 .result-indicator-title {
