@@ -14,6 +14,8 @@ json.points @points do |point|
                 :horizontal_accuracy,
                 :vertical_accuracy,
                 :speed_accuracy,
+                :zerowind_latitude,
+                :zerowind_longitude,
                 :zerowind_h_speed,
                 :zerowind_glide_ratio
 

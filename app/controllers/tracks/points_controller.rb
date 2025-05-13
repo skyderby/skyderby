@@ -12,8 +12,10 @@ class Tracks::PointsController < ApplicationController
     @zerowind_points ||= Tracks::WindCancellation::Processor.call(@points, @track.weather_data)
 
     @points = @points.zip(@zerowind_points).map do |point, zerowind_point|
-      point[:zerowind_h_speed] = zerowind_point && zerowind_point[:h_speed]
-      point[:zerowind_glide_ratio] = zerowind_point && zerowind_point[:glide_ratio]
+      point[:zerowind_latitude] = zerowind_point ? zerowind_point[:latitude].to_f : nil
+      point[:zerowind_longitude] = zerowind_point ? zerowind_point[:longitude].to_f : nil
+      point[:zerowind_h_speed] = zerowind_point ? zerowind_point[:h_speed] : nil
+      point[:zerowind_glide_ratio] = zerowind_point ? zerowind_point[:glide_ratio] : nil
       point
     end
   end
