@@ -23,6 +23,7 @@ export const glideRatioSeries = (points, options) => ({
 })
 
 export const zeroWindGlideRatioSeries = (points, options) => ({
+  name: 'Glide Ratio Wind Effect',
   custom: { code: 'gr_wind_effect' },
   type: 'arearange',
   data: points.map(point => {
