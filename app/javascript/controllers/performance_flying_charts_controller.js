@@ -136,6 +136,63 @@ export default class PerformanceFlyingChartsController extends Controller {
     this.verticalSpeedMinTarget.innerText = this.rangeSummary.verticalSpeed.min.toFixed(0)
     this.verticalSpeedMaxTarget.innerText = this.rangeSummary.verticalSpeed.max.toFixed(0)
     this.durationTarget.innerText = this.rangeSummary.time.toFixed(1)
+
+    if (this.windCancellation) this.updateWindEffectIndicators()
+  }
+
+  updateWindEffectIndicators() {
+    const distanceEffect = this.rangeSummary.distanceWindEffect
+    if (distanceEffect.value !== null) {
+      this.updateWindEffectValues(
+        distanceEffect,
+        this.windEffectDistanceTarget,
+        this.windEffectDistanceWindTarget,
+        this.windEffectDistancePercentTarget,
+        this.windEffectDistanceWindPercentTarget,
+        0
+      )
+    }
+
+    const speedEffect = this.rangeSummary.horizontalSpeedWindEffect
+    if (speedEffect.value !== null) {
+      this.updateWindEffectValues(
+        speedEffect,
+        this.windEffectSpeedTarget,
+        this.windEffectSpeedWindTarget,
+        this.windEffectSpeedPercentTarget,
+        this.windEffectSpeedWindPercentTarget,
+        0
+      )
+    }
+
+    const glideEffect = this.rangeSummary.glideRatioWindEffect
+    if (glideEffect.value !== null) {
+      this.updateWindEffectValues(
+        glideEffect,
+        this.windEffectGlideRatioTarget,
+        this.windEffectGlideRatioWindTarget,
+        this.windEffectGlideRatioPercentTarget,
+        this.windEffectGlideRatioWindPercentTarget,
+        2
+      )
+    }
+  }
+
+  updateWindEffectValues(effect, valueEl, windEl, percentEl, windPercentEl, decimals) {
+    valueEl.innerText = effect.value.toFixed(decimals)
+    windEl.innerText =
+      effect.windEffect > 0
+        ? `+${effect.windEffect.toFixed(decimals)}`
+        : effect.windEffect.toFixed(decimals)
+
+    const absPercent = Math.abs(effect.windEffectPercent)
+    const valuePercent = 100 - absPercent
+
+    const clampedValuePercent = Math.max(0, Math.min(100, valuePercent))
+    const clampedWindPercent = Math.max(0, Math.min(100, absPercent))
+
+    percentEl.style.width = `${clampedValuePercent}%`
+    windPercentEl.style.width = `${clampedWindPercent}%`
   }
 
   initSeparateCharts() {
