@@ -1,9 +1,9 @@
 module Suits
   module Index
     def self.for(params)
-      if params[:manufacturer_id].present?
-        ManufacturerSuits.new(params[:manufacturer_id])
-      end
+      return if params[:manufacturer_id].blank?
+
+      ManufacturerSuits.new(params[:manufacturer_id])
     end
   end
 end

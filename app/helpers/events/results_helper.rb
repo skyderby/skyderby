@@ -2,7 +2,10 @@ module Events
   module ResultsHelper
     def new_event_track_link(event, competitor, round)
       button_to svg_icon('upload-solid'), new_event_result_path(event),
-                params: { 'result[competitor_id]' => competitor.id, 'result[round_id]' => round.id }.merge(display_event_params),
+                params: {
+                  'result[competitor_id]' => competitor.id,
+                  'result[round_id]' => round.id
+                }.merge(display_event_params),
                 method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' }
     end
 
