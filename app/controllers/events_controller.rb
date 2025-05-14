@@ -16,8 +16,6 @@ class EventsController < ApplicationController
       .search(index_params[:query])
       .paginate(page:, per_page: rows_per_page)
 
-    fresh_when @events
-
     respond_to do |format|
       format.html
       format.turbo_stream
