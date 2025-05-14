@@ -1,0 +1,5 @@
+<%= turbo_stream.append 'profile-badges' do %>
+  <%= render @badge %>
+<% end %>
+
+<%= turbo_stream.remove '.blankslate' if @profile.badges.count == 1 %>

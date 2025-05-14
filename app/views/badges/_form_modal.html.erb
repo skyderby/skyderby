@@ -1,6 +1,8 @@
-<% url = @badge.new_record? ? badges_path : badge_path(@badge) %>
+<%# locals: (model: nil, url: '', **rest) %>
 
-<%= form_with model: @badge, url:, data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+<% model ||= @badge %>
+
+<%= form_with model:, url:, data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
   <div class="sd-form">
     <% if @badge.profile.blank? %>
       <div class="grid">

@@ -21,6 +21,7 @@ class PointsQuery::QueryBuilderTest < ActiveSupport::TestCase
         'distance',
         '0 AS time_diff',
         'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio',
+        'horizontal_accuracy',
         'vertical_accuracy',
         'speed_accuracy'
       ].sort,

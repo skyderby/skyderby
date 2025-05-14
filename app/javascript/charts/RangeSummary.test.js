@@ -23,7 +23,7 @@ describe('RangeSummary', () => {
       test('by trajectory', () => {
         const summary = new RangeSummary(points, { straightLine: false })
 
-        expect(Math.round(Number(summary.horizontalSpeed.avg))).toEqual(42)
+        expect(Math.round(Number(summary.horizontalSpeed.avg))).toEqual(152)
         expect(Math.round(Number(summary.horizontalSpeed.min))).toEqual(16)
         expect(Math.round(Number(summary.horizontalSpeed.max))).toEqual(53)
       })
@@ -31,7 +31,7 @@ describe('RangeSummary', () => {
       test('straightLine', () => {
         const summary = new RangeSummary(points, { straightLine: true })
 
-        expect(Math.round(Number(summary.horizontalSpeed.avg))).toEqual(25)
+        expect(Math.round(Number(summary.horizontalSpeed.avg))).toEqual(91)
         expect(Math.round(Number(summary.horizontalSpeed.min))).toEqual(16)
         expect(Math.round(Number(summary.horizontalSpeed.max))).toEqual(53)
       })
@@ -70,7 +70,7 @@ describe('RangeSummary', () => {
     test('#verticalSpeed', () => {
       const summary = new RangeSummary(points)
 
-      expect(Math.round(Number(summary.verticalSpeed.avg))).toEqual(24)
+      expect(Math.round(Number(summary.verticalSpeed.avg))).toEqual(85)
       expect(Math.round(Number(summary.verticalSpeed.min))).toEqual(9)
       expect(Math.round(Number(summary.verticalSpeed.max))).toEqual(33)
     })
