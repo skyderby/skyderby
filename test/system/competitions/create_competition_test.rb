@@ -6,12 +6,12 @@ class CreateCompetitionTest < ApplicationSystemTestCase
     visit events_path
 
     click_link 'Competition'
-    assert_selector('.modal-title', text: "#{I18n.t('activerecord.models.event')}: New")
+    click_link 'Create Wingsuit Performance Competition'
 
     fill_in :event_name, with: 'Test event'
     fill_in :event_range_from, with: 3000
     fill_in :event_range_to, with: 2000
-    select2 places(:hellesylt_wbr).name, from: 'event_place_id'
+    hot_select places(:hellesylt_wbr).name, from: :place_id
 
     find('input[type="submit"]').click
 

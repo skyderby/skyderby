@@ -11,7 +11,7 @@ class EventSectionsTest < ApplicationSystemTestCase
     sign_in user
     visit event_path(event)
 
-    click_link I18n.t('activerecord.models.event/section')
+    click_button I18n.t('activerecord.models.event/section')
 
     fill_in :section_name, with: 'Category: Open'
 

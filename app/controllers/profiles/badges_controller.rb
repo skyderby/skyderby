@@ -13,12 +13,10 @@ module Profiles
 
       @badge = @profile.badges.new(badge_params)
 
-      respond_to do |format|
-        if @badge.save
-          format.js
-        else
-          format.js { render 'errors/ajax_errors', locals: { errors: @badge.errors } }
-        end
+      if @badge.save
+        render
+      else
+        respond_with_errors @badge
       end
     end
 
@@ -29,7 +27,7 @@ module Profiles
     end
 
     def badge_params
-      params.require(:badge).permit(:name, :kind, :category, :comment)
+      params.require(:badge).permit(:name, :kind, :category, :comment, :achieved_at)
     end
   end
 end

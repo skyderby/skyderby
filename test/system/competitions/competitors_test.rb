@@ -14,14 +14,10 @@ class EventsCompetitorsTest < ApplicationSystemTestCase
 
     sign_in @user
     visit event_path(event)
-    click_link I18n.t('activerecord.models.event/competitor')
-    assert_selector('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
-
-    find('#select2-profile_id-container').click
-    first('li.select2-results__option', text: profile.name).click
-
-    find('#select2-suit_id-container').click
-    first('li.select2-results__option', text: suit.name).click
+    click_button I18n.t('activerecord.models.event/competitor')
+    assert_selector('.modal-title', text: I18n.t('events.add_competitor'))
+    hot_select profile.name, from: :profile_id
+    hot_select suit.name, from: :suit_id
 
     click_button I18n.t('general.save')
 
@@ -39,17 +35,15 @@ class EventsCompetitorsTest < ApplicationSystemTestCase
 
     sign_in @user
     visit event_path(event)
-    click_link I18n.t('activerecord.models.event/competitor')
-    assert_selector('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
+    click_button I18n.t('activerecord.models.event/competitor')
+    assert_selector('.modal-title', text: I18n.t('events.add_competitor'))
 
     find('label', text: I18n.t('competitors.form.create_profile')).click
 
-    fill_in 'competitor_name', with: profile_name
-    find('#select2-country_id-container').click
-    first('li.select2-results__option', text: country.name).click
+    fill_in 'competitor[profile_attributes][name]', with: profile_name
+    hot_select country.name, from: 'country_id'
 
-    find('#select2-suit_id-container').click
-    first('li.select2-results__option', text: suit.name).click
+    hot_select suit.name, from: :suit_id
 
     click_button I18n.t('general.save')
     assert_no_selector('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")

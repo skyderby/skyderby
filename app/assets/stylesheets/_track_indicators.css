@@ -1,0 +1,200 @@
+.track-indicators {
+  display: grid;
+  grid-gap: 2rem 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-around;
+  justify-items: center;
+
+  @media (min-width: 576px) {
+    grid-gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-evenly;
+  }
+}
+
+.track-indicator {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow: hidden;
+  text-align: center;
+  width: auto;
+  max-width: 100%;
+
+  &[data-value='glide-ratio'] {
+    grid-row: 1;
+    grid-column: 1;
+
+    @media (min-width: 576px) {
+      grid-row: 1;
+      grid-column: 3;
+    }
+  }
+
+  &[data-value='ground-speed'] {
+    grid-row: 1;
+    grid-column: 2;
+
+    @media (min-width: 576px) {
+      grid-row: 1;
+      grid-column: 2;
+    }
+  }
+
+  &[data-value='time'] {
+    grid-row: 2;
+    grid-column: 1;
+
+    @media (min-width: 576px) {
+      grid-row: 2;
+      grid-column: 3;
+    }
+  }
+
+  &[data-value='vertical-speed'] {
+    grid-row: 2;
+    grid-column: 2;
+
+    @media (min-width: 576px) {
+      grid-row: 2;
+      grid-column: 2;
+    }
+  }
+
+  &[data-value='distance'] {
+    grid-row: 3;
+    grid-column: 1;
+
+    @media (min-width: 576px) {
+      grid-row: 1;
+      grid-column: 1;
+    }
+  }
+
+  &[data-value='elevation'] {
+    grid-row: 3;
+    grid-column: 2;
+
+    @media (min-width: 576px) {
+      grid-row: 2;
+      grid-column: 1;
+    }
+  }
+}
+
+.track-indicator-title {
+  overflow: hidden;
+  font-weight: 700;
+  color: var(--gray-70);
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.track-indicator-value-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.track-indicator-value-container {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  justify-content: center;
+  color: var(--gray-80);
+  font-size: 2.25rem;
+  white-space: nowrap;
+}
+
+.track-indicator-value {
+  font-size: 2.25rem;
+  color: var(--gray-80);
+}
+
+.track-indicator-info {
+  color: var(--gray-70);
+}
+
+.track-indicator-units {
+  font-size: 1.75rem;
+}
+
+.track-indicator-minmax-value {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  align-self: center;
+  justify-content: space-between;
+
+  >:first-child {
+    display: flex;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    align-items: flex-start;
+  }
+
+  >:last-child {
+    display: flex;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    align-items: flex-end;
+  }
+}
+
+.track-indicator-max {
+  color: var(--green-90);
+}
+
+.track-indicator-min {
+  color: var(--red-80);
+}
+
+.wind-effect-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.wind-effect-values {
+  display: flex;
+}
+
+.wind-effect-rail {
+  display: flex;
+  flex-basis: 50%;
+  height: 4px;
+}
+
+.wind-effect-result-percent {
+  display: block;
+  height: 4px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+
+  background-color: var(--green-80);
+}
+
+.wind-effect-wind-percent {
+  height: 4px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+
+  background-color: var(--red-80);
+}
+
+.wind-effect-result {
+  flex-basis: 50%;
+
+  color: var(--green-90);
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.wind-effect-wind {
+  flex-basis: 50%;
+
+  color: var(--red-80);
+  font-size: 0.875rem;
+  text-align: right;
+}

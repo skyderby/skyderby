@@ -1,0 +1,63 @@
+<%# locals: (result:) %>
+
+<% task = result.round.discipline %>
+
+<div class="track-indicators">
+  <div class="track-indicator">
+    <div class="track-indicator-title">
+      Exit Altitude
+    </div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value">
+        <%= result.exit_altitude&.round %>
+      </div>
+      <div class="track-indicator-units">
+        <%= t('units.m') %>
+      </div>
+    </div>
+    <div class="track-indicator-info">
+      <% if result.exit_altitude.present? %>
+        <%= m_to_ft(result.exit_altitude).round %>
+        <%= t('units.ft') %>
+        <% if result.exited_at.present? %>
+          /
+          <%= result.exited_at.iso8601(3).split('T').last %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="track-indicator">
+    <div class="track-indicator-title">
+      <%= t("disciplines.#{task}") %>
+    </div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value">
+        <%= task == 'distance' ? result.result.truncate : result.result.round(1) %>
+      </div>
+      <div class="track-indicator-units">
+        <%= t "units.#{discipline_unit(task)}" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="track-indicator">
+    <div class="track-indicator-title">
+      Pull Altitude
+    </div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value">
+        <%= result.pull_altitude %>
+      </div>
+      <div class="track-indicator-units">
+        <%= t('units.m') %>
+      </div>
+    </div>
+    <% if result.pull_altitude.present? %>
+      <div class="track-indicator-info">
+        <%= m_to_ft(result.pull_altitude).round %>
+        <%= t('units.ft') %>
+      </div>
+    <% end %>
+  </div>
+</div>

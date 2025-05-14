@@ -1,0 +1,5 @@
+<%= turbo_stream.update 'modal-root' do %>
+  <%= render 'components/modal', title: t('badges.new.title'), modal_size: 'md' do %>
+    <%= render 'badges/form_modal', model: @badge, url: profile_badges_path(@profile) %>
+  <% end %>
+<% end %>

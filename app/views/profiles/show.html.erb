@@ -9,13 +9,13 @@
         <div class="profile-section-header">
           <%= t('.achievements') %>
           <% if policy(:badge).create? %>
-            <%= link_to new_profile_badge_path(@profile), remote: true do %>
-              <i class="fa fa-plus"></i>
+            <%= link_to new_profile_badge_path(@profile), class: 'default-button', data: { turbo_stream: true } do %>
+              <%= svg_icon 'plus-solid' %>
               Add
             <% end %>
           <% end %>
         </div>
-        <div class="profile-badges">
+        <div class="profile-badges" id="profile-badges">
           <% if @profile.badges.any? %>
             <%= render partial: 'profiles/badges/badge', collection: @profile.badges, as: :badge %>
           <% else %>

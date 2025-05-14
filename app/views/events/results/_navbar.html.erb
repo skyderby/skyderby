@@ -1,19 +1,19 @@
 <%# locals: (result:, modal: false) %>
 
 <% current_controller = controller.controller_path.split('/').last %>
-<% form_data = modal ? { turbo_stream: true } : {} %>
+<% link_data = modal ? { turbo_stream: true } : {} %>
 <div class="tab-bar">
-  <%= button_to t('general.charts'), event_result_path(result.event, result), method: :get, form: { data: form_data },
+  <%= link_to t('general.charts'), event_result_path(result.event, result), data: link_data,
                 class: class_names('tab-bar-item', current_controller == 'results' && 'active') %>
 
-  <%= button_to t('event_tracks.show.maps'), event_result_map_path(result.event, result), method: :get, form: { data: form_data },
+  <%= link_to t('event_tracks.show.maps'), event_result_map_path(result.event, result), data: link_data,
                 class: class_names('tab-bar-item', current_controller == 'maps' && 'active') %>
 
   <% if policy(result.event).update? %>
-    <%= button_to t('general.jump_range'), event_result_jump_range_path(result.event, result), method: :get, form: { data: form_data },
+    <%= link_to t('general.jump_range'), event_result_jump_range_path(result.event, result),data: link_data,
                   class: class_names('tab-bar-item', current_controller == 'jump_ranges' && 'active') %>
 
-    <%= button_to t('event_tracks.show.penalties'), event_result_penalty_path(result.event, result), method: :get, form: { data: form_data },
+    <%= link_to t('event_tracks.show.penalties'), event_result_penalty_path(result.event, result), data: link_data,
                   class: class_names('tab-bar-item', current_controller == 'penalties' && 'active') %>
   <% end %>
 </div>

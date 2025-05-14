@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_11_071131) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -106,6 +106,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
     t.decimal "exit_altitude", precision: 10, scale: 3
     t.datetime "exited_at", precision: nil
     t.integer "heading_within_window"
+    t.integer "pull_altitude"
     t.index ["profile_id"], name: "index_event_results_on_profile_id"
     t.index ["round_id", "competitor_id"], name: "index_event_results_on_round_id_and_competitor_id", unique: true
     t.index ["round_id"], name: "index_event_results_on_round_id"
@@ -949,7 +950,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
               events_1.range_from,
               events_1.range_to,
               events_1.is_official,
-              COALESCE(json_object_agg(competitors_count.section_name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (competitors_count.section_name IS NOT NULL)), '{}'::json) AS competitors_count,
+              COALESCE(json_object_agg(COALESCE(competitors_count.section_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.section_name IS NOT NULL)), '{}'::json) AS competitors_count,
               participant_countries.country_ids,
               events_1.updated_at,
               events_1.created_at
@@ -1000,7 +1001,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
               NULL::integer,
               NULL::integer,
               events_1.is_official,
-              COALESCE(json_object_agg(competitors_count.category_name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (competitors_count.category_name IS NOT NULL)), '{}'::json) AS "coalesce",
+              COALESCE(json_object_agg(COALESCE(competitors_count.category_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.category_name IS NOT NULL)), '{}'::json) AS "coalesce",
               participant_countries.country_ids,
               events_1.updated_at,
               events_1.created_at
@@ -1030,7 +1031,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
               NULL::integer,
               NULL::integer,
               true,
-              json_object_agg(events_1.name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
+              json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
               participant_countries.country_ids,
               series.updated_at,
               series.created_at
@@ -1062,7 +1063,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_19_030838) do
               NULL::integer,
               NULL::integer,
               true,
-              json_object_agg(events_1.name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
+              json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
               participant_countries.country_ids,
               series.updated_at,
               series.created_at

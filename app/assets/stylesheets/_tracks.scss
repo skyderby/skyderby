@@ -2,6 +2,13 @@
   cursor: pointer;
 }
 
+.range-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 .track-charts-container {
   display: grid;
   grid-template-rows: 250px 400px 400px;
@@ -21,6 +28,15 @@
 }
 
 .speed-skydiving-chart {
+  height: 600px;
+}
+
+.performance-flying-separate-charts {
+  display: grid;
+  grid-template-rows: 70px 200px 300px 200px;
+}
+
+.performance-flying-combined-chart {
   height: 600px;
 }
 

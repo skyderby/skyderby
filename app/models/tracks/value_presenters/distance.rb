@@ -5,7 +5,7 @@ module Tracks
         @unit_system = unit_system
       end
 
-      def call(value)
+      def call(value) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
         return 0 if value.nil?
 
         if unit_system == 'metric'

@@ -86,9 +86,8 @@ class EventsTest < ApplicationSystemTestCase
   end
 
   def submit_result(competitor:, filename:)
-    competitor_row(competitor).find('.result-cell').hover
-    competitor_row(competitor).find('svg').click
-
+    row = competitor_row(competitor)
+    row.find('.result-cell button').click
 
     file = file_fixture("tracks/#{filename}")
     attach_file 'result[track_attributes][file]', file, make_visible: true
