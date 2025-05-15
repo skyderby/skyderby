@@ -220,7 +220,7 @@ Skyderby::Application.routes.draw do
   end
 
   resources :users do
-    resource :masquerades, only: [:new, :destroy]
+    resource :masquerades, only: [:create, :destroy]
     scope module: :users do
       collection do
         resources :select_options, only: :index, as: :users_select_options

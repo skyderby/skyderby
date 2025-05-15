@@ -1,0 +1,9 @@
+en:
+  profiles:
+    merges:
+      form_modal:
+        title: Merge profiles
+        source_profile_placeholder: Select profile to merge
+        description: All data (tracks, competition results, etc.) will be transferred to the current profile
+      create:
+        success: Profiles successfully merged

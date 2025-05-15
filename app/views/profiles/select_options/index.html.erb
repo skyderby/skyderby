@@ -3,12 +3,15 @@
     <% @profiles.each do |profile| %>
       <div class="hot-select-option" data-value="<%= profile.id %>">
         <%= profile.name %>
+        <% if params[:include_ids].present? %>
+          (#<%= profile.id %>)
+        <% end %>
       </div>
     <% end %>
 
     <% if @profiles.next_page %>
       <% frame_id = "#{sanitize params[:frame_id]}-#{@profiles.next_page}" %>
-      <%= render 'hot_select/load_more', page: @profiles.next_page, frame_id:, term: params[:term] %>
+      <%= render 'hot_select/load_more', page: @profiles.next_page, frame_id: %>
     <% end %>
   </div>
 </turbo-frame>

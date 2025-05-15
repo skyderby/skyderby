@@ -1,0 +1,4 @@
+<%= turbo_stream.append(
+  :toasts,
+  partial: 'toasts/toast',
+  locals: { message: t('profiles.merges.create.success') }) %>

@@ -32,20 +32,20 @@
     <%= link_to t('flight_profiles.title'), flight_profiles_path(profile_id: [profile.id]), class: 'page-tab' %>
 
     <% if @profile.belongs_to_user? && policy(@profile).masquerade? %>
-      <%= link_to new_user_masquerades_path(@profile.owner), class: 'page-tab page-tab-right' do %>
-        <i class="fa fa-magic"></i>
+      <%= button_to user_masquerades_path(@profile.owner), form: { class: 'page-tab-right' }, class: 'page-tab' do %>
+        <%= svg_icon 'wand-magic-sparkles-solid' %>
         Masquerade
       <% end %>
     <% end %>
 
     <% if policy(@profile).merge? %>
-      <%= link_to new_profile_merge_path(@profile), remote: true, class: 'page-tab' do %>
+      <%= link_to new_profile_merge_path(@profile), data: { turbo_stream: true }, class: 'page-tab' do %>
         Merge
       <% end %>
     <% end %>
 
     <% if policy(@profile).destroy? %>
-      <%= link_to t('general.delete'), @profile, method: :delete, remote: true, data: { confirm: 'Are you sure you want to delete this profile?' }, class: 'page-tab' %>
+      <%= link_to t('general.delete'), @profile, method: :delete, data: { turbo_confirm: 'Are you sure you want to delete this profile?' }, class: 'page-tab' %>
     <% end %>
 
     <% if policy(profile).edit? %>

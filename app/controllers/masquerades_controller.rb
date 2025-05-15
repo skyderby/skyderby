@@ -3,7 +3,7 @@ class MasqueradesController < ApplicationController
 
   before_action :authorize_admin
 
-  def new
+  def create
     session[:admin_id] = current_user.id
     user = User.find(params[:user_id])
     sign_in(user)

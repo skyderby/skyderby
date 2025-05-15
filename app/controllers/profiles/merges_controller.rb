@@ -3,25 +3,15 @@ module Profiles
     before_action :set_destination_profile
     before_action :authorize_action
 
-    def new
-      respond_to do |format|
-        format.js
-      end
-    end
+    def new; end
 
     def create
       source_profile = Profile.find(merge_params[:source_profile_id])
 
-      respond_to do |format|
-        if @destination_profile.merge_with(source_profile)
-          format.js
-        else
-          format.js do
-            render template: 'errors/ajax_errors',
-                   locals: { errors: @destination_profile.errors },
-                   status: :unprocessable_entity
-          end
-        end
+      if @destination_profile.merge_with(source_profile)
+        render
+      else
+        respond_with_errors @destination_profile
       end
     end
 

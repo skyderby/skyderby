@@ -3,10 +3,17 @@
 <%= tag.template **local_assigns do %>
   <div class="hot-select-dropdown" role="listbox">
     <turbo-frame id="hot-select-search">
+      <% query_params = URI.parse(src).then do |uri|
+           uri.query ? URI.decode_www_form(uri.query).to_h : {}
+         end
+      %>
       <%= form_with url: src,
                     class: 'hot-select-search-form',
                     method: :get, data: { controller: 'auto-submit', 'turbo-frame': select_id } do |f| %>
         <%= f.hidden_field :frame_id, value: select_id %>
+        <% query_params.except('term', 'frame_id', 'page').each do |key, value| %>
+          <%= f.hidden_field key, value: value %>
+        <% end %>
         <%= f.text_field :term, class: 'hot-select-search', placeholder: 'Search...',
                          data: { action: 'input->auto-submit#submit', 'hot-select-target': 'searchInput' } %>
       <% end %>

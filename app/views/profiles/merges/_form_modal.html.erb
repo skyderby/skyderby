@@ -1,32 +1,18 @@
-<div class="modal-dialog">
-  <div class="modal-content">
-    <%= form_for :profiles_merge, url: profile_merge_path(@destination_profile), remote: true, html: { class: 'profiles-merge__form form-horizontal' } do |f| %>
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-        <h4 class="modal-title"><%= t('.title') %></h4>
-      </div>
+<%= form_with model: nil, scope: :profiles_merge, url: profile_merge_path(@destination_profile),
+              data: { controller: 'profiles--merges-form modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :source_profile_id, class: 'form-label col-4' %>
+      <%= render 'hot_select/select', form: f, name: :source_profile_id, src: profiles_select_options_path(include_ids: true), options: [], class: 'col-8' %>
+    </div>
 
-      <div class="modal-body">
-        <div class="form-group">
-          <%= f.label :source_profile, class: 'control-label col-sm-4' %>
-          <div class="col-sm-8">
-            <%= f.select :source_profile_id, [], { include_blank: true }, placeholder: t('profiles.merges.form_modal.source_profile_placeholder'), class: 'form-control', 'data-controller': 'select2--profiles', 'data-with-ids': true %>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-sm-offset-4 col-sm-8">
-            <h4 class="help-block"><%= t '.description' %></h4>
-          </div>
-        </div>
-      </div>
+    <div class="help-text">
+      <%= t '.description' %>
+    </div>
 
-      <div class="modal-footer">
-        <%= f.submit t('general.save'), class: 'btn btn-primary' %>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
-      </div>
-    <% end %>
+    <div class="form-actions">
+      <%= f.submit t('general.save'), class: 'primary-button' %>
+      <button type="button" class="default-button" data-action="modal#close"><%= t 'general.cancel' %></button>
+    </div>
   </div>
-</div>
+<% end %>
