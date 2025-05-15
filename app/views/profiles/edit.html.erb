@@ -18,12 +18,13 @@
       <div class="form-group">
         <%= f.label :country, class: 'col-sm-2 control-label' %>
         <div class="col-sm-5">
-          <%= f.select :country_id,
-                       options_for_select([[@profile.country_name, @profile.country_id]], @profile.country_id),
-                       { include_blank: true },
-                       placeholder: 'Select country',
-                       class: 'form-control',
-                       'data-controller': 'select2--countries' %>
+          <% options = options_for_select([[@profile.country_name, @profile.country_id]]) %>
+          <%= render 'hot_select/select', 
+                     form: f, 
+                     name: :country_id, 
+                     options: options, 
+                     src: countries_select_options_path, 
+                     placeholder: 'Select country' %>
         </div>
       </div>
 
