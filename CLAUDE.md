@@ -17,17 +17,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Style Guidelines
 
+- 2 spaces for indentation
+
 ### Ruby
 - Line length 120 characters
-- 2 spaces for indentation
 
 ### JavaScript
 - SingleQuotes over DoubleQuotes
-- No semicolons at line ends
-- 2 spaces for indentation
+
 
 ### CSS
-- 2 spaces for indentation
+- Prefer CSS over SCSS
 
 ### Translations
 - Model translations should be in `config/locales/models/<model>.<locale>.yml`. No subfolders. 

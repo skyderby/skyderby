@@ -4,10 +4,12 @@
     <%= t('static_pages.index.desc') %>
   </div>
   <div class="index-header__cta">
-    <a class="btn btn-lg button--green-gradient button--shadow" href="#" data-toggle="modal" data-target="#newTrackModal">
-      <i class="fa fa-upload"></i>
+    <%= button_to new_track_file_path, method: :get,
+                  form: { data: { turbo_stream: true }},
+                  class: 'btn btn-lg button--green-gradient button--shadow' do %>
+      <%= svg_icon 'upload-solid' %>
       <%= t('application.header.upload_track') %>
-    </a>
+    <% end %>
   </div>
 </div>
 

@@ -15,7 +15,7 @@ en:
       select_free_fall_range: Select free fall range
       analyze: Analyze
       track_form:
-        title: See and analyze your track
+        title: Upload and Analyze Your Jump
         name_plh: John Doe
         suit_plh: Wingsuit model
         location_plh: Some DZ, some cliffs, etc

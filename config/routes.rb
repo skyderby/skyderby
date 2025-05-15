@@ -191,7 +191,7 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :track_files, only: [:create, :show] do
+  resources :track_files, only: %i[new create show] do
     scope module: :track_files do
       resource :track, only: :create
     end

@@ -4,9 +4,12 @@
   <ul class="nav-menu nav-menu--right nav-menu--desktop">
     <% if user_signed_in? %>
       <li>
-        <button class="upload-track-button" data-toggle="modal" data-target="#newTrackModal" title="<%= t('application.header.upload_track') %>">
+        <%= button_to new_track_file_path,
+                      method: :get,
+                      form: { data: { turbo_stream: true }, class: 'upload-track-button' },
+                      title: t('application.header.upload_track') do %>
           <%= svg_icon 'upload-solid' %>
-        </button>
+        <% end %>
       </li>
 
       <li class="sd-dropdown" data-controller="dropdown">
@@ -46,9 +49,12 @@
   <ul class="nav-menu--right nav-menu--mobile">
     <% if user_signed_in? %>
       <li>
-        <button class="upload-track-button" data-toggle="modal" data-target="#newTrackModal" title="<%= t('application.header.upload_track') %>">
+        <%= button_to new_track_file_path,
+                      method: :get,
+                      form: { data: { turbo_stream: true }, class: 'upload-track-button' },
+                      title: t('application.header.upload_track') do %>
           <%= svg_icon 'upload-solid' %>
-        </button>
+        <% end %>
       </li>
       <li class="nav-menu-item">
         <button class="app-navbar-button" data-action="click->mobile--header#toggle_notifications">

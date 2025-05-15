@@ -1,19 +1,21 @@
 class TrackFilesController < ApplicationController
+  def new; end
+
   def create
     authorize Track
 
     @track_file = Track::File.new(track_file_params)
 
     unless @track_file.save
-      render template: 'errors/ajax_errors',
-             locals: { errors: @track_file.errors }
+      respond_with_errors @track_file
       return
     end
 
     if @track_file.one_segment?
       @track = build_track
-
       current_user.tracks << @track.id unless current_user.registered?
+
+      redirect_to track_path(@track)
     else
       render :show
     end

@@ -155,14 +155,21 @@
 }
 
 .upload-track-button {
-  background-color: var(--blue-40);
-  color: var(--white);
+
   height: 100%;
   width: 60px;
   font-size: 1.25rem;
   border: 0;
 
-  &:hover {
+  button {
+    border: none;
+    color: var(--white);
+    height: 100%;
+    width: 100%;
+    background-color: var(--blue-40);
+  }
+
+  button:hover {
     background-color: var(--blue-60);
   }
 }

@@ -8,7 +8,7 @@
 
     <% if @jump_lines.next_page %>
       <% frame_id = "#{sanitize params[:frame_id]}-#{@jump_lines.next_page}" %>
-      <%= render 'hot_select/load_more', page: @jump_lines.next_page, frame_id:, term: params[:term] %>
+      <%= render 'hot_select/load_more', page: @jump_lines.next_page, frame_id: %>
     <% end %>
   </div>
 </turbo-frame>

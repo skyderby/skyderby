@@ -1,89 +1,108 @@
-<div class="modal fade" id="newTrackModal" tabindex="-1" role="dialog" data-controller="bootstrap-modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <%= form_for :track_file, url: track_files_path, remote: true, html: { multipart: true, class: 'form-horizontal', role: 'form', 'data-controller': 'tracks--form' } do |f| %>
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-          </button>
-          <h4 class="modal-title"><%= t 'static_pages.index.track_form.title' %></h4>
+<%= render 'components/modal', title: t('static_pages.index.track_form.title'), modal_size: 'md' do %>
+  <%= form_with scope: :track_file, url: track_files_path, multipart: true, class: 'sd-form', data: { controller: 'tracks--form' } do |f| %>
+
+    <%#= render 'concerns/upload_progress' %>
+
+    <% unless user_signed_in? %>
+      <%= f.fields_for :track_attributes do |builder| %>
+        <div class="grid">
+          <label class="form-label col-4"><%= t('activerecord.attributes.profile.name') %></label>
+          <%= builder.text_field :name, class: 'form-input col-8', placeholder: t('static_pages.index.track_form.name_plh'), value: recent_value(:name) %>
         </div>
+      <% end %>
+    <% end %>
 
-        <div class="modal-body">
-          <%= render 'concerns/upload_progress' %>
-
-          <%= f.fields_for :track_attributes do |builder| %>
-            <div class="form-group">
-              <%= builder.label :name, t('activerecord.attributes.track.name'), class: 'col-sm-3 control-label' %>
-              <div class="col-sm-9">
-                <% if user_signed_in? %>
-                  <p class="form-control-static"><%= current_user.profile.name %></p>
-                <% else %>
-                  <%= builder.text_field :name, class: 'form-control', placeholder: t('static_pages.index.track_form.name_plh'), type: 'text', value: recent_value(:name) %>
-                <% end %>
-              </div>
-            </div>
-
-            <% recent_suit_id = recent_value(:suit_id) %>
-            <% recent_suit_name = recent_value(:suit_name) %>
-            <% suit_mode = recent_suit_id || !recent_suit_name ? 'select' : 'text' %>
-            <div class="form-group" data-controller="tracks--suit-field" data-mode="<%= suit_mode %>">
-              <%= builder.label :suit, t('activerecord.attributes.track.suit'), class: 'col-sm-3 control-label' %>
-              <div class="col-sm-9">
-                <%= builder.select :suit_id, options_for_select([[suit_name_by_id(recent_suit_id), recent_suit_id]], recent_suit_id), { include_blank: true }, class: 'form-control new-track-suit-select suit-group', data: { controller: 'select2--suits', 'tracks--suit-field-target': 'select' } %>
-                <%= builder.text_field :missing_suit_name, class: 'form-control suit-group', placeholder: t('tracks.form.suit_text_placeholder'), value: recent_suit_name, data: { 'tracks--suit-field-target': 'text' } %>
-              </div>
-              <div class="col-sm-9 col-sm-offset-3">
-                <p class="help-block">
-                  <span data-tracks--suit-field-target="caption"><%= t('tracks.form.toggle_suit_caption') %></span>
-                  <a href="#" data-tracks--suit-field-target="link" data-action="tracks--suit-field#trigger"><%= t('tracks.form.toggle_suit_link') %></a>
-                </p>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <%= builder.label :location, t('activerecord.attributes.track.place'), class: 'col-sm-3 control-label' %>
-              <div class="col-sm-9">
-                <%= builder.text_field :location, class: 'form-control', placeholder: t('static_pages.index.track_form.location_plh'), type: 'text', value: recent_value(:location) %>
-              </div>
-            </div>
-
-            <%= render 'tracks/form/activity', form: builder %>
-            <%= render 'tracks/form/visibility', form: builder %>
-          <% end %>
-
-          <div class="form-group">
-            <%= f.label :file, class: 'col-sm-3 control-label' %>
-            <div class="col-sm-9">
-              <div class="input-group" data-controller="filefield">
-                <input type="text" class="form-control" readonly data-filefield-target="text_field">
-                <span class="input-group-btn">
-                  <span class="btn btn-default btn-file">
-                    &hellip;
-                    <%= f.file_field :file, accept: '.csv,.gpx,.tes,.kml', data: { 'filefield-target': 'file_field', action: 'change->filefield#change' } %>
-                  </span>
-                </span>
-              </div>
-              <p class="help-block"><%= t('static_pages.index.track_form.help') %></p>
-            </div>
+    <% recent_suit_id = recent_value(:suit_id) %>
+    <% recent_suit_name = recent_value(:suit_name) %>
+    <% suit_mode = recent_suit_id || !recent_suit_name ? 'select' : 'text' %>
+    <div class="grid" data-controller="tracks--suit-field" data-mode="<%= suit_mode %>">
+      <label class="form-label col-4"><%= t('activerecord.attributes.track.suit') %></label>
+      <div class="col-8">
+        <%= f.fields_for :track_attributes do |builder| %>
+          <div data-tracks--suit-field-target="select" class="col-8">
+            <%= render 'hot_select/select', form: builder, name: :suit_id, src: suits_select_options_path,
+                       placeholder: t('tracks.form.suit_select_placeholder'),
+                       select: { data: { 'tracks--suit-field-target': 'select' } } %>
           </div>
+          <%= builder.text_field :missing_suit_name,
+            class: 'form-input col-8',
+            placeholder: t('tracks.form.suit_text_placeholder'),
+            value: recent_suit_name,
+            data: { 'tracks--suit-field-target': 'text' }
+          %>
+          <div class="form-hint">
+            <span data-tracks--suit-field-target="caption"><%= t('tracks.form.toggle_suit_caption') %></span>
+            <a href="#" data-tracks--suit-field-target="link" data-action="tracks--suit-field#trigger"><%= t('tracks.form.toggle_suit_link') %></a>
+          </div>
+        <% end %>
+      </div>
+    </div>
 
-          <%= f.fields_for :track_attributes do |builder| %>
-            <div class="form-group">
-              <%= builder.label :comment, t('activerecord.attributes.track.comment'), class: 'col-sm-3 control-label' %>
-              <div class="col-sm-9">
-                <%= builder.text_area :comment, class: 'form-control', rows: 3, placeholder: t('static_pages.index.track_form.comment_plh') %>
-              </div>
-            </div>
-          <% end %>
-        </div>
+    <div class="grid">
+      <label class="form-label col-4"><%= t('activerecord.attributes.track.place') %></label>
+      <%= f.fields_for :track_attributes do |builder| %>
+        <%= builder.text_field :location, class: 'form-input col-8', placeholder: t('static_pages.index.track_form.location_plh'), value: recent_value(:location) %>
+      <% end %>
+    </div>
 
-        <div class="modal-footer">
-          <%= f.submit t('static_pages.index.track_form.submit'), class: 'btn btn-success' %>
-          <button type="button" class="btn btn-default" data-dismiss="modal"><%= t('general.cancel') %></button>
+    <div class="grid">
+      <label class="form-label col-4"><%= t('activerecord.attributes.track.kind') %></label>
+      <%= f.fields_for :track_attributes do |builder| %>
+        <% activity = recent_value(:activity) || 'skydive' %>
+        <div class="col-8">
+          <div class="tab-bar">
+            <label class="tab-bar-item">
+              <%= builder.radio_button :kind, 'skydive', checked: activity == 'skydive', class: 'tab-bar-radio' %>
+              <span>Skydive</span>
+            </label>
+            <label class="tab-bar-item">
+              <%= builder.radio_button :kind, 'base', checked: activity != 'skydive', class: 'tab-bar-radio' %>
+              <span>B.A.S.E</span>
+            </label>
+          </div>
         </div>
       <% end %>
     </div>
-  </div>
-</div>
+
+    <% if user_signed_in? %>
+      <div class="grid">
+        <label class="form-label col-4"><%= t('tracks.edit.visibility') %></label>
+        <%= f.fields_for :track_attributes do |builder| %>
+          <% visibility = recent_value(:visibility).presence || 'public_track' %>
+          <div class="col-8">
+            <div class="tab-bar">
+              <% %w[public unlisted private].each do |visibility_name| %>
+                <% current_value = "#{visibility_name}_track" %>
+                <% active = visibility == current_value %>
+                <label class="tab-bar-item">
+                  <%= builder.radio_button 'visibility', current_value, checked: active, class: 'tab-bar-radio' %>
+                  <span><%= t("visibility.#{visibility_name}") %></span>
+                </label>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="grid">
+      <label class="form-label col-4"><%= t('activerecord.attributes.track_file.file') %></label>
+      <div class="col-8">
+        <%= f.file_field :file, class: 'form-input', accept: '.csv,.gpx,.tes,.kml' %>
+        <div class="form-hint"><%= t('static_pages.index.track_form.help') %></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <label class="form-label col-4"><%= t('activerecord.attributes.track.comment') %></label>
+      <%= f.fields_for :track_attributes do |builder| %>
+        <%= builder.text_area :comment, class: 'form-input col-8', rows: 3, placeholder: t('static_pages.index.track_form.comment_plh') %>
+      <% end %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit t('static_pages.index.track_form.submit'), class: 'primary-button' %>
+      <button type="button" class="default-button" data-action="modal#close"><%= t('general.cancel') %></button>
+    </div>
+  <% end %>
+<% end %>
