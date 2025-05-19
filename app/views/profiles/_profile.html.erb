@@ -5,13 +5,16 @@
   <td><%= profile.country_code %></td>
   <td>
     <% if profile.belongs_to_user? %>
-      <i class="fa fa-user"></i>
+      <%= svg_icon 'user-solid' %>
     <% end %>
   </td>
-  <td><%= link_to 'Show', profile_path(profile) %></td>
   <td>
+    <%= link_to 'Show', profile_path(profile), class: 'ghost-button small-button' %>
     <% if current_user.admin? && profile.owner && profile.belongs_to_user? %>
-      <%= link_to 'Masquerade', new_user_masquerades_path(profile.owner) %>
+      <%= button_to user_masquerades_path(profile.owner), class: 'ghost-button small-button' do %>
+        <%= svg_icon 'wand-magic-sparkles-solid' %>
+        Masquerade
+      <% end %>
     <% end %>
   </td>
 </tr>

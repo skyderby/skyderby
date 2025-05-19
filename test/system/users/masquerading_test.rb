@@ -7,7 +7,7 @@ class MasqueradingTest < ApplicationSystemTestCase
 
     sign_in admin
     visit profile_path(user.profile)
-    click_link 'Masquerade'
+    click_button 'Masquerade'
 
     assert_text 'Now masquerading as'
   end
