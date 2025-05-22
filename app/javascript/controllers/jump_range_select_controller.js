@@ -1,21 +1,22 @@
 import { Controller } from '@hotwired/stimulus'
+import RangeSlider from '../RangeSlider'
 
 export default class extends Controller {
   connect() {
-    const max_value = parseInt(this.element.getAttribute('data-max-value'))
+    const maxValue = parseInt(this.element.dataset.maxValue)
 
-    $(this.element).ionRangeSlider({
+    this.element.rangeSlider = new RangeSlider(this.element, {
       min: 0,
-      max: max_value,
+      max: maxValue,
       type: 'double',
       step: 1,
       prettify: false,
       hasGrid: true,
-      onChange: object => {
+      onChange: data => {
         const event = new CustomEvent('change', {
           detail: {
-            from: object.fromNumber,
-            to: object.toNumber
+            from: data.fromNumber,
+            to: data.toNumber
           },
           bubbles: true
         })
@@ -27,9 +28,13 @@ export default class extends Controller {
     document.addEventListener(
       'turbo:before-cache',
       () => {
-        $(this.element).ionRangeSlider('remove')
+        this.element.rangeSlider?.remove()
       },
       { once: true }
     )
+  }
+
+  disconnect() {
+    this.element.rangeSlider?.remove()
   }
 }
