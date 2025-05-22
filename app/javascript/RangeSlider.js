@@ -1,3 +1,8 @@
+/*
+Based on Ion.RangeSlider by Denis Ineshin
+https://github.com/IonDen/ion.rangeSlider
+*/
+
 class RangeSlider {
   static pluginCount = 0
   static currentSlider = null

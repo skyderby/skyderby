@@ -1,6 +1,4 @@
 /*
- *= require ion.rangeSlider
- *= require ion.rangeSlider.skinFlat
  *= require select2-bootstrap
 */
 
@@ -47,6 +45,7 @@
 @import '../navbar';
 @import '../explorer_layout';
 @import '../hot_select';
+@import '../range_slider';
 
 @import 'variables';
 @import '**/*';
