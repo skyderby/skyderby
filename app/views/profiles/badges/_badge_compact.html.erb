@@ -1,4 +1,4 @@
-<div class="achievement">
+<div class="achievement" data-controller="tooltip" data-tooltip="<%= badge.name %> <% badge.comment %>">
   <div class="achievement__icon <%= "achievement--#{badge.category}" %> <%= "achievement--#{badge.kind}" if badge.kind %>">
     <% case badge.category %>
     <% when 'sponsor' %>
@@ -11,12 +11,6 @@
       <%= svg_icon 'star-solid' %>
     <% when 'skyderby' %>
       <%= svg_icon 'rocket-outline' %>
-    <% end %>
-  </div>
-  <div class="achievement__text <%= 'achievement--no-subtext' unless badge.comment.present? %>">
-    <%= badge.name %>
-    <% if badge.comment %>
-      <span><%= badge.comment %></span>
     <% end %>
   </div>
 </div>

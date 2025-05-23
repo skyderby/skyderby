@@ -1,0 +1,115 @@
+.profiles-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem 2rem;
+  padding: 0 1rem;
+
+  @media (min-width: 576px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.profile-card {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--white);
+  box-shadow: var(--block-box-shadow);
+}
+
+.profile-card-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-card-image img {
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  @media (min-width: 576px) {
+    height: 100px;
+    width: 100px;
+  }
+}
+
+.profile-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--gray-80);
+
+}
+
+.profile-card-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.profile-card-badges {
+  display: flex;
+  margin-right: 1rem;
+}
+
+.profile-card-badges .achievement {
+  margin-left: -1.125rem;
+  transition: transform 0.25s ease-in-out;
+}
+
+.profile-card-badges .achievement:hover {
+  transform: translateY(-5px);
+}
+
+.profile-card-badges .achievement__icon {
+  height: 1.75rem;
+  width: 1.75rem;
+
+  svg {
+    height: 1rem;
+    width: 1rem;
+  }
+}
+
+.profile-card-badges .achievement:first-child {
+  margin-left: 0;
+}
+
+.profile-card-badges .achievement:nth-child(n+1) {
+  position: relative;
+  z-index: calc(20 - var(--index));
+}
+
+.profile-card-badges .achievement:nth-child(1) { --index: 1; }
+.profile-card-badges .achievement:nth-child(2) { --index: 2; }
+.profile-card-badges .achievement:nth-child(3) { --index: 3; }
+.profile-card-badges .achievement:nth-child(4) { --index: 4; }
+.profile-card-badges .achievement:nth-child(5) { --index: 5; }
+.profile-card-badges .achievement:nth-child(6) { --index: 6; }
+.profile-card-badges .achievement:nth-child(7) { --index: 7; }
+.profile-card-badges .achievement:nth-child(8) { --index: 8; }
+.profile-card-badges .achievement:nth-child(9) { --index: 9; }
+.profile-card-badges .achievement:nth-child(10) { --index: 10; }
+.profile-card-badges .achievement:nth-child(11) { --index: 11; }
+.profile-card-badges .achievement:nth-child(12) { --index: 12; }
+.profile-card-badges .achievement:nth-child(13) { --index: 13; }
+.profile-card-badges .achievement:nth-child(14) { --index: 14; }
+.profile-card-badges .achievement:nth-child(15) { --index: 15; }
+.profile-card-badges .achievement:nth-child(16) { --index: 16; }
+.profile-card-badges .achievement:nth-child(17) { --index: 17; }
+.profile-card-badges .achievement:nth-child(18) { --index: 18; }
+.profile-card-badges .achievement:nth-child(19) { --index: 19; }
+.profile-card-badges .achievement:nth-child(20) { --index: 20; }

@@ -1,13 +1,13 @@
 .profile-badges {
   display: flex;
   flex-wrap: wrap;
+  gap: 1rem;
   margin-bottom: 20px;
 }
 
 .achievement {
   display: inline-flex;
   position: relative;
-  margin: 0 1rem 1rem 0;
   align-items: center;
 }
 

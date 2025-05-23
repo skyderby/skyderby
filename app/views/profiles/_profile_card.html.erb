@@ -1,0 +1,30 @@
+<%# locals: (profile:) %>
+
+<%= link_to profile_path(profile), class: 'profile-card' do %>
+  <div class="profile-card-image">
+    <%= image_tag profile.userpic_url(:medium), alt: "#{profile.name} photo" %>
+  </div>
+  <div class="profile-card-content">
+    <span class="profile-card-title">
+      <span class="<%= 'contributor' if profile.contributor? %>">
+        <%= profile.name %>
+      </span>
+    </span>
+    <div class="profile-card-pills">
+      <% if profile.skydive_count.positive? %>
+        <div class="pill pill-blue-gray">Skydive: <%= profile.skydive_count %></div>
+      <% end %>
+      <% if profile.base_count.positive? %>
+        <div class="pill pill-green">BASE: <%= profile.base_count %></div>
+      <% end %>
+      <% if profile.speed_count.positive? %>
+        <div class="pill pill-blue">Speed: <%= profile.speed_count %></div>
+      <% end %>
+    </div>
+    <% if profile.badges.any? %>
+      <div class="profile-card-badges">
+        <%= render partial: 'profiles/badges/badge_compact', collection: profile.badges, as: :badge %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

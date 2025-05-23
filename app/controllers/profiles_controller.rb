@@ -4,18 +4,26 @@ class ProfilesController < ApplicationController
   def index
     authorize Profile
 
-    @profiles =
-      Profile
-      .includes(:country, :owner)
-      .search(params[:search])
-      .order(:name)
-      .paginate(page:, per_page: 25)
+    display_profiles =
+      if index_params[:query].present?
+        Profile.search(params[:query]).order(:name).limit(6)
+      else
+        profiles_with_video =
+          Track.joins(:video, :pilot).select(:profile_id)
+        Profile.where(id: profiles_with_video).order('random()').limit(6)
+      end
 
-    respond_to do |format|
-      format.html
-      format.js
-      format.json
-    end
+    @profiles =
+      display_profiles
+      .select(
+        'profiles.*',
+        "COUNT(tracks.id) FILTER (where tracks.kind = #{Track.kinds[:skydive]}) as skydive_count",
+        "COUNT(tracks.id) FILTER (where tracks.kind = #{Track.kinds[:base]}) as base_count",
+        "COUNT(tracks.id) FILTER (where tracks.kind = #{Track.kinds[:speed_skydiving]}) as speed_count"
+      )
+      .left_joins(:tracks)
+      .group('profiles.id')
+      .includes(:country, :owner, :badges, :contributions)
   end
 
   def show
@@ -80,4 +88,7 @@ class ProfilesController < ApplicationController
   def profile_params
     params.require(:profile).permit(:name, :userpic, :country_id)
   end
+
+  def index_params = params.permit(:query)
+  helper_method :index_params
 end

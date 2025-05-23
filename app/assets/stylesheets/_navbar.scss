@@ -50,10 +50,11 @@
   display: flex;
   align-items: center;
 
-  a {
+  a, button {
     color: var(--white);
     display: flex;
-    flex-direction: column;
+    background-color: transparent;
+    border: none;
     flex-grow: 1;
     font-size: 0.875rem;
     justify-content: space-around;
@@ -69,7 +70,7 @@
 }
 
 .nav-menu-item--active {
-  a {
+  a, button.dropdown-toggle {
     color: var(--blue-30);
   }
 

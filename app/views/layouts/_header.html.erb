@@ -129,6 +129,20 @@
         <% end %>
       </li>
 
+      <li class="main-menu__item <%= 'active' if root_controller == 'profiles' %>">
+        <%= link_to profiles_path do %>
+          <%= svg_icon 'user-solid' %>
+          <%= t('application.header.profiles') %>
+        <% end %>
+      </li>
+
+      <li class="main-menu__item <%= 'active' if root_controller == 'places' %>">
+        <%= link_to suits_path do %>
+          <%= svg_icon 'wingsuit' %>
+          <%= t('application.header.suits') %>
+        <% end %>
+      </li>
+
       <% unless user_signed_in? %>
         <li class="main-menu__item main-menu--login">
           <%= link_to t('application.header.sign_in'), new_user_session_path %>

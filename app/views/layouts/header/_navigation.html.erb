@@ -17,7 +17,19 @@
   <li class="nav-menu-item <%= 'nav-menu-item--active' if root_controller == 'flight_profiles' %>">
     <%= link_to t('application.header.flight_profiles'), flight_profiles_path %>
   </li>
-  <li class="nav-menu-item <%= 'nav-menu-item--active' if root_controller == 'places' %>">
-    <%= link_to t('application.header.places'), places_path %>
+  <li class="sd-dropdown nav-menu-item" data-controller="dropdown">
+    <button class="dropdown-toggle" data-action="dropdown#toggle">
+      <%= t('application.header.explore') %>
+      &nbsp;
+      <%= svg_icon 'angle-down-solid' %>
+    </button>
+
+    <template data-dropdown-target="menu">
+      <div class="sd-dropdown-menu">
+        <%= link_to t('application.header.places'), places_path, class: class_names('dropdown-item', root_controller == 'places' && 'active') %>
+        <%= link_to t('application.header.profiles'), profiles_path, class: class_names('dropdown-item', root_controller == 'profiles' && 'active') %>
+        <%= link_to t('application.header.suits'), suits_path, class: class_names('dropdown-item', root_controller == 'suits' && 'active') %>
+      </div>
+    </template>
   </li>
 </ul>

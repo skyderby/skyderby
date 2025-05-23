@@ -27,3 +27,11 @@
   color: var(--gray-70);
   font-weight: 500;
 }
+
+.contributor {
+  font-weight: 500;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(90deg, var(--red-50), var(--blue-gray-70));
+  color: transparent;
+}
