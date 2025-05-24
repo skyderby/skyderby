@@ -1,12 +1,12 @@
 .track-indicators {
   display: grid;
-  grid-gap: 2rem 1.5rem;
+  grid-gap: 1.5rem 0.75rem;
   grid-template-columns: 1fr 1fr;
   justify-content: space-around;
   justify-items: center;
 
   @media (min-width: 576px) {
-    grid-gap: 1rem;
+    grid-gap: 2rem 1.5rem;
     grid-template-columns: 1fr 1fr 1fr;
     justify-content: space-evenly;
   }
@@ -108,8 +108,12 @@
 }
 
 .track-indicator-value {
-  font-size: 2.25rem;
+  font-size: 2rem;
   color: var(--gray-80);
+
+  @media (min-width: 576px) {
+    font-size: 2.25rem;
+  }
 }
 
 .track-indicator-info {
@@ -117,7 +121,11 @@
 }
 
 .track-indicator-units {
-  font-size: 1.75rem;
+  font-size: 1.25rem;
+
+  @media (min-width: 576px) {
+    font-size: 1.75rem;
+  }
 }
 
 .track-indicator-minmax-value {

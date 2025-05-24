@@ -55,7 +55,7 @@ Rails.application.configure do
   config.assets.digest = false
 
   # Raises error for missing translations
-  config.i18n.raise_on_missing_translations = true
+  config.i18n.raise_on_missing_translations = false
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.

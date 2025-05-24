@@ -1,9 +1,9 @@
 <% provide :title, title(@track) %>
 
-<div class="container">
+<div class="show-page">
   <%= render partial: 'tracks/header', locals: { track: @track } %>
 
-  <div class="content-block content-block--bordered">
+  <div class="track-show-content">
     <h2><%= t '.header' %></h2>
     <%= render 'form' %>
   </div>

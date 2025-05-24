@@ -50,7 +50,7 @@
   display: flex;
   align-items: center;
 
-  a, button {
+  a, button:not(.app-navbar-button) {
     color: var(--white);
     display: flex;
     background-color: transparent;

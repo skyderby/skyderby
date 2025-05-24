@@ -1,15 +1,14 @@
-
 .comp-list-item {
   display: flex;
+  background-color: var(--white);
   border: var(--default-border);
   border-radius: var(--border-radius-md);
   padding: 1rem 1.5rem;
   gap: 1rem;
   transition-timing-function: ease-in-out;
-  transition-duration: 200;
+  transition-duration: 200ms;
   transition-property: background-color;
-
-  position: relative;
+  overflow: hidden;
 
   &:hover {
     background-color: var(--gray-10);
@@ -23,21 +22,36 @@
 
   .event-name {
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 1.5rem;
+    gap: 0.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1.25rem;
     color: var(--gray-80);
     font-weight: 500;
+    overflow: hidden;
+
+    @media (min-width: 576px) {
+      flex-direction: row;
+      font-size: 1.5rem;
+      gap: 1rem;
+      align-items: center;
+    }
   }
 
   .event-info {
     font-family: var(--secondary-font);
     font-weight: 500;
     display: flex;
-    gap: 2rem;
+    flex-direction: column;
+    gap: 0.25rem;
     color: var(--gray-70);
     font-size: 0.875rem;
     line-height: 1.3;
+
+    @media (min-width: 576px) {
+      flex-direction: row;
+      gap: 2rem;
+    }
   }
 
   .event-labels {
