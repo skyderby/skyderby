@@ -639,8 +639,8 @@ class RangeSlider {
       const maxPostfix =
         this.numbers.fromNumber === this.settings.max ? this.settings.maxPostfix : ''
 
-      this.fields.from.style.display = 'none'
-      this.fields.to.style.display = 'none'
+      this.fields.from.style.visibility = 'hidden'
+      this.fields.to.style.visibility = 'hidden'
 
       const singleText = this.allowValues
         ? this.settings.prefix +
@@ -660,12 +660,12 @@ class RangeSlider {
       this.fields.single.style.left = singleX + 'px'
 
       if (!this.settings.hideMinMax && !this.settings.hideFromTo) {
-        this.fields.min.style.display =
-          singleX < this.dimensions.fieldMinWidth ? 'none' : 'block'
-        this.fields.max.style.display =
+        this.fields.min.style.visibility =
+          singleX < this.dimensions.fieldMinWidth ? 'hidden' : 'visible'
+        this.fields.max.style.visibility =
           singleX + singleWidth > normalWidth - this.dimensions.fieldMaxWidth
-            ? 'none'
-            : 'block'
+            ? 'hidden'
+            : 'visible'
       }
 
       this.element.value = this.numbers.fromNumber.toString()
@@ -721,22 +721,21 @@ class RangeSlider {
       this.fields.to.style.left = toX + 'px'
 
       const singleWidth = this.fields.single.offsetWidth
-      let singleX =
-        this.numbers.fromX +
-        (this.numbers.toX - this.numbers.fromX) / 2 -
-        singleWidth / 2 +
-        sliderWidth
+      // Calculate the center position between the two handles, accounting for slider width
+      const centerX = this.numbers.fromX + (this.numbers.toX - this.numbers.fromX) / 2
+      // Position the single field centered on that point, with slider width offset
+      let singleX = centerX - singleWidth / 2 + sliderWidth
       singleX = Math.max(0, Math.min(normalWidth - singleWidth, singleX))
       this.fields.single.style.left = singleX + 'px'
 
       if (fromX + fromWidth < toX) {
-        this.fields.single.style.display = 'none'
-        this.fields.from.style.display = 'block'
-        this.fields.to.style.display = 'block'
+        this.fields.single.style.visibility = 'hidden'
+        this.fields.from.style.visibility = 'visible'
+        this.fields.to.style.visibility = 'visible'
       } else {
-        this.fields.single.style.display = 'block'
-        this.fields.from.style.display = 'none'
-        this.fields.to.style.display = 'none'
+        this.fields.single.style.visibility = 'visible'
+        this.fields.from.style.visibility = 'hidden'
+        this.fields.to.style.visibility = 'hidden'
       }
 
       if (!this.settings.hideMinMax && !this.settings.hideFromTo) {
@@ -746,8 +745,8 @@ class RangeSlider {
           singleX + singleWidth > normalWidth - this.dimensions.fieldMaxWidth ||
           toX + toWidth > normalWidth - this.dimensions.fieldMaxWidth
 
-        this.fields.min.style.display = minHidden ? 'none' : 'block'
-        this.fields.max.style.display = maxHidden ? 'none' : 'block'
+        this.fields.min.style.visibility = minHidden ? 'hidden' : 'visible'
+        this.fields.max.style.visibility = maxHidden ? 'hidden' : 'visible'
       }
 
       this.element.value = `${this.numbers.fromNumber};${this.numbers.toNumber}`
