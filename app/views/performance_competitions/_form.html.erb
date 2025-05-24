@@ -1,4 +1,5 @@
-<%= form_with model: @event, url: '/events/performance', html: { class: 'form-horizontal', role: 'form', id: "#{action_name}_event_form"} do |f| %>
+<% url = @event.new_record? ? '/events/performance' : event_path(@event) %>
+<%= form_with model: @event, html: { class: 'form-horizontal', role: 'form', id: "#{action_name}_event_form"} do |f| %>
   <div class="sd-form">
     <div class="grid">
       <%= f.label :name, class: 'form-label col-4' %>
@@ -60,6 +61,11 @@
   <hr>
   <div class="text-right">
     <%= f.submit t('general.save'), class: 'primary-button' %>
-    <%= link_to t('general.cancel'), new_event_path, class: 'default-button' %>
+
+    <% if @event.new_record? %>
+      <%= link_to t('general.cancel'), new_event_path, class: 'default-button' %>
+    <% else %>
+      <%= link_to t('general.cancel'), event_path(@event), class: 'default-button' %>
+    <% end %>
   </div>
 <% end %>

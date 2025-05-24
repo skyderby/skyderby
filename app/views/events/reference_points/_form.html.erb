@@ -1,0 +1,54 @@
+<%# locals: (reference_point:, event:) %>
+<% event_editable = event.editable? %>
+<% editable = event_editable && reference_point.assignments.none? %>
+
+<%= form_with model: reference_point,
+              url: event_reference_point_path(event, reference_point),
+              scope: :reference_point,
+              class: 'reference-points-row',
+              id: dom_id(reference_point),
+              data: {
+                readonly: !editable,
+                controller: 'events--reference-point',
+                'events--reference-point-events--reference-points-map-outlet': '.reference-points-map'
+              } do |f| %>
+  <div>
+    <%= f.text_field :name,
+                     disabled: !editable,
+                     data: {
+                       'events--reference-point-target': 'name',
+                       action: 'events--reference-point#onNameChange'
+                     } %>
+  </div>
+  <div>
+    <%= f.text_field :latitude,
+                     disabled: !editable,
+                     data: {
+                       'events--reference-point-target': 'latitude',
+                       action: 'events--reference-point#onPositionChange'
+                     } %>
+  </div>
+  <div>
+    <%= f.text_field :longitude,
+                     disabled: !editable,
+                     data: {
+                       'events--reference-point-target': 'longitude',
+                       action: 'events--reference-point#onPositionChange'
+                     } %>
+  </div>
+
+  <div class="reference-point-actions">
+    <% if editable %>
+      <%= link_to event_reference_point_path(event, reference_point),
+                  method: :delete,
+                  data: { confirm: 'Are you sure you want to delete this reference point?' },
+                  class: 'ghost-button' do %>
+        <%= svg_icon 'xmark' %>
+      <% end %>
+    <% elsif event_editable && reference_point.assignments.any? %>
+      <span data-controller="tooltip" data-tooltip="Cannot change this reference point as it is assigned to competitors">
+        <%= svg_icon 'lock-solid' %>
+      </span>
+    <% end %>
+  </div>
+<% end %>

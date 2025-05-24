@@ -1,0 +1,46 @@
+<% provide :title, @event.name %>
+<% editable = @event.editable? %>
+
+<div class="show-page">
+  <%= render 'events/header', editable: %>
+
+  <div class="card reference-points">
+    <div class="reference-points-map"
+         data-controller="events--reference-points-map"
+         data-center-lat="<%= @event.place.latitude %>"
+         data-center-lon="<%= @event.place.longitude %>">
+    </div>
+
+    <div class="reference-points-list">
+      <div class="reference-points-actions">
+        <%= button_to event_reference_points_path(@event), class: 'default-button' do %>
+          <%= svg_icon 'plus-solid' %>
+          <%= t('general.create') %>
+        <% end %>
+      </div>
+      <div class="reference-points-table" id="reference-points-table">
+        <div class="reference-points-table-header">
+          <div><%= t('activerecord.attributes.reference_point.name') %></div>
+          <div><%= t('activerecord.attributes.reference_point.latitude') %></div>
+          <div><%= t('activerecord.attributes.reference_point.longitude') %></div>
+          <div></div>
+        </div>
+
+        <%= render partial: 'form', collection: @reference_points, as: :reference_point, locals: { event: @event } %>
+      </div>
+
+      <div>
+        <%= form_with model: @event, url: event_designated_lane_start_path(@event), data: { controller: 'auto-submit', action: 'change->auto-submit#submit' } do |f| %>
+          <%= f.label :designated_lane_start_on_10_sec, class: 'ghost-button' do %>
+            <%= f.radio_button :designated_lane_start, :on_10_sec, disabled: !editable %>
+            <%= t "activerecord.attributes.event.designated_lane_starts.on_10_sec" %>
+          <% end %>
+          <%= f.label :designated_lane_start_on_enter_window, class: 'ghost-button' do %>
+            <%= f.radio_button :designated_lane_start, :on_enter_window, disabled: !editable %>
+            <%= t "activerecord.attributes.event.designated_lane_starts.on_enter_window" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
