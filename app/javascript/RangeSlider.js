@@ -678,9 +678,11 @@ class RangeSlider {
       const fromText = this.allowValues
         ? this.settings.prefix +
           this.settings.values[this.numbers.fromNumber] +
+          fromMaxPostfix +
           this.settings.postfix
         : this.settings.prefix +
           this.prettify(this.numbers.fromNumber) +
+          fromMaxPostfix +
           this.settings.postfix
 
       const toText = this.allowValues
