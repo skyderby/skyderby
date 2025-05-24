@@ -2,6 +2,7 @@
   margin: 4rem auto;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 
@@ -18,40 +19,29 @@
   h2 {
     text-align: center;
     text-transform: uppercase;
-    font-family: "Proxima Nova Semibold";
+    font-weight: 500;
     color: #646464;
     padding-bottom: 1rem;
     margin: 0;
     border-bottom: 1px solid #ccc;
-    font-size: 2.5rem;
-
-    @media (min-width: 767px) {
-      font-size: 1.5rem;
-      padding-bottom: 0.5rem;
-    }
+    font-size: 1.5rem;
+    padding-bottom: 0.5rem;
   }
 
   h3 {
-    font-family: "Proxima Nova Semibold";
-    font-size: 1.75rem;
-
-    @media (min-width: 767px) {
-      font-size: 1.25rem;
-    }
+    font-size: 1.25rem;
   }
 
   .contributors-list {
     display: flex;
+    gap: 0.5rem;
     flex-wrap: wrap;
     align-items: center;
   }
 
-  .contributor {
+  .contributor-list-item {
     display: flex;
     align-items: center;
-
-    margin-right: 1rem;
-    margin-bottom: 1rem;
 
     img {
       height: 2.5rem;
@@ -67,10 +57,21 @@
       height: 2rem;
       padding-right: 1rem;
       padding-left: 2rem;
-      background-color: rgb(248, 243, 212);
-      color: #956406;
+      border: var(--default-border);
       margin-left: -2rem;
       line-height: 2rem;
+    }
+
+    &.active {
+      .contributor-name {
+        background-color: var(--yellow-10);
+        border-color: var(--yellow-40);
+        box-shadow: 0 0 6px 3px var(--yellow-10);
+      }
+
+      img {
+        box-shadow: 0 0 4px 2px var(--yellow-30);
+      }
     }
   }
 
@@ -79,4 +80,12 @@
     padding: 1rem 0 0.5rem;
     text-align: center;
   }
+}
+
+.contributor {
+  font-weight: 500;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(90deg, var(--red-50), var(--blue-gray-70));
+  color: transparent;
 }

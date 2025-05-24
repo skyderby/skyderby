@@ -11,9 +11,11 @@
     <% if contributions.number_of_contributions_this_month.positive? %>
       <div class="contributors-list">
         <% contributions.this_month_contributors.each do |detail| %>
-        <div class="contributor">
+        <div class="contributor-list-item  <%= detail.profile == Current.profile ? 'active' : '' %>">
           <img src="<%= detail.profile.userpic_url(:thumb) %>" />
-          <div class="contributor-name"><%= detail.profile.name %></div>
+          <div class="contributor-name">
+            <span class="contributor"><%= detail.profile.name %></span>
+          </div>
         </div>
         <% end %>
       </div>
@@ -21,12 +23,14 @@
   <h3>Along with previously received from:</h3>
   <div class="contributors-list">
     <% contributions.sample_of_previous_contributions.each do |detail| %>
-      <div class="contributor">
+      <div class="contributor-list-item  <%= detail.profile == Current.profile ? 'active' : '' %>">
         <img src="<%= detail.profile.userpic_url(:thumb) %>" />
-        <div class="contributor-name"><%= detail.profile.name %></div>
+        <div class="contributor-name">
+          <span class="contributor"><%= detail.profile.name %></span>
+        </div>
       </div>
     <% end %>
-    <div class="contributor">and more...</div>
+    <div class="contributor-list-item">and more...</div>
   </div>
   <div class="contributors-footer">
     <a href="https://www.paypal.me/AleksandrKuninUAE" class="btn nav-menu-cta nav-menu-cta--primary" target="_blank" rel="nofollow noopener">

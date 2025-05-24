@@ -5,7 +5,7 @@ class StaticPagesController < ApplicationController
 
     if Current.user.admin?
       @dashboard = Current.user.dashboard
-      render :dashboard
+      # render :dashboard
     else
       render
     end
