@@ -1,7 +1,8 @@
 class Events::DesignatedLaneStartsController < ApplicationController
-  include PerformanceCompetitionScoped
+  include EventScoped
 
-  before_action :authorize_event_update!
+  before_action :set_event
+  before_action :authorize_event
 
   def update
     if @event.update(dl_params)
@@ -14,6 +15,6 @@ class Events::DesignatedLaneStartsController < ApplicationController
   private
 
   def dl_params
-    params.require(:performance_competition).permit(:designated_lane_start)
+    params.require(:event).permit(:designated_lane_start)
   end
 end
