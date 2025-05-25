@@ -1,4 +1,4 @@
-<%# locals: (event:, round:, editable: false) %>
+<%# locals: (event:, standings:, round:, editable: false) %>
 
 <th class="round">
   <div
@@ -10,7 +10,7 @@
       data-tooltip="<%= t('events.rounds.mark_completed_tooltip') %>"
     <% end %>
   >
-    <% if round.completed %>
+    <% if standings.completed_rounds.include?(round) %>
       <%= svg_icon 'circle-check-regular', class: 'round-completed' %>
     <% elsif editable %>
       <%= svg_icon 'circle-regular', class: 'round-not-completed-icon' %>

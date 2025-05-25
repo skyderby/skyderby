@@ -1,7 +1,14 @@
-<%# locals(event:, round:, competitor:, result:, editable:) %>
+<%# locals(event:, standings:, round:, competitor:, result:, editable:) %>
 
-<td class="result-cell">
-  <% if result %>
+<% time_machine = standings.until_round.present? %>
+<% show_result = !time_machine || standings.completed_rounds.include?(round) %>
+
+<td class="result-cell"
+  <% if show_result && result %>
+    data-created-at="<%= result.created_at.iso8601 %>"
+  <% end %>
+>
+  <% if show_result && result %>
     <%= button_to speed_skydiving_competition_result_path(event, result),
                   method: :get, form: { data: { turbo_stream: true }, class: 'result-show-cell' } do %>
       <% if result.penalized? %>
@@ -13,7 +20,7 @@
         <%= result.final_result.round(2) %>
       <% end %>
     <% end %>
-  <% elsif editable %>
+  <% elsif !time_machine && editable %>
     <%= button_to new_speed_skydiving_competition_result_path(event),
                   params: { round_id: round.id, competitor_id: competitor.id },
                   method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } do %>

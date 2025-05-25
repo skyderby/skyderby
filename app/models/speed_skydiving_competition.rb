@@ -25,7 +25,7 @@ class SpeedSkydivingCompetition < ApplicationRecord
 
   def active? = starts_at < Time.zone.now && !finished?
 
-  def standings = Scoreboard.new(self)
+  def standings(until_round: nil) = Scoreboard.new(self, until_round:)
 
   def open_standings = OpenScoreboard.new(self)
 

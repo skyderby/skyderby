@@ -22,7 +22,9 @@ class SpeedSkydivingCompetitionsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @standings = @event.standings(until_round: params[:until_round]&.to_i)
+  end
 
   def edit; end
 

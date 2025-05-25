@@ -1,0 +1,24 @@
+<%# locals: (event:, until_round:) %>
+<div class="actions-bar card replay-controls" id="replay-controls" data-controller="replay-scoreboard">
+  <div class="replay-controls-inner">
+    <button class="replay-button primary-button"
+            data-action="click->replay-scoreboard#play"
+            data-replay-scoreboard-target="playButton">
+      <%= svg_icon 'play-solid' %>
+      <span>Play</span>
+    </button>
+
+    <div class="rounds-timeline">
+      <%= link_to 'Start', speed_skydiving_competition_path(event, until_round: 0), class: class_names('ghost-button', until_round == 0 && 'active') %>
+      <span><%= svg_icon 'angle-right-solid' %></span>
+      <% event.rounds.ordered.each_with_index do |round, index| %>
+        <%= link_to "R#{round.number}", speed_skydiving_competition_path(event, until_round: round.number), class: class_names('ghost-button', round.number == until_round && 'active') %>
+
+        <% if index < event.rounds.ordered.size - 1 %>
+          <span><%= svg_icon 'angle-right-solid' %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <%= link_to 'Time Machine OFF', speed_skydiving_competition_path(event) %>
+</div>

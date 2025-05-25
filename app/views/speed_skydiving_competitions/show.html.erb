@@ -7,13 +7,17 @@
 <div class="show-page">
   <%= render 'header', editable: %>
 
-  <div class="show-page-content">
-    <%= render 'actions_bar', event: @event if editable %>
+  <div class="show-page-content" data-controller="replay-scoreboard">
+    <% if params[:until_round].present? %>
+      <%= render 'replay_controls', event: @event, until_round: params[:until_round].to_i %>
+    <% else %>
+      <%= render 'actions_bar', event: @event, standings: @standings if editable %>
+    <% end %>
 
     <% if @event.surprise? && !editable %>
       <%= render 'speed_skydiving_competitions/surprise' %>
     <% else %>
-      <%= render 'speed_skydiving_competitions/scoreboard', event: @event, editable: editable && !@event.finished? %>
+      <%= render 'speed_skydiving_competitions/scoreboard', event: @event, editable: editable && !@event.finished?, standings: @standings %>
     <% end %>
 
     <div class="show-page-content">

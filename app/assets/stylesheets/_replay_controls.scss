@@ -1,0 +1,132 @@
+// Replay Controls
+.replay-controls {
+  margin-bottom: 1rem;
+
+  .replay-controls-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+}
+
+.replay-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+// Timeline
+.rounds-timeline {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  flex: 1;
+  overflow-x: auto;
+}
+
+.timeline-step {
+  position: relative;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background: #f7fafc;
+    border-color: #cbd5e0;
+  }
+
+  &.active {
+    background: #ebf8ff;
+    border-color: #3182ce;
+    color: #2d3748;
+  }
+
+  &.current {
+    background: #3182ce;
+    color: white;
+    border-color: #3182ce;
+
+    .timeline-step-icon {
+      fill: white;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .timeline-step-icon {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-left: 0.25rem;
+    fill: #48bb78;
+  }
+}
+
+// Scoreboard animations
+.competitor-row {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.moving-up {
+    background-color: rgba(72, 187, 120, 0.1);
+  }
+
+  &.moving-down {
+    background-color: rgba(245, 101, 101, 0.1);
+  }
+}
+
+// Round visibility based on max_round
+.round-header[data-visible="false"] {
+  opacity: 0.3;
+}
+
+.result-cell {
+  transition: opacity 0.3s ease;
+
+  &[data-visible="false"] {
+    opacity: 0;
+
+    .result-show-cell,
+    .result-upload-cell {
+      pointer-events: none;
+      visibility: hidden;
+    }
+  }
+}
+
+// Highlight current round
+.round-header.replay-active {
+  background-color: rgba(49, 130, 206, 0.05);
+}
+
+// Mobile responsiveness
+@media (max-width: 768px) {
+  .replay-controls-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .rounds-timeline {
+    justify-content: flex-start;
+    padding-bottom: 0.5rem;
+  }
+}
+
+// Utility class
+.hidden {
+  display: none !important;
+}

@@ -1,6 +1,9 @@
 class SpeedSkydivingCompetition::Scoreboard
-  def initialize(event)
+  attr_reader :event, :until_round
+
+  def initialize(event, until_round: nil)
     @event = event
+    @until_round = until_round
   end
 
   def categories
@@ -12,12 +15,15 @@ class SpeedSkydivingCompetition::Scoreboard
   end
 
   def completed_rounds
-    @completed_rounds ||= event.rounds.completed
+    @completed_rounds ||=
+      if until_round
+        rounds.completed.where(number: ..until_round)
+      else
+        rounds.completed
+      end
   end
 
   private
-
-  attr_reader :event
 
   def category_standings(category)
     category_competitors = competitors.select { |competitor| competitor.category == category }

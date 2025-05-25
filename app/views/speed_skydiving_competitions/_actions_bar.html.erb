@@ -1,4 +1,4 @@
-<%# locals: (event:) %>
+<%# locals: (event:, standings:) %>
 <div class="card actions-bar" id="actions-bar">
   <%= button_to new_speed_skydiving_competition_category_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
     <%= svg_icon 'plus-solid' %>
@@ -15,8 +15,10 @@
     <%= t('events.round') %>
   <% end %>
 
-  <div class="sd-dropdown actions-bar-right" data-controller="dropdown">
-    <button class="actions-bar-button" data-action="click->dropdown#toggle">
+  <div class="actions-bar-right">
+    <%= link_to 'Time Machine', speed_skydiving_competition_path(event, until_round: standings.completed_rounds.last&.number), class: 'actions-bar-button' %>
+
+    <button class="actions-bar-button sd-dropdown" data-controller="dropdown" data-action="click->dropdown#toggle">
       <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + event.status) %>
       <%= svg_icon 'angle-down-solid' %>
 
