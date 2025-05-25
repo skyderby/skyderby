@@ -40,6 +40,8 @@
   --button-bg: transparent;
   --button-bg-hover: var(--gray-20);
 
+  position: relative;
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -47,6 +49,10 @@
 
   &::before {
     content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
     width: 3px;
     border-radius: 3px;
     background-color: transparent;
