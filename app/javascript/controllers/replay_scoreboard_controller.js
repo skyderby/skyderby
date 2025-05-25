@@ -174,25 +174,29 @@ export default class extends Controller {
         r => r.dataset.competitorId === row.dataset.competitorId
       )
       if (row.sectionRowIndex !== newRow.sectionRowIndex) {
-        changes.push({ row, newIndex: newRow.sectionRowIndex })
+        changes.push({
+          row,
+          competitorId: row.dataset.competitorId,
+          newIndex: newRow.sectionRowIndex
+        })
       }
 
       return changes
     }, [])
 
-    if (positionChanges.length === 0) return
-
-    await this.fadeOutRanks()
-    newScoreboard
-      .querySelectorAll('td[data-rank]')
-      .forEach(cell => (cell.style.opacity = '0'))
+    await this.fadeOutRanks(positionChanges)
+    positionChanges.forEach(change => {
+      newScoreboard.querySelector(
+        `tr[data-competitor-id="${change.competitorId}"] td[data-rank]`
+      ).style.opacity = 0
+    })
 
     await this.applyFlipAnimations(positionChanges)
 
     this.scoreboardTarget.replaceChildren(...newScoreboard.children)
     this.scoreboardTarget.dataset.untilRound = newScoreboard.dataset.untilRound
 
-    await this.fadeInRanks()
+    await this.fadeInRanks(positionChanges)
   }
 
   fadeOutResult(cell) {
@@ -211,10 +215,10 @@ export default class extends Controller {
     }, 300)
   }
 
-  async fadeOutRanks() {
-    const cells = Array.from(
-      this.scoreboardTarget.querySelectorAll('td[data-rank]')
-    ).reverse()
+  async fadeOutRanks(positionChanges) {
+    const cells = positionChanges
+      .map(({ row }) => row.querySelector('td[data-rank]'))
+      .reverse()
 
     for (let rankCell of cells) {
       rankCell.classList.add('rank-fade-out')
@@ -223,9 +227,13 @@ export default class extends Controller {
     await this.sleep(200)
   }
 
-  async fadeInRanks() {
-    for (let rankCell of this.scoreboardTarget.querySelectorAll('td[data-rank]')) {
-      rankCell.classList.remove('rank-fade-out')
+  async fadeInRanks(positionChanges) {
+    const cells = positionChanges.map(({ competitorId }) =>
+      this.scoreboardTarget.querySelector(
+        `tr[data-competitor-id="${competitorId}"] td[data-rank]`
+      )
+    )
+    for (let rankCell of cells) {
       rankCell.classList.add('rank-fade-in')
 
       setTimeout(() => {
@@ -239,6 +247,8 @@ export default class extends Controller {
   }
 
   async applyFlipAnimations(positionChanges) {
+    if (positionChanges.length === 0) return
+
     for (const change of positionChanges) {
       const { row, newIndex } = change
 
@@ -253,7 +263,7 @@ export default class extends Controller {
       await this.sleep(50)
     }
 
-    await this.sleep(500)
+    await this.sleep(700)
   }
 
   updateRoundHighlight() {
