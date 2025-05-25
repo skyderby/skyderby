@@ -41,8 +41,8 @@
         <% data[:standings].each do |row| %>
           <% competitor = row[:competitor] %>
           <% competitor_results = editable ? row[:all_results] : row[:accountable_results] %>
-          <tr data-competitor-id="<%= competitor.id %>">
-            <td><%= row[:rank] %></td>
+          <tr data-competitor-id="<%= competitor.id %>" class="competitor-row">
+            <td data-rank><%= row[:rank] %></td>
             <%= render 'speed_skydiving_competitions/competitor_cell', competitor:, event:, editable: %>
             <td class="competitor-country">
               <span data-controller="tooltip" data-tooltip="<%= competitor.country_name %>">

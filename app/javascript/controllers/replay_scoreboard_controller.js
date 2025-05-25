@@ -62,8 +62,6 @@ export default class extends Controller {
         await this.progressToScoreboard(newScoreboard)
       }
 
-      this.scoreboardTarget.replaceChildren(...newScoreboard.children)
-      this.scoreboardTarget.dataset.untilRound = newScoreboard.dataset.untilRound
       this.updateRoundHighlight()
       if (onAdvance) await onAdvance()
 
@@ -102,7 +100,7 @@ export default class extends Controller {
       await this.sleep(50)
     }
     await this.sleep(300)
-    await this.checkAndAnimatePositions()
+    await this.animatePositionChanges(newScoreboard)
   }
 
   async progressToScoreboard(newScoreboard) {
@@ -146,7 +144,7 @@ export default class extends Controller {
       await this.sleep(50)
     }
     await this.sleep(300)
-    await this.checkAndAnimatePositions()
+    await this.animatePositionChanges(newScoreboard)
   }
 
   updateRowTotals(row, newRow) {
@@ -165,191 +163,96 @@ export default class extends Controller {
     }
   }
 
-  capturePositions() {
-    const positions = new Map()
-
-    document.querySelectorAll('#scoreboard tbody tr').forEach(row => {
-      // Skip category rows
-      if (row.querySelector('.category-cell')) return
-
-      const cells = row.querySelectorAll('td')
-      if (cells.length < 3) return
-
-      // Get competitor name from the second cell
-      const competitorName = cells[1].textContent.trim()
-      const rank = parseInt(cells[0].textContent)
-
-      if (competitorName && !isNaN(rank)) {
-        const rect = row.getBoundingClientRect()
-        positions.set(competitorName, {
-          top: rect.top,
-          rank: rank
-        })
-      }
-    })
-
-    return positions
-  }
-
-  async checkAndAnimatePositions() {
-    // Get current data
-    const rows = Array.from(document.querySelectorAll('#scoreboard tbody tr')).filter(
-      row => !row.querySelector('.category-cell')
+  async animatePositionChanges(newScoreboard) {
+    const rows = Array.from(
+      this.scoreboardTarget.querySelectorAll('tr[data-competitor-id]')
     )
+    const newRows = Array.from(newScoreboard.querySelectorAll('tr[data-competitor-id]'))
 
-    // Sort by total (descending)
-    const sortedRows = rows.sort((a, b) => {
-      const totalA =
-        parseFloat(
-          a.querySelectorAll('td')[a.querySelectorAll('td').length - 2].textContent
-        ) || 0
-      const totalB =
-        parseFloat(
-          b.querySelectorAll('td')[b.querySelectorAll('td').length - 2].textContent
-        ) || 0
-      return totalB - totalA
-    })
-
-    // Collect rows that need position changes
-    const positionChanges = []
-    let currentRank = 1
-
-    for (const row of sortedRows) {
-      const rankCell = row.querySelector('td:first-child')
-      const oldRank = parseInt(rankCell.textContent)
-
-      if (oldRank !== currentRank) {
-        positionChanges.push({
-          row,
-          rankCell,
-          oldRank,
-          newRank: currentRank
-        })
+    const positionChanges = rows.reduce((changes, row) => {
+      const newRow = newRows.find(
+        r => r.dataset.competitorId === row.dataset.competitorId
+      )
+      const newRank = newRow.querySelector('td[data-rank]').textContent.trim()
+      if (row.sectionRowIndex !== newRow.sectionRowIndex) {
+        changes.push({ row, newIndex: newRow.sectionRowIndex, newRank })
       }
-      currentRank++
-    }
+
+      return changes
+    }, [])
 
     if (positionChanges.length === 0) return
 
-    // Step 1: Fade out old ranks
-    await this.fadeOutRanks(positionChanges)
+    await this.fadeOutRanks()
+    newScoreboard
+      .querySelectorAll('td[data-rank]')
+      .forEach(cell => (cell.style.opacity = '0'))
 
-    // Step 2: Apply FLIP animation
     await this.applyFlipAnimations(positionChanges)
 
-    // Step 3: Fade in new ranks with rolling animation
-    await this.fadeInRanks(positionChanges)
+    this.scoreboardTarget.replaceChildren(...newScoreboard.children)
+    this.scoreboardTarget.dataset.untilRound = newScoreboard.dataset.untilRound
+
+    await this.fadeInRanks()
   }
 
-  async fadeOutResult(cell) {
-    cell.style.transition = 'opacity 0.3s ease-out'
-    cell.style.opacity = '0'
-    await this.sleep(300)
-    cell.textContent = ''
-    cell.style.opacity = '1'
+  fadeOutResult(cell) {
+    cell.classList.add('result-fade-out')
+    setTimeout(() => {
+      cell.textContent = ''
+      cell.classList.remove('result-fade-out')
+    }, 300)
   }
 
-  async fadeInResult(cell, content) {
-    cell.style.transition = 'none'
-    cell.style.opacity = '0'
+  fadeInResult(cell, content) {
     cell.innerHTML = content
-
-    // Force reflow to ensure the opacity change is applied
-    void cell.offsetHeight
-
-    cell.style.transition = 'opacity 0.3s ease-in'
-    cell.style.opacity = '1'
-    await this.sleep(300)
+    cell.classList.add('result-fade-in')
+    setTimeout(() => {
+      cell.classList.remove('result-fade-in')
+    }, 300)
   }
 
-  async fadeOutRanks(positionChanges) {
-    // Fade out all old ranks simultaneously
-    positionChanges.forEach(({ rankCell }) => {
-      rankCell.style.transition = 'opacity 0.2s ease-out'
-      rankCell.style.opacity = '0'
-    })
+  async fadeOutRanks() {
+    const cells = Array.from(
+      this.scoreboardTarget.querySelectorAll('td[data-rank]')
+    ).reverse()
+
+    for (let rankCell of cells) {
+      rankCell.classList.add('rank-fade-out')
+      await this.sleep(50)
+    }
     await this.sleep(200)
   }
 
-  async applyFlipAnimations(positionChanges) {
-    // First, capture current positions
-    const initialPositions = new Map()
-    positionChanges.forEach(({ row }) => {
-      const rect = row.getBoundingClientRect()
-      initialPositions.set(row, rect.top)
-    })
+  async fadeInRanks() {
+    for (let rankCell of this.scoreboardTarget.querySelectorAll('td[data-rank]')) {
+      rankCell.classList.remove('rank-fade-out')
+      rankCell.classList.add('rank-fade-in')
 
-    // Update DOM positions and set new ranks (but keep them invisible)
-    const tbody = positionChanges[0].row.parentElement
-    const allRows = Array.from(tbody.children)
+      setTimeout(() => {
+        rankCell.style.opacity = '1'
+        rankCell.classList.remove('rank-fade-in')
+      }, 300)
 
-    positionChanges.forEach(({ row, rankCell, newRank }) => {
-      rankCell.textContent = newRank
-      const currentIndex = allRows.indexOf(row)
-      const targetIndex = newRank - 1
-
-      if (currentIndex !== targetIndex) {
-        const targetRow = allRows[targetIndex]
-        if (targetIndex < currentIndex) {
-          tbody.insertBefore(row, targetRow)
-        } else {
-          tbody.insertBefore(row, targetRow.nextSibling)
-        }
-      }
-    })
-
-    // Calculate translations needed for FLIP
-    const translations = []
-    positionChanges.forEach(({ row, oldRank, newRank }) => {
-      const currentRect = row.getBoundingClientRect()
-      const initialTop = initialPositions.get(row)
-      const deltaY = initialTop - currentRect.top
-
-      if (deltaY !== 0) {
-        translations.push({ row, deltaY, oldRank, newRank })
-      }
-    })
-
-    // Apply initial translations (move rows to their old positions)
-    translations.forEach(({ row, deltaY }) => {
-      row.style.transform = `translateY(${deltaY}px)`
-      row.style.transition = 'none'
-    })
-
-    // Force reflow
-    await this.sleep(10)
-
-    // Animate to final positions
-    translations.forEach(({ row, oldRank, newRank }) => {
-      row.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
-      row.style.transform = 'translateY(0)'
-
-      if (newRank < oldRank) {
-        row.classList.add('moving-up')
-      } else {
-        row.classList.add('moving-down')
-      }
-    })
-
-    await this.sleep(500)
-
-    // Clean up
-    translations.forEach(({ row }) => {
-      row.style.transform = ''
-      row.style.transition = ''
-      row.classList.remove('moving-up', 'moving-down')
-    })
+      await this.sleep(50)
+    }
+    await this.sleep(300)
   }
 
-  async fadeInRanks(positionChanges) {
-    // Sort by new rank for rolling effect
-    const sortedChanges = [...positionChanges].sort((a, b) => a.newRank - b.newRank)
+  async applyFlipAnimations(positionChanges) {
+    for (const change of positionChanges) {
+      const { row, newIndex, newRank } = change
+      const initialTop = row.getBoundingClientRect().top
+      const newRow = row.parentElement.querySelector(`tr:nth-child(${newIndex + 1})`)
+      const newTop = newRow.getBoundingClientRect().top
 
-    for (const { rankCell } of sortedChanges) {
-      rankCell.style.transition = 'opacity 0.3s ease-in'
-      rankCell.style.opacity = '1'
-      await this.sleep(50) // Stagger the fade-ins
+      const delta = newTop - initialTop
+      row.style.transform = `translateY(${delta}px)`
+      row.querySelector('td[data-rank]').textContent = newRank
+      await this.sleep(50)
     }
+
+    await this.sleep(500)
   }
 
   updateRoundHighlight() {

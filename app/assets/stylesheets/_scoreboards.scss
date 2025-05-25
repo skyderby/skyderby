@@ -130,6 +130,10 @@
     background-color: $white;
   }
 
+  .competitor-row {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   .result-cell {
     height: 1rem;
     text-align: right;
@@ -300,6 +304,39 @@
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.result-fade-in {
+  animation: fadeIn 0.3s ease-in forwards;
+}
+
+.result-fade-out {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+.rank-fade-out {
+  animation: fadeOut 0.2s ease-out forwards;
+}
+
+.rank-fade-in {
+  animation: fadeIn 0.3s ease-in forwards;
+}
 
 td.scoreboard-result {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
