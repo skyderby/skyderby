@@ -20,9 +20,11 @@
       <%= t('events.open_event') %>
     <% end %>
 
-    <%= link_to speed_skydiving_competition_teams_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_teams_path(@event)))] do %>
-      <%= svg_icon 'list-ul-solid' %>
-      <%= t('events.teams') %>
+    <% if @event.use_teams %>
+      <%= link_to speed_skydiving_competition_teams_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_teams_path(@event)))] do %>
+        <%= svg_icon 'list-ul-solid' %>
+        <%= t('events.teams') %>
+      <% end %>
     <% end %>
 
     <% if editable %>
