@@ -1,0 +1,27 @@
+<% provide :title, "#{@event.name} - #{@event.place.name}" %>
+
+<% content_for :head do %>
+  <% provide :description,
+             t('speed_skydiving_competitions.meta.description',
+               event_name: @event.name,
+               place: @event.place.name,
+               categories: @event.categories.map(&:name).to_sentence) %>
+
+  <meta property="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsEvent",
+      "name": "<%= @event.name %>",
+      "description": "Speed skydiving competition at <%= @event.place.name %>, <%= @event.place.country_name %>.",
+      "startDate": "<%= @event.starts_at&.iso8601 %>",
+      "location": {
+        "@type": "Place",
+        "name": "<%= @event.place.name %>",
+      },
+      "sport": "Skydiving",
+      "eventStatus": "https://schema.org/EventScheduled"
+    }
+  </script>
+<% end %>

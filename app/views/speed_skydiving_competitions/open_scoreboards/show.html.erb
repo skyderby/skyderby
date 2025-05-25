@@ -1,3 +1,5 @@
+<%= render 'speed_skydiving_competitions/head' %>
+
 <% editable = @event.editable? %>
 <%= turbo_stream_from @event, :open_scoreboard, editable ? :editable : :read_only %>
 
