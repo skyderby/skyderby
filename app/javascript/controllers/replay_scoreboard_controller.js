@@ -173,9 +173,8 @@ export default class extends Controller {
       const newRow = newRows.find(
         r => r.dataset.competitorId === row.dataset.competitorId
       )
-      const newRank = newRow.querySelector('td[data-rank]').textContent.trim()
       if (row.sectionRowIndex !== newRow.sectionRowIndex) {
-        changes.push({ row, newIndex: newRow.sectionRowIndex, newRank })
+        changes.push({ row, newIndex: newRow.sectionRowIndex })
       }
 
       return changes
@@ -241,14 +240,13 @@ export default class extends Controller {
 
   async applyFlipAnimations(positionChanges) {
     for (const change of positionChanges) {
-      const { row, newIndex, newRank } = change
+      const { row, newIndex } = change
       const initialTop = row.getBoundingClientRect().top
       const newRow = row.parentElement.querySelector(`tr:nth-child(${newIndex + 1})`)
       const newTop = newRow.getBoundingClientRect().top
 
       const delta = newTop - initialTop
       row.style.transform = `translateY(${delta}px)`
-      row.querySelector('td[data-rank]').textContent = newRank
       await this.sleep(50)
     }
 
