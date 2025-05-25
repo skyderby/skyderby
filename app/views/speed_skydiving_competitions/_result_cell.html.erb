@@ -5,6 +5,7 @@
 
 <td class="result-cell"
   <% if show_result && result %>
+    data-round="<%= round.number %>"
     data-created-at="<%= result.created_at.iso8601 %>"
   <% end %>
 >

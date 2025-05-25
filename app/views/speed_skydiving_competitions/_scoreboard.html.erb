@@ -2,8 +2,14 @@
 
 <% at_least_one_round_completed = standings.completed_rounds.length > 0 %>
 
-<div class="scoreboard-container" id="scoreboard">
-  <table class="scoreboard-table" data-replay-scoreboard-target="scoreboard">
+<% container_id = standings.until_round ? 'scoreboard-time-machine' : 'scoreboard'  %>
+<div class="scoreboard-container" id="<%= container_id %>">
+  <table class="scoreboard-table"
+         <% if standings.until_round %>
+           data-replay-scoreboard-target="scoreboard"
+           data-until-round="<%= standings.until_round %>"
+         <% end %>
+  >
     <thead>
       <tr>
         <th>#</th>
@@ -35,7 +41,7 @@
         <% data[:standings].each do |row| %>
           <% competitor = row[:competitor] %>
           <% competitor_results = editable ? row[:all_results] : row[:accountable_results] %>
-          <tr>
+          <tr data-competitor-id="<%= competitor.id %>">
             <td><%= row[:rank] %></td>
             <%= render 'speed_skydiving_competitions/competitor_cell', competitor:, event:, editable: %>
             <td class="competitor-country">
@@ -48,11 +54,11 @@
               <%= render 'speed_skydiving_competitions/result_cell', event:, standings:, round:, competitor:, result:, editable: %>
             <% end %>
             <% if at_least_one_round_completed %>
-              <td class="text-right"><%= '%.2f' % row[:total] %></td>
-              <td class="text-right"><%= '%.2f' % row[:average] %></td>
+              <td class="text-right" data-total><%= '%.2f' % row[:total] %></td>
+              <td class="text-right" data-avg><%= '%.2f' % row[:average] %></td>
             <% else %>
-              <td></td>
-              <td></td>
+              <td data-total></td>
+              <td data-avg></td>
             <% end %>
           </tr>
         <% end %>
