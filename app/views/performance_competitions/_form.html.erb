@@ -1,5 +1,5 @@
 <% url = @event.new_record? ? '/events/performance' : event_path(@event) %>
-<%= form_with model: @event, html: { class: 'form-horizontal', role: 'form', id: "#{action_name}_event_form"} do |f| %>
+<%= form_with model: @event, url:, html: { class: 'form-horizontal', role: 'form', id: "#{action_name}_event_form"} do |f| %>
   <div class="sd-form">
     <div class="grid">
       <%= f.label :name, class: 'form-label col-4' %>

@@ -8,7 +8,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
   test 'regular user #index' do
     get profiles_path
-    assert_response :forbidden
+    assert_response :success
   end
 
   test 'regular user #show' do

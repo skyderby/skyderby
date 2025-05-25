@@ -13,7 +13,7 @@ class CreateCompetitionTest < ApplicationSystemTestCase
     fill_in :event_range_to, with: 2000
     hot_select places(:hellesylt_wbr).name, from: :place_id
 
-    find('input[type="submit"]').click
+    click_button 'Save'
 
     assert_selector('.show-page-title', text: 'TEST EVENT')
   end

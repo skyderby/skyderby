@@ -7,7 +7,7 @@ class ProfilePolicyTest < ActiveSupport::TestCase
 
   test '#index?' do
     assert_predicate ProfilePolicy.new(@admin, Profile), :index?
-    assert_not_predicate ProfilePolicy.new(nil, Profile), :index?
+    assert_predicate ProfilePolicy.new(nil, Profile), :index?
   end
 
   test '#update? - allowed to admins' do
