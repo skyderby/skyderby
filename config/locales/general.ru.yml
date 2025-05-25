@@ -31,6 +31,8 @@ ru:
     charts: Графики
     jump_range: Отделение и открытие
     or: Или
+  meta:
+    description: "Skyderby это веб-приложение для анализа треков полётов и проведения соревнований"
   date:
     abbr_day_names:
       - Вс

@@ -1,0 +1,4 @@
+en:
+  speed_skydiving_competitions:
+    meta:
+      description: "Official results from %{event_name} speed skydiving event at %{place}. View competitor rankings, round scores, and standings for %{categories} categories."
