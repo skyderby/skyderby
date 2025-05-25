@@ -241,11 +241,14 @@ export default class extends Controller {
   async applyFlipAnimations(positionChanges) {
     for (const change of positionChanges) {
       const { row, newIndex } = change
-      const initialTop = row.getBoundingClientRect().top
-      const newRow = row.parentElement.querySelector(`tr:nth-child(${newIndex + 1})`)
-      const newTop = newRow.getBoundingClientRect().top
 
-      const delta = newTop - initialTop
+      const currentTop = row.offsetTop
+      const targetRow = row.parentElement.querySelector(`tr:nth-child(${newIndex + 1})`)
+      if (!targetRow) continue
+
+      const targetTop = targetRow.offsetTop
+      const delta = targetTop - currentTop
+
       row.style.transform = `translateY(${delta}px)`
       await this.sleep(50)
     }
