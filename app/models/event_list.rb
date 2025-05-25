@@ -3,7 +3,7 @@ class EventList < ApplicationRecord
   belongs_to :responsible, class_name: 'User'
   belongs_to :place, optional: true
 
-  enum :status, { draft: 0, published: 1, finished: 2 }
+  enum :status, { draft: 0, published: 1, finished: 2, surprise: 3 }
   enum :visibility, { public_event: 0, unlisted_event: 1, private_event: 2 }
   enum :rules, { speed_distance_time: 0, fai: 1, hungary_boogie: 2, single_elimination: 3 }
 

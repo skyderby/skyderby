@@ -45,7 +45,7 @@ class EventPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      scope.where('status IN (1, 2) AND visibility = 0')
+      scope.not_draft.public_event
            .or(scope.where(responsible: user))
            .or(scope.where(id: user.participant_of_events))
     end

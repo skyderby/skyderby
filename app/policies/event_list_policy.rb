@@ -3,7 +3,7 @@ class EventListPolicy < ApplicationPolicy
     def resolve
       return scope.all if admin?
 
-      scope.where('status IN (1, 2) AND visibility = 0')
+      scope.not_draft.public_event
            .or(scope.where(responsible: user))
            .or(scope.where(event: user.participant_of_events))
     end
