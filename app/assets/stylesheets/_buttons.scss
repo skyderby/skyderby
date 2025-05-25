@@ -46,22 +46,6 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0.25rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3px;
-    border-radius: 3px;
-    background-color: transparent;
-    height: 1.25em;
-  }
-
-  &.active::before {
-    background-color: var(--blue-40);
-  }
 }
 
 .ghost-danger-button {
