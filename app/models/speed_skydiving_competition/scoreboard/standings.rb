@@ -1,10 +1,11 @@
 class SpeedSkydivingCompetition::Scoreboard::Standings
   def self.build(...) = new(...).build
 
-  def initialize(competitors, completed_rounds, results)
+  def initialize(competitors, completed_rounds, results, previous_standings = [])
     @competitors = competitors
     @completed_rounds = completed_rounds
     @results = results
+    @previous_standings = previous_standings.index_by { |row| row[:competitor] }
   end
 
   def build
@@ -26,11 +27,12 @@ class SpeedSkydivingCompetition::Scoreboard::Standings
     standings
       .sort_by { |row| -row[:total].to_f }
       .tap { |rows| assign_ranks(rows) }
+      .tap { |rows| assign_previous_ranks(rows) }
   end
 
   private
 
-  attr_reader :competitors, :completed_rounds, :results
+  attr_reader :competitors, :completed_rounds, :results, :previous_standings
 
   def accountable_results_for(competitor)
     results.select do |result|
@@ -45,6 +47,14 @@ class SpeedSkydivingCompetition::Scoreboard::Standings
     standings.each_cons(2).with_index do |(prev, curr), index|
       same_rank = prev[:total] == curr[:total] && curr[:total].positive?
       curr[:rank] = same_rank ? prev[:rank] : index + 2
+    end
+  end
+
+  def assign_previous_ranks(standings)
+    return unless previous_standings.any?
+
+    standings.each do |row|
+      row[:previous_rank] = previous_standings[row[:competitor]][:rank] || row[:rank]
     end
   end
 end

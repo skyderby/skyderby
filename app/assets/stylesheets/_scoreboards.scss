@@ -338,6 +338,24 @@
   animation: fadeIn 0.3s ease-in forwards;
 }
 
+.rank-same, .rank-up, .rank-down {
+  font-weight: 900;
+  color: var(--color);
+  text-shadow: 0 0 1px var(--color);
+}
+
+.rank-same {
+  --color: var(--blue-90);
+}
+
+.rank-up {
+  --color: var(--green-90);
+}
+
+.rank-down {
+  --color: var(--red-50);
+}
+
 td.scoreboard-result {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 0;

@@ -28,11 +28,10 @@ class SpeedSkydivingCompetition::Scoreboard
   def category_standings(category)
     category_competitors = competitors.select { |competitor| competitor.category == category }
     category_results = results.select { |result| category_competitors.include? result.competitor }
+    previous_standings = Standings.build(category_competitors, completed_rounds[0...-1], category_results)
+    standings = Standings.build(category_competitors, completed_rounds, category_results, previous_standings)
 
-    {
-      category:,
-      standings: Standings.build(category_competitors, completed_rounds, category_results)
-    }
+    { category:, standings: }
   end
 
   def competitors

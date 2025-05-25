@@ -42,7 +42,18 @@
           <% competitor = row[:competitor] %>
           <% competitor_results = editable ? row[:all_results] : row[:accountable_results] %>
           <tr data-competitor-id="<%= competitor.id %>" class="competitor-row">
-            <td data-rank><%= row[:rank] %></td>
+            <td data-rank>
+              <%= row[:rank] %>
+              <% if !event.finished? || standings.until_round %>
+                <% if row[:previous_rank] == row[:rank] || standings.completed_rounds.length == 1 %>
+                  <span class="rank-same">—</span>
+                <% elsif row[:previous_rank] < row[:rank] %>
+                  <span class="rank-down" data-controller="tooltip" data-tooltip="from <%= row[:previous_rank] %>">▼</span>
+                <% else %>
+                  <span class="rank-up" data-controller="tooltip" data-tooltip="from <%= row[:previous_rank] %>">▲</span>
+                <% end %>
+              <% end %>
+            </td>
             <%= render 'speed_skydiving_competitions/competitor_cell', competitor:, event:, editable: %>
             <td class="competitor-country">
               <span data-controller="tooltip" data-tooltip="<%= competitor.country_name %>">
