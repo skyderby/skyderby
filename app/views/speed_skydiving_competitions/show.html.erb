@@ -1,7 +1,7 @@
 <%= render 'speed_skydiving_competitions/head' %>
 
 <% editable = @event.editable? %>
-<%= turbo_stream_from @event, :actions_bar if editable %>
+<%= turbo_stream_from @event, :actions_bar, editable ? :editable : :read_only %>
 <%= turbo_stream_from @event, :scoreboard, editable ? :editable : :read_only %>
 
 <div class="show-page">
@@ -11,7 +11,7 @@
     <% if params[:until_round].present? %>
       <%= render 'replay_controls', event: @event, until_round: params[:until_round].to_i %>
     <% else %>
-      <%= render 'actions_bar', event: @event, standings: @standings if editable %>
+      <%= render 'actions_bar', event: @event, standings: @standings, editable: %>
     <% end %>
 
     <% if @event.surprise? && !editable %>

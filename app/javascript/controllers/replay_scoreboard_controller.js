@@ -14,13 +14,10 @@ export default class extends Controller {
     this.isPlaying = true
     this.playButtonTarget.querySelector('span').textContent = 'Stop'
 
-    await this.animatedNavigateToRound(0)
-
     for (const link of this.roundLinkTargets) {
       if (!this.isPlaying) break
 
-      await this.sleep(2000)
-      await this.animatedNavigateToRound(link.href)
+      await this.animatedNavigateToRound(link.href, { onAdvance: () => this.sleep(1000) })
     }
 
     this.isPlaying = false
@@ -39,7 +36,7 @@ export default class extends Controller {
     await this.animatedNavigateToRound(event.currentTarget.href)
   }
 
-  async animatedNavigateToRound(url) {
+  async animatedNavigateToRound(url, { onAdvance } = {}) {
     if (this.isAnimating) return
     this.isAnimating = true
 
@@ -65,7 +62,10 @@ export default class extends Controller {
         await this.progressToScoreboard(newScoreboard)
       }
 
+      this.scoreboardTarget.replaceChildren(...newScoreboard.children)
+      this.scoreboardTarget.dataset.untilRound = newScoreboard.dataset.untilRound
       this.updateRoundHighlight()
+      if (onAdvance) await onAdvance()
 
       window.history.replaceState({}, '', url)
     } catch (error) {
@@ -103,10 +103,51 @@ export default class extends Controller {
     }
 
     await this.checkAndAnimatePositions()
-    this.scoreboardTarget.replaceChildren(...newScoreboard.children)
   }
 
-  async progressToScoreboard(newScoreboard) {}
+  async progressToScoreboard(newScoreboard) {
+    const resultsToAdd = []
+    const targetRound = parseInt(newScoreboard.dataset.untilRound)
+    const currentRound = parseInt(this.scoreboardTarget.dataset.untilRound)
+
+    newScoreboard.querySelectorAll('.result-cell').forEach(newCell => {
+      const roundNum = parseInt(newCell.dataset.round)
+      if (
+        roundNum > currentRound &&
+        roundNum <= targetRound &&
+        newCell.textContent.trim()
+      ) {
+        const competitorId = newCell.closest('tr').dataset.competitorId
+        const currentRow = this.scoreboardTarget.querySelector(
+          `[data-competitor-id="${competitorId}"]`
+        )
+        if (currentRow) {
+          const currentCell = currentRow.querySelector(
+            `.result-cell[data-round="${roundNum}"]`
+          )
+          if (currentCell && !currentCell.textContent.trim()) {
+            resultsToAdd.push({
+              cell: currentCell,
+              newContent: newCell.textContent,
+              createdAt: Date.parse(newCell.dataset.createdAt),
+              row: currentRow,
+              newRow: newCell.closest('tr')
+            })
+          }
+        }
+      }
+    })
+
+    resultsToAdd.sort((a, b) => a.createdAt - b.createdAt)
+
+    for (const item of resultsToAdd) {
+      item.cell.textContent = item.newContent
+      this.updateRowTotals(item.row, item.newRow)
+      await this.sleep(50)
+    }
+
+    await this.checkAndAnimatePositions()
+  }
 
   capturePositions() {
     const positions = new Map()
@@ -215,14 +256,13 @@ export default class extends Controller {
   }
 
   updateRoundHighlight() {
-    // Remove all active classes
     this.roundLinkTargets.forEach(link => {
       link.classList.remove('active')
     })
 
-    // Add active class to current round
+    const currentRound = this.scoreboardTarget.dataset.untilRound
     const currentLink = this.roundLinkTargets.find(
-      link => parseInt(link.dataset.round) === this.currentRound
+      link => link.dataset.round === currentRound
     )
     if (currentLink) {
       currentLink.classList.add('active')
@@ -231,7 +271,6 @@ export default class extends Controller {
 
   disableNavigation() {
     this.roundLinkTargets.forEach(link => {
-      link.classList.add('disabled')
       link.style.pointerEvents = 'none'
     })
     if (this.hasPlayButtonTarget) {
@@ -241,7 +280,6 @@ export default class extends Controller {
 
   enableNavigation() {
     this.roundLinkTargets.forEach(link => {
-      link.classList.remove('disabled')
       link.style.pointerEvents = ''
     })
     if (this.hasPlayButtonTarget) {

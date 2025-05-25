@@ -20,9 +20,14 @@ class SpeedSkydivingCompetitions::StatusesController < ApplicationController
   def status_params = params.require(:event).permit(:status)
 
   def broadcast_actions_bar
-    Turbo::StreamsChannel.broadcast_replace_to @event, :actions_bar,
+    Turbo::StreamsChannel.broadcast_replace_to @event, :actions_bar, :editable,
                                                target: 'actions-bar',
                                                partial: 'speed_skydiving_competitions/actions_bar',
-                                               locals: { event: @event }
+                                               locals: { event: @event, editable: true, standings: @event.standings }
+
+    Turbo::StreamsChannel.broadcast_replace_to @event, :actions_bar, :read_only,
+                                               target: 'actions-bar',
+                                               partial: 'speed_skydiving_competitions/actions_bar',
+                                               locals: { event: @event, editable: false, standings: @event.standings }
   end
 end

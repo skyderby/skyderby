@@ -18,10 +18,12 @@ module SpeedSkydivingCompetitionScoped
   end
 
   def broadcast_scoreboard
-    Turbo::StreamsChannel.broadcast_replace_to @event, :scoreboard, :editable,
-                                               target: 'scoreboard',
-                                               partial: 'speed_skydiving_competitions/scoreboard',
-                                               locals: { event: @event, editable: !@event.finished? }
+    Turbo::StreamsChannel.broadcast_replace_to(
+      @event, :scoreboard, :editable,
+      target: 'scoreboard',
+      partial: 'speed_skydiving_competitions/scoreboard',
+      locals: { event: @event, standings: @event.standings, editable: !@event.finished? }
+    )
     Turbo::StreamsChannel.broadcast_replace_to @event, :open_scoreboard, :editable,
                                                target: 'open-scoreboard',
                                                partial: 'speed_skydiving_competitions/open_scoreboards/scoreboard',
@@ -35,10 +37,12 @@ module SpeedSkydivingCompetitionScoped
                                                  target: 'open-scoreboard',
                                                  partial: 'speed_skydiving_competitions/surprise'
     else
-      Turbo::StreamsChannel.broadcast_replace_to @event, :scoreboard, :read_only,
-                                                 target: 'scoreboard',
-                                                 partial: 'speed_skydiving_competitions/scoreboard',
-                                                 locals: { event: @event, editable: false }
+      Turbo::StreamsChannel.broadcast_replace_to(
+        @event, :scoreboard, :read_only,
+        target: 'scoreboard',
+        partial: 'speed_skydiving_competitions/scoreboard',
+        locals: { event: @event, standings: @event.standings, editable: false }
+      )
       Turbo::StreamsChannel.broadcast_replace_to @event, :open_scoreboard, :read_only,
                                                  target: 'open-scoreboard',
                                                  partial: 'speed_skydiving_competitions/open_scoreboards/scoreboard',

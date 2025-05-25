@@ -4,8 +4,8 @@
 <% show_result = !time_machine || standings.completed_rounds.include?(round) %>
 
 <td class="result-cell"
+  data-round="<%= round.number %>"
   <% if show_result && result %>
-    data-round="<%= round.number %>"
     data-created-at="<%= result.created_at.iso8601 %>"
   <% end %>
 >

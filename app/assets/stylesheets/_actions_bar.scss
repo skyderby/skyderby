@@ -21,11 +21,11 @@
   }
 }
 
-.actions-bar > :first-child {
+.actions-bar > :first-child:not(.actions-bar-right) {
   border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
 }
 
-.actions-bar > :first-child > .actions-bar-button {
+.actions-bar > :first-child:not(.actions-bar-right) > .actions-bar-button {
   border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
 }
 

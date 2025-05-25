@@ -1,38 +1,38 @@
 <%# locals: (event:, until_round:) %>
 <div class="actions-bar card replay-controls" id="replay-controls">
-  <div class="replay-controls-inner">
-    <button class="replay-button primary-button"
-            data-action="click->replay-scoreboard#play"
-            data-replay-scoreboard-target="playButton">
-      <%= svg_icon 'play-solid' %>
-      <span>Play</span>
-    </button>
+  <button class="replay-button primary-button"
+          data-action="click->replay-scoreboard#play"
+          data-replay-scoreboard-target="playButton">
+    <%= svg_icon 'play-solid' %>
+    <span>Play</span>
+  </button>
 
-    <div class="rounds-timeline">
-      <%= link_to 'Start',
-          speed_skydiving_competition_path(event, until_round: 0),
-          class: class_names('ghost-button', until_round == 0 && 'active'),
+  <div class="rounds-timeline">
+    <%= link_to 'Start',
+        speed_skydiving_competition_path(event, until_round: 0),
+        class: class_names('ghost-button', until_round == 0 && 'active'),
+        data: {
+          round: 0,
+          action: 'click->replay-scoreboard#goToRound',
+          replay_scoreboard_target: 'roundLink'
+        } %>
+    <div><%= svg_icon 'angle-right-solid' %></div>
+    <% event.rounds.ordered.each_with_index do |round, index| %>
+      <%= link_to "R#{round.number}",
+          speed_skydiving_competition_path(event, until_round: round.number),
+          class: class_names('ghost-button', round.number == until_round && 'active'),
           data: {
-            round: 0,
+            round: round.number,
             action: 'click->replay-scoreboard#goToRound',
             replay_scoreboard_target: 'roundLink'
           } %>
-      <span><%= svg_icon 'angle-right-solid' %></span>
-      <% event.rounds.ordered.each_with_index do |round, index| %>
-        <%= link_to "R#{round.number}",
-            speed_skydiving_competition_path(event, until_round: round.number),
-            class: class_names('ghost-button', round.number == until_round && 'active'),
-            data: {
-              round: round.number,
-              action: 'click->replay-scoreboard#goToRound',
-              replay_scoreboard_target: 'roundLink'
-            } %>
 
-        <% if index < event.rounds.ordered.size - 1 %>
-          <span><%= svg_icon 'angle-right-solid' %></span>
-        <% end %>
+      <% if index < event.rounds.ordered.size - 1 %>
+        <div><%= svg_icon 'angle-right-solid' %></div>
       <% end %>
-    </div>
+    <% end %>
   </div>
-  <%= link_to 'Time Machine OFF', speed_skydiving_competition_path(event) %>
+  <div class="actions-bar-right">
+    <%= link_to 'Exit Time Machine', speed_skydiving_competition_path(event), class: 'actions-bar-button' %>
+  </div>
 </div>

@@ -1,10 +1,11 @@
 class SpeedSkydivingCompetition::OpenScoreboard
-  attr_reader :event
+  attr_reader :event, :until_round
 
   delegate :competitors, to: :event
 
-  def initialize(event)
+  def initialize(event, until_round: nil)
     @event = event
+    @until_round = until_round
   end
 
   def rows
@@ -15,7 +16,14 @@ class SpeedSkydivingCompetition::OpenScoreboard
     )
   end
 
-  def completed_rounds = event.rounds.select(&:completed?)
+  def completed_rounds
+    @completed_rounds ||=
+      if until_round
+        rounds.completed.where(number: ..until_round)
+      else
+        rounds.completed
+      end
+  end
 
   def rounds = event.rounds.ordered
 
