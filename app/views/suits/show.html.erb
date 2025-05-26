@@ -1,26 +1,26 @@
-<div class="container top-buffer">
-  <a href="<%= suits_path %>">
-    <i class="fa fa-chevron-left"></i>
-    Suits list
-  </a>
-  <div class="row">
-    <div class="col-sm-9">
-      <h1>
-        <%= @suit.name %>
-        <small><%= @suit.manufacturer.name %></small>
-      </h1>
-      <div class="description">
-        <%= @suit.description %>
+<div class="show-page">
+  <div class="show-page-header">
+    <a href="<%= suits_path %>">
+      <i class="fa fa-chevron-left"></i>
+      Suits list
+    </a>
+    <div class="row">
+      <div class="col-sm-9">
+        <h1>
+          <%= @suit.name %>
+          <small><%= @suit.manufacturer.name %></small>
+        </h1>
+        <div class="description">
+          <%= @suit.description %>
+        </div>
+        <% if policy(@suit).update? %>
+          <%= link_to 'Edit', edit_suit_path(@suit), class: 'btn btn-default' %>
+        <% end %>
       </div>
-      <% if policy(@suit).update? %>
-        <%= link_to 'Edit', edit_suit_path(@suit), class: 'btn btn-default' %>
-      <% end %>
     </div>
   </div>
-</div>
 
-<div class="container">
-  <div class="content-block">
+  <div class="show-page-content container-lg card">
     <% query_params = show_params[:query] || {} %>
     <% activity = query_params[:kind] %>
     <% skydive = !activity || activity == 'skydive' %>
@@ -44,20 +44,10 @@
         <% if skydive %>
           <div id="tracks-table" class="table table-hover">
             <div class="thead">
-              <div class="tr">
-                <div class="th"><%= t 'activerecord.attributes.track.id' %></div>
-                <div class="th"><%= t 'activerecord.attributes.track.name' %></div>
-                <div class="th"><%= t 'activerecord.attributes.track.place' %></div>
-                <div class="th"><%= t 'activerecord.attributes.track.comment' %></div>
-                <div class="th result-head text-right"><%= t 'disciplines.distance' %></div>
-                <div class="th result-head text-right"><%= t 'disciplines.speed' %></div>
-                <div class="th result-head text-right"><%= t 'disciplines.time' %></div>
-                <div class="th"><%= t 'activerecord.attributes.track.recorded_at' %></div>
-                <div class="th"></div>
-              </div>
+              <%= render 'tracks/table_header' %>
             </div>
-            <div class="tbody">
-              <%= render @tracks, except_columns: [:suit] %>
+            <div id="tracks-list" class="tbody">
+              <%= render collection: @tracks, partial: 'tracks/track' %>
             </div>
           </div>
         <% end %>
@@ -67,30 +57,20 @@
         <% if base %>
           <div id="tracks-table" class="table table-hover">
             <div class="thead">
-              <div class="tr">
-                <div class="th"><%= t 'activerecord.attributes.track.id' %></div>
-                <div class="th"><%= t 'activerecord.attributes.track.name' %></div>
-                <div class="th"><%= t 'activerecord.attributes.track.place' %></div>
-                <div class="th"><%= t 'activerecord.attributes.track.comment' %></div>
-                <div class="th result-head text-right"><%= t 'disciplines.distance' %></div>
-                <div class="th result-head text-right"><%= t 'disciplines.speed' %></div>
-                <div class="th result-head text-right"><%= t 'disciplines.time' %></div>
-                <div class="th"><%= t 'activerecord.attributes.track.recorded_at' %></div>
-                <div class="th"></div>
-              </div>
+              <%= render 'tracks/table_header' %>
             </div>
-            <div class="tbody">
-              <%= render @tracks, except_columns: [:suit] %>
+            <div id="tracks-list" class="tbody">
+              <%= render collection: @tracks, partial: 'tracks/track' %>
             </div>
           </div>
         <% end %>
       </div>
     </div>
-  </div>
 
-  <div class="text-center top-buffer">
-    <div class="pagination-list">
-      <%= will_paginate @tracks, renderer: BootstrapPagination::Rails %>
+    <div class="text-center top-buffer">
+      <div class="pagination-list">
+        <%= will_paginate @tracks, renderer: BootstrapPagination::Rails %>
+      </div>
     </div>
   </div>
 </div>
