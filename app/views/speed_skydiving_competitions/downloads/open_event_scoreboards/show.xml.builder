@@ -2,7 +2,7 @@ xml.instruct!
 xml.EventResult do
   xml.UniqueCode @event.open_standings_code
 
-  @scoreboard.standings.each do |row|
+  @scoreboard.rows.each do |row|
     xml.Entrant do
       xml.CompetitionNo row[:competitor].assigned_number
       xml.Name row[:competitor].name
