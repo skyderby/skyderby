@@ -1,5 +1,5 @@
 class Event::TeamStandings
-  Row = Struct.new(:team, :total_points)
+  Row = Struct.new(:team, :ranks, :total_points)
 
   delegate :teams, to: :event
 
@@ -25,7 +25,7 @@ class Event::TeamStandings
 
     total_points = ranks.sum(&:total_points)
 
-    Row.new(team, total_points)
+    Row.new(team, ranks, total_points)
   end
 
   def competitors

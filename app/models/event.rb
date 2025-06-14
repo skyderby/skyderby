@@ -66,6 +66,13 @@ class Event < ApplicationRecord
 
   def editable?(user = Current.user) = EventPolicy.new(user, self).update?
 
+  def team_standings
+    Event::TeamStandings.new(
+      self,
+      Events::Scoreboards::SpeedDistanceTime.new(self, Events::Scoreboards::Params.new(self, {}))
+    )
+  end
+
   private
 
   def check_name_and_range

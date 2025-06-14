@@ -1,0 +1,19 @@
+<%= form_with url: event_team_competitors_path(@event), class: 'sd-form',
+              data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+  <div class="grid">
+    <%= f.label :team_id, t('events.team'), class: 'form-label col-4' %>
+    <% team_options = options_from_collection_for_select(@teams, :id, :name) %>
+    <%= render 'hot_select/local_select', form: f, name: :team_id, options: team_options, class: 'col-8', hide_clear_button: true %>
+  </div>
+
+  <div class="grid">
+    <%= f.label :competitor_id, t('events.competitor'), class: 'form-label col-4' %>
+    <% competitor_options = options_from_collection_for_select(@competitors, :id, ->(c) { c.profile.name }) %>
+    <%= render 'hot_select/local_select', form: f, name: :competitor_id, options: competitor_options, class: 'col-8', hide_clear_button: true %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit t('general.save'), class: 'primary-button' %>
+    <button type="button" class="default-button" data-action="modal#close"><%= t 'general.cancel' %></button>
+  </div>
+<% end %>

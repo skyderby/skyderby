@@ -90,7 +90,7 @@ builder:
 volumes:
  - app_storage:/app/public/system
 
-asset_path: /app/public/assets
+#asset_path: /app/public/assets
 
 # Configure rolling deploys by setting a wait time between batches of restarts.
 #

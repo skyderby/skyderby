@@ -1,40 +1,50 @@
-<%= form_for @suit, html: { class: 'form-horizontal' } do |f| %>
-  <div class="form-group">
-    <%= f.label :name, class: 'col-sm-2 control-label', for: :name %>
-    <div class="col-sm-5">
-      <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+<% url = @suit.new_record? ? suits_path : suit_path(@suit) %>
+<%= form_with model: @suit, url:, html: { class: 'form-horizontal', role: 'form', id: "#{action_name}_suit_form"} do |f| %>
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :name, class: 'form-label col-4' %>
+      <%= f.text_field :name, required: true, autofocus: true, class: 'form-input col-8' %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :manufacturer, class: 'form-label col-4' %>
+      <%= render 'hot_select/select',
+                 form: f,
+                 name: :manufacturer_id,
+                 src: suits_select_options_path,
+                 options: options_for_select([[@suit.manufacturer&.name, @suit.manufacturer_id]], @suit.manufacturer_id),
+                 placeholder: 'Select manufacturer',
+                 class: 'col-8' %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :kind, class: 'form-label col-4' %>
+      <div class="col-8 form-radio-input-group">
+        <% SuitTypes.each do |type| %>
+          <label class="form-radio-input">
+            <%= f.radio_button 'kind', type %>
+            <%= type.capitalize %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :photo, class: 'form-label col-4' %>
+      <div class="col-8">
+        <%= f.file_field :photo, class: 'form-input' %>
+      </div>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :manufacturer, class: 'col-sm-2 control-label', for: :manufacturer %>
-    <div class="col-sm-5">
-      <%= f.collection_select(:manufacturer_id, Manufacturer.order(:name), :id, :name, { prompt: 'Select manufacturer' }, { class: 'form-control' }) %>
-    </div>
-  </div>
+  <hr>
+  <div class="text-right">
+    <%= f.submit t('general.save'), class: 'primary-button' %>
 
-  <div class="form-group">
-    <%= f.label :kind, class: 'col-sm-2 control-label', for: :kind %>
-    <div class="btn-group col-sm-10" data-toggle="buttons">
-      <% SuitTypes.each do |type| %>
-        <label class="btn btn-default <%= 'active' if @suit.kind == type %>">
-          <%= f.radio_button 'kind', type %>
-          <%= type.capitalize %>
-        </label>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :photo, class: 'col-sm-2 control-label', for: :photo %>
-    <div class="col-sm-4">
-      <%= f.file_field :photo %>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-8">
-      <%= f.submit t('general.save'), class: 'btn btn-primary' %>
-    </div>
+    <% if @suit.new_record? %>
+      <%= link_to t('general.cancel'), suits_path, class: 'default-button' %>
+    <% else %>
+      <%= link_to t('general.cancel'), suit_path(@suit), class: 'default-button' %>
+    <% end %>
   </div>
 <% end %>

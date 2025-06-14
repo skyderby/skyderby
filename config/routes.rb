@@ -118,8 +118,6 @@ Skyderby::Application.routes.draw do
   resources :events, path: 'events/performance', concerns: %i[sponsorable organizable], except: %i[index new] do
     scope module: :events do
       resource :scoreboard, only: :show
-      resource :team_scoreboard, only: :show
-      resource :teams, only: :show
       resource :designated_lane_start, only: :update
 
       resources :rounds do
@@ -153,6 +151,17 @@ Skyderby::Application.routes.draw do
       resource :deletion, only: [:new, :create]
       collection do
         resources :select_options, only: :index, as: :events_select_options
+      end
+    end
+
+    scope module: :performance_competitions do
+      resources :teams
+      resources :team_competitors, only: %i[new create destroy]
+    end
+
+    resource :downloads, only: :show do
+      scope module: :downloads do
+        resource :team_standings, only: :show
       end
     end
   end
