@@ -1,10 +1,12 @@
-class PerformanceCompetitions::Downloads::TeamScoreboardsController < ApplicationController
-  include PerformanceCompetitionScoped
+class PerformanceCompetitions::Downloads::TeamStandingsController < ApplicationController
+  include EventScoped
 
-  before_action :authorize_event_access!, :set_scoreboard
+  before_action :set_event
+  before_action :authorize_event
+  before_action :set_scoreboard
 
   def show
-    @team_ranking = PerformanceCompetition::TeamStandings.new(@event, @scoreboard)
+    @team_ranking = Event::TeamStandings.new(@event, @scoreboard)
 
     respond_to do |format|
       format.xml do

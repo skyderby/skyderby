@@ -157,11 +157,11 @@ Skyderby::Application.routes.draw do
     scope module: :performance_competitions do
       resources :teams
       resources :team_competitors, only: %i[new create destroy]
-    end
 
-    resource :downloads, only: :show do
-      scope module: :downloads do
-        resource :team_standings, only: :show
+      resource :downloads, only: :show do
+        scope module: :downloads do
+          resource :team_standings, only: :show
+        end
       end
     end
   end
