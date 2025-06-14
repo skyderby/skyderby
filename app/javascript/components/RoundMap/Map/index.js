@@ -16,17 +16,11 @@ const Map = () => {
   const mapElementRef = useRef()
   const [mapInstance, setMapInstance] = useState()
 
-  const onMapsApiReady = () => setApiReady(true)
-
   const boundaries = useSelector(selectBoundaries)
 
   useEffect(() => {
-    window.addEventListener('maps_api:ready', onMapsApiReady, { once: true })
-
-    initMapsApi()
-
-    return () => window.removeEventListener('maps_api:ready', onMapsApiReady)
-  }, [])
+    initMapsApi().then(() => setApiReady(true))
+  }, [setApiReady])
 
   useEffect(() => {
     if (!apiReady) return
