@@ -1,4 +1,4 @@
-class PerformanceCompetition::TeamScoreboardsController < ApplicationController
+class PerformanceCompetitions::Downloads::TeamScoreboardsController < ApplicationController
   include PerformanceCompetitionScoped
 
   before_action :authorize_event_access!, :set_scoreboard
