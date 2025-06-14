@@ -27,24 +27,4 @@ class PerformanceCompetitions::TeamCompetitorsController < ApplicationController
       respond_with_errors(competitor)
     end
   end
-
-  private
-
-  def broadcast_teams_scoreboard
-    Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :editable,
-                                               target: 'teams-scoreboard',
-                                               partial: 'performance_competitions/teams/scoreboard',
-                                               locals: { event: @event, editable: !@event.finished? }
-
-    if @event.surprise?
-      Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :read_only,
-                                                 target: 'teams-scoreboard',
-                                                 partial: 'events/surprise'
-    else
-      Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :read_only,
-                                                 target: 'teams-scoreboard',
-                                                 partial: 'performance_competitions/teams/scoreboard',
-                                                 locals: { event: @event, editable: false }
-    end
-  end
 end
