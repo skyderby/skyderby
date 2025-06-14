@@ -8,7 +8,7 @@ class SpeedSkydivingCompetition::Scoreboard::Standings
     @previous_standings = previous_standings.index_by { |row| row[:competitor] }
   end
 
-  def build
+  def build # rubocop:disable Metrics/AbcSize
     standings = competitors.map do |competitor|
       all_results = results.select { |result| result.competitor == competitor }
       accountable_results = accountable_results_for(competitor)
