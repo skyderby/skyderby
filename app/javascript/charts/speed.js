@@ -56,7 +56,7 @@ export const zeroWindSpeedSeries = (points, options) => ({
   name: I18n.t('charts.spd.series.wind_effect'),
   custom: { code: 'speed_wind_effect' },
   data: points.map(point => {
-    const windEffect = point.zerowindHSpeed - point.hSpeed
+    const windEffect = point.hSpeed - point.zerowindHSpeed
     const effectSign = windEffect > 0 ? '+' : ''
 
     return {
