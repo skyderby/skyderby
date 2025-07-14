@@ -1,0 +1,15 @@
+<%# locals: (event:, round:, result:) %>
+<td class="text-right">
+  <% if round.completed %>
+    <% if result.penalized? %>
+      <span class="dotted-underline" data-toggle="tooltip" title="<%= result.penalty_reason %>">
+        <%= format('%.1f', result.points.round(1)) if result.valid? %>
+        <% if result.apply_penalty_to_score? %>
+          <sup class="text-danger">-<%= result.penalty_size %>%</sup>
+        <% end %>
+      </span>
+    <% else %>
+      <%= format('%.1f', result.points.round(1)) if result.valid? %>
+    <% end %>
+  <% end %>
+</td>

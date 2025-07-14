@@ -7,32 +7,7 @@
   >
     <div class="scoreboard-scroll" data-events--sticky-header-target="container" data-action="scroll->events--sticky-header#on_horizontal_scroll">
       <table class="scoreboard-table" data-events--sticky-header-target="table">
-        <thead>
-          <tr>
-            <th class="text-center" rowspan="3">#</th>
-            <th rowspan="3" colspan="2"><%= t('activerecord.models.event/competitor') %></th>
-            <% @scoreboard.rounds_by_discipline.each do |discipline, rounds| %>
-              <th class="text-center" colspan="<%= rounds.count * 2 + 1 %>"><%= t('disciplines.' + discipline) %></th>
-            <% end %>
-            <th class="text-center" rowspan="3"><%= t('events.show.total') %></th>
-          </tr>
-          <tr>
-            <% @scoreboard.rounds_by_discipline.each do |discipline, rounds| %>
-              <% rounds.each do |round| %>
-                <%= render 'events/round_cell', event: @event, round:, editable: can_update %>
-              <% end %>
-              <th class="text-center" rowspan="2" data-discipline="<%= discipline %>" data-role="points">%</th>
-            <% end %>
-          </tr>
-          <tr>
-            <% @scoreboard.rounds_by_discipline.each do |discipline, rounds| %>
-              <% rounds.each do %>
-                <th class="text-center"><%= t('units.' + discipline_unit(discipline.to_sym).to_s) %></th>
-                <th class="text-center">%</th>
-              <% end %>
-            <% end %>
-          </tr>
-        </thead>
+        <%= render 'events/scoreboard_header', event: @event, scoreboard: @scoreboard, editable: can_update %>
         <% @scoreboard.sections.each do |section| %>
           <tbody>
             <%= render 'events/sections/section_row', event: @event, section:, columns_count: @scoreboard.columns_count, editable: can_update %>

@@ -1,0 +1,45 @@
+<%# locals: (event:, editable:) %>
+
+<% scoreboard = event.open_standings %>
+
+<div class="scoreboard-container" data-controller="events--sticky-header" id="open_scoreboard">
+  <div class="scoreboard-scroll" data-events--sticky-header-target="container" data-action="scroll->events--sticky-header#on_horizontal_scroll">
+    <table class="scoreboard-table" data-events--sticky-header-target="table">
+      <%= render 'events/scoreboard_header', event:, scoreboard:, editable: %>
+      <tbody>
+        <% scoreboard.standings.rows.each do |row| %>
+          <tr class="scoreboard-competitor">
+            <td class="text-center"><%= row.rank %></td>
+
+            <%= render 'events/competitors/competitor_cells', event: @event, competitor: row.competitor, editable: %>
+
+            <% scoreboard.rounds_by_discipline.each do |discipline, rounds| %>
+              <% rounds.each do |round| %>
+                <% result = row.result_in_round(round) %>
+                <% if result && (round.completed || can_update) %>
+                  <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable: %>
+                  <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result: %>
+                <% elsif editable %>
+                  <td class="result-cell">
+                    <%= new_event_track_link(event, row.competitor, round) %>
+                  </td>
+                  <td></td>
+                <% else %>
+                  <td></td>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class="text-right">
+                <% points_in_discipline = row.points_in_disciplines[discipline] %>
+                <%= format('%.1f', points_in_discipline) if points_in_discipline&.positive? %>
+              </td>
+            <% end %>
+            <td class="scoreboard-total-result">
+              <%= format('%.1f', row.total_points) if row.total_points.positive? %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

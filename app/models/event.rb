@@ -73,6 +73,8 @@ class Event < ApplicationRecord
     )
   end
 
+  def open_standings(wind_cancellation: false) = OpenScoreboard.new(self, wind_cancellation:)
+
   def permanently_delete(including_tracks: false)
     transaction do
       tracks_to_delete = tracks.to_a

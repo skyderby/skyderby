@@ -39,6 +39,10 @@ module EventScoped
     raise Pundit::NotAuthorizedError
   end
 
+  def authorize_event_access!
+    respond_not_authorized unless EventPolicy.new(current_user, @event).show?
+  end
+
   def set_event
     @event = Event.find(params[:event_id])
   end

@@ -4,6 +4,7 @@ class PerformanceCompetitions::TeamsController < ApplicationController
   before_action :set_event
   before_action :set_team, only: %i[edit update destroy]
   before_action :authorize_event, except: :index
+  before_action :authorize_event_access!, only: :index
 
   def index; end
 

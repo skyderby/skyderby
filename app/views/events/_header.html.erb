@@ -29,6 +29,11 @@
       Scoreboard
     <% end %>
 
+    <%= link_to event_open_scoreboard_path(@event), class: ['page-tab', ('page-tab-active' if controller_path == 'events/open_scoreboards' && action_name == 'show')] do %>
+      <%= svg_icon 'list-ul-solid' %>
+      Open Event
+    <% end %>
+
     <% if @event.use_teams %>
       <%= link_to event_teams_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(event_teams_path(@event)))] do %>
         <%= svg_icon 'list-ul-solid' %>

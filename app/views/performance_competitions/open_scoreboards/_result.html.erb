@@ -1,0 +1,17 @@
+<%# locals: (event:, result:, editable:)  %>
+
+<td class="<%= class_names 'result-cell', ('text-green' if result.best_result) %>">
+  <%= link_to(event_result_path(event, result),
+              **(mobile? ? { target: '_blank' } : { 'data-turbo-stream' => 'true' }),
+              class: 'result-show-cell',
+              rel: 'nofollow') do  %>
+    <% if result.result&.positive? || result.penalized? %>
+      <%= result.result %>
+      <% if result.penalized? && result.apply_penalty_to_result? %>
+        <sup class="text-danger">-<%= result.penalty_size %>%</sup>
+      <% end %>
+    <% elsif editable %>
+      <i class="far fa-question-circle text-danger"></i>
+    <% end %>
+  <% end %>
+</td>
