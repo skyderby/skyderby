@@ -74,10 +74,6 @@ class EventsController < ApplicationController
     end
   end
 
-  def destroy
-    authorize @event
-  end
-
   private
 
   def index_params

@@ -29,16 +29,19 @@
         <%= render partial: 'form', collection: @reference_points, as: :reference_point, locals: { event: @event } %>
       </div>
 
-      <div>
-        <%= form_with model: @event, url: event_designated_lane_start_path(@event), data: { controller: 'auto-submit', action: 'change->auto-submit#submit' } do |f| %>
-          <%= f.label :designated_lane_start_on_10_sec, class: 'ghost-button' do %>
-            <%= f.radio_button :designated_lane_start, :on_10_sec, disabled: !editable %>
-            <%= t "activerecord.attributes.event.designated_lane_starts.on_10_sec" %>
+      <div class="grid">
+        <% if editable %>
+          <%= form_with model: @event, url: event_designated_lane_start_path(@event), data: { controller: 'auto-submit', action: 'change->auto-submit#submit' } do |f| %>
+            <% options = options_for_select(
+              Event.designated_lane_starts.keys.map { |key|
+                [t("activerecord.attributes.event.designated_lane_starts.#{key}"), key]
+              },
+              @event.designated_lane_start
+            ) %>
+            <%= render 'hot_select/local_select', form: f, name: :designated_lane_start, options:, class: 'col-12', clearable: false %>
           <% end %>
-          <%= f.label :designated_lane_start_on_enter_window, class: 'ghost-button' do %>
-            <%= f.radio_button :designated_lane_start, :on_enter_window, disabled: !editable %>
-            <%= t "activerecord.attributes.event.designated_lane_starts.on_enter_window" %>
-          <% end %>
+        <% else %>
+          <span class="col-12"><%= t("activerecord.attributes.event.designated_lane_starts.#{@event.designated_lane_start}") %></span>
         <% end %>
       </div>
     </div>

@@ -1,6 +1,11 @@
 en:
   events:
     add_category: New category
+    section_created: Category created successfully
+    delete_event: Delete competition
+    event_deleted: Competition deleted successfully
+    event_deletion_failed: Failed to delete competition
+    event_name_mismatch: Competition name does not match
     edit_category: Edit category
     add_competitor: New competitor
     edit_competitor: Edit competitor

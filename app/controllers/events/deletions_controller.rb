@@ -1,24 +1,42 @@
 module Events
   class DeletionsController < ApplicationController
-    before_action :set_event
+    before_action :set_event, :authorize_event_deletion!
 
-    def new
-      respond_to do |format|
-        format.html
-      end
-    end
+    def new; end
 
     def create
-      return if @event.name != deletion_params[:event_name]
+      if @event.name == deletion_params[:event_name]
+        @event.permanently_delete(including_tracks: delete_tracks_param)
 
-      EventDeletion.execute(@event, delete_tracks: delete_tracks_param)
-      redirect_to events_path(format: :html)
+        redirect_to events_path(format: :html), status: :see_other
+      else
+        render(
+          turbo_stream: turbo_stream.append(
+            :toasts,
+            partial: 'toasts/toast',
+            locals: { message: t('events.event_name_mismatch'), type: 'error' }
+          ),
+          status: :unprocessable_entity
+        )
+      end
+    rescue ActiveRecord::RecordNotDestroyed
+      render(
+        turbo_stream: turbo_stream.append(
+          :toasts,
+          partial: 'toasts/toast',
+          locals: { message: t('events.event_deletion_failed'), type: 'error' }),
+        status: :unprocessable_entity
+      )
     end
 
     private
 
     def set_event
       @event = Event.find(params[:event_id])
+    end
+
+    def authorize_event_deletion!
+      respond_not_authorized unless @event.deletable?
     end
 
     def deletion_params

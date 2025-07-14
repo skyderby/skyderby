@@ -1,0 +1,34 @@
+<%= form_with scope: :event_deletion, url: event_deletion_path(@event),
+              data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+
+  <div class="sd-form">
+    <p>
+      This action
+      <b>CANNOT</b>
+      be undone. This will permanently delete the
+      <b><%= @event.name %></b>.
+      <br>
+      Please type in the name of the event to confirm.
+    </p>
+
+    <div class="grid">
+      <%= f.label :event_name, 'Event name', class: 'form-label col-3' %>
+      <%= f.text_field :event_name, class: 'form-input col-9', required: true, autofocus: true %>
+    </div>
+
+    <div class="grid">
+      <div class="col-3"></div>
+      <div class="col-9">
+        <label class="checkbox-label">
+          <%= f.check_box :delete_tracks %>
+          Delete tracks
+        </label>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit t('general.delete'), class: 'danger-button' %>
+      <button type="button" class="default-button" data-action="modal#close"><%= t 'general.cancel' %></button>
+    </div>
+  </div>
+<% end %>

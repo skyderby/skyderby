@@ -1,6 +1,11 @@
 ru:
   events:
     add_category: Новая категория
+    section_created: Категория успешно создана
+    delete_event: Удалить соревнование
+    event_deleted: Соревнование успешно удалено
+    event_deletion_failed: Не удалось удалить соревнование
+    event_name_mismatch: Название соревнования не совпадает
     edit_category: Редактирование категории
     add_competitor: Добавление участника
     edit_competitor: Редактирование участника

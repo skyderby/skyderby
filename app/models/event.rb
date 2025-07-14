@@ -47,8 +47,6 @@ class Event < ApplicationRecord
 
   validates :name, :range_from, :range_to, :starts_at, presence: true
 
-  before_validation :check_name_and_range, on: :create
-
   after_touch :broadcast_update
 
   before_create do
@@ -66,6 +64,8 @@ class Event < ApplicationRecord
 
   def editable?(user = Current.user) = EventPolicy.new(user, self).update?
 
+  def deletable?(user = Current.user) = user.admin? || user == responsible
+
   def team_standings
     Event::TeamStandings.new(
       self,
@@ -73,13 +73,22 @@ class Event < ApplicationRecord
     )
   end
 
-  private
+  def permanently_delete(including_tracks: false)
+    transaction do
+      tracks_to_delete = tracks.to_a
 
-  def check_name_and_range
-    self.name ||= "#{Time.current.strftime('%d.%m.%Y')}: Competition"
-    self.range_from ||= 2500
-    self.range_to ||= 1500
+      results.to_a.each(&:destroy!)
+      tracks_to_delete.each(&:destroy!) if including_tracks
+
+      rounds.destroy_all
+      competitors.destroy_all
+      sections.destroy_all
+
+      destroy!
+    end
   end
+
+  private
 
   def broadcast_update
     ActionCable.server.broadcast "event_updates_#{id}", {}

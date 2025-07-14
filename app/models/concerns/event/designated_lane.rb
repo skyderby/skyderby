@@ -3,7 +3,10 @@ class Event < ApplicationRecord
     extend ActiveSupport::Concern
 
     included do
-      enum :designated_lane_start, { on_10_sec: 1, on_enter_window: 0 }, prefix: 'designated_lane_start'
+      enum :designated_lane_start,
+           { on_9_sec: 2, on_10_sec: 1, on_enter_window: 0 },
+           prefix: 'designated_lane_start',
+           default: 'on_9_sec'
 
       has_many :reference_points, dependent: :delete_all
 

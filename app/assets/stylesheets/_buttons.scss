@@ -62,6 +62,20 @@
   }
 }
 
+.danger-button {
+  @extend .base-button;
+
+  --button-bg: var(--red-80);
+  --button-bg-hover: var(--red-90);
+  --button-text-color: var(--white);
+  --button-text-color-hover: var(--white);
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
 .primary-button {
   @extend .base-button;
 

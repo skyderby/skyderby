@@ -1,6 +1,8 @@
 <%# locals: (form: nil, name:, select_id:, options: [], **local_assigns) %>
 
 <% container_class = local_assigns.delete(:class) || '' %>
+<% clearable = local_assigns.key?(:clearable) ? local_assigns.delete(:clearable) : true %>
+
 <div id="<%= select_id %>-container" class="form-input hot-select-container <%= container_class %>"
      data-controller="hot-select"
      role="combobox"
@@ -24,10 +26,12 @@
          data-hot-select-target="displayValue">
     </div>
     <div class="hot-select-indicators">
-      <button type="button" class="hot-select-button" data-action="hot-select#clear" aria-label="<%= t('general.clear') %>">
-        <%= svg_icon 'xmark' %>
-      </button>
-      <div class="hot-select-separator"></div>
+      <% if clearable %>
+        <button type="button" class="hot-select-button" data-action="hot-select#clear" aria-label="<%= t('general.clear') %>">
+          <%= svg_icon 'xmark' %>
+        </button>
+        <div class="hot-select-separator"></div>
+      <% end %>
       <button type="button" class="hot-select-button" data-action="hot-select#toggle" aria-label="Toggle dropdown">
         <%= svg_icon 'angle-down-solid' %>
       </button>

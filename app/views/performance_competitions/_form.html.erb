@@ -59,13 +59,20 @@
   </div>
 
   <hr>
-  <div class="text-right">
-    <%= f.submit t('general.save'), class: 'primary-button' %>
+  <div class="modal-actions">
+    <div class="modal-actions__left">
+      <% if @event.persisted? && @event.deletable? %>
+        <%= link_to t('general.delete'), new_event_deletion_path(@event), data: { turbo_stream: true }, class: 'ghost-danger-button' %>
+      <% end %>
+    </div>
+    <div class="modal-actions__right">
+      <%= f.submit t('general.save'), class: 'primary-button' %>
 
-    <% if @event.new_record? %>
-      <%= link_to t('general.cancel'), new_event_path, class: 'default-button' %>
-    <% else %>
-      <%= link_to t('general.cancel'), event_path(@event), class: 'default-button' %>
-    <% end %>
+      <% if @event.new_record? %>
+        <%= link_to t('general.cancel'), new_event_path, class: 'default-button' %>
+      <% else %>
+        <%= link_to t('general.cancel'), event_path(@event), class: 'default-button' %>
+      <% end %>
+    </div>
   </div>
 <% end %>

@@ -1,7 +1,6 @@
 module Events
   module Rounds
     class CompetitorResult < SimpleDelegator
-      DL_STARTS_AFTER = 10.seconds
       NullWindowPoints = Struct.new(:start_point, :end_point, :direction)
 
       delegate :name, :assigned_number, to: :competitor
@@ -17,8 +16,17 @@ module Events
       def start_time = points.blank? ? track.recorded_at : points.first[:gps_time]
 
       def after_exit_point
-        time_for_lookup = exited_at + DL_STARTS_AFTER
+        time_for_lookup = exited_at + dl_starts_after
         points.find(-> { points.first }) { |point| point[:gps_time] > time_for_lookup }
+      end
+
+      private
+
+      def dl_starts_after
+        return 10 if event.designated_lane_start_on_10_sec?
+        return 9 if event.designated_lane_start_on_9_sec?
+
+        0
       end
     end
   end
