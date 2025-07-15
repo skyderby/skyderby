@@ -40,6 +40,10 @@ class Event < ApplicationRecord
 
     def penalty_sizes = [10, 20, 50, 100]
 
+    def apply_penalty_to_result? = !event.apply_penalty_to_score
+
+    def apply_penalty_to_score? = event.apply_penalty_to_score
+
     private
 
     def track_owner = event

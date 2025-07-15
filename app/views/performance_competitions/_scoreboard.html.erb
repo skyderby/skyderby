@@ -14,7 +14,7 @@
             <% scoreboard.rounds_by_discipline.each do |discipline, rounds| %>
               <% rounds.each do |round| %>
                 <% result = row.result_in_round(round) %>
-                <% if result && (round.completed || can_update) %>
+                <% if result && (round.completed || editable) %>
                   <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable: %>
                   <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result: %>
                 <% elsif editable %>

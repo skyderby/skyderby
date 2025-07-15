@@ -73,6 +73,8 @@ class Event < ApplicationRecord
     )
   end
 
+  def use_open_standings? = sections.many?
+
   def open_standings(wind_cancellation: false) = OpenScoreboard.new(self, wind_cancellation:)
 
   def task_standings(task, wind_cancellation: false) = TaskScoreboard.new(self, task, wind_cancellation:)
