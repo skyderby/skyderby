@@ -156,6 +156,7 @@ Skyderby::Application.routes.draw do
 
     scope module: :performance_competitions do
       resource :open_scoreboard, only: :show
+      resources :task_scoreboards, only: %i[index show]
       resources :teams
       resources :team_competitors, only: %i[new create destroy]
 

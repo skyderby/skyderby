@@ -75,6 +75,8 @@ class Event < ApplicationRecord
 
   def open_standings(wind_cancellation: false) = OpenScoreboard.new(self, wind_cancellation:)
 
+  def task_standings(task, wind_cancellation: false) = TaskScoreboard.new(self, task, wind_cancellation:)
+
   def permanently_delete(including_tracks: false)
     transaction do
       tracks_to_delete = tracks.to_a

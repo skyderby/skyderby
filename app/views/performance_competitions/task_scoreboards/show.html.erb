@@ -1,0 +1,20 @@
+<% provide :title, @event.name %>
+<% editable = policy(@event).update? %>
+
+<div class="show-page">
+  <%= render 'events/header', editable: %>
+
+  <div class="show-page-content">
+    <div class="tab-bar">
+      <% @tasks.each do |task| %>
+        <%= link_to t("disciplines.#{task}"), event_task_scoreboard_path(@event, task), class: class_names('tab-bar-item', ('active' if @task == task)) %>
+      <% end %>
+    </div>
+
+    <% if @event.surprise? && !editable %>
+      <h1 class="text-muted text-center">🙅 Let it be a Surprise</h1>
+    <% else %>
+      <%= render 'performance_competitions/scoreboard', event: @event, scoreboard: @event.task_standings(@task), editable: %>
+    <% end %>
+  </div>
+</div>

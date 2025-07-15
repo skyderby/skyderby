@@ -1,0 +1,10 @@
+<% provide :title, @event.name %>
+<% editable = policy(@event).update? %>
+
+<div class="show-page">
+  <%= render 'events/header', editable: %>
+
+  <div class="show-page-content">
+    <h1 class="text-muted text-center">No rounds information yet</h1>
+  </div>
+</div>
