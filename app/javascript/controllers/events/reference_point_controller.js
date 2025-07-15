@@ -1,13 +1,13 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static outlets = ['events--reference-points-map']
+  static outlets = ['map']
   static targets = ['latitude', 'longitude', 'name']
 
   connect() {
     const readOnly = this.element.getAttribute('data-readonly') === 'true'
 
-    this.eventsReferencePointsMapOutlet
+    this.mapOutlet
       .createMarker(
         this.latitudeTarget.value,
         this.longitudeTarget.value,
@@ -27,8 +27,8 @@ export default class extends Controller {
   }
 
   disconnect() {
-    if (this.marker && this.hasEventsReferencePointsMapOutlet) {
-      this.eventsReferencePointsMapOutlet.removeMarker(this.marker)
+    if (this.marker && this.hasMapOutlet) {
+      this.mapOutlet.removeMarker(this.marker)
     }
   }
 
