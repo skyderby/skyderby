@@ -66,12 +66,7 @@ class Event < ApplicationRecord
 
   def deletable?(user = Current.user) = user.admin? || user == responsible
 
-  def team_standings
-    Event::TeamStandings.new(
-      self,
-      Events::Scoreboards::SpeedDistanceTime.new(self, Events::Scoreboards::Params.new(self, {}))
-    )
-  end
+  def team_standings(wind_cancellation: false) = Event::TeamStandings.new(self, wind_cancellation:)
 
   def use_open_standings? = sections.many?
 

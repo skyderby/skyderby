@@ -15,9 +15,9 @@
     <tbody>
       <% standings.ranking.each_with_index do |row, index| %>
         <% team = row.team %>
-        <% competitors = row.ranks %>
-        <% rowspan = [competitors.size, 1].max %>
-        <% first_competitor, *other_competitors = competitors %>
+        <% individual_standings = row.ranks %>
+        <% rowspan = [individual_standings.size, 1].max %>
+        <% first_row, *other_rows = individual_standings %>
         <tr>
           <td rowspan="<%= rowspan %>"><%= index + 1 %></td>
           <td rowspan="<%= rowspan %>" class="team">
@@ -44,16 +44,16 @@
               </div>
             <% end %>
           </td>
-          <% if first_competitor %>
-            <%= render 'performance_competitions/teams/competitor_cells', competitor: first_competitor, event:, editable: %>
+          <% if first_row %>
+            <%= render 'performance_competitions/teams/competitor_cells', individual_standings: first_row, event:, editable: %>
           <% else %>
             <td colspan="2">-</td>
           <% end %>
           <td rowspan="<%= rowspan %>" class="text-right"><%= row.total_points.round(1) %></td>
         </tr>
-        <% other_competitors.each do |competitor| %>
+        <% other_rows.each do |row| %>
           <tr>
-            <%= render 'performance_competitions/teams/competitor_cells', competitor:, event:, editable: %>
+            <%= render 'performance_competitions/teams/competitor_cells', individual_standings: row, event:, editable: %>
           </tr>
         <% end %>
       <% end %>

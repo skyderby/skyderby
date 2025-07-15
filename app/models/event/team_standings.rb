@@ -3,9 +3,9 @@ class Event::TeamStandings
 
   delegate :teams, to: :event
 
-  def initialize(event, personal_standings)
+  def initialize(event, wind_cancellation: false)
     @event = event
-    @personal_standings = personal_standings
+    @personal_standings = event.open_standings(wind_cancellation:).standings
   end
 
   def ranking
@@ -20,18 +20,11 @@ class Event::TeamStandings
 
   def score_team(team)
     ranks = team.competitors.map do |competitor|
-      competitors.find { |record| record.id == competitor.id }
+      personal_standings.rows.find { |row| row.competitor == competitor }
     end
 
     total_points = ranks.sum(&:total_points)
 
     Row.new(team, ranks, total_points)
-  end
-
-  def competitors
-    personal_standings
-      .sections
-      .map { |category| category.competitors.to_a }
-      .flatten
   end
 end

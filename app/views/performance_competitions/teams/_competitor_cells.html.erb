@@ -1,5 +1,6 @@
-<%# locals: (competitor:, event:, editable:) %>
-<% if competitor %>
+<%# locals: (individual_standings:, event:, editable:) %>
+<% competitor = individual_standings.competitor %>
+<% if individual_standings %>
   <td class="competitor">
     <%= link_to competitor.profile.name, profile_path(competitor.profile), class: 'competitor-profile' %>
     <% if editable %>
@@ -20,7 +21,7 @@
       </div>
     <% end %>
   </td>
-  <td class="text-right"><%= competitor.total_points %></td>
+  <td class="text-right"><%= individual_standings.total_points %></td>
 <% else %>
   <td colspan="2">-</td>
 <% end %>
