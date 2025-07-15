@@ -13,5 +13,7 @@ class PerformanceCompetitions::TaskScoreboardsController < ApplicationController
   def show
     @tasks = @event.rounds.group_by(&:discipline).keys
     @task = params[:id]
+
+    redirect_to event_task_scoreboards_path if @tasks.exclude? @task
   end
 end

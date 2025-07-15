@@ -6,7 +6,7 @@
               class: 'result-show-cell',
               rel: 'nofollow') do  %>
     <% if result.result&.positive? || result.penalized? %>
-      <%= result.result %>
+      <%= result.formatted_result %>
       <% if result.penalized? && result.apply_penalty_to_result? %>
         <sup class="text-danger">-<%= result.penalty_size %>%</sup>
       <% end %>

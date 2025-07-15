@@ -1,6 +1,6 @@
-<%# locals: (event:, scoreboard:, editable:) %>
+<%# locals: (event:, scoreboard:, editable:, id:) %>
 
-<div class="scoreboard-container" data-controller="events--sticky-header" id="open_scoreboard">
+<div class="scoreboard-container" data-controller="events--sticky-header" id="<% id %>">
   <div class="scoreboard-scroll" data-events--sticky-header-target="container" data-action="scroll->events--sticky-header#on_horizontal_scroll">
     <table class="scoreboard-table" data-events--sticky-header-target="table">
       <%= render 'events/scoreboard_header', event:, scoreboard:, editable: %>

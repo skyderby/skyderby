@@ -8,7 +8,8 @@
     <% if @event.surprise? && !editable %>
       <h1 class="text-muted text-center">🙅 Let it be a Surprise</h1>
     <% else %>
-      <%= render 'performance_competitions/scoreboard', event: @event, scoreboard: event.open_standings, editable: %>
+      <%= render 'performance_competitions/scoreboard',
+                 event: @event, scoreboard: @event.open_standings, editable:, id: 'open_scoreboard' %>
     <% end %>
   </div>
 </div>

@@ -11,12 +11,22 @@ class Event::Scoreboard::Standings::Result < SimpleDelegator
 
   def valid? = result.positive? || penalized?
 
+  def formatted_result
+    return '' unless valid?
+
+    if round.distance?
+      format('%d', result)
+    else
+      format('%.1f', result)
+    end
+  end
+
   def result
     calculated_result = wind_cancellation ? record.result_net : record.result
     return 0 unless calculated_result
 
     (calculated_result - (calculated_result / 100 * penalty_size.to_f))
-      .then { |result| round.distance? ? result.truncate : result }
+      .then { |result| round.distance? ? result.round : result.round(1) }
   end
 
   def calculate_points_from(best_result)

@@ -8,7 +8,7 @@
   <li class="nav-menu-item <%= 'nav-menu-item--active' if root_controller == 'tracks' %>">
     <%= link_to t('application.header.tracks'), tracks_path %>
   </li>
-  <li class="nav-menu-item <%= 'nav-menu-item--active' if ['events', 'speed_skydiving_competitions', 'tournaments'].include?(root_controller) %>">
+  <li class="nav-menu-item <%= 'nav-menu-item--active' if ['events', 'performance_competitions', 'speed_skydiving_competitions', 'tournaments'].include?(root_controller) %>">
     <%= link_to t('application.header.competitions'), events_path %>
   </li>
   <li class="nav-menu-item <%= 'nav-menu-item--active' if root_controller == 'virtual_competitions' %>">
