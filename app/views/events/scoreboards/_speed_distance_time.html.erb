@@ -39,6 +39,11 @@
                           <% end %>
                         <% end %>
                       </td>
+                    <% elsif result %>
+                      <td class="text-right text-muted">
+                        <%= result.formated %>
+                      </td>
+                      <td></td>
                     <% elsif can_update %>
                       <td class="result-cell">
                         <%= new_event_track_link(@scoreboard.event, competitor, round) %>

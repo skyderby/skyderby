@@ -17,6 +17,11 @@
                 <% if result && (round.completed || editable) %>
                   <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable: %>
                   <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result: %>
+                <% elsif result %>
+                  <td class="text-right text-muted">
+                    <%= result.formatted_result %>
+                  </td>
+                  <td></td>
                 <% elsif editable %>
                   <td class="result-cell">
                     <%= new_event_track_link(event, row.competitor, round) %>
