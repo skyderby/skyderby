@@ -12,11 +12,13 @@ class Event::TaskScoreboard
   end
 
   def standings
-    Event::Scoreboard::Standings.new(event.competitors, rounds, results, wind_cancellation:)
+    Event::Scoreboard::Standings.new(event.competitors, completed_rounds, results, wind_cancellation:)
   end
 
-  def rounds
-    @rounds ||= event.rounds.where(discipline: task).order(:number, :created_at)
+  def rounds = event.rounds.where(discipline: task).order(:number, :created_at)
+
+  def completed_rounds
+    @completed_rounds ||= rounds.completed
   end
 
   def rounds_by_discipline
