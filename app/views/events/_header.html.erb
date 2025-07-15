@@ -55,6 +55,15 @@
       <% end %>
     <% end %>
 
+    <% if Current.user.admin? %>
+      <% if @event.reference_points.any? || editable %>
+        <%= link_to event_lane_validations_path(@event), class: ['page-tab', ('page-tab-active' if controller_path == 'performance_competitions/lane_validations')] do %>
+          <%= svg_icon 'location-dot-solid' %>
+          <span>Lane Validation</span>
+        <% end %>
+      <% end %>
+    <% end %>
+
     <% if editable %>
       <%= link_to edit_event_path(@event), class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_event_path(@event)))] do %>
         <%= svg_icon 'gear-solid' %>

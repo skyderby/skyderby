@@ -1,0 +1,50 @@
+.lane-validation {
+  --card-padding: 0;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+.lane-validation-map {
+  width: 70%;
+  height: 100%;
+}
+
+.lane-validation-competitors {
+  height: 100%;
+  width: 40%;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lane-validation-competitor-header {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+
+  label {
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+
+    input {
+      margin: 0;
+      height: 1.125em;
+      width: 1.125em;
+    }
+  }
+
+  .hot-select-container {
+    width: auto;
+  }
+}
+
+.lane-validation-competitor-name {
+  font-size: 1rem;
+}
+

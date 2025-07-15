@@ -18,7 +18,7 @@ module Events
         @event = event
         @round = event.rounds.includes(
           :reference_point_assignments,
-          results: { competitor: :profile }
+          results: [:track, { competitor: :profile }]
         ).find(round_id)
       end
 

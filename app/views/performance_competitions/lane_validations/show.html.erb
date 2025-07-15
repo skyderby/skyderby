@@ -1,0 +1,62 @@
+<% provide :title, @event.name %>
+<% editable = policy(@event).update? %>
+
+<div class="show-page">
+  <%= render 'events/header', editable: %>
+
+  <div class="tab-bar">
+    <% @rounds_by_discipline.each do |task, rounds| %>
+      <% next if rounds.empty? %>
+      <% rounds.each do |round| %>
+        <%= link_to t("disciplines.#{task}") + " - #{round.number}", event_lane_validation_path(@event, round), class: class_names('tab-bar-item', ('active' if @round == round)) %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if !@round.completed? && !editable %>
+    <h1 class="text-muted text-center">Data will appear after the round is marked as completed</h1>
+  <% else %>
+    <section class="card lane-validation" data-controller="lane-validation">
+      <script type="application/json" data-lane-validation-target="referencePoints">
+        <%= raw @event.reference_points.to_json(only: [:id, :latitude, :longitude, :name]) %>
+      </script>
+      <aside class="lane-validation-map"
+             data-controller="map"
+             data-center-lat="<%= @event.place.latitude %>"
+             data-center-lon="<%= @event.place.longitude %>"></aside>
+      <main class="lane-validation-competitors">
+        <% @grouped_jumps.each_with_index do |jumps, group_index| %>
+          <div class="lane-validation-group">
+            <h2 class="lane-validation-group-title"><%= t 'events.rounds.map.group' %> <%= group_index + 1 %></h2>
+
+            <div class="lane-validation-jumps">
+              <% jumps.each_with_index do |jump, jump_index| %>
+                <div class="lane-validation-competitor"
+                     data-group-id="<%= group_index %>"
+                     data-reference-point-id="<%= jump.reference_point&.id %>">
+                  <div class="lane-validation-competitor-header">
+                    <label>
+                      <input type="checkbox" />
+                      <div class="lane-validation-competitor-color"></div>
+                      <span class="lane-validation-competitor-name"><%= jump.competitor.name %></span>
+                    </label>
+                    <% if editable && !@round.completed? %>
+                      <% options = options_from_collection_for_select(@event.reference_points.order(:name), :id, :name, jump.reference_point) %>
+                      <%= render 'hot_select/local_select', name: "reference_points_#{jump.id}", options:, placeholder: '—' %>
+                    <% else %>
+                    <div><%= jump.reference_point&.name || 'N/A' %></div>
+                    <% end %>
+                  </div>
+                  <div>
+                    Heading: <%= jump.heading_within_window %>°
+                    Exit: <%= jump.exit_altitude.to_i %> <%= t 'units.m' %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </main>
+    </section>
+  <% end %>
+</div>

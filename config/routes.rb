@@ -159,6 +159,7 @@ Skyderby::Application.routes.draw do
       resources :task_scoreboards, only: %i[index show]
       resources :teams
       resources :team_competitors, only: %i[new create destroy]
+      resources :lane_validations, only: %i[index show]
 
       resource :downloads, only: :show do
         scope module: :downloads do
