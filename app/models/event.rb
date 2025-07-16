@@ -44,6 +44,7 @@ class Event < ApplicationRecord
            as: :sponsorable,
            dependent: :delete_all,
            inverse_of: :sponsorable
+  has_one :gps_recordings_archive, as: :event, dependent: :destroy
 
   validates :name, :range_from, :range_to, :starts_at, presence: true
 

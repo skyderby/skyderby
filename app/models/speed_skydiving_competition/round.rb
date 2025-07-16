@@ -6,6 +6,7 @@ class SpeedSkydivingCompetition::Round < ApplicationRecord
   validates :number, presence: true
 
   before_create :set_number
+  after_update :queue_gps_recordings_archive, if: :saved_change_to_completed_at?
   after_destroy :renumber_subsequent
 
   scope :ordered, -> { order(:number, :created_at) }
@@ -23,4 +24,10 @@ class SpeedSkydivingCompetition::Round < ApplicationRecord
   end
 
   def last_number_within_event = event.rounds.maximum(:number) || 0
+
+  def queue_gps_recordings_archive
+    return if completed_at.blank?
+
+    CreateGpsRecordingsArchiveJob.perform_later(event)
+  end
 end

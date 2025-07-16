@@ -1,0 +1,44 @@
+<div class="show-page">
+  <%= render 'events/header', editable: @event.editable? %>
+
+  <div class="card card-sm">
+    <div class="downloads-row">
+      <div class="downloads-title">
+        <div>Scoreboard (by category)</div>
+        <% @event.sections.each do |section| %>
+          <div><%= section.name %> - <code><%= "skyderby-performance-#{@event.id}-#{section.id}" %></code></div>
+        <% end %>
+      </div>
+      <%= link_to 'ISC XML', event_downloads_scoreboard_path(@event, format: :xml), class: 'default-button', download: true %>
+    </div>
+    <div class="downloads-row">
+      <div class="downloads-title">
+        <div>Open-Event Scoreboard</div>
+        <code><%= "skyderby-performance-open-#{@event.id}" %></code>
+      </div>
+      <%= link_to 'ISC XML', event_downloads_open_event_scoreboard_path(@event, format: :xml), class: 'default-button', download: true %>
+    </div>
+    <div class="downloads-row">
+      <div class="downloads-title">
+        <div>Scoreboard (by task)</div>
+        <% @event.rounds.pluck(:discipline).uniq.each do |task| %>
+          <div><%= t("disciplines.#{task}") %> - <code><%= "skyderby-performance-#{@event.id}-#{task}" %></code></div>
+        <% end %>
+      </div>
+      <%= link_to 'ISC XML', event_downloads_scoreboard_path(@event, format: :xml), class: 'default-button', download: true %>
+    </div>
+    <% if @event.use_teams %>
+      <div class="downloads-row">
+        <div class="downloads-title">
+          <div>Team standings</div>
+          <code><%= "skyderby-performance-#{@event.id}-teams" %></code>
+        </div>
+        <%= link_to 'ISC XML', event_downloads_team_standings_path(@event, format: :xml), class: 'default-button', download: true %>
+      </div>
+    <% end %>
+    <div class="downloads-row">
+      <div class="downloads-title">GPS Recordings</div>
+      <%= link_to 'ZIP Archive', event_downloads_gps_recordings_path(@event), class: 'default-button', download: true %>
+    </div>
+  </div>
+</div>

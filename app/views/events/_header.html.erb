@@ -65,6 +65,8 @@
     <% end %>
 
     <% if editable %>
+      <%= link_to t('events.downloads'), event_downloads_path(@event), class: ['page-tab', ('page-tab-active' if controller_path == 'performance_competitions/downloads')] %>
+
       <%= link_to edit_event_path(@event), class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_event_path(@event)))] do %>
         <%= svg_icon 'gear-solid' %>
         <%= t('general.edit') %>

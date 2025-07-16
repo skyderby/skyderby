@@ -22,6 +22,7 @@ class Event::Round < ApplicationRecord
   before_create :set_number
 
   after_update :set_tracks_visibility, if: :saved_change_to_completed_at?
+  after_update :queue_gps_recordings_archive, if: :saved_change_to_completed_at?
 
   def completed = completed_at.present?
 
@@ -43,6 +44,12 @@ class Event::Round < ApplicationRecord
 
   def set_tracks_visibility
     tracks.find_each { |track| track.update!(visibility: tracks_visibility) }
+  end
+
+  def queue_gps_recordings_archive
+    return if completed_at.blank?
+
+    CreateGpsRecordingsArchiveJob.perform_later(event)
   end
 
   class << self

@@ -1,5 +1,5 @@
-class SpeedSkydivingCompetitions::Downloads::GpsRecordingsController < ApplicationController
-  include SpeedSkydivingCompetitionScoped
+class PerformanceCompetitions::Downloads::GpsRecordingsController < ApplicationController
+  include EventScoped
 
   before_action :set_event
   before_action :authorize_event_update!

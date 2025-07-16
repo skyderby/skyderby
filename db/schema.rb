@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_11_071131) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_16_080411) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -159,6 +159,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_11_071131) do
     t.boolean "use_teams"
     t.bigint "profile_id"
     t.index ["profile_id"], name: "index_events_on_profile_id"
+  end
+
+  create_table "gps_recordings_archives", force: :cascade do |t|
+    t.string "event_type", null: false
+    t.bigint "event_id", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "file_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_type", "event_id"], name: "index_gps_recordings_archives_on_event"
+    t.index ["event_type", "event_id"], name: "index_gps_recordings_archives_on_event_type_and_event_id", unique: true
   end
 
   create_table "manufacturers", id: :serial, force: :cascade do |t|

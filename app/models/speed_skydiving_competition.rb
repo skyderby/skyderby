@@ -20,6 +20,7 @@ class SpeedSkydivingCompetition < ApplicationRecord
            as: :sponsorable,
            dependent: :delete_all,
            inverse_of: :sponsorable
+  has_one :gps_recordings_archive, as: :event, dependent: :destroy
 
   delegate :name, to: :place, prefix: true, allow_nil: true
 
