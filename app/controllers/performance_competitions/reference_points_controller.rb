@@ -15,6 +15,21 @@ class PerformanceCompetitions::ReferencePointsController < ApplicationController
 
   def index
     @reference_points = @event.reference_points.includes(:assignments).order(:name)
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        csv_data = CSV.generate do |csv|
+          @reference_points.pluck(:name, :latitude, :longitude).uniq.each do |point|
+            csv << point
+          end
+        end
+
+        send_data csv_data,
+                  type: 'text/csv',
+                  filename: "#{@event.name.parameterize}-reference-points.csv"
+      end
+    end
   end
 
   def update
