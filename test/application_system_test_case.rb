@@ -15,6 +15,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   browser = headless ? :headless_chrome : :chrome
   driven_by :selenium, using: browser do |options|
     options.add_preference('intl.accept_languages', 'en-US')
+    options.add_argument("--window-position=#{ENV.fetch('CHROME_WINDOW_POSITION', '0,0')}") unless headless
   end
 
   setup do
