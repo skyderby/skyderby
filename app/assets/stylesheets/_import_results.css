@@ -1,0 +1,9 @@
+.import-results {
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--gray-20);
+  font-size: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}

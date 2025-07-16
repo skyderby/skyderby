@@ -1,5 +1,3 @@
-require 'csv'
-
 class TrackFormatDetector
   class UnknownFormat < StandardError; end
 

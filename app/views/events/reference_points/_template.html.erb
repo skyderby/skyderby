@@ -1,4 +1,0 @@
-<% model = PerformanceCompetition::ReferencePoint.new(event: form.object) %>
-<%= form.fields_for :reference_points, model, include_id: false, child_index: '__INDEX__' do |reference_point_form| %>
-  <%= render 'performance_competitions/reference_points/fields', form: reference_point_form %>
-<% end %>

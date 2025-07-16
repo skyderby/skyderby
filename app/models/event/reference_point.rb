@@ -1,4 +1,6 @@
 class Event::ReferencePoint < ApplicationRecord
+  include CsvImportable
+
   belongs_to :event
   has_many :assignments, class_name: 'Event::ReferencePointAssignment', dependent: :restrict_with_error
   validate :restrict_update_if_assigned_to_competitors

@@ -1,4 +1,4 @@
-class Events::ReferencePointsController < ApplicationController
+class PerformanceCompetitions::ReferencePointsController < ApplicationController
   include EventScoped
 
   before_action :set_event

@@ -43,6 +43,10 @@ module EventScoped
     respond_not_authorized unless EventPolicy.new(current_user, @event).show?
   end
 
+  def authorize_event_update!
+    respond_not_authorized unless EventPolicy.new(current_user, @event).update?
+  end
+
   def set_event
     @event = Event.find(params[:event_id])
   end

@@ -1,4 +1,3 @@
-require 'csv'
 require 'net/http'
 
 class TrackScanner

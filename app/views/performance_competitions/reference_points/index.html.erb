@@ -17,6 +17,10 @@
           <%= svg_icon 'plus-solid' %>
           <%= t('general.create') %>
         <% end %>
+        <%= link_to new_event_reference_points_import_path(@event), class: 'default-button', data: { turbo_stream: true } do %>
+          <%= svg_icon 'plus-solid' %>
+          <%= t('general.import_from_csv')  %>
+        <% end %>
       </div>
       <div class="reference-points-table" id="reference-points-table">
         <div class="reference-points-table-header">

@@ -29,6 +29,8 @@ en:
     jump_range: Jump range
     or: Or
     clear: Clear
+    import_from_csv: Import from CSV
+    import: Import
   users:
     profile:
       edit:

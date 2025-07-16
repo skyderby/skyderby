@@ -1,0 +1,22 @@
+<%= form_with url: event_reference_points_import_path(@event) do |f| %>
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :file, 'CSV File', class: 'form-label col-3' %>
+      <%= f.file_field :file, class: 'form-input col-9', required: true, accept: '.csv', autofocus: true %>
+
+      <div class="col-start-4 col-9">
+        <small class="form-help">
+          CSV format: name, latitude, longitude<br>
+          One reference point per line.
+        </small>
+      </div>
+    </div>
+
+    <div id="import-results"></div>
+
+    <div class="form-actions">
+      <%= f.submit t('general.import'), class: 'primary-button' %>
+      <button type="button" class="default-button" data-action="modal#close"><%= t('general.cancel') %></button>
+    </div>
+  </div>
+<% end %>

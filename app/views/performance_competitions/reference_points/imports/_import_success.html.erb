@@ -1,0 +1,9 @@
+<%# locals: (logs:) %>
+<div class="import-results">
+  <h4>Import completed</h4>
+  <ul>
+    <% logs.each do |log| %>
+      <li><%= log %></li>
+    <% end %>
+  </ul>
+</div>

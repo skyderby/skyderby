@@ -1,0 +1,9 @@
+<%# locals: (errors:) %>
+<div class="import-results">
+  <h4>Import failed</h4>
+  <ul>
+    <% errors.each do |log| %>
+      <li><%= log %></li>
+    <% end %>
+  </ul>
+</div>

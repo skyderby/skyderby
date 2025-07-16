@@ -147,7 +147,6 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resources :reference_points
       resource :deletion, only: [:new, :create]
       collection do
         resources :select_options, only: :index, as: :events_select_options
@@ -155,6 +154,11 @@ Skyderby::Application.routes.draw do
     end
 
     scope module: :performance_competitions do
+      resources :reference_points do
+        collection do
+          resource :import, only: %i[new create], module: :reference_points, as: :reference_points_import
+        end
+      end
       resource :open_scoreboard, only: :show
       resources :task_scoreboards, only: %i[index show]
       resources :teams

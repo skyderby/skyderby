@@ -31,6 +31,8 @@ ru:
     charts: Графики
     jump_range: Отделение и открытие
     or: Или
+    import_from_csv: "Импорт из CSV"
+    import: "Импорт"
   meta:
     description: "Skyderby это веб-приложение для анализа треков полётов и проведения соревнований"
   date:

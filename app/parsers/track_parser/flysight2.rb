@@ -1,5 +1,3 @@
-require 'csv'
-
 module TrackParser
   class Flysight2
     FIELDS_INDEXES = {
