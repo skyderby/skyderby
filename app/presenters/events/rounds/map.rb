@@ -1,7 +1,7 @@
 module Events
   module Rounds
     class Map
-      COLORS = %w[#7cb5ec #434348 #90ed7d #f7a35c #8085e9 #f15c80 #e4d354 #8085e8 #8d4653 #91e8e1].freeze
+      COLORS = %w[#7cb5ec #434348 #90ed7d #f7a35c #8085e9 #f15c80 #e4d354 #8085e8 #8d4653 #91e8e1 #434348].freeze
 
       attr_reader :round
 

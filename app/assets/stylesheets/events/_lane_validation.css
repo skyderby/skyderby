@@ -20,6 +20,18 @@
   gap: 0.5rem;
 }
 
+.lane-validation-group-title {
+  font-size: 1.25rem;
+  color: var(--gray-80);
+}
+
+.lane-validation-jumps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
 .lane-validation-competitor-header {
   display: flex;
   gap: 0.5rem;
@@ -31,6 +43,7 @@
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
+    overflow: hidden;
 
     input {
       margin: 0;
@@ -46,5 +59,11 @@
 
 .lane-validation-competitor-name {
   font-size: 1rem;
+}
+
+.lane-validation-competitor-color {
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
 }
 

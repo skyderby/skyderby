@@ -1,4 +1,5 @@
 <% provide :title, @event.name %>
+<% provide :page_class, 'fullscreen' %>
 <% editable = policy(@event).update? %>
 
 <div class="show-page">
@@ -21,6 +22,7 @@
         <%= raw @event.reference_points.to_json(only: [:id, :latitude, :longitude, :name]) %>
       </script>
       <aside class="lane-validation-map"
+             data-lane-validation-target="map"
              data-controller="map"
              data-center-lat="<%= @event.place.latitude %>"
              data-center-lon="<%= @event.place.longitude %>"></aside>
@@ -33,18 +35,19 @@
               <% jumps.each_with_index do |jump, jump_index| %>
                 <div class="lane-validation-competitor"
                      data-group-id="<%= group_index %>"
+                     data-color="<%= competitor_color_by_index(jump_index) %>"
                      data-reference-point-id="<%= jump.reference_point&.id %>">
                   <div class="lane-validation-competitor-header">
                     <label>
                       <input type="checkbox" />
-                      <div class="lane-validation-competitor-color"></div>
+                      <div class="lane-validation-competitor-color" style="background-color: <%= competitor_color_by_index(jump_index); %>"></div>
                       <span class="lane-validation-competitor-name"><%= jump.competitor.name %></span>
                     </label>
                     <% if editable && !@round.completed? %>
                       <% options = options_from_collection_for_select(@event.reference_points.order(:name), :id, :name, jump.reference_point) %>
                       <%= render 'hot_select/local_select', name: "reference_points_#{jump.id}", options:, placeholder: '—' %>
                     <% else %>
-                    <div><%= jump.reference_point&.name || 'N/A' %></div>
+                      <div><%= jump.reference_point&.name || 'N/A' %></div>
                     <% end %>
                   </div>
                   <div>
