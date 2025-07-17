@@ -16,6 +16,8 @@ class ApplicationController < ActionController::Base
 
   layout :layout_by_resource
 
+  before_action :underscore_params!
+
   def layout_by_resource
     if devise_controller?
       'sessions'
@@ -25,4 +27,8 @@ class ApplicationController < ActionController::Base
   end
 
   def page = [params[:page].to_i, 1].max
+
+  def underscore_params!
+    params.deep_transform_keys!(&:underscore)
+  end
 end

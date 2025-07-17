@@ -35,7 +35,8 @@ class Event < ApplicationRecord
     delegate :tracks_visibility, to: :round
 
     def reference_point
-      round.reference_point_assignments.find_by(competitor: competitor)&.reference_point
+      round.reference_point_assignments
+           .find { _1.competitor_id == competitor_id }&.reference_point
     end
 
     def penalty_sizes = [10, 20, 50, 100]

@@ -2,6 +2,7 @@ import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
   static targets = ['referencePoints', 'map']
+  static values = { eventId: Number }
 
   connect() {
     this.pointsCache = new Map()
@@ -65,6 +66,9 @@ export default class extends Controller {
     this.polylines.forEach(polyline => polyline.setMap(null))
     this.polylines.clear()
 
+    this.referencePointMarkers.forEach(marker => marker.setMap(null))
+    this.referencePointMarkers.clear()
+
     const allCheckboxes = this.element.querySelectorAll(
       '.lane-validation-competitor input[type="checkbox"]'
     )
@@ -79,6 +83,7 @@ export default class extends Controller {
     try {
       const points = await this.fetchPoints(trackId)
       this.createPolyline(trackId, points, color)
+      this.updateReferencePointsOnMap()
     } catch (error) {
       console.error(`Failed to load track ${trackId}:`, error)
     }
@@ -96,6 +101,8 @@ export default class extends Controller {
       const checkbox = competitorElement.querySelector('input[type="checkbox"]')
       if (checkbox) checkbox.checked = false
     }
+
+    this.updateReferencePointsOnMap()
   }
 
   async fetchPoints(trackId) {
@@ -129,5 +136,84 @@ export default class extends Controller {
 
     polyline.setMap(map)
     this.polylines.set(trackId, polyline)
+  }
+
+  async handleReferencePointChange(event) {
+    const select = event.target
+    const competitorId = select.dataset.competitorId
+    const roundId = select.dataset.roundId
+    const referencePointId = select.value || null
+
+    try {
+      const response = await fetch(
+        `/events/performance/${this.eventIdValue}/reference_point_assignments`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+          },
+          body: JSON.stringify({ roundId, competitorId, referencePointId })
+        }
+      )
+
+      if (response.ok) {
+        const competitorElement = select.closest('.lane-validation-competitor')
+        if (competitorElement) {
+          competitorElement.dataset.referencePointId = referencePointId || ''
+          this.updateReferencePointsOnMap()
+        }
+      } else {
+        console.error('Failed to update reference point assignment')
+      }
+    } catch (error) {
+      console.error('Error updating reference point assignment:', error)
+    }
+  }
+
+  updateReferencePointsOnMap() {
+    this.referencePointMarkers.forEach(marker => {
+      if (this.mapController && this.mapController.removeMarker) {
+        this.mapController.removeMarker(marker)
+      } else {
+        marker.setMap(null)
+      }
+    })
+    this.referencePointMarkers.clear()
+
+    const displayedCompetitors = this.element.querySelectorAll(
+      '.lane-validation-competitor input[type="checkbox"]:checked'
+    )
+
+    displayedCompetitors.forEach(checkbox => {
+      const competitorElement = checkbox.closest('.lane-validation-competitor')
+      const referencePointId = competitorElement.dataset.referencePointId
+
+      if (referencePointId) {
+        const referencePoint = this.referencePoints.find(
+          point => point.id == referencePointId
+        )
+
+        if (referencePoint && this.mapController) {
+          this.mapController
+            .createMarker(
+              parseFloat(referencePoint.latitude),
+              parseFloat(referencePoint.longitude),
+              referencePoint.name,
+              true
+            )
+            .then(marker => {
+              this.referencePointMarkers.set(
+                `${competitorElement.dataset.trackId}-${referencePointId}`,
+                marker
+              )
+            })
+        }
+      }
+    })
+  }
+
+  get mapController() {
+    return this.application.getControllerForElementAndIdentifier(this.mapTarget, 'map')
   }
 }

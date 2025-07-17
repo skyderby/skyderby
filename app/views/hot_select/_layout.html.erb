@@ -10,8 +10,7 @@
      aria-expanded="false">
   <% select_html_options = {
     class: 'hot-select--hidden',
-    data: { 'hot-select-target': 'selectInput' },
-    include_blank: local_assigns[:include_blank],
+    data: { 'hot-select-target': 'selectInput' }
   }.deep_merge(local_assigns[:select] || {}) %>
 
   <% if form %>

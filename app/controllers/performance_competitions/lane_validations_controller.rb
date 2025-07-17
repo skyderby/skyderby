@@ -15,13 +15,14 @@ class PerformanceCompetitions::LaneValidationsController < ApplicationController
   def show
     event_rounds = @event.rounds.order(:number, :created_at)
     @rounds_by_discipline = event_rounds.group_by(&:discipline)
-    @round = event_rounds.includes(
-      :reference_point_assignments,
-      results: [:track, { competitor: :profile }]
-    ).find(params[:id])
+    @round = event_rounds.find(params[:id])
 
-    @grouped_jumps = @round.results.order(:exited_at).slice_when do |first, second|
-      (first.exited_at - second.exited_at).abs >= GROUP_SEPARATION
-    end
+    @grouped_jumps =
+      @round
+      .results
+      .includes(competitor: :profile, round: { reference_point_assignments: :reference_point })
+      .order(:exited_at).slice_when do |first, second|
+        (first.exited_at - second.exited_at).abs >= GROUP_SEPARATION
+      end
   end
 end
