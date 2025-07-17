@@ -9,17 +9,17 @@ class Event::OpenScoreboard
   end
 
   def columns_count
-    @columns_count ||= event_rounds.count * 2 + rounds_by_discipline.count + 4
+    @columns_count ||= rounds.count * 2 + rounds_by_discipline.count + 4
   end
 
   def standings
     Event::Scoreboard::Standings.new(event.competitors, completed_rounds, results, wind_cancellation:)
   end
 
-  def event_rounds = event.rounds.order(:number, :created_at)
+  def rounds = event.rounds.order(:number, :created_at)
 
   def completed_rounds
-    @rounds ||= event_rounds.completed.then do |rounds|
+    @rounds ||= rounds.completed.then do |rounds|
       if until_round.nil?
         rounds
       else
@@ -29,7 +29,7 @@ class Event::OpenScoreboard
   end
 
   def rounds_by_discipline
-    @rounds_by_discipline ||= event_rounds.group_by(&:discipline)
+    @rounds_by_discipline ||= rounds.group_by(&:discipline)
   end
 
   def results
