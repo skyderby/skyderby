@@ -13,6 +13,8 @@ class SpeedSkydivingCompetition::Round < ApplicationRecord
 
   def presentation = number
 
+  def code = "round-#{number}"
+
   private
 
   def set_number

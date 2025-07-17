@@ -54,7 +54,7 @@ class GpsRecordingsArchive < ApplicationRecord
     [
       competitor.assigned_number,
       competitor.name.tr(' ', '_'),
-      "Round_#{round.number}",
+      round.code,
       file.metadata['filename'] || 'track.csv'
     ].compact_blank.join('_')
   end

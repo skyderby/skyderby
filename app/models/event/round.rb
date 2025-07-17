@@ -33,6 +33,10 @@ class Event::Round < ApplicationRecord
 
   def tracks_visibility = completed ? event.tracks_visibility : Track.visibilities[:private_track]
 
+  def presentation = "#{discipline.humanize} #{number}"
+
+  def code = "#{discipline}-#{number}"
+
   private
 
   def set_number
