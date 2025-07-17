@@ -1,4 +1,8 @@
 .inside-iframe {
+  body {
+    background-color: var(--white);
+  }
+
   .navbar,
   .announcement,
   footer {

@@ -1,0 +1,6 @@
+<%= render partial: 'result', locals: {
+  title: "Result: #{@result.competitor.name} - Round #{@result.round.number}",
+  event: @event,
+  editable: false,
+  result: @result
+} %>
