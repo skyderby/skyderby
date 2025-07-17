@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_16_080411) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_17_020056) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -107,6 +107,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_16_080411) do
     t.datetime "exited_at", precision: nil
     t.integer "heading_within_window"
     t.integer "pull_altitude"
+    t.datetime "validated_at"
     t.index ["profile_id"], name: "index_event_results_on_profile_id"
     t.index ["round_id", "competitor_id"], name: "index_event_results_on_round_id_and_competitor_id", unique: true
     t.index ["round_id"], name: "index_event_results_on_round_id"

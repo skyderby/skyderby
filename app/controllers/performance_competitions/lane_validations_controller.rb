@@ -20,8 +20,8 @@ class PerformanceCompetitions::LaneValidationsController < ApplicationController
       results: [:track, { competitor: :profile }]
     ).find(params[:id])
 
-    @grouped_jumps = @round.results.slice_when do |first, second|
-      (first.track.start_time - second.track.start_time).abs >= GROUP_SEPARATION
+    @grouped_jumps = @round.results.order(:exited_at).slice_when do |first, second|
+      (first.exited_at - second.exited_at).abs >= GROUP_SEPARATION
     end
   end
 end

@@ -31,10 +31,11 @@ module Events
     end
 
     def event_result_presentation(event_track)
-      "#{I18n.t('activerecord.models.event/result')}: " \
-        "#{event_track.competitor.name} | " \
-        "#{I18n.t("disciplines.#{event_track.round_discipline}")} - " \
-        "#{event_track.round_number}"
+      [
+        event_track.competitor.assigned_number.presence && "(##{event_track.competitor.assigned_number})",
+        "#{event_track.competitor.name} |",
+        "#{I18n.t("disciplines.#{event_track.round_discipline}")} - #{event_track.round_number}"
+      ].compact.join(' ')
     end
   end
 end
