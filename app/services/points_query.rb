@@ -83,7 +83,7 @@ class PointsQuery
       @track = track
       @trimmed = trimmed
       @freq_1hz = freq_1hz
-      @trim_options = trimmed.is_a?(Hash) ? trimmed : {}
+      @trim_options = trimmed.is_a?(Hash) ? trimmed.with_indifferent_access : {}
     end
 
     def call
@@ -101,7 +101,8 @@ class PointsQuery
       return scope unless trimmed
 
       ff_start, ff_end = Track.where(id: track.id).pick(:ff_start, :ff_end)
-      ff_start -= trim_options[:seconds_before_start] if trim_options[:seconds_before_start]
+      ff_start -= trim_options[:seconds_before_start].to_i if trim_options[:seconds_before_start]
+      ff_end += trim_options[:seconds_after_end].to_i if trim_options[:seconds_after_end]
 
       scope.where('fl_time BETWEEN ? AND ?', ff_start, ff_end)
     end

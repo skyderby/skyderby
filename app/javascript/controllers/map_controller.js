@@ -5,12 +5,13 @@ export default class extends Controller {
   connect() {
     this.markers = []
     this.initMap = initMapsApi().then(() => this.renderMap())
+    this.mapType = this.element.dataset.mapType || 'SATELLITE'
   }
 
   renderMap() {
     const options = {
       zoom: 13,
-      mapTypeId: google.maps.MapTypeId.SATELLITE,
+      mapTypeId: google.maps.MapTypeId[this.mapType],
       center: this.mapCenter,
       mapId: 'REFERENCE_POINTS_MAP'
     }

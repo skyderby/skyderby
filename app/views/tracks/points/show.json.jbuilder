@@ -1,6 +1,7 @@
 json.key_format! camelize: :lower
 
 json.wind_cancellation @zerowind_points.any?
+json.deploy_fl_time @track.ff_end
 
 json.points @points do |point|
   json.extract! point,

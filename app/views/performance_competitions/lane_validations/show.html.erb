@@ -17,13 +17,18 @@
   <% if !@round.completed? && !editable %>
     <h1 class="text-muted text-center">Data will appear after the round is marked as completed</h1>
   <% else %>
-    <section class="card lane-validation" data-controller="lane-validation" data-lane-validation-event-id-value="<%= @event.id %>">
+    <section class="card lane-validation"
+             data-controller="lane-validation"
+             data-lane-validation-event-id-value="<%= @event.id %>"
+             data-lane-validation-window-start-value="<%= @event.range_from %>"
+             data-lane-validation-window-end-value="<%= @event.range_to %>">
       <script type="application/json" data-lane-validation-target="referencePoints">
         <%= raw @event.reference_points.to_json(only: [:id, :latitude, :longitude, :name]) %>
       </script>
       <aside class="lane-validation-map"
              data-lane-validation-target="map"
              data-controller="map"
+             data-map-type="ROADMAP"
              data-center-lat="<%= @event.place.latitude %>"
              data-center-lon="<%= @event.place.longitude %>"></aside>
       <main class="lane-validation-competitors">
@@ -36,6 +41,7 @@
                 <div class="lane-validation-competitor"
                      data-group-id="<%= group_index %>"
                      data-track-id="<%= jump.track_id %>"
+                     data-exited-at="<%= jump.exited_at&.iso8601 %>"
                      data-color="<%= competitor_color_by_index(jump_index) %>"
                      data-reference-point-id="<%= jump.reference_point&.id %>">
                   <div class="lane-validation-competitor-header">

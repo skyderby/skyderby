@@ -46,13 +46,13 @@ class Tracks::PointsController < ApplicationController
 
   def show_params
     params
-      .permit(:original_frequency, :trimmed, trimmed: [:seconds_before_start])
+      .permit(:original_frequency, :trimmed, trimmed: [:seconds_before_start, :seconds_after_end])
       .to_h.symbolize_keys
       .tap { |params| normalize_params(params) }
   end
 
   def normalize_params(params)
-    params[:trimmed] = ActiveModel::Type::Boolean.new.cast(params[:trimmed]) if params.key?(:trimmed)
+    params[:trimmed] = ActiveModel::Type::Boolean.new.cast(params[:trimmed]) if params[:trimmed].is_a?(String)
     params[:freq_1hz] = false if params[:original_frequency] == 'true'
   end
 
