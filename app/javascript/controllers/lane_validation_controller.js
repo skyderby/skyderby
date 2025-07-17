@@ -1,10 +1,14 @@
 import { Controller } from '@hotwired/stimulus'
 import {
   createTrackGraphics,
-  createWindowMarkers,
-  interpolatePointByAltitude
+  createWindowMarkers
 } from 'utils/laneValidation/trackGraphics'
 import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
+import {
+  interpolatePointByAltitude,
+  interpolatePointByTime,
+  findDeployPoint
+} from 'utils/laneValidation/utils'
 
 export default class extends Controller {
   static targets = ['referencePoints', 'map']
@@ -196,6 +200,7 @@ export default class extends Controller {
     try {
       const data = await this.fetchPoints(trackId)
       const points = data.points || []
+      const deployFlTime = data.deployFlTime
 
       if (points.length === 0) {
         console.warn('No points available for this track')
@@ -203,13 +208,15 @@ export default class extends Controller {
       }
 
       const startMarker = interpolatePointByAltitude(points, this.windowStartValue)
-      const endMarker = interpolatePointByAltitude(points, this.windowEndValue)
+      const windowEndMarker = interpolatePointByAltitude(points, this.windowEndValue)
       const dlStartPoint = this.calculateDLStartPoint(points, exitedAt)
 
-      if (!startMarker || !endMarker) {
+      if (!startMarker || !windowEndMarker) {
         console.warn('Could not find window markers for this track')
         return
       }
+
+      const deployPoint = findDeployPoint(points, deployFlTime)
 
       this.clearDesignatedLane()
 
@@ -217,7 +224,8 @@ export default class extends Controller {
       this.designatedLane = createDesignatedLane(
         map,
         dlStartPoint,
-        endMarker,
+        windowEndMarker,
+        deployPoint,
         referencePoint,
         points
       )
@@ -234,50 +242,16 @@ export default class extends Controller {
     if (this.dlStartValue === 'on_10_sec') {
       const exitedAtTime = new Date(exitedAt).getTime()
       const targetTime = exitedAtTime + 10000
-      return this.interpolatePointByTime(points, targetTime)
+      return interpolatePointByTime(points, targetTime)
     }
 
     if (this.dlStartValue === 'on_9_sec') {
       const exitedAtTime = new Date(exitedAt).getTime()
       const targetTime = exitedAtTime + 9000
-      return this.interpolatePointByTime(points, targetTime)
+      return interpolatePointByTime(points, targetTime)
     }
 
     return interpolatePointByAltitude(points, this.windowStartValue)
-  }
-
-  interpolatePointByTime(points, targetTime) {
-    for (let i = 0; i < points.length - 1; i++) {
-      const currentPoint = points[i]
-      const nextPoint = points[i + 1]
-
-      const currentTime = new Date(currentPoint.gpsTime).getTime()
-      const nextTime = new Date(nextPoint.gpsTime).getTime()
-
-      const isWithinRange =
-        (currentTime <= targetTime && nextTime >= targetTime) ||
-        (currentTime >= targetTime && nextTime <= targetTime)
-
-      if (isWithinRange) {
-        if (currentTime === targetTime) return currentPoint
-        if (nextTime === targetTime) return nextPoint
-
-        const ratio = (targetTime - currentTime) / (nextTime - currentTime)
-
-        return {
-          latitude:
-            currentPoint.latitude + (nextPoint.latitude - currentPoint.latitude) * ratio,
-          longitude:
-            currentPoint.longitude +
-            (nextPoint.longitude - currentPoint.longitude) * ratio,
-          altitude:
-            currentPoint.altitude + (nextPoint.altitude - currentPoint.altitude) * ratio,
-          gpsTime: new Date(targetTime)
-        }
-      }
-    }
-
-    return null
   }
 
   clearDesignatedLane() {

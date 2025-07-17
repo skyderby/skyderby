@@ -1,4 +1,5 @@
 import LatLon from 'geodesy/latlon-nvector-spherical'
+import { interpolatePointByAltitude, interpolatePointByTime } from './utils'
 
 const afterExitColor = 'rgb(18, 78, 120)'
 const windowStartColor = 'rgb(252, 35, 94)'
@@ -192,69 +193,6 @@ export function createWindowMarker(point, text, color, bearing, map) {
   return marker
 }
 
-export function interpolatePointByAltitude(points, targetAltitude) {
-  for (let i = 0; i < points.length - 1; i++) {
-    const currentPoint = points[i]
-    const nextPoint = points[i + 1]
-
-    const isWithinRange =
-      (currentPoint.altitude >= targetAltitude && nextPoint.altitude <= targetAltitude) ||
-      (currentPoint.altitude <= targetAltitude && nextPoint.altitude >= targetAltitude)
-
-    if (isWithinRange) {
-      if (currentPoint.altitude === targetAltitude) return currentPoint
-      if (nextPoint.altitude === targetAltitude) return nextPoint
-
-      const ratio =
-        (targetAltitude - currentPoint.altitude) /
-        (nextPoint.altitude - currentPoint.altitude)
-
-      const currentTime = new Date(currentPoint.gpsTime).getTime()
-      const nextTime = new Date(nextPoint.gpsTime).getTime()
-      const interpolatedTime = currentTime + (nextTime - currentTime) * ratio
-
-      return {
-        latitude:
-          currentPoint.latitude + (nextPoint.latitude - currentPoint.latitude) * ratio,
-        longitude:
-          currentPoint.longitude + (nextPoint.longitude - currentPoint.longitude) * ratio,
-        altitude: targetAltitude,
-        gpsTime: new Date(interpolatedTime)
-      }
-    }
-  }
-}
-
-export function interpolatePointByTime(points, targetTime) {
-  for (let i = 0; i < points.length - 1; i++) {
-    const currentPoint = points[i]
-    const nextPoint = points[i + 1]
-
-    const currentTime = new Date(currentPoint.gpsTime).getTime()
-    const nextTime = new Date(nextPoint.gpsTime).getTime()
-
-    const isWithinRange =
-      (currentTime <= targetTime && nextTime >= targetTime) ||
-      (currentTime >= targetTime && nextTime <= targetTime)
-
-    if (isWithinRange) {
-      if (currentTime === targetTime) return currentPoint
-      if (nextTime === targetTime) return nextPoint
-
-      const ratio = (targetTime - currentTime) / (nextTime - currentTime)
-
-      return {
-        latitude:
-          currentPoint.latitude + (nextPoint.latitude - currentPoint.latitude) * ratio,
-        longitude:
-          currentPoint.longitude + (nextPoint.longitude - currentPoint.longitude) * ratio,
-        altitude:
-          currentPoint.altitude + (nextPoint.altitude - currentPoint.altitude) * ratio,
-        gpsTime: new Date(targetTime)
-      }
-    }
-  }
-}
 
 export function calculateBearing(startPoint, endPoint) {
   const startCoordinate = new LatLon(startPoint.latitude, startPoint.longitude)

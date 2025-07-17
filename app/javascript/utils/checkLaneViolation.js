@@ -55,7 +55,13 @@ const mostDistantPoint = (
   )
 }
 
-const getLaneViolation = (points, laneEnterPoint, referencePoint, exitWindowPoint) => {
+const getLaneViolation = (
+  points,
+  laneEnterPoint,
+  referencePoint,
+  exitWindowPoint,
+  deployPoint
+) => {
   const mostDistantPointUntilWindowExit = mostDistantPoint(
     points,
     laneEnterPoint,
@@ -69,7 +75,7 @@ const getLaneViolation = (points, laneEnterPoint, referencePoint, exitWindowPoin
     laneEnterPoint,
     referencePoint,
     exitWindowPoint,
-    points[points.length - 1]
+    deployPoint || points.at(-1)
   )
 
   if (

@@ -14,6 +14,7 @@ export function createDesignatedLane(
   map,
   startPoint,
   windowEndPoint,
+  deployPoint,
   referencePoint,
   points
 ) {
@@ -28,7 +29,8 @@ export function createDesignatedLane(
       points,
       startPoint,
       referencePoint,
-      windowEndPoint
+      windowEndPoint,
+      deployPoint
     )
     if (laneViolation) {
       violationMarker = createLaneViolationMarker(
