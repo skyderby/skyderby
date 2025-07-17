@@ -16,11 +16,11 @@ const mostDistantPoint = (
   const refPointCoordinate = new LatLon(referencePoint.latitude, referencePoint.longitude)
   const distanceFromLaneEnterToReferencePoint = laneEnter.distanceTo(refPointCoordinate)
 
-  const startTime = Date.parse(startPoint.gpsTime)
-  const endTime = Date.parse(endPoint.gpsTime)
+  const startTime = startPoint.gpsTime
+  const endTime = endPoint.gpsTime
 
   const pointsWithDistances = points.map(point => {
-    const gpsTime = Date.parse(point.gpsTime)
+    const gpsTime = point.gpsTime
     if (gpsTime < startTime || gpsTime > endTime) {
       return { ...point, distance: 0 }
     }

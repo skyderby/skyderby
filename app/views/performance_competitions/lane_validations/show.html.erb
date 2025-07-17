@@ -19,6 +19,7 @@
   <% else %>
     <section class="card lane-validation"
              data-controller="lane-validation"
+             data-lane-validation-dl-start-value="<%= @event.designated_lane_start %>"
              data-lane-validation-event-id-value="<%= @event.id %>"
              data-lane-validation-window-start-value="<%= @event.range_from %>"
              data-lane-validation-window-end-value="<%= @event.range_to %>">
@@ -69,8 +70,9 @@
                     <% end %>
                   </div>
                   <div>
+                    <button class="ghost-button" data-action="lane-validation#showDesignatedLane">Select</button>
                     Heading: <%= jump.heading_within_window %>°
-                    Exit: <%= jump.exit_altitude.to_i %> <%= t 'units.m' %>
+                    Exit: <%= jump.exit_altitude.to_i %><%= t 'units.m' %>
                   </div>
                 </div>
               <% end %>

@@ -1,16 +1,18 @@
 import { Controller } from '@hotwired/stimulus'
-import LatLon from 'geodesy/latlon-nvector-spherical'
-
-const _afterExitColor = 'rgb(18, 78, 120)'
-const windowStartColor = 'rgb(252, 35, 94)'
-const windowEndColor = 'rgb(96, 173, 66)'
+import {
+  createTrackGraphics,
+  createWindowMarkers,
+  interpolatePointByAltitude
+} from 'utils/laneValidation/trackGraphics'
+import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
 
 export default class extends Controller {
   static targets = ['referencePoints', 'map']
   static values = {
     eventId: Number,
     windowStart: Number,
-    windowEnd: Number
+    windowEnd: Number,
+    dlStart: String
   }
 
   connect() {
@@ -18,6 +20,7 @@ export default class extends Controller {
     this.trackGraphics = new Map()
     this.referencePointMarkers = new Map()
     this.displayedCompetitors = new Set()
+    this.designatedLane = null
     this.loadReferencePoints()
   }
 
@@ -32,9 +35,13 @@ export default class extends Controller {
   }
 
   disconnect() {
-    this.polylines.forEach(polyline => polyline.setMap(null))
-    this.polylines.clear()
+    this.trackGraphics.forEach(graphics => {
+      graphics.polylines.forEach(polyline => polyline.setMap(null))
+      graphics.windowMarkers.forEach(marker => marker.setMap(null))
+    })
+    this.trackGraphics.clear()
     this.pointsCache.clear()
+    this.clearDesignatedLane()
   }
 
   handleCheckboxChange(event) {
@@ -97,7 +104,22 @@ export default class extends Controller {
 
     try {
       const data = await this.fetchPoints(trackId)
-      this.createTrackGraphics(trackId, data, color)
+      const map = this.mapTarget.mapInstance
+      const competitorElement = this.element.querySelector(`[data-track-id="${trackId}"]`)
+      const exitedAt = competitorElement?.dataset.exitedAt
+
+      const { polylines } = createTrackGraphics(trackId, data, color, map, exitedAt)
+      const windowMarkers = createWindowMarkers(
+        trackId,
+        data.points || [],
+        this.windowStartValue,
+        this.windowEndValue,
+        this.dlStartValue,
+        map,
+        exitedAt
+      )
+
+      this.trackGraphics.set(trackId, { polylines, windowMarkers })
       this.updateReferencePointsOnMap()
     } catch (error) {
       console.error(`Failed to load track ${trackId}:`, error)
@@ -137,122 +159,110 @@ export default class extends Controller {
       headers: { Accept: 'application/json' }
     })
     const data = await response.json()
+
+    if (data.points) {
+      data.points = data.points.map(point => ({
+        ...point,
+        gpsTime: new Date(point.gpsTime)
+      }))
+    }
+
     this.pointsCache.set(trackId, data)
     return data
   }
 
-  createTrackGraphics(trackId, data, color) {
-    const map = this.mapTarget.mapInstance
-    if (!map) return
+  async showDesignatedLane(event) {
+    const competitorElement = event.target.closest('.lane-validation-competitor')
+    if (!competitorElement) return
 
-    const competitorElement = this.element.querySelector(`[data-track-id="${trackId}"]`)
-    const exitedAt = competitorElement?.dataset.exitedAt
+    const trackId = competitorElement.dataset.trackId
+    const exitedAt = competitorElement.dataset.exitedAt
+    const referencePointId = competitorElement.dataset.referencePointId
 
-    const polylines = []
-    const points = data.points || []
-    const deployFlTime = data.deployFlTime
-
-    if (points.length === 0) return
-
-    if (exitedAt) {
-      const exitedAtTime = new Date(exitedAt).getTime()
-      const beforeExitPoints = points.filter(point => {
-        const pointTime = new Date(point.gpsTime).getTime()
-        return pointTime < exitedAtTime
-      })
-
-      if (beforeExitPoints.length > 0) {
-        const beforeExitPath = beforeExitPoints.map(point => ({
-          lat: point.latitude,
-          lng: point.longitude
-        }))
-
-        const beforeExitPolyline = new google.maps.Polyline({
-          path: beforeExitPath,
-          strokeColor: color,
-          strokeWeight: 1,
-          strokeOpacity: 1.0
-        })
-
-        beforeExitPolyline.setMap(map)
-        polylines.push(beforeExitPolyline)
-      }
+    if (!referencePointId) {
+      console.warn('Reference point not assigned for this competitor')
+      return
     }
 
-    const mainPoints = points.filter(point => {
-      if (exitedAt) {
-        const exitedAtTime = new Date(exitedAt).getTime()
-        const pointTime = new Date(point.gpsTime).getTime()
-        if (pointTime < exitedAtTime) return false
-      }
+    const referencePoint = this.referencePoints.find(
+      point => point.id == referencePointId
+    )
 
-      if (deployFlTime) {
-        return point.flTime <= deployFlTime
-      }
-
-      return true
-    })
-
-    if (mainPoints.length > 0) {
-      const mainPath = mainPoints.map(point => ({
-        lat: point.latitude,
-        lng: point.longitude
-      }))
-
-      const mainPolyline = new google.maps.Polyline({
-        path: mainPath,
-        strokeColor: color,
-        strokeWeight: 3,
-        strokeOpacity: 1.0
-      })
-
-      mainPolyline.setMap(map)
-      polylines.push(mainPolyline)
+    if (!referencePoint) {
+      console.warn('Reference point not found')
+      return
     }
 
-    if (deployFlTime) {
-      const afterDeployPoints = points.filter(point => point.flTime > deployFlTime)
+    try {
+      const data = await this.fetchPoints(trackId)
+      const points = data.points || []
 
-      if (afterDeployPoints.length > 0) {
-        const afterDeployPath = afterDeployPoints.map(point => ({
-          lat: point.latitude,
-          lng: point.longitude
-        }))
-
-        const afterDeployPolyline = new google.maps.Polyline({
-          path: afterDeployPath,
-          strokeColor: color,
-          strokeWeight: 1,
-          strokeOpacity: 1
-        })
-
-        afterDeployPolyline.setMap(map)
-        polylines.push(afterDeployPolyline)
+      if (points.length === 0) {
+        console.warn('No points available for this track')
+        return
       }
+
+      const startMarker = interpolatePointByAltitude(points, this.windowStartValue)
+      const endMarker = interpolatePointByAltitude(points, this.windowEndValue)
+      const dlStartPoint = this.calculateDLStartPoint(points, exitedAt)
+
+      if (!startMarker || !endMarker) {
+        console.warn('Could not find window markers for this track')
+        return
+      }
+
+      this.clearDesignatedLane()
+
+      const map = this.mapTarget.mapInstance
+      this.designatedLane = createDesignatedLane(
+        map,
+        dlStartPoint,
+        endMarker,
+        referencePoint,
+        points
+      )
+    } catch (error) {
+      console.error('Failed to show designated lane:', error)
     }
-
-    const windowMarkers = this.createWindowMarkers(trackId, points)
-
-    this.trackGraphics.set(trackId, { polylines, windowMarkers })
   }
 
-  interpolatePointByAltitude(points, targetAltitude) {
+  calculateDLStartPoint(points, exitedAt) {
+    if (!exitedAt || !points || points.length === 0) {
+      return interpolatePointByAltitude(points, this.windowStartValue)
+    }
+
+    if (this.dlStartValue === 'on_10_sec') {
+      const exitedAtTime = new Date(exitedAt).getTime()
+      const targetTime = exitedAtTime + 10000
+      return this.interpolatePointByTime(points, targetTime)
+    }
+
+    if (this.dlStartValue === 'on_9_sec') {
+      const exitedAtTime = new Date(exitedAt).getTime()
+      const targetTime = exitedAtTime + 9000
+      return this.interpolatePointByTime(points, targetTime)
+    }
+
+    return interpolatePointByAltitude(points, this.windowStartValue)
+  }
+
+  interpolatePointByTime(points, targetTime) {
     for (let i = 0; i < points.length - 1; i++) {
       const currentPoint = points[i]
       const nextPoint = points[i + 1]
 
+      const currentTime = new Date(currentPoint.gpsTime).getTime()
+      const nextTime = new Date(nextPoint.gpsTime).getTime()
+
       const isWithinRange =
-        (currentPoint.altitude >= targetAltitude &&
-          nextPoint.altitude <= targetAltitude) ||
-        (currentPoint.altitude <= targetAltitude && nextPoint.altitude >= targetAltitude)
+        (currentTime <= targetTime && nextTime >= targetTime) ||
+        (currentTime >= targetTime && nextTime <= targetTime)
 
       if (isWithinRange) {
-        if (currentPoint.altitude === targetAltitude) return currentPoint
-        if (nextPoint.altitude === targetAltitude) return nextPoint
+        if (currentTime === targetTime) return currentPoint
+        if (nextTime === targetTime) return nextPoint
 
-        const ratio =
-          (targetAltitude - currentPoint.altitude) /
-          (nextPoint.altitude - currentPoint.altitude)
+        const ratio = (targetTime - currentTime) / (nextTime - currentTime)
 
         return {
           latitude:
@@ -260,91 +270,21 @@ export default class extends Controller {
           longitude:
             currentPoint.longitude +
             (nextPoint.longitude - currentPoint.longitude) * ratio,
-          altitude: targetAltitude
+          altitude:
+            currentPoint.altitude + (nextPoint.altitude - currentPoint.altitude) * ratio,
+          gpsTime: new Date(targetTime)
         }
       }
     }
+
+    return null
   }
 
-  createWindowMarkers(trackId, points) {
-    const map = this.mapTarget.mapInstance
-    if (!map || !this.windowStartValue || !this.windowEndValue) return []
-
-    const windowStartPoint = this.interpolatePointByAltitude(
-      points,
-      this.windowStartValue
-    )
-    const windowEndPoint = this.interpolatePointByAltitude(points, this.windowEndValue)
-
-    if (!windowStartPoint || !windowEndPoint) return []
-
-    const bearing = this.calculateBearing(windowStartPoint, windowEndPoint)
-
-    const startMarker = this.createWindowMarker(
-      windowStartPoint,
-      `${this.windowStartValue}m`,
-      windowStartColor,
-      bearing
-    )
-
-    const endMarker = this.createWindowMarker(
-      windowEndPoint,
-      `${this.windowEndValue}m`,
-      windowEndColor,
-      bearing
-    )
-
-    return [startMarker, endMarker]
-  }
-
-  calculateBearing(startPoint, endPoint) {
-    const startCoordinate = new LatLon(startPoint.latitude, startPoint.longitude)
-    const endCoordinate = new LatLon(endPoint.latitude, endPoint.longitude)
-
-    return startCoordinate.initialBearingTo(endCoordinate)
-  }
-
-  createWindowMarker(point, text, color, bearing) {
-    const map = this.mapTarget.mapInstance
-
-    const perpBearing = (bearing + 30) % 360
-    const perpRad = (perpBearing * Math.PI) / 180
-
-    const radius = 3
-    const centerX = 40
-    const centerY = 60 + radius / 2
-
-    const lineLength = 15
-
-    const endX = centerX + Math.cos(perpRad) * lineLength
-    const endY = centerY + Math.sin(perpRad) * lineLength
-
-    const textX = endX + Math.cos(perpRad) * 5 - 2
-    const textY = endY + Math.sin(perpRad) * 5 + 3
-
-    const svgString = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="60" viewBox="0 0 80 60" fill="none" style="overflow: visible;">
-        <defs>
-          <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-            <feDropShadow dx="1" dy="1" stdDeviation="1" flood-color="black" flood-opacity="0.75"/>
-          </filter>
-        </defs>
-        <line x1="${centerX}" y1="${centerY}" x2="${endX}" y2="${endY}" stroke="white" stroke-width="1" filter="url(#shadow)"/>
-        <circle cx="${centerX}" cy="${centerY}" r="${radius}" fill="${color}" stroke="white" stroke-width="1"/>
-        <text x="${textX}" y="${textY}" fill="white" font-family="Arial" font-size="12" font-weight="normal" filter="url(#shadow)" text-anchor="left">${text}</text>
-      </svg>
-    `
-
-    const parser = new DOMParser()
-    const svgElement = parser.parseFromString(svgString, 'image/svg+xml').documentElement
-
-    const marker = new google.maps.marker.AdvancedMarkerElement({
-      map: map,
-      position: { lat: point.latitude, lng: point.longitude },
-      content: svgElement
-    })
-
-    return marker
+  clearDesignatedLane() {
+    if (this.designatedLane) {
+      this.designatedLane.cleanup()
+      this.designatedLane = null
+    }
   }
 
   async handleReferencePointChange(event) {
