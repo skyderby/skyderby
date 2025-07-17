@@ -44,17 +44,9 @@ export default class extends Controller {
 
     const trackId = competitorElement.dataset.trackId
     const groupId = competitorElement.dataset.groupId
-    const color = competitorElement.dataset.color
 
     if (checkbox.checked) {
-      // If it's a group selection, display the whole group
-      if (groupId) {
-        this.displayGroup(groupId)
-      } else {
-        // Individual competitor selection
-        this.displayedCompetitors.add(trackId)
-        this.displayTrack(trackId, color)
-      }
+      this.displayGroup(groupId)
     } else {
       this.removeTrack(trackId)
     }
@@ -398,7 +390,6 @@ export default class extends Controller {
     })
     this.referencePointMarkers.clear()
 
-    // Collect unique reference point IDs from displayed competitors
     const uniqueReferencePointIds = new Set()
     this.displayedCompetitors.forEach(trackId => {
       const competitorElement = this.element.querySelector(`[data-track-id="${trackId}"]`)
@@ -410,7 +401,6 @@ export default class extends Controller {
       }
     })
 
-    // Create markers only for unique reference points
     uniqueReferencePointIds.forEach(referencePointId => {
       const referencePoint = this.referencePoints.find(
         point => point.id == referencePointId
@@ -419,8 +409,8 @@ export default class extends Controller {
       if (referencePoint && this.mapController) {
         this.mapController
           .createMarker(
-            parseFloat(referencePoint.latitude),
-            parseFloat(referencePoint.longitude),
+            referencePoint.latitude,
+            referencePoint.longitude,
             referencePoint.name,
             true
           )
