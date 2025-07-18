@@ -10,7 +10,9 @@ class SpeedSkydivingCompetitions::ResultsController < ApplicationController
     @result = @event.results.new(new_result_params)
   end
 
-  def show; end
+  def show
+    response.headers['X-FRAME-OPTIONS'] = 'ALLOWALL'
+  end
 
   def create
     @result = @event.results.new(create_params)

@@ -23,6 +23,9 @@ Skyderby::Application.routes.draw do
   get '/events/:id', to: redirect('/events/performance/%{id}'), constraints: { id: /\d+/ }
   get '/tournaments/:id/*path', to: redirect('/events/tournaments/%{id}/%{path}'), constraints: { id: /\d+/ }
   get '/tournaments/:id', to: redirect('/events/tournaments/%{id}'), constraints: { id: /\d+/ }
+  get '/events/speed_skydiving/:id/results/:result_id/iframe',
+      to: redirect('/events/speed_skydiving/%{id}/results/%{result_id}'),
+      constraints: { id: /\d+/, result_id: /\d+/ }
 
   get '/track/:id', to: redirect('/tracks/%{id}'), constraints: { id: /\d+/ }
   get '/tracks/:id/google_maps', to: redirect('/tracks/%{id}/map'), constraints: { id: /\d+/ }
@@ -194,7 +197,6 @@ Skyderby::Application.routes.draw do
         scope module: :results do
           resource :penalties, only: %i[show new update]
           resource :jump_range, only: %i[show update]
-          resource :iframe, only: :show
         end
       end
       resources :teams
