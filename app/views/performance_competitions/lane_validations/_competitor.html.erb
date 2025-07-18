@@ -1,0 +1,16 @@
+<%# locals: (result:) %>
+
+<div class="lane-validation-competitor-info" id="lane-validation-competitor-<%= result.id %>">
+  <% if result.competitor.assigned_number.present? %>
+    <span class="lane-validation-competitor-number">#<%= result.competitor.assigned_number %></span>
+  <% end %>
+  <span class="lane-validation-competitor-name"><%= result.competitor.name %></span>
+  <% if result.penalized? %>
+    <span class="penalty-label penalty-label--<%= result.penalty_size <= 20 ? 'minor' : 'major' %>">
+      -<%= result.penalty_size %>%
+    </span>
+  <% end %>
+  <% if result.validated? %>
+    <%= svg_icon 'circle-check-regular', class: 'jump-validated' %>
+  <% end %>
+</div>

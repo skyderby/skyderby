@@ -146,6 +146,7 @@ Skyderby::Application.routes.draw do
         scope module: :results do
           resource :jump_range, only: %i[show update]
           resource :penalty, only: %i[show update]
+          resource :validation, only: %i[update]
           resource :map, only: :show
         end
       end

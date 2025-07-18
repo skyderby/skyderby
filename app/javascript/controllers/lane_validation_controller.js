@@ -57,13 +57,13 @@ export default class extends Controller {
     const groupId = competitorElement.dataset.groupId
 
     if (checkbox.checked) {
-      this.displayGroup(groupId)
+      this.displayGroupAsync(groupId)
     } else {
       this.removeTrack(trackId)
     }
   }
 
-  displayGroup(groupId) {
+  async displayGroupAsync(groupId) {
     this.clearAllTracks()
 
     const groupElement = this.element
@@ -72,6 +72,7 @@ export default class extends Controller {
     if (!groupElement) return
 
     const competitors = groupElement.querySelectorAll('.lane-validation-competitor')
+    const displayPromises = []
 
     competitors.forEach(competitor => {
       const checkbox = competitor.querySelector('input[type="checkbox"]')
@@ -80,8 +81,12 @@ export default class extends Controller {
 
       checkbox.checked = true
       this.displayedCompetitors.add(trackId)
-      this.displayTrack(trackId, color)
+      displayPromises.push(this.displayTrack(trackId, color))
     })
+
+    this.updateReferencePointsOnMap()
+
+    await Promise.all(displayPromises)
   }
 
   clearAllTracks() {
@@ -106,10 +111,14 @@ export default class extends Controller {
   async displayTrack(trackId, color) {
     if (this.trackGraphics.has(trackId)) return
 
+    const competitorElement = this.element.querySelector(`[data-track-id="${trackId}"]`)
+    if (competitorElement) {
+      competitorElement.classList.add('loading')
+    }
+
     try {
       const data = await this.fetchPoints(trackId)
       const map = this.mapTarget.mapInstance
-      const competitorElement = this.element.querySelector(`[data-track-id="${trackId}"]`)
       const exitedAt = competitorElement?.dataset.exitedAt
 
       const { polylines } = createTrackGraphics(trackId, data, color, map, exitedAt)
@@ -124,9 +133,12 @@ export default class extends Controller {
       )
 
       this.trackGraphics.set(trackId, { polylines, windowMarkers })
-      this.updateReferencePointsOnMap()
     } catch (error) {
       console.error(`Failed to load track ${trackId}:`, error)
+    } finally {
+      if (competitorElement) {
+        competitorElement.classList.remove('loading')
+      }
     }
   }
 
@@ -144,8 +156,6 @@ export default class extends Controller {
       const checkbox = competitorElement.querySelector('input[type="checkbox"]')
       if (checkbox) checkbox.checked = false
     }
-
-    this.updateReferencePointsOnMap()
   }
 
   async fetchPoints(trackId) {
@@ -182,6 +192,7 @@ export default class extends Controller {
     const trackId = competitorElement.dataset.trackId
     const exitedAt = competitorElement.dataset.exitedAt
     const referencePointId = competitorElement.dataset.referencePointId
+    const groupId = competitorElement.dataset.groupId
 
     if (!referencePointId) {
       console.warn('Reference point not assigned for this competitor')
@@ -196,6 +207,8 @@ export default class extends Controller {
       console.warn('Reference point not found')
       return
     }
+
+    await this.displayGroupAsync(groupId)
 
     try {
       const data = await this.fetchPoints(trackId)
@@ -229,6 +242,13 @@ export default class extends Controller {
         referencePoint,
         points
       )
+
+      const bounds = new google.maps.LatLngBounds()
+      bounds.extend(new google.maps.LatLng(dlStartPoint.latitude, dlStartPoint.longitude))
+      bounds.extend(
+        new google.maps.LatLng(referencePoint.latitude, referencePoint.longitude)
+      )
+      map.fitBounds(bounds)
     } catch (error) {
       console.error('Failed to show designated lane:', error)
     }
@@ -333,6 +353,32 @@ export default class extends Controller {
           })
       }
     })
+  }
+
+  async toggleValidation(event) {
+    const button = event.currentTarget
+    const url = button.dataset.validationUrl
+    const competitorElement = button.closest('.lane-validation-competitor')
+    if (!competitorElement) return
+
+    const validated = button.dataset.validated === 'true'
+
+    try {
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ result: { validated: !validated } })
+      })
+
+      if (!response.ok) {
+        console.error('Failed to toggle validation')
+      }
+    } catch (error) {
+      console.error('Error toggling validation:', error)
+    }
   }
 
   get mapController() {

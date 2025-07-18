@@ -103,3 +103,6 @@ Style/OpenStructUse:
 
 Style/SuperArguments:
   Enabled: false
+
+Style/GuardClause:
+  Enabled: false

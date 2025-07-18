@@ -1,6 +1,7 @@
 <% provide :title, @event.name %>
 <% provide :page_class, 'fullscreen' %>
 <% editable = policy(@event).update? %>
+<%= turbo_stream_from @event, :validation %>
 
 <div class="show-page">
   <%= render 'events/header', editable: %>
@@ -14,7 +15,7 @@
     <% end %>
   </div>
 
-  <% if !@round.completed? && !editable %>
+  <% if !editable && !@round.completed? %>
     <h1 class="text-muted text-center">Data will appear after the round is marked as completed</h1>
   <% else %>
     <section class="card lane-validation"
@@ -48,8 +49,9 @@
                   <div class="lane-validation-competitor-header">
                     <label>
                       <input type="checkbox" data-action="change->lane-validation#handleCheckboxChange" />
+                      <%= svg_icon 'circle-notch-solid', class: 'lane-validation-loading-indicator' %>
                       <div class="lane-validation-competitor-color" style="background-color: <%= competitor_color_by_index(jump_index); %>"></div>
-                      <span class="lane-validation-competitor-name"><%= jump.competitor.name %></span>
+                      <%= render 'performance_competitions/lane_validations/competitor', result: jump %>
                     </label>
                     <% if editable && !@round.completed? %>
                       <% options = options_from_collection_for_select(@event.reference_points.order(:name), :id, :name, jump.reference_point&.id) %>
@@ -69,10 +71,21 @@
                       <div><%= jump.reference_point&.name || 'N/A' %></div>
                     <% end %>
                   </div>
-                  <div>
-                    <button class="ghost-button" data-action="lane-validation#showDesignatedLane">Select</button>
-                    Heading: <%= jump.heading_within_window %>°
-                    Exit: <%= jump.exit_altitude.to_i %><%= t 'units.m' %>
+                  <div class="lane-validation-competitor-details">
+                    <div class="lane-validation-result-actions">
+                      <button class="ghost-button small-button" data-action="lane-validation#showDesignatedLane">Select</button>
+                      <% if editable && !@round.completed? %>
+                        <%= link_to 'Penalties', event_result_penalty_path(@event, jump, minimal: true),
+                                    data: { turbo_stream: true },
+                                    class: 'ghost-button small-button' %>
+
+                        <%= render 'performance_competitions/lane_validations/toggle_validation', result: jump %>
+                      <% end %>
+                    </div>
+                    <div class="lane-validation-result-info">
+                      <%= svg_icon 'compass-regular' %> <%= jump.heading_within_window %>°
+                      Exit: <%= jump.exit_altitude.to_i %><%= t 'units.m' %>
+                    </div>
                   </div>
                 </div>
               <% end %>

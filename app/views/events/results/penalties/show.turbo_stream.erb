@@ -1,11 +1,13 @@
 <% editable = policy(@event).update? && !@event.finished? && !@result.round.completed? %>
+<% minimal = params.key? :minimal %>
 
 <%= turbo_stream.update 'modal-root' do %>
   <%= render partial: 'penalties_form',
              layout: 'components/modal',
              locals: {
                title: event_result_presentation(@result),
-               modal_size: 'lg',
+               minimal:,
+               modal_size: minimal ? :md : :lg,
                editable:,
                result: @result,
                modal: true,

@@ -1,22 +1,24 @@
-<%# locals: (result:, editable:, modal: false, **rest) %>
+<%# locals: (result:, editable:, minimal: false, modal: false, **rest) %>
 
 <% url ||= event_result_penalty_path(result.event, result) %>
 
 <div class="sd-container">
-  <%= render 'events/results/navbar', result:, modal: %>
+  <% if !minimal %>
+    <%= render 'events/results/navbar', result:, modal: %>
+  <% end %>
 
   <%= form_with model: result, scope: :penalty, url: url, method: :put, class: 'sd-form',
                 data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
     <div class="grid">
-      <label class="col-start-3 col-4 checkbox-label">
+      <label class="col-start-4 col-4 checkbox-label">
         <%= f.check_box :penalized, checked: result.penalized %>
         <%= f.label :penalized %>
       </label>
     </div>
 
     <div class="grid">
-      <%= f.label :penalty_size, class: 'col-2 text-right' %>
-      <div class="tab-bar col-6">
+      <%= f.label :penalty_size, class: 'col-3 text-right' %>
+      <div class="tab-bar col-7">
         <% result.penalty_sizes.each do |penalty_size| %>
           <label class="tab-bar-item">
             <%= f.radio_button :penalty_size, penalty_size, class: 'tab-bar-radio' %>
@@ -27,13 +29,13 @@
     </div>
 
     <div class="grid">
-      <%= f.label :penalty_reason, class: 'col-2 text-right' %>
-      <%= f.text_field :penalty_reason, class: 'form-input col-6', value: result.penalty_reason %>
+      <%= f.label :penalty_reason, class: 'col-3 text-right' %>
+      <%= f.text_field :penalty_reason, class: 'form-input col-7', value: result.penalty_reason %>
     </div>
 
     <div class="form-actions justify-between">
       <div>
-        <% if editable %>
+        <% if editable && !minimal %>
           <%= delete_event_track_link(result) %>
         <% end %>
       </div>

@@ -51,6 +51,26 @@ module EventScoped
     @event = Event.find(params[:event_id])
   end
 
+  def broadcast_validation_update_for(result)
+    Turbo::StreamsChannel.broadcast_replace_later_to(
+      [result.event, :validation],
+      target: "lane-validation-competitor-#{result.id}",
+      partial: 'performance_competitions/lane_validations/competitor',
+      locals: { result: }
+    )
+
+    Turbo::StreamsChannel.broadcast_replace_later_to(
+      [result.event, :validation],
+      target: "toggle-validation-#{result.id}",
+      partial: 'performance_competitions/lane_validations/toggle_validation',
+      locals: { result: }
+    )
+  end
+
+  def broadcast_scoreboards
+
+  end
+
   def broadcast_teams_scoreboard
     Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :editable,
                                                target: 'teams-scoreboard',

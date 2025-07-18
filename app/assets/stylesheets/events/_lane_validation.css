@@ -17,6 +17,12 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
+}
+
+.lane-validation-group {
+  display: flex;
+  flex-direction: column;
   gap: 0.5rem;
 }
 
@@ -29,7 +35,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 0.5rem 0;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--gray-50);
 }
 
 .lane-validation-competitor-header {
@@ -57,6 +64,12 @@
   }
 }
 
+.lane-validation-competitor-info {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .lane-validation-competitor-name {
   font-size: 1rem;
 }
@@ -67,3 +80,62 @@
   border-radius: 50%;
 }
 
+.lane-validation-competitor-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lane-validation-result-info {
+  font-size: 0.75rem;
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  color: var(--gray-70);
+}
+
+.jump-validated {
+  color: var(--green-90);
+}
+
+.penalty-label {
+  border-radius: var(--border-radius-sm);
+  font-size: 0.6875rem;
+  line-height: 0.6875rem;
+  font-weight: 600;
+  color: white;
+  padding: 0.125rem 0.5rem;
+  white-space: nowrap;
+}
+
+.penalty-label--minor {
+  background-color: #f0ad4e;
+}
+
+.penalty-label--major {
+  background-color: #d9534f;
+}
+
+.lane-validation-loading-indicator {
+  display: none;
+  height: 1.125em;
+  width: 1.125em;
+  animation: spin 1s linear infinite;
+}
+
+.lane-validation-competitor.loading input[type="checkbox"] {
+  display: none;
+}
+
+.lane-validation-competitor.loading .lane-validation-loading-indicator {
+  display: inline-block;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

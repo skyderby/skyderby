@@ -8,6 +8,7 @@ module Events
       def update
         if @result.update(penalty_params)
           respond_with_scoreboard
+          broadcast_validation_update_for(@result)
         else
           respond_with_errors @result
         end

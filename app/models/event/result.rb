@@ -45,6 +45,13 @@ class Event < ApplicationRecord
 
     def apply_penalty_to_score? = event.apply_penalty_to_score
 
+    def validated? = validated_at.present?
+
+    def validated=(status)
+      result_validated = ActiveModel::Type::Boolean.new.cast(status)
+      self.validated_at = result_validated ? Time.zone.now : nil
+    end
+
     private
 
     def track_owner = event
