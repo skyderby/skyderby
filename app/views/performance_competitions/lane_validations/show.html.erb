@@ -104,7 +104,7 @@
                   </div>
                   <div class="lane-validation-competitor-details">
                     <div class="lane-validation-result-actions">
-                      <button class="ghost-button small-button" data-action="lane-validation#showDesignatedLane">Select</button>
+                      <button class="ghost-button small-button" data-action="lane-validation#selectJumpForReview">Select</button>
                       <% if editable && !@round.completed? %>
                         <%= link_to 'Penalties', event_result_penalty_path(@event, jump, minimal: true),
                                     data: { turbo_stream: true },

@@ -18,9 +18,12 @@
                 <% if result && (round.completed || editable) %>
                   <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable: %>
                   <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result: %>
-                <% elsif result %>
+                <% elsif result&.validated? %>
                   <td class="text-right text-muted">
                     <%= result.formatted_result %>
+                    <% if result.penalized? && result.apply_penalty_to_result? %>
+                      <sup class="text-danger">-<%= result.penalty_size %>%</sup>
+                    <% end %>
                   </td>
                   <td></td>
                 <% elsif editable %>

@@ -98,7 +98,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding-left: 0.75rem;
+  padding-left: 0.5rem;
   border-left: 3px solid var(--gray-50);
 }
 
@@ -186,12 +186,21 @@
   animation: spin 1s linear infinite;
 }
 
+.lane-validation-competitor {
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+}
+
 .lane-validation-competitor.loading input[type="checkbox"] {
   display: none;
 }
 
 .lane-validation-competitor.loading .lane-validation-loading-indicator {
   display: inline-block;
+}
+
+.lane-validation-competitor.active {
+  background: linear-gradient(135deg, rgba(96, 125, 139, 0.12) 0%, rgba(120, 144, 156, 0.08) 100%);
 }
 
 @keyframes spin {

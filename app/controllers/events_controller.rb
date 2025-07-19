@@ -65,13 +65,6 @@ class EventsController < ApplicationController
     authorize @event
 
     @scoreboard = Events::Scoreboards.for(@event, scoreboard_params(@event))
-
-    fresh_when @event
-
-    respond_to do |format|
-      format.html
-      format.js
-    end
   end
 
   private

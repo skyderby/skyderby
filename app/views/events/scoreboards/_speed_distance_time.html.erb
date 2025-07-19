@@ -39,9 +39,12 @@
                           <% end %>
                         <% end %>
                       </td>
-                    <% elsif result %>
+                    <% elsif result&.validated? %>
                       <td class="text-right text-muted">
                         <%= result.formated %>
+                        <% if result.penalized? && result.apply_penalty_to_result? %>
+                          <sup class="text-danger">-<%= result.penalty_size %>%</sup>
+                        <% end %>
                       </td>
                       <td></td>
                     <% elsif can_update %>

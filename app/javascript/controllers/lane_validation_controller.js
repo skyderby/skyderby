@@ -12,6 +12,7 @@ import {
 } from 'utils/laneValidation/utils'
 import { initAccuracyChart, findPositionForAltitude, sep50Series } from 'charts'
 import cropPoints from 'utils/cropPoints'
+import { checkProximityViolation } from 'utils/laneValidation/proximityCheck'
 
 export default class extends Controller {
   static targets = [
@@ -21,6 +22,7 @@ export default class extends Controller {
     'sepCheck',
     'exitCheck',
     'laneCheck',
+    'proximityCheck',
     'indicatorOk',
     'indicatorWarning'
   ]
@@ -37,6 +39,7 @@ export default class extends Controller {
     this.referencePointMarkers = new Map()
     this.displayedCompetitors = new Set()
     this.designatedLane = null
+    this.proximityMarkers = []
     this.sepChart = null
     this.loadReferencePoints()
     this.initializeSepChart()
@@ -134,6 +137,9 @@ export default class extends Controller {
     if (this.hasSepCheckTarget) this.sepCheckTarget.replaceChildren()
     if (this.hasExitCheckTarget) this.exitCheckTarget.replaceChildren()
     if (this.hasLaneCheckTarget) this.laneCheckTarget.replaceChildren()
+    if (this.hasProximityCheckTarget) this.proximityCheckTarget.replaceChildren()
+
+    this.clearProximityMarkers()
   }
 
   async displayTrack(trackId, color) {
@@ -213,7 +219,7 @@ export default class extends Controller {
     return data
   }
 
-  async showDesignatedLane(event) {
+  async selectJumpForReview(event) {
     const competitorElement = event.target.closest('.lane-validation-competitor')
     if (!competitorElement) return
 
@@ -235,6 +241,11 @@ export default class extends Controller {
       console.warn('Reference point not found')
       return
     }
+
+    this.element.querySelectorAll('.lane-validation-competitor').forEach(el => {
+      el.classList.remove('active')
+    })
+    competitorElement.classList.add('active')
 
     await this.displayGroupAsync(groupId)
 
@@ -280,11 +291,11 @@ export default class extends Controller {
       )
       map.fitBounds(bounds)
 
-      // Update validation checks for selected competitor
       this.updateExitAltitudeCheck(competitorElement)
       this.updateLaneViolationCheck(this.designatedLane)
+      await this.performProximityCheck(trackId, competitorElement)
     } catch (error) {
-      console.error('Failed to show designated lane:', error)
+      console.error('Failed to select jump for review:', error)
     }
   }
 
@@ -494,6 +505,67 @@ export default class extends Controller {
     } else {
       const okIndicator = this.indicatorOkTarget.content.cloneNode(true)
       this.laneCheckTarget.replaceChildren(okIndicator)
+    }
+  }
+
+  clearProximityMarkers() {
+    this.proximityMarkers.forEach(marker => marker?.setMap?.(null))
+    this.proximityMarkers = []
+  }
+
+  async performProximityCheck(trackId, competitorElement) {
+    this.clearProximityMarkers()
+
+    try {
+      const currentData = await this.fetchPoints(trackId)
+      const currentJump = {
+        trackId,
+        points: currentData.points,
+        exitedAt: competitorElement?.dataset.exitedAt,
+        deployFlTime: currentData.deployFlTime
+      }
+
+      const otherJumps = []
+      for (const otherTrackId of this.displayedCompetitors) {
+        if (otherTrackId === trackId) continue
+
+        const otherData = await this.fetchPoints(otherTrackId)
+        const otherCompetitorElement = this.element.querySelector(
+          `[data-track-id="${otherTrackId}"]`
+        )
+
+        otherJumps.push({
+          trackId: otherTrackId,
+          points: otherData.points,
+          exitedAt: otherCompetitorElement?.dataset.exitedAt,
+          deployFlTime: otherData.deployFlTime
+        })
+      }
+
+      const result = checkProximityViolation(
+        currentJump,
+        otherJumps,
+        this.dlStartValue === 'on_10_sec' ? 10 : 9,
+        this.mapTarget.mapInstance
+      )
+
+      this.proximityMarkers = result.markers
+      this.updateProximityCheck(result.hasViolation)
+    } catch (error) {
+      console.error('Error in performProximityCheck:', error)
+      this.updateProximityCheck(false)
+    }
+  }
+
+  updateProximityCheck(hasViolation) {
+    if (!this.hasProximityCheckTarget) return
+
+    if (hasViolation) {
+      const warningIndicator = this.indicatorWarningTarget.content.cloneNode(true)
+      this.proximityCheckTarget.replaceChildren(warningIndicator)
+    } else {
+      const okIndicator = this.indicatorOkTarget.content.cloneNode(true)
+      this.proximityCheckTarget.replaceChildren(okIndicator)
     }
   }
 }
