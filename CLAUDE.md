@@ -17,6 +17,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Style Guidelines
 
+- You must not write comments in the code unless explicitly requested
 - 2 spaces for indentation
 
 ### Ruby

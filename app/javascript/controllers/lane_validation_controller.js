@@ -14,7 +14,14 @@ import { initAccuracyChart, findPositionForAltitude, sep50Series } from 'charts'
 import cropPoints from 'utils/cropPoints'
 
 export default class extends Controller {
-  static targets = ['referencePoints', 'map', 'sepChart']
+  static targets = [
+    'referencePoints',
+    'map',
+    'sepChart',
+    'sepCheck',
+    'indicatorOk',
+    'indicatorWarning'
+  ]
   static values = {
     eventId: Number,
     windowStart: Number,
@@ -121,6 +128,8 @@ export default class extends Controller {
     if (this.sepChart) {
       this.sepChart.series[0].setData([])
     }
+
+    if (this.hasSepCheckTarget) this.sepCheckTarget.innerHTML = ''
   }
 
   async displayTrack(trackId, color) {
@@ -419,6 +428,8 @@ export default class extends Controller {
     const seriesData = sep50Series(displayPoints)
     this.sepChart.series[0].setData([])
     this.sepChart.series[0].update(seriesData, true)
+
+    this.updateSepCheckIndicator(displayPoints)
   }
 
   getWindowPlotLines(points) {
@@ -431,5 +442,21 @@ export default class extends Controller {
       width: 1,
       color: 'red'
     }))
+  }
+
+  updateSepCheckIndicator(points) {
+    if (!this.hasSepCheckTarget || !points || points.length === 0) return
+
+    const hasHighSep = points.some(point => point.sep50 > 10)
+
+    this.sepCheckTarget.innerHTML = ''
+
+    if (hasHighSep) {
+      const warningIndicator = this.indicatorWarningTarget.content.cloneNode(true)
+      this.sepCheckTarget.appendChild(warningIndicator)
+    } else {
+      const okIndicator = this.indicatorOkTarget.content.cloneNode(true)
+      this.sepCheckTarget.appendChild(okIndicator)
+    }
   }
 }

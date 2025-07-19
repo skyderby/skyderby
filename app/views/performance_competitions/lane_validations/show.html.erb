@@ -37,10 +37,10 @@
         <div class="lane-validation-checks">
           <div class="lane-validation-sep-chart" data-lane-validation-target="sepChart"></div>
           <div class="lane-validation-check-indicators">
-            <template data-lane-validation-target="indicator-ok">
+            <template data-lane-validation-target="indicatorOk">
               <%= svg_icon 'check-solid', class: 'indicator-ok' %>
             </template>
-            <template data-lane-validation-target="indicator-warning">
+            <template data-lane-validation-target="indicatorWarning">
               <%= svg_icon 'triangle-exclamation-solid', class: 'indicator-warning' %>
             </template>
 
@@ -53,7 +53,7 @@
               <div class="lane-validation-check-indicator-title">Lane</div>
             </div>
             <div class="lane-validation-check-indicator">
-              <div class="lane-validation-check-indicator-icon"></div>
+              <div class="lane-validation-check-indicator-icon" data-lane-validation-target="sepCheck"></div>
               <div class="lane-validation-check-indicator-title">SEP</div>
             </div>
             <div class="lane-validation-check-indicator">

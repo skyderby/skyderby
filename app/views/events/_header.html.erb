@@ -55,12 +55,10 @@
       <% end %>
     <% end %>
 
-    <% if Current.user.admin? %>
-      <% if @event.reference_points.any? || editable %>
-        <%= link_to event_lane_validations_path(@event), class: ['page-tab', ('page-tab-active' if controller_path == 'performance_competitions/lane_validations')] do %>
-          <%= svg_icon 'location-dot-solid' %>
-          <span>Lane Validation</span>
-        <% end %>
+    <% if @event.reference_points.any? || editable %>
+      <%= link_to event_lane_validations_path(@event), class: ['page-tab', ('page-tab-active' if controller_path == 'performance_competitions/lane_validations')] do %>
+        <%= svg_icon 'location-dot-solid' %>
+        <span>Jump Validation</span>
       <% end %>
     <% end %>
 

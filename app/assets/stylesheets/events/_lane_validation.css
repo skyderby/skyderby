@@ -54,8 +54,16 @@
 }
 
 .lane-validation-check-indicator-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 2rem;
   width: 2rem;
+
+  svg {
+    height: 1.875rem;
+    width: 1.875rem;
+  }
 }
 
 .lane-validation-check-indicator-title {
