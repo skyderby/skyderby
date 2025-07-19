@@ -10,9 +10,11 @@ import {
   interpolatePointByTime,
   findDeployPoint
 } from 'utils/laneValidation/utils'
+import { initAccuracyChart, findPositionForAltitude, sep50Series } from 'charts'
+import cropPoints from 'utils/cropPoints'
 
 export default class extends Controller {
-  static targets = ['referencePoints', 'map']
+  static targets = ['referencePoints', 'map', 'sepChart']
   static values = {
     eventId: Number,
     windowStart: Number,
@@ -26,7 +28,9 @@ export default class extends Controller {
     this.referencePointMarkers = new Map()
     this.displayedCompetitors = new Set()
     this.designatedLane = null
+    this.sepChart = null
     this.loadReferencePoints()
+    this.initializeSepChart()
   }
 
   loadReferencePoints() {
@@ -37,6 +41,12 @@ export default class extends Controller {
       console.error('Failed to load reference points:', error)
       this.referencePoints = []
     }
+  }
+
+  initializeSepChart() {
+    if (!this.hasSepChartTarget) return
+
+    this.sepChart = initAccuracyChart(this.sepChartTarget, [], [])
   }
 
   disconnect() {
@@ -107,6 +117,10 @@ export default class extends Controller {
     allCheckboxes.forEach(checkbox => {
       checkbox.checked = false
     })
+
+    if (this.sepChart) {
+      this.sepChart.series[0].setData([])
+    }
   }
 
   async displayTrack(trackId, color) {
@@ -213,6 +227,8 @@ export default class extends Controller {
 
     try {
       const data = await this.fetchPoints(trackId)
+      this.updateSepChart(trackId, data)
+
       const points = data.points || []
       const deployFlTime = data.deployFlTime
 
@@ -370,5 +386,50 @@ export default class extends Controller {
 
   get mapController() {
     return this.application.getControllerForElementAndIdentifier(this.mapTarget, 'map')
+  }
+
+  updateSepChart(trackId, data) {
+    if (!this.sepChart || !data.points || data.points.length === 0) return
+
+    const competitorElement = this.element.querySelector(`[data-track-id="${trackId}"]`)
+    const exitedAt = competitorElement?.dataset.exitedAt
+
+    let displayPoints = data.points
+
+    if (exitedAt) {
+      const exitedAtTime = new Date(exitedAt).getTime()
+      const targetTime = exitedAtTime + 9000
+      const validationWindowStart = interpolatePointByTime(data.points, targetTime)
+
+      if (validationWindowStart) {
+        displayPoints = cropPoints(
+          data.points,
+          validationWindowStart.altitude,
+          this.windowEndValue - 20
+        )
+      }
+    }
+
+    const windowPlotLines = this.getWindowPlotLines(displayPoints)
+
+    this.sepChart.xAxis[0].update({
+      plotLines: windowPlotLines
+    })
+
+    const seriesData = sep50Series(displayPoints)
+    this.sepChart.series[0].setData([])
+    this.sepChart.series[0].update(seriesData, true)
+  }
+
+  getWindowPlotLines(points) {
+    const positions = [this.windowStartValue, this.windowEndValue].map(altitude =>
+      findPositionForAltitude(points, altitude)
+    )
+
+    return positions.map(position => ({
+      value: position,
+      width: 1,
+      color: 'red'
+    }))
   }
 }

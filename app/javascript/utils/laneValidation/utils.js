@@ -20,8 +20,7 @@ export function interpolatePointByAltitude(points, targetAltitude) {
         latitude:
           currentPoint.latitude + (nextPoint.latitude - currentPoint.latitude) * ratio,
         longitude:
-          currentPoint.longitude +
-          (nextPoint.longitude - currentPoint.longitude) * ratio,
+          currentPoint.longitude + (nextPoint.longitude - currentPoint.longitude) * ratio,
         altitude: targetAltitude,
         gpsTime: new Date(
           currentPoint.gpsTime.getTime() +
@@ -56,8 +55,7 @@ export function interpolatePointByTime(points, targetTime) {
         latitude:
           currentPoint.latitude + (nextPoint.latitude - currentPoint.latitude) * ratio,
         longitude:
-          currentPoint.longitude +
-          (nextPoint.longitude - currentPoint.longitude) * ratio,
+          currentPoint.longitude + (nextPoint.longitude - currentPoint.longitude) * ratio,
         altitude:
           currentPoint.altitude + (nextPoint.altitude - currentPoint.altitude) * ratio,
         gpsTime: new Date(targetTime)

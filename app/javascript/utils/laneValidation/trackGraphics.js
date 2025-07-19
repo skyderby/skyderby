@@ -193,7 +193,6 @@ export function createWindowMarker(point, text, color, bearing, map) {
   return marker
 }
 
-
 export function calculateBearing(startPoint, endPoint) {
   const startCoordinate = new LatLon(startPoint.latitude, startPoint.longitude)
   const endCoordinate = new LatLon(endPoint.latitude, endPoint.longitude)

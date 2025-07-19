@@ -27,12 +27,42 @@
       <script type="application/json" data-lane-validation-target="referencePoints">
         <%= raw render partial: 'performance_competitions/reference_points/reference_points', locals: { reference_points: @event.reference_points }, formats: [:json] %>
       </script>
-      <aside class="lane-validation-map"
+      <aside class="lane-validation-mapbox">
+        <div class="lane-validation-map"
              data-lane-validation-target="map"
              data-controller="map"
              data-map-type="ROADMAP"
              data-center-lat="<%= @event.place.latitude %>"
-             data-center-lon="<%= @event.place.longitude %>"></aside>
+             data-center-lon="<%= @event.place.longitude %>"></div>
+        <div class="lane-validation-checks">
+          <div class="lane-validation-sep-chart" data-lane-validation-target="sepChart"></div>
+          <div class="lane-validation-check-indicators">
+            <template data-lane-validation-target="indicator-ok">
+              <%= svg_icon 'check-solid', class: 'indicator-ok' %>
+            </template>
+            <template data-lane-validation-target="indicator-warning">
+              <%= svg_icon 'triangle-exclamation-solid', class: 'indicator-warning' %>
+            </template>
+
+            <div class="lane-validation-check-indicator">
+              <div class="lane-validation-check-indicator-icon"></div>
+              <div class="lane-validation-check-indicator-title">Exit</div>
+            </div>
+            <div class="lane-validation-check-indicator">
+              <div class="lane-validation-check-indicator-icon"></div>
+              <div class="lane-validation-check-indicator-title">Lane</div>
+            </div>
+            <div class="lane-validation-check-indicator">
+              <div class="lane-validation-check-indicator-icon"></div>
+              <div class="lane-validation-check-indicator-title">SEP</div>
+            </div>
+            <div class="lane-validation-check-indicator">
+              <div class="lane-validation-check-indicator-icon"></div>
+              <div class="lane-validation-check-indicator-title">Proximity</div>
+            </div>
+          </div>
+        </div>
+      </aside>
       <main class="lane-validation-competitors">
         <% @grouped_jumps.each_with_index do |jumps, group_index| %>
           <div class="lane-validation-group">

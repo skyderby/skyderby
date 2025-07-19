@@ -13,3 +13,4 @@ export {
   saveSeriesVisibility,
   findPositionForAltitude
 } from './utils'
+export { sep50Series, initAccuracyChart } from './sepChart'
