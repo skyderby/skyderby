@@ -1,15 +1,13 @@
 module Events
   module Results
     class MapsController < ApplicationController
-      include EventTrackScoped, EventScoped
+      include EventScoped
+
+      before_action :set_event
+      before_action :authorize_event_access!
 
       def show
-        respond_to do |format|
-          format.html
-          format.js
-          format.turbo_stream
-          format.json { @map_data = Events::Maps::CompetitorTrack.new(@result) }
-        end
+        @result = @event.results.find(params[:result_id])
       end
     end
   end

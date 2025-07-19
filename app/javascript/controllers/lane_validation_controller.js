@@ -10,6 +10,10 @@ import {
   interpolatePointByTime,
   findDeployPoint
 } from 'utils/laneValidation/utils'
+import {
+  calculateDesignatedLaneStart,
+  fitMapBounds
+} from 'utils/laneValidation/controllerUtils'
 import { initAccuracyChart, findPositionForAltitude, sep50Series } from 'charts'
 import cropPoints from 'utils/cropPoints'
 import { checkProximityViolation } from 'utils/laneValidation/proximityCheck'
@@ -197,24 +201,11 @@ export default class extends Controller {
       return this.pointsCache.get(trackId)
     }
 
-    const params = new URLSearchParams({
+    const data = await apiClient.fetchTrackPoints(trackId, {
       original_frequency: true,
       'trimmed[seconds_before_start]': 15,
       'trimmed[seconds_after_end]': 120
     })
-
-    const response = await fetch(`/tracks/${trackId}/points?${params}`, {
-      headers: { Accept: 'application/json' }
-    })
-    const data = await response.json()
-
-    if (data.points) {
-      data.points = data.points.map(point => ({
-        ...point,
-        gpsTime: new Date(point.gpsTime)
-      }))
-    }
-
     this.pointsCache.set(trackId, data)
     return data
   }
@@ -263,7 +254,12 @@ export default class extends Controller {
 
       const startMarker = interpolatePointByAltitude(points, this.windowStartValue)
       const windowEndMarker = interpolatePointByAltitude(points, this.windowEndValue)
-      const dlStartPoint = this.calculateDLStartPoint(points, exitedAt)
+      const dlStartPoint = calculateDesignatedLaneStart(
+        points,
+        exitedAt,
+        this.dlStartValue,
+        this.windowStartValue
+      )
 
       if (!startMarker || !windowEndMarker) {
         console.warn('Could not find window markers for this track')
@@ -284,12 +280,7 @@ export default class extends Controller {
         points
       )
 
-      const bounds = new google.maps.LatLngBounds()
-      bounds.extend(new google.maps.LatLng(dlStartPoint.latitude, dlStartPoint.longitude))
-      bounds.extend(
-        new google.maps.LatLng(referencePoint.latitude, referencePoint.longitude)
-      )
-      map.fitBounds(bounds)
+      fitMapBounds(map, dlStartPoint, referencePoint)
 
       this.updateExitAltitudeCheck(competitorElement)
       this.updateLaneViolationCheck(this.designatedLane)
@@ -297,26 +288,6 @@ export default class extends Controller {
     } catch (error) {
       console.error('Failed to select jump for review:', error)
     }
-  }
-
-  calculateDLStartPoint(points, exitedAt) {
-    if (!exitedAt || !points || points.length === 0) {
-      return interpolatePointByAltitude(points, this.windowStartValue)
-    }
-
-    if (this.dlStartValue === 'on_10_sec') {
-      const exitedAtTime = new Date(exitedAt).getTime()
-      const targetTime = exitedAtTime + 10000
-      return interpolatePointByTime(points, targetTime)
-    }
-
-    if (this.dlStartValue === 'on_9_sec') {
-      const exitedAtTime = new Date(exitedAt).getTime()
-      const targetTime = exitedAtTime + 9000
-      return interpolatePointByTime(points, targetTime)
-    }
-
-    return interpolatePointByAltitude(points, this.windowStartValue)
   }
 
   clearDesignatedLane() {

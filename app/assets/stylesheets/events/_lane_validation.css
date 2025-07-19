@@ -5,6 +5,15 @@
   overflow: hidden;
 }
 
+.single-jump-map {
+  height: 450px;
+}
+
+.single-jump-map-container {
+  width: 100%;
+  height: 100%;
+}
+
 .lane-validation-mapbox {
   width: 70%;
   height: 100%;

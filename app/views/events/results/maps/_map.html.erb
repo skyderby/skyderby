@@ -1,22 +1,29 @@
 <%# locals: (result:, editable:, modal: false, **rest) %>
 
-<div class="sd-container" data-controller="events--result-map" data-url="<%= url_for %>">
+<div class="sd-container">
   <%= render 'events/results/navbar', result:, modal: %>
 
-  <div data-controller="events--designated-lane" data-action="round-map:show-dl@window->events--designated-lane#show_dl">
-    <div class="<%= mobile? ? 'hide' : '' %>">
-      <%= render 'events/maps/designated_lane_form' %>
-    </div>
+  <section class="single-jump-map"
+           data-controller="single-jump-map"
+           data-single-jump-map-track-id-value="<%= result.track_id %>"
+           data-single-jump-map-event-id-value="<%= result.event.id %>"
+           data-single-jump-map-window-start-value="<%= result.event.range_from %>"
+           data-single-jump-map-window-end-value="<%= result.event.range_to %>"
+           data-single-jump-map-dl-start-value="<%= result.event.designated_lane_start %>"
+           data-single-jump-map-exited-at-value="<%= result.exited_at&.iso8601 %>"
+           data-single-jump-map-reference-point-id-value="<%= result.reference_point&.id %>">
+    
+    <script type="application/json" data-single-jump-map-target="referencePoints">
+      <%= raw render partial: 'performance_competitions/reference_points/reference_points', locals: { reference_points: [result.reference_point].compact }, formats: [:json] %>
+    </script>
 
-    <div class="event-track__map" data-events--result-map-target="map" data-events--designated-lane-target="map">
-      <div class="round-map-loading" data-events--round-map-target="loading_placeholder">
-        <i class="fa fa-3x fa-circle-notch fa-spin"></i>
-        <p>Loading...</p>
-      </div>
-    </div>
-
-    <%= render 'events/maps/legend' %>
-  </div>
+    <div class="single-jump-map-container"
+         data-single-jump-map-target="map"
+         data-controller="map"
+         data-map-type="ROADMAP"
+         data-center-lat="<%= result.event.place.latitude %>"
+         data-center-lon="<%= result.event.place.longitude %>"></div>
+  </section>
 
   <div class="form-actions justify-between">
     <div>
