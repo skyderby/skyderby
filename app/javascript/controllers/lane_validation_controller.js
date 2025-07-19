@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import apiClient from 'utils/apiClient'
 import {
   createTrackGraphics,
   createWindowMarkers
@@ -288,16 +289,9 @@ export default class extends Controller {
     const referencePointId = select.value || null
 
     try {
-      const response = await fetch(
+      const response = await apiClient.post(
         `/events/performance/${this.eventIdValue}/reference_point_assignments`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
-          },
-          body: JSON.stringify({ roundId, competitorId, referencePointId })
-        }
+        { roundId, competitorId, referencePointId }
       )
 
       if (response.ok) {
@@ -364,14 +358,7 @@ export default class extends Controller {
     const validated = button.dataset.validated === 'true'
 
     try {
-      const response = await fetch(url, {
-        method: 'PATCH',
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ result: { validated: !validated } })
-      })
+      const response = await apiClient.put(url, { result: { validated: !validated } })
 
       if (!response.ok) {
         console.error('Failed to toggle validation')
