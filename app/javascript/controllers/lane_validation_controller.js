@@ -20,6 +20,7 @@ export default class extends Controller {
     'sepChart',
     'sepCheck',
     'exitCheck',
+    'laneCheck',
     'indicatorOk',
     'indicatorWarning'
   ]
@@ -132,6 +133,7 @@ export default class extends Controller {
 
     if (this.hasSepCheckTarget) this.sepCheckTarget.replaceChildren()
     if (this.hasExitCheckTarget) this.exitCheckTarget.replaceChildren()
+    if (this.hasLaneCheckTarget) this.laneCheckTarget.replaceChildren()
   }
 
   async displayTrack(trackId, color) {
@@ -278,8 +280,9 @@ export default class extends Controller {
       )
       map.fitBounds(bounds)
 
-      // Update exit altitude check for selected competitor
+      // Update validation checks for selected competitor
       this.updateExitAltitudeCheck(competitorElement)
+      this.updateLaneViolationCheck(this.designatedLane)
     } catch (error) {
       console.error('Failed to show designated lane:', error)
     }
@@ -477,6 +480,20 @@ export default class extends Controller {
     } else {
       const okIndicator = this.indicatorOkTarget.content.cloneNode(true)
       this.exitCheckTarget.replaceChildren(okIndicator)
+    }
+  }
+
+  updateLaneViolationCheck(designatedLane) {
+    if (!this.hasLaneCheckTarget || !designatedLane) return
+
+    const hasViolation = !!designatedLane.violationMarker
+
+    if (hasViolation) {
+      const warningIndicator = this.indicatorWarningTarget.content.cloneNode(true)
+      this.laneCheckTarget.replaceChildren(warningIndicator)
+    } else {
+      const okIndicator = this.indicatorOkTarget.content.cloneNode(true)
+      this.laneCheckTarget.replaceChildren(okIndicator)
     }
   }
 }
