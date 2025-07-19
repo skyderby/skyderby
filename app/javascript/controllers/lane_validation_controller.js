@@ -19,6 +19,7 @@ export default class extends Controller {
     'map',
     'sepChart',
     'sepCheck',
+    'exitCheck',
     'indicatorOk',
     'indicatorWarning'
   ]
@@ -129,7 +130,8 @@ export default class extends Controller {
       this.sepChart.series[0].setData([])
     }
 
-    if (this.hasSepCheckTarget) this.sepCheckTarget.innerHTML = ''
+    if (this.hasSepCheckTarget) this.sepCheckTarget.replaceChildren()
+    if (this.hasExitCheckTarget) this.exitCheckTarget.replaceChildren()
   }
 
   async displayTrack(trackId, color) {
@@ -275,6 +277,9 @@ export default class extends Controller {
         new google.maps.LatLng(referencePoint.latitude, referencePoint.longitude)
       )
       map.fitBounds(bounds)
+
+      // Update exit altitude check for selected competitor
+      this.updateExitAltitudeCheck(competitorElement)
     } catch (error) {
       console.error('Failed to show designated lane:', error)
     }
@@ -449,14 +454,29 @@ export default class extends Controller {
 
     const hasHighSep = points.some(point => point.sep50 > 10)
 
-    this.sepCheckTarget.innerHTML = ''
-
     if (hasHighSep) {
       const warningIndicator = this.indicatorWarningTarget.content.cloneNode(true)
-      this.sepCheckTarget.appendChild(warningIndicator)
+      this.sepCheckTarget.replaceChildren(warningIndicator)
     } else {
       const okIndicator = this.indicatorOkTarget.content.cloneNode(true)
-      this.sepCheckTarget.appendChild(okIndicator)
+      this.sepCheckTarget.replaceChildren(okIndicator)
+    }
+  }
+
+  updateExitAltitudeCheck(competitorElement) {
+    if (!this.hasExitCheckTarget || !competitorElement) return
+
+    const exitAltitude = parseInt(competitorElement.dataset.exitAltitude)
+    if (isNaN(exitAltitude)) return
+
+    const isInvalidExitAltitude = exitAltitude > 3353 || exitAltitude < 3200
+
+    if (isInvalidExitAltitude) {
+      const warningIndicator = this.indicatorWarningTarget.content.cloneNode(true)
+      this.exitCheckTarget.replaceChildren(warningIndicator)
+    } else {
+      const okIndicator = this.indicatorOkTarget.content.cloneNode(true)
+      this.exitCheckTarget.replaceChildren(okIndicator)
     }
   }
 }

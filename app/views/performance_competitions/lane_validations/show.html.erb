@@ -45,7 +45,7 @@
             </template>
 
             <div class="lane-validation-check-indicator">
-              <div class="lane-validation-check-indicator-icon"></div>
+              <div class="lane-validation-check-indicator-icon" data-lane-validation-target="exitCheck"></div>
               <div class="lane-validation-check-indicator-title">Exit</div>
             </div>
             <div class="lane-validation-check-indicator">
@@ -74,6 +74,7 @@
                      data-group-id="<%= group_index %>"
                      data-track-id="<%= jump.track_id %>"
                      data-exited-at="<%= jump.exited_at&.iso8601 %>"
+                     data-exit-altitude="<%= jump.exit_altitude.to_i %>"
                      data-color="<%= competitor_color_by_index(jump_index) %>"
                      data-reference-point-id="<%= jump.reference_point&.id %>">
                   <div class="lane-validation-competitor-header">
