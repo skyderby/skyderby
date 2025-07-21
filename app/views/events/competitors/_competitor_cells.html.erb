@@ -25,7 +25,6 @@
             <%= button_to edit_event_competitor_path(event, competitor),
                           class: 'dropdown-item',
                           method: :get,
-                          params: display_event_params,
                           form: { data: { turbo_stream: true } } do %>
               <%= t('general.edit') %>
             <% end %>
@@ -33,7 +32,6 @@
             <%= button_to event_competitor_path(event, competitor),
                           class: 'dropdown-item',
                           method: :delete,
-                          params: display_event_params,
                           form: { data: { turbo_stream: true, confirm: t('general.confirm_delete') } } do %>
               <%= t('general.delete') %>
             <% end %>

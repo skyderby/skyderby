@@ -7,10 +7,6 @@
   <div class="show-page-content">
     <%= render 'actions_bar', event: @event if editable %>
 
-    <% if @event.surprise? && !editable %>
-      <%= render 'events/surprise' %>
-    <% else %>
-      <%= render 'scoreboard', event: @event, editable: editable && !@event.finished? %>
-    <% end %>
+    <%= render 'scoreboard', event: @event, editable: editable && !@event.finished? %>
   </div>
 </div>

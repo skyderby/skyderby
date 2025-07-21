@@ -1,5 +1,6 @@
 <% provide :title, @event.name %>
 <% editable = policy(@event).update? %>
+<%= turbo_stream_from @event, :task_scoreboard, @task, editable ? :editable : :read_only %>
 
 <div class="show-page">
   <%= render 'events/header', editable: %>
@@ -11,11 +12,8 @@
       <% end %>
     </div>
 
-    <% if @event.surprise? && !editable %>
-      <h1 class="text-muted text-center">🙅 Let it be a Surprise</h1>
-    <% else %>
-      <%= render 'performance_competitions/scoreboard',
-                 event: @event, scoreboard: @event.task_standings(@task), editable:, id: "#{@task}_scoreboard" %>
-    <% end %>
+    <div id="<%= @task %>_scoreboard">
+      <%= render 'scoreboard', event: @event, editable:, task: @task %>
+    </div>
   </div>
 </div>

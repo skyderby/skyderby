@@ -1,7 +1,7 @@
 <%# locals: (event:, scoreboard:, editable:, id:) %>
 
 <div class="<%= class_names 'scoreboard-container', (scoreboard.rounds.size > 6 && 'scoreboard-container-fluid') %>"
-     data-controller="events--sticky-header" id="<% id %>">
+     data-controller="events--sticky-header" id="<%= id %>">
   <div class="scoreboard-scroll" data-events--sticky-header-target="container" data-action="scroll->events--sticky-header#on_horizontal_scroll">
     <table class="scoreboard-table" data-events--sticky-header-target="table">
       <%= render 'events/scoreboard_header', event:, scoreboard:, editable: %>
@@ -10,7 +10,7 @@
           <tr class="scoreboard-competitor">
             <td class="text-center"><%= row.rank %></td>
 
-            <%= render 'events/competitors/competitor_cells', event: @event, competitor: row.competitor, editable: %>
+            <%= render 'events/competitors/competitor_cells', event:, competitor: row.competitor, editable: %>
 
             <% scoreboard.rounds_by_discipline.each do |discipline, rounds| %>
               <% rounds.each do |round| %>

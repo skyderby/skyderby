@@ -13,6 +13,7 @@ module Events
 
       if @result.save
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @result
       end
@@ -21,6 +22,7 @@ module Events
     def update
       if @result.update result_params
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @result
       end
@@ -29,6 +31,7 @@ module Events
     def destroy
       if @result.destroy
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @result
       end

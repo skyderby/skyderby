@@ -1,14 +1,6 @@
 module EventScoped
   extend ActiveSupport::Concern
 
-  included do
-    helper_method :display_event_params
-  end
-
-  def display_event_params
-    params.permit(:display_raw_results, :omit_penalties, :split_by_categories)
-  end
-
   def respond_with_scoreboard
     create_scoreboard(params[:event_id])
     respond_to do |format|
@@ -30,6 +22,7 @@ module EventScoped
   end
 
   def scoreboard_params(event)
+    display_event_params = params.permit(:wind_cancellation)
     @scoreboard_params ||= Events::Scoreboards::Params.new(event, display_event_params)
   end
 
@@ -67,23 +60,58 @@ module EventScoped
     )
   end
 
-  def broadcast_scoreboards; end
+  def broadcast_scoreboards
+    broadcast_open_scoreboard
+    broadcast_task_scoreboards
+  end
+
+  def broadcast_open_scoreboard
+    Turbo::StreamsChannel.broadcast_replace_later_to(
+      [@event, :open_scoreboard, :editable],
+      target: 'open_scoreboard',
+      partial: 'performance_competitions/open_scoreboards/scoreboard',
+      locals: { event: @event, editable: !@event.finished? }
+    )
+
+    Turbo::StreamsChannel.broadcast_replace_later_to(
+      [@event, :open_scoreboard, :read_only],
+      target: 'open_scoreboard',
+      partial: 'performance_competitions/open_scoreboards/scoreboard',
+      locals: { event: @event, editable: false }
+    )
+  end
+
+  def broadcast_task_scoreboards
+    @event.rounds.pluck(:discipline).uniq.each do |task|
+      Turbo::StreamsChannel.broadcast_replace_later_to(
+        [@event, :task_scoreboard, task, :editable],
+        target: "#{task}_scoreboard",
+        partial: 'performance_competitions/task_scoreboards/scoreboard',
+        locals: { event: @event, task: task, editable: !@event.finished? }
+      )
+
+      Turbo::StreamsChannel.broadcast_replace_later_to(
+        [@event, :task_scoreboard, task, :read_only],
+        target: "#{task}_scoreboard",
+        partial: 'performance_competitions/task_scoreboards/scoreboard',
+        locals: { event: @event, task: task, editable: false }
+      )
+    end
+  end
 
   def broadcast_teams_scoreboard
-    Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :editable,
-                                               target: 'teams-scoreboard',
-                                               partial: 'performance_competitions/teams/scoreboard',
-                                               locals: { event: @event, editable: !@event.finished? }
+    Turbo::StreamsChannel.broadcast_replace_later_to(
+      [@event, :teams, :editable],
+      target: 'teams-scoreboard',
+      partial: 'performance_competitions/teams/scoreboard',
+      locals: { event: @event, editable: !@event.finished? }
+    )
 
-    if @event.surprise?
-      Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :read_only,
-                                                 target: 'teams-scoreboard',
-                                                 partial: 'events/surprise'
-    else
-      Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :read_only,
-                                                 target: 'teams-scoreboard',
-                                                 partial: 'performance_competitions/teams/scoreboard',
-                                                 locals: { event: @event, editable: false }
-    end
+    Turbo::StreamsChannel.broadcast_replace_later_to(
+      [@event, :teams, :read_only],
+      target: 'teams-scoreboard',
+      partial: 'performance_competitions/teams/scoreboard',
+      locals: { event: @event, editable: false }
+    )
   end
 end

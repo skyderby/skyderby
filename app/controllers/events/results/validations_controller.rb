@@ -8,8 +8,8 @@ class Events::Results::ValidationsController < ApplicationController
     @result = @event.results.find(params[:result_id])
 
     if @result.update(validation_params)
-      broadcast_scoreboards
       broadcast_validation_update_for(@result)
+      broadcast_scoreboards
     end
   end
 

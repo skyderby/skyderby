@@ -1,0 +1,9 @@
+<%# locals: (event:, editable:, task:) %>
+<% id = "#{task}_scoreboard" %>
+
+<% if event.surprise? && !editable %>
+  <h1 class="text-muted text-center" id="<%= id %>">🙅 Let it be a Surprise</h1>
+<% else %>
+  <%= render 'performance_competitions/scoreboard',
+             event: event, scoreboard: event.task_standings(task), editable: editable, id: %>
+<% end %>

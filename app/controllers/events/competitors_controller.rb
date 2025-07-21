@@ -14,6 +14,7 @@ module Events
 
       if @competitor.save
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @competitor
       end
@@ -24,6 +25,7 @@ module Events
     def update
       if @competitor.update(competitor_params)
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @competitor
       end
@@ -31,10 +33,8 @@ module Events
 
     def destroy
       if @competitor.destroy
-        respond_to do |format|
-          format.js { respond_with_scoreboard }
-          format.turbo_stream { respond_with_scoreboard }
-        end
+        respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @competitor
       end

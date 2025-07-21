@@ -1,6 +1,6 @@
 <% can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished? && !request.variant.include?(:mobile) %>
 
-<% cache ['scoreboard', I18n.locale, @scoreboard.event, display_event_params, can_update] do %>
+<% cache ['scoreboard', I18n.locale, @scoreboard.event, can_update] do %>
   <div class="<%= class_names 'scoreboard-container', (@scoreboard.rounds.size > 6 && 'scoreboard-container-fluid') %>"
        data-controller="events--sticky-header"
        id="scoreboard"

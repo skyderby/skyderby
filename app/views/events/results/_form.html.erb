@@ -2,7 +2,6 @@
 <% url ||= event_results_path(@event) %>
 
 <%= form_with model: @result, scope: :result, url: url, multipart: true, class: 'sd-form', data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
-  <%= display_event_form_params %>
   <%= render 'concerns/upload_progress' %>
 
   <%= f.hidden_field :competitor_id, value: @result.competitor_id %>

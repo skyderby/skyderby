@@ -11,6 +11,7 @@ module Events
 
       if @round.save
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @round
       end
@@ -19,6 +20,7 @@ module Events
     def update
       if @round.update(update_round_params)
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @round
       end
@@ -27,6 +29,7 @@ module Events
     def destroy
       if @round.destroy
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @round
       end

@@ -4,8 +4,6 @@
 
 <%= form_with model: @section, url:, scope: :section,
               data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
-  <%= display_event_form_params %>
-  
   <div class="sd-form">
     <div class="grid">
       <%= f.label :name, class: 'form-label col-3' %>

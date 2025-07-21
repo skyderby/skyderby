@@ -5,7 +5,6 @@
 
 <%= form_with model: @competitor, url:, scope: :competitor,
               data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
-  <%= display_event_form_params %>
   <div class="sd-form">
     <h3 class="form-section-title">
       <%= t('competitors.form.profile') %>

@@ -36,16 +36,16 @@
       <% end %>
     <% end %>
 
+    <%= link_to event_task_scoreboards_path(@event), class: ['page-tab', ('page-tab-active' if controller_path == 'performance_competitions/task_scoreboards')] do %>
+      <%= svg_icon 'list-ul-solid' %>
+      By Task
+    <% end %>
+
     <% if @event.use_teams %>
       <%= link_to event_teams_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(event_teams_path(@event)))] do %>
         <%= svg_icon 'list-ul-solid' %>
         <span>Teams</span>
       <% end %>
-    <% end %>
-
-    <%= link_to event_task_scoreboards_path(@event), class: ['page-tab', ('page-tab-active' if controller_path == 'performance_competitions/task_scoreboards')] do %>
-      <%= svg_icon 'list-ul-solid' %>
-      By Task
     <% end %>
 
     <% if @event.reference_points.any? || editable %>

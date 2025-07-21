@@ -11,6 +11,7 @@ module Events
 
       if @section.save
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @section
       end
@@ -19,6 +20,7 @@ module Events
     def update
       if @section.update section_params
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @section
       end
@@ -27,7 +29,7 @@ module Events
     def destroy
       if @section.destroy
         respond_with_scoreboard
-        head :no_content
+        broadcast_scoreboards
       else
         respond_with_errors @section
       end
@@ -37,6 +39,7 @@ module Events
       @section.move_upper
       if @section.errors.blank?
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @section
       end
@@ -46,6 +49,7 @@ module Events
       @section.move_lower
       if @section.errors.blank?
         respond_with_scoreboard
+        broadcast_scoreboards
       else
         respond_with_errors @section
       end

@@ -2,7 +2,6 @@ class EventsController < ApplicationController
   include EventScoped
 
   before_action :set_event, only: %i[edit update]
-  etag { display_event_params if action_name == 'show' }
 
   def index
     authorize Event
@@ -53,6 +52,11 @@ class EventsController < ApplicationController
     authorize @event
 
     if @event.update update_event_params
+      if @event.saved_change_to_status?
+        broadcast_scoreboards
+        broadcast_teams_scoreboard
+      end
+
       redirect_to event_path(@event)
     else
       respond_with_errors(@event.errors)
