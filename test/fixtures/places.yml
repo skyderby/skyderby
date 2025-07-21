@@ -25,6 +25,7 @@ ravenna:
   kind: skydive
   latitude: 44.36142261
   longitude: 12.21614242
+  msl: 0
 
 puschino:
   name: DZ Puschino

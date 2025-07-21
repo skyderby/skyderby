@@ -16,11 +16,11 @@ class Event::Result < ApplicationRecord
     end
 
     def exit_point
-      gr_threshold = 10
+      vertical_speed_threshold = 10 * 3.6
 
       points
         .each_cons(15).find(-> { [points.first] }) do |range|
-          range.all? { |point| point[:glide_ratio] < gr_threshold }
+          range.all? { |point| point[:v_speed] > vertical_speed_threshold }
         end
         .first
     end

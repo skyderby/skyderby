@@ -54,4 +54,17 @@ class Event::ResultTest < ActiveSupport::TestCase
 
     assert_in_delta 266.3, @result.reload.result.round(1), 0.01
   end
+
+  test 'FlightDetails module identifies exit point correctly' do
+    track = create_track_from_file '13-31-51_Ravenna.CSV'
+    result = create :event_result, track: track
+
+    result.save!
+
+    expected_exit_time = Time.parse('2017-06-03T11:58:36.30Z')
+    expected_exit_altitude = 3709.601
+
+    assert_equal expected_exit_time, result.exited_at
+    assert_in_delta expected_exit_altitude, result.exit_altitude, 0.1
+  end
 end
