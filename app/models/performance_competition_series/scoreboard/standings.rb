@@ -1,7 +1,5 @@
 class PerformanceCompetitionSeries::Scoreboard::Standings
-  def self.build(*args)
-    new(*args).build
-  end
+  def self.build(...) = new(...).build
 
   def initialize(competitors, rounds, results)
     @competitors = competitors

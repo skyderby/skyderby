@@ -1,8 +1,6 @@
 class CreateTrackService
   class MissingRangesDetector
-    def self.call(*args)
-      new(*args).call
-    end
+    def self.call(...) = new(...).call
 
     def initialize(points, data_frequency)
       @points = points

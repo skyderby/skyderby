@@ -67,9 +67,7 @@ module EventScoped
     )
   end
 
-  def broadcast_scoreboards
-
-  end
+  def broadcast_scoreboards; end
 
   def broadcast_teams_scoreboard
     Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :editable,

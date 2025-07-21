@@ -88,7 +88,7 @@ class PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionD
     )
 
     params = {
-      round_id: 999999,
+      round_id: 999_999,
       competitor_id: competitor.id,
       reference_point_id: reference_point.id
     }
@@ -111,7 +111,7 @@ class PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionD
 
     params = {
       round_id: round.id,
-      competitor_id: 999999,
+      competitor_id: 999_999,
       reference_point_id: reference_point.id
     }
 
@@ -130,7 +130,7 @@ class PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionD
     params = {
       round_id: round.id,
       competitor_id: competitor.id,
-      reference_point_id: 999999
+      reference_point_id: 999_999
     }
 
     assert_raises(ActiveRecord::RecordNotFound) do

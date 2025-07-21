@@ -24,7 +24,8 @@ module Events
         turbo_stream: turbo_stream.append(
           :toasts,
           partial: 'toasts/toast',
-          locals: { message: t('events.event_deletion_failed'), type: 'error' }),
+          locals: { message: t('events.event_deletion_failed'), type: 'error' }
+        ),
         status: :unprocessable_entity
       )
     end

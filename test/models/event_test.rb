@@ -85,7 +85,7 @@ class EventTest < ActiveSupport::TestCase
     end
 
     track_ids = event.tracks.pluck(:id)
-    
+
     event.permanently_delete(including_tracks: true)
 
     assert_predicate event, :destroyed?

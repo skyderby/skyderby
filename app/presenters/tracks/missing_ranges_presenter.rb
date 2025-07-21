@@ -1,8 +1,6 @@
 module Tracks
   class MissingRangesPresenter
-    def self.call(*args)
-      new(*args).call
-    end
+    def self.call(...) = new(...).call
 
     def initialize(ranges, start_time, end_time)
       @ranges = ranges

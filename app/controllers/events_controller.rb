@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   include EventScoped
 
-  before_action :set_event, only: %i[edit update destroy]
+  before_action :set_event, only: %i[edit update]
   etag { display_event_params if action_name == 'show' }
 
   def index

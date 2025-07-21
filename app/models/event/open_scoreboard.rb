@@ -19,11 +19,11 @@ class Event::OpenScoreboard
   def rounds = event.rounds.order(:number, :created_at)
 
   def completed_rounds
-    @rounds ||= rounds.completed.then do |rounds|
+    @completed_rounds ||= rounds.completed.then do |rounds|
       if until_round.nil?
         rounds
       else
-        rounds.take_while { it != until_round }
+        rounds.take_while { _1 != until_round }
       end
     end
   end
