@@ -101,8 +101,8 @@ class PointsQuery
       return scope unless trimmed
 
       ff_start, ff_end = Track.where(id: track.id).pick(:ff_start, :ff_end)
-      ff_start -= trim_options[:seconds_before_start].to_i if trim_options[:seconds_before_start]
-      ff_end += trim_options[:seconds_after_end].to_i if trim_options[:seconds_after_end]
+      ff_start -= trim_options[:seconds_before_start].to_f if trim_options[:seconds_before_start]
+      ff_end += trim_options[:seconds_after_end].to_f if trim_options[:seconds_after_end]
 
       scope.where('fl_time BETWEEN ? AND ?', ff_start, ff_end)
     end

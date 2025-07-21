@@ -1,7 +1,7 @@
 require 'application_system_test_case'
 
 class EventsTest < ApplicationSystemTestCase
-  test 'Scoring PPC-like competitions' do
+  test 'Scoring WS performance competitions' do
     user = users(:regular_user)
     sign_in user
 
@@ -105,7 +105,7 @@ class EventsTest < ApplicationSystemTestCase
     row.find('.result-cell').hover
     row.find('.result-cell a').click
 
-    modal_title = "#{I18n.t('activerecord.models.event/result')}: #{competitor} | Distance - 1"
+    modal_title = "#{competitor} | Distance - 1"
     assert_selector('.modal-title', text: modal_title)
 
     click_link 'Penalties'

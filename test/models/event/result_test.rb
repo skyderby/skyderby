@@ -34,19 +34,6 @@ class Event::ResultTest < ActiveSupport::TestCase
     end
   end
 
-  test '#need_review? - true if result is 0' do
-    @result.update_columns(result: 0)
-
-    assert_predicate @result, :need_review?
-  end
-
-  test '#need_review? - true if detected jump range outside competition window' do
-    track = create_track_from_file 'flysight.csv'
-    track.update!(ff_start: 10, ff_end: 30)
-    result = create :event_result, track: track
-
-    assert_predicate result, :need_review?
-  end
 
   test 'rounds result correctly' do
     @result.result = 266.3477

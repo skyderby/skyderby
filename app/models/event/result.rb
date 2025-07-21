@@ -19,7 +19,7 @@ class Event < ApplicationRecord
   class Result < ApplicationRecord
     include TrackPoints # provides points and window_points
     include EventOngoingValidation, Event::Namespace, AcceptsNestedTrack,
-            SubmissionAuthor, SubmissionResult, ReviewableByJudge, FlightDetails
+            SubmissionAuthor, SubmissionResult, FlightDetails
 
     belongs_to :track
     belongs_to :round, class_name: 'Event::Round'

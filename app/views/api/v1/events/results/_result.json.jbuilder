@@ -3,11 +3,12 @@ json.extract! result,
               :competitor_id,
               :round_id,
               :track_id,
-              :exit_time,
               :result,
               :penalized,
               :penalty_size,
               :penalty_reason
+
+json.exit_time result.exited_at
 
 json.competitor_name result.competitor.name
 json.round_name "#{result.round.discipline.capitalize}-#{result.round.number}"
