@@ -6,7 +6,7 @@ class SponsorableTest < ApplicationSystemTestCase
     sign_in user
 
     competition = create :event, responsible: user
-    visit event_path(competition)
+    visit performance_competition_path(competition)
 
     click_button I18n.t('sponsors.list.add_sponsor')
 

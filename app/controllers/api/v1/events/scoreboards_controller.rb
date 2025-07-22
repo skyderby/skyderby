@@ -1,21 +1,20 @@
-module Api
-  module V1
-    module Events
-      class ScoreboardsController < ApplicationController
-        include EventScoped
+class Api::V1::Events::ScoreboardsController < ApplicationController
+  include PerformanceCompetitionScoped
 
-        def show
-          load_event(params[:event_id])
+  before_action :set_event
+  before_action :authorize_event_access!
 
-          authorize @event
+  def show
+    @scoreboard = ::Events::Scoreboards.for(@event, scoreboard_params(@event))
 
-          @scoreboard = ::Events::Scoreboards.for(@event, scoreboard_params(@event))
-
-          respond_to do |format|
-            format.json
-          end
-        end
-      end
+    respond_to do |format|
+      format.json
     end
+  end
+
+  private
+
+  def set_event
+    load_event(params[:event_id])
   end
 end

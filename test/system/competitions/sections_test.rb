@@ -9,7 +9,7 @@ class EventSectionsTest < ApplicationSystemTestCase
                    responsible: user)
 
     sign_in user
-    visit event_path(event)
+    visit performance_competition_path(event)
 
     click_button I18n.t('activerecord.models.event/section')
 

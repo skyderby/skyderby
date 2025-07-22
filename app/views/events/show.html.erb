@@ -1,14 +1,14 @@
 <% provide :title, @event.name %>
-<% can_manage = policy(@event).update? %>
+<% can_manage = @event.editable? %>
 
 <div class="show-page">
   <%= render 'header', editable: can_manage %>
 
-  <div class="show-page-content">
-    <% if can_manage %>
-      <%= render 'actions_bar', event: @event %>
-    <% end %>
-  </div>
+  <% if can_manage || @event.wind_cancellation %>
+    <div class="show-page-content">
+      <%= render 'actions_bar', event: @event, editable: can_manage %>
+    </div>
+  <% end %>
 
   <div class="show-page-content">
     <% if !@event.surprise? || can_manage %>
@@ -23,11 +23,4 @@
       <%= render 'sponsors/sponsors', sponsorable: @event, editable: (can_manage && !@event.finished?) %>
     </div>
   </div>
-
-  <% content_for :page_js do %>
-    <script>
-      <%= render partial: 'show_controls', formats: [:js] %>
-    </script>
-  <% end %>
-
 </div>

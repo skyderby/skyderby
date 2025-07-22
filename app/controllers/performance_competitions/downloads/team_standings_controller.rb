@@ -1,8 +1,8 @@
 class PerformanceCompetitions::Downloads::TeamStandingsController < ApplicationController
-  include EventScoped
+  include PerformanceCompetitionScoped
 
   before_action :set_event
-  before_action :authorize_event
+  before_action :authorize_event_update!
   before_action :set_scoreboard
 
   def show

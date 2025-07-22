@@ -1,22 +1,23 @@
-module Api
-  module V1
-    module Events
-      class CompetitorsController < Api::ApplicationController
-        def index
-          event = Event.find(params[:event_id])
+class Api::V1::Events::CompetitorsController < Api::ApplicationController
+  include PerformanceCompetitionScoped
 
-          authorize event, :show?
+  before_action :set_event
+  before_action :authorize_event_access!
 
-          @competitors =
-            event.competitors
-                 .left_outer_joins(:section, :profile)
-                 .order('event_sections.order', 'profiles.name')
+  def index
+    @competitors =
+      @event.competitors
+            .left_outer_joins(:category, :profile)
+            .order('event_sections.order', 'profiles.name')
 
-          respond_to do |format|
-            format.json
-          end
-        end
-      end
+    respond_to do |format|
+      format.json
     end
+  end
+
+  private
+
+  def set_event
+    @event = PerformanceCompetition.find(params[:event_id])
   end
 end

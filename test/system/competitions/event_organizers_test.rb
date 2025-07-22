@@ -6,7 +6,7 @@ class EventOrganizersTest < ApplicationSystemTestCase
     organizer = users(:regular_user)
 
     sign_in users(:event_responsible)
-    visit event_path(event)
+    visit performance_competition_path(event)
 
     click_button I18n.t('organizers.list.add_judge')
     assert_selector('.modal-title', text: I18n.t('activerecord.models.organizer').to_s)

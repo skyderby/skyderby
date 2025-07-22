@@ -13,7 +13,7 @@ class EventsCompetitorsTest < ApplicationSystemTestCase
     profile = create :profile, name: 'Ivan Petrov'
 
     sign_in @user
-    visit event_path(event)
+    visit performance_competition_path(event)
     click_button I18n.t('activerecord.models.event/competitor')
     assert_selector('.modal-title', text: I18n.t('events.add_competitor'))
     hot_select profile.name, from: :profile_id
@@ -34,7 +34,7 @@ class EventsCompetitorsTest < ApplicationSystemTestCase
     profile_name = 'Ivan Petrov'
 
     sign_in @user
-    visit event_path(event)
+    visit performance_competition_path(event)
     click_button I18n.t('activerecord.models.event/competitor')
     assert_selector('.modal-title', text: I18n.t('events.add_competitor'))
 

@@ -24,7 +24,7 @@ module Events
       def sections
         @sections ||=
           if split_by_categories?
-            event.sections.order(:order).map do |section|
+            event.categories.order(:order).map do |section|
               Category.new(section, self, CompetitorsCollection)
             end
           else

@@ -20,6 +20,12 @@ module ActiveSupport
     include ActionDispatch::TestProcess
     include CreateTrackHelper
 
+    set_fixture_class 'event/competitors' => PerformanceCompetition::Competitor
+    set_fixture_class 'event/results' => PerformanceCompetition::Result
+    set_fixture_class 'event/rounds' => PerformanceCompetition::Round
+    set_fixture_class 'event/sections' => PerformanceCompetition::Category
+    set_fixture_class 'events' => PerformanceCompetition
+
     fixtures :all
 
     def run

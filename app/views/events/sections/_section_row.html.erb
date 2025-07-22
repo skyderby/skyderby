@@ -1,5 +1,0 @@
-<%# Open category (when splitting by categories is disabled) doesn't have id %>
-<%# locals: (event:, section:, editable:, columns_count:) %>
-<% return unless section.id %>
-
-<%= render 'events/sections/section_cell', section:, event:, editable:, columns_count: %>

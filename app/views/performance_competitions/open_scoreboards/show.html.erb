@@ -1,11 +1,17 @@
 <% provide :title, @event.name %>
-<% editable = policy(@event).update? %>
+<% editable = @event.editable? %>
 <%= turbo_stream_from @event, :open_scoreboard, editable ? :editable : :read_only %>
 
 <div class="show-page">
   <%= render 'events/header', editable: %>
 
+  <% if @event.wind_cancellation %>
+    <div class="show-page-content">
+      <%= render 'actions_bar', event: @event %>
+    </div>
+  <% end %>
+
   <div class="show-page-content" id="open_scoreboard">
-    <%= render 'scoreboard', event: @event, editable: %>
+    <%= render 'scoreboard', event: @event, editable:, wind_cancellation: @wind_cancellation %>
   </div>
 </div>

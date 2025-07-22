@@ -1,0 +1,16 @@
+<%# locals: (event:) %>
+
+<div class="card actions-bar" id="actions-bar">
+  <div class="sd-dropdown actions-bar-right">
+    <% if event.wind_cancellation %>
+      <%= form_with url: url_for, method: :get, data: { controller: 'auto-submit' }, class: 'actions-bar-button' do |form| %>
+        <%= form.switch :including_wind,
+                        checked: params[:including_wind] == '1',
+                        data: { action: 'change->auto-submit#submit' },
+                        label_text: 'Wind cancellation',
+                        include_hidden: false,
+                        reverse_visual: true %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

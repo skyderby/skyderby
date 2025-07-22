@@ -1,0 +1,16 @@
+<%# locals: (result:, modal: false) %>
+
+<% current_controller = controller.controller_path.split('/').last %>
+<% link_data = modal ? { turbo_stream: true } : {} %>
+<div class="tab-bar">
+  <%= link_to t('general.charts'), boogie_result_path(result.event, result), data: link_data,
+                class: class_names('tab-bar-item', current_controller == 'results' && 'active') %>
+
+  <%= link_to t('event_tracks.show.maps'), boogie_result_map_path(result.event, result), data: link_data,
+                class: class_names('tab-bar-item', current_controller == 'maps' && 'active') %>
+
+  <% if result.event.editable? %>
+    <%= link_to t('general.jump_range'), boogie_result_jump_range_path(result.event, result),data: link_data,
+                  class: class_names('tab-bar-item', current_controller == 'jump_ranges' && 'active') %>
+  <% end %>
+</div>

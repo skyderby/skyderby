@@ -1,3 +1,6 @@
+_fixture:
+  model_class: PerformanceCompetition::Round
+
 distance_1:
   event: nationals
   discipline: distance

@@ -13,15 +13,15 @@
 
     <div class="reference-points-list">
       <div class="reference-points-actions">
-        <%= button_to event_reference_points_path(@event), class: 'default-button' do %>
+        <%= button_to performance_competition_reference_points_path(@event), class: 'default-button' do %>
           <%= svg_icon 'plus-solid' %>
           <%= t('general.create') %>
         <% end %>
-        <%= link_to new_event_reference_points_import_path(@event), class: 'default-button', data: { turbo_stream: true } do %>
+        <%= link_to new_performance_competition_reference_points_import_path(@event), class: 'default-button', data: { turbo_stream: true } do %>
           <%= svg_icon 'plus-solid' %>
           <%= t('general.import_from_csv')  %>
         <% end %>
-        <%= link_to event_reference_points_path(@event, format: :csv), class: 'default-button' do %>
+        <%= link_to performance_competition_reference_points_path(@event, format: :csv), class: 'default-button' do %>
           <%= svg_icon 'download-solid' %>
           <%= t('general.export_to_csv') %>
         <% end %>
@@ -39,9 +39,9 @@
 
       <div class="grid">
         <% if editable %>
-          <%= form_with model: @event, url: event_designated_lane_start_path(@event), data: { controller: 'auto-submit', action: 'change->auto-submit#submit' } do |f| %>
+          <%= form_with model: @event, url: performance_competition_designated_lane_start_path(@event), data: { controller: 'auto-submit', action: 'change->auto-submit#submit' } do |f| %>
             <% options = options_for_select(
-              Event.designated_lane_starts.keys.map { |key|
+              PerformanceCompetition.designated_lane_starts.keys.map { |key|
                 [t("activerecord.attributes.event.designated_lane_starts.#{key}"), key]
               },
               @event.designated_lane_start

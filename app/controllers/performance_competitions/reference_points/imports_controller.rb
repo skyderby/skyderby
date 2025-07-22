@@ -1,5 +1,5 @@
 class PerformanceCompetitions::ReferencePoints::ImportsController < ApplicationController
-  include EventScoped
+  include PerformanceCompetitionScoped
 
   before_action :set_event
   before_action :authorize_event_update!
@@ -7,7 +7,7 @@ class PerformanceCompetitions::ReferencePoints::ImportsController < ApplicationC
   def new; end
 
   def create
-    result = Event::ReferencePoint.import_from_csv(params[:file], @event)
+    result = PerformanceCompetition::ReferencePoint.import_from_csv(params[:file], @event)
 
     if result[:status] == :success
       render(

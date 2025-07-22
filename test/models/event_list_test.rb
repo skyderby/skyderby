@@ -14,30 +14,22 @@ class EventListTest < ActiveSupport::TestCase
       name: 'With two locations',
       responsible: @responsible
     ).tap do |series|
-      series.competitions << Event.create!(
+      series.competitions << PerformanceCompetition.create!(
         name: 'First location',
         responsible: @responsible,
         starts_at: '2022-04-15'
       ).tap do |event|
-        category = event.sections.create!(name: 'Open')
-        event.competitors.create!(
-          section: category,
-          profile: profiles(:alex),
-          suit: suits(:apache)
-        )
+        category = event.categories.create!(name: 'Open')
+        event.competitors.create!(category:, profile: profiles(:alex), suit: suits(:apache))
       end
 
-      series.competitions << Event.create!(
+      series.competitions << PerformanceCompetition.create!(
         name: 'Second location',
         responsible: @responsible,
         starts_at: '2022-04-24'
       ).tap do |event|
-        category = event.sections.create!(name: 'Open')
-        event.competitors.create!(
-          section: category,
-          profile: profiles(:john),
-          suit: suits(:apache)
-        )
+        category = event.categories.create!(name: 'Open')
+        event.competitors.create!(category:, profile: profiles(:john), suit: suits(:apache))
       end
     end
 
@@ -56,5 +48,53 @@ class EventListTest < ActiveSupport::TestCase
     assert_equal Time.zone.parse('2022-04-15'), series.starts_at
     assert_equal({ 'First location' => 1, 'Second location' => 1 }, series.competitors_count)
     assert_equal [profiles(:john).country_id], series.country_ids
+  end
+
+  test 'listable filters events correctly for non-participants' do
+    user = create :user
+
+    events(:nationals).update!(name: 'Finished/Public', status: :finished, visibility: :public_event)
+    events(:nationals).dup.tap do |event|
+      event.update!(name: 'Published/Public', status: :published, visibility: :public_event)
+    end
+    events(:nationals).dup.tap do |event|
+      event.update!(name: 'Draft/Public', status: :draft, visibility: :public_event)
+    end
+    events(:nationals).dup.tap do |event|
+      event.update!(
+        name: 'Draft/Public/WhenResponsible',
+        status: :draft,
+        visibility: :public_event,
+        responsible: user
+      )
+    end
+    events(:nationals).dup.tap do |event|
+      event.update!(name: 'Published/Unlisted', status: :published, visibility: :unlisted_event)
+    end
+    events(:nationals).dup.tap do |event|
+      event.update!(name: 'Published/Private', status: :draft, visibility: :private_event)
+    end
+    events(:nationals).dup.tap do |event|
+      event.update!(name: 'Published/Private/WhenCompetitor', status: :published, visibility: :private_event)
+      category = event.categories.create!(name: 'Open')
+      event.competitors.create!(profile: user.profile, suit: suits(:apache), category:)
+    end
+
+    speed_skydiving_competitions(:nationals).update!(name: 'Speed')
+    tournaments(:world_base_race).update!(name: 'Tournament')
+    tournaments(:qualification_loen).update!(name: 'Qualification')
+
+    event_array = EventList.listable(user).map { _1.event.name }
+
+    assert_includes event_array, 'Finished/Public'
+    assert_includes event_array, 'Published/Public'
+    assert_includes event_array, 'Speed'
+    assert_includes event_array, 'Tournament'
+    assert_includes event_array, 'Qualification'
+    assert_includes event_array, 'Draft/Public/WhenResponsible'
+    assert_includes event_array, 'Published/Private/WhenCompetitor'
+    assert_not_includes event_array, 'Published/Private'
+    assert_not_includes event_array, 'Published/Unlisted'
+    assert_not_includes event_array, 'Draft/Public'
   end
 end

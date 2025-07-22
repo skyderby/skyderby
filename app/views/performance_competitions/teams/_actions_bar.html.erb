@@ -1,12 +1,25 @@
 <%# locals: (event:) %>
 <div class="card actions-bar" id="teams-actions-bar">
-  <%= button_to new_event_team_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+  <%= button_to new_performance_competition_team_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
     <%= svg_icon 'plus-solid' %>
     Team
   <% end %>
 
-  <%= button_to new_event_team_competitor_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+  <%= button_to new_performance_competition_team_competitor_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
     <%= svg_icon 'plus-solid' %>
     Competitor
   <% end %>
+
+  <div class="sd-dropdown actions-bar-right">
+    <% if event.wind_cancellation %>
+      <%= form_with url: url_for, method: :get, data: { controller: 'auto-submit' }, class: 'actions-bar-button' do |form| %>
+        <%= form.switch :including_wind,
+                        checked: params[:including_wind] == '1',
+                        data: { action: 'change->auto-submit#submit' },
+                        label_text: 'Wind cancellation',
+                        include_hidden: false,
+                        reverse_visual: true %>
+      <% end %>
+    <% end %>
+  </div>
 </div>

@@ -1,8 +1,8 @@
 class PerformanceCompetitions::ReferencePointsController < ApplicationController
-  include EventScoped
+  include PerformanceCompetitionScoped
 
   before_action :set_event
-  before_action :authorize_event, except: :index
+  before_action :authorize_event_update!, except: :index
   before_action :set_reference_point, only: %i[update destroy]
 
   def create

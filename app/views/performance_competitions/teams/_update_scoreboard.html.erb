@@ -1,0 +1,11 @@
+<% if @event.wind_cancellation %>
+  <%= turbo_stream.update 'teams-scoreboard_no_wind' do %>
+    <%= render partial: 'performance_competitions/teams/scoreboard',
+               locals: { event: @event, editable: !@event.finished?, wind_cancellation: true } %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update 'teams-scoreboard' do %>
+  <%= render partial: 'performance_competitions/teams/scoreboard',
+             locals: { event: @event, editable: !@event.finished?, wind_cancellation: false } %>
+<% end %>

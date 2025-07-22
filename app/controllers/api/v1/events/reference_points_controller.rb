@@ -1,20 +1,16 @@
-module Api
-  module V1
-    module Events
-      class ReferencePointsController < ApplicationController
-        before_action :set_event
+class Api::V1::Events::ReferencePointsController < ApplicationController
+  include PerformanceCompetitionScoped
 
-        def index
-          authorize @event, :show?
-          @reference_points = @event.reference_points
-        end
+  before_action :set_event
+  before_action :authorize_event_access!
 
-        private
+  def index
+    @reference_points = @event.reference_points
+  end
 
-        def set_event
-          @event = Event.find(params[:event_id])
-        end
-      end
-    end
+  private
+
+  def set_event
+    @event = PerformanceCompetition.find(params[:event_id])
   end
 end

@@ -1,4 +1,4 @@
-<% url = @event.new_record? ? '/events/performance' : event_path(@event) %>
+<% url = @event.new_record? ? '/events/performance' : performance_competition_path(@event) %>
 <%= form_with model: @event, url:, html: { class: 'form-horizontal', role: 'form', id: "#{action_name}_event_form"} do |f| %>
   <div class="sd-form">
     <div class="grid">
@@ -44,17 +44,15 @@
     </div>
 
     <div class="grid">
-      <%= f.label :use_teams, class: 'form-checkbox col-8 col-start-5' do %>
-        <%= f.check_box :use_teams %>
-        <%= t('activerecord.attributes.event.use_teams') %>
-      <% end %>
+      <div class="col-8 col-start-5">
+        <%= f.switch :use_teams, label_text: t('activerecord.attributes.event.use_teams') %>
+      </div>
     </div>
 
     <div class="grid">
-      <%= f.label :wind_cancellation, class: 'form-checkbox col-8 col-start-5' do %>
-        <%= f.check_box :wind_cancellation %>
-        <%= t('activerecord.attributes.event.wind_cancellation') %>
-      <% end %>
+      <div class="col-8 col-start-5">
+        <%= f.switch :wind_cancellation, label_text: t('activerecord.attributes.event.wind_cancellation') %>
+      </div>
     </div>
   </div>
 
@@ -62,7 +60,7 @@
   <div class="modal-actions">
     <div class="modal-actions__left">
       <% if @event.persisted? && @event.deletable? %>
-        <%= link_to t('general.delete'), new_event_deletion_path(@event), data: { turbo_stream: true }, class: 'ghost-danger-button' %>
+        <%= link_to t('general.delete'), new_performance_competition_deletion_path(@event), data: { turbo_stream: true }, class: 'ghost-danger-button' %>
       <% end %>
     </div>
     <div class="modal-actions__right">
@@ -71,7 +69,7 @@
       <% if @event.new_record? %>
         <%= link_to t('general.cancel'), new_event_path, class: 'default-button' %>
       <% else %>
-        <%= link_to t('general.cancel'), event_path(@event), class: 'default-button' %>
+        <%= link_to t('general.cancel'), performance_competition_path(@event), class: 'default-button' %>
       <% end %>
     </div>
   </div>

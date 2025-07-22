@@ -1,4 +1,4 @@
-<% can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished? && !request.variant.include?(:mobile) %>
+<% can_update = @scoreboard.event.editable? && !@scoreboard.event.finished? && !request.variant.include?(:mobile) %>
 
 <% cache ['scoreboard', I18n.locale, @scoreboard.event, can_update] do %>
   <div class="scoreboard-container" data-controller="events--sticky-header">
@@ -25,7 +25,7 @@
                       </button>
                       <ul class="dropdown-menu dropdown-menu-right">
                         <li>
-                          <%= button_to event_round_path(@scoreboard.event, round), method: :delete, remote: true, class: 'btn-link delete-round' do %>
+                          <%= button_to boogie_round_path(@scoreboard.event, round), method: :delete, remote: true, class: 'btn-link delete-round' do %>
                             <i class="fa fa-fw fa-times-circle text-muted"></i>
                             <%= t('general.delete') %>
                           <% end %>
@@ -44,7 +44,7 @@
             <% section.competitors.each_with_index do |competitor, index| %>
               <tr class="scoreboard-competitor" id="<%= dom_id(competitor) %>">
                 <td class="text-center"><%= index + 1 %></td>
-                <%= render 'events/competitors/competitor_cells', event: @event, competitor:, editable: can_update %>
+                <%= render 'performance_competitions/competitors/competitor_cells', event: @event, competitor:, editable: can_update %>
                 <% @scoreboard.rounds.each do |round| %>
                   <% result = @scoreboard.results.for(competitor: competitor, round: round) %>
                   <% if result %>

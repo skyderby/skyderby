@@ -1,52 +1,9 @@
-<%# locals: (event:, scoreboard:, editable:, id:) %>
+<%# locals: (event:, editable:, wind_cancellation: false) %>
+<% id = ['scoreboard', ('no_wind' if wind_cancellation)].compact.join('_') %>
 
-<div class="<%= class_names 'scoreboard-container', (scoreboard.rounds.size > 6 && 'scoreboard-container-fluid') %>"
-     data-controller="events--sticky-header" id="<%= id %>">
-  <div class="scoreboard-scroll" data-events--sticky-header-target="container" data-action="scroll->events--sticky-header#on_horizontal_scroll">
-    <table class="scoreboard-table" data-events--sticky-header-target="table">
-      <%= render 'events/scoreboard_header', event:, scoreboard:, editable: %>
-      <tbody>
-        <% scoreboard.standings.rows.each do |row| %>
-          <tr class="scoreboard-competitor">
-            <td class="text-center"><%= row.rank %></td>
-
-            <%= render 'events/competitors/competitor_cells', event:, competitor: row.competitor, editable: %>
-
-            <% scoreboard.rounds_by_discipline.each do |discipline, rounds| %>
-              <% rounds.each do |round| %>
-                <% result = row.result_in_round(round) %>
-                <% if result && (round.completed || editable) %>
-                  <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable: %>
-                  <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result: %>
-                <% elsif result&.validated? %>
-                  <td class="text-right text-muted">
-                    <%= result.formatted_result %>
-                    <% if result.penalized? && result.apply_penalty_to_result? %>
-                      <sup class="text-danger">-<%= result.penalty_size %>%</sup>
-                    <% end %>
-                  </td>
-                  <td></td>
-                <% elsif editable %>
-                  <td class="result-cell">
-                    <%= new_event_track_link(event, row.competitor, round) %>
-                  </td>
-                  <td></td>
-                <% else %>
-                  <td></td>
-                  <td></td>
-                <% end %>
-              <% end %>
-              <td class="text-right">
-                <% points_in_discipline = row.points_in_disciplines[discipline] %>
-                <%= format('%.1f', points_in_discipline) if points_in_discipline&.positive? %>
-              </td>
-            <% end %>
-            <td class="scoreboard-total-result">
-              <%= format('%.1f', row.total_points) if row.total_points.positive? %>
-            </td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
+<% if event.surprise? && !editable %>
+  <h1 class="text-muted text-center" id="<%= id %>">🙅 Let it be a Surprise</h1>
+<% else %>
+  <%= render 'performance_competitions/scoreboard_table_by_category',
+             event:, scoreboard: event.standings(wind_cancellation:), editable:, id: %>
+<% end %>

@@ -1,7 +1,7 @@
 <%# locals: (event:, result:, editable:)  %>
 
 <td class="<%= class_names 'result-cell', ('text-green' if result.best_result) %>">
-  <%= link_to(event_result_path(event, result),
+  <%= link_to(performance_competition_result_path(event, result),
               **(mobile? ? { target: '_blank' } : { 'data-turbo-stream' => 'true' }),
               class: 'result-show-cell',
               rel: 'nofollow') do  %>

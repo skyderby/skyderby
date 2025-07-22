@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <% if policy(Event).create? %>
+    <% if EventList.creatable? %>
       <div>
         <%= link_to new_event_path, class: 'primary-button' do %>
           <%= svg_icon 'plus-solid' %>

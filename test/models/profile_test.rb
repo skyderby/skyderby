@@ -36,8 +36,8 @@ class ProfileTest < ActiveSupport::TestCase
   test '#competitor_of_events' do
     profile = Profile.create!(name: 'Piotr')
     performance_event = events(:nationals)
-    category = performance_event.sections.first
-    performance_event.competitors.create!(profile:, suit: suits(:apache), section: category)
+    category = performance_event.categories.first
+    performance_event.competitors.create!(profile:, suit: suits(:apache), category:)
 
     speed_event = speed_skydiving_competitions(:nationals)
     category = speed_event.categories.first

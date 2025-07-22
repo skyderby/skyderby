@@ -21,7 +21,7 @@
 #
 
 FactoryBot.define do
-  factory :event do
+  factory :event, class: PerformanceCompetition do
     sequence(:name) { |n| "Event#{n}" }
     starts_at { Time.zone.today }
     range_from { 3000 }
@@ -33,11 +33,11 @@ FactoryBot.define do
     end
 
     trait :draft do
-      status { Event.statuses['draft'] }
+      status { PerformanceCompetition.statuses['draft'] }
     end
 
     trait :published do
-      status { Event.statuses['published'] }
+      status { PerformanceCompetition.statuses['published'] }
     end
   end
 end

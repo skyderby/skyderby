@@ -1,0 +1,8 @@
+<%# locals: (event:, editable:) %>
+
+<% if event.surprise? && !editable %>
+  <h1 class="text-muted text-center" id="<%= id %>">🙅 Let it be a Surprise</h1>
+<% else %>
+  <%= render 'boogies/scoreboard_table_by_category',
+             event:, scoreboard: event.standings, editable:, id: 'scoreboard' %>
+<% end %>

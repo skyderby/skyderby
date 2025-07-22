@@ -1,0 +1,44 @@
+<%# locals: (event:, rounds_by_discipline:, standings:, editable:) %>
+
+<% standings.rows.each do |row| %>
+  <tr class="scoreboard-competitor">
+    <td class="text-center"><%= row.rank %></td>
+
+    <%= render 'performance_competitions/competitors/competitor_cells', event:, competitor: row.competitor, editable: %>
+
+    <% rounds_by_discipline.each do |discipline, rounds| %>
+      <% rounds.each do |round| %>
+        <% result = row.result_in_round(round) %>
+        <% if result && (round.completed || editable) %>
+          <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable: %>
+          <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result: %>
+        <% elsif result&.validated? %>
+          <td class="text-right text-muted">
+            <%= result.formatted_result %>
+            <% if result.penalized? && result.apply_penalty_to_result? %>
+              <sup class="text-danger">-<%= result.penalty_size %>%</sup>
+            <% end %>
+          </td>
+          <td></td>
+        <% elsif editable %>
+          <td class="result-cell">
+            <%= button_to svg_icon('upload-solid'), new_performance_competition_result_path(event),
+                          params: { 'result[competitor_id]' => row.competitor.id, 'result[round_id]' => round.id },
+                          method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } %>
+          </td>
+          <td></td>
+        <% else %>
+          <td></td>
+          <td></td>
+        <% end %>
+      <% end %>
+      <td class="text-right">
+        <% points_in_discipline = row.points_in_disciplines[discipline] %>
+        <%= format('%.1f', points_in_discipline) if points_in_discipline&.positive? %>
+      </td>
+    <% end %>
+    <td class="scoreboard-total-result">
+      <%= format('%.1f', row.total_points) if row.total_points.positive? %>
+    </td>
+  </tr>
+<% end %>

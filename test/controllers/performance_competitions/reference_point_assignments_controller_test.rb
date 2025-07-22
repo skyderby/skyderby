@@ -19,7 +19,8 @@ class PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionD
       reference_point_id: reference_point.id
     }
 
-    post event_reference_point_assignments_path(event_id: event.id), params: params
+    post performance_competition_reference_point_assignments_path(performance_competition_id: event.id),
+         params: params
 
     assert_response :success
 
@@ -47,7 +48,8 @@ class PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionD
       reference_point_id: nil
     }
 
-    post event_reference_point_assignments_path(event_id: event.id), params: params
+    post performance_competition_reference_point_assignments_path(performance_competition_id: event.id),
+         params: params
 
     assert_response :success
 
@@ -71,7 +73,8 @@ class PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionD
       reference_point_id: reference_point.id
     }
 
-    post event_reference_point_assignments_path(event_id: event.id), params: params
+    post performance_competition_reference_point_assignments_path(performance_competition_id: event.id),
+         params: params
 
     assert_response :forbidden
   end
@@ -94,7 +97,8 @@ class PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionD
     }
 
     assert_raises(ActiveRecord::RecordNotFound) do
-      post event_reference_point_assignments_path(event_id: event.id), params: params
+      post performance_competition_reference_point_assignments_path(performance_competition_id: event.id),
+           params: params
     end
   end
 
@@ -116,7 +120,8 @@ class PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionD
     }
 
     assert_raises(ActiveRecord::RecordNotFound) do
-      post event_reference_point_assignments_path(event_id: event.id), params: params
+      post performance_competition_reference_point_assignments_path(performance_competition_id: event.id),
+           params: params
     end
   end
 
@@ -134,7 +139,8 @@ class PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionD
     }
 
     assert_raises(ActiveRecord::RecordNotFound) do
-      post event_reference_point_assignments_path(event_id: event.id), params: params
+      post performance_competition_reference_point_assignments_path(performance_competition_id: event.id),
+           params: params
     end
   end
 end

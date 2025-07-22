@@ -1,6 +1,6 @@
 json.key_format! camelize: :lower
 
-json.editable policy(@round.event).update? && !@round.event.finished?
+json.editable @round.event.editable? && !@round.event.finished?
 
 json.extract! @round, :id, :discipline, :number
 

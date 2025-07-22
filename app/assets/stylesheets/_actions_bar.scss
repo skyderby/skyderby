@@ -14,6 +14,8 @@
   align-items: center;
   gap: 0.25rem;
   height: 100%;
+  font-size: 0.875rem;
+  font-weight: 500;
 
   &:hover {
     background-color: var(--gray-20);
@@ -38,5 +40,9 @@
 .actions-bar-right {
   display: flex;
   margin-left: auto;
-  border-left: var(--default-border);
+
+  .actions-bar-button {
+    border-left: var(--default-border);
+    border-right: 0;
+  }
 }

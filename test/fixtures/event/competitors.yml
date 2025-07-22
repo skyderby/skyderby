@@ -1,17 +1,17 @@
 john:
   event: nationals
   suit: apache
-  section: advanced
+  category: advanced
   profile: john
 
 travis:
   event: nationals
   suit: apache
-  section: advanced
+  category: advanced
   profile: travis
 
 alex:
   event: nationals
   suit: nala
-  section: advanced
+  category: advanced
   profile: alex

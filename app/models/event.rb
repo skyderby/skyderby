@@ -21,23 +21,13 @@
 #
 
 class Event < ApplicationRecord
-  include TrackVisibility, DesignatedLane
-
   enum :status, { draft: 0, published: 1, finished: 2, surprise: 3 }
   enum :rules, { speed_distance_time: 0, fai: 1, hungary_boogie: 2 }
   enum :visibility, { public_event: 0, unlisted_event: 1, private_event: 2 }
 
-  belongs_to :responsible, class_name: 'User', inverse_of: :responsible_of_events
-
   belongs_to :place, optional: true
 
-  has_many :sections, -> { order(:order) }, inverse_of: :event, dependent: :restrict_with_error
-  has_many :competitors, inverse_of: :event, dependent: :restrict_with_error
-  has_many :rounds, -> { order(:number) }, inverse_of: :event, dependent: :restrict_with_error
-  has_many :teams, dependent: :restrict_with_error
-  has_many :results, through: :rounds
-  has_many :reference_point_assignments, through: :rounds
-  has_many :tracks, through: :results
+  belongs_to :responsible, class_name: 'User', inverse_of: :responsible_of_events
   has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :sponsors,
            -> { order(:created_at) },
@@ -47,8 +37,6 @@ class Event < ApplicationRecord
   has_one :gps_recordings_archive, as: :event, dependent: :destroy
 
   validates :name, :range_from, :range_to, :starts_at, presence: true
-
-  after_touch :broadcast_update
 
   before_create do
     self.apply_penalty_to_score = false
@@ -67,14 +55,6 @@ class Event < ApplicationRecord
 
   def deletable?(user = Current.user) = user.admin? || user == responsible
 
-  def team_standings(wind_cancellation: false) = Event::TeamStandings.new(self, wind_cancellation:)
-
-  def use_open_standings? = sections.many?
-
-  def open_standings(wind_cancellation: false) = OpenScoreboard.new(self, wind_cancellation:)
-
-  def task_standings(task, wind_cancellation: false) = TaskScoreboard.new(self, task, wind_cancellation:)
-
   def permanently_delete(including_tracks: false)
     transaction do
       tracks_to_delete = tracks.to_a
@@ -91,10 +71,6 @@ class Event < ApplicationRecord
   end
 
   private
-
-  def broadcast_update
-    ActionCable.server.broadcast "event_updates_#{id}", {}
-  end
 
   class << self
     def search(query)

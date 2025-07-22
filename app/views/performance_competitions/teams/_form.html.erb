@@ -1,6 +1,6 @@
 <% url = @team.new_record? ?
-           event_teams_path(@event) :
-           event_team_path(@event, @team) %>
+           performance_competition_teams_path(@event) :
+           performance_competition_team_path(@event, @team) %>
 
 <%= form_with model: @team, url:, scope: :team, class: 'sd-form',
               data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>

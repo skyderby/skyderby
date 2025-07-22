@@ -1,0 +1,13 @@
+<%# locals: (event:, scoreboard:, editable:, id:) %>
+
+<div class="<%= class_names 'scoreboard-container', (scoreboard.rounds.size > 6 && 'scoreboard-container-fluid') %>"
+     data-controller="events--sticky-header" id="<%= id %>">
+  <div class="scoreboard-scroll" data-events--sticky-header-target="container" data-action="scroll->events--sticky-header#on_horizontal_scroll">
+    <table class="scoreboard-table" data-events--sticky-header-target="table">
+      <%= render 'performance_competitions/scoreboard_header', event:, scoreboard:, editable: %>
+      <tbody>
+        <%= render 'performance_competitions/scoreboard_standings', event:, rounds_by_discipline: scoreboard.rounds_by_discipline, standings: scoreboard.standings, editable: %>
+      </tbody>
+    </table>
+  </div>
+</div>

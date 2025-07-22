@@ -1,0 +1,30 @@
+<%# locals: (id: nil, name: nil, label_text: nil, checked: false, disabled: false, data: {}, include_hidden: true, checked_value: "1", unchecked_value: "0", reverse_visual: false, **local_assigns) %>
+
+<% id ||= "switch-#{SecureRandom.hex(4)}" %>
+<div class="switch-container">
+  <% if name.present? && include_hidden %>
+    <input name="<%= name %>" type="hidden" value="<%= unchecked_value %>" autocomplete="off">
+  <% end %>
+  <input
+    type="checkbox"
+    id="<%= id %>"
+    <% if name.present? %>
+      name="<%= name %>"
+    <% end %>
+    class="switch-input<%= ' reverse-visual' if reverse_visual %>"
+    value="<%= checked_value %>"
+    <%= "checked" if checked %>
+    <%= "disabled" if disabled %>
+    <% data.each do |key, value| %>
+      data-<%= key %>="<%= value %>"
+    <% end %>
+  >
+  <label for="<%= id %>" class="switch-label">
+    <span class="switch-slider"></span>
+    <% if label_text %>
+      <span class="switch-text"><%= label_text %></span>
+    <% else%>
+      <%= yield %>
+    <% end %>
+  </label>
+</div>

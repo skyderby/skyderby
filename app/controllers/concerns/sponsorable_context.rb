@@ -6,14 +6,12 @@ module SponsorableContext
   end
 
   def sponsorable_class
-    [Event, SpeedSkydivingCompetition, Tournament, VirtualCompetition]
+    [PerformanceCompetition, Boogie, SpeedSkydivingCompetition, Tournament, VirtualCompetition]
       .detect { |c| params["#{c.name.underscore}_id"] }
   end
 
   def authorize_sponsorable
-    return if policy(@sponsorable).update?
-
-    raise Pundit::NotAuthorizedError
+    respond_not_authorized unless @sponsorable.editable?
   end
 
   def broadcast_sponsors_update

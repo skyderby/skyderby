@@ -1,10 +1,10 @@
-<%# locals: (event:, editable:) %>
-<% id = "teams-scoreboard" %>
+<%# locals: (event:, editable:, wind_cancellation: false) %>
+<% id = ['teams-scoreboard', ('no_wind' if wind_cancellation)].compact.join('_') %>
 
 <% if event.surprise? && !editable %>
   <h1 class="text-muted text-center" id="<%= id %>">🙅 Let it be a Surprise</h1>
 <% else %>
-  <% standings = event.team_standings %>
+  <% standings = event.team_standings(wind_cancellation:) %>
 
   <div class="scoreboard-container" id="<%= id %>">
     <table class="scoreboard-table">
@@ -36,11 +36,11 @@
 
                     <template data-dropdown-target="menu">
                       <div class="sd-dropdown-menu">
-                        <%= button_to 'Edit', edit_event_team_path(event, team),
+                        <%= button_to 'Edit', edit_performance_competition_team_path(event, team),
                                       class: 'dropdown-item',
                                       method: :get, form: { data: { turbo_stream: true } } %>
 
-                        <%= button_to 'Delete', event_team_path(event, team),
+                        <%= button_to 'Delete', performance_competition_team_path(event, team),
                                       class: 'dropdown-item',
                                       method: :delete, form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } } %>
                       </div>

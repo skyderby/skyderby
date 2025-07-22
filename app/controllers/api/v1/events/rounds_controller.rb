@@ -1,35 +1,28 @@
-module Api
-  module V1
-    module Events
-      class RoundsController < Api::ApplicationController
-        before_action :set_event
+class Api::V1::Events::RoundsController < Api::ApplicationController
+  include PerformanceCompetitionScoped
 
-        def show
-          authorize @event, :show?
+  before_action :set_event
+  before_action :authorize_event_access!
 
-          @round = ::Events::Rounds::Show.new(@event, params[:id])
+  def show
+    @round = ::Events::Rounds::Show.new(@event, params[:id])
 
-          respond_to do |format|
-            format.json
-          end
-        end
-
-        def index
-          authorize @event, :show?
-
-          @rounds = @event.rounds.order(:number, :created_at)
-
-          respond_to do |format|
-            format.json
-          end
-        end
-
-        private
-
-        def set_event
-          @event = Event.find(params[:event_id])
-        end
-      end
+    respond_to do |format|
+      format.json
     end
+  end
+
+  def index
+    @rounds = @event.rounds.order(:number, :created_at)
+
+    respond_to do |format|
+      format.json
+    end
+  end
+
+  private
+
+  def set_event
+    @event = PerformanceCompetition.find(params[:event_id])
   end
 end

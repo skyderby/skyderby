@@ -74,22 +74,22 @@ module Events
         end
 
         def best_in_round_and_category?
-          self == collection.best_in(round: round, section: section)
+          self == collection.best_in(round: round, section: category)
         end
 
         def best_in_category?
-          self == collection.best_in(section: section)
+          self == collection.best_in(section: category)
         end
 
         def worst_in_category?
-          self == collection.worst_in(section: section)
+          self == collection.worst_in(section: category)
         end
 
         private
 
         attr_reader :record, :collection, :params
 
-        delegate :round, :section, to: :record
+        delegate :round, :category, to: :record
 
         def adjust_to_wind(record)
           if adjust_to_wind?
@@ -121,7 +121,7 @@ module Events
 
         def best_score_lookup_context
           if split_by_categories?
-            { round: round, section: section }
+            { round: round, section: category }
           else
             { round: round }
           end

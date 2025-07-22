@@ -1,0 +1,46 @@
+<%# locals: (event:, editable:) %>
+
+<div class="card actions-bar" id="actions-bar">
+  <% if editable && !event.finished? %>
+    <%= button_to new_boogie_category_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+      <%= svg_icon 'plus-solid' %>
+      <%= t('activerecord.models.event/section') %>
+    <% end %>
+
+    <%= button_to new_boogie_competitor_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+      <%= svg_icon 'plus-solid' %>
+      <%= t('activerecord.models.event/competitor') %>
+    <% end %>
+
+    <%= button_to boogie_rounds_path(event),
+                  method: :post,
+                  form: { data: { turbo_stream: true } },
+                  params: { 'round[discipline]' => :distance },
+                  class: 'actions-bar-button' do %>
+      <%= svg_icon 'plus-solid' %>
+      <%= t('activerecord.models.event/round') %>
+    <% end %>
+  <% end %>
+
+  <% if editable %>
+    <div class="sd-dropdown actions-bar-right">
+      <button class="actions-bar-button" data-controller="dropdown" data-action="click->dropdown#toggle">
+        <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + event.status) %>
+        <%= svg_icon 'angle-down-solid' %>
+
+        <template data-dropdown-target="menu">
+          <div class="sd-dropdown-menu">
+            <% Boogie.statuses.each do |status, _index| %>
+              <%= button_to(t("event_status.#{status}"),
+                          boogie_path(event),
+                          method: :patch,
+                          form: { data: { turbo_stream: true } },
+                          params: { 'event[status]' => status },
+                          class: "dropdown-item #{'active' if event.status == status}") %>
+            <% end %>
+          </div>
+        </template>
+      </button>
+    </div>
+  <% end %>
+</div>

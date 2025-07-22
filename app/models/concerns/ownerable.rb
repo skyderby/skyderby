@@ -10,7 +10,7 @@ module Ownerable
   end
 
   def belongs_to_event?
-    owner_type == 'Event'
+    %w[Event PerformanceCompetition Boogie].include? owner_type
   end
 
   def belongs_to_tournament?

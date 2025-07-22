@@ -8,7 +8,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
   end
 
   test 'happy path - successful import of new reference points' do
-    visit event_reference_points_path(@event)
+    visit performance_competition_reference_points_path(@event)
 
     click_on I18n.t('general.import_from_csv')
     assert_selector '.modal-title', text: 'Import Reference Points'
@@ -36,7 +36,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
   test 'update existing reference point name when coordinates match' do
     @event.reference_points.create!(name: 'Old Name', latitude: 45.123, longitude: -115.456)
 
-    visit event_reference_points_path(@event)
+    visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
     assert_selector '.modal-title', text: 'Import Reference Points'
 
@@ -56,7 +56,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
   test 'update existing reference point coordinates when name matches' do
     @event.reference_points.create!(name: 'Start Gate', latitude: 40.0, longitude: -120.0)
 
-    visit event_reference_points_path(@event)
+    visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
     assert_selector '.modal-title', text: 'Import Reference Points'
 
@@ -81,7 +81,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
     competitor = create(:event_competitor, event: @event)
     round.reference_point_assignments.create!(reference_point:, competitor:)
 
-    visit event_reference_points_path(@event)
+    visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
     assert_selector '.modal-title', text: 'Import Reference Points'
 
@@ -99,7 +99,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
   end
 
   test 'validation error for non-unique coordinate pairs' do
-    visit event_reference_points_path(@event)
+    visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
     assert_selector '.modal-title', text: 'Import Reference Points'
 
@@ -115,7 +115,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
   end
 
   test 'validation error for empty name' do
-    visit event_reference_points_path(@event)
+    visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
     assert_selector '.modal-title', text: 'Import Reference Points'
 
@@ -131,7 +131,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
   end
 
   test 'validation error for invalid coordinates' do
-    visit event_reference_points_path(@event)
+    visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
     assert_selector '.modal-title', text: 'Import Reference Points'
 

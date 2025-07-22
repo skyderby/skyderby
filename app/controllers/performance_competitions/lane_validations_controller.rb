@@ -1,7 +1,7 @@
 class PerformanceCompetitions::LaneValidationsController < ApplicationController
   GROUP_SEPARATION = 2.minutes
 
-  include EventScoped
+  include PerformanceCompetitionScoped
 
   before_action :set_event
   before_action :authorize_event_access!
@@ -9,7 +9,7 @@ class PerformanceCompetitions::LaneValidationsController < ApplicationController
   def index
     last_round = @event.results.order(created_at: :desc).first&.round
 
-    redirect_to event_lane_validation_path(@event, last_round) if last_round
+    redirect_to performance_competition_lane_validation_path(@event, last_round) if last_round
   end
 
   def show

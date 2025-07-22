@@ -1,25 +1,22 @@
-module Api
-  module V1
-    module Events
-      module Results
-        class PenaltiesController < ApplicationController
-          def update
-            event = Event.find(params[:event_id])
+class Api::V1::Events::Results::PenaltiesController < ApplicationController
+  include PerformanceCompetitionScoped
 
-            authorize event, :update?
+  before_action :set_event
+  before_action :authorize_event_update!
 
-            @result = event.results.find(params[:result_id])
+  def update
+    @result = @event.results.find(params[:result_id])
 
-            head :ok if @result.update!(penalty_params)
-          end
+    head :ok if @result.update!(penalty_params)
+  end
 
-          private
+  private
 
-          def penalty_params
-            params.require(:penalty).permit(:penalized, :penalty_size, :penalty_reason)
-          end
-        end
-      end
-    end
+  def set_event
+    @event = PerformanceCompetition.find(params[:event_id])
+  end
+
+  def penalty_params
+    params.require(:penalty).permit(:penalized, :penalty_size, :penalty_reason)
   end
 end

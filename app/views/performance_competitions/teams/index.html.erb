@@ -5,8 +5,10 @@
   <%= render 'events/header', editable: %>
 
   <div class="show-page-content">
-    <%= render 'actions_bar', event: @event if editable %>
+    <% if editable || @event.wind_cancellation %>
+      <%= render 'actions_bar', event: @event  %>
+    <% end %>
 
-    <%= render 'scoreboard', event: @event, editable: editable && !@event.finished? %>
+    <%= render 'scoreboard', event: @event, editable: editable && !@event.finished?, wind_cancellation: @wind_cancellation %>
   </div>
 </div>

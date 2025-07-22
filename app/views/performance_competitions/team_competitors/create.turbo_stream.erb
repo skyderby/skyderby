@@ -1,3 +1,1 @@
-<%= turbo_stream.update 'teams-scoreboard' do %>
-  <%= render partial: 'performance_competitions/teams/scoreboard', locals: { event: @event, editable: !@event.finished? } %>
-<% end %>
+<%= render 'performance_competitions/teams/update_scoreboard' %>

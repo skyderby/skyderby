@@ -4,9 +4,9 @@ class Events::ScoreboardsControllerTest < ActionDispatch::IntegrationTest
   test '#show, format: :html' do
     event = events(:nationals)
 
-    get event_scoreboard_path(event_id: event.id)
+    get performance_competition_scoreboard_path(performance_competition_id: event.id)
 
     assert_response :redirect
-    assert_redirected_to event_url(event)
+    assert_redirected_to performance_competition_url(event)
   end
 end

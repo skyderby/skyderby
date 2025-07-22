@@ -1,8 +1,0 @@
-<% editable = policy(@event).update? && !@event.finished? && !@result.round.completed? %>
-
-<%= render partial: 'jump_range_form',
-           layout: 'events/results/layout',
-           locals: {
-             result: @result,
-             editable:
-           } %>

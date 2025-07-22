@@ -1,0 +1,42 @@
+<%# locals: (category:, event:, editable:, columns_count:) %>
+
+<tr id="<%= dom_id(category) %>" class="scoreboard-category">
+  <td class="scoreboard-section" colspan="<%= columns_count %>">
+    <span class="section-name"><%= category.name %></span>
+
+    <% if editable %>
+      <div class="category-actions">
+        <%= button_to edit_boogie_category_path(event, category),
+                      class: 'ghost-button small-button',
+                      method: :get, form: { data: { turbo_stream: true } } do %>
+          <%= svg_icon 'pencil-solid' %>
+        <% end %>
+
+        <% if event.categories.many? %>
+          <% unless category.first_position? %>
+            <%= button_to move_upper_boogie_category_path(event, category),
+                          class: 'ghost-button small-button',
+                          method: :patch, form: { data: { turbo_stream: true } } do %>
+              <%= svg_icon 'angle-up-solid' %>
+            <% end %>
+          <% end %>
+
+          <% unless category.last_position? %>
+            <%= button_to move_lower_boogie_category_path(event, category),
+                          class: 'ghost-button small-button',
+                          method: :patch, form: { data: { turbo_stream: true } } do %>
+              <%= svg_icon 'angle-down-solid' %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <%= button_to boogie_category_path(event, category),
+                      class: 'ghost-button small-button',
+                      method: :delete,
+                      data: { turbo_confirm: t('sections.show.delete_confirmation') } do %>
+          <%= svg_icon 'xmark' %>
+        <% end %>
+      </div>
+    <% end %>
+  </td>
+</tr>

@@ -1,0 +1,9 @@
+<% provide :title, @event.name %>
+
+<div class="show-page">
+  <%= render 'header', editable: true %>
+
+  <div class="card card-sm">
+    <%= render 'boogies/form' %>
+  </div>
+</div>

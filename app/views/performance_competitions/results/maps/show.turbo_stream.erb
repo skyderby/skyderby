@@ -1,0 +1,13 @@
+<% editable = @event.editable? && !@event.finished? && !@result.round.completed? %>
+
+<%= turbo_stream.update 'modal-root' do %>
+  <%= render partial: 'map',
+             layout: 'components/modal',
+             locals: {
+               title: event_result_presentation(@result),
+               modal_size: 'lg',
+               modal: true,
+               result: @result,
+               editable:
+             } %>
+<% end %>

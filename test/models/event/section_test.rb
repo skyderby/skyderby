@@ -9,12 +9,12 @@ class Event::SectionTest < ActiveSupport::TestCase
     @event.finished!
 
     assert_raises(ActiveRecord::RecordInvalid) do
-      @event.sections.create!(name: 'Open')
+      @event.categories.create!(name: 'Open')
     end
   end
 
   test 'can not be updated for finished event' do
-    category = @event.sections.create!(name: 'Open')
+    category = @event.categories.create!(name: 'Open')
     @event.finished!
 
     assert_raises(ActiveRecord::RecordInvalid) do
@@ -23,7 +23,7 @@ class Event::SectionTest < ActiveSupport::TestCase
   end
 
   test 'can not be destroyed for finished event' do
-    category = @event.sections.create!(name: 'Open')
+    category = @event.categories.create!(name: 'Open')
     @event.finished!
 
     assert_raises(ActiveRecord::RecordNotDestroyed) do

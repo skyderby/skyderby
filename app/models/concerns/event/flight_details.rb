@@ -1,0 +1,26 @@
+module Event::FlightDetails
+  extend ActiveSupport::Concern
+
+  included do
+    before_save :save_flight_details
+  end
+
+  def save_flight_details
+    return unless exit_point
+
+    self.exited_at = exit_point[:gps_time]
+    self.exit_altitude = exit_point[:altitude]
+    self.pull_altitude = points.last[:altitude]
+    self.heading_within_window = window_points.direction
+  end
+
+  def exit_point
+    vertical_speed_threshold = 10 * 3.6
+
+    points
+      .each_cons(15).find(-> { [points.first] }) do |range|
+      range.all? { |point| point[:v_speed] > vertical_speed_threshold }
+    end
+      .first
+  end
+end

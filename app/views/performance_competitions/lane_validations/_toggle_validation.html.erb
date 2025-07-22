@@ -2,7 +2,7 @@
 
 <button id="toggle-validation-<%= result.id %>"
         class="ghost-button small-button"
-        data-validation-url="<%= event_result_validation_path(result.event, result) %>"
+        data-validation-url="<%= performance_competition_result_validation_path(result.event, result) %>"
         data-validated="<%= result.validated? %>"
         data-action="click->lane-validation#toggleValidation">
   <% if result.validated? %>

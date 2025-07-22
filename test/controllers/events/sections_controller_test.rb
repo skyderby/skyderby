@@ -10,7 +10,7 @@ class Events::SectionsControllerTest < ActionDispatch::IntegrationTest
   test 'event organizer updates section' do
     sign_in @user
 
-    get edit_event_section_path(event_id: @event.id, id: @section.id), xhr: true
+    get edit_performance_competition_category_path(performance_competition_id: @event.id, id: @section.id), xhr: true
     assert_response :success
   end
 end

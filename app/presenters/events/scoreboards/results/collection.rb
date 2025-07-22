@@ -81,9 +81,9 @@ module Events
           @results_index ||= records.each_with_object(blank_index) do |record, memo|
             result = Item.new(record, self, params)
             memo[:by_rounds][record.round.id] << result
-            memo[:by_sections][record.section.id] << result
+            memo[:by_sections][record.category.id] << result
             memo[:by_competitors][record.competitor.id] << result
-            memo[:by_rounds_and_sections]["#{record.round.id}-#{record.section.id}"] << result
+            memo[:by_rounds_and_sections]["#{record.round.id}-#{record.category.id}"] << result
             memo[:by_rounds_and_competitors]["#{record.round.id}-#{record.competitor.id}"] = result
           end
         end
@@ -99,7 +99,7 @@ module Events
         end
 
         def records
-          @records = event_results.includes(:round, competitor: :section).to_a
+          @records = event_results.includes(:round, competitor: :category).to_a
         end
       end
     end

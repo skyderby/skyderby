@@ -3,11 +3,11 @@ require 'test_helper'
 class EventTracks::FileDuplicationValidatorTest < ActiveSupport::TestCase
   setup do
     @user = users(:event_responsible)
-    @event = Event.create!(name: 'Where duplicate occurs', responsible: @user, starts_at: 1.day.ago)
+    @event = PerformanceCompetition.create!(name: 'Where duplicate occurs', responsible: @user, starts_at: 1.day.ago)
     @suit = suits(:apache)
-    @category = @event.sections.create!(name: 'Open')
+    @category = @event.categories.create!(name: 'Open')
     @profile = Profile.create!(name: 'PILOT_NAME')
-    @competitor = @event.competitors.create!(section: @category, profile: @profile, suit: @suit)
+    @competitor = @event.competitors.create!(category: @category, profile: @profile, suit: @suit)
   end
 
   test 'adds error if duplicate found' do

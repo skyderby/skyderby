@@ -5,7 +5,7 @@ module ParticipantOfEvents
 
   included do
     has_many :responsible_of_events,
-             class_name: 'Event',
+             class_name: 'PerformanceCompetition',
              foreign_key: 'responsible_id',
              dependent: :nullify,
              inverse_of: :responsible

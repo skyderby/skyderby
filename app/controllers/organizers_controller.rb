@@ -54,7 +54,7 @@ class OrganizersController < ApplicationController
 
   def organizable_class
     @organizable_class ||=
-      [Event, SpeedSkydivingCompetition, Tournament]
+      [PerformanceCompetition, Boogie, SpeedSkydivingCompetition, Tournament]
       .detect { |c| params["#{c.name.underscore}_id"] }
   end
 

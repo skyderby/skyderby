@@ -1,0 +1,14 @@
+<%# locals: (event:, result:, editable:, best_result:)  %>
+
+<td class="<%= class_names 'result-cell', ('text-green' if best_result) %>">
+  <%= link_to(boogie_result_path(event, result),
+              **(mobile? ? { target: '_blank' } : { 'data-turbo-stream' => 'true' }),
+              class: 'result-show-cell',
+              rel: 'nofollow') do  %>
+    <% if result.result&.positive? %>
+      <%= format('%d', result.result) %>
+    <% elsif editable %>
+      <i class="far fa-question-circle text-danger"></i>
+    <% end %>
+  <% end %>
+</td>

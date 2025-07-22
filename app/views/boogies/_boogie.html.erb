@@ -1,0 +1,54 @@
+<%# locals: (boogie:, event: boogie) %>
+
+<%= link_to boogie_path(event), class: 'comp-list-item' do %>
+  <div class="event-start-date text-center">
+    <div class="start-date-day"><%= event.starts_at.strftime '%d' %></div>
+    <div class="start-date-month"><%= event.starts_at.strftime '%b\'%y' %></div>
+  </div>
+
+  <div class="event-details">
+    <div class="event-name">
+      <%= event.name %>
+      <% if event.unlisted_event? %>
+        <i class="fa fa-eye-slash" data-toggle="tooltip" title="<%= t('visibility.unlisted') %>"></i>
+      <% elsif event.private_event? %>
+        <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
+      <% end %>
+
+      <div class="pill pill-orange">Hungary Boogie</div>
+
+      <% if event.is_official %>
+        <div class="pill pill-yellow">
+          Official
+        </div>
+      <% end %>
+    </div>
+
+    <div class="event-info">
+      <div>
+        <% if event.place %>
+          <div class="comp-place">
+            <%= svg_icon 'location-dot-solid' %>
+            <%= place_presentation(event.place) %>
+          </div>
+        <% end %>
+
+        <div><%= "#{event.range_from} - #{event.range_to} #{t('units.m')}" %></div>
+      </div>
+
+      <div>
+        <div class="comp-classes">
+          <% sections = event.categories.order(:order) %>
+          <% if sections.count > 0 %>
+            <% sections.each do |section| %>
+              <%= section.name %> - <%= section.competitors.count %>
+              <%= '|' unless section.equal? sections.last %>
+            <% end %>
+          <% else %>
+            Open - <%= event.competitors.count %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

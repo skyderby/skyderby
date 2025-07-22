@@ -1,12 +1,14 @@
 class PerformanceCompetitions::TeamsController < ApplicationController
-  include EventScoped
+  include PerformanceCompetitionScoped
 
   before_action :set_event
   before_action :set_team, only: %i[edit update destroy]
-  before_action :authorize_event, except: :index
+  before_action :authorize_event_update!, except: :index
   before_action :authorize_event_access!, only: :index
 
-  def index; end
+  def index
+    @wind_cancellation = @event.wind_cancellation && params[:including_wind] != '1'
+  end
 
   def new
     @team = @event.teams.new

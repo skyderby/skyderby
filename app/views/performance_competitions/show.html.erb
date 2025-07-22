@@ -1,0 +1,23 @@
+<% provide :title, @event.name %>
+<% editable = @event.editable? %>
+<%= turbo_stream_from @event, :scoreboard, editable ? :editable : :read_only %>
+
+<div class="show-page">
+  <%= render 'header', editable: %>
+
+  <% if editable || @event.wind_cancellation %>
+    <div class="show-page-content">
+      <%= render 'actions_bar', event: @event, editable: %>
+    </div>
+  <% end %>
+
+  <div class="show-page-content">
+    <%= render 'scoreboard', event: @event, editable:, wind_cancellation: @wind_cancellation %>
+
+    <div class="show-page-content">
+      <%= render 'organizers/organizers', organizable: @event, editable: (editable && !@event.finished?) %>
+
+      <%= render 'sponsors/sponsors', sponsorable: @event, editable: (editable && !@event.finished?) %>
+    </div>
+  </div>
+</div>

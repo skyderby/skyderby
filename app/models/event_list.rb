@@ -5,10 +5,19 @@ class EventList < ApplicationRecord
 
   enum :status, { draft: 0, published: 1, finished: 2, surprise: 3 }
   enum :visibility, { public_event: 0, unlisted_event: 1, private_event: 2 }
-  enum :rules, { speed_distance_time: 0, fai: 1, hungary_boogie: 2, single_elimination: 3 }
 
   def active?
     starts_at < Time.zone.now && !finished?
+  end
+
+  def self.creatable?(user = Current.user) = user.registered?
+
+  def self.listable(user = Current.user)
+    return all if user.admin?
+
+    not_draft.public_event
+             .or(where(responsible: user))
+             .or(where(event: user.participant_of_events))
   end
 
   def self.by_activity(activity)

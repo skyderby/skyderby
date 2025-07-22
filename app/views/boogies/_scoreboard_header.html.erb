@@ -1,0 +1,17 @@
+<%# locals: (event:, scoreboard:, editable:) %>
+
+<thead>
+  <tr>
+    <th class="text-center" rowspan="3">#</th>
+    <th rowspan="3" colspan="2"><%= t('activerecord.models.event/competitor') %></th>
+    <th class="text-center" colspan="<%= scoreboard.rounds.count %>">
+      <%= "#{t('disciplines.' + (scoreboard.rounds.first&.discipline || 'distance'))}, #{t('units.m')}" %>
+    </th>
+    <th class="text-center" rowspan="2"><%= t('events.show.total') %></th>
+  </tr>
+  <tr>
+    <% scoreboard.rounds.each do |round| %>
+      <%= render 'boogies/round_cell', event:, round:, editable: %>
+    <% end %>
+  </tr>
+</thead>

@@ -1,5 +1,5 @@
 class SpeedSkydivingCompetition < ApplicationRecord
-  include EventTrackVisibility
+  include Event::TrackVisibility, Event::Permissions
 
   enum :status, { draft: 0, published: 1, finished: 2, surprise: 3 }
   enum :visibility, { public_event: 0, unlisted_event: 1, private_event: 2 }
@@ -37,22 +37,6 @@ class SpeedSkydivingCompetition < ApplicationRecord
   def open_standings_code = "skyderby-speed-skydiving-open-#{id}"
 
   def standings_code(category_id) = "skyderby-speed-skydiving-#{id}-#{category_id}"
-
-  def editable?(user = Current.user)
-    @editable ||= user.admin? || user == responsible || organizers.exists?(user:)
-  end
-
-  def viewable?(user = Current.user)
-    return true if editable?
-    return false if draft?
-    return true if public_event? || unlisted_event?
-
-    competitors.exists?(profile_id: user&.profile_id)
-  end
-
-  def self.creatable?(user = Current.user)
-    user.registered?
-  end
 
   def become_surprise? = saved_change_to_attribute?(:status, to: :surprise)
 

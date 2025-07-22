@@ -42,9 +42,9 @@ class EventsTest < ApplicationSystemTestCase
     click_link 'Competition'
     click_link 'Create Wingsuit Performance Competition'
 
-    fill_in :event_name, with: 'Test event'
-    fill_in :event_range_from, with: 3000
-    fill_in :event_range_to, with: 2000
+    fill_in :performance_competition_name, with: 'Test event'
+    fill_in :performance_competition_range_from, with: 3000
+    fill_in :performance_competition_range_to, with: 2000
 
     hot_select 'Awesome DZ', from: 'place_id'
     click_button I18n.t('general.save')

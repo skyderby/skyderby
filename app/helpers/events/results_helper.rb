@@ -1,7 +1,7 @@
 module Events
   module ResultsHelper
     def new_event_track_link(event, competitor, round)
-      button_to svg_icon('upload-solid'), new_event_result_path(event),
+      button_to svg_icon('upload-solid'), new_performance_competition_result_path(event),
                 params: {
                   'result[competitor_id]' => competitor.id,
                   'result[round_id]' => round.id
@@ -10,7 +10,7 @@ module Events
     end
 
     def show_event_track_link(event, event_track, can_update)
-      link_to(event_result_path(event, event_track, format: mobile? ? :html : :turbo_stream),
+      link_to(performance_competition_result_path(event, event_track, format: mobile? ? :html : :turbo_stream),
               class: 'show-result',
               rel: 'nofollow') do
         class_list = can_update ? 'fas fa-pencil-alt' : 'fa fa-search'
@@ -20,7 +20,7 @@ module Events
 
     def delete_event_track_link(event_track)
       button_to(t('event_tracks.show.delete'),
-                event_result_path(event_track.event, event_track),
+                performance_competition_result_path(event_track.event, event_track),
                 data: {
                   confirm: t('event_tracks.show.delete_confirmation'),
                   turbo: true

@@ -6,7 +6,7 @@ class PermissionsCompetitionsTest < ApplicationSystemTestCase
     event.public_event!
     event.published!
 
-    visit event_path(event)
+    visit performance_competition_path(event)
     assert_text event.name.upcase
   end
 
@@ -19,7 +19,7 @@ class PermissionsCompetitionsTest < ApplicationSystemTestCase
     create :event_competitor, event: event, profile: user.profile
 
     sign_in user
-    visit event_path(event)
+    visit performance_competition_path(event)
 
     assert_text event.name.upcase
   end
@@ -29,7 +29,7 @@ class PermissionsCompetitionsTest < ApplicationSystemTestCase
     event.public_event!
     event.draft!
 
-    visit event_path(event)
+    visit performance_competition_path(event)
     assert_text 'You are not authorized to access this page'
   end
 
@@ -38,7 +38,7 @@ class PermissionsCompetitionsTest < ApplicationSystemTestCase
     event.private_event!
     event.finished!
 
-    visit event_path(event)
+    visit performance_competition_path(event)
     assert_text 'You are not authorized to access this page'
   end
 end

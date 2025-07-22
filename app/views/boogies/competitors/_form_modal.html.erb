@@ -1,0 +1,65 @@
+<% url = @competitor.new_record? ?
+           boogie_competitors_path(@event) :
+           boogie_competitor_path(@event, @competitor) %>
+<% existing_profile = @competitor.new_record? || @competitor.profile.owner != @event %>
+
+<%= form_with model: @competitor, url:, scope: :competitor,
+              data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+  <div class="sd-form">
+    <h3 class="form-section-title">
+      <%= t('competitors.form.profile') %>
+    </h3>
+
+    <label class="radio-label">
+      <%= radio_button_tag :new_profile, false, checked: existing_profile %>
+      <%= t('competitors.form.select_profile') %>
+    </label>
+
+    <div class="grid">
+      <% options = existing_profile && @competitor.profile ? options_for_select([[@competitor.profile.name, @competitor.profile_id]], @competitor.profile_id) : [] %>
+      <%= render 'hot_select/select', form: f, name: :profile_id, src: profiles_select_options_path, options:, class: 'col-12' %>
+    </div>
+
+    <label class="radio-label">
+      <%= radio_button_tag :new_profile, true, checked: !existing_profile %>
+      <%= t('competitors.form.create_profile') %>
+    </label>
+
+    <div class="grid">
+      <%= f.fields_for :profile, existing_profile ? Profile.new : @competitor.profile do |profile_form| %>
+        <div class="col-7">
+          <%= profile_form.label :name %>
+          <%= profile_form.text_field :name, class: 'form-input' %>
+        </div>
+        <div class="col-5">
+          <%= profile_form.label :country %>
+          <% options = options_for_select([[profile_form.object.country_name, profile_form.object.country_id]]) %>
+          <%= render 'hot_select/select', form: profile_form, name: :country_id, options:, src: countries_select_options_path %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <h3 class="form-section-title">
+      <%= t('competitors.form.suit_and_category') %>
+    </h3>
+
+    <div class="grid">
+      <%= f.label :suit_id, class: 'form-label col-4' %>
+      <% options = @competitor.suit_id ? options_for_select([[@competitor.suit_name, @competitor.suit_id]], @competitor.suit_id) : [] %>
+      <%= render 'hot_select/select', form: f, name: :suit_id, src: suits_select_options_path, options:, class: 'col-8' %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :section_id, class: 'form-label col-4' %>
+      <% options = options_from_collection_for_select(@event.categories, :id, :name, @competitor.section_id) %>
+      <%= render 'hot_select/local_select', form: f, name: :section_id, options:, class: 'col-8', hide_clear_button: true %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit t('general.save'), class: 'primary-button' %>
+      <button type="button" class="default-button" data-action="modal#close"><%= t 'general.cancel' %></button>
+    </div>
+  </div>
+<% end %>

@@ -1,4 +1,6 @@
-# Event 1, Speed Distance Time
+_fixture:
+  model_class: PerformanceCompetition::Result
+
 john_distance_1:
   competitor: john
   round: distance_1

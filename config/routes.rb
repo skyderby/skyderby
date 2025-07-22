@@ -20,12 +20,12 @@ Skyderby::Application.routes.draw do
       format: false
 
   get '/events/:id/*path', to: redirect('/events/performance/%{id}/%{path}'), constraints: { id: /\d+/ }
-  get '/events/:id', to: redirect('/events/performance/%{id}'), constraints: { id: /\d+/ }
   get '/tournaments/:id/*path', to: redirect('/events/tournaments/%{id}/%{path}'), constraints: { id: /\d+/ }
   get '/tournaments/:id', to: redirect('/events/tournaments/%{id}'), constraints: { id: /\d+/ }
   get '/events/speed_skydiving/:id/results/:result_id/iframe',
       to: redirect('/events/speed_skydiving/%{id}/results/%{result_id}'),
       constraints: { id: /\d+/, result_id: /\d+/ }
+  get '/competition_series(*path)', to: redirect('/performance_competition_series%{path}'), defaults: { path: '' }
 
   get '/track/:id', to: redirect('/tracks/%{id}'), constraints: { id: /\d+/ }
   get '/tracks/:id/google_maps', to: redirect('/tracks/%{id}/map'), constraints: { id: /\d+/ }
@@ -116,14 +116,10 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :events, only: %i[index new]
-  resources :performance_competitions, path: 'events/performance', only: :new
-  resources :events, path: 'events/performance', concerns: %i[sponsorable organizable], except: %i[index new] do
-    scope module: :events do
-      resource :scoreboard, only: :show
-      resource :designated_lane_start, only: :update
-
-      resources :rounds do
+  resources :events, only: %i[index new show]
+  resources :performance_competitions, path: 'events/performance', concerns: %i[sponsorable organizable], except: :index do
+    scope module: :performance_competitions do
+      resources :rounds, only: %i[create update destroy] do
         scope module: :rounds do
           resource :map, only: :show do
             resources :penalties, only: %i[show update], module: :maps
@@ -134,14 +130,15 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resources :sections do
+      resources :competitors, except: %i[index show]
+
+      resources :categories, except: %i[index show] do
         member do
           patch 'move_upper'
           patch 'move_lower'
         end
       end
 
-      resources :competitors
       resources :results do
         scope module: :results do
           resource :jump_range, only: %i[show update]
@@ -151,24 +148,20 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resource :deletion, only: [:new, :create]
-      collection do
-        resources :select_options, only: :index, as: :events_select_options
-      end
-    end
-
-    scope module: :performance_competitions do
       resources :reference_points do
         collection do
           resource :import, only: %i[new create], module: :reference_points, as: :reference_points_import
         end
       end
       resource :open_scoreboard, only: :show
+      resource :designated_lane_start, only: :update
       resources :task_scoreboards, only: %i[index show]
       resources :teams
       resources :team_competitors, only: %i[new create destroy]
       resources :lane_validations, only: %i[index show]
       resources :reference_point_assignments, only: :create
+
+      resource :deletion, only: [:new, :create]
 
       resource :downloads, only: :show do
         scope module: :downloads do
@@ -178,6 +171,34 @@ Skyderby::Application.routes.draw do
           resource :gps_recordings, only: :show
         end
       end
+
+      collection do
+        resources :select_options, only: :index, as: :events_select_options
+      end
+    end
+  end
+
+  resources :boogies, path: 'events/boogies', concerns: %i[sponsorable organizable], except: :index do
+    scope module: :boogies do
+      resources :competitors, except: %i[index show]
+
+      resources :categories, except: %i[index show] do
+        member do
+          patch 'move_upper'
+          patch 'move_lower'
+        end
+      end
+
+      resources :rounds, only: %i[create update destroy]
+
+      resources :results do
+        scope module: :results do
+          resource :jump_range, only: %i[show update]
+          resource :map, only: :show
+        end
+      end
+
+      resource :deletion, only: %i[new create]
     end
   end
 
@@ -357,8 +378,6 @@ Skyderby::Application.routes.draw do
       end
     end
   end
-
-  get '/competition_series(*path)', to: redirect('/performance_competition_series%{path}'), defaults: { path: '' }
 
   resources :performance_competition_series, only: :show
   resources :speed_skydiving_competition_series, only: :show

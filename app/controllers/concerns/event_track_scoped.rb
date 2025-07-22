@@ -2,7 +2,7 @@ module EventTrackScoped
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_event, :authorize_event, :set_result
+    before_action :set_event, :authorize_event_update!, :set_result
   end
 
   private

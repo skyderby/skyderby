@@ -1,5 +1,5 @@
 json.sections do
-  json.array! @event.sections do |section|
+  json.array! @event.categories do |section|
     json.id section.id
     json.name section.name
     json.order section.order
@@ -23,7 +23,7 @@ json.competitors do
   json.array! all_competitors do |scoreboard_entry|
     json.id scoreboard_entry.id
     json.name scoreboard_entry.name
-    json.section_id scoreboard_entry.section.id
+    json.section_id scoreboard_entry.category.id
     json.team_id scoreboard_entry.team&.id
     json.country_code scoreboard_entry.country_code
     json.suit_name "#{scoreboard_entry.suit.manufacturer_code} #{scoreboard_entry.suit_name}"

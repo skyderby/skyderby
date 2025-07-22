@@ -12,7 +12,7 @@
 
           <template data-dropdown-target="menu">
             <div class="sd-dropdown-menu">
-              <%= button_to 'Remove from team', event_team_competitor_path(event, competitor),
+              <%= button_to 'Remove from team', performance_competition_team_competitor_path(event, competitor),
                             class: 'dropdown-item',
                             method: :delete, form: { data: { turbo_stream: true, confirm: 'Remove competitor from team?' } } %>
             </div>

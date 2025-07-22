@@ -1,3 +1,6 @@
+_fixture:
+  model_class: PerformanceCompetition::Category
+
 advanced:
   event: nationals
   order: 1

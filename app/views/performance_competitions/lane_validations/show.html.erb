@@ -1,6 +1,6 @@
 <% provide :title, @event.name %>
 <% provide :page_class, 'fullscreen' %>
-<% editable = policy(@event).update? %>
+<% editable = @event.editable? %>
 <%= turbo_stream_from @event, :validation %>
 
 <div class="show-page">
@@ -10,7 +10,7 @@
     <% @rounds_by_discipline.each do |task, rounds| %>
       <% next if rounds.empty? %>
       <% rounds.each do |round| %>
-        <%= link_to t("disciplines.#{task}") + " - #{round.number}", event_lane_validation_path(@event, round), class: class_names('tab-bar-item', ('active' if @round == round)) %>
+        <%= link_to t("disciplines.#{task}") + " - #{round.number}", performance_competition_lane_validation_path(@event, round), class: class_names('tab-bar-item', ('active' if @round == round)) %>
       <% end %>
     <% end %>
   </div>
@@ -106,7 +106,7 @@
                     <div class="lane-validation-result-actions">
                       <button class="ghost-button small-button" data-action="lane-validation#selectJumpForReview">Select</button>
                       <% if editable && !@round.completed? %>
-                        <%= link_to 'Penalties', event_result_penalty_path(@event, jump, minimal: true),
+                        <%= link_to 'Penalties', performance_competition_result_penalty_path(@event, jump, minimal: true),
                                     data: { turbo_stream: true },
                                     class: 'ghost-button small-button' %>
 

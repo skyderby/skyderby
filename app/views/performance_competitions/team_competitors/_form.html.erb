@@ -1,4 +1,4 @@
-<%= form_with url: event_team_competitors_path(@event), class: 'sd-form',
+<%= form_with url: performance_competition_team_competitors_path(@event), class: 'sd-form',
               data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
   <div class="grid">
     <%= f.label :team_id, t('events.team'), class: 'form-label col-4' %>

@@ -36,7 +36,7 @@ class Profile < ApplicationRecord
            -> { base.order('created_at DESC') }, class_name: 'Track', inverse_of: false, dependent: :nullify
   has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all, inverse_of: :profile
   has_many :performance_competition_participation,
-           class_name: 'Event::Competitor',
+           class_name: 'PerformanceCompetition::Competitor',
            dependent: :restrict_with_error
   has_many :speed_skydiving_competition_participations,
            class_name: 'SpeedSkydivingCompetition::Competitor',

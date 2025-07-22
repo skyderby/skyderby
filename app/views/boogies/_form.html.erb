@@ -1,0 +1,69 @@
+<% url = @event.new_record? ? '/events/boogies' : boogie_path(@event) %>
+<%= form_with model: @event, url:, html: { class: 'form-horizontal', role: 'form', id: "#{action_name}_event_form"} do |f| %>
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :name, class: 'form-label col-4' %>
+      <%= f.text_field :name, required: true, class: 'form-input col-8' %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :starts_at, class: 'form-label col-4' %>
+      <%= f.date_field :starts_at, class: 'form-input col-8', value: (@event.starts_at || Date.today).iso8601 %>
+    </div>
+
+    <div class="grid">
+      <%= f.label t('events.show.comp_window'), class: 'form-label col-4' %>
+      <div class="col-8 flex gap-0_5 items-center">
+        <%= f.number_field :range_from, required: true, class: 'form-input' %>
+        <span>&mdash;</span>
+        <%= f.number_field :range_to, required: true, class: 'form-input' %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :place, class: 'form-label col-4' %>
+      <%= render 'hot_select/select',
+                 form: f,
+                 name: :place_id,
+                 src: places_select_options_path,
+                 options: options_for_select([[@event.place_name, @event.place_id], @event.place_id]),
+                 placeholder: t('events.show.place_placeholder'),
+                 class: 'col-8' %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :visibility, class: 'form-label col-4' %>
+      <div class="col-8 form-radio-input-group">
+        <% Event.visibilities.each do |key, _value| %>
+          <label class="form-radio-input">
+            <%= f.radio_button 'visibility', key %>
+            <%= t("activerecord.attributes.event.visibilities.#{key}") %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :number_of_results_for_total, class: 'form-label col-4' %>
+      <%= f.number_field :number_of_results_for_total, required: true, class: 'form-input col-4' %>
+    </div>
+  </div>
+
+  <hr>
+  <div class="modal-actions">
+    <div class="modal-actions__left">
+      <% if @event.persisted? && @event.deletable? %>
+        <%= link_to t('general.delete'), new_boogie_deletion_path(@event), data: { turbo_stream: true }, class: 'ghost-danger-button' %>
+      <% end %>
+    </div>
+    <div class="modal-actions__right">
+      <%= f.submit t('general.save'), class: 'primary-button' %>
+
+      <% if @event.new_record? %>
+        <%= link_to t('general.cancel'), new_event_path, class: 'default-button' %>
+      <% else %>
+        <%= link_to t('general.cancel'), boogie_path(@event), class: 'default-button' %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

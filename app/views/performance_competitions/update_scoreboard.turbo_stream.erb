@@ -1,0 +1,7 @@
+<%= turbo_stream.replace 'scoreboard' do %>
+  <%= render 'performance_competitions/scoreboard', event: @event, editable: true, wind_cancellation: false %>
+<% end %>
+
+<%= turbo_stream.replace 'scoreboard_no_wind' do %>
+  <%= render 'performance_competitions/scoreboard', event: @event, editable: true, wind_cancellation: true %>
+<% end %>
