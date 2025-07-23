@@ -7,7 +7,7 @@ module PerformanceCompetition::DesignatedLane
          prefix: 'designated_lane_start',
          default: 'on_9_sec'
 
-    has_many :reference_points, foreign_key: :event_id, dependent: :delete_all
+    has_many :reference_points, foreign_key: :event_id, inverse_of: :event, dependent: :delete_all
 
     accepts_nested_attributes_for :reference_points,
                                   allow_destroy: true,

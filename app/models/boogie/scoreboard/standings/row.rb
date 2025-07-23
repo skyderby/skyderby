@@ -22,5 +22,5 @@ class Boogie::Scoreboard::Standings::Row
     results.sort_by(&:result).reverse.first(number_of_results_for_total)
   end
 
-  def result_in_round(round) = results.find { |r| r.round == round}
+  def result_in_round(round) = results.find { |r| r.round == round }
 end

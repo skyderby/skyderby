@@ -1,5 +1,5 @@
 class ActionView::Helpers::FormBuilder
-  def switch(method, options = {}, &)
+  def switch(method, options = {}, &) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     template = @template
 
     name = options[:name] || field_name(method)

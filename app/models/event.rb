@@ -70,8 +70,6 @@ class Event < ApplicationRecord
     end
   end
 
-  private
-
   class << self
     def search(query)
       where('LOWER(name) LIKE ?', "%#{query.downcase}%")

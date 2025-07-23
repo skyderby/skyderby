@@ -117,7 +117,10 @@ Skyderby::Application.routes.draw do
   end
 
   resources :events, only: %i[index new show]
-  resources :performance_competitions, path: 'events/performance', concerns: %i[sponsorable organizable], except: :index do
+  resources :performance_competitions,
+            path: 'events/performance',
+            concerns: %i[sponsorable organizable],
+            except: :index do
     scope module: :performance_competitions do
       resources :rounds, only: %i[create update destroy] do
         scope module: :rounds do

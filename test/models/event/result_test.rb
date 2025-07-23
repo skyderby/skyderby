@@ -34,7 +34,6 @@ class Event::ResultTest < ActiveSupport::TestCase
     end
   end
 
-
   test 'rounds result correctly' do
     @result.result = 266.3477
     @result.save!
