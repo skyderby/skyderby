@@ -176,7 +176,7 @@ Skyderby::Application.routes.draw do
       end
 
       collection do
-        resources :select_options, only: :index, as: :events_select_options
+        resources :select_options, only: :index, as: :performance_competitions_select_options
       end
     end
   end

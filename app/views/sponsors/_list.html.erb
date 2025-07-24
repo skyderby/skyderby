@@ -1,6 +1,6 @@
 <%# locals: (sponsorable:, editable:) %>
 
-<% copyable = sponsorable.is_a? Event %>
+<% copyable = sponsorable.is_a? PerformanceCompetition %>
 
 <% if sponsorable.sponsors.any? || editable %>
   <div class="sponsors" id="<%= "#{sponsorable.class.name.underscore}_#{sponsorable.id}_sponsors" %>">

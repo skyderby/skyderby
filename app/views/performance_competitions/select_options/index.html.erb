@@ -1,0 +1,17 @@
+<turbo-frame id="<%= sanitize params[:frame_id] %>">
+  <div class="hot-select-options">
+    <% @events.each do |event| %>
+      <div class="hot-select-option" data-value="<%= event.id %>">
+        <%= event.name %>
+        <% if params[:include_ids].present? %>
+          (#<%= event.id %>)
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @events.next_page %>
+      <% frame_id = "#{sanitize params[:frame_id]}-#{@events.next_page}" %>
+      <%= render 'hot_select/load_more', page: @events.next_page, frame_id: %>
+    <% end %>
+  </div>
+</turbo-frame>

@@ -1,6 +1,6 @@
 class PerformanceCompetitions::SelectOptionsController < ApplicationController
   def index
-    @events = PerformanceCompetition.listable.order('starts_at DESC')
+    @events = PerformanceCompetition.listable.order('starts_at DESC').paginate(page:, per_page: 25)
 
     @events = @events.search(search_query) if search_query
   end

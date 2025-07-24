@@ -1,5 +1,6 @@
 class PerformanceCompetition < ApplicationRecord
   self.table_name = :events
+  default_scope -> { where(rules: :speed_distance_time) }
 
   include Event::Permissions, Event::TrackVisibility, DesignatedLane
 

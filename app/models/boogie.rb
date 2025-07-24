@@ -1,5 +1,6 @@
 class Boogie < ApplicationRecord
   self.table_name = :events
+  default_scope -> { where(rules: :hungary_boogie) }
 
   include Event::Permissions, Event::TrackVisibility
 
