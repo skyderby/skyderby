@@ -1,6 +1,7 @@
 module DisciplinesHelper
   DISCIPLINE_UNITS = {
     distance: :m,
+    flare: :m,
     speed: :kmh,
     vertical_speed: :kmh,
     time: :sec,
