@@ -1,0 +1,10 @@
+ru:
+  performance_competitions:
+    competitors_copies:
+      form_modal:
+        title: Копирование участников из другого соревнования
+        source_event_placeholder: Соревнование-источник
+  helpers:
+    label:
+      competitor_copy:
+        source_event: Соревнование

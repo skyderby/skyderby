@@ -1,0 +1,22 @@
+<%= form_with model: :competitor_copy,
+              url: performance_competition_competitors_copy_path(@event),
+              scope: :competitor_copy,
+              data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :source_event, class: 'form-label col-3' %>
+      <% options = options_for_select([]) %>
+      <%= render 'hot_select/select',
+                 form: f,
+                 name: :source_event_id,
+                 src: performance_competitions_select_options_path,
+                 placeholder: t('performance_competitions.competitors_copies.form_modal.source_event_placeholder'),
+                 class: 'col-9' %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit t('general.save'), class: 'primary-button' %>
+      <button type="button" class="default-button" data-action="modal#close"><%= t 'general.cancel' %></button>
+    </div>
+  </div>
+<% end %>

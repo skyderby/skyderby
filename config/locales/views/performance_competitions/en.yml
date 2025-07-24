@@ -1,0 +1,10 @@
+en:
+  performance_competitions:
+    competitors_copies:
+      form_modal:
+        title: Copy competitors from another event
+        source_event_placeholder: Event to copy from
+  helpers:
+    label:
+      competitor_copy:
+        source_event: Event
