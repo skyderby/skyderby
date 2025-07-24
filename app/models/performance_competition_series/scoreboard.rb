@@ -25,7 +25,7 @@ class PerformanceCompetitionSeries::Scoreboard
   private
 
   def rounds
-    @rounds ||= series.rounds.order(:number, :created_at)
+    @rounds ||= series.rounds.ordered
   end
 
   def competitors

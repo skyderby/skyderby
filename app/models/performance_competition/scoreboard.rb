@@ -22,7 +22,7 @@ class PerformanceCompetition::Scoreboard
       .index_with { |category| category_standings(category) }
   end
 
-  def rounds = event.rounds.order(:number, :created_at)
+  def rounds = event.rounds.ordered
 
   def completed_rounds
     @completed_rounds ||= rounds.completed.then do |rounds|

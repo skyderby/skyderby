@@ -15,7 +15,7 @@ class PerformanceCompetition::TaskScoreboard
     PerformanceCompetition::Scoreboard::Standings.new(event.competitors, completed_rounds, results, wind_cancellation:)
   end
 
-  def rounds = event.rounds.where(discipline: task).order(:number, :created_at)
+  def rounds = event.rounds.where(discipline: task).ordered
 
   def completed_rounds
     @completed_rounds ||= rounds.completed

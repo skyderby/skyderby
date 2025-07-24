@@ -75,9 +75,11 @@
                           method: :get,
                           form: { data: { turbo_stream: true } },
                           class: 'dropdown-item' %>
-            <%= link_to 'Sync results', performance_competition_downloads_scoreboard_path(event, format: :xml), class: 'dropdown-item', rel: 'nofollow' %>
-
-            <div class="dropdown-divider"></div>
+            <%= button_to 'Copy results',
+                          new_performance_competition_results_copy_path(event),
+                          method: :get,
+                          form: { data: { turbo_stream: true } },
+                          class: 'dropdown-item' %>
           </div>
         </template>
       </button>

@@ -22,6 +22,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Ruby
 - Line length 120 characters
+- Prefer using fixtures and manually creating records instead of factories
+- Do not create service objects unless explicitly requested, either use a model method, concern or place the code in the controller
+- Check with rubocop for style issues
 
 ### JavaScript
 - SingleQuotes over DoubleQuotes

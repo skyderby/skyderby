@@ -13,7 +13,7 @@ class Api::V1::Events::RoundsController < Api::ApplicationController
   end
 
   def index
-    @rounds = @event.rounds.order(:number, :created_at)
+    @rounds = @event.rounds.ordered
 
     respond_to do |format|
       format.json

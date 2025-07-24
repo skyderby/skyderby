@@ -16,6 +16,8 @@ class PerformanceCompetition::Round < ApplicationRecord
   has_many :tracks, through: :results
   has_many :reference_point_assignments, dependent: :delete_all
 
+  scope :ordered, -> { order(:number, :created_at) }
+
   validates :discipline, presence: true
 
   delegate :range_from, to: :event

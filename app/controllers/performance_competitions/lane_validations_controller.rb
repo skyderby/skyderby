@@ -13,7 +13,7 @@ class PerformanceCompetitions::LaneValidationsController < ApplicationController
   end
 
   def show
-    event_rounds = @event.rounds.order(:number, :created_at)
+    event_rounds = @event.rounds.ordered
     @rounds_by_discipline = event_rounds.group_by(&:discipline)
     @round = event_rounds.find(params[:id])
 

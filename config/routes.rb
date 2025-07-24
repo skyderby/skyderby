@@ -135,6 +135,7 @@ Skyderby::Application.routes.draw do
 
       resources :competitors, except: %i[index show]
       resource :competitors_copy, only: [:new, :create]
+      resource :results_copy, only: [:new, :create]
 
       resources :categories, except: %i[index show] do
         member do

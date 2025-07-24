@@ -2,7 +2,7 @@ class PerformanceCompetition < ApplicationRecord
   self.table_name = :events
   default_scope -> { where(rules: :speed_distance_time) }
 
-  include Event::Permissions, Event::TrackVisibility, DesignatedLane, CompetitorsCopy
+  include Event::Permissions, Event::TrackVisibility, DesignatedLane, CompetitorsCopy, ResultsCopy
 
   enum :status, { draft: 0, published: 1, finished: 2, surprise: 3 }
   enum :rules, { speed_distance_time: 0 }, default: :speed_distance_time

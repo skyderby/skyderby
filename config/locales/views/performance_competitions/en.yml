@@ -4,7 +4,13 @@ en:
       form_modal:
         title: Copy competitors from another event
         source_event_placeholder: Event to copy from
+    results_copies:
+      form_modal:
+        title: Copy results from another event
+        source_event_placeholder: Event to copy from
   helpers:
     label:
       competitor_copy:
+        source_event: Event
+      result_copy:
         source_event: Event
