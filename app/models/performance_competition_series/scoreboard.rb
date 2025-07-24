@@ -37,7 +37,7 @@ class PerformanceCompetitionSeries::Scoreboard
 
   def build_category(category)
     category_competitors =
-      competitors.select { |competitor| competitor.section.name.casecmp? category.name }
+      competitors.select { |competitor| competitor.category.name.casecmp? category.name }
     category_results =
       results.select { |result| category_competitors.include? result.competitor }
 

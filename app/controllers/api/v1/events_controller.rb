@@ -2,7 +2,7 @@ class Api::V1::EventsController < ApplicationController
   before_action :set_event
 
   def show
-    authorize @event
+    respond_not_authorized unless @event.viewable?
   end
 
   private

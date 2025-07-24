@@ -30,7 +30,7 @@ module Events
 
       def competitor_results
         @competitor_results ||=
-          results.map { |result| CompetitorResult.new(result) }.sort_by(&:exit_time)
+          results.map { |result| CompetitorResult.new(result) }.sort_by(&:exited_at)
       end
     end
   end
