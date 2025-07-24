@@ -51,25 +51,6 @@ class Event < ApplicationRecord
 
   def active? = starts_at < Time.zone.now && !finished?
 
-  def editable?(user = Current.user) = EventPolicy.new(user, self).update?
-
-  def deletable?(user = Current.user) = user.admin? || user == responsible
-
-  def permanently_delete(including_tracks: false)
-    transaction do
-      tracks_to_delete = tracks.to_a
-
-      results.to_a.each(&:destroy!)
-      tracks_to_delete.each(&:destroy!) if including_tracks
-
-      rounds.destroy_all
-      competitors.destroy_all
-      sections.destroy_all
-
-      destroy!
-    end
-  end
-
   class << self
     def search(query)
       where('LOWER(name) LIKE ?', "%#{query.downcase}%")

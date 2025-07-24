@@ -1,17 +1,13 @@
-module Api
-  module V1
-    class EventsController < ApplicationController
-      before_action :set_event
+class Api::V1::EventsController < ApplicationController
+  before_action :set_event
 
-      def show
-        authorize @event
-      end
+  def show
+    authorize @event
+  end
 
-      private
+  private
 
-      def set_event
-        @event = Event.find(params[:id])
-      end
-    end
+  def set_event
+    @event = PerformanceCompetition.find(params[:id])
   end
 end
