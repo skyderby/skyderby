@@ -34,9 +34,9 @@ class Suit < ApplicationRecord
       return all if query.blank?
 
       joins(:manufacturer).where(
-        'LOWER(suits.name) LIKE :query
-         OR LOWER(manufacturers.name) LIKE :query',
-        query: "%#{query.downcase}%"
+        'unaccent(suits.name) ILIKE unaccent(:query)
+         OR unaccent(manufacturers.name) ILIKE unaccent(:query)',
+        query: "%#{query}%"
       )
     end
   end

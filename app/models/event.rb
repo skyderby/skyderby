@@ -53,7 +53,7 @@ class Event < ApplicationRecord
 
   class << self
     def search(query)
-      where('LOWER(name) LIKE ?', "%#{query.downcase}%")
+      where('unaccent(name) ILIKE unaccent(?)', "%#{query}%")
     end
   end
 end

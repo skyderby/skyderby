@@ -158,7 +158,7 @@ class Track < ApplicationRecord
     def search(query)
       return all if query.blank?
 
-      where('LOWER(comment) LIKE ?', "%#{query.downcase}%")
+      where('unaccent(comment) ILIKE unaccent(?)', "%#{query}%")
     end
 
     def accessible(user: Current.user)

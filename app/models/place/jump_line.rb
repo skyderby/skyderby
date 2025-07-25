@@ -25,8 +25,8 @@ class Place::JumpLine < ApplicationRecord
       return all if query.blank?
 
       joins(:place).where(
-        'LOWER(place_jump_lines.name) LIKE :query OR LOWER(places.name) LIKE :query',
-        query: "%#{query.downcase}%"
+        'unaccent(place_jump_lines.name) ILIKE unaccent(:query) OR unaccent(places.name) ILIKE unaccent(:query)',
+        query: "%#{query}%"
       )
     end
   end

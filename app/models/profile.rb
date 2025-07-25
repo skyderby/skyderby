@@ -77,6 +77,6 @@ class Profile < ApplicationRecord
   def contributor? = contributions.any?
 
   class << self
-    def search(query) = where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%")
+    def search(query) = where('unaccent(profiles.name) ILIKE unaccent(?)', "%#{query}%")
   end
 end

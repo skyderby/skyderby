@@ -38,7 +38,7 @@ class EventList < ApplicationRecord
   def self.search(term)
     return all if term.blank?
 
-    where('event_lists.name ILIKE ?', "%#{term}%")
+    where('unaccent(event_lists.name) ILIKE unaccent(?)', "%#{term}%")
   end
 
   private

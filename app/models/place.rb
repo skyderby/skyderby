@@ -44,8 +44,8 @@ class Place < ApplicationRecord
       return all if query.blank?
 
       joins(:country).where(
-        'LOWER(places.name) LIKE :query OR LOWER(countries.name) LIKE :query',
-        query: "%#{query.downcase}%"
+        'unaccent(places.name) ILIKE unaccent(:query) OR unaccent(countries.name) ILIKE unaccent(:query)',
+        query: "%#{query}%"
       )
     end
 

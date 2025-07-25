@@ -58,15 +58,15 @@ class User < ApplicationRecord
 
       relation = left_outer_joins(:profile)
 
-      relation.where('LOWER(email) LIKE LOWER(?)', "%#{query}%")
+      relation.where('unaccent(email) ILIKE unaccent(?)', "%#{query}%")
               .or(relation.where(users: { id: query }))
-              .or(relation.where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%"))
+              .or(relation.where('unaccent(profiles.name) ILIKE unaccent(?)', "%#{query}%"))
     end
 
     def search_by_name(query)
       return all if query.blank?
 
-      left_outer_joins(:profile).where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%")
+      left_outer_joins(:profile).where('unaccent(profiles.name) ILIKE unaccent(?)', "%#{query}%")
     end
   end
 end
