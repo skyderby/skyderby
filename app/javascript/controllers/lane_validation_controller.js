@@ -219,20 +219,6 @@ export default class extends Controller {
     const referencePointId = competitorElement.dataset.referencePointId
     const groupId = competitorElement.dataset.groupId
 
-    if (!referencePointId) {
-      console.warn('Reference point not assigned for this competitor')
-      return
-    }
-
-    const referencePoint = this.referencePoints.find(
-      point => point.id == referencePointId
-    )
-
-    if (!referencePoint) {
-      console.warn('Reference point not found')
-      return
-    }
-
     this.element.querySelectorAll('.lane-validation-competitor').forEach(el => {
       el.classList.remove('active')
     })
@@ -269,6 +255,20 @@ export default class extends Controller {
       const deployPoint = findDeployPoint(points, deployFlTime)
 
       this.clearDesignatedLane()
+
+      if (!referencePointId) {
+        console.warn('Reference point not assigned for this competitor')
+        return
+      }
+
+      const referencePoint = this.referencePoints.find(
+        point => point.id == referencePointId
+      )
+
+      if (!referencePoint) {
+        console.warn('Reference point not found')
+        return
+      }
 
       const map = this.mapTarget.mapInstance
       this.designatedLane = createDesignatedLane(

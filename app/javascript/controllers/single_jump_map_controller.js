@@ -30,6 +30,13 @@ export default class extends Controller {
     this.referencePointMarker = null
     this.designatedLane = null
     this.loadReferencePoints()
+    this.waitForMapAndLoadData()
+  }
+
+  async waitForMapAndLoadData() {
+    if (this.mapController && this.mapController.initMap) {
+      await this.mapController.initMap
+    }
     this.loadTrackData()
   }
 
@@ -53,17 +60,18 @@ export default class extends Controller {
     if (!this.trackIdValue) return
 
     try {
-      const data = await this.fetchPoints(this.trackIdValue, {
-        original_frequency: true,
-        'trimmed[seconds_before_start]': 15,
-        'trimmed[seconds_after_end]': 120
-      })
+      const data = await this.fetchPoints(this.trackIdValue)
       const map = this.mapTarget.mapInstance
+
+      if (!map) {
+        console.error('Map instance not available yet')
+        return
+      }
 
       const { polylines } = createTrackGraphics(
         this.trackIdValue,
         data,
-        '#7cb5ec',
+        '#470FF4',
         map,
         this.exitedAtValue
       )
@@ -93,7 +101,11 @@ export default class extends Controller {
       return this.pointsCache.get(trackId)
     }
 
-    const data = await apiClient.fetchTrackPoints(trackId)
+    const data = await apiClient.fetchTrackPoints(trackId, {
+      original_frequency: true,
+      'trimmed[seconds_before_start]': 15,
+      'trimmed[seconds_after_end]': 120
+    })
     this.pointsCache.set(trackId, data)
     return data
   }

@@ -4,7 +4,7 @@ module EventsHelper
   end
 
   def competitor_color_by_index(index)
-    colors = %w[#7cb5ec #f7a35c #8085e9 #f15c80 #e4d354 #8085e8 #8d4653 #91e8e1 #90ed7d #434348]
+    colors = %w[#470FF4 #594E36 #F24C00 #AA3E98 #247BA0 #434348]
     colors[index % colors.length]
   end
 end

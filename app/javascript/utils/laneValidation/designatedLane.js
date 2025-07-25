@@ -157,9 +157,10 @@ function createLaneViolationMarker(map, laneViolation, startPoint, endPoint) {
 }
 
 function createViolationMarkerContent(text, bearing) {
-  const color = '#ff0000'
+  const bgColor = '#DD1155'
+  const color = '#fff'
 
-  const perpBearing = (bearing + 30) % 360
+  const perpBearing = (bearing + 155) % 360
   const perpRad = (perpBearing * Math.PI) / 180
 
   const crossSize = 4
@@ -175,7 +176,7 @@ function createViolationMarkerContent(text, bearing) {
   const textY = endY + Math.sin(perpRad) * 5
 
   const padding = 6
-  const textWidth = text.length * 6 + padding * 2
+  const textWidth = text.length * 8 + padding * 2
   const textHeight = 16 + padding * 2
   const rectX = textX - textWidth / 2
   const rectY = textY - textHeight / 2
@@ -187,13 +188,13 @@ function createViolationMarkerContent(text, bearing) {
           <feDropShadow dx="1" dy="1" stdDeviation="1" flood-color="black" flood-opacity="0.75"/>
         </filter>
       </defs>
-      <line x1="${centerX}" y1="${centerY}" x2="${endX}" y2="${endY}" stroke="black" stroke-width="1" filter="url(#shadow)"/>
+      <line x1="${centerX}" y1="${centerY}" x2="${endX}" y2="${endY}" stroke="${bgColor}" stroke-width="2" filter="url(#shadow)"/>
       <g transform="translate(${centerX}, ${centerY})">
-        <line x1="-${crossSize}" y1="-${crossSize}" x2="${crossSize}" y2="${crossSize}" stroke="${color}" stroke-width="2"/>
-        <line x1="${crossSize}" y1="-${crossSize}" x2="-${crossSize}" y2="${crossSize}" stroke="${color}" stroke-width="2"/>
+        <line x1="-${crossSize}" y1="-${crossSize}" x2="${crossSize}" y2="${crossSize}" stroke="${bgColor}" stroke-width="2"/>
+        <line x1="${crossSize}" y1="-${crossSize}" x2="-${crossSize}" y2="${crossSize}" stroke="${bgColor}" stroke-width="2"/>
       </g>
-      <rect x="${rectX}" y="${rectY}" width="${textWidth}" height="${textHeight}" fill="black" rx="4" ry="4"/>
-      <text x="${textX}" y="${textY + 4}" fill="${color}" font-family="Arial" font-size="12" font-weight="normal" text-anchor="middle">${text}</text>
+      <rect x="${rectX}" y="${rectY}" width="${textWidth}" height="${textHeight}" fill="${bgColor}" rx="4" ry="4" filter="url(#shadow)"/>
+      <text x="${textX}" y="${textY + 5}" fill="${color}" font-family="Arial" font-size="16" font-weight="normal" text-anchor="middle">${text}</text>
     </svg>
   `
 
