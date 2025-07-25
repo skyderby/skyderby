@@ -3,11 +3,13 @@ class PerformanceCompetitionSeries::Round < ApplicationRecord
 
   belongs_to :performance_competition_series
 
+  scope :ordered, -> { order(:number, :created_at) }
+
   before_create :set_number
 
-  def includes?(round)
-    discipline == round.discipline && number == round.number
-  end
+  def code = "#{discipline}-#{number}"
+
+  def includes?(round) = code == round.code
 
   private
 
