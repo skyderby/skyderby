@@ -79,6 +79,30 @@ class ResultsCopyTest < ApplicationSystemTestCase
 
     @round1.update!(completed_at: 1.hour.ago)
     @round2.update!(completed_at: 30.minutes.ago)
+
+    @reference_point1 = @source_event.reference_points.create!(
+      name: 'Start Point',
+      latitude: 60.12345,
+      longitude: 8.67890
+    )
+
+    @reference_point2 = @source_event.reference_points.create!(
+      name: 'Exit Point',
+      latitude: 60.54321,
+      longitude: 8.09876
+    )
+
+    PerformanceCompetition::ReferencePointAssignment.create!(
+      round: @round1,
+      competitor: @competitor1,
+      reference_point: @reference_point1
+    )
+
+    PerformanceCompetition::ReferencePointAssignment.create!(
+      round: @round2,
+      competitor: @competitor2,
+      reference_point: @reference_point2
+    )
   end
 
   test 'copy results from another competition' do
@@ -110,12 +134,12 @@ class ResultsCopyTest < ApplicationSystemTestCase
     assert result1
     assert result2
 
-    assert result1.exit_altitude.present?
+    assert_predicate result1.exit_altitude, :present?
     assert_equal 10, result1.penalty_size
     assert result1.penalized
     assert_equal 'Late exit', result1.penalty_reason
 
-    assert result2.exit_altitude.present?
+    assert_predicate result2.exit_altitude, :present?
     assert_equal 0, result2.penalty_size
     assert_not result2.penalized
 
@@ -123,5 +147,33 @@ class ResultsCopyTest < ApplicationSystemTestCase
     assert speed_round.completed_at
     assert_in_delta 1.hour.ago, distance_round.completed_at, 1.minute
     assert_in_delta 30.minutes.ago, speed_round.completed_at, 1.minute
+
+    assert_equal 2, @target_event.reference_points.count
+
+    target_start_point = @target_event.reference_points.find_by(
+      latitude: @reference_point1.latitude,
+      longitude: @reference_point1.longitude
+    )
+    target_exit_point = @target_event.reference_points.find_by(
+      latitude: @reference_point2.latitude,
+      longitude: @reference_point2.longitude
+    )
+
+    assert target_start_point
+    assert target_exit_point
+    assert_equal 'Start Point', target_start_point.name
+    assert_equal 'Exit Point', target_exit_point.name
+
+    assert_equal 2, @target_event.reference_point_assignments.count
+
+    target_assignment1 = distance_round.reference_point_assignments.joins(:competitor)
+                                       .find_by(event_competitors: { profile_id: @competitor1.profile_id })
+    target_assignment2 = speed_round.reference_point_assignments.joins(:competitor)
+                                    .find_by(event_competitors: { profile_id: @competitor2.profile_id })
+
+    assert target_assignment1
+    assert target_assignment2
+    assert_equal target_start_point, target_assignment1.reference_point
+    assert_equal target_exit_point, target_assignment2.reference_point
   end
 end
