@@ -516,7 +516,7 @@ export default class extends Controller {
       const result = checkProximityViolation(
         currentJump,
         otherJumps,
-        this.dlStartValue === 'on_10_sec' ? 10 : 9,
+        this.dlStartValue === 'on_10_sec' ? 10 * 1000 : 9 * 1000,
         this.mapTarget.mapInstance
       )
 

@@ -21,9 +21,9 @@ export function checkProximityViolation(
       return { hasViolation: false, markers: [] }
     }
 
-    const exitTime = new Date(exitedAt).getTime() + validationWindowStart
+    const validationStart = new Date(exitedAt).getTime() + validationWindowStart
     const currentFreeFallPoints = points.filter(
-      point => point.gpsTime.getTime() >= exitTime && point.flTime <= deployFlTime
+      point => point.gpsTime.getTime() >= validationStart && point.flTime <= deployFlTime
     )
 
     if (currentFreeFallPoints.length === 0) {
@@ -51,11 +51,9 @@ export function checkProximityViolation(
         if (!otherPoint) continue
 
         const altitudeDiff = Math.abs(currentPoint.altitude - otherPoint.altitude)
-        console.log(altitudeDiff)
         if (altitudeDiff >= proximityThreshold) continue
 
         const horizontalDistance = calculateDistance(currentPoint, otherPoint)
-        console.log(horizontalDistance)
         if (horizontalDistance >= proximityThreshold) continue
 
         const distance3D = Math.sqrt(
