@@ -57,7 +57,7 @@
                           performance_competition_path(event),
                           method: :patch,
                           form: { data: { turbo_stream: true } },
-                          params: { 'event[status]' => status },
+                          params: { 'performance_competition[status]' => status },
                           class: "dropdown-item #{'active' if event.status == status}") %>
             <% end %>
           </div>
