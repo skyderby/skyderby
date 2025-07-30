@@ -12,8 +12,8 @@
        data-track-id="<%= result.track_id %>"
        data-result="<%= result.result %>"
        data-exit-altitude="<%= result.exit_altitude %>"
-       data-window-start="<%= result.window_start_time.iso8601 %>"
-       data-window-end="<%= result.window_end_time.iso8601 %>"
+       data-window-start="<%= result.window_start_time&.iso8601 %>"
+       data-window-end="<%= result.window_end_time&.iso8601 %>"
   >
   </div>
 

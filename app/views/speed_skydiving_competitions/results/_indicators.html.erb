@@ -6,11 +6,11 @@
       Exit Altitude
     </div>
     <div class="track-indicator-value">
-      <%= result.exit_altitude.round %>
+      <%= result.exit_altitude&.round %>
       <%= t('units.m') %>
     </div>
     <div class="track-indicator-info">
-      <%= m_to_ft(result.exit_altitude).round %>
+      <%= m_to_ft(result.exit_altitude.to_i).round %>
       <%= t('units.ft') %>
     </div>
   </div>
@@ -20,11 +20,11 @@
       Result
     </div>
     <div class="track-indicator-value">
-      <%= result.result.round(1) %>
+      <%= result.result&.round(1) %>
       <%= t('units.kmh') %>
     </div>
     <div class="track-indicator-info">
-      <%= kmh_to_mph(result.result).round(1) %>
+      <%= kmh_to_mph(result.result.to_i).round(1) %>
       <%= t('units.mph') %>
     </div>
   </div>
@@ -34,11 +34,11 @@
       Window
     </div>
     <div class="track-indicator-value">
-      <%= result.window_start_altitude.round %>-<%= result.window_end_altitude.round %>
+      <%= result.window_start_altitude&.round %>-<%= result.window_end_altitude&.round %>
       <%= t('units.m') %>
     </div>
     <div class="track-indicator-info">
-      <%= m_to_ft(result.window_start_altitude).round %>-<%= m_to_ft(result.window_end_altitude).round %>
+      <%= m_to_ft(result.window_start_altitude.to_i).round %>-<%= m_to_ft(result.window_end_altitude.to_i).round %>
       <%= t('units.ft') %>
     </div>
   </div>

@@ -82,10 +82,12 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
           elevation_with_breakoff: { altitude: WINDOW, breakoff: BREAKOFF_ALTITUDE }
         )
         .points
+    rescue WindowRangeFinder::ValueOutOfRange
+      []
     end
 
     def points
-      @points ||= PointsQuery.execute(track, trimmed: { seconds_before_start: 5 })
+      @points ||= PointsQuery.execute(track, trimmed: { seconds_before_start: 15 })
     end
   end
 end
