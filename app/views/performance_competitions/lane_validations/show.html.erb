@@ -72,6 +72,7 @@
               <% jumps.each_with_index do |jump, jump_index| %>
                 <div class="lane-validation-competitor"
                      data-group-id="<%= group_index %>"
+                     data-result-id="<%= jump.id %>"
                      data-track-id="<%= jump.track_id %>"
                      data-exited-at="<%= jump.exited_at&.iso8601 %>"
                      data-exit-altitude="<%= jump.exit_altitude.to_i %>"

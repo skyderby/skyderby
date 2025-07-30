@@ -80,13 +80,13 @@ export default class extends Controller {
     const competitorElement = checkbox.closest('.lane-validation-competitor')
     if (!competitorElement) return
 
-    const trackId = competitorElement.dataset.trackId
+    const resultId = competitorElement.dataset.resultId
     const groupId = competitorElement.dataset.groupId
 
     if (checkbox.checked) {
       this.displayGroupAsync(groupId)
     } else {
-      this.removeTrack(trackId)
+      this.removeResult(resultId)
     }
   }
 
@@ -103,12 +103,13 @@ export default class extends Controller {
 
     competitors.forEach(competitor => {
       const checkbox = competitor.querySelector('input[type="checkbox"]')
+      const resultId = competitor.dataset.resultId
       const trackId = competitor.dataset.trackId
       const color = competitor.dataset.color
 
       checkbox.checked = true
-      this.displayedCompetitors.add(trackId)
-      displayPromises.push(this.displayTrack(trackId, color))
+      this.displayedCompetitors.add(resultId)
+      displayPromises.push(this.displayResult(resultId, trackId, color))
     })
 
     this.updateReferencePointsOnMap()
@@ -146,10 +147,10 @@ export default class extends Controller {
     this.clearProximityMarkers()
   }
 
-  async displayTrack(trackId, color) {
-    if (this.trackGraphics.has(trackId)) return
+  async displayResult(resultId, trackId, color) {
+    if (this.trackGraphics.has(resultId)) return
 
-    const competitorElement = this.element.querySelector(`[data-track-id="${trackId}"]`)
+    const competitorElement = this.element.querySelector(`[data-result-id="${resultId}"]`)
     if (competitorElement) {
       competitorElement.classList.add('loading')
     }
@@ -170,9 +171,9 @@ export default class extends Controller {
         exitedAt
       )
 
-      this.trackGraphics.set(trackId, { polylines, windowMarkers })
+      this.trackGraphics.set(resultId, { polylines, windowMarkers })
     } catch (error) {
-      console.error(`Failed to load track ${trackId}:`, error)
+      console.error(`Failed to load result ${resultId}:`, error)
     } finally {
       if (competitorElement) {
         competitorElement.classList.remove('loading')
@@ -180,16 +181,16 @@ export default class extends Controller {
     }
   }
 
-  removeTrack(trackId) {
-    const graphics = this.trackGraphics.get(trackId)
+  removeResult(resultId) {
+    const graphics = this.trackGraphics.get(resultId)
     if (graphics) {
       graphics.polylines.forEach(polyline => polyline.setMap(null))
       graphics.windowMarkers.forEach(marker => marker.setMap(null))
-      this.trackGraphics.delete(trackId)
+      this.trackGraphics.delete(resultId)
     }
-    this.displayedCompetitors.delete(trackId)
+    this.displayedCompetitors.delete(resultId)
 
-    const competitorElement = this.element.querySelector(`[data-track-id="${trackId}"]`)
+    const competitorElement = this.element.querySelector(`[data-result-id="${resultId}"]`)
     if (competitorElement) {
       const checkbox = competitorElement.querySelector('input[type="checkbox"]')
       if (checkbox) checkbox.checked = false
@@ -214,6 +215,7 @@ export default class extends Controller {
     const competitorElement = event.target.closest('.lane-validation-competitor')
     if (!competitorElement) return
 
+    const resultId = competitorElement.dataset.resultId
     const trackId = competitorElement.dataset.trackId
     const exitedAt = competitorElement.dataset.exitedAt
     const referencePointId = competitorElement.dataset.referencePointId
@@ -228,7 +230,7 @@ export default class extends Controller {
 
     try {
       const data = await this.fetchPoints(trackId)
-      this.updateSepChart(trackId, data)
+      this.updateSepChart(resultId, trackId, data)
 
       const points = data.points || []
       const deployFlTime = data.deployFlTime
@@ -284,7 +286,7 @@ export default class extends Controller {
 
       this.updateExitAltitudeCheck(competitorElement)
       this.updateLaneViolationCheck(this.designatedLane)
-      await this.performProximityCheck(trackId, competitorElement)
+      await this.performProximityCheck(resultId, trackId, competitorElement)
     } catch (error) {
       console.error('Failed to select jump for review:', error)
     }
@@ -334,8 +336,10 @@ export default class extends Controller {
     this.referencePointMarkers.clear()
 
     const uniqueReferencePointIds = new Set()
-    this.displayedCompetitors.forEach(trackId => {
-      const competitorElement = this.element.querySelector(`[data-track-id="${trackId}"]`)
+    this.displayedCompetitors.forEach(resultId => {
+      const competitorElement = this.element.querySelector(
+        `[data-result-id="${resultId}"]`
+      )
       if (competitorElement) {
         const referencePointId = competitorElement.dataset.referencePointId
         if (referencePointId) {
@@ -387,10 +391,10 @@ export default class extends Controller {
     return this.application.getControllerForElementAndIdentifier(this.mapTarget, 'map')
   }
 
-  updateSepChart(trackId, data) {
+  updateSepChart(resultId, trackId, data) {
     if (!this.sepChart || !data.points || data.points.length === 0) return
 
-    const competitorElement = this.element.querySelector(`[data-track-id="${trackId}"]`)
+    const competitorElement = this.element.querySelector(`[data-result-id="${resultId}"]`)
     const exitedAt = competitorElement?.dataset.exitedAt
 
     let displayPoints = data.points
@@ -484,7 +488,7 @@ export default class extends Controller {
     this.proximityMarkers = []
   }
 
-  async performProximityCheck(trackId, competitorElement) {
+  async performProximityCheck(resultId, trackId, competitorElement) {
     this.clearProximityMarkers()
 
     try {
@@ -497,13 +501,16 @@ export default class extends Controller {
       }
 
       const otherJumps = []
-      for (const otherTrackId of this.displayedCompetitors) {
-        if (otherTrackId === trackId) continue
+      for (const otherResultId of this.displayedCompetitors) {
+        if (otherResultId === resultId) continue
+
+        const otherCompetitorElement = this.element.querySelector(
+          `[data-result-id="${otherResultId}"]`
+        )
+        const otherTrackId = otherCompetitorElement?.dataset.trackId
+        if (!otherTrackId || otherTrackId == trackId) continue
 
         const otherData = await this.fetchPoints(otherTrackId)
-        const otherCompetitorElement = this.element.querySelector(
-          `[data-track-id="${otherTrackId}"]`
-        )
 
         otherJumps.push({
           trackId: otherTrackId,
