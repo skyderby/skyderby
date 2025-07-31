@@ -44,4 +44,8 @@ class PerformanceCompetition::Scoreboard::Standings::Result < SimpleDelegator
   def best_result! = @best_result = true
 
   def best_result? = @best_result
+
+  def penalty_size
+    penalized ? super : 0
+  end
 end
