@@ -1,4 +1,6 @@
 class Places::JumpProfiles::SelectOptionsController < ApplicationController
+  layout false
+
   def index
     @jump_lines = Place::JumpLine.includes(:place)
                                  .order('places.name, place_jump_lines.name')

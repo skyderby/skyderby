@@ -1,0 +1,9 @@
+<turbo-frame id="<%= sanitize params[:frame_id] %>">
+  <div class="hot-select-options">
+    <% @manufacturers.each do |manufacturer| %>
+      <div class="hot-select-option" data-value="<%= manufacturer.id %>">
+        <%= manufacturer.name %> (<%= manufacturer.code %>)
+      </div>
+    <% end %>
+  </div>
+</turbo-frame>

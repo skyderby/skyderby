@@ -1,4 +1,6 @@
 class PerformanceCompetitions::SelectOptionsController < ApplicationController
+  layout false
+
   def index
     @events = PerformanceCompetition.listable.order('starts_at DESC').paginate(page:, per_page: 25)
 

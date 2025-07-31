@@ -11,7 +11,7 @@
       <%= render 'hot_select/select',
                  form: f,
                  name: :manufacturer_id,
-                 src: suits_select_options_path,
+                 src: manufacturers_select_options_path,
                  options: options_for_select([[@suit.manufacturer&.name, @suit.manufacturer_id]], @suit.manufacturer_id),
                  placeholder: 'Select manufacturer',
                  class: 'col-8' %>
