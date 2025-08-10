@@ -20,13 +20,16 @@
             <% end %>
           </td>
           <td></td>
-        <% elsif editable %>
+        <% elsif editable && !round.completed? %>
           <td class="result-cell">
             <%= button_to svg_icon('upload-solid'), new_performance_competition_result_path(event),
                           params: { 'result[competitor_id]' => row.competitor.id, 'result[round_id]' => round.id },
                           method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } %>
           </td>
           <td></td>
+        <% elsif round.completed? %>
+          <td></td>
+          <td class="text-right">0.0</td>
         <% else %>
           <td></td>
           <td></td>
@@ -34,11 +37,11 @@
       <% end %>
       <td class="text-right">
         <% points_in_discipline = row.points_in_disciplines[discipline] %>
-        <%= format('%.1f', points_in_discipline) if points_in_discipline&.positive? %>
+        <%= format('%.1f', points_in_discipline.to_f) if rounds.any?(&:completed?) %>
       </td>
     <% end %>
     <td class="scoreboard-total-result">
-      <%= format('%.1f', row.total_points) if row.total_points.positive? %>
+      <%= format('%.1f', row.total_points.to_f) if rounds_by_discipline.values.flatten.any?(&:completed?) %>
     </td>
   </tr>
 <% end %>
