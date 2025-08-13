@@ -37,7 +37,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, omniauth_providers: %i[facebook]
+         :omniauthable, omniauth_providers: %i[google_oauth2]
 
   def role?(role) = roles.include? role.to_s
 

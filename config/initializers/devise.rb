@@ -231,14 +231,15 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :facebook,
-                  ENV.fetch('FB_APP_ID', nil),
-                  ENV.fetch('FB_APP_SECRET', nil),
-                  info_fields: 'first_name,last_name,email,picture',
-                  image_size: 'large',
-                  client_options: {
-                    site: 'https://graph.facebook.com/v3.2',
-                    authorize_url: 'https://www.facebook.com/v3.2/dialog/oauth'
+  config.omniauth :google_oauth2,
+                  ENV.fetch('GOOGLE_CLIENT_ID', nil),
+                  ENV.fetch('GOOGLE_CLIENT_SECRET', nil),
+                  {
+                    scope: 'userinfo.email,userinfo.profile',
+                    prompt: 'select_account',
+                    image_aspect_ratio: 'square',
+                    image_size: 50,
+                    access_type: 'offline'
                   }
 
   # ==> Warden configuration

@@ -1,17 +1,19 @@
-form {
-  padding: 15px;
+form:not(.button_to) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
 }
 
 label {
   display: inline-block;
   font-size: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 p {
   text-align: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 0;
 }
 
 input {
@@ -29,12 +31,4 @@ input {
   border: 1px solid #ced4da;
 
   font-size: 16px;
-}
-
-.form-group {
-  margin-bottom: 16px;
-
-  &:last-of-type {
-    margin-bottom: 0;
-  }
 }

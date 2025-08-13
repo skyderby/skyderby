@@ -1,15 +1,13 @@
-<div class="container">
-  <div class="page-header">
-    <h2><%= t('devise.passwords.new.forgot_your_password') %></h2>
-  </div>
+<div class="content-block">
+  <h2><%= t('devise.passwords.new.forgot_your_password') %></h2>
 
-  <%= form_for(:user, url: user_password_path, html: { method: :post, class: 'form-horizontal' }) do |f| %>
+  <%= form_for resource, as: resource_name, url: password_path(resource_name) do |f| %>
     <%= devise_error_messages! %>
 
     <div class="form-group">
-      <%= f.label :email, class: 'col-sm-2 control-label' %>
+      <%= f.label :email, t('activerecord.attributes.user.email'), class: 'col-sm-2 control-label' %>
       <div class="col-sm-6">
-        <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+        <%= f.email_field :email, autofocus: true, class: 'form-control', required: true %>
       </div>
     </div>
 
@@ -18,11 +16,15 @@
         <%= f.submit t('devise.passwords.new.send_me_reset_password_instructions'), class: 'btn btn-primary' %>
       </div>
     </div>
+  <% end %>
 
-    <div class="form-group">
-      <div class="col-sm-6 col-sm-offset-2">
-        <%= render 'users/shared/links' %>
-      </div>
-    </div>
+  <%= link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'btn' %>
+  <%= link_to t('devise.shared.links.sign_up'), new_user_registration_path, class: 'btn' %>
+
+  <p class="secondary-text"><%= t('general.or') %></p>
+
+  <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: false }, class: 'btn btn-google' do %>
+    <%= svg_icon 'google-icon', class: 'auth-social-icon' %>
+    <%= t('devise.shared.links.sign_in_with_provider', provider: 'Google') %>
   <% end %>
 </div>

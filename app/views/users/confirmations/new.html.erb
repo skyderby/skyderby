@@ -16,12 +16,15 @@
         <%= f.submit t('devise.confirmations.new.resend_confirmation_instructions'), class: 'btn btn-primary' %>
       </div>
     </div>
+  <% end %>
 
-    <%= link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'btn' %>
-    <%= link_to t('devise.shared.links.sign_up'), new_user_registration_path, class: 'btn' %>
+  <%= link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'btn' %>
+  <%= link_to t('devise.shared.links.sign_up'), new_user_registration_path, class: 'btn' %>
 
-    <p class="secondary-text"><%= t('general.or') %></p>
+  <p class="secondary-text"><%= t('general.or') %></p>
 
-    <%= link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path, class: 'btn btn-facebook' %>
+  <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: false }, class: 'btn btn-google' do %>
+    <%= svg_icon 'google-icon', class: 'auth-social-icon' %>
+    <%= t('devise.shared.links.sign_in_with_provider', provider: 'Google') %>
   <% end %>
 </div>

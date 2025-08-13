@@ -172,11 +172,11 @@ GEM
     factory_bot_rails (6.4.4)
       factory_bot (~> 6.5)
       railties (>= 5.0.0)
-    faraday (2.12.1)
+    faraday (2.13.4)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
-    faraday-net_http (3.4.0)
+    faraday-net_http (3.4.1)
       net-http (>= 0.5.0)
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
@@ -211,7 +211,7 @@ GEM
       activesupport (>= 5.0.0)
     jmespath (1.6.2)
     json (2.8.2)
-    jwt (2.9.3)
+    jwt (3.1.2)
       base64
     kamal (2.5.3)
       activesupport (>= 7.0)
@@ -245,10 +245,10 @@ GEM
     mini_mime (1.1.5)
     minitest (5.25.4)
     msgpack (1.7.5)
-    multi_xml (0.7.1)
+    multi_xml (0.7.2)
       bigdecimal (~> 3.1)
     mutex_m (0.3.0)
-    net-http (0.5.0)
+    net-http (0.6.0)
       uri
     net-imap (0.5.1)
       date
@@ -269,22 +269,28 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
-    oauth2 (2.0.9)
-      faraday (>= 0.17.3, < 3.0)
-      jwt (>= 1.0, < 3.0)
+    oauth2 (2.0.12)
+      faraday (>= 0.17.3, < 4.0)
+      jwt (>= 1.0, < 4.0)
+      logger (~> 1.2)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 4)
-      snaky_hash (~> 2.0)
-      version_gem (~> 1.1)
-    omniauth (2.1.2)
+      snaky_hash (~> 2.0, >= 2.0.3)
+      version_gem (>= 1.1.8, < 3)
+    omniauth (2.1.3)
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
       rack-protection
-    omniauth-facebook (10.0.0)
-      bigdecimal
-      omniauth-oauth2 (>= 1.2, < 3)
+    omniauth-google-oauth2 (1.2.1)
+      jwt (>= 2.9.2)
+      oauth2 (~> 2.0)
+      omniauth (~> 2.0)
+      omniauth-oauth2 (~> 1.8)
     omniauth-oauth2 (1.8.0)
       oauth2 (>= 1.4, < 3)
+      omniauth (~> 2.0)
+    omniauth-rails_csrf_protection (1.0.2)
+      actionpack (>= 4.2)
       omniauth (~> 2.0)
     orm_adapter (0.5.0)
     ostruct (0.5.5)
@@ -436,9 +442,9 @@ GEM
     simplecov_json_formatter (0.1.4)
     skylight (6.0.4)
       activesupport (>= 5.2.0)
-    snaky_hash (2.0.1)
-      hashie
-      version_gem (~> 1.1, >= 1.1.1)
+    snaky_hash (2.0.3)
+      hashie (>= 0.1.0, < 6)
+      version_gem (>= 1.1.8, < 3)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -469,10 +475,10 @@ GEM
     unicode (0.4.4.5)
     unicode-display_width (2.6.0)
     uniform_notifier (1.16.0)
-    uri (1.0.2)
+    uri (1.0.3)
     vcr (6.3.1)
       base64
-    version_gem (1.1.4)
+    version_gem (1.1.8)
     vincenty_distance (1.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -525,7 +531,9 @@ DEPENDENCIES
   net-pop
   net-smtp
   nokogiri (~> 1.16)
-  omniauth-facebook
+  omniauth
+  omniauth-google-oauth2
+  omniauth-rails_csrf_protection
   pg (~> 1.5)
   pluck_to_hash
   puma (< 7)

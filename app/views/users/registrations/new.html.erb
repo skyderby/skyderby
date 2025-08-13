@@ -29,15 +29,18 @@
     <div class="form-group">
       <%= f.submit t('devise.registrations.new.sign_up'), class: 'btn btn-lg btn-primary' %>
     </div>
-
-    <%= link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path, class: 'btn btn-facebook' %>
-
-    <p class="secondary-text"><%= t('general.or') %></p>
-
-    <%= link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'btn' %>
-
-    <div class="form-group">
-      <%= link_to t('devise.shared.links.didn_t_receive_confirmation_instructions'), new_user_confirmation_path %>
-    </div>
   <% end %>
+
+  <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: :false }, class: 'btn btn-google' do %>
+    <%= svg_icon 'google-icon', class: 'auth-social-icon' %>
+    <%= t('devise.shared.links.sign_in_with_provider', provider: 'Google') %>
+  <% end %>
+
+  <p class="secondary-text"><%= t('general.or') %></p>
+
+  <%= link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'btn' %>
+
+  <div class="form-group">
+    <%= link_to t('devise.shared.links.didn_t_receive_confirmation_instructions'), new_user_confirmation_path %>
+  </div>
 </div>

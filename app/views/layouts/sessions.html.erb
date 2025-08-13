@@ -2,7 +2,15 @@
 <html>
   <head>
     <%= csrf_meta_tags %>
+
+    <meta name="default-locale" content="<%= I18n.default_locale %>">
+    <meta name="locale" content="<%= I18n.locale %>">
+
+    <%= render 'layouts/google_analytics' %>
+
     <%= stylesheet_link_tag 'sessions/application', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= javascript_pack_tag 'sessions', 'data-turbo-track': 'reload', defer: false %>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   </head>
   <body>

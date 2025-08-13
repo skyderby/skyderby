@@ -19,11 +19,11 @@
         <%= f.label :country, class: 'col-sm-2 control-label' %>
         <div class="col-sm-5">
           <% options = options_for_select([[@profile.country_name, @profile.country_id]]) %>
-          <%= render 'hot_select/select', 
-                     form: f, 
-                     name: :country_id, 
-                     options: options, 
-                     src: countries_select_options_path, 
+          <%= render 'hot_select/select',
+                     form: f,
+                     name: :country_id,
+                     options: options,
+                     src: countries_select_options_path,
                      placeholder: 'Select country' %>
         </div>
       </div>
@@ -49,7 +49,7 @@
     </a>
     <% if @profile.owner.uid.nil? %>
       <br>
-      <%= link_to t('devise.shared.links.connect_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path, class: 'col-sm-offset-2' %>
+      <%= button_to t('devise.shared.links.connect_provider', provider: 'Google'), user_google_oauth2_omniauth_authorize_path, data: { turbo: false }, class: 'col-sm-offset-2' %>
     <% end %>
   <% end %>
 

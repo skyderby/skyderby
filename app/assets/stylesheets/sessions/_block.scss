@@ -2,23 +2,25 @@ h2 {
   font-weight: 500;
   color: rgba(37, 47, 60, 0.75);
   border-left: 5px solid rgba(37, 47, 60, 0.75);
-  margin: 0 0 10px 0;
+  margin: 0 -1rem;
   padding: 0px 10px;
 }
 
 .content-block {
   background-color: white;
-  border-radius: 2px;
+  border-radius: 8px;
   max-width: 320px;
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 15px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
-
 
 .secondary-text {
   font-size: 12px;
-  color: #777777;
+  color: #555;
   text-decoration: none;
 }

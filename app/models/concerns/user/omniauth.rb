@@ -1,7 +1,7 @@
 module User::Omniauth
   extend ActiveSupport::Concern
 
-  def add_data_from_facebook(auth)
+  def add_data_from_google(auth)
     profile.userpic = URI.parse(auth.info.image).open if profile.userpic.blank?
     assign_attributes(provider: auth.provider, uid: auth.uid)
   end

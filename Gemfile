@@ -17,7 +17,9 @@ gem 'bootsnap', require: false
 
 # Auth
 gem 'devise'
-gem 'omniauth-facebook'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
 
 # Authorization
 gem 'pundit'

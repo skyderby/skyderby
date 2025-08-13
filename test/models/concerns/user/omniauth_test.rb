@@ -5,11 +5,11 @@ class User::OmniauthTest < ActiveSupport::TestCase
     user = User.create! \
       email: 'ab@example.com',
       password: Devise.friendly_token[0, 20],
-      provider: :facebook,
+      provider: :google_oauth2,
       uid: '000-000'
 
     auth = OmniAuth::AuthHash.new \
-      provider: :facebook,
+      provider: :google_oauth2,
       uid: '000-000',
       info: { email: 'xx@zz.yyy' }
 
@@ -24,7 +24,7 @@ class User::OmniauthTest < ActiveSupport::TestCase
       password: Devise.friendly_token[0, 20]
 
     auth = OmniAuth::AuthHash.new \
-      provider: :facebook,
+      provider: :google_oauth2,
       uid: '000-000',
       info: { email: 'ab@example.com' }
 
@@ -35,7 +35,7 @@ class User::OmniauthTest < ActiveSupport::TestCase
 
   test 'create new user from auth info' do
     auth = OmniAuth::AuthHash.new \
-      provider: :facebook,
+      provider: :google_oauth2,
       uid: '000-000',
       info: {
         email: 'ab@example.com',
@@ -45,7 +45,7 @@ class User::OmniauthTest < ActiveSupport::TestCase
       }
 
     user = User.from_omniauth(auth)
-    assert_equal 'facebook', user.provider
+    assert_equal 'google_oauth2', user.provider
     assert_equal '000-000', user.uid
     assert_equal 'ab@example.com', user.email
     assert_equal 'Ivan Petrov', user.name
