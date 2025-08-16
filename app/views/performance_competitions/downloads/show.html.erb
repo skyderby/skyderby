@@ -25,7 +25,7 @@
           <div><%= t("disciplines.#{task}") %> - <code><%= "skyderby-performance-#{task}-#{@event.id}" %></code></div>
         <% end %>
       </div>
-      <%= link_to 'ISC XML', performance_competition_downloads_scoreboard_path(@event, format: :xml), class: 'default-button', download: true %>
+      <%= link_to 'ISC XML', performance_competition_downloads_task_scoreboard_path(@event, format: :xml), class: 'default-button', download: true %>
     </div>
     <% if @event.use_teams %>
       <div class="downloads-row">

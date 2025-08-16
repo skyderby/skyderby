@@ -1,7 +1,7 @@
 xml.instruct!
 xml.EventResult do
-  xml.UniqueCode "skyderby-ws-performance-#{@event.id}-teams"
-  @team_ranking.ranking.each_with_index do |row, index|
+  xml.UniqueCode "skyderby-performance-#{@event.id}-teams"
+  @scoreboard.ranking.each_with_index do |row, index|
     xml.Entrant do
       xml.CompetitionNo "00#{index + 1}"
       xml.Name row.team.name

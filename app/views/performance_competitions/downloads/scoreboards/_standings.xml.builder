@@ -1,6 +1,5 @@
-# locals: (standings:, russia_restricted: false)
+# locals: (standings:, tasks:, russia_restricted: false)
 
-ordered_tasks = %w[distance speed time]
 standings.rows.each do |row|
   competitor = row.competitor
 
@@ -17,9 +16,9 @@ standings.rows.each do |row|
     xml.Rank row.rank
     xml.Total format('%.1f', row.total_points)
 
-    ordered_tasks.each do |discipline|
+    tasks.each do |discipline|
       xml.tag! discipline.capitalize do
-        rounds = @scoreboard.rounds.select { |round| round.discipline == discipline && round.completed }
+        rounds = standings.rounds.select { |round| round.discipline == discipline && round.completed }
         rounds.each do |round|
           result = row.result_in_round(round)
 
