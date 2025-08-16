@@ -11,7 +11,8 @@
            data-single-jump-map-window-end-value="<%= result.event.range_to %>"
            data-single-jump-map-dl-start-value="<%= result.event.designated_lane_start %>"
            data-single-jump-map-exited-at-value="<%= result.exited_at&.iso8601 %>"
-           data-single-jump-map-reference-point-id-value="<%= result.reference_point&.id %>">
+           data-single-jump-map-reference-point-id-value="<%= result.reference_point&.id %>"
+           data-single-jump-map-lane-validation-stops-at-value="<%= result.event.lane_validation_stops_at %>">
 
     <script type="application/json" data-single-jump-map-target="referencePoints">
       <%= raw render partial: 'performance_competitions/reference_points/reference_points', locals: { reference_points: [result.reference_point].compact }, formats: [:json] %>

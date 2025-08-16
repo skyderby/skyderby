@@ -16,7 +16,8 @@ export function createDesignatedLane(
   windowEndPoint,
   deployPoint,
   referencePoint,
-  points
+  points,
+  laneValidationStopsAt
 ) {
   if (!map || !startPoint || !windowEndPoint || !referencePoint) return null
 
@@ -30,7 +31,8 @@ export function createDesignatedLane(
       startPoint,
       referencePoint,
       windowEndPoint,
-      deployPoint
+      deployPoint,
+      laneValidationStopsAt
     )
     if (laneViolation) {
       violationMarker = createLaneViolationMarker(

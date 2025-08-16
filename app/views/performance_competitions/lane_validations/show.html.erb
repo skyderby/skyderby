@@ -23,7 +23,8 @@
              data-lane-validation-dl-start-value="<%= @event.designated_lane_start %>"
              data-lane-validation-event-id-value="<%= @event.id %>"
              data-lane-validation-window-start-value="<%= @event.range_from %>"
-             data-lane-validation-window-end-value="<%= @event.range_to %>">
+             data-lane-validation-window-end-value="<%= @event.range_to %>"
+             data-lane-validation-stops-at-value="<%= @event.lane_validation_stops_at %>">
       <script type="application/json" data-lane-validation-target="referencePoints">
         <%= raw render partial: 'performance_competitions/reference_points/reference_points', locals: { reference_points: @event.reference_points }, formats: [:json] %>
       </script>

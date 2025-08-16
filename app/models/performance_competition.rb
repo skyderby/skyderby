@@ -7,6 +7,7 @@ class PerformanceCompetition < ApplicationRecord
   enum :status, { draft: 0, published: 1, finished: 2, surprise: 3 }
   enum :rules, { speed_distance_time: 0 }, default: :speed_distance_time
   enum :visibility, { public_event: 0, unlisted_event: 1, private_event: 2 }
+  enum :lane_validation_stops_at, { deploy: 0, competition_window_end: 1 }, prefix: :lane_validation_stops_at
 
   belongs_to :responsible, class_name: 'User', inverse_of: :responsible_of_events
 
@@ -27,6 +28,7 @@ class PerformanceCompetition < ApplicationRecord
 
   before_create do
     self.apply_penalty_to_score = false
+    self.lane_validation_stops_at = :competition_window_end
   end
 
   delegate :name, :msl, to: :place, prefix: true, allow_nil: true

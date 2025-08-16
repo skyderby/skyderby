@@ -21,7 +21,8 @@ export default class extends Controller {
     windowEnd: Number,
     dlStart: String,
     exitedAt: String,
-    referencePointId: Number
+    referencePointId: Number,
+    laneValidationStopsAt: String
   }
 
   connect() {
@@ -159,7 +160,8 @@ export default class extends Controller {
       windowEndMarker,
       deployPoint,
       referencePoint,
-      points
+      points,
+      this.laneValidationStopsAtValue
     )
   }
 

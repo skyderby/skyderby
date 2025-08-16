@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_25_055113) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_16_024237) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -160,6 +160,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_25_055113) do
     t.boolean "apply_penalty_to_score"
     t.boolean "use_teams"
     t.bigint "profile_id"
+    t.integer "lane_validation_stops_at", default: 0, null: false
     t.index ["profile_id"], name: "index_events_on_profile_id"
   end
 

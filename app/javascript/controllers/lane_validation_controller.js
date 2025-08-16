@@ -34,7 +34,8 @@ export default class extends Controller {
     eventId: Number,
     windowStart: Number,
     windowEnd: Number,
-    dlStart: String
+    dlStart: String,
+    stopsAt: String
   }
 
   connect() {
@@ -279,7 +280,8 @@ export default class extends Controller {
         windowEndMarker,
         deployPoint,
         referencePoint,
-        points
+        points,
+        this.stopsAtValue
       )
 
       fitMapBounds(map, dlStartPoint, referencePoint)

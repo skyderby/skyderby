@@ -60,7 +60,8 @@ const getLaneViolation = (
   laneEnterPoint,
   referencePoint,
   exitWindowPoint,
-  deployPoint
+  deployPoint,
+  laneValidationStopsAt
 ) => {
   const mostDistantPointUntilWindowExit = mostDistantPoint(
     points,
@@ -70,15 +71,19 @@ const getLaneViolation = (
     exitWindowPoint
   )
 
-  const mostDistantPointAfterWindowExit = mostDistantPoint(
-    points,
-    laneEnterPoint,
-    referencePoint,
-    exitWindowPoint,
-    deployPoint || points.at(-1)
-  )
+  const mostDistantPointAfterWindowExit =
+    laneValidationStopsAt === 'deploy'
+      ? mostDistantPoint(
+          points,
+          laneEnterPoint,
+          referencePoint,
+          exitWindowPoint,
+          deployPoint || points.at(-1)
+        )
+      : null
 
   if (
+    mostDistantPointAfterWindowExit &&
     mostDistantPointAfterWindowExit.distance > maxAllowedDeviationAfterExitWindow &&
     mostDistantPointAfterWindowExit.distance > mostDistantPointUntilWindowExit.distance
   ) {
