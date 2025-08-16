@@ -1,5 +1,3 @@
-require 'zip'
-
 class SpeedSkydivingCompetitions::Downloads::ScoreboardsController < ApplicationController
   include SpeedSkydivingCompetitionScoped
 

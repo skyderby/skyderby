@@ -22,7 +22,7 @@
       <div class="downloads-title">
         <div>Scoreboard (by task)</div>
         <% @event.rounds.pluck(:discipline).uniq.each do |task| %>
-          <div><%= t("disciplines.#{task}") %> - <code><%= "skyderby-performance-#{@event.id}-#{task}" %></code></div>
+          <div><%= t("disciplines.#{task}") %> - <code><%= "skyderby-performance-#{task}-#{@event.id}" %></code></div>
         <% end %>
       </div>
       <%= link_to 'ISC XML', performance_competition_downloads_scoreboard_path(@event, format: :xml), class: 'default-button', download: true %>
