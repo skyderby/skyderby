@@ -37,6 +37,10 @@
       </div>
     <% end %>
     <div class="downloads-row">
+      <div class="downloads-title">Excel sheet</div>
+      <%= link_to 'Excel sheet', performance_competition_downloads_scoreboard_path(@event, format: :xlsx), class: 'default-button', download: true %>
+    </div>
+    <div class="downloads-row">
       <div class="downloads-title">GPS Recordings</div>
       <%= link_to 'ZIP Archive', performance_competition_downloads_gps_recordings_path(@event), class: 'default-button', download: true %>
     </div>
