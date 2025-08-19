@@ -6,5 +6,6 @@ xml.instruct!
 xml.EventResult do
   xml.UniqueCode "skyderby-performance-#{task}-#{@event.id}"
 
-  xml << render('performance_competitions/downloads/scoreboards/standings', standings:, tasks: [task], russia_restricted:)
+  xml << render('performance_competitions/downloads/scoreboards/standings',
+                standings:, only_tasks: [task], russia_restricted:)
 end

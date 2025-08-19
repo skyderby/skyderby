@@ -1,4 +1,6 @@
-# locals: (standings:, tasks:, russia_restricted: false)
+# locals: (standings:, only_tasks: nil, russia_restricted: false)
+
+tasks = only_tasks.presence || %w[distance speed time]
 
 standings.rows.each do |row|
   competitor = row.competitor
@@ -43,8 +45,10 @@ standings.rows.each do |row|
           end
         end
 
-        discipline_total = row.points_in_disciplines[discipline]
-        xml.TaskPercentage rounds.any?(&:completed?) ? format('%.1f', discipline_total.to_f) : ''
+        if only_tasks.blank?
+          discipline_total = row.points_in_disciplines[discipline]
+          xml.TaskPercentage rounds.any?(&:completed?) ? format('%.1f', discipline_total.to_f) : ''
+        end
       end
     end
   end
