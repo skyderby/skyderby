@@ -15,6 +15,7 @@
 
 class VirtualCompetition::PersonalTopScore < ApplicationRecord
   self.table_name = 'personal_top_scores'
+  self.implicit_order_column = :rank
 
   belongs_to :virtual_competition
   belongs_to :track

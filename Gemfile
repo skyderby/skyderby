@@ -1,10 +1,11 @@
-ruby '3.2.3'
+ruby '3.4.8'
 source 'https://rubygems.org'
 
-gem 'rails', '~> 7.1.5'
+gem 'rails', '~> 8.1.0'
 
+gem 'csv'
 gem 'ffi'
-gem 'puma', '< 7'
+gem 'puma'
 gem 'rack-cors'
 gem 'thruster', require: false
 
@@ -41,8 +42,8 @@ gem 'shrine', '~> 3.0'
 gem 'nokogiri', '~> 1.16'
 
 # Background jobs
-gem 'sidekiq', '< 7'
-gem 'sidekiq-cron', '~> 2.0'
+gem 'sidekiq'
+gem 'sidekiq-cron'
 
 # Export to Excel
 gem 'caxlsx'
@@ -92,6 +93,8 @@ group :development, :test do
 end
 
 group :test do
+  gem 'minitest'
+  gem 'minitest-mock'
   gem 'capybara'
   gem 'codeclimate-test-reporter', require: false
   gem 'selenium-webdriver'

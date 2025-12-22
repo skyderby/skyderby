@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG RUBY_VERSION=3.2.3
+ARG RUBY_VERSION=3.4.8
 
 FROM ruby:$RUBY_VERSION-slim AS base
 
@@ -24,7 +24,7 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git pkg-config libyaml-dev unzip && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-ARG NODE_VERSION=22.14.0
+ARG NODE_VERSION=22.16.0
 ARG YARN_VERSION=1.22.22
 ARG NODE_OPTIONS=--openssl-legacy-provider
 ENV PATH=/usr/local/node/bin:$PATH

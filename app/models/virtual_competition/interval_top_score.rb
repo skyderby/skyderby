@@ -16,6 +16,7 @@
 
 class VirtualCompetition::IntervalTopScore < ApplicationRecord
   self.table_name = 'interval_top_scores'
+  self.implicit_order_column = :rank
 
   belongs_to :virtual_competition
   belongs_to :custom_interval

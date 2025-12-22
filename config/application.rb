@@ -29,6 +29,7 @@ module Skyderby
     # config.time_zone = 'Central Time (US & Canada)'
 
     config.load_defaults Rails::VERSION::STRING.to_f
+    config.yjit = true
 
     config.track_scanner = config_for(:track_scanner)
 
