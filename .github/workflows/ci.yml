@@ -22,7 +22,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.3
+          ruby-version: 3.4.8
       - name: Cache gems
         uses: actions/cache@v4
         with:
@@ -44,7 +44,7 @@ jobs:
       - name: Setup Nodejs
         uses: actions/setup-node@v4
         with:
-          node-version: 22.4.1
+          node-version: 22.16.0
       - name: Cache node modules
         uses: actions/cache@v4
         with:
@@ -90,11 +90,11 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.3
+          ruby-version: 3.4.8
       - name: Setup Nodejs
         uses: actions/setup-node@v4
         with:
-          node-version: 22.4.1
+          node-version: 22.16.0
       - name: Cache gems
         uses: actions/cache@v4
         with:
@@ -132,7 +132,7 @@ jobs:
       - name: Setup Nodejs
         uses: actions/setup-node@v4
         with:
-          node-version: 22.4.1
+          node-version: 22.16.0
       - name: Cache node modules
         uses: actions/cache@v4
         with:
@@ -179,11 +179,11 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.3
+          ruby-version: 3.4.8
       - name: Setup Nodejs
         uses: actions/setup-node@v4
         with:
-          node-version: 22.4.1
+          node-version: 22.16.0
       - name: Cache gems
         uses: actions/cache@v4
         with:
