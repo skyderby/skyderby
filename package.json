@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.33.0",
+    "@amplitude/plugin-session-replay-browser": "^1.25.4",
     "@babel/cli": "^7.25.9",
     "@babel/core": "^7.26.0",
     "@babel/eslint-parser": "^7.25.9",

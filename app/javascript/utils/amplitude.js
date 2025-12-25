@@ -1,4 +1,5 @@
 import * as amplitude from '@amplitude/analytics-browser'
+import * as sessionReplay from '@amplitude/plugin-session-replay-browser'
 
 const currentEnv = document.querySelector('meta[name="current-env"]')?.content
 const apiKey = document.querySelector('meta[name="amplitude-api-key"]')?.content
@@ -14,6 +15,7 @@ if (apiKey && userIdMeta) {
   }
 
   amplitude.init(apiKey, userIdMeta.content, options)
+  amplitude.add(sessionReplay.plugin({ sampleRate: 1 }))
 }
 
 export default amplitude
