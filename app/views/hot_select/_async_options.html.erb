@@ -14,14 +14,14 @@
         <% query_params.except('term', 'frame_id', 'page').each do |key, value| %>
           <%= f.hidden_field key, value: value %>
         <% end %>
-        <%= f.text_field :term, class: 'hot-select-search', placeholder: 'Search...',
+        <%= f.text_field :term, class: 'hot-select-search', placeholder: t('hot_select.search_placeholder'),
                          data: { action: 'input->auto-submit#submit', 'hot-select-target': 'searchInput' } %>
       <% end %>
     </turbo-frame>
 
     <turbo-frame id="<%= select_id %>" src="<%= merge_query_params(src, frame_id: select_id) %>" loading="lazy" class="hot-select-scrollable hot-select-selectable">
       <div class="hot-select-options">
-        <div class="hot-select-option" role="option">Loading...</div>
+        <div class="hot-select-option" role="option"><%= t('hot_select.loading') %></div>
       </div>
     </turbo-frame>
   </div>

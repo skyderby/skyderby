@@ -169,6 +169,13 @@
   color: var(--gray-80);
 }
 
+.hot-select-no-results {
+  padding: 0.5rem 0.75rem;
+  color: var(--gray-70);
+  text-align: center;
+  font-style: italic;
+}
+
 .hide {
   display: none !important;
 }

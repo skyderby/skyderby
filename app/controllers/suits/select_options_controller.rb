@@ -1,4 +1,6 @@
 class Suits::SelectOptionsController < ApplicationController
+  include HotSelectOptions
+
   layout false
 
   def index
@@ -6,6 +8,8 @@ class Suits::SelectOptionsController < ApplicationController
                  .order('manufacturers.name, suits.name')
                  .search(search_query)
                  .paginate(page:, per_page: 25)
+
+    respond_with_no_results(params[:frame_id]) if @suits.empty? && @suits.current_page == 1
   end
 
   def search_query

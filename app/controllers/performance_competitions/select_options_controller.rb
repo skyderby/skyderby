@@ -1,10 +1,14 @@
 class PerformanceCompetitions::SelectOptionsController < ApplicationController
+  include HotSelectOptions
+
   layout false
 
   def index
     @events = PerformanceCompetition.listable.order('starts_at DESC').paginate(page:, per_page: 25)
 
     @events = @events.search(search_query) if search_query
+
+    respond_with_no_results(params[:frame_id]) if @events.empty? && @events.current_page == 1
   end
 
   def search_query

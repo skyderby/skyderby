@@ -1,4 +1,6 @@
 class Tracks::SelectOptionsController < ApplicationController
+  include HotSelectOptions
+
   layout false
 
   def index
@@ -8,6 +10,8 @@ class Tracks::SelectOptionsController < ApplicationController
       .then { |tracks| profile_id ? tracks.where(profile_id: profile_id) : tracks }
       .search(search_query)
       .paginate(page:, per_page: 25)
+
+    respond_with_no_results(params[:frame_id]) if @tracks.empty? && @tracks.current_page == 1
   end
 
   private
