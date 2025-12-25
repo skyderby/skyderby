@@ -1,0 +1,6 @@
+en:
+  hot_select:
+    loading: Loading...
+    search_placeholder: Search...
+    toggle_dropdown: Toggle dropdown
+    no_results: No results found

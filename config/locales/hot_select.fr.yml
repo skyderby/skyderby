@@ -1,0 +1,6 @@
+fr:
+  hot_select:
+    loading: Chargement...
+    search_placeholder: Rechercher...
+    toggle_dropdown: Basculer le menu
+    no_results: Aucun résultat trouvé
