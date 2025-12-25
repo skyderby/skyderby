@@ -24,6 +24,8 @@ class SpeedSkydivingCompetition < ApplicationRecord
 
   delegate :name, to: :place, prefix: true, allow_nil: true
 
+  after_create_commit :track_amplitude_event
+
   def active? = starts_at < Time.zone.now && !finished?
 
   def standings(until_round: nil) = Scoreboard.new(self, until_round:)
@@ -41,4 +43,18 @@ class SpeedSkydivingCompetition < ApplicationRecord
   def become_surprise? = saved_change_to_attribute?(:status, to: :surprise)
 
   def revert_from_surprise? = saved_change_to_attribute?(:status, from: :surprise)
+
+  private
+
+  def track_amplitude_event
+    Amplitude.track(
+      user_id: responsible_id,
+      event: 'Competition Created',
+      properties: {
+        type: 'speed_skydiving',
+        visibility: visibility,
+        country: place&.country&.code
+      }
+    )
+  end
 end

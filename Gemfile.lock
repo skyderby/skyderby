@@ -77,6 +77,8 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    amplitude-api (0.4.2)
+      faraday (>= 1.0, < 3.0)
     annotate (2.6.5)
       activerecord (>= 2.3.0)
       rake (>= 0.8.7)
@@ -517,6 +519,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  amplitude-api
   annotate
   aws-sdk-s3
   bootsnap

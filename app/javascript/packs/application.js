@@ -3,6 +3,7 @@ import { definitionsFromContext } from '@hotwired/stimulus-webpack-helpers'
 import Rails from '@rails/ujs'
 import '@hotwired/turbo-rails'
 import 'utils/googleAnalytics'
+import 'utils/amplitude'
 
 import Honeybadger from '@honeybadger-io/js'
 const currentEnv = document.querySelector('meta[name="current-env"]').content

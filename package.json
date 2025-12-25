@@ -12,6 +12,7 @@
     "arrowParens": "avoid"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.33.0",
     "@babel/cli": "^7.25.9",
     "@babel/core": "^7.26.0",
     "@babel/eslint-parser": "^7.25.9",
@@ -25,6 +26,8 @@
     "@babel/preset-react": "^7.25.9",
     "@googlemaps/markerclusterer": "^2.5.3",
     "@honeybadger-io/js": "^6.10.1",
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/stimulus-webpack-helpers": "^1.0.1",
     "@hotwired/turbo-rails": "^8.0.12",
     "@popperjs/core": "^2.11.8",
     "@rails/actioncable": "^6.0.2",
@@ -62,8 +65,6 @@
     "redux-thunk": "^2.3.0",
     "select2": "^4.0.3",
     "shakapacker": "6.5.0",
-    "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/stimulus-webpack-helpers": "^1.0.1",
     "style-loader": "^4.0.0",
     "styled-components": "^5.0.0-beta.11",
     "tippy.js": "^6.3.7",

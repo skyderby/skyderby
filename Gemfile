@@ -55,6 +55,8 @@ group :production do
   gem 'skylight'
 end
 
+gem 'amplitude-api'
+
 # Internalization
 gem 'http_accept_language'
 gem 'i18n-js'

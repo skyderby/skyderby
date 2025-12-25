@@ -83,6 +83,7 @@ class Track < ApplicationRecord
   validates :name, presence: true, unless: :pilot
 
   before_destroy :used_in_competition?
+  after_create_commit :track_amplitude_event
 
   scope :chronologically, -> { order(id: :desc) }
   scope :sorted_by_speed, ->(dir) { left_joins(:speed).order("track_results.result #{dir} NULLS LAST") }
@@ -152,6 +153,20 @@ class Track < ApplicationRecord
   def used_in_competition?
     errors.add(:base, 'Cannot delete track used in competition') if competitive?
     throw(:abort) if errors.present?
+  end
+
+  def track_amplitude_event
+    return unless belongs_to_user?
+
+    Amplitude.track(
+      user_id: owner_id,
+      event: 'Track Uploaded',
+      properties: {
+        kind: kind,
+        visibility: visibility,
+        country: place&.country&.code
+      }
+    )
   end
 
   class << self

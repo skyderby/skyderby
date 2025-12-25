@@ -31,6 +31,8 @@ class PerformanceCompetition < ApplicationRecord
     self.lane_validation_stops_at = :competition_window_end
   end
 
+  after_create_commit :track_amplitude_event
+
   delegate :name, :msl, to: :place, prefix: true, allow_nil: true
 
   after_initialize do
@@ -69,5 +71,19 @@ class PerformanceCompetition < ApplicationRecord
     def search(query)
       where('unaccent(name) ILIKE unaccent(?)', "%#{query}%")
     end
+  end
+
+  private
+
+  def track_amplitude_event
+    Amplitude.track(
+      user_id: responsible_id,
+      event: 'Competition Created',
+      properties: {
+        type: 'performance',
+        visibility: visibility,
+        country: place&.country&.code
+      }
+    )
   end
 end

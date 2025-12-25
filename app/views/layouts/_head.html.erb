@@ -10,7 +10,11 @@
 <meta name="maps-api-key" content="<%= ENV.fetch('MAPS_API_KEY', nil) %>">
 <meta name="cesium-api-key" content="<%= ENV.fetch('CESIUM_API_TOKEN', nil) %>">
 <meta name="hb-api-key" content="<%= ENV.fetch('HONEYBADGER_API_KEY', nil) %>">
+<meta name="amplitude-api-key" content="<%= ENV.fetch('AMPLITUDE_API_KEY', nil) %>">
 <meta name="current-env" content="<%= Rails.env %>">
+<% if user_signed_in? %>
+  <meta name="amplitude-user-id" content="<%= current_user.id %>">
+<% end %>
 
 <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload', defer: false %>
 
