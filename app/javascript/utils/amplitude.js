@@ -32,6 +32,7 @@ const initializeAmplitude = () => {
 
   if (!initialized) {
     const options = {
+      minIdLength: 1,
       defaultTracking: true
     }
 
