@@ -43,12 +43,6 @@ const initializeAmplitude = () => {
 
   amplitude.setUserId(userId)
 
-  amplitude.track('Page View', {
-    page_location: window.location.href,
-    page_path: window.location.pathname,
-    page_title: document.title
-  })
-
   identifyUser()
 }
 
