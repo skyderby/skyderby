@@ -13,7 +13,8 @@
 <meta name="amplitude-api-key" content="<%= ENV.fetch('AMPLITUDE_API_KEY', nil) %>">
 <meta name="current-env" content="<%= Rails.env %>">
 <% if user_signed_in? %>
-  <meta name="amplitude-user-id" content="<%= current_user.id %>">
+  <meta name="current-user-id" content="<%= current_user.id %>">
+  <meta name="current-user-name" content="<%= current_user.name %>">
 <% end %>
 
 <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload', defer: false %>
