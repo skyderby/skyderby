@@ -128,7 +128,8 @@ class ResultsCopyTest < ApplicationSystemTestCase
     assert distance_round
     assert speed_round
 
-    result1 = distance_round.results.joins(:competitor).find_by(event_competitors: { profile_id: @competitor1.profile_id })
+    result1 = distance_round.results.joins(:competitor)
+                            .find_by(event_competitors: { profile_id: @competitor1.profile_id })
     result2 = speed_round.results.joins(:competitor).find_by(event_competitors: { profile_id: @competitor2.profile_id })
 
     assert result1

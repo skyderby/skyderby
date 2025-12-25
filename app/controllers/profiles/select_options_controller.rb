@@ -4,8 +4,8 @@ class Profiles::SelectOptionsController < ApplicationController
   def index
     @profiles =
       Profile
-        .search(params[:term])
-        .order(:name)
-        .paginate(page:, per_page: 25)
+      .search(params[:term])
+      .order(:name)
+      .paginate(page:, per_page: 25)
   end
 end

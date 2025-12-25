@@ -93,10 +93,10 @@ group :development, :test do
 end
 
 group :test do
-  gem 'minitest'
-  gem 'minitest-mock'
   gem 'capybara'
   gem 'codeclimate-test-reporter', require: false
+  gem 'minitest'
+  gem 'minitest-mock'
   gem 'selenium-webdriver'
   gem 'simplecov'
   gem 'vcr'

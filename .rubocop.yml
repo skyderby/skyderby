@@ -43,6 +43,7 @@ Metrics/BlockLength:
   Exclude:
     - app/views/**/*.json.jbuilder
     - app/views/**/*.xml.builder
+    - app/views/**/*.axlsx
     - config/**/*
     - test/**/*
 

@@ -2,7 +2,7 @@ wb = xlsx_package.workbook
 
 styles = {
   title: wb.styles.add_style(sz: 16, b: true, alignment: { horizontal: :center }),
-  header: wb.styles.add_style(sz: 12, b: true, alignment: { horizontal: :center }, 
+  header: wb.styles.add_style(sz: 12, b: true, alignment: { horizontal: :center },
                               border: { style: :thin, color: '000000' },
                               bg_color: 'F0F0F0'),
   rank: wb.styles.add_style(alignment: { horizontal: :center },
@@ -27,7 +27,7 @@ styles = {
     sheet.add_row ["#{category.name} Category Scoreboard"], style: styles[:title]
     sheet.add_row
 
-    header_cells = ['Rank', 'Name', 'Country']
+    header_cells = %w[Rank Name Country]
     @scoreboard.rounds_by_discipline.each do |discipline, rounds|
       rounds.each do |round|
         header_cells << "#{discipline.capitalize} #{round.number}"
@@ -41,7 +41,7 @@ styles = {
 
     standings.rows.each do |row|
       competitor_cells = [row.rank, row.competitor.name, row.competitor.country_code]
-      
+
       @scoreboard.rounds_by_discipline.each do |discipline, rounds|
         rounds.each do |round|
           result = row.result_in_round(round)
@@ -52,12 +52,12 @@ styles = {
             competitor_cells += [nil, nil]
           end
         end
-        
+
         points_in_discipline = row.points_in_disciplines[discipline]
-        competitor_cells << (points_in_discipline&.to_f || 0.0)
+        competitor_cells << (points_in_discipline.to_f)
       end
-      
-      competitor_cells << (row.total_points&.to_f || 0.0)
+
+      competitor_cells << (row.total_points.to_f)
 
       cell_styles = [styles[:rank], styles[:competitor], styles[:competitor]]
       (@scoreboard.rounds_by_discipline.values.flatten.count * 2 + @scoreboard.rounds_by_discipline.count).times do
@@ -77,7 +77,7 @@ wb.add_worksheet(name: 'Open Standings') do |sheet|
   sheet.add_row ['Open Standings Scoreboard'], style: styles[:title]
   sheet.add_row
 
-  header_cells = ['Rank', 'Name', 'Country', 'Category']
+  header_cells = %w[Rank Name Country Category]
   open_scoreboard.rounds_by_discipline.each do |discipline, rounds|
     rounds.each do |round|
       header_cells << "#{discipline.capitalize} #{round.number}"
@@ -91,26 +91,27 @@ wb.add_worksheet(name: 'Open Standings') do |sheet|
 
   open_scoreboard.standings.rows.each do |row|
     competitor_cells = [row.rank, row.competitor.name, row.competitor.country_code, row.competitor.category.name]
-    
+
     open_scoreboard.rounds_by_discipline.each do |discipline, rounds|
       rounds.each do |round|
         result = row.result_in_round(round)
         if result
           competitor_cells << result.formatted_result
-          competitor_cells << (result.points&.to_f || 0.0)
+          competitor_cells << (result.points.to_f)
         else
           competitor_cells += [nil, 0.0]
         end
       end
-      
+
       points_in_discipline = row.points_in_disciplines[discipline]
-      competitor_cells << (points_in_discipline&.to_f || 0.0)
+      competitor_cells << (points_in_discipline.to_f)
     end
-    
+
     competitor_cells << row.total_points.to_f
 
     cell_styles = [styles[:rank], styles[:competitor], styles[:competitor], styles[:competitor]]
-    (open_scoreboard.rounds_by_discipline.values.flatten.count * 2 + open_scoreboard.rounds_by_discipline.count).times do
+    results_count = open_scoreboard.rounds_by_discipline.values.flatten.count * 2
+    (results_count + open_scoreboard.rounds_by_discipline.count).times do
       cell_styles << styles[:result]
     end
     cell_styles << styles[:total]
@@ -122,14 +123,14 @@ end
 tasks = @event.rounds.pluck(:discipline).uniq
 tasks.each do |task|
   task_scoreboard = @event.task_standings(task, wind_cancellation: @event.wind_cancellation)
-  
+
   wb.add_worksheet(name: "#{task.capitalize} Task") do |sheet|
     sheet.add_row
     sheet.add_row [@event.name], style: styles[:title]
     sheet.add_row ["#{task.capitalize} Task Scoreboard"], style: styles[:title]
     sheet.add_row
 
-    header_cells = ['Rank', 'Name', 'Country', 'Category']
+    header_cells = %w[Rank Name Country Category]
     task_scoreboard.rounds.each do |round|
       header_cells << "Round #{round.number}"
       header_cells << 'Points'
@@ -140,18 +141,18 @@ tasks.each do |task|
 
     task_scoreboard.standings.rows.each do |row|
       competitor_cells = [row.rank, row.competitor.name, row.competitor.country_code, row.competitor.category.name]
-      
+
       task_scoreboard.rounds.each do |round|
         result = row.result_in_round(round)
         if result
           competitor_cells << result.formatted_result
-          competitor_cells << (result.points&.to_f || 0.0)
+          competitor_cells << (result.points.to_f)
         else
           competitor_cells += [nil, 0.0]
         end
       end
-      
-      competitor_cells << (row.total_points&.to_f || 0.0)
+
+      competitor_cells << (row.total_points.to_f)
 
       cell_styles = [styles[:rank], styles[:competitor], styles[:competitor], styles[:competitor]]
       (task_scoreboard.rounds.count * 2).times do
@@ -166,21 +167,21 @@ end
 
 if @event.use_teams
   team_scoreboard = @event.team_standings(wind_cancellation: @event.wind_cancellation)
-  
+
   wb.add_worksheet(name: 'Team Standings') do |sheet|
     sheet.add_row
     sheet.add_row [@event.name], style: styles[:title]
     sheet.add_row ['Team Standings'], style: styles[:title]
     sheet.add_row
 
-    header_cells = ['Rank', 'Team', 'Competitor', 'Score', 'Total']
+    header_cells = %w[Rank Team Competitor Score Total]
 
     sheet.add_row header_cells, style: styles[:header]
 
     team_scoreboard.ranking.each_with_index do |row, index|
       team = row.team
       individual_standings = row.ranks
-      
+
       if individual_standings.any?
         first_row = individual_standings.first
         team_cells = [
@@ -190,9 +191,10 @@ if @event.use_teams
           first_row.total_points.to_f,
           row.total_points.round(1)
         ]
-        sheet.add_row team_cells, style: [styles[:rank], styles[:competitor], styles[:competitor], styles[:result], styles[:total]]
-        
-        individual_standings[1..-1].each do |individual_row|
+        sheet.add_row team_cells,
+                      style: [styles[:rank], styles[:competitor], styles[:competitor], styles[:result], styles[:total]]
+
+        individual_standings[1..].each do |individual_row|
           competitor_cells = [
             '',
             '',
@@ -200,7 +202,9 @@ if @event.use_teams
             individual_row.total_points.to_f,
             ''
           ]
-          sheet.add_row competitor_cells, style: [styles[:competitor], styles[:competitor], styles[:competitor], styles[:result], styles[:competitor]]
+          sheet.add_row competitor_cells,
+                        style: [styles[:competitor], styles[:competitor], styles[:competitor], styles[:result],
+                                styles[:competitor]]
         end
       else
         team_cells = [
@@ -210,7 +214,9 @@ if @event.use_teams
           '-',
           row.total_points.round(1)
         ]
-        sheet.add_row team_cells, style: [styles[:rank], styles[:competitor], styles[:competitor], styles[:competitor], styles[:total]]
+        sheet.add_row team_cells,
+                      style: [styles[:rank], styles[:competitor], styles[:competitor], styles[:competitor],
+                              styles[:total]]
       end
     end
   end
@@ -221,7 +227,7 @@ wb.add_worksheet(name: 'Competitors') do |sheet|
   sheet.add_row [@event.name], style: styles[:title]
   sheet.add_row ['Competitors List'], style: styles[:title]
   sheet.add_row
-  
+
   sheet.add_row ['Skyderby ID', 'Name', 'Country', 'Category', 'Suit Make', 'Suit'], style: styles[:header]
   @event.competitors.each do |competitor|
     sheet.add_row [
@@ -231,6 +237,6 @@ wb.add_worksheet(name: 'Competitors') do |sheet|
       competitor.category.name,
       competitor.suit.manufacturer_name,
       competitor.suit.name
-    ], style: [styles[:result], styles[:competitor], styles[:competitor], styles[:competitor], styles[:competitor], styles[:competitor]]
+    ], style: [styles[:result]] + [styles[:competitor]] * 5
   end
 end

@@ -4,10 +4,10 @@ class Tracks::SelectOptionsController < ApplicationController
   def index
     @tracks =
       Track
-        .order(recorded_at: :desc)
-        .then { |tracks| profile_id ? tracks.where(profile_id: profile_id) : tracks }
-        .search(search_query)
-        .paginate(page:, per_page: 25)
+      .order(recorded_at: :desc)
+      .then { |tracks| profile_id ? tracks.where(profile_id: profile_id) : tracks }
+      .search(search_query)
+      .paginate(page:, per_page: 25)
   end
 
   private
