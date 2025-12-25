@@ -1,6 +1,6 @@
-<%# locals: (**local_assigns) %>
+<%# locals: (**attrs) %>
 
-<%= render 'hot_select/omni_search', **local_assigns, placeholder: 'Search of filter tracks...' do %>
+<%= render 'hot_select/omni_search', **attrs, placeholder: 'Search of filter tracks...' do %>
   <%= render 'hot_select/local_options', 'data-omni-search-target': 'typeSelect' do %>
     <div class="hot-select-option" data-value="year[]" data-label="Year">
       <%= svg_icon 'calendar-days-solid' %>

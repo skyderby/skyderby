@@ -1,6 +1,6 @@
-<%# locals: (options: [], **local_assigns) %>
+<%# locals: (options: [], **attrs) %>
 
-<%= tag.div 'data-controller': 'omni-search', class: 'form-input hot-select-container hot-select-control', **local_assigns do %>
+<%= tag.div 'data-controller': 'omni-search', class: 'form-input hot-select-container hot-select-control', **attrs do %>
   <template data-omni-search-target="tagTemplate">
     <%= render 'hot_select/tag' %>
   </template>
@@ -15,7 +15,7 @@
     <div class="hot-select-placeholder"
          data-action="click->omni-search#toggle"
          data-hot-select-target="placeholder">
-      <%= local_assigns[:placeholder] || raw('&nbsp;') %>
+      <%= attrs[:placeholder] || raw('&nbsp;') %>
     </div>
   </div>
   <div class="hot-select-indicators">
