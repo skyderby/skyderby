@@ -28,6 +28,7 @@ const initializeAmplitude = () => {
   if (!apiKey) return
 
   const userId = getUserId()
+  if (!userId) return
 
   if (!initialized) {
     const options = {
