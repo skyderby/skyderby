@@ -1,7 +1,5 @@
-<%= render 'components/modal', title: t('static_pages.index.track_form.title'), modal_size: 'md' do %>
+<%= render 'components/dialog', title: t('static_pages.index.track_form.title'), dialog_size: 'lg' do %>
   <%= form_with scope: :track_file, url: track_files_path, multipart: true, class: 'sd-form', data: { controller: 'tracks--form' } do |f| %>
-
-    <%#= render 'concerns/upload_progress' %>
 
     <% unless user_signed_in? %>
       <%= f.fields_for :track_attributes do |builder| %>
@@ -102,7 +100,7 @@
 
     <div class="form-actions">
       <%= f.submit t('static_pages.index.track_form.submit'), class: 'primary-button' %>
-      <button type="button" class="default-button" data-action="modal#close"><%= t('general.cancel') %></button>
+      <button type="button" class="default-button" data-action="dialog#close"><%= t('general.cancel') %></button>
     </div>
   <% end %>
 <% end %>

@@ -265,7 +265,6 @@ Skyderby::Application.routes.draw do
       resource :points, only: :show
 
       collection do
-        resource :upload, only: :new, as: :tracks_upload
         resources :select_options, only: :index, as: :tracks_select_options
       end
     end

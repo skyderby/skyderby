@@ -244,6 +244,17 @@ export default class HotSelect extends Controller {
   }
 
   get dropdownRoot() {
+    const dialog = this.element.closest('dialog')
+    if (dialog) {
+      let root = dialog.querySelector('.dialog-dropdown-root')
+      if (!root) {
+        root = document.createElement('div')
+        root.className = 'dialog-dropdown-root'
+        dialog.appendChild(root)
+      }
+      return root
+    }
+
     return document.getElementById('dropdown-root')
   }
 

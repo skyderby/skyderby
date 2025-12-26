@@ -22,7 +22,10 @@
 
   <section class="text-center">
     <% if user_signed_in? %>
-      <%= link_to new_tracks_upload_path, class: 'btn btn-success btn-lg' do %>
+      <%= button_to new_track_file_path,
+                    method: :get,
+                    form: { data: { turbo_stream: true } },
+                    class: 'btn btn-success btn-lg' do %>
         <i class="fa fa-upload"></i>
         <%= t('application.header.upload_track') %>
       <% end %>

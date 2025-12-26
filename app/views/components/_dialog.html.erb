@@ -1,0 +1,16 @@
+<%# locals: (title:, dialog_size: 'md') %>
+
+<div data-controller="dialog">
+  <dialog class="dialog dialog-size-<%= dialog_size %>" data-dialog-target="dialog">
+    <div class="dialog-header">
+      <h2 class="dialog-title"><%= title %></h2>
+      <button class="dialog-close" aria-label="Close" data-action="dialog#close">
+        <%= svg_icon 'xmark' %>
+      </button>
+    </div>
+
+    <div class="dialog-body">
+      <%= yield %>
+    </div>
+  </dialog>
+</div>

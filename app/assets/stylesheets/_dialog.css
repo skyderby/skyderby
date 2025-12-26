@@ -1,0 +1,144 @@
+.dialog {
+  border: 0;
+  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+  padding: 0;
+  background-color: var(--white);
+  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 100%;
+  max-height: calc(100vh - 2rem);
+  margin: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.2s ease, transform 0.2s ease, overlay 0.2s ease allow-discrete, display 0.2s ease allow-discrete;
+}
+
+.dialog[open] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@starting-style {
+  .dialog[open] {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+.dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.2s ease, overlay 0.2s ease allow-discrete, display 0.2s ease allow-discrete;
+}
+
+.dialog[open]::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+@starting-style {
+  .dialog[open]::backdrop {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@media (min-width: 576px) {
+  .dialog {
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: calc(100vw - 2rem);
+    margin: auto;
+    transform: scale(0.9);
+  }
+
+  .dialog[open] {
+    transform: scale(1);
+  }
+
+  @starting-style {
+    .dialog[open] {
+      transform: scale(0.9);
+    }
+  }
+}
+
+.dialog-size-md {
+  width: 100%;
+}
+
+@media (min-width: 576px) {
+  .dialog-size-md {
+    width: 500px;
+  }
+}
+
+.dialog-size-lg {
+  width: 100%;
+}
+
+@media (min-width: 960px) {
+  .dialog-size-lg {
+    width: 960px;
+  }
+}
+
+.dialog-header {
+  display: flex;
+  padding: 0.75rem 1rem;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--gray-30);
+  flex-shrink: 0;
+}
+
+.dialog-title {
+  line-height: 1;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.025em;
+  color: var(--gray-80);
+  margin: 0;
+}
+
+.dialog-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  background: transparent;
+  color: var(--gray-60);
+  cursor: pointer;
+  border-radius: var(--border-radius-sm);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dialog-close:hover {
+  background-color: var(--gray-20);
+  color: var(--gray-80);
+}
+
+.dialog-close svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.dialog-body {
+  padding: 1rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+@media (max-width: 575px) {
+  .dialog-body .grid {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+
+  .dialog-body .form-label {
+    text-align: left;
+  }
+}
