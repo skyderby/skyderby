@@ -78,11 +78,9 @@ class PerformanceCompetition < ApplicationRecord
   def track_amplitude_event
     Amplitude.track(
       user_id: responsible_id,
-      event: 'Competition Created',
+      event: 'competition_created',
       properties: {
-        type: 'performance',
-        visibility: visibility,
-        country: place&.country&.code
+        type: 'performance', visibility:, country: place&.country&.code
       }
     )
   end

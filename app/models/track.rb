@@ -160,11 +160,9 @@ class Track < ApplicationRecord
 
     Amplitude.track(
       user_id: owner_id,
-      event: 'Track Uploaded',
+      event: 'track_uploaded',
       properties: {
-        kind: kind,
-        visibility: visibility,
-        country: place&.country&.code
+        kind:, visibility:, country: place&.country&.code
       }
     )
   end

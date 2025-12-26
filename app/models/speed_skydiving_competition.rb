@@ -49,11 +49,9 @@ class SpeedSkydivingCompetition < ApplicationRecord
   def track_amplitude_event
     Amplitude.track(
       user_id: responsible_id,
-      event: 'Competition Created',
+      event: 'competition_created',
       properties: {
-        type: 'speed_skydiving',
-        visibility: visibility,
-        country: place&.country&.code
+        type: 'speed_skydiving', visibility:, country: place&.country&.code
       }
     )
   end
