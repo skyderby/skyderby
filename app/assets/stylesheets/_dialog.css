@@ -6,7 +6,7 @@
   box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 100%;
-  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
   margin: auto 0 0 0;
   display: flex;
   flex-direction: column;
@@ -131,6 +131,11 @@
 }
 
 @media (max-width: 575px) {
+  .dialog {
+    height: auto;
+    max-height: 90dvh;
+  }
+
   .dialog-body .grid {
     display: flex;
     flex-direction: column;
