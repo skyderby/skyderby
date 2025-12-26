@@ -22,3 +22,17 @@ de:
         help: "Unterstützte Formate: csv (Columbus, FlySight), gpx, tes und kml"
         comment_plh: Gib einen Kommentar zu deinem Flug ein
         submit: Hochladen
+      mobile:
+        stats:
+          registered_pilots: Registrierte Piloten
+          tracks_recorded: Aufgezeichnete Tracks
+        flights_section:
+          header: Flüge
+          subheader: aus allen Blickwinkeln
+          description: Wie schnell bin ich geflogen? Wie viel hat der Wind dazu beigetragen? Du wirst leicht Antworten auf diese Fragen finden, sowie deinen Track auf der Karte anzeigen, in 3D betrachten, mit Video synchronisieren und vieles mehr.
+        competitions_section:
+          header: Online Wettbewerbe
+          subheader: verraten viel
+        free_section:
+          header: Kostenlos
+          subheader: und ohne Werbung

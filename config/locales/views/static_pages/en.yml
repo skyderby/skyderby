@@ -25,3 +25,17 @@ en:
       about_me:
         greeting: Hi! My name is Aleksandr
         message: I'm creator of Skyderby. Do you have a question? Don't hesitate give me a message or even call.
+      mobile:
+        stats:
+          registered_pilots: Registered pilots
+          tracks_recorded: Tracks recorded
+        flights_section:
+          header: Flights
+          subheader: from all angles
+          description: How fast was I flying? How much did the wind add? You will easily find answers to these questions, as well as view your track on a map, in 3D, sync with video and much more.
+        competitions_section:
+          header: Online competitions
+          subheader: will tell you a lot
+        free_section:
+          header: Free
+          subheader: and no ads

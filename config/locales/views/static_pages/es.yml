@@ -22,3 +22,17 @@ es:
         help: Los archivos se abren en los formatos csv, tes, gpx y kml
         comment_plh: Deje un comentario sobre tu vuelo
         submit: Descargar
+      mobile:
+        stats:
+          registered_pilots: Pilotos registrados
+          tracks_recorded: Pistas grabadas
+        flights_section:
+          header: Vuelos
+          subheader: desde todos los ángulos
+          description: ¿Qué tan rápido volé? ¿Cuánto añadió el viento? Encontrarás fácilmente respuestas a estas preguntas, además de ver tu pista en el mapa, en 3D, sincronizar con video y mucho más.
+        competitions_section:
+          header: Competiciones en línea
+          subheader: te dirán mucho
+        free_section:
+          header: Gratis
+          subheader: y sin publicidad

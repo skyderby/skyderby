@@ -11,11 +11,11 @@
     <ul class="landing__stats-list">
       <li class="landing__stats-item">
         <div class="landing__stats-count"><%= @page.users_count %></div>
-        <div class="landing__stats-caption">Registered pilots</div>
+        <div class="landing__stats-caption"><%= t('static_pages.index.mobile.stats.registered_pilots') %></div>
       </li>
       <li class="landing__stats-item">
         <div class="landing__stats-count"><%= @page.tracks_count %></div>
-        <div class="landing__stats-caption">Tracks recorded</div>
+        <div class="landing__stats-caption"><%= t('static_pages.index.mobile.stats.tracks_recorded') %></div>
       </li>
     </ul>
   </section>
@@ -36,23 +36,21 @@
   </section>
 
   <section class="landing__section">
-    <h2 class="landing__section-header">Полёты</h2>
-    <p class="landing__section-subheader">во всех ракурсах</p>
+    <h2 class="landing__section-header"><%= t('static_pages.index.mobile.flights_section.header') %></h2>
+    <p class="landing__section-subheader"><%= t('static_pages.index.mobile.flights_section.subheader') %></p>
     <img class="landing__section-image" src="<%= asset_path('tracks-overview-mobile.png') %>">
     <p class="landing__section-description">
-      С какой скоростью я летел? А сколько из нее добавлял ветер?
-      Вам будет легко найти ответы на эти вопросы, а также посмотреть на трек на
-      карте, в 3D, синхронизировать с видео и многое другое
+      <%= t('static_pages.index.mobile.flights_section.description') %>
     </p>
   </section>
 
   <section class="landing__section">
-    <h2 class="landing__section-header">Онлайн соревнования</h2>
-    <p class="landing__section-subheader">расскажут о многом</p>
+    <h2 class="landing__section-header"><%= t('static_pages.index.mobile.competitions_section.header') %></h2>
+    <p class="landing__section-subheader"><%= t('static_pages.index.mobile.competitions_section.subheader') %></p>
   </section>
 
   <section class="landing__section">
-    <h2 class="landing__section-header">Бесплатно</h2>
-    <p class="landing__section-subheader">и без рекламы</p>
+    <h2 class="landing__section-header"><%= t('static_pages.index.mobile.free_section.header') %></h2>
+    <p class="landing__section-subheader"><%= t('static_pages.index.mobile.free_section.subheader') %></p>
   </section>
 </div>

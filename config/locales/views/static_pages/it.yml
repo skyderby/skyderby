@@ -25,3 +25,17 @@ it:
       about_me:
         greeting: Ciao! Mi chiamo Aleksandr
         message: Sono il creatore di Skyderby. Hai qualche domanda? Non esitare a scrivermi o anche a chiamarmi.
+      mobile:
+        stats:
+          registered_pilots: Piloti registrati
+          tracks_recorded: Tracce registrate
+        flights_section:
+          header: Voli
+          subheader: da tutte le angolazioni
+          description: A che velocità stavo volando? Quanto ha aggiunto il vento? Troverai facilmente risposte a queste domande, oltre a visualizzare la tua traccia sulla mappa, in 3D, sincronizzare con il video e molto altro.
+        competitions_section:
+          header: Competizioni online
+          subheader: ti diranno molto
+        free_section:
+          header: Gratuito
+          subheader: e senza pubblicità
