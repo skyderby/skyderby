@@ -88,7 +88,10 @@ export default class HotSelect extends Controller {
   onClickOutside(event) {
     if (!this.isOpen) return
 
-    if (!this.element.contains(event.target)) {
+    const clickedInside =
+      this.element.contains(event.target) || this.dropdownContainer.contains(event.target)
+
+    if (!clickedInside) {
       this.close()
     }
   }
@@ -191,6 +194,8 @@ export default class HotSelect extends Controller {
 
   choose(event) {
     const optionElement = event.target.closest('.hot-select-option')
+    if (!optionElement) return
+
     const value = optionElement.getAttribute('data-value')
     const text = optionElement.innerHTML
 
