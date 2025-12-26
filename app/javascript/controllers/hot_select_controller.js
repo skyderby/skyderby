@@ -15,6 +15,7 @@ export default class HotSelect extends Controller {
     this.close = this.close.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
 
+    this.instanceId = `hot_select_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`
     this.focusedOptionIndex = -1
 
     document.addEventListener('click', this.onClickOutside)
@@ -44,7 +45,7 @@ export default class HotSelect extends Controller {
 
     if (!this.isOpen) return this.close()
 
-    this.dropdownRoot.innerHTML = this.dropdownTarget.innerHTML
+    this.dropdownContainer.innerHTML = this.dropdownTarget.innerHTML
     this.copyOptionsFromSelect()
     this.selectableContainer.addEventListener('click', this.choose.bind(this))
 
@@ -77,7 +78,7 @@ export default class HotSelect extends Controller {
   }
 
   close() {
-    this.dropdownRoot.replaceChildren()
+    this.dropdownContainer.remove()
     this.element.classList.remove('hot-select--open')
     this.element.setAttribute('aria-expanded', 'false')
     document.removeEventListener('keydown', this.onKeyDown)
@@ -241,16 +242,26 @@ export default class HotSelect extends Controller {
     return document.getElementById('dropdown-root')
   }
 
+  get dropdownContainer() {
+    let container = document.getElementById(this.instanceId)
+    if (!container) {
+      container = document.createElement('div')
+      container.id = this.instanceId
+      this.dropdownRoot.appendChild(container)
+    }
+    return container
+  }
+
   get dropdown() {
-    return this.dropdownRoot.querySelector('.hot-select-dropdown')
+    return this.dropdownContainer.querySelector('.hot-select-dropdown')
   }
 
   get optionsContainer() {
-    return this.dropdownRoot.querySelector('.hot-select-options')
+    return this.dropdownContainer.querySelector('.hot-select-options')
   }
 
   get selectableContainer() {
-    return this.dropdownRoot.querySelector('.hot-select-selectable')
+    return this.dropdownContainer.querySelector('.hot-select-selectable')
   }
 
   get hasSearch() {

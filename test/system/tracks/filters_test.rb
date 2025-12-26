@@ -1,6 +1,6 @@
 require 'application_system_test_case'
 
-class FiltersTest < ApplicationSystemTestCase
+class Tracks::FiltersTest < ApplicationSystemTestCase
   test 'Filter by suit' do
     3.times do |x|
       suit = create :suit, name: "suit-#{x}"
