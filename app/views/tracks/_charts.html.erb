@@ -1,6 +1,6 @@
 <% if presenter.separate_charts? %>
   <div class="track-charts-container" data-controller="synchronized-charts"
-       data-action="mousemove->synchronized-charts#refresh_tooltip touchmove->synchronized-charts#refresh_tooltip touchstart->synchronized-charts#refresh_tooltip">
+       data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip">
     <div id="glideratio_chart" class="track-charts__chart" data-synchronized-charts-target="chart"></div>
     <div id="speeds_chart" class="track-charts__chart" data-synchronized-charts-target="chart"></div>
     <div id="elevation_distance_chart" class="track-charts__chart" data-synchronized-charts-target="chart"></div>

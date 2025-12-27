@@ -52,7 +52,7 @@
     <% if Current.charts_mode.separate? %>
       <div class="performance-flying-separate-charts"
            data-controller="synchronized-charts"
-           data-action="mousemove->synchronized-charts#refresh_tooltip touchmove->synchronized-charts#refresh_tooltip touchstart->synchronized-charts#refresh_tooltip">
+           data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip">
         <div data-tracks--skydive-track-target="accuracyChart"
              data-synchronized-charts-target="chart"></div>
         <div data-tracks--skydive-track-target="glideChart"

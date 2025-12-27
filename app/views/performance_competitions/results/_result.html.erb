@@ -18,11 +18,13 @@
     <hr />
 
     <% if Current.charts_mode.separate? %>
-      <div class="performance-flying-separate-charts">
-        <div data-performance-flying-charts-target="accuracyChart"></div>
-        <div data-performance-flying-charts-target="glideChart"></div>
-        <div data-performance-flying-charts-target="speedChart"></div>
-        <div data-performance-flying-charts-target="altitudeDistanceChart"></div>
+      <div class="performance-flying-separate-charts"
+           data-controller="synchronized-charts"
+           data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip">
+        <div data-performance-flying-charts-target="accuracyChart" data-synchronized-charts-target="chart"></div>
+        <div data-performance-flying-charts-target="glideChart" data-synchronized-charts-target="chart"></div>
+        <div data-performance-flying-charts-target="speedChart" data-synchronized-charts-target="chart"></div>
+        <div data-performance-flying-charts-target="altitudeDistanceChart" data-synchronized-charts-target="chart"></div>
       </div>
     <% else %>
       <div class="performance-flying-combined-chart" data-performance-flying-charts-target="combinedChart"></div>
