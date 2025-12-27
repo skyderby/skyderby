@@ -37,6 +37,7 @@ ru:
       best_results: 'Лучшие результаты'
       window: 'окно'
       loading: 'Загрузка данных трека'
+      full_jump: 'Весь прыжок'
     choose:
       title: 'Выберите трек для загрузки'
       number: 'Номер'

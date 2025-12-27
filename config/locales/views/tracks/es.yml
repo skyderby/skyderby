@@ -36,6 +36,7 @@ es:
       best_results: 'Best results'
       window: 'window'
       loading: 'Loading track data'
+      full_jump: 'Salto completo'
     choose:
       title: 'Elige la pista para descargar'
       number: 'Número'

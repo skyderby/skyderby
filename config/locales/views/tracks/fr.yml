@@ -36,6 +36,7 @@ fr:
       best_results: Meilleurs résultats
       window: Fenêtre
       loading: Chargmenet des données de l'enregistrement
+      full_jump: Saut complet
     choose:
       title: Sélectionner l'enregistrement à télécharger
       number: '#'

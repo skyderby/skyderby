@@ -1,0 +1,75 @@
+<div class="show-page">
+  <%= render partial: 'header', locals: { track: @track } %>
+
+  <div class="track-show-content"
+       data-controller="tracks--skydive-track"
+       data-tracks--skydive-track-points-url-value="<%= track_points_path(@track, original_frequency: true) %>"
+       data-tracks--skydive-track-chart-type-value="<%= Current.charts_mode %>"
+       data-tracks--skydive-track-tracks--range-selector-outlet="#range-selector"
+       data-action="tracks--range-selector:change->tracks--skydive-track#updateRange">
+    <div class="card-action">
+      <button class="btn-flat toggle-straight-line"
+              data-tracks--skydive-track-target="straightLineButton"
+              data-action="tracks--skydive-track#toggleStraightLine">
+        Straight-line distance
+      </button>
+      <div class="dropdown settings-button">
+        <%= render 'tracks/view_settings_menu' %>
+      </div>
+    </div>
+
+    <%= render 'tracks/skydive_indicators' %>
+
+    <hr class="top-buffer">
+
+    <div class="track-jump-range">
+      <div class="form-group">
+        <input id="range-selector" class="hidden" type="text" name="range" data-controller="tracks--range-selector">
+      </div>
+
+      <div class="range-shortcuts">
+        <button class="btn btn-xs btn-default button--rounded hidden"
+                data-tracks--skydive-track-target="range3000to2000"
+                data-action="tracks--skydive-track#setRange"
+                data-from="3000"
+                data-to="2000">
+          3000 — 2000<%= t('units.m') %>
+        </button>
+        <button class="btn btn-xs btn-default button--rounded hidden"
+                data-tracks--skydive-track-target="range2500to1500"
+                data-action="tracks--skydive-track#setRange"
+                data-from="2500"
+                data-to="1500">
+          2500 — 1500<%= t('units.m') %>
+        </button>
+        <button class="btn btn-xs btn-default button--rounded"
+                data-action="tracks--skydive-track#resetRange">
+          <%= t('tracks.show.full_jump') %>
+        </button>
+      </div>
+    </div>
+
+    <% if Current.charts_mode.separate? %>
+      <div class="performance-flying-separate-charts"
+           data-controller="synchronized-charts"
+           data-action="mousemove->synchronized-charts#refresh_tooltip touchmove->synchronized-charts#refresh_tooltip touchstart->synchronized-charts#refresh_tooltip">
+        <div data-tracks--skydive-track-target="accuracyChart"
+             data-synchronized-charts-target="chart"></div>
+        <div data-tracks--skydive-track-target="glideChart"
+             data-synchronized-charts-target="chart"></div>
+        <div data-tracks--skydive-track-target="speedChart"
+             data-synchronized-charts-target="chart"></div>
+        <div data-tracks--skydive-track-target="altitudeDistanceChart"
+             data-synchronized-charts-target="chart"></div>
+      </div>
+    <% else %>
+      <div class="performance-flying-combined-chart">
+        <div data-tracks--skydive-track-target="combinedChart"></div>
+      </div>
+    <% end %>
+
+    <blockquote>
+      <%= render 'track_metadata' %>
+    </blockquote>
+  </div>
+</div>

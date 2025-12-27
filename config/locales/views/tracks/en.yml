@@ -37,6 +37,7 @@ en:
       best_results: 'Best results'
       window: 'window'
       loading: 'Loading track data'
+      full_jump: 'Full jump'
     choose:
       title: 'Select a track to upload'
       number: '#'

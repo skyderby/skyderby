@@ -36,6 +36,7 @@ it:
       best_results: 'Migliori risultati'
       window: 'finestra'
       loading: 'Caricamento dati traccia'
+      full_jump: 'Salto completo'
     choose:
       title: 'Seleziona una traccia da caricare'
       number: '#'
