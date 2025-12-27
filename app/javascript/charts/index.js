@@ -1,10 +1,11 @@
-export { altitudeSeries } from './altitudeDistance'
-export { glideRatioSeries, zeroWindGlideRatioSeries } from './glideRatio'
+export { altitudeSeries, initAltitudeDistanceChart } from './altitudeDistance'
+export { glideRatioSeries, zeroWindGlideRatioSeries, initGlideChart } from './glideRatio'
 export {
   horizontalSpeedSeries,
   fullSpeedSeries,
   verticalSpeedSeries,
-  zeroWindSpeedSeries
+  zeroWindSpeedSeries,
+  initSpeedsChart
 } from './speed'
 export {
   tooltipFormatter,
@@ -14,3 +15,4 @@ export {
   findPositionForAltitude
 } from './utils'
 export { sep50Series, initAccuracyChart } from './sepChart'
+export { initCombinedChart } from './combined'

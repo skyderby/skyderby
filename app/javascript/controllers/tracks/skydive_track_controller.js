@@ -1,18 +1,12 @@
 import { Controller } from '@hotwired/stimulus'
 import I18n from 'i18n'
 import {
-  glideRatioSeries,
-  zeroWindGlideRatioSeries,
-  horizontalSpeedSeries,
-  verticalSpeedSeries,
-  fullSpeedSeries,
-  zeroWindSpeedSeries,
-  altitudeSeries,
-  restoreSeriesVisibility,
-  saveSeriesVisibility,
-  tooltipFormatter,
   findPositionForAltitude,
-  sep50Series
+  initAccuracyChart,
+  initGlideChart,
+  initSpeedsChart,
+  initAltitudeDistanceChart,
+  initCombinedChart
 } from 'charts'
 import cropPoints from 'utils/cropPoints'
 import RangeSummary from 'charts/RangeSummary'
@@ -372,382 +366,61 @@ export default class extends Controller {
   }
 
   initCombinedChart() {
-    const chartName = 'TrackCombinedChart'
-
-    const chartOptions = {
-      chart: {
-        height: 600,
-        events: {
-          load: function () {
-            restoreSeriesVisibility(chartName, this.series)
-          }
-        }
-      },
-      title: undefined,
-      plotOptions: {
-        spline: {
-          marker: {
-            enabled: false
-          }
-        },
-        series: {
-          marker: {
-            radius: 1
-          },
-          events: {
-            legendItemClick: function () {
-              saveSeriesVisibility(chartName, this.options.custom?.code, !this.visible)
-            }
-          },
-          states: {
-            inactive: {
-              enabled: false
-            }
-          }
-        }
-      },
-      xAxis: {
-        crosshair: true,
-        plotLines: this.altitudePlotLines({ includeLabels: true }),
-        plotBands: this.bufferPlotBands()
-      },
-      yAxis: [
-        {
-          title: {
-            text: I18n.t('charts.all_data.series.height')
-          },
-          tickInterval: 200
-        },
-        {
-          title: {
-            text: I18n.t('charts.all_data.axis.speed')
-          },
-          min: 0,
-          gridLineWidth: 0,
-          opposite: true
-        },
-        {
-          min: 0,
-          max: 7,
-          startOnTick: false,
-          endOnTick: false,
-          minPadding: 0.2,
-          maxPadding: 0.2,
-          gridLineWidth: 0,
-          title: {
-            text: I18n.t('charts.all_data.axis.gr')
-          },
-          labels: {
-            formatter: function () {
-              return this.isLast ? '≥ 7' : String(this.value)
-            }
-          },
-          opposite: true
-        },
-        {
-          min: 0,
-          max: 75,
-          visible: false
-        }
-      ],
-      tooltip: {
-        shared: true,
-        useHTML: true,
-        formatter: tooltipFormatter
-      },
-      credits: {
-        enabled: false
-      },
-      series: [
-        altitudeSeries(this.chartPoints, { yAxis: 0, color: '#aaa', type: 'spline' }),
-        horizontalSpeedSeries(this.chartPoints, { yAxis: 1 }),
-        verticalSpeedSeries(this.chartPoints, { yAxis: 1 }),
-        fullSpeedSeries(this.chartPoints, { yAxis: 1 }),
-        this.windCancellation && zeroWindSpeedSeries(this.chartPoints, { yAxis: 1 }),
-        glideRatioSeries(this.chartPoints, { yAxis: 2 }),
-        this.windCancellation && zeroWindGlideRatioSeries(this.chartPoints, { yAxis: 2 }),
-        sep50Series(this.chartPoints, { yAxis: 3 })
-      ].filter(Boolean)
-    }
-
-    this.combinedChartTarget.chart = Highcharts.chart(
+    this.combinedChartTarget.chart = initCombinedChart(
       this.combinedChartTarget,
-      chartOptions
+      this.chartPoints,
+      {
+        plotLines: this.altitudePlotLines({ includeLabels: true }),
+        plotBands: this.bufferPlotBands(),
+        windCancellation: this.windCancellation,
+        chartName: 'TrackCombinedChart'
+      }
     )
   }
 
   initAccuracyChart() {
-    const chartOptions = {
-      chart: {
-        type: 'area'
-      },
-      title: undefined,
-      credits: { enabled: false },
-      legend: { enabled: false },
-      xAxis: {
-        labels: { enabled: false },
-        tickWidth: 0,
+    this.accuracyChartTarget.chart = initAccuracyChart(
+      this.accuracyChartTarget,
+      this.chartPoints,
+      {
         plotLines: this.altitudePlotLines(),
         plotBands: this.bufferPlotBands()
-      },
-      yAxis: [
-        {
-          min: 0,
-          max: 15,
-          tickAmount: 3,
-          title: undefined,
-          labels: { enabled: false },
-          plotLines: [
-            {
-              value: 10,
-              color: '#9e0419',
-              dashStyle: 'Dash',
-              width: 1,
-              zIndex: 5
-            }
-          ]
-        }
-      ],
-      tooltip: {
-        crosshair: true,
-        shared: true,
-        useHTML: true,
-        formatter: tooltipFormatter
-      },
-      series: [sep50Series(this.chartPoints)]
-    }
-
-    this.accuracyChartTarget.chart = Highcharts.chart(
-      this.accuracyChartTarget,
-      chartOptions
+      }
     )
   }
 
   initGlideChart() {
-    const chartName = 'GlideChart'
-
-    const chartOptions = {
-      chart: {
-        type: 'spline',
-        styledMode: true,
-        events: function () {
-          restoreSeriesVisibility(chartName, this.series)
-        }
-      },
-      title: {
-        text: I18n.t('charts.gr.title'),
-        style: { color: 'var(--gray-80)', fontSize: '16px' }
-      },
-      plotOptions: {
-        spline: {
-          marker: {
-            enabled: false
-          }
-        },
-        series: {
-          marker: {
-            radius: 1
-          },
-          events: {
-            legendItemClick: function () {
-              saveSeriesVisibility(chartName, this.options.custom?.code, !this.visible)
-            }
-          }
-        }
-      },
-      tooltip: {
-        crosshairs: true,
-        shared: true,
-        valueDecimals: 2,
-        useHTML: true,
-        formatter: tooltipFormatter
-      },
-      xAxis: {
-        labels: {
-          enabled: false
-        },
-        tickWidth: 0,
+    this.glideChartTarget.chart = initGlideChart(
+      this.glideChartTarget,
+      this.chartPoints,
+      {
         plotLines: this.altitudePlotLines({ includeLabels: true }),
-        plotBands: this.bufferPlotBands()
-      },
-      yAxis: {
-        min: 0,
-        max: 7.5,
-        startOnTick: false,
-        endOnTick: false,
-        minPadding: 0.2,
-        maxPadding: 0.2,
-        tickInterval: 1,
-        title: {
-          text: null
-        },
-        labels: {
-          x: 20,
-          y: -2,
-          formatter: function () {
-            return this.isLast ? '≥ 7' : this.value
-          }
-        }
-      },
-      credits: { enabled: false },
-      series: [
-        glideRatioSeries(this.chartPoints),
-        this.windCancellation && zeroWindGlideRatioSeries(this.chartPoints)
-      ].filter(Boolean)
-    }
-
-    this.glideChartTarget.chart = Highcharts.chart(this.glideChartTarget, chartOptions)
+        plotBands: this.bufferPlotBands(),
+        windCancellation: this.windCancellation
+      }
+    )
   }
 
   initSpeedsChart() {
-    const chartName = 'SpeedsChart'
-
-    const chartOptions = {
-      chart: {
-        type: 'spline',
-        styledMode: true,
-        events: {
-          load: function () {
-            restoreSeriesVisibility(chartName, this.series)
-          }
-        }
-      },
-      title: {
-        text: I18n.t('charts.spd.title'),
-        style: { color: 'var(--gray-80)', fontSize: '16px' }
-      },
-      plotOptions: {
-        spline: {
-          marker: {
-            enabled: false
-          }
-        },
-        series: {
-          marker: {
-            radius: 1
-          },
-          events: {
-            legendItemClick: function () {
-              saveSeriesVisibility(chartName, this.options.custom?.code, !this.visible)
-            }
-          }
-        }
-      },
-      xAxis: {
-        labels: {
-          enabled: false
-        },
-        tickWidth: 0,
+    this.speedChartTarget.chart = initSpeedsChart(
+      this.speedChartTarget,
+      this.chartPoints,
+      {
         plotLines: this.altitudePlotLines(),
-        plotBands: this.bufferPlotBands()
-      },
-      yAxis: [
-        {
-          min: 0,
-          labels: {
-            x: 20,
-            y: -2,
-            style: {
-              color: Highcharts.getOptions().colors[1]
-            }
-          },
-          title: {
-            text: null,
-            style: {
-              color: Highcharts.getOptions().colors[1]
-            }
-          }
-        }
-      ],
-      tooltip: {
-        shared: true,
-        crosshairs: true,
-        useHTML: true,
-        valueDecimals: 0,
-        formatter: tooltipFormatter
-      },
-      credits: { enabled: false },
-      series: [
-        horizontalSpeedSeries(this.chartPoints),
-        verticalSpeedSeries(this.chartPoints),
-        fullSpeedSeries(this.chartPoints),
-        this.windCancellation && zeroWindSpeedSeries(this.chartPoints)
-      ].filter(Boolean)
-    }
-
-    this.speedChartTarget.chart = Highcharts.chart(this.speedChartTarget, chartOptions)
+        plotBands: this.bufferPlotBands(),
+        windCancellation: this.windCancellation
+      }
+    )
   }
 
   initAltitudeDistanceChart() {
-    const chartName = 'AltitudeDistance'
-
-    const chartOptions = {
-      chart: {
-        type: 'spline',
-        styledMode: true,
-        events: {
-          load: function () {
-            restoreSeriesVisibility(chartName, this.series)
-          }
-        }
-      },
-      title: {
-        text: I18n.t('charts.elev.title'),
-        style: { color: '#777', fontSize: '16px' }
-      },
-      plotOptions: {
-        spline: {
-          marker: {
-            enabled: false
-          }
-        },
-        area: {
-          marker: {
-            enabled: false
-          }
-        },
-        series: {
-          marker: {
-            radius: 1
-          },
-          events: {
-            legendItemClick: function () {
-              saveSeriesVisibility(chartName, this.options.custom?.code, !this.visible)
-            }
-          }
-        }
-      },
-      xAxis: {
-        labels: {
-          enabled: false
-        },
-        tickWidth: 0,
+    this.altitudeDistanceChartTarget.chart = initAltitudeDistanceChart(
+      this.altitudeDistanceChartTarget,
+      this.chartPoints,
+      {
         plotLines: this.altitudePlotLines(),
         plotBands: this.bufferPlotBands()
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: ''
-        },
-        labels: {
-          x: 20,
-          y: -2
-        }
-      },
-      tooltip: {
-        shared: true,
-        crosshairs: true,
-        useHTML: true,
-        formatter: tooltipFormatter
-      },
-      credits: { enabled: false },
-      series: [altitudeSeries(this.chartPoints)]
-    }
-
-    this.altitudeDistanceChartTarget.chart = Highcharts.chart(
-      this.altitudeDistanceChartTarget,
-      chartOptions
+      }
     )
   }
 

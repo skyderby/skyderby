@@ -1,4 +1,5 @@
 import I18n from 'i18n'
+import { restoreSeriesVisibility, saveSeriesVisibility, tooltipFormatter } from './utils'
 
 export const horizontalSpeedSeries = (points, options) => ({
   name: I18n.t('charts.all_data.series.horiz_speed'),
@@ -76,3 +77,86 @@ export const zeroWindSpeedSeries = (points, options) => ({
   dashStyle: 'ShortDash',
   ...options
 })
+
+export const initSpeedsChart = (
+  container,
+  points,
+  { plotLines = [], plotBands = [], windCancellation = false } = {}
+) => {
+  const chartName = 'SpeedsChart'
+
+  const chartOptions = {
+    chart: {
+      type: 'spline',
+      styledMode: true,
+      events: {
+        load: function () {
+          restoreSeriesVisibility(chartName, this.series)
+        }
+      }
+    },
+    title: {
+      text: I18n.t('charts.spd.title'),
+      style: { color: 'var(--gray-80)', fontSize: '16px' }
+    },
+    plotOptions: {
+      spline: {
+        marker: {
+          enabled: false
+        }
+      },
+      series: {
+        marker: {
+          radius: 1
+        },
+        events: {
+          legendItemClick: function () {
+            saveSeriesVisibility(chartName, this.options.custom?.code, !this.visible)
+          }
+        }
+      }
+    },
+    xAxis: {
+      labels: {
+        enabled: false
+      },
+      tickWidth: 0,
+      plotLines,
+      plotBands
+    },
+    yAxis: [
+      {
+        min: 0,
+        labels: {
+          x: 20,
+          y: -2,
+          style: {
+            color: Highcharts.getOptions().colors[1]
+          }
+        },
+        title: {
+          text: null,
+          style: {
+            color: Highcharts.getOptions().colors[1]
+          }
+        }
+      }
+    ],
+    tooltip: {
+      shared: true,
+      crosshairs: true,
+      useHTML: true,
+      valueDecimals: 0,
+      formatter: tooltipFormatter
+    },
+    credits: { enabled: false },
+    series: [
+      horizontalSpeedSeries(points),
+      verticalSpeedSeries(points),
+      fullSpeedSeries(points),
+      windCancellation && zeroWindSpeedSeries(points)
+    ].filter(Boolean)
+  }
+
+  return Highcharts.chart(container, chartOptions)
+}

@@ -1,3 +1,6 @@
+import I18n from 'i18n'
+import { restoreSeriesVisibility, saveSeriesVisibility, tooltipFormatter } from './utils'
+
 const clampGlideValue = val => Math.round(Math.min(Math.max(val, 0), 7) * 100) / 100
 
 export const glideRatioSeries = (points, options) => ({
@@ -44,3 +47,85 @@ export const zeroWindGlideRatioSeries = (points, options) => ({
   dashStyle: 'ShortDash',
   ...options
 })
+
+export const initGlideChart = (
+  container,
+  points,
+  { plotLines = [], plotBands = [], windCancellation = false } = {}
+) => {
+  const chartName = 'GlideChart'
+
+  const chartOptions = {
+    chart: {
+      type: 'spline',
+      styledMode: true,
+      events: {
+        load: function () {
+          restoreSeriesVisibility(chartName, this.series)
+        }
+      }
+    },
+    title: {
+      text: I18n.t('charts.gr.title'),
+      style: { color: 'var(--gray-80)', fontSize: '16px' }
+    },
+    plotOptions: {
+      spline: {
+        marker: {
+          enabled: false
+        }
+      },
+      series: {
+        marker: {
+          radius: 1
+        },
+        events: {
+          legendItemClick: function () {
+            saveSeriesVisibility(chartName, this.options.custom?.code, !this.visible)
+          }
+        }
+      }
+    },
+    tooltip: {
+      crosshairs: true,
+      shared: true,
+      valueDecimals: 2,
+      useHTML: true,
+      formatter: tooltipFormatter
+    },
+    xAxis: {
+      labels: {
+        enabled: false
+      },
+      tickWidth: 0,
+      plotLines,
+      plotBands
+    },
+    yAxis: {
+      min: 0,
+      max: 7.5,
+      startOnTick: false,
+      endOnTick: false,
+      minPadding: 0.2,
+      maxPadding: 0.2,
+      tickInterval: 1,
+      title: {
+        text: null
+      },
+      labels: {
+        x: 20,
+        y: -2,
+        formatter: function () {
+          return this.isLast ? '≥ 7' : this.value
+        }
+      }
+    },
+    credits: { enabled: false },
+    series: [
+      glideRatioSeries(points),
+      windCancellation && zeroWindGlideRatioSeries(points)
+    ].filter(Boolean)
+  }
+
+  return Highcharts.chart(container, chartOptions)
+}

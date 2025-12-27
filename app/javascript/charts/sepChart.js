@@ -27,7 +27,11 @@ export const sep50Series = (points, options) => {
   }
 }
 
-export const initAccuracyChart = (container, points, windowPlotLines = []) => {
+export const initAccuracyChart = (
+  container,
+  points,
+  { plotLines = [], plotBands = [] } = {}
+) => {
   const chartOptions = {
     chart: {
       type: 'area'
@@ -40,7 +44,8 @@ export const initAccuracyChart = (container, points, windowPlotLines = []) => {
         enabled: false
       },
       tickWidth: 0,
-      plotLines: windowPlotLines
+      plotLines,
+      plotBands
     },
     yAxis: [
       {
