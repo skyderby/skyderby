@@ -292,9 +292,15 @@ export default class extends Controller {
 
   updateIndicators() {
     this.distanceTarget.innerText = Math.floor(this.rangeSummary.distance)
-    this.glideRatioTarget.innerText = this.rangeSummary.glideRatio.avg.toFixed(2)
-    this.glideRatioMinTarget.innerText = this.rangeSummary.glideRatio.min.toFixed(2)
-    this.glideRatioMaxTarget.innerText = this.rangeSummary.glideRatio.max.toFixed(2)
+    this.glideRatioTarget.innerText = this.formatGlideRatio(
+      this.rangeSummary.glideRatio.avg
+    )
+    this.glideRatioMinTarget.innerText = this.formatGlideRatio(
+      this.rangeSummary.glideRatio.min
+    )
+    this.glideRatioMaxTarget.innerText = this.formatGlideRatio(
+      this.rangeSummary.glideRatio.max
+    )
     this.groundSpeedTarget.innerText = this.rangeSummary.horizontalSpeed.avg.toFixed(0)
     this.groundSpeedMinTarget.innerText = this.rangeSummary.horizontalSpeed.min.toFixed(0)
     this.groundSpeedMaxTarget.innerText = this.rangeSummary.horizontalSpeed.max.toFixed(0)
@@ -422,6 +428,10 @@ export default class extends Controller {
         plotBands: this.bufferPlotBands()
       }
     )
+  }
+
+  formatGlideRatio(value) {
+    return value > 10 ? '≥10' : value.toFixed(2)
   }
 
   altitudePlotLines({ includeLabels } = {}) {
