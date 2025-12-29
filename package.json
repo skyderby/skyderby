@@ -32,6 +32,7 @@
     "@hotwired/turbo-rails": "^8.0.12",
     "@popperjs/core": "^2.11.8",
     "@rails/actioncable": "^6.0.2",
+    "@rails/request.js": "^0.0.13",
     "@rails/ujs": "^6.0.2",
     "axios": "^0.28.1",
     "babel-loader": "^8.0.6",

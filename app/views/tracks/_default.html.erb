@@ -4,6 +4,7 @@
   <div class="track-show-content"
        data-controller="tracks--skydive-track"
        data-tracks--skydive-track-points-url-value="<%= track_points_path(@track, original_frequency: true) %>"
+       data-tracks--skydive-track-weather-url-value="<%= track_weather_data_path(@track) %>"
        data-tracks--skydive-track-chart-type-value="<%= Current.charts_mode %>"
        data-tracks--skydive-track-tracks--range-selector-outlet="#range-selector"
        data-action="tracks--range-selector:change->tracks--skydive-track#updateRange">

@@ -16,11 +16,15 @@ const interpolateByAltitude = (first, second, altitude) => {
     'vSpeed',
     'glideRatio',
     'speedAccuracy',
-    'verticalAccuracy'
+    'verticalAccuracy',
+    'zerowindLatitude',
+    'zerowindLongitude'
   ]
 
   numericFields.forEach(key => {
-    newPoint[key] = interpolateField(first[key], second[key], coeff)
+    if (first[key] != null && second[key] != null) {
+      newPoint[key] = interpolateField(first[key], second[key], coeff)
+    }
   })
 
   newPoint.gpsTime = new Date(

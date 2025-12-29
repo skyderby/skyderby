@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { get } from '@rails/request.js'
 import I18n from 'i18n'
 import {
   findPositionForAltitude,
@@ -9,6 +10,7 @@ import {
   initCombinedChart
 } from 'charts'
 import cropPoints from 'utils/cropPoints'
+import calculateWindCancellation from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
 
 export default class PerformanceFlyingChartsController extends Controller {
@@ -50,55 +52,81 @@ export default class PerformanceFlyingChartsController extends Controller {
   ]
 
   connect() {
-    this.trackId = this.element.dataset.trackId
     this.result = Number(this.element.dataset.result)
     this.exitAltitude = Number(this.element.dataset.exitAltitude)
     this.windowStartAltitude = Number(this.element.dataset.windowStart)
     this.windowEndAltitude = Number(this.element.dataset.windowEnd)
     this.chartType = this.element.dataset.chartType
+    this.pointsUrl = this.element.dataset.pointsUrl
+    this.weatherUrl = this.element.dataset.weatherUrl
     const initCharts =
       this.chartType === 'separate'
         ? this.initSeparateCharts.bind(this)
         : this.initCombinedCharts.bind(this)
 
-    this.fetchPoints(this.trackId).then(data => {
-      this.points = data.points
-      this.windowPoints = cropPoints(
-        this.points,
-        this.windowStartAltitude,
-        this.windowEndAltitude
-      )
-      this.rangeSummary = new RangeSummary(this.windowPoints, { straightLine: true })
-      this.windCancellation = data.windCancellation
+    Promise.all([this.fetchPoints(), this.fetchWeather()]).then(
+      ([pointsData, weatherData]) => {
+        this.points = pointsData.points
+        this.weatherData = weatherData
 
-      initCharts()
-      this.updateTrackIndicators()
-    })
+        if (this.hasWeatherData) {
+          this.points = calculateWindCancellation(this.points, this.weatherData)
+        }
+
+        this.windowPoints = cropPoints(
+          this.points,
+          this.windowStartAltitude,
+          this.windowEndAltitude
+        )
+        this.rangeSummary = new RangeSummary(this.windowPoints, { straightLine: true })
+
+        initCharts()
+        this.updateTrackIndicators()
+      }
+    )
   }
 
-  fetchPoints(trackId) {
-    return fetch(`/tracks/${trackId}/points?original_frequency=true`, {
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => response.json())
-      .then(data => {
-        data.points.forEach(point => {
-          point.gpsTime = new Date(point.gpsTime)
-          point.hSpeed = point.hSpeed * 3.6
-          point.vSpeed = point.vSpeed * 3.6
-          point.fullSpeed = point.fullSpeed * 3.6
-          if (point.zerowindHSpeed) point.zerowindHSpeed = point.zerowindHSpeed * 3.6
-        })
+  get hasWeatherData() {
+    return this.weatherData && this.weatherData.length > 0
+  }
 
-        return data
-      })
+  async fetchPoints() {
+    const response = await get(this.pointsUrl, { responseKind: 'json' })
+
+    const data = await response.json
+    data.points.forEach(point => {
+      point.gpsTime = new Date(point.gpsTime)
+      point.hSpeed = point.hSpeed * 3.6
+      point.vSpeed = point.vSpeed * 3.6
+      point.fullSpeed = point.fullSpeed * 3.6
+    })
+
+    return data
+  }
+
+  async fetchWeather() {
+    if (!this.weatherUrl) return []
+
+    try {
+      const response = await get(this.weatherUrl, { responseKind: 'json' })
+      if (!response.ok) return []
+      return await response.json
+    } catch {
+      return []
+    }
   }
 
   updateTrackIndicators() {
     this.distanceTarget.innerText = Math.floor(this.rangeSummary.distance)
-    this.glideRatioTarget.innerText = this.formatGlideRatio(this.rangeSummary.glideRatio.avg)
-    this.glideRatioMinTarget.innerText = this.formatGlideRatio(this.rangeSummary.glideRatio.min)
-    this.glideRatioMaxTarget.innerText = this.formatGlideRatio(this.rangeSummary.glideRatio.max)
+    this.glideRatioTarget.innerText = this.formatGlideRatio(
+      this.rangeSummary.glideRatio.avg
+    )
+    this.glideRatioMinTarget.innerText = this.formatGlideRatio(
+      this.rangeSummary.glideRatio.min
+    )
+    this.glideRatioMaxTarget.innerText = this.formatGlideRatio(
+      this.rangeSummary.glideRatio.max
+    )
     this.groundSpeedTarget.innerText = this.rangeSummary.horizontalSpeed.avg.toFixed(0)
     this.groundSpeedMinTarget.innerText = this.rangeSummary.horizontalSpeed.min.toFixed(0)
     this.groundSpeedMaxTarget.innerText = this.rangeSummary.horizontalSpeed.max.toFixed(0)
@@ -108,7 +136,7 @@ export default class PerformanceFlyingChartsController extends Controller {
     this.verticalSpeedMaxTarget.innerText = this.rangeSummary.verticalSpeed.max.toFixed(0)
     this.durationTarget.innerText = this.rangeSummary.time.toFixed(1)
 
-    if (this.windCancellation) this.updateWindEffectIndicators()
+    if (this.hasWeatherData) this.updateWindEffectIndicators()
   }
 
   updateWindEffectIndicators() {
@@ -179,7 +207,7 @@ export default class PerformanceFlyingChartsController extends Controller {
       this.points,
       {
         plotLines: this.windowPlotLines({ includeLabels: true }),
-        windCancellation: this.windCancellation,
+        windCancellation: this.hasWeatherData,
         chartName: 'PerformanceFlyingCombinedChart'
       }
     )
@@ -196,14 +224,14 @@ export default class PerformanceFlyingChartsController extends Controller {
   initGlideChart() {
     this.glideChartTarget.chart = initGlideChart(this.glideChartTarget, this.points, {
       plotLines: this.windowPlotLines({ includeLabels: true }),
-      windCancellation: this.windCancellation
+      windCancellation: this.hasWeatherData
     })
   }
 
   initSpeedsChart() {
     this.speedChartTarget.chart = initSpeedsChart(this.speedChartTarget, this.points, {
       plotLines: this.windowPlotLines(),
-      windCancellation: this.windCancellation
+      windCancellation: this.hasWeatherData
     })
   }
 

@@ -97,7 +97,7 @@ export default class RangeSummary {
 
     const value = this.zerowindDistance
     const windEffect = this.distance - this.zerowindDistance
-    const windEffectPercent = (windEffect / this.zerowindDistance) * 100
+    const windEffectPercent = (Math.abs(windEffect) / this.distance) * 100
 
     return { value, windEffect, windEffectPercent }
   }
@@ -129,7 +129,7 @@ export default class RangeSummary {
 
     const value = this.zerowindHorizontalSpeed
     const windEffect = this.horizontalSpeed.avg - this.zerowindHorizontalSpeed
-    const windEffectPercent = (windEffect / this.zerowindHorizontalSpeed) * 100
+    const windEffectPercent = (Math.abs(windEffect) / this.horizontalSpeed.avg) * 100
 
     return { value, windEffect, windEffectPercent }
   }
@@ -161,7 +161,7 @@ export default class RangeSummary {
 
     const value = this.zerowindGlideRatio
     const windEffect = this.glideRatio.avg - this.zerowindGlideRatio
-    const windEffectPercent = (windEffect / this.zerowindGlideRatio) * 100
+    const windEffectPercent = (Math.abs(windEffect) / this.glideRatio.avg) * 100
 
     return { value, windEffect, windEffectPercent }
   }

@@ -7,12 +7,13 @@
   <hr />
 
   <div data-controller="performance-flying-charts"
-       data-track-id="<%= result.track_id %>"
        data-result="<%= result.result %>"
        data-window-start="<%= result.event.range_from %>"
        data-window-end="<%= result.event.range_to %>"
        data-exit-altitude="<%= result.exit_altitude %>"
        data-chart-type="<%= Current.charts_mode %>"
+       data-points-url="<%= track_points_path(result.track, original_frequency: true) %>"
+       data-weather-url="<%= track_weather_data_path(result.track) %>"
   >
     <%= render 'track_indicators' %>
     <hr />

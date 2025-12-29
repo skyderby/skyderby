@@ -9,6 +9,7 @@ import {
   initCombinedChart
 } from 'charts'
 import cropPoints from 'utils/cropPoints'
+import calculateWindCancellation from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
 
 export default class extends Controller {
@@ -54,18 +55,21 @@ export default class extends Controller {
 
   static values = {
     pointsUrl: String,
+    weatherUrl: String,
     chartType: { type: String, default: 'separate' }
   }
 
   connect() {
     this.initializeStraightLine()
 
-    this.fetchPoints().then(data => {
-      this.points = data.points
-      this.windCancellation = data.windCancellation
-      this.initializeRange()
-      this.updateCharts()
-    })
+    Promise.all([this.fetchPoints(), this.fetchWeather()]).then(
+      ([pointsData, weatherData]) => {
+        this.points = pointsData.points
+        this.weatherData = weatherData
+        this.initializeRange()
+        this.updateCharts()
+      }
+    )
   }
 
   initializeStraightLine() {
@@ -110,11 +114,23 @@ export default class extends Controller {
           point.hSpeed = point.hSpeed * 3.6
           point.vSpeed = point.vSpeed * 3.6
           point.fullSpeed = point.fullSpeed * 3.6
-          if (point.zerowindHSpeed) point.zerowindHSpeed = point.zerowindHSpeed * 3.6
         })
 
         return data
       })
+  }
+
+  fetchWeather() {
+    if (!this.hasWeatherUrlValue) return Promise.resolve([])
+
+    return fetch(this.weatherUrlValue, {
+      headers: { Accept: 'application/json' }
+    })
+      .then(response => {
+        if (!response.ok) return []
+        return response.json()
+      })
+      .catch(() => [])
   }
 
   initializeRange() {
@@ -212,6 +228,11 @@ export default class extends Controller {
 
   updateCharts() {
     this.windowPoints = cropPoints(this.points, this.fromValue, this.toValue)
+
+    if (this.weatherData && this.weatherData.length > 0) {
+      this.windowPoints = calculateWindCancellation(this.windowPoints, this.weatherData)
+    }
+
     this.rangeSummary = new RangeSummary(this.windowPoints, {
       straightLine: this.straightLine
     })
@@ -232,6 +253,10 @@ export default class extends Controller {
     return this.chartTypeValue
   }
 
+  get hasWeatherData() {
+    return this.weatherData && this.weatherData.length > 0
+  }
+
   calculateChartPoints() {
     const bufferSeconds = 3
     const rangeStartTime = this.windowPoints[0].gpsTime.getTime()
@@ -240,15 +265,21 @@ export default class extends Controller {
     const bufferStartTime = rangeStartTime - bufferSeconds * 1000
     const bufferEndTime = rangeEndTime + bufferSeconds * 1000
 
-    this.chartPoints = this.points.filter(
+    let chartPoints = this.points.filter(
       point =>
         point.gpsTime.getTime() >= bufferStartTime &&
         point.gpsTime.getTime() <= bufferEndTime
     )
 
-    if (this.chartPoints.length === 0) {
-      this.chartPoints = this.windowPoints
+    if (chartPoints.length === 0) {
+      chartPoints = this.windowPoints
     }
+
+    if (this.hasWeatherData) {
+      chartPoints = calculateWindCancellation(chartPoints, this.weatherData)
+    }
+
+    this.chartPoints = chartPoints
 
     const firstChartTime = this.chartPoints[0].flTime
     this.bufferStartPosition = rangeStartTime - this.chartPoints[0].gpsTime.getTime()
@@ -310,7 +341,7 @@ export default class extends Controller {
     this.verticalSpeedMaxTarget.innerText = this.rangeSummary.verticalSpeed.max.toFixed(0)
     this.durationTarget.innerText = this.rangeSummary.time.toFixed(1)
 
-    if (this.windCancellation) this.updateWindEffectIndicators()
+    if (this.hasWeatherData) this.updateWindEffectIndicators()
   }
 
   updateWindEffectIndicators() {
@@ -378,7 +409,7 @@ export default class extends Controller {
       {
         plotLines: this.altitudePlotLines({ includeLabels: true }),
         plotBands: this.bufferPlotBands(),
-        windCancellation: this.windCancellation,
+        windCancellation: this.hasWeatherData,
         chartName: 'TrackCombinedChart'
       }
     )
@@ -402,7 +433,7 @@ export default class extends Controller {
       {
         plotLines: this.altitudePlotLines({ includeLabels: true }),
         plotBands: this.bufferPlotBands(),
-        windCancellation: this.windCancellation
+        windCancellation: this.hasWeatherData
       }
     )
   }
@@ -414,7 +445,7 @@ export default class extends Controller {
       {
         plotLines: this.altitudePlotLines(),
         plotBands: this.bufferPlotBands(),
-        windCancellation: this.windCancellation
+        windCancellation: this.hasWeatherData
       }
     )
   }

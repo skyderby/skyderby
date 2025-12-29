@@ -1845,6 +1845,11 @@
   resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.2.200.tgz#7f56b3313762dbb85b64490aa33c5f431419aafd"
   integrity sha512-gVmi3MabEa+Bkatvw0/k1Y3WTidcIf3qNbb9L8qc+AmT2UmkVqUZhJpSLvKmH10twCYIGzn7yySW/lOpg81Duw==
 
+"@rails/request.js@^0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@rails/request.js/-/request.js-0.0.13.tgz#3c7cbd0303ea9ef51bd3e7acaab86e9324efc52f"
+  integrity sha512-7MXmjFOPuaxpjG8brqKJG0EfIe9ak6R0wRnjCBtRuADNFbdlRxETdKx1T5NVU4Ato3iZOkEpeSUEuLboL3tCGA==
+
 "@rails/ujs@^6.0.2":
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-6.0.2.tgz#8d32452d51c5e115374a218fb5475803dc17f4c0"

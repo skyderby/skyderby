@@ -1,6 +1,5 @@
 json.key_format! camelize: :lower
 
-json.wind_cancellation @zerowind_points.any?
 json.deploy_fl_time @track.ff_end
 
 json.points @points do |point|
@@ -14,11 +13,7 @@ json.points @points do |point|
                 :glide_ratio,
                 :horizontal_accuracy,
                 :vertical_accuracy,
-                :speed_accuracy,
-                :zerowind_latitude,
-                :zerowind_longitude,
-                :zerowind_h_speed,
-                :zerowind_glide_ratio
+                :speed_accuracy
 
   json.sep50 0.5127 * (2 * point[:horizontal_accuracy].to_i + point[:vertical_accuracy].to_i)
 

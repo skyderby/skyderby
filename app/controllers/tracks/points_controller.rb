@@ -9,23 +9,9 @@ class Tracks::PointsController < ApplicationController
       .execute(@track, options)
       .then { |points| PointsPostprocessor.for(@track.gps_type).call(points) }
       .then { |points| convert_speed_to_ms(points) }
-      .then do |points|
-        @zerowind_points = Tracks::WindCancellation::Processor.call(points, @track.weather_data)
-        augment_with_zerowind(points, @zerowind_points)
-      end
   end
 
   private
-
-  def augment_with_zerowind(points, zerowind_points)
-    points.zip(zerowind_points).map do |point, zerowind_point|
-      point[:zerowind_latitude] = zerowind_point ? zerowind_point[:latitude].to_f : nil
-      point[:zerowind_longitude] = zerowind_point ? zerowind_point[:longitude].to_f : nil
-      point[:zerowind_h_speed] = zerowind_point ? zerowind_point[:h_speed] : nil
-      point[:zerowind_glide_ratio] = zerowind_point ? zerowind_point[:glide_ratio] : nil
-      point
-    end
-  end
 
   # FIXME: Convert DB to ms, remove this
   def convert_speed_to_ms(points)
