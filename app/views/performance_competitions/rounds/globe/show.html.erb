@@ -1,3 +1,9 @@
 <% provide :title, @event.name %>
 
-<%= render 'round_map' %>
+<% if user_signed_in? %>
+  <%= render 'round_map' %>
+<% else %>
+  <div class="container-fluid">
+    <%= render 'components/maps_auth_wall' %>
+  </div>
+<% end %>

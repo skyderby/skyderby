@@ -15,7 +15,11 @@
     <% end %>
   </div>
 
-  <% if !editable && !@round.completed? %>
+  <% if !user_signed_in? %>
+    <section class="card lane-validation">
+      <%= render 'components/maps_auth_wall', fill: true %>
+    </section>
+  <% elsif !editable && !@round.completed? %>
     <h1 class="text-muted text-center">Data will appear after the round is marked as completed</h1>
   <% else %>
     <section class="card lane-validation"

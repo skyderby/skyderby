@@ -4,22 +4,26 @@
   <%= render partial: 'tracks/header', locals: { track: @track } %>
 
   <div class="track-show-content">
-    <div class="row" data-controller="tracks--map" data-action="maps_api:ready@window->tracks--map#onMapsReady">
-      <script type="application/json" data-tracks--map-target="data">
-        <%= raw render partial: 'tracks/maps/map_data', locals: { map_data: @map_data }, formats: [:json] %>
-      </script>
+    <% if user_signed_in? %>
+      <div class="row" data-controller="tracks--map" data-action="maps_api:ready@window->tracks--map#onMapsReady">
+        <script type="application/json" data-tracks--map-target="data">
+          <%= raw render partial: 'tracks/maps/map_data', locals: { map_data: @map_data }, formats: [:json] %>
+        </script>
 
-      <div class="track-map-wrapper col-sm-12">
-        <div id="track-map" data-tracks--map-target="map"></div>
-        <% if @track.weather_data.exists? %>
-          <div id="track-map-polar-chart" data-controller="tracks--wind-chart">
-            <script type="application/json" data-tracks--wind-chart-target="data">
-              <%= raw render partial: 'tracks/weather_data/weather_data', locals: { weather_data: @track.weather_data }, formats: [:json] %>
-            </script>
-          </div>
-        <% end %>
-        <%= render 'tracks/speed_grades' %>
+        <div class="track-map-wrapper col-sm-12">
+          <div id="track-map" data-tracks--map-target="map"></div>
+          <% if @track.weather_data.exists? %>
+            <div id="track-map-polar-chart" data-controller="tracks--wind-chart">
+              <script type="application/json" data-tracks--wind-chart-target="data">
+                <%= raw render partial: 'tracks/weather_data/weather_data', locals: { weather_data: @track.weather_data }, formats: [:json] %>
+              </script>
+            </div>
+          <% end %>
+          <%= render 'tracks/speed_grades' %>
+        </div>
       </div>
-    </div>
+    <% else %>
+      <%= render 'components/maps_auth_wall' %>
+    <% end %>
   </div>
 </div>

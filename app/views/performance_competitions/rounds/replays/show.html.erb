@@ -1,6 +1,12 @@
-<div
-   class="round-replay"
-   data-controller="events--round-replay"
-   data-event-id=<%= @event.id %>
-   data-round-id=<%= @round.id %>>
-</div>
+<% if user_signed_in? %>
+  <div
+     class="round-replay"
+     data-controller="events--round-replay"
+     data-event-id=<%= @event.id %>
+     data-round-id=<%= @round.id %>>
+  </div>
+<% else %>
+  <div class="container-fluid">
+    <%= render 'components/maps_auth_wall' %>
+  </div>
+<% end %>

@@ -6,22 +6,25 @@ module Place::Photos
   end
 
   def cover_image_url
-    photos.any? ? photos.first.image_url(:large) : google_map_image
+    if photos.any?
+      photos.first.image_url(:large)
+    else
+      PlacePhotoFromMapJob.perform_later(id)
+      google_map_image_url
+    end
   end
 
-  def google_map_image
-    endpoint = 'https://maps.googleapis.com/maps/api/staticmap'
-    coordinates = [latitude, longitude].join(',')
-    params = %W[
-      center=#{coordinates}
-      zoom=13
-      maptype=hybrid
-      size=640x250
-      scale=2
-      markers=color:red|#{coordinates}
-      key=#{ENV.fetch('MAPS_API_KEY', nil)}
-    ].join('&')
+  def google_map_image_url
+    center = [latitude, longitude].join(',')
 
-    "#{endpoint}?#{params}"
+    'https://maps.googleapis.com/maps/api/staticmap' + {
+      center:,
+      zoom: 13,
+      maptype: 'hybrid',
+      size: '640x250',
+      scale: 2,
+      markers: "color:red|#{center}",
+      key: ENV.fetch('MAPS_API_KEY', nil)
+    }.to_param
   end
 end

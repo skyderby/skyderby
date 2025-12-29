@@ -5,11 +5,17 @@
   <%= render 'events/header', editable: %>
 
   <div class="card reference-points">
-    <div class="reference-points-map"
-         data-controller="map"
-         data-center-lat="<%= @event.place.latitude %>"
-         data-center-lon="<%= @event.place.longitude %>">
-    </div>
+    <% if user_signed_in? %>
+      <div class="reference-points-map"
+           data-controller="map"
+           data-center-lat="<%= @event.place.latitude %>"
+           data-center-lon="<%= @event.place.longitude %>">
+      </div>
+    <% else %>
+      <div class="reference-points-map">
+        <%= render 'components/maps_auth_wall', fill: true %>
+      </div>
+    <% end %>
 
     <div class="reference-points-list">
       <div class="reference-points-actions">

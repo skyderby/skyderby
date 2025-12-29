@@ -37,5 +37,9 @@ en:
         title: Profile
         edit_email_pass: Edit email or password
         edit_reg_data: Email and password
+  maps:
+    auth_wall:
+      message: Sign in to view maps
+      sign_in: Sign in
   meta:
     description: "Skyderby is a web application for skydiving and basejumping jump analysis and scoring competitions"

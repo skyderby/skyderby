@@ -33,6 +33,10 @@ ru:
     or: Или
     import_from_csv: "Импорт из CSV"
     import: "Импорт"
+  maps:
+    auth_wall:
+      message: Войдите, чтобы увидеть карту
+      sign_in: Войти
   meta:
     description: "Skyderby это веб-приложение для анализа треков полётов и проведения соревнований"
   date:

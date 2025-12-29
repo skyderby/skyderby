@@ -16,7 +16,11 @@
     </div>
 
     <div class="modal-body">
-      <%= render 'round_map' %>
+      <% if user_signed_in? %>
+        <%= render 'round_map' %>
+      <% else %>
+        <%= render 'components/maps_auth_wall' %>
+      <% end %>
     </div>
 
     <div class="modal-footer">
