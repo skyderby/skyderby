@@ -23,4 +23,6 @@ class Current < ActiveSupport::CurrentAttributes
   def charts_units
     super.inquiry
   end
+
+  def subscription_active? = false
 end

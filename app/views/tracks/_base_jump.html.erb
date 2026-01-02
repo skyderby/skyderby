@@ -1,0 +1,55 @@
+<div class="show-page">
+  <%= render partial: 'header', locals: { track: @track } %>
+
+  <div class="track-show-content"
+       data-controller="tracks--base-jump-track"
+       data-tracks--base-jump-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
+       data-tracks--base-jump-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>">
+
+    <div class="base-jump-layout">
+      <div class="base-jump-left">
+        <div class="base-jump-chart-square"
+             data-tracks--base-jump-track-target="sideProjection">
+        </div>
+      </div>
+
+      <div class="base-jump-right">
+        <div class="base-jump-map-container">
+          <div class="base-jump-map"
+               data-tracks--base-jump-track-target="map">
+          </div>
+        </div>
+
+        <div class="base-jump-charts"
+             data-controller="synchronized-charts"
+             data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip">
+          <div data-tracks--base-jump-track-target="glideChart"
+               data-synchronized-charts-target="chart"></div>
+          <div data-tracks--base-jump-track-target="speedChart"
+               data-synchronized-charts-target="chart"></div>
+        </div>
+      </div>
+    </div>
+
+    <%= render 'tracks/playback_indicators', controller: 'tracks--base-jump-track' %>
+
+    <div class="base-jump-playback">
+      <button class="base-jump-playback-button"
+              data-tracks--base-jump-track-target="playButton"
+              data-action="tracks--base-jump-track#togglePlay">
+        <%= svg_icon 'play-solid' %>
+      </button>
+      <input type="range"
+             class="base-jump-playback-slider"
+             min="0"
+             max="100"
+             value="0"
+             data-tracks--base-jump-track-target="playbackSlider"
+             data-action="input->tracks--base-jump-track#onSliderInput">
+    </div>
+
+    <blockquote>
+      <%= render 'track_metadata' %>
+    </blockquote>
+  </div>
+</div>

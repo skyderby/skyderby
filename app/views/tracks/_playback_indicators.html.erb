@@ -1,0 +1,87 @@
+<% controller ||= 'tracks--base-jump-track' %>
+
+<div class="video-indicators">
+  <div class="video-indicator-value-container">
+    <div>
+      <span class="video-indicator-value" data-<%= controller %>-target="altitude">
+        ---
+      </span>
+      <span class="video-indicator-sub-value">
+        <span data-<%= controller %>-target="altitudeSpent">---</span>
+        <%= svg_icon 'angle-down-solid' %>
+      </span>
+      &nbsp;
+      <span class="video-indicator-units"><%= t 'units.m' %></span>
+    </div>
+    <div class="video-indicator-title"><%= t 'tracks.indicators.altitude' %></div>
+  </div>
+
+  <div class="video-indicator-value-container">
+    <div>
+      <span class="video-indicator-value" data-<%= controller %>-target="fullSpeed">
+        ---
+      </span>
+      &nbsp;
+      <span class="video-indicator-units"><%= t 'units.kmh' %></span>
+    </div>
+    <div class="video-indicator-title"><%= t 'tracks.indicators.full_speed' %></div>
+  </div>
+
+  <div class="video-indicator-value-container">
+    <div>
+      <span class="video-indicator-value" data-<%= controller %>-target="hSpeed">
+        ---
+      </span>
+      &nbsp;
+      <span class="video-indicator-units"><%= t 'units.kmh' %></span>
+    </div>
+    <div class="video-indicator-title"><%= t 'tracks.indicators.ground_speed' %></div>
+  </div>
+
+  <div class="video-indicator-value-container">
+    <div>
+      <span class="video-indicator-value" data-<%= controller %>-target="vSpeed">
+        ---
+      </span>
+      &nbsp;
+      <span class="video-indicator-units"><%= t 'units.kmh' %></span>
+    </div>
+    <div class="video-indicator-title"><%= t 'tracks.indicators.vertical_speed' %></div>
+  </div>
+
+  <div class="video-indicator-glide-container">
+    <div class="video-indicator-value" data-<%= controller %>-target="glideRatio">
+      --.-
+    </div>
+    <svg class="video-indicator-angle" viewBox="0 0 240 240">
+      <defs>
+        <marker
+          id="head"
+          orient="auto"
+          markerWidth="3"
+          markerHeight="4"
+          refX="0.1"
+          refY="2"
+        >
+          <path d="M0,0 V4 L2,2 Z" fill="var(--blue-grey-70)" />
+        </marker>
+      </defs>
+
+      <path
+        fill="transparent"
+        stroke-width="20"
+        stroke="var(--blue-90)"
+        d=" M 0 20 A 100 100 0 0 1 0 220"
+        />
+      <path
+        data-<%= controller %>-target="angle"
+        stroke="var(--blue-gray-80)"
+        stroke-width="14"
+        marker-end="url(#head)"
+        d="M 15 117 65 117"
+        />
+    </svg>
+
+    <div class="video-indicator-title"><%= t 'tracks.indicators.glide_ratio' %></div>
+  </div>
+</div>
