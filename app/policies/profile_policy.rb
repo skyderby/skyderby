@@ -14,6 +14,14 @@ class ProfilePolicy < ApplicationPolicy
     admin?
   end
 
+  def subscription?
+    admin? && record.belongs_to_user?
+  end
+
+  def grant_subscription?
+    admin? && record.belongs_to_user?
+  end
+
   def owner?
     user && record.owner == user
   end

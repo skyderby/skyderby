@@ -1,0 +1,23 @@
+<%= form_with model: @gifted_subscription,
+              url: profile_subscription_gifted_subscriptions_path(@profile),
+              data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :expires_at, class: 'form-label col-4' %>
+      <div class="col-8">
+        <%= f.datetime_field :expires_at, class: 'form-input' %>
+        <p class="form-hint">Leave empty for lifetime subscription</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :reason, class: 'form-label col-4' %>
+      <%= f.text_field :reason, class: 'form-input col-8', placeholder: 'e.g. Past donation, Beta tester' %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit 'Grant Subscription', class: 'primary-button' %>
+      <button type="button" class="default-button" data-action="modal#close">Cancel</button>
+    </div>
+  </div>
+<% end %>

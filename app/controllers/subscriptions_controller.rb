@@ -4,20 +4,27 @@ class SubscriptionsController < ApplicationController
   def index
     @subscription = current_user.payment_processor&.subscription
     @plans = subscription_plans
-    @subscribers_count = Pay::Subscription.active.count + Pay::Charge.where("metadata->>'type' = ?", 'lifetime').count
+    @subscribers_count = Pay::Subscription.active.count +
+                         Pay::Charge.where("metadata->>'type' = ?", 'lifetime').count +
+                         GiftedSubscription.active.count
   end
 
   def create
     plan = params[:plan]
     price_id = Rails.application.config.stripe[:prices][plan.to_sym]
 
-    checkout_session = current_user.payment_processor.checkout(
+    checkout_options = {
       mode: plan == 'lifetime' ? 'payment' : 'subscription',
       line_items: [{ price: price_id, quantity: 1 }],
       success_url: success_subscriptions_url,
-      cancel_url: subscriptions_url,
-      metadata: plan == 'lifetime' ? { type: 'lifetime' } : {}
-    )
+      cancel_url: subscriptions_url
+    }
+
+    if plan == 'lifetime'
+      checkout_options[:payment_intent_data] = { metadata: { type: 'lifetime' } }
+    end
+
+    checkout_session = current_user.payment_processor.checkout(**checkout_options)
 
     redirect_to checkout_session.url, allow_other_host: true, status: :see_other
   end

@@ -525,3 +525,41 @@
     height: 32px;
   }
 }
+
+.subscription-admin {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.subscription-admin__section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.subscription-admin__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subscription-admin__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--gray-90);
+  margin: 0;
+}
+
+.subscription-admin__empty {
+  padding: 2rem;
+  text-align: center;
+  background: var(--gray-10);
+  border-radius: var(--border-radius-md);
+  color: var(--gray-50);
+}
+
+.subscription-admin__empty p {
+  margin: 0;
+  font-size: 0.875rem;
+}

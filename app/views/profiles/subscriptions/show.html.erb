@@ -1,0 +1,131 @@
+<% provide :title, "#{@profile.name} - Subscription" %>
+
+<div class="show-page">
+  <%= render 'profiles/header', profile: @profile %>
+
+  <div class="show-page-content">
+    <div class="card subscription-admin">
+      <div class="subscription-admin__section">
+        <div class="subscription-admin__header">
+          <h3 class="subscription-admin__title">Gifted Subscriptions</h3>
+          <%= link_to new_profile_subscription_gifted_subscription_path(@profile),
+                      class: 'default-button',
+                      data: { turbo_stream: true } do %>
+            <%= svg_icon 'plus-solid' %>
+            Grant
+          <% end %>
+        </div>
+
+        <% if @gifted_subscriptions.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Expires At</th>
+                <th>Reason</th>
+                <th>Granted By</th>
+                <th>Created At</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @gifted_subscriptions.each do |subscription| %>
+                <tr>
+                  <td><%= subscription_status_badge(subscription) %></td>
+                  <td><%= subscription.expires_at ? l(subscription.expires_at.to_date) : 'Never (Lifetime)' %></td>
+                  <td><%= subscription.reason %></td>
+                  <td><%= subscription.granted_by&.email %></td>
+                  <td><%= l(subscription.created_at.to_date) %></td>
+                  <td>
+                    <%= button_to 'Revoke',
+                                  profile_subscription_gifted_subscription_path(@profile, subscription),
+                                  method: :delete,
+                                  class: 'default-button danger',
+                                  data: { turbo_confirm: 'Are you sure you want to revoke this subscription?' } %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <div class="subscription-admin__empty">
+            <p>No gifted subscriptions</p>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="subscription-admin__section">
+        <div class="subscription-admin__header">
+          <h3 class="subscription-admin__title">Stripe Subscriptions</h3>
+        </div>
+
+        <% if @subscriptions.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Plan</th>
+                <th>Current Period</th>
+                <th>Ends At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @subscriptions.each do |subscription| %>
+                <tr>
+                  <td><%= subscription.name %></td>
+                  <td><%= subscription_status_badge(subscription) %></td>
+                  <td><%= subscription.processor_plan %></td>
+                  <td>
+                    <% if subscription.current_period_start && subscription.current_period_end %>
+                      <%= l(subscription.current_period_start.to_date) %> -
+                      <%= l(subscription.current_period_end.to_date) %>
+                    <% end %>
+                  </td>
+                  <td><%= subscription.ends_at ? l(subscription.ends_at.to_date) : '-' %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <div class="subscription-admin__empty">
+            <p>No Stripe subscriptions</p>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="subscription-admin__section">
+        <div class="subscription-admin__header">
+          <h3 class="subscription-admin__title">Stripe Charges</h3>
+        </div>
+
+        <% if @charges.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Created At</th>
+                <th>Processor ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @charges.each do |charge| %>
+                <tr>
+                  <td><%= number_to_currency(charge.amount / 100.0, unit: charge.currency&.upcase || '$') %></td>
+                  <td><%= charge.metadata&.dig('type') || '-' %></td>
+                  <td><%= l(charge.created_at.to_date) %></td>
+                  <td><code><%= charge.processor_id %></code></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <div class="subscription-admin__empty">
+            <p>No Stripe charges</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

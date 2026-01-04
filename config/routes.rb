@@ -290,6 +290,9 @@ Skyderby::Application.routes.draw do
       resources :videos, only: :index
       resource :avatar, only: [:new, :create]
       resource :merge, only: [:new, :create]
+      resource :subscription, only: :show do
+        resources :gifted_subscriptions, only: [:new, :create, :destroy]
+      end
       collection do
         resources :select_options, only: :index, as: :profiles_select_options
       end

@@ -28,6 +28,7 @@ class User < ApplicationRecord
   pay_customer default_payment_processor: :stripe
 
   has_one :profile, as: :owner, dependent: :nullify, inverse_of: :owner
+  has_many :gifted_subscriptions, dependent: :destroy
 
   scope :admins, -> { where('? = ANY(roles)', 'admin') }
 
@@ -50,7 +51,11 @@ class User < ApplicationRecord
   def subscription_active?
     return true if admin?
 
-    stripe_processor&.subscription&.active? || lifetime_subscription?
+    gifted_subscription_active? || stripe_processor&.subscription&.active? || lifetime_subscription?
+  end
+
+  def gifted_subscription_active?
+    gifted_subscriptions.active.exists?
   end
 
   def lifetime_subscription?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_04_072531) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_04_094801) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -162,6 +162,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_072531) do
     t.integer "visibility", default: 0
     t.boolean "wind_cancellation", default: false
     t.index ["profile_id"], name: "index_events_on_profile_id"
+  end
+
+  create_table "gifted_subscriptions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "expires_at"
+    t.bigint "granted_by_id"
+    t.string "reason"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_gifted_subscriptions_on_user_id"
   end
 
   create_table "gps_recordings_archives", force: :cascade do |t|
@@ -798,6 +808,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_072531) do
   add_foreign_key "event_competitors", "profiles"
   add_foreign_key "event_results", "tracks"
   add_foreign_key "event_teams", "countries"
+  add_foreign_key "gifted_subscriptions", "users"
+  add_foreign_key "gifted_subscriptions", "users", column: "granted_by_id"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
