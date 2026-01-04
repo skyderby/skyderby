@@ -28,7 +28,7 @@ de:
         gr: 'Qualität'
         raw_gr: 'Qualität (Roh)'
     spd:
-      title: 'Vertikale und horizontale Geschwindigkeit'
+      title: Geschwindigkeit
       axis:
         speed: 'Geschwindigkeit, %{unit}'
       series:

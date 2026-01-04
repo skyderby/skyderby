@@ -16,8 +16,11 @@ export default class extends Controller {
     'altitude',
     'altitudeSpent',
     'fullSpeed',
+    'fullSpeedAccel',
     'hSpeed',
+    'hSpeedAccel',
     'vSpeed',
+    'vSpeedAccel',
     'glideRatio',
     'angle'
   ]
@@ -299,6 +302,82 @@ export default class extends Controller {
       const endX = 65 * Math.sin(angle)
       const endY = 115 + 65 * Math.cos(angle)
       this.angleTarget.setAttribute('d', `M ${startX} ${startY} ${endX} ${endY}`)
+    }
+
+    this.updateAccelerationIndicators(index, fraction)
+  }
+
+  updateAccelerationIndicators(index, fraction) {
+    const futureIndex = this.findFutureIndexFrom(index, 1000)
+    if (futureIndex === null) return
+
+    const curr = this.points[index]
+    const next = this.points[Math.min(index + 1, this.points.length - 1)]
+    const future = this.points[futureIndex]
+
+    const interpolate = (a, b) => a + (b - a) * fraction
+
+    const currFullSpeed = interpolate(curr.fullSpeed, next.fullSpeed) / 3.6
+    const currHSpeed = interpolate(curr.hSpeed, next.hSpeed) / 3.6
+    const currVSpeed = interpolate(curr.vSpeed, next.vSpeed) / 3.6
+    const futureFullSpeed = future.fullSpeed / 3.6
+    const futureHSpeed = future.hSpeed / 3.6
+    const futureVSpeed = future.vSpeed / 3.6
+
+    const currTime =
+      curr.gpsTime.getTime() +
+      fraction * (next.gpsTime.getTime() - curr.gpsTime.getTime())
+    const deltaTime = (future.gpsTime.getTime() - currTime) / 1000
+
+    const fullSpeedAccel = (futureFullSpeed - currFullSpeed) / deltaTime
+    const hSpeedAccel = (futureHSpeed - currHSpeed) / deltaTime
+    const vSpeedAccel = (futureVSpeed - currVSpeed) / deltaTime
+
+    if (this.hasFullSpeedAccelTarget) {
+      this.updateAccelIcons(this.fullSpeedAccelTarget, fullSpeedAccel)
+    }
+    if (this.hasHSpeedAccelTarget) {
+      this.updateAccelIcons(this.hSpeedAccelTarget, hSpeedAccel)
+    }
+    if (this.hasVSpeedAccelTarget) {
+      this.updateAccelIcons(this.vSpeedAccelTarget, vSpeedAccel)
+    }
+  }
+
+  findFutureIndexFrom(fromIndex, milliseconds) {
+    const currentTime = this.points[fromIndex].gpsTime.getTime()
+    const targetTime = currentTime + milliseconds
+
+    for (let i = fromIndex + 1; i < this.points.length; i++) {
+      if (this.points[i].gpsTime.getTime() >= targetTime) {
+        return i
+      }
+    }
+
+    return null
+  }
+
+  updateAccelIcons(container, acceleration) {
+    const icons = container.querySelectorAll('svg')
+    icons.forEach(icon => icon.classList.remove('active'))
+
+    const threshold = 4
+    const smallThreshold = 0.5
+
+    if (Math.abs(acceleration) < smallThreshold) {
+      icons[2].classList.add('active')
+    } else if (acceleration > 0) {
+      icons[2].classList.add('active')
+      icons[1].classList.add('active')
+      if (acceleration >= threshold) {
+        icons[0].classList.add('active')
+      }
+    } else {
+      icons[2].classList.add('active')
+      icons[3].classList.add('active')
+      if (acceleration <= -threshold) {
+        icons[4].classList.add('active')
+      }
     }
   }
 

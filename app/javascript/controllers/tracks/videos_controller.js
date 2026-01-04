@@ -11,8 +11,11 @@ export default class extends Controller {
     'altitude',
     'altitudeSpent',
     'fullSpeed',
+    'fullSpeedAccel',
     'hSpeed',
+    'hSpeedAccel',
     'vSpeed',
+    'vSpeedAccel',
     'glideRatio',
     'angle'
   ]
@@ -64,13 +67,15 @@ export default class extends Controller {
 
   drawFrame() {
     const currentTime = this.player.getCurrentTime()
-    const currentData = currentTime ? this.getDataForTime(currentTime) : null
-    this.updateProgress(currentData)
+    const { data: currentData, trackTime } = currentTime
+      ? this.getDataForTime(currentTime)
+      : { data: null, trackTime: null }
+    this.updateProgress(currentData, trackTime)
 
     this.timerId = requestAnimationFrame(this.drawFrame)
   }
 
-  updateProgress(currentData) {
+  updateProgress(currentData, trackTime) {
     if (currentData) {
       this.altitudeTarget.innerText = valueWithStep(currentData.altitude, 10).toFixed()
       this.altitudeSpentTarget.innerText = valueWithStep(
@@ -89,6 +94,8 @@ export default class extends Controller {
       const endX = 65 * Math.sin(angle)
       const endY = 115 + 65 * Math.cos(angle)
       this.angleTarget.setAttribute('d', `M ${startX} ${startY} ${endX} ${endY}`)
+
+      this.updateAccelerationIndicators(currentData, trackTime)
     } else {
       this.altitudeTarget.innerText = '---'
       this.altitudeSpentTarget.innerText = '---'
@@ -97,6 +104,70 @@ export default class extends Controller {
       this.vSpeedTarget.innerText = '---'
       this.glideRatioTarget.innerText = '--.-'
       this.angleTarget.setAttribute('d', 'M 15 117 65 117')
+      this.resetAccelerationIndicators()
+    }
+  }
+
+  updateAccelerationIndicators(currentData, trackTime) {
+    const futureTime = trackTime + 1
+    const futureData = this.getInterpolatedPoint(futureTime)
+    if (!futureData) return
+
+    const currFullSpeed = currentData.fullSpeed / 3.6
+    const currHSpeed = currentData.hSpeed / 3.6
+    const currVSpeed = currentData.vSpeed / 3.6
+    const futureFullSpeed = futureData.fullSpeed / 3.6
+    const futureHSpeed = futureData.hSpeed / 3.6
+    const futureVSpeed = futureData.vSpeed / 3.6
+
+    const fullSpeedAccel = futureFullSpeed - currFullSpeed
+    const hSpeedAccel = futureHSpeed - currHSpeed
+    const vSpeedAccel = futureVSpeed - currVSpeed
+
+    if (this.hasFullSpeedAccelTarget) {
+      this.updateAccelIcons(this.fullSpeedAccelTarget, fullSpeedAccel)
+    }
+    if (this.hasHSpeedAccelTarget) {
+      this.updateAccelIcons(this.hSpeedAccelTarget, hSpeedAccel)
+    }
+    if (this.hasVSpeedAccelTarget) {
+      this.updateAccelIcons(this.vSpeedAccelTarget, vSpeedAccel)
+    }
+  }
+
+  resetAccelerationIndicators() {
+    const targets = [
+      this.hasFullSpeedAccelTarget && this.fullSpeedAccelTarget,
+      this.hasHSpeedAccelTarget && this.hSpeedAccelTarget,
+      this.hasVSpeedAccelTarget && this.vSpeedAccelTarget
+    ].filter(Boolean)
+
+    targets.forEach(target => {
+      target.querySelectorAll('svg').forEach(icon => icon.classList.remove('active'))
+    })
+  }
+
+  updateAccelIcons(container, acceleration) {
+    const icons = container.querySelectorAll('svg')
+    icons.forEach(icon => icon.classList.remove('active'))
+
+    const threshold = 4
+    const smallThreshold = 0.5
+
+    if (Math.abs(acceleration) < smallThreshold) {
+      icons[2].classList.add('active')
+    } else if (acceleration > 0) {
+      icons[2].classList.add('active')
+      icons[1].classList.add('active')
+      if (acceleration >= threshold) {
+        icons[0].classList.add('active')
+      }
+    } else {
+      icons[2].classList.add('active')
+      icons[3].classList.add('active')
+      if (acceleration <= -threshold) {
+        icons[4].classList.add('active')
+      }
     }
   }
 
@@ -104,11 +175,11 @@ export default class extends Controller {
     const { trackOffset, videoOffset } = this.videoSettings
     const relativeTime = time - videoOffset
 
-    if (relativeTime < 0) return null
+    if (relativeTime < 0) return { data: null, trackTime: null }
 
     const trackTime = relativeTime + trackOffset
 
-    return this.getInterpolatedPoint(trackTime)
+    return { data: this.getInterpolatedPoint(trackTime), trackTime }
   }
 
   getInterpolatedPoint(flTime) {

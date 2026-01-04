@@ -28,7 +28,7 @@ es:
         gr: 'Calidad'
         raw_gr: 'Calidad (bruta)'
     spd:
-      title: 'Velocidad vertical y horizontal'
+      title: Velocidad
       axis:
         speed: 'Velocidad, %{unit}'
       series:

@@ -17,33 +17,51 @@
   </div>
 
   <div class="video-indicator-value-container">
-    <div>
+    <div class="video-indicator-with-accel">
       <span class="video-indicator-value" data-<%= controller %>-target="fullSpeed">
         ---
       </span>
-      &nbsp;
+      <div class="video-indicator-accel" data-<%= controller %>-target="fullSpeedAccel">
+        <%= svg_icon 'angle-up-solid' %>
+        <%= svg_icon 'angle-up-solid' %>
+        <%= svg_icon 'minus-solid' %>
+        <%= svg_icon 'angle-down-solid' %>
+        <%= svg_icon 'angle-down-solid' %>
+      </div>
       <span class="video-indicator-units"><%= t 'units.kmh' %></span>
     </div>
     <div class="video-indicator-title"><%= t 'tracks.indicators.full_speed' %></div>
   </div>
 
   <div class="video-indicator-value-container">
-    <div>
+    <div class="video-indicator-with-accel">
       <span class="video-indicator-value" data-<%= controller %>-target="hSpeed">
         ---
       </span>
-      &nbsp;
+      <div class="video-indicator-accel" data-<%= controller %>-target="hSpeedAccel">
+        <%= svg_icon 'angle-up-solid' %>
+        <%= svg_icon 'angle-up-solid' %>
+        <%= svg_icon 'minus-solid' %>
+        <%= svg_icon 'angle-down-solid' %>
+        <%= svg_icon 'angle-down-solid' %>
+      </div>
       <span class="video-indicator-units"><%= t 'units.kmh' %></span>
     </div>
     <div class="video-indicator-title"><%= t 'tracks.indicators.ground_speed' %></div>
   </div>
 
   <div class="video-indicator-value-container">
-    <div>
+    <div class="video-indicator-with-accel">
       <span class="video-indicator-value" data-<%= controller %>-target="vSpeed">
         ---
       </span>
-      &nbsp;
+      <div class="video-indicator-accel" data-<%= controller %>-target="vSpeedAccel">
+        <%= svg_icon 'angle-up-solid' %>
+        <%= svg_icon 'angle-up-solid' %>
+        <%= svg_icon 'minus-solid' %>
+        <%= svg_icon 'angle-down-solid' %>
+        <%= svg_icon 'angle-down-solid' %>
+      </div>
       <span class="video-indicator-units"><%= t 'units.kmh' %></span>
     </div>
     <div class="video-indicator-title"><%= t 'tracks.indicators.vertical_speed' %></div>

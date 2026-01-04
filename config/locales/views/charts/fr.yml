@@ -29,7 +29,7 @@ fr:
         raw_gr: Finesse (Brut)
         wind_effect: Effet du vent
     spd:
-      title: Vitesse sol et verticale
+      title: Vitesse
       axis:
         speed: 'Vitesse, %{unit}'
       series:

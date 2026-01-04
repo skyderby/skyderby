@@ -13,6 +13,25 @@
         </div>
       </div>
 
+      <div class="base-jump-controls">
+        <%= render 'tracks/playback_indicators', controller: 'tracks--base-jump-track' %>
+
+        <div class="base-jump-playback">
+          <button class="base-jump-playback-button"
+                  data-tracks--base-jump-track-target="playButton"
+                  data-action="tracks--base-jump-track#togglePlay">
+            <%= svg_icon 'play-solid' %>
+          </button>
+          <input type="range"
+                 class="base-jump-playback-slider"
+                 min="0"
+                 max="100"
+                 value="0"
+                 data-tracks--base-jump-track-target="playbackSlider"
+                 data-action="input->tracks--base-jump-track#onSliderInput">
+        </div>
+      </div>
+
       <div class="base-jump-right">
         <div class="base-jump-map-container">
           <div class="base-jump-map"
@@ -29,23 +48,6 @@
                data-synchronized-charts-target="chart"></div>
         </div>
       </div>
-    </div>
-
-    <%= render 'tracks/playback_indicators', controller: 'tracks--base-jump-track' %>
-
-    <div class="base-jump-playback">
-      <button class="base-jump-playback-button"
-              data-tracks--base-jump-track-target="playButton"
-              data-action="tracks--base-jump-track#togglePlay">
-        <%= svg_icon 'play-solid' %>
-      </button>
-      <input type="range"
-             class="base-jump-playback-slider"
-             min="0"
-             max="100"
-             value="0"
-             data-tracks--base-jump-track-target="playbackSlider"
-             data-action="input->tracks--base-jump-track#onSliderInput">
     </div>
 
     <blockquote>

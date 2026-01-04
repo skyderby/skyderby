@@ -126,9 +126,11 @@ export default class SideProjectionChart {
 
     const gridInterval = this.maxScale > 500 ? 100 : 50
 
+    let labelIndex = 0
     for (let value = 0; value <= this.maxScale; value += gridInterval) {
       const x = this.scaleX(value)
       const y = this.scaleY(value)
+      const isOddLabel = labelIndex % 2 === 1
 
       const vLine = document.createElementNS(SVG_NS, 'line')
       vLine.setAttribute('x1', x)
@@ -154,6 +156,7 @@ export default class SideProjectionChart {
       xLabel.setAttribute('text-anchor', 'middle')
       xLabel.setAttribute('font-size', '11')
       xLabel.setAttribute('fill', '#666')
+      if (isOddLabel) xLabel.setAttribute('class', 'grid-label-odd')
       xLabel.textContent = value
       gridGroup.appendChild(xLabel)
 
@@ -163,8 +166,11 @@ export default class SideProjectionChart {
       yLabel.setAttribute('text-anchor', 'end')
       yLabel.setAttribute('font-size', '11')
       yLabel.setAttribute('fill', '#666')
+      if (isOddLabel) yLabel.setAttribute('class', 'grid-label-odd')
       yLabel.textContent = value
       gridGroup.appendChild(yLabel)
+
+      labelIndex++
     }
 
     const xAxisLabel = document.createElementNS(SVG_NS, 'text')
