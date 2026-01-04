@@ -1,0 +1,39 @@
+ru:
+  subscriptions:
+    index:
+      title: Смотри глубже. Летай лучше.
+      subtitle: Продвинутая аналитика, чтобы летать Дольше, Дальше, Быстрее
+      active_badge: Активная подписка
+      thank_you: Спасибо за вашу поддержку!
+      active_subscription: "У вас активная подписка %{plan}"
+      manage_subscription: Управление подпиской
+      subscribe: Подписаться
+      per_interval: "/%{interval}"
+      plan_monthly: Pro Месячная
+      plan_annual: Pro Годовая
+      plan_once: Pro Навсегда
+      save_75: "-75%"
+      best_value: Лучшее предложение
+      base_interactive_replay: Интерактивный playback
+      base_all_data: Все данные на одном экране — карта, графики, вид сбоку, 1:1, видео
+      base_terrain: Профиль рельефа, расстояние до рельефа
+      skydive_analysis: Детальный анализ полёта
+      skydive_corridor: Карта с коридором
+      skydive_wind: Вычитание ветра
+      compare_desc: Сравнение нескольких треков бок о бок с синхронизированным воспроизведением
+      highlight_title: Выделенное имя
+      highlight_example: "Ваше имя будет выглядеть так:"
+      coming_soon: Скоро
+      social_proof: пилотов используют преимущества Pro
+    success:
+      title: Добро пожаловать в Pro!
+      subtitle: Ты только что вышел на новый уровень
+      unlocked_title: Теперь тебе доступно
+      feature_base: Интерактивный playback с профилем рельефа и синхронизацией данных
+      feature_skydive: Детальный анализ полёта с вычитанием ветра
+      feature_highlight_name: Твоё имя выделяется
+      feature_compare: Сравнение треков бок о бок (скоро)
+      explore_tracks: Начать пользоваться
+      manage_subscription: Управление подпиской
+    create:
+      notice: Спасибо за подписку!

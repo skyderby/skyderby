@@ -33,6 +33,8 @@ class GuestUser
 
   def registered? = false
 
+  def subscription_active? = false
+
   def admin? = false
 
   def role?(_role) = false

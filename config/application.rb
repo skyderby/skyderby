@@ -32,6 +32,7 @@ module Skyderby
     config.yjit = true
 
     config.track_scanner = config_for(:track_scanner)
+    config.stripe = config_for(:stripe)
 
     # The default locale is :en and all translations from config/locales/**/*.rb,yml are auto loaded.
     config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}').to_s]

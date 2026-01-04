@@ -1,0 +1,39 @@
+en:
+  subscriptions:
+    index:
+      title: See More. Fly Better.
+      subtitle: Advanced analytics to make You fly Longer, Further, Faster
+      active_badge: Active Subscriber
+      thank_you: Thank you for your support!
+      active_subscription: "You have an active %{plan} subscription"
+      manage_subscription: Manage Subscription
+      subscribe: Subscribe
+      per_interval: "/%{interval}"
+      plan_monthly: Pro Monthly
+      plan_annual: Pro Annual
+      plan_once: Pro Once
+      save_75: "-75%"
+      best_value: Best Value
+      base_interactive_replay: Interactive playback
+      base_all_data: All data on one screen — map, charts, side view, 1:1, video
+      base_terrain: Terrain profile, distance to terrain
+      skydive_analysis: Detailed flight analysis
+      skydive_corridor: Map with lane check
+      skydive_wind: Wind subtraction
+      compare_desc: Compare multiple tracks side by side with synchronized playback
+      highlight_title: Highlighted Name
+      highlight_example: "Your name will look like this:"
+      coming_soon: Coming Soon
+      social_proof: jumpers getting advantage of Pro features
+    success:
+      title: Welcome to Pro!
+      subtitle: You just leveled up your flying
+      unlocked_title: Now unlocked for you
+      feature_base: Interactive replay with terrain profile and all data synced
+      feature_skydive: Detailed flight analysis with wind subtraction
+      feature_highlight_name: Your name stands out
+      feature_compare: Side-by-side track comparison (coming soon)
+      explore_tracks: Start Using
+      manage_subscription: Manage Subscription
+    create:
+      notice: Thank you for subscribing!

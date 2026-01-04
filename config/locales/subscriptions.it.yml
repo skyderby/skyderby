@@ -1,0 +1,39 @@
+it:
+  subscriptions:
+    index:
+      title: Vedi di più. Vola meglio.
+      subtitle: Analisi avanzate per volare Più a Lungo, Più Lontano, Più Veloce
+      active_badge: Abbonato attivo
+      thank_you: Grazie per il tuo supporto!
+      active_subscription: "Hai un abbonamento %{plan} attivo"
+      manage_subscription: Gestisci abbonamento
+      subscribe: Abbonati
+      per_interval: "/%{interval}"
+      plan_monthly: Pro Mensile
+      plan_annual: Pro Annuale
+      plan_once: Pro Una Volta
+      save_75: "-75%"
+      best_value: Migliore offerta
+      base_interactive_replay: Riproduzione interattiva
+      base_all_data: Tutti i dati su uno schermo — mappa, grafici, vista laterale, 1:1, video
+      base_terrain: Profilo del terreno, distanza dal terreno
+      skydive_analysis: Analisi di volo dettagliata
+      skydive_corridor: Mappa con verifica corridoio
+      skydive_wind: Sottrazione del vento
+      compare_desc: Confronta più tracce affiancate con riproduzione sincronizzata
+      highlight_title: Nome evidenziato
+      highlight_example: "Il tuo nome apparirà così:"
+      coming_soon: In arrivo
+      social_proof: saltatori sfruttano i vantaggi di Pro
+    success:
+      title: Benvenuto in Pro!
+      subtitle: Hai appena portato il tuo volo a un nuovo livello
+      unlocked_title: Ora sbloccato per te
+      feature_base: Riproduzione interattiva con profilo del terreno e dati sincronizzati
+      feature_skydive: Analisi di volo dettagliata con sottrazione del vento
+      feature_highlight_name: Il tuo nome spicca
+      feature_compare: Confronto tracce affiancato (in arrivo)
+      explore_tracks: Inizia a usare
+      manage_subscription: Gestisci abbonamento
+    create:
+      notice: Grazie per l'abbonamento!

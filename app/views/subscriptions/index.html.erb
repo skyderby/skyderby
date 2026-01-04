@@ -1,0 +1,93 @@
+<% provide :title, t('.title') %>
+
+<div class="subscriptions-page">
+  <header class="subscriptions-header">
+    <h1 class="subscriptions-title"><%= t('.title') %></h1>
+    <p class="subscriptions-subtitle"><%= t('.subtitle') %></p>
+  </header>
+
+  <% if @subscription&.active? %>
+    <div class="subscriptions-active">
+      <div class="subscriptions-active__badge">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+        </svg>
+        <%= t('.active_badge') %>
+      </div>
+      <h2 class="subscriptions-active__title"><%= t('.thank_you') %></h2>
+      <p class="subscriptions-active__plan"><%= t('.active_subscription', plan: @subscription.name) %></p>
+      <div class="subscriptions-active__action">
+        <%= button_to t('.manage_subscription'), billing_portal_subscriptions_path, method: :post, class: 'default-button', data: { turbo: false } %>
+      </div>
+    </div>
+  <% else %>
+    <div class="subscriptions-content">
+      <%= form_with url: subscriptions_path, method: :post, class: 'subscriptions-plans', data: { turbo: false } do |f| %>
+        <div class="subscriptions-plans__options">
+          <% @plans.each_with_index do |plan, index| %>
+            <label class="subscription-plan-option <%= 'subscription-plan-option--popular' if plan[:popular] %>">
+              <input type="radio" name="plan" value="<%= plan[:id] %>" <%= 'checked' if plan[:popular] %> class="subscription-plan-option__radio">
+              <span class="subscription-plan-option__content">
+                <span class="subscription-plan-option__left">
+                  <span class="subscription-plan-option__name"><%= plan[:name] %></span>
+                  <% if plan[:popular] %>
+                    <span class="subscription-plan-option__best-value"><%= t('.best_value') %></span>
+                  <% elsif plan[:savings] %>
+                    <span class="subscription-plan-option__savings"><%= plan[:savings] %></span>
+                  <% end %>
+                </span>
+                <span class="subscription-plan-option__right">
+                  <span class="subscription-plan-option__price">$<%= (plan[:price] / 100.0).to_i %></span>
+                  <span class="subscription-plan-option__period"><%= plan[:interval] ? t('.per_interval', interval: plan[:interval]) : '' %></span>
+                </span>
+              </span>
+            </label>
+          <% end %>
+        </div>
+        <%= f.submit t('.subscribe'), class: 'primary-button subscriptions-plans__submit' %>
+      <% end %>
+
+      <div class="subscriptions-benefits">
+        <div class="subscriptions-benefit">
+          <h4 class="subscriptions-benefit__title">BASE Pro View</h4>
+          <ul class="subscriptions-benefit__list">
+            <li><%= t('.base_interactive_replay') %></li>
+            <li><%= t('.base_all_data') %></li>
+            <li><%= t('.base_terrain') %></li>
+          </ul>
+        </div>
+
+        <div class="subscriptions-benefit">
+          <h4 class="subscriptions-benefit__title">Skydive Pro View</h4>
+          <ul class="subscriptions-benefit__list">
+            <li><%= t('.skydive_analysis') %></li>
+            <li><%= t('.skydive_corridor') %></li>
+            <li><%= t('.skydive_wind') %></li>
+          </ul>
+        </div>
+
+        <div class="subscriptions-benefit">
+          <h4 class="subscriptions-benefit__title">
+            Pro Compare
+            <span class="subscriptions-benefit__coming-soon"><%= t('.coming_soon') %></span>
+          </h4>
+          <ul class="subscriptions-benefit__list">
+            <li><%= t('.compare_desc') %></li>
+          </ul>
+        </div>
+
+        <div class="subscriptions-benefit">
+          <h4 class="subscriptions-benefit__title"><%= t('.highlight_title') %></h4>
+          <p class="subscriptions-benefit__example">
+            <%= t('.highlight_example') %> <span class="contributor"><%= current_user.name %></span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="subscriptions-social-proof">
+      <p class="subscriptions-social-proof__count"><%= @subscribers_count %></p>
+      <p class="subscriptions-social-proof__text"><%= t('.social_proof') %></p>
+    </div>
+  <% end %>
+</div>

@@ -25,6 +25,8 @@ class User < ApplicationRecord
   include ParticipantOfEvents
   include User::Omniauth
 
+  pay_customer default_payment_processor: :stripe
+
   has_one :profile, as: :owner, dependent: :nullify, inverse_of: :owner
 
   scope :admins, -> { where('? = ANY(roles)', 'admin') }
@@ -44,6 +46,20 @@ class User < ApplicationRecord
   def admin? = role?(:admin)
 
   def registered? = true
+
+  def subscription_active?
+    return true if admin?
+
+    stripe_processor&.subscription&.active? || lifetime_subscription?
+  end
+
+  def lifetime_subscription?
+    stripe_processor&.charges&.succeeded&.any? { |c| c.metadata['type'] == 'lifetime' }
+  end
+
+  def stripe_processor
+    pay_customers.find_by(processor: :stripe)
+  end
 
   # Using ActiveJob to deliver messages in background
   def send_devise_notification(notification, *)

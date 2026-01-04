@@ -36,7 +36,8 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.preview_path = Rails.root.join('lib/mailer_previews')
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.preview_paths = [Rails.root.join('lib/mailer_previews')]
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -63,7 +64,8 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :async
 
-  config.hosts << '.skyderby.test'
+  config.hosts << '.skyderby.localhost'
+  config.hosts << '.ngrok-free.dev'
 
   config.after_initialize do
     Bullet.enable = true

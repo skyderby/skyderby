@@ -1,0 +1,17 @@
+development:
+  prices:
+    monthly: price_1SlAnwRnzBzJlZcxCAzjZCcI
+    annual: price_1SlAoFRnzBzJlZcxMICZtdCW
+    lifetime: price_1SlAp7RnzBzJlZcxy1Q4YN2V
+
+test:
+  prices:
+    monthly: price_test_monthly
+    annual: price_test_annual
+    lifetime: price_test_lifetime
+
+production:
+  prices:
+    monthly: price_1SlAfKD2xlXsSbkLHn0UHmbp
+    annual: price_1SlAgND2xlXsSbkLF2T8htHY
+    lifetime: price_1SlAhJD2xlXsSbkLqagD1exs

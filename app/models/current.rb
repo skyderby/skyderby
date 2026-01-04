@@ -11,18 +11,14 @@ class Current < ActiveSupport::CurrentAttributes
     super(%w[separate single].include?(mode) ? mode : default_mode)
   end
 
-  def charts_mode
-    super.inquiry
-  end
+  def charts_mode = super.inquiry
 
   def charts_units=(units)
     default_units = 'metric'
     super(%w[metric imperial].include?(units) ? units : default_units)
   end
 
-  def charts_units
-    super.inquiry
-  end
+  def charts_units = super.inquiry
 
-  def subscription_active? = false
+  def subscription_active? = user&.subscription_active? || false
 end

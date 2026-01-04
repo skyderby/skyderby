@@ -10,72 +10,72 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_16_024237) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_04_072531) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
 
   create_table "announcements", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.string "name", null: false
-    t.string "text"
     t.datetime "period_from", precision: nil, null: false
     t.datetime "period_to", precision: nil, null: false
-    t.datetime "created_at", null: false
+    t.string "text"
     t.datetime "updated_at", null: false
   end
 
   create_table "badges", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
-    t.integer "kind"
-    t.integer "profile_id"
-    t.timestamptz "created_at"
-    t.timestamptz "updated_at"
-    t.string "comment"
-    t.integer "category", default: 0, null: false
     t.date "achieved_at"
+    t.integer "category", default: 0, null: false
+    t.string "comment"
+    t.timestamptz "created_at"
+    t.integer "kind"
+    t.string "name", limit: 510
+    t.integer "profile_id"
+    t.timestamptz "updated_at"
   end
 
   create_table "contribution_details", force: :cascade do |t|
-    t.bigint "profile_id", null: false
     t.bigint "contribution_id", null: false
     t.datetime "created_at", null: false
+    t.bigint "profile_id", null: false
     t.datetime "updated_at", null: false
     t.index ["contribution_id"], name: "index_contribution_details_on_contribution_id"
   end
 
   create_table "contributions", force: :cascade do |t|
     t.decimal "amount"
-    t.date "received_at"
     t.datetime "created_at", null: false
+    t.date "received_at"
     t.datetime "updated_at", null: false
   end
 
   create_table "countries", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
     t.string "code", limit: 510
+    t.string "name", limit: 510
     t.index ["code"], name: "index_countries_on_code", unique: true
   end
 
   create_table "event_competitors", id: :serial, force: :cascade do |t|
-    t.integer "event_id"
-    t.integer "user_id"
-    t.timestamptz "created_at"
-    t.timestamptz "updated_at"
-    t.integer "suit_id"
-    t.string "name", limit: 510
-    t.integer "section_id"
-    t.integer "profile_id"
-    t.bigint "team_id"
     t.string "assigned_number"
+    t.timestamptz "created_at"
+    t.integer "event_id"
+    t.string "name", limit: 510
+    t.integer "profile_id"
+    t.integer "section_id"
+    t.integer "suit_id"
+    t.bigint "team_id"
+    t.timestamptz "updated_at"
+    t.integer "user_id"
     t.index ["event_id"], name: "index_event_competitors_on_event_id"
     t.index ["team_id"], name: "index_event_competitors_on_team_id"
   end
 
   create_table "event_reference_point_assignments", force: :cascade do |t|
-    t.bigint "round_id"
     t.bigint "competitor_id"
-    t.bigint "reference_point_id"
     t.datetime "created_at", precision: nil, null: false
+    t.bigint "reference_point_id"
+    t.bigint "round_id"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["competitor_id"], name: "index_event_reference_point_assignments_on_competitor_id"
     t.index ["round_id", "competitor_id"], name: "index_reference_point_assignment_in_round_and_competitor", unique: true
@@ -83,31 +83,31 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_16_024237) do
   end
 
   create_table "event_reference_points", force: :cascade do |t|
+    t.datetime "created_at", precision: nil, null: false
     t.bigint "event_id"
-    t.string "name"
     t.decimal "latitude", precision: 15, scale: 10
     t.decimal "longitude", precision: 15, scale: 10
-    t.datetime "created_at", precision: nil, null: false
+    t.string "name"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["event_id"], name: "index_event_reference_points_on_event_id"
   end
 
   create_table "event_results", id: :serial, force: :cascade do |t|
-    t.integer "round_id"
-    t.integer "track_id"
-    t.timestamptz "created_at"
-    t.timestamptz "updated_at"
     t.integer "competitor_id"
-    t.decimal "result", precision: 14, scale: 5
-    t.integer "profile_id"
-    t.decimal "result_net", precision: 10, scale: 2
-    t.string "penalty_reason"
-    t.boolean "penalized", default: false, null: false
-    t.integer "penalty_size"
+    t.timestamptz "created_at"
     t.decimal "exit_altitude", precision: 10, scale: 3
     t.datetime "exited_at", precision: nil
     t.integer "heading_within_window"
+    t.boolean "penalized", default: false, null: false
+    t.string "penalty_reason"
+    t.integer "penalty_size"
+    t.integer "profile_id"
     t.integer "pull_altitude"
+    t.decimal "result", precision: 14, scale: 5
+    t.decimal "result_net", precision: 10, scale: 2
+    t.integer "round_id"
+    t.integer "track_id"
+    t.timestamptz "updated_at"
     t.datetime "validated_at"
     t.index ["profile_id"], name: "index_event_results_on_profile_id"
     t.index ["round_id", "competitor_id"], name: "index_event_results_on_round_id_and_competitor_id", unique: true
@@ -115,117 +115,216 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_16_024237) do
   end
 
   create_table "event_rounds", id: :serial, force: :cascade do |t|
-    t.integer "event_id"
-    t.timestamptz "created_at"
-    t.timestamptz "updated_at"
-    t.integer "discipline"
-    t.integer "profile_id"
-    t.integer "number"
     t.datetime "completed_at", precision: nil
+    t.timestamptz "created_at"
+    t.integer "discipline"
+    t.integer "event_id"
+    t.integer "number"
+    t.integer "profile_id"
+    t.timestamptz "updated_at"
     t.index ["event_id"], name: "index_event_rounds_on_event_id"
   end
 
   create_table "event_sections", id: :serial, force: :cascade do |t|
+    t.integer "event_id"
     t.string "name", limit: 510
     t.integer "order"
-    t.integer "event_id"
     t.index ["event_id"], name: "index_event_sections_on_event_id"
   end
 
   create_table "event_teams", force: :cascade do |t|
+    t.bigint "country_id"
+    t.datetime "created_at", precision: nil, null: false
     t.bigint "event_id"
     t.string "name"
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.bigint "country_id"
     t.index ["event_id"], name: "index_event_teams_on_event_id"
   end
 
   create_table "events", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
+    t.boolean "apply_penalty_to_score"
     t.timestamptz "created_at"
-    t.timestamptz "updated_at"
-    t.integer "status", default: 0
-    t.integer "place_id"
+    t.integer "designated_lane_start", default: 1, null: false
     t.boolean "is_official", default: false
-    t.integer "rules", default: 0
-    t.date "starts_at"
-    t.boolean "wind_cancellation", default: false
-    t.integer "visibility", default: 0
-    t.integer "responsible_id"
+    t.integer "lane_validation_stops_at", default: 0, null: false
+    t.string "name", limit: 510
+    t.integer "number_of_results_for_total"
+    t.integer "place_id"
+    t.bigint "profile_id"
     t.integer "range_from"
     t.integer "range_to"
-    t.integer "number_of_results_for_total"
-    t.integer "designated_lane_start", default: 1, null: false
-    t.boolean "apply_penalty_to_score"
+    t.integer "responsible_id"
+    t.integer "rules", default: 0
+    t.date "starts_at"
+    t.integer "status", default: 0
+    t.timestamptz "updated_at"
     t.boolean "use_teams"
-    t.bigint "profile_id"
-    t.integer "lane_validation_stops_at", default: 0, null: false
+    t.integer "visibility", default: 0
+    t.boolean "wind_cancellation", default: false
     t.index ["profile_id"], name: "index_events_on_profile_id"
   end
 
   create_table "gps_recordings_archives", force: :cascade do |t|
-    t.string "event_type", null: false
-    t.bigint "event_id", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "file_data"
     t.datetime "created_at", null: false
+    t.bigint "event_id", null: false
+    t.string "event_type", null: false
+    t.jsonb "file_data"
+    t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.index ["event_type", "event_id"], name: "index_gps_recordings_archives_on_event"
     t.index ["event_type", "event_id"], name: "index_gps_recordings_archives_on_event_type_and_event_id", unique: true
   end
 
   create_table "manufacturers", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
-    t.string "code", limit: 510
     t.boolean "active", default: false, null: false
+    t.string "code", limit: 510
+    t.string "name", limit: 510
     t.index ["code"], name: "index_manufacturers_on_code", unique: true
   end
 
   create_table "organizers", id: :serial, force: :cascade do |t|
-    t.integer "organizable_id"
     t.timestamptz "created_at"
-    t.timestamptz "updated_at"
+    t.integer "organizable_id"
     t.string "organizable_type"
+    t.timestamptz "updated_at"
     t.bigint "user_id"
     t.index ["organizable_id"], name: "index_organizers_on_organizable_id"
     t.index ["user_id"], name: "index_organizers_on_user_id"
   end
 
-  create_table "performance_competition_series", force: :cascade do |t|
-    t.string "name"
-    t.integer "status", default: 0, null: false
-    t.integer "visibility", default: 0, null: false
-    t.bigint "responsible_id"
+  create_table "pay_charges", force: :cascade do |t|
+    t.integer "amount", null: false
+    t.integer "amount_refunded"
+    t.integer "application_fee_amount"
     t.datetime "created_at", null: false
+    t.string "currency"
+    t.bigint "customer_id", null: false
+    t.jsonb "data"
+    t.jsonb "metadata"
+    t.jsonb "object"
+    t.string "processor_id", null: false
+    t.string "stripe_account"
+    t.bigint "subscription_id"
+    t.string "type"
+    t.datetime "updated_at", null: false
+    t.index ["customer_id", "processor_id"], name: "index_pay_charges_on_customer_id_and_processor_id", unique: true
+    t.index ["subscription_id"], name: "index_pay_charges_on_subscription_id"
+  end
+
+  create_table "pay_customers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.jsonb "data"
+    t.boolean "default"
+    t.datetime "deleted_at", precision: nil
+    t.jsonb "object"
+    t.bigint "owner_id"
+    t.string "owner_type"
+    t.string "processor", null: false
+    t.string "processor_id"
+    t.string "stripe_account"
+    t.string "type"
+    t.datetime "updated_at", null: false
+    t.index ["owner_type", "owner_id", "deleted_at"], name: "pay_customer_owner_index", unique: true
+    t.index ["processor", "processor_id"], name: "index_pay_customers_on_processor_and_processor_id", unique: true
+  end
+
+  create_table "pay_merchants", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.jsonb "data"
+    t.boolean "default"
+    t.bigint "owner_id"
+    t.string "owner_type"
+    t.string "processor", null: false
+    t.string "processor_id"
+    t.string "type"
+    t.datetime "updated_at", null: false
+    t.index ["owner_type", "owner_id", "processor"], name: "index_pay_merchants_on_owner_type_and_owner_id_and_processor"
+  end
+
+  create_table "pay_payment_methods", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "customer_id", null: false
+    t.jsonb "data"
+    t.boolean "default"
+    t.string "payment_method_type"
+    t.string "processor_id", null: false
+    t.string "stripe_account"
+    t.string "type"
+    t.datetime "updated_at", null: false
+    t.index ["customer_id", "processor_id"], name: "index_pay_payment_methods_on_customer_id_and_processor_id", unique: true
+  end
+
+  create_table "pay_subscriptions", force: :cascade do |t|
+    t.decimal "application_fee_percent", precision: 8, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "current_period_end", precision: nil
+    t.datetime "current_period_start", precision: nil
+    t.bigint "customer_id", null: false
+    t.jsonb "data"
+    t.datetime "ends_at", precision: nil
+    t.jsonb "metadata"
+    t.boolean "metered"
+    t.string "name", null: false
+    t.jsonb "object"
+    t.string "pause_behavior"
+    t.datetime "pause_resumes_at", precision: nil
+    t.datetime "pause_starts_at", precision: nil
+    t.string "payment_method_id"
+    t.string "processor_id", null: false
+    t.string "processor_plan", null: false
+    t.integer "quantity", default: 1, null: false
+    t.string "status", null: false
+    t.string "stripe_account"
+    t.datetime "trial_ends_at", precision: nil
+    t.string "type"
+    t.datetime "updated_at", null: false
+    t.index ["customer_id", "processor_id"], name: "index_pay_subscriptions_on_customer_id_and_processor_id", unique: true
+    t.index ["metered"], name: "index_pay_subscriptions_on_metered"
+    t.index ["pause_starts_at"], name: "index_pay_subscriptions_on_pause_starts_at"
+  end
+
+  create_table "pay_webhooks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.jsonb "event"
+    t.string "event_type"
+    t.string "processor"
     t.datetime "updated_at", null: false
   end
 
-  create_table "performance_competition_series_included_competitions", force: :cascade do |t|
-    t.bigint "performance_competition_series_id"
-    t.bigint "event_id"
+  create_table "performance_competition_series", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "name"
+    t.bigint "responsible_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.integer "visibility", default: 0, null: false
+  end
+
+  create_table "performance_competition_series_included_competitions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "event_id"
+    t.bigint "performance_competition_series_id"
     t.datetime "updated_at", null: false
   end
 
   create_table "performance_competition_series_rounds", force: :cascade do |t|
-    t.bigint "performance_competition_series_id"
-    t.integer "discipline", default: 0, null: false
-    t.integer "number"
     t.boolean "completed", default: false, null: false
     t.datetime "created_at", null: false
+    t.integer "discipline", default: 0, null: false
+    t.integer "number"
+    t.bigint "performance_competition_series_id"
     t.datetime "updated_at", null: false
     t.index ["performance_competition_series_id"], name: "index_rounds_on_performance_competition_series_id"
   end
 
   create_table "place_finish_lines", force: :cascade do |t|
-    t.bigint "place_id"
-    t.string "name"
-    t.decimal "start_latitude", precision: 15, scale: 10
-    t.decimal "start_longitude", precision: 15, scale: 10
+    t.datetime "created_at", precision: nil, null: false
     t.decimal "end_latitude", precision: 15, scale: 10
     t.decimal "end_longitude", precision: 15, scale: 10
-    t.datetime "created_at", precision: nil, null: false
+    t.string "name"
+    t.bigint "place_id"
+    t.decimal "start_latitude", precision: 15, scale: 10
+    t.decimal "start_longitude", precision: 15, scale: 10
     t.datetime "updated_at", precision: nil, null: false
     t.index ["place_id"], name: "index_place_finish_lines_on_place_id"
   end
@@ -237,117 +336,117 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_16_024237) do
   end
 
   create_table "place_jump_lines", force: :cascade do |t|
-    t.bigint "place_id"
-    t.string "name"
     t.datetime "created_at", precision: nil, null: false
+    t.string "name"
+    t.bigint "place_id"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["place_id"], name: "index_place_jump_lines_on_place_id"
   end
 
   create_table "place_photos", force: :cascade do |t|
-    t.bigint "place_id"
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
     t.jsonb "image_data"
+    t.bigint "place_id"
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["place_id"], name: "index_place_photos_on_place_id"
   end
 
   create_table "place_weather_data", id: :serial, force: :cascade do |t|
     t.datetime "actual_on", precision: nil
     t.decimal "altitude", precision: 10, scale: 4
-    t.decimal "wind_speed", precision: 10, scale: 4
-    t.decimal "wind_direction", precision: 5, scale: 2
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
     t.bigint "place_id"
+    t.datetime "updated_at", precision: nil, null: false
+    t.decimal "wind_direction", precision: 5, scale: 2
+    t.decimal "wind_speed", precision: 10, scale: 4
     t.index ["place_id", "actual_on"], name: "index_place_weather_data_on_place_id_and_actual_on"
   end
 
   create_table "places", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
+    t.integer "country_id"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.integer "kind", default: 0, null: false
     t.decimal "latitude", precision: 15, scale: 10
     t.decimal "longitude", precision: 15, scale: 10
-    t.integer "country_id"
     t.decimal "msl", precision: 5, scale: 1
-    t.integer "kind", default: 0, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "name", limit: 510
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "points", id: :serial, force: :cascade do |t|
+    t.float "abs_altitude"
+    t.float "distance"
+    t.float "elevation"
     t.float "fl_time"
+    t.integer "gps_fix"
+    t.decimal "gps_time_in_seconds", precision: 17, scale: 3
+    t.float "h_speed"
+    t.float "heading"
+    t.float "heading_accuracy"
+    t.float "horizontal_accuracy"
     t.decimal "latitude", precision: 15, scale: 10
     t.decimal "longitude", precision: 15, scale: 10
-    t.float "elevation"
-    t.float "distance"
-    t.float "v_speed"
-    t.float "h_speed"
-    t.float "abs_altitude"
-    t.decimal "gps_time_in_seconds", precision: 17, scale: 3
-    t.integer "track_id"
-    t.float "horizontal_accuracy"
-    t.float "vertical_accuracy"
-    t.float "speed_accuracy"
-    t.float "heading_accuracy"
-    t.float "heading"
     t.integer "number_of_satellites"
-    t.integer "gps_fix"
+    t.float "speed_accuracy"
+    t.integer "track_id"
+    t.float "v_speed"
+    t.float "vertical_accuracy"
     t.index ["track_id"], name: "index_points_on_track_id"
   end
 
   create_table "profiles", id: :serial, force: :cascade do |t|
-    t.string "last_name", limit: 510
-    t.string "first_name", limit: 510
-    t.string "name", limit: 510
-    t.integer "default_units", default: 0
-    t.integer "default_chart_view", default: 0
     t.integer "country_id"
-    t.string "owner_type"
-    t.integer "owner_id"
-    t.jsonb "userpic_data"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.integer "default_chart_view", default: 0
+    t.integer "default_units", default: 0
+    t.string "first_name", limit: 510
+    t.string "last_name", limit: 510
+    t.string "name", limit: 510
+    t.integer "owner_id"
+    t.string "owner_type"
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.jsonb "userpic_data"
     t.index ["country_id"], name: "index_profiles_on_country_id"
     t.index ["country_id"], name: "user_profiles_country_id_idx"
     t.index ["owner_type", "owner_id"], name: "index_profiles_on_owner_type_and_owner_id"
   end
 
   create_table "qualification_jumps", id: :serial, force: :cascade do |t|
-    t.integer "qualification_round_id"
-    t.integer "competitor_id"
-    t.decimal "result", precision: 10, scale: 3
-    t.integer "track_id"
-    t.timestamptz "created_at", null: false
-    t.timestamptz "updated_at", null: false
-    t.decimal "start_time_in_seconds", precision: 17, scale: 3
     t.decimal "canopy_time"
+    t.integer "competitor_id"
+    t.timestamptz "created_at", null: false
+    t.integer "qualification_round_id"
+    t.decimal "result", precision: 10, scale: 3
+    t.decimal "start_time_in_seconds", precision: 17, scale: 3
+    t.integer "track_id"
+    t.timestamptz "updated_at", null: false
     t.index ["qualification_round_id", "competitor_id"], name: "index_qualification_jumps_on_round_and_competitor", unique: true
   end
 
   create_table "qualification_rounds", id: :serial, force: :cascade do |t|
-    t.integer "tournament_id"
-    t.integer "order"
     t.timestamptz "created_at", null: false
+    t.integer "order"
+    t.integer "tournament_id"
     t.timestamptz "updated_at", null: false
     t.index ["tournament_id"], name: "index_qualification_rounds_on_tournament_id"
   end
 
   create_table "speed_skydiving_competition_categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "event_id"
     t.string "name", null: false
     t.integer "position", default: 0, null: false
-    t.bigint "event_id"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_speed_skydiving_competition_categories_on_event_id"
   end
 
   create_table "speed_skydiving_competition_competitors", force: :cascade do |t|
-    t.bigint "event_id"
+    t.string "assigned_number"
     t.bigint "category_id"
+    t.datetime "created_at", null: false
+    t.bigint "event_id"
     t.bigint "profile_id"
     t.bigint "team_id"
-    t.string "assigned_number"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_speed_skydiving_competition_competitors_on_category_id"
     t.index ["event_id"], name: "index_speed_skydiving_competition_competitors_on_event_id"
@@ -356,27 +455,27 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_16_024237) do
   end
 
   create_table "speed_skydiving_competition_result_penalties", force: :cascade do |t|
-    t.bigint "result_id"
+    t.datetime "created_at", null: false
     t.integer "percent"
     t.string "reason"
-    t.datetime "created_at", null: false
+    t.bigint "result_id"
     t.datetime "updated_at", null: false
     t.index ["result_id"], name: "index_speed_skydiving_competition_result_penalties_on_result_id"
   end
 
   create_table "speed_skydiving_competition_results", force: :cascade do |t|
-    t.bigint "event_id"
-    t.bigint "round_id"
     t.bigint "competitor_id"
-    t.bigint "track_id"
-    t.decimal "result", precision: 10, scale: 5
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "window_start_time", precision: nil
-    t.datetime "window_end_time", precision: nil
+    t.bigint "event_id"
     t.float "exit_altitude"
-    t.decimal "window_start_altitude", precision: 10, scale: 3
+    t.decimal "result", precision: 10, scale: 5
+    t.bigint "round_id"
+    t.bigint "track_id"
+    t.datetime "updated_at", null: false
     t.decimal "window_end_altitude", precision: 10, scale: 3
+    t.datetime "window_end_time", precision: nil
+    t.decimal "window_start_altitude", precision: 10, scale: 3
+    t.datetime "window_start_time", precision: nil
     t.index ["competitor_id", "round_id"], name: "speed_skydiving_results_by_competitor_and_rounds", unique: true
     t.index ["competitor_id"], name: "index_speed_skydiving_competition_results_on_competitor_id"
     t.index ["event_id"], name: "index_speed_skydiving_competition_results_on_event_id"
@@ -385,211 +484,211 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_16_024237) do
   end
 
   create_table "speed_skydiving_competition_rounds", force: :cascade do |t|
-    t.integer "number", default: 1, null: false
-    t.bigint "event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.datetime "completed_at", precision: nil
+    t.datetime "created_at", null: false
+    t.bigint "event_id"
+    t.integer "number", default: 1, null: false
+    t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_speed_skydiving_competition_rounds_on_event_id"
   end
 
   create_table "speed_skydiving_competition_series", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "status", default: 0, null: false
-    t.integer "visibility", default: 0, null: false
-    t.bigint "responsible_id"
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "responsible_id"
+    t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
+    t.integer "visibility", default: 0, null: false
     t.index ["responsible_id"], name: "index_speed_skydiving_competition_series_on_responsible_id"
   end
 
   create_table "speed_skydiving_competition_series_included_competitions", force: :cascade do |t|
-    t.bigint "speed_skydiving_competition_series_id"
-    t.bigint "speed_skydiving_competition_id"
     t.datetime "created_at", null: false
+    t.bigint "speed_skydiving_competition_id"
+    t.bigint "speed_skydiving_competition_series_id"
     t.datetime "updated_at", null: false
     t.index ["speed_skydiving_competition_id"], name: "index_included_competitions_on_competition_id"
     t.index ["speed_skydiving_competition_series_id"], name: "index_included_competitions_on_competition_series_id"
   end
 
   create_table "speed_skydiving_competition_series_rounds", force: :cascade do |t|
-    t.bigint "speed_skydiving_competition_series_id"
-    t.integer "number", null: false
     t.datetime "completed_at", precision: nil
     t.datetime "created_at", null: false
+    t.integer "number", null: false
+    t.bigint "speed_skydiving_competition_series_id"
     t.datetime "updated_at", null: false
     t.index ["speed_skydiving_competition_series_id"], name: "index_rounds_on_speed_skydiving_competition_series_id"
   end
 
   create_table "speed_skydiving_competition_teams", force: :cascade do |t|
-    t.string "name", null: false
-    t.bigint "event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.bigint "country_id"
+    t.datetime "created_at", null: false
+    t.bigint "event_id"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_speed_skydiving_competition_teams_on_event_id"
   end
 
   create_table "speed_skydiving_competitions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "is_official", default: false, null: false
     t.string "name"
+    t.bigint "place_id"
+    t.bigint "responsible_id"
     t.date "starts_at"
     t.integer "status", default: 0, null: false
-    t.integer "visibility", default: 0, null: false
-    t.boolean "is_official", default: false, null: false
-    t.boolean "use_teams", default: false, null: false
-    t.bigint "responsible_id"
-    t.bigint "place_id"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "use_teams", default: false, null: false
+    t.integer "visibility", default: 0, null: false
     t.index ["place_id"], name: "index_speed_skydiving_competitions_on_place_id"
     t.index ["responsible_id"], name: "index_speed_skydiving_competitions_on_responsible_id"
   end
 
   create_table "sponsors", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
-    t.string "website", limit: 510
-    t.integer "sponsorable_id"
     t.timestamptz "created_at", null: false
-    t.timestamptz "updated_at", null: false
-    t.string "sponsorable_type"
     t.jsonb "logo_data"
+    t.string "name", limit: 510
+    t.integer "sponsorable_id"
+    t.string "sponsorable_type"
+    t.timestamptz "updated_at", null: false
+    t.string "website", limit: 510
     t.index ["sponsorable_id", "sponsorable_type"], name: "index_sponsors_on_sponsorable_id_and_sponsorable_type"
     t.index ["sponsorable_id"], name: "event_sponsors_event_id_idx"
     t.index ["sponsorable_id"], name: "index_sponsors_on_sponsorable_id"
   end
 
   create_table "suits", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.text "description"
+    t.integer "kind", default: 0
     t.integer "manufacturer_id"
     t.string "name", limit: 510
-    t.integer "kind", default: 0
-    t.text "description"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["manufacturer_id"], name: "index_suits_on_manufacturer_id"
   end
 
   create_table "tournament_competitors", id: :serial, force: :cascade do |t|
-    t.integer "tournament_id"
+    t.timestamptz "created_at", null: false
+    t.string "disqualification_reason"
+    t.boolean "is_disqualified"
     t.integer "profile_id"
     t.integer "suit_id"
-    t.timestamptz "created_at", null: false
+    t.integer "tournament_id"
     t.timestamptz "updated_at", null: false
-    t.boolean "is_disqualified"
-    t.string "disqualification_reason"
     t.index ["tournament_id"], name: "index_tournament_competitors_on_tournament_id"
   end
 
   create_table "tournament_match_slots", id: :serial, force: :cascade do |t|
-    t.decimal "result", precision: 10, scale: 3
     t.integer "competitor_id"
-    t.integer "match_id"
-    t.integer "track_id"
     t.timestamptz "created_at", null: false
-    t.timestamptz "updated_at", null: false
-    t.boolean "is_winner"
+    t.integer "earn_medal"
     t.boolean "is_disqualified"
     t.boolean "is_lucky_looser"
+    t.boolean "is_winner"
+    t.integer "match_id"
     t.string "notes", limit: 510
-    t.integer "earn_medal"
+    t.decimal "result", precision: 10, scale: 3
     t.datetime "start_time", precision: 3
+    t.integer "track_id"
+    t.timestamptz "updated_at", null: false
   end
 
   create_table "tournament_matches", id: :serial, force: :cascade do |t|
-    t.decimal "start_time_in_seconds", precision: 17, scale: 3
-    t.integer "round_id"
     t.timestamptz "created_at", null: false
-    t.timestamptz "updated_at", null: false
     t.integer "match_type", default: 0, null: false
+    t.integer "round_id"
+    t.decimal "start_time_in_seconds", precision: 17, scale: 3
+    t.timestamptz "updated_at", null: false
     t.index ["round_id"], name: "index_tournament_matches_on_round_id"
   end
 
   create_table "tournament_rounds", id: :serial, force: :cascade do |t|
+    t.timestamptz "created_at", null: false
     t.integer "order"
     t.integer "tournament_id"
-    t.timestamptz "created_at", null: false
     t.timestamptz "updated_at", null: false
     t.index ["tournament_id"], name: "index_tournament_rounds_on_tournament_id"
   end
 
   create_table "tournaments", id: :serial, force: :cascade do |t|
+    t.integer "bracket_size"
+    t.timestamptz "created_at", null: false
+    t.integer "discipline"
+    t.bigint "finish_line_id"
+    t.boolean "has_qualification"
     t.string "name", limit: 510
     t.integer "place_id"
-    t.integer "discipline"
-    t.timestamptz "created_at", null: false
-    t.timestamptz "updated_at", null: false
-    t.date "starts_at"
     t.integer "profile_id"
-    t.integer "bracket_size"
-    t.boolean "has_qualification"
     t.integer "responsible_id"
+    t.date "starts_at"
     t.integer "status", default: 0, null: false
-    t.bigint "finish_line_id"
+    t.timestamptz "updated_at", null: false
     t.index ["finish_line_id"], name: "index_tournaments_on_finish_line_id"
     t.index ["profile_id"], name: "index_tournaments_on_profile_id"
   end
 
   create_table "track_files", id: :serial, force: :cascade do |t|
-    t.string "file_file_name", limit: 510
+    t.timestamptz "created_at", null: false
     t.string "file_content_type", limit: 510
+    t.jsonb "file_data"
+    t.string "file_file_name", limit: 510
     t.integer "file_file_size"
     t.timestamptz "file_updated_at"
-    t.timestamptz "created_at", null: false
     t.timestamptz "updated_at", null: false
-    t.jsonb "file_data"
   end
 
   create_table "track_results", id: :serial, force: :cascade do |t|
-    t.integer "track_id"
     t.integer "discipline"
     t.integer "range_from"
     t.integer "range_to"
     t.float "result"
+    t.integer "track_id"
     t.index ["track_id", "discipline"], name: "index_track_results_on_track_id_and_discipline", unique: true
     t.index ["track_id"], name: "index_track_results_on_track_id"
   end
 
   create_table "track_videos", id: :serial, force: :cascade do |t|
-    t.integer "track_id"
-    t.string "url", limit: 510
-    t.decimal "video_offset", precision: 10, scale: 2
-    t.decimal "track_offset", precision: 10, scale: 2
     t.timestamptz "created_at"
+    t.integer "track_id"
+    t.decimal "track_offset", precision: 10, scale: 2
     t.timestamptz "updated_at"
+    t.string "url", limit: 510
     t.string "video_code", limit: 510
+    t.decimal "video_offset", precision: 10, scale: 2
     t.index ["track_id"], name: "index_track_videos_on_track_id"
   end
 
   create_table "tracks", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
-    t.timestamptz "created_at"
-    t.timestamptz "updated_at"
-    t.string "missing_suit_name", limit: 510
     t.text "comment"
-    t.string "location", limit: 510
-    t.integer "user_id"
-    t.integer "kind", default: 0
-    t.integer "suit_id"
-    t.integer "ff_start"
+    t.timestamptz "created_at"
+    t.decimal "data_frequency", precision: 3, scale: 1
+    t.boolean "disqualified_from_online_competitions", default: false, null: false
     t.integer "ff_end"
-    t.boolean "ge_enabled", default: true
-    t.integer "visibility", default: 0
-    t.integer "profile_id"
-    t.integer "place_id"
-    t.integer "gps_type", default: 0
-    t.string "file_file_name", limit: 510
+    t.integer "ff_start"
     t.string "file_content_type", limit: 510
+    t.string "file_file_name", limit: 510
     t.integer "file_file_size"
     t.timestamptz "file_updated_at"
-    t.integer "track_file_id"
-    t.decimal "ground_level", precision: 5, scale: 1, default: "0.0"
-    t.timestamptz "recorded_at"
-    t.boolean "disqualified_from_online_competitions", default: false, null: false
-    t.decimal "data_frequency", precision: 3, scale: 1
-    t.jsonb "missing_ranges"
-    t.boolean "require_range_review", default: false, null: false
-    t.string "owner_type"
-    t.bigint "owner_id"
     t.json "flares"
+    t.boolean "ge_enabled", default: true
+    t.integer "gps_type", default: 0
+    t.decimal "ground_level", precision: 5, scale: 1, default: "0.0"
+    t.integer "kind", default: 0
+    t.string "location", limit: 510
+    t.jsonb "missing_ranges"
+    t.string "missing_suit_name", limit: 510
+    t.string "name", limit: 510
+    t.bigint "owner_id"
+    t.string "owner_type"
+    t.integer "place_id"
+    t.integer "profile_id"
+    t.timestamptz "recorded_at"
+    t.boolean "require_range_review", default: false, null: false
+    t.integer "suit_id"
+    t.integer "track_file_id"
+    t.timestamptz "updated_at"
+    t.integer "user_id"
+    t.integer "visibility", default: 0
     t.index ["id", "ff_start", "ff_end"], name: "index_tracks_on_id_and_ff_start_and_ff_end"
     t.index ["owner_type", "owner_id"], name: "index_tracks_on_owner_type_and_owner_id"
     t.index ["place_id"], name: "index_tracks_on_place_id"
@@ -599,25 +698,25 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_16_024237) do
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
-    t.string "email", limit: 510, default: "", null: false
-    t.string "encrypted_password", limit: 510, default: "", null: false
-    t.string "reset_password_token", limit: 510
-    t.timestamptz "reset_password_sent_at"
-    t.timestamptz "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.timestamptz "current_sign_in_at"
-    t.timestamptz "last_sign_in_at"
-    t.string "current_sign_in_ip", limit: 510
-    t.string "last_sign_in_ip", limit: 510
-    t.timestamptz "created_at"
-    t.timestamptz "updated_at"
+    t.timestamptz "confirmation_sent_at"
     t.string "confirmation_token", limit: 510
     t.timestamptz "confirmed_at"
-    t.timestamptz "confirmation_sent_at"
-    t.string "unconfirmed_email", limit: 510
+    t.timestamptz "created_at"
+    t.timestamptz "current_sign_in_at"
+    t.string "current_sign_in_ip", limit: 510
+    t.string "email", limit: 510, default: "", null: false
+    t.string "encrypted_password", limit: 510, default: "", null: false
+    t.timestamptz "last_sign_in_at"
+    t.string "last_sign_in_ip", limit: 510
     t.string "provider"
-    t.string "uid"
+    t.timestamptz "remember_created_at"
+    t.timestamptz "reset_password_sent_at"
+    t.string "reset_password_token", limit: 510
     t.string "roles", default: [], array: true
+    t.integer "sign_in_count", default: 0, null: false
+    t.string "uid"
+    t.string "unconfirmed_email", limit: 510
+    t.timestamptz "updated_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -627,32 +726,32 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_16_024237) do
   end
 
   create_table "virtual_competition_custom_intervals", force: :cascade do |t|
-    t.bigint "virtual_competition_id"
+    t.datetime "created_at", precision: nil, null: false
     t.string "name"
-    t.string "slug"
     t.datetime "period_from", precision: nil
     t.datetime "period_to", precision: nil
-    t.datetime "created_at", precision: nil, null: false
+    t.string "slug"
     t.datetime "updated_at", precision: nil, null: false
+    t.bigint "virtual_competition_id"
     t.index ["virtual_competition_id"], name: "index_custom_intervals_on_virtual_competition_id"
   end
 
   create_table "virtual_competition_groups", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
     t.timestamptz "created_at"
-    t.timestamptz "updated_at"
     t.boolean "cumulative", default: false, null: false
     t.boolean "featured", default: false, null: false
+    t.string "name", limit: 510
+    t.timestamptz "updated_at"
   end
 
   create_table "virtual_competition_results", id: :serial, force: :cascade do |t|
-    t.integer "virtual_competition_id"
-    t.integer "track_id"
-    t.float "result", default: 0.0
     t.timestamptz "created_at"
-    t.timestamptz "updated_at"
-    t.float "highest_speed", default: 0.0
     t.float "highest_gr", default: 0.0
+    t.float "highest_speed", default: 0.0
+    t.float "result", default: 0.0
+    t.integer "track_id"
+    t.timestamptz "updated_at"
+    t.integer "virtual_competition_id"
     t.boolean "wind_cancelled", default: false, null: false
     t.index ["track_id"], name: "index_virtual_competition_results_on_track_id"
     t.index ["virtual_competition_id", "track_id", "wind_cancelled"], name: "index_results_on_competition_track_wind_cancelled", unique: true
@@ -660,35 +759,35 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_16_024237) do
   end
 
   create_table "virtual_competitions", id: :serial, force: :cascade do |t|
-    t.integer "jumps_kind"
-    t.integer "suits_kind"
-    t.integer "place_id"
-    t.date "period_from"
-    t.date "period_to"
+    t.timestamptz "created_at"
+    t.integer "default_view", default: 0, null: false
     t.integer "discipline"
     t.integer "discipline_parameter", default: 0
-    t.timestamptz "created_at"
-    t.timestamptz "updated_at"
-    t.string "name", limit: 510
+    t.boolean "display_highest_gr"
+    t.boolean "display_highest_speed"
+    t.boolean "display_on_start_page"
+    t.boolean "featured", default: false, null: false
+    t.bigint "finish_line_id"
     t.integer "group_id"
+    t.integer "interval_type", default: 0, null: false
+    t.integer "jumps_kind"
+    t.string "name", limit: 510
+    t.date "period_from"
+    t.date "period_to"
+    t.integer "place_id"
     t.integer "range_from", default: 0
     t.integer "range_to", default: 0
-    t.boolean "display_highest_speed"
-    t.boolean "display_highest_gr"
-    t.boolean "display_on_start_page"
-    t.integer "default_view", default: 0, null: false
-    t.bigint "finish_line_id"
-    t.integer "interval_type", default: 0, null: false
     t.string "results_sort_order", default: "descending", null: false
-    t.boolean "featured", default: false, null: false
+    t.integer "suits_kind"
+    t.timestamptz "updated_at"
     t.index ["finish_line_id"], name: "index_virtual_competitions_on_finish_line_id"
     t.index ["place_id"], name: "index_virtual_competitions_on_place_id"
   end
 
   create_table "weather_fetching_logs", force: :cascade do |t|
-    t.datetime "time"
-    t.text "error_description"
     t.datetime "created_at", null: false
+    t.text "error_description"
+    t.datetime "time"
     t.datetime "updated_at", null: false
   end
 
@@ -699,6 +798,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_16_024237) do
   add_foreign_key "event_competitors", "profiles"
   add_foreign_key "event_results", "tracks"
   add_foreign_key "event_teams", "countries"
+  add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
+  add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
+  add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
+  add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
   add_foreign_key "performance_competition_series", "users", column: "responsible_id"
   add_foreign_key "performance_competition_series_included_competitions", "events"
   add_foreign_key "performance_competition_series_included_competitions", "performance_competition_series"

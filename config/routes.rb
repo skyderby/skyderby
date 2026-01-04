@@ -46,6 +46,13 @@ Skyderby::Application.routes.draw do
              controllers: { omniauth_callbacks: 'users/omniauth_callbacks',
                             registrations: 'users/registrations' }
 
+  resources :subscriptions, only: [:index, :create] do
+    collection do
+      get :success
+      post :billing_portal
+    end
+  end
+
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/manage/sidekiq'
   end

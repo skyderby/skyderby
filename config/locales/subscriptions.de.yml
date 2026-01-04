@@ -1,0 +1,39 @@
+de:
+  subscriptions:
+    index:
+      title: Sieh mehr. Flieg besser.
+      subtitle: Erweiterte Analysen, um Länger, Weiter, Schneller zu fliegen
+      active_badge: Aktiver Abonnent
+      thank_you: Vielen Dank für deine Unterstützung!
+      active_subscription: "Du hast ein aktives %{plan}-Abonnement"
+      manage_subscription: Abonnement verwalten
+      subscribe: Abonnieren
+      per_interval: "/%{interval}"
+      plan_monthly: Pro Monatlich
+      plan_annual: Pro Jährlich
+      plan_once: Pro Einmalig
+      save_75: "-75%"
+      best_value: Bestes Angebot
+      base_interactive_replay: Interaktive Wiedergabe
+      base_all_data: Alle Daten auf einem Bildschirm — Karte, Diagramme, Seitenansicht, 1:1, Video
+      base_terrain: Geländeprofil, Entfernung zum Gelände
+      skydive_analysis: Detaillierte Fluganalyse
+      skydive_corridor: Karte mit Korridorprüfung
+      skydive_wind: Windsubtraktion
+      compare_desc: Vergleiche mehrere Tracks nebeneinander mit synchronisierter Wiedergabe
+      highlight_title: Hervorgehobener Name
+      highlight_example: "Dein Name wird so aussehen:"
+      coming_soon: Demnächst
+      social_proof: Springer nutzen die Vorteile von Pro
+    success:
+      title: Willkommen bei Pro!
+      subtitle: Du hast gerade dein Fliegen auf ein neues Level gebracht
+      unlocked_title: Jetzt für dich freigeschaltet
+      feature_base: Interaktive Wiedergabe mit Geländeprofil und synchronisierten Daten
+      feature_skydive: Detaillierte Fluganalyse mit Windsubtraktion
+      feature_highlight_name: Dein Name sticht hervor
+      feature_compare: Track-Vergleich nebeneinander (demnächst)
+      explore_tracks: Jetzt loslegen
+      manage_subscription: Abonnement verwalten
+    create:
+      notice: Vielen Dank für dein Abonnement!

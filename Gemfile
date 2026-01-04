@@ -25,6 +25,10 @@ gem 'omniauth-rails_csrf_protection'
 # Authorization
 gem 'pundit'
 
+# Payments
+gem 'pay', '~> 11.0'
+gem 'stripe', '~> 18.0'
+
 # Pagination
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
@@ -83,6 +87,7 @@ group :development do
   gem 'annotate'
   gem 'bullet'
   gem 'kamal', '~> 2.5'
+  gem 'letter_opener'
   gem 'rubocop', require: false
   gem 'rubocop-minitest', require: false
   gem 'rubocop-performance', require: false
