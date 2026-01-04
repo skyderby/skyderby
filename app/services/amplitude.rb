@@ -12,4 +12,12 @@ module Amplitude
   rescue StandardError => e
     Rails.logger.error("Amplitude tracking error: #{e.message}")
   end
+
+  def self.identify(user_id:, properties: {})
+    return if AmplitudeAPI.config.api_key.blank?
+
+    AmplitudeAPI.send_identify(user_id.to_s, nil, user_properties: properties)
+  rescue StandardError => e
+    Rails.logger.error("Amplitude identify error: #{e.message}")
+  end
 end

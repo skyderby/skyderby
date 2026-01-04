@@ -32,6 +32,8 @@ class User < ApplicationRecord
 
   scope :admins, -> { where('? = ANY(roles)', 'admin') }
 
+  after_create_commit :track_sign_up
+
   accepts_nested_attributes_for :profile
 
   delegate :name, to: :profile, allow_nil: true
@@ -72,6 +74,18 @@ class User < ApplicationRecord
   end
 
   def dashboard = admin? ? AdminDashboard.new(self) : Dashboard.new(self)
+
+  def subscription_plan
+    return 'free' unless subscription_active?
+
+    'premium'
+  end
+
+  private
+
+  def track_sign_up
+    Amplitude.track(user_id: id, event: 'sign_up')
+  end
 
   class << self
     def search(query)

@@ -152,6 +152,7 @@
   color: #fff;
   cursor: pointer;
   flex-shrink: 0;
+  line-height: 1;
 }
 
 .base-jump-playback-button:hover {
@@ -170,6 +171,25 @@
   width: 1rem;
   height: 1rem;
   fill: currentColor;
+}
+
+.base-jump-playback-button .icon-play,
+.base-jump-playback-button .icon-pause {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.base-jump-playback-button .icon-pause {
+  display: none;
+}
+
+.base-jump-playback-button.playing .icon-play {
+  display: none;
+}
+
+.base-jump-playback-button.playing .icon-pause {
+  display: flex;
 }
 
 .base-jump-playback-slider {
