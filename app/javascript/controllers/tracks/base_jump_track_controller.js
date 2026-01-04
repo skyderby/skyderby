@@ -67,8 +67,23 @@ export default class extends Controller {
   initSideProjection() {
     if (!this.hasSideProjectionTarget) return
 
-    this.sideProjectionChart = new SideProjectionChart(this.sideProjectionTarget)
+    this.sideProjectionChart = new SideProjectionChart(this.sideProjectionTarget, {
+      onPointHover: index => this.onSideProjectionHover(index)
+    })
     this.sideProjectionChart.setFlightProfile(this.points).render()
+  }
+
+  onSideProjectionHover(index) {
+    this.currentIndex = index
+    this.currentFraction = 0
+
+    if (this.hasPlaybackSliderTarget) {
+      this.playbackSliderTarget.value = index
+    }
+
+    this.updateHighchartsCrosshair(index)
+    this.updateIndicators(index, 0)
+    this.updateMapMarkerAtIndex(index)
   }
 
   initGlideChart() {

@@ -7,6 +7,7 @@ export default class SideProjectionChart {
     this.container = container
     this.options = {
       padding: { top: 0, right: 20, bottom: 40, left: 50 },
+      onPointHover: null,
       ...options
     }
     this.points = []
@@ -280,46 +281,82 @@ export default class SideProjectionChart {
     this.container.style.position = 'relative'
     this.container.appendChild(this.tooltip)
 
-    const hoverPath = document.createElementNS(SVG_NS, 'path')
-    hoverPath.setAttribute('d', this.trajectoryPath.getAttribute('d'))
-    hoverPath.setAttribute('fill', 'none')
-    hoverPath.setAttribute('stroke', 'transparent')
-    hoverPath.setAttribute('stroke-width', '20')
-    hoverPath.style.cursor = 'crosshair'
-    this.svg.appendChild(hoverPath)
+    const { padding } = this.options
+    this.interactionOverlay = document.createElementNS(SVG_NS, 'rect')
+    this.interactionOverlay.setAttribute('x', padding.left)
+    this.interactionOverlay.setAttribute('y', padding.top)
+    this.interactionOverlay.setAttribute('width', this.chartWidth)
+    this.interactionOverlay.setAttribute('height', this.chartHeight)
+    this.interactionOverlay.setAttribute('fill', 'transparent')
+    this.interactionOverlay.style.cursor = 'crosshair'
+    this.svg.appendChild(this.interactionOverlay)
 
-    hoverPath.addEventListener('mousemove', e => this.handleMouseMove(e))
-    hoverPath.addEventListener('mouseleave', () => this.hideTooltip())
+    this.interactionOverlay.addEventListener('mousemove', e => this.handleInteraction(e))
+    this.interactionOverlay.addEventListener('mouseleave', () =>
+      this.handleInteractionEnd()
+    )
+    this.interactionOverlay.addEventListener(
+      'touchstart',
+      e => this.handleInteraction(e),
+      { passive: true }
+    )
+    this.interactionOverlay.addEventListener(
+      'touchmove',
+      e => this.handleInteraction(e),
+      { passive: true }
+    )
+    this.interactionOverlay.addEventListener('touchend', () =>
+      this.handleInteractionEnd()
+    )
   }
 
-  handleMouseMove(e) {
-    const rect = this.svg.getBoundingClientRect()
-    const mouseX = e.clientX - rect.left
-    const mouseY = e.clientY - rect.top
+  handleInteraction(e) {
+    const touch = e.touches?.[0]
+    const clientX = touch ? touch.clientX : e.clientX
+    const clientY = touch ? touch.clientY : e.clientY
+
+    const svgRect = this.svg.getBoundingClientRect()
+    const svgX = ((clientX - svgRect.left) / svgRect.width) * this.width
+    const svgY = ((clientY - svgRect.top) / svgRect.height) * this.height
 
     const { padding } = this.options
-    const x = ((mouseX - padding.left) / this.chartWidth) * this.maxScale
-    const y = ((mouseY - padding.top) / this.chartHeight) * this.maxScale
+    const relX = svgX - padding.left
+    const relY = svgY - padding.top
 
-    const closest = this.findClosestPoint(x, y)
-    if (closest) {
-      this.showTooltip(closest, e.clientX, e.clientY)
+    const x = (relX / this.chartWidth) * this.maxScale
+    const y = (relY / this.chartHeight) * this.maxScale
+
+    const result = this.findClosestPoint(x, y)
+    if (result) {
+      this.showTooltip(result.point, clientX, clientY)
+      this.showCrosshair(result.index)
+
+      if (this.options.onPointHover) {
+        this.options.onPointHover(result.index)
+      }
     }
+  }
+
+  handleInteractionEnd() {
+    this.hideTooltip()
   }
 
   findClosestPoint(x, y) {
     let minDist = Infinity
-    let closest = null
+    let closestIndex = -1
+    let closestPoint = null
 
-    for (const point of this.flightProfile) {
-      const dist = Math.sqrt(Math.pow(point.x - x, 2) + Math.pow(point.y - y, 2))
+    for (let i = 0; i < this.flightProfile.length; i++) {
+      const point = this.flightProfile[i]
+      const dist = Math.abs(point.x - x)
       if (dist < minDist) {
         minDist = dist
-        closest = point
+        closestIndex = i
+        closestPoint = point
       }
     }
 
-    return closest
+    return closestIndex >= 0 ? { point: closestPoint, index: closestIndex } : null
   }
 
   showTooltip(point, clientX, clientY) {
