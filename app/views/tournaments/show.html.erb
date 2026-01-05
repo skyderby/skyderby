@@ -7,7 +7,7 @@
   <div class="container">
     <div class="content-block">
       <% if editable %>
-        <%= button_to(tournament_rounds_path(@tournament), method: :post, remote: true, class: 'default-button') do %>
+        <%= button_to(tournament_rounds_path(@tournament), method: :post, remote: true, class: 'button') do %>
           <%= svg_icon 'plus-solid' %>
           <%= t('activerecord.models.tournament_round') %>
         <% end %>

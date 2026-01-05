@@ -17,7 +17,7 @@
       <h2 class="subscriptions-active__title"><%= t('.thank_you') %></h2>
       <p class="subscriptions-active__plan"><%= t('.active_subscription', plan: @subscription.name) %></p>
       <div class="subscriptions-active__action">
-        <%= button_to t('.manage_subscription'), billing_portal_subscriptions_path, method: :post, class: 'default-button', data: { turbo: false } %>
+        <%= button_to t('.manage_subscription'), billing_portal_subscriptions_path, method: :post, class: 'button', data: { turbo: false } %>
       </div>
     </div>
   <% else %>
@@ -44,7 +44,7 @@
             </label>
           <% end %>
         </div>
-        <%= f.submit t('.subscribe'), class: 'primary-button subscriptions-plans__submit' %>
+        <%= f.submit t('.subscribe'), class: 'button button--primary subscriptions-plans__submit' %>
       <% end %>
 
       <div class="subscriptions-benefits">

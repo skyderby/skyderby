@@ -6,7 +6,7 @@
       </div>
       <% if policy(Badge).create? %>
         <div class="col-sm-6 text-right">
-          <%= link_to t('general.create'), new_badge_path, class: 'primary-button', data: { turbo_stream: true } %>
+          <%= link_to t('general.create'), new_badge_path, class: 'button button--primary', data: { turbo_stream: true } %>
         </div>
       <% end %>
     </div>

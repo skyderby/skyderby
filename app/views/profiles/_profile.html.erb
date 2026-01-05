@@ -9,9 +9,9 @@
     <% end %>
   </td>
   <td>
-    <%= link_to 'Show', profile_path(profile), class: 'ghost-button small-button' %>
+    <%= link_to 'Show', profile_path(profile), class: 'button button--ghost button--sm' %>
     <% if current_user.admin? && profile.owner && profile.belongs_to_user? %>
-      <%= button_to user_masquerades_path(profile.owner), class: 'ghost-button small-button' do %>
+      <%= button_to user_masquerades_path(profile.owner), class: 'button button--ghost button--sm' do %>
         <%= svg_icon 'wand-magic-sparkles-solid' %>
         Masquerade
       <% end %>

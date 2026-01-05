@@ -17,7 +17,7 @@
     </div>
 
     <div class="explorer-sidebar-toggle">
-      <button class="default-button" data-action="toggleable#toggle">
+      <button class="button" data-action="toggleable#toggle">
         <%= svg_icon 'angle-left-solid', class: 'explorer-sidebar-toggle-opened' %>
         <%= svg_icon 'angle-right-solid', class: 'explorer-sidebar-toggle-closed' %>
       </button>
@@ -25,7 +25,7 @@
 
     <% if policy(Place).create? %>
       <div class="explorer-sidebar-footer">
-        <%= link_to new_place_path, class: 'default-button' do %>
+        <%= link_to new_place_path, class: 'button' do %>
           <%= svg_icon 'plus-solid' %>
           <%= t('.new') %>
         <% end %>

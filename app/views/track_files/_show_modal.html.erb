@@ -24,7 +24,7 @@
             <%= button_to track_file_track_path(@track_file), method: :post,
                           params: track_file_params.slice(:track_attributes).merge(segment: index),
                           form: { 'data-clickable-row-target': 'form' },
-                          class: 'ghost-button' do %>
+                          class: 'button button--ghost' do %>
               <%= svg_icon 'angle-right-solid' %>
             <% end %>
           </td>

@@ -16,7 +16,7 @@
             <%= button_to polymorphic_path([sponsor.sponsorable, sponsor]),
                           method: :delete,
                           form: { data: { turbo: true } },
-                          class: 'delete-sponsor ghost-button',
+                          class: 'delete-sponsor button button--ghost',
                           title: t('general.delete') do %>
               <%= svg_icon 'xmark' %>
             <% end %>
@@ -27,12 +27,12 @@
 
     <% if editable %>
       <div class="sponsors-actions">
-        <%= button_to polymorphic_path([:new, sponsorable, :sponsor]), method: :get, form: { data: { turbo_stream: true } }, class: 'default-button' do %>
+        <%= button_to polymorphic_path([:new, sponsorable, :sponsor]), method: :get, form: { data: { turbo_stream: true } }, class: 'button' do %>
           <%= svg_icon 'plus-solid' %>
           <%= t('sponsors.list.add_sponsor') %>
         <% end %>
         <% if copyable %>
-          <%= button_to polymorphic_path([:new, sponsorable, :sponsors_copy]), method: :get, form: { data: { turbo_stream: true } }, class: 'default-button' do %>
+          <%= button_to polymorphic_path([:new, sponsorable, :sponsors_copy]), method: :get, form: { data: { turbo_stream: true } }, class: 'button' do %>
             <%= svg_icon 'copy-regular' %>
             <%= t('sponsors.list.copy_sponsor') %>
           <% end %>

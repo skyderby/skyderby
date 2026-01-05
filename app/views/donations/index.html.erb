@@ -1,7 +1,7 @@
 <div class="container-lg">
   <div class="index-page-header">
     <h1>Donations</h1>
-    <%= button_to new_donation_path, class: 'primary-button',
+    <%= button_to new_donation_path, class: 'button button--primary',
                   method: :get, form: { data: { turbo_stream: true } } do %>
       <%= svg_icon 'plus-solid' %>
       Donation

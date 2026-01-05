@@ -9,7 +9,7 @@
         <label>Size, %</label>
         <label>Reason</label>
         <%= button_to new_speed_skydiving_competition_result_penalties_path(event, result),
-                      method: :get, form: { data: { turbo_stream: true } }, class: 'ghost-button' do %>
+                      method: :get, form: { data: { turbo_stream: true } }, class: 'button button--ghost' do %>
           <%= svg_icon 'plus-solid' %>
         <% end %>
       </div>
@@ -23,8 +23,8 @@
         <% end %>
       </div>
       <div class="form-actions">
-        <%= f.submit t('general.save'), class: 'primary-button' %>
-        <button data-action="modal#close" type="button" class="default-button"><%= t('general.cancel') %></button>
+        <%= f.submit t('general.save'), class: 'button button--primary' %>
+        <button data-action="modal#close" type="button" class="button"><%= t('general.cancel') %></button>
       </div>
     <% end %>
   </div>

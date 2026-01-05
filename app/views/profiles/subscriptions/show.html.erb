@@ -9,7 +9,7 @@
         <div class="subscription-admin__header">
           <h3 class="subscription-admin__title">Gifted Subscriptions</h3>
           <%= link_to new_profile_subscription_gifted_subscription_path(@profile),
-                      class: 'default-button',
+                      class: 'button',
                       data: { turbo_stream: true } do %>
             <%= svg_icon 'plus-solid' %>
             Grant
@@ -40,7 +40,7 @@
                     <%= button_to 'Revoke',
                                   profile_subscription_gifted_subscription_path(@profile, subscription),
                                   method: :delete,
-                                  class: 'default-button danger',
+                                  class: 'button danger',
                                   data: { turbo_confirm: 'Are you sure you want to revoke this subscription?' } %>
                   </td>
                 </tr>

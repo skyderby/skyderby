@@ -28,14 +28,4 @@
 
 .about-me__contacts {
   margin-bottom: 15px;
-
-  & > * {
-    margin-right: 20px;
-    color: #337ab7;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
 }

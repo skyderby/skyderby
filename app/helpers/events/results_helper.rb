@@ -26,7 +26,7 @@ module Events
                   turbo: true
                 },
                 method: :delete,
-                class: 'ghost-danger-button')
+                class: 'button button--ghost button--danger')
     end
 
     def event_result_presentation(event_track)

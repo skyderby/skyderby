@@ -15,10 +15,10 @@
 
     <div>
       <% if editable %>
-        <%= f.submit t('general.save'), class: 'primary-button' %>
+        <%= f.submit t('general.save'), class: 'button button--primary' %>
       <% end %>
       <% if modal %>
-        <button class="default-button" type="button" data-action="modal#close"><%= t 'general.cancel' %></button>
+        <button class="button" type="button" data-action="modal#close"><%= t 'general.cancel' %></button>
       <% end %>
     </div>
   </div>

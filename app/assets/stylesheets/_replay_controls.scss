@@ -26,7 +26,7 @@
   overflow-x: auto;
   padding: 0 1rem;
 
-  .ghost-button {
+  .button.button--ghost {
     &::before {
       content: '';
       position: absolute;

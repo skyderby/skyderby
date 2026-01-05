@@ -5,14 +5,14 @@
   <% if editable %>
     <div class="category-actions">
       <%= button_to edit_speed_skydiving_competition_category_path(event, category),
-                    class: 'ghost-button small-button',
+                    class: 'button button--ghost button--sm',
                     method: :get, form: { data: { turbo_stream: true } } do %>
         <%= svg_icon 'pencil-solid' %>
       <% end %>
 
       <% unless position == :first %>
         <%= button_to move_upper_speed_skydiving_competition_category_path(event, category),
-                      class: 'ghost-button small-button',
+                      class: 'button button--ghost button--sm',
                       method: :patch, form: { data: { turbo_stream: true } } do %>
           <%= svg_icon 'angle-up-solid' %>
         <% end %>
@@ -20,14 +20,14 @@
 
       <% unless position == :last %>
         <%= button_to move_lower_speed_skydiving_competition_category_path(event, category),
-                      class: 'ghost-button small-button',
+                      class: 'button button--ghost button--sm',
                       method: :patch, form: { data: { turbo_stream: true } } do %>
           <%= svg_icon 'angle-down-solid' %>
         <% end %>
       <% end %>
 
       <%= button_to speed_skydiving_competition_category_path(event, category),
-                    class: 'ghost-button small-button',
+                    class: 'button button--ghost button--sm',
                     method: :delete do %>
         <%= svg_icon 'xmark' %>
       <% end %>

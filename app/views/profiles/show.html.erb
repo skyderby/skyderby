@@ -9,7 +9,7 @@
         <div class="profile-section-header">
           <%= t('.achievements') %>
           <% if policy(:badge).create? %>
-            <%= link_to new_profile_badge_path(@profile), class: 'default-button', data: { turbo_stream: true } do %>
+            <%= link_to new_profile_badge_path(@profile), class: 'button', data: { turbo_stream: true } do %>
               <%= svg_icon 'plus-solid' %>
               Add
             <% end %>

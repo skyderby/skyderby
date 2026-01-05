@@ -110,11 +110,11 @@
                   </div>
                   <div class="lane-validation-competitor-details">
                     <div class="lane-validation-result-actions">
-                      <button class="ghost-button small-button" data-action="lane-validation#selectJumpForReview">Select</button>
+                      <button class="button button--ghost button--sm" data-action="lane-validation#selectJumpForReview">Select</button>
                       <% if editable && !@round.completed? %>
                         <%= link_to 'Penalties', performance_competition_result_penalty_path(@event, jump, minimal: true),
                                     data: { turbo_stream: true },
-                                    class: 'ghost-button small-button' %>
+                                    class: 'button button--ghost button--sm' %>
 
                         <%= render 'performance_competitions/lane_validations/toggle_validation', result: jump %>
                       <% end %>
