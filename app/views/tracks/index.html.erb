@@ -12,11 +12,11 @@
   </div>
 
   <div class="index-page-content">
-    <div id="tracks-table" class="table table-hover tracks-table">
-      <div class="thead tracks-table-header">
+    <div id="tracks-table" class="table table-hover">
+      <div class="thead">
         <%= render 'table_header' %>
       </div>
-      <turbo-frame id="tracks-list" class="tbody tracks-table-body" target="_top">
+      <turbo-frame id="tracks-list" class="tbody" target="_top">
         <%= render @tracks %>
 
         <% if params[:infinite] && @tracks.next_page %>

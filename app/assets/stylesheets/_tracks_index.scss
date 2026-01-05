@@ -16,27 +16,3 @@
     display: block;
   }
 }
-
-.tracks-table-header {
-  display: none;
-
-  @media (min-width: $bp-small) {
-    display: table-header-group;
-  }
-}
-
-.tracks-table-body {
-  display: block;
-
-  @media (min-width: $bp-small) {
-      display: table-row-group;
-  }
-}
-
-.tracks-table {
-  display: block;
-
-  @media (min-width: $bp-small) {
-    display: table;
-  }
-}
