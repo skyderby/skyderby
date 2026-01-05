@@ -208,6 +208,7 @@ export default class PerformanceFlyingChartsController extends Controller {
       {
         plotLines: this.windowPlotLines({ includeLabels: true }),
         windCancellation: this.hasWeatherData,
+        straightLine: true,
         chartName: 'PerformanceFlyingCombinedChart'
       }
     )
@@ -239,7 +240,7 @@ export default class PerformanceFlyingChartsController extends Controller {
     this.altitudeDistanceChartTarget.chart = initAltitudeDistanceChart(
       this.altitudeDistanceChartTarget,
       this.points,
-      { plotLines: this.windowPlotLines() }
+      { plotLines: this.windowPlotLines(), straightLine: true }
     )
   }
 

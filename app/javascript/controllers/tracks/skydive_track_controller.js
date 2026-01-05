@@ -410,6 +410,8 @@ export default class extends Controller {
         plotLines: this.altitudePlotLines({ includeLabels: true }),
         plotBands: this.bufferPlotBands(),
         windCancellation: this.hasWeatherData,
+        straightLine: this.straightLine,
+        rangeStartPosition: this.bufferStartPosition / 1000,
         chartName: 'TrackCombinedChart'
       }
     )
@@ -456,7 +458,9 @@ export default class extends Controller {
       this.chartPoints,
       {
         plotLines: this.altitudePlotLines(),
-        plotBands: this.bufferPlotBands()
+        plotBands: this.bufferPlotBands(),
+        straightLine: this.straightLine,
+        rangeStartPosition: this.bufferStartPosition / 1000
       }
     )
   }

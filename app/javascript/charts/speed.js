@@ -117,10 +117,6 @@ export const initSpeedsChart = (
       }
     },
     xAxis: {
-      labels: {
-        enabled: false
-      },
-      tickWidth: 0,
       plotLines,
       plotBands
     },

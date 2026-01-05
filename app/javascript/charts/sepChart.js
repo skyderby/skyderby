@@ -39,11 +39,19 @@ export const initAccuracyChart = (
     title: undefined,
     credits: { enabled: false },
     legend: { enabled: false },
-    xAxis: {
-      labels: {
-        enabled: false
+    plotOptions: {
+      area: {
+        marker: {
+          enabled: false
+        }
       },
-      tickWidth: 0,
+      series: {
+        marker: {
+          radius: 1
+        }
+      }
+    },
+    xAxis: {
       plotLines,
       plotBands
     },

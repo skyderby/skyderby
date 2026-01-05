@@ -94,10 +94,6 @@ export const initGlideChart = (
       formatter: tooltipFormatter
     },
     xAxis: {
-      labels: {
-        enabled: false
-      },
-      tickWidth: 0,
       plotLines,
       plotBands
     },

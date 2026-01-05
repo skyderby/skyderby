@@ -1,4 +1,10 @@
-export { altitudeSeries, initAltitudeDistanceChart } from './altitudeDistance'
+export {
+  altitudeSeries,
+  elevationSeries,
+  distanceSeries,
+  calculateCumulativeDistance,
+  initAltitudeDistanceChart
+} from './altitudeDistance'
 export { glideRatioSeries, zeroWindGlideRatioSeries, initGlideChart } from './glideRatio'
 export {
   horizontalSpeedSeries,

@@ -1,5 +1,79 @@
 import I18n from 'i18n'
+import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
 import { restoreSeriesVisibility, saveSeriesVisibility, tooltipFormatter } from './utils'
+
+export const calculateCumulativeDistance = (
+  points,
+  { straightLine = false, rangeStartPosition = 0 } = {}
+) => {
+  if (points.length === 0) return []
+
+  const firstPointTime = points[0].flTime
+  let rangeStartIndex = points.findIndex(
+    point => point.flTime - firstPointTime >= rangeStartPosition
+  )
+  if (rangeStartIndex === -1) rangeStartIndex = 0
+
+  const rangeStartPoint = points[rangeStartIndex]
+  const rangeStartCoords = new LatLon(rangeStartPoint.latitude, rangeStartPoint.longitude)
+  const rangeStartAltitude = rangeStartPoint.altitude
+  let cumulativeDistance = 0
+
+  return points.map((point, index) => {
+    const elevation = Math.max(0, rangeStartAltitude - point.altitude)
+
+    if (index > rangeStartIndex) {
+      const currentCoords = new LatLon(point.latitude, point.longitude)
+
+      if (straightLine) {
+        cumulativeDistance = rangeStartCoords.distanceTo(currentCoords)
+      } else {
+        const prevPoint = points[index - 1]
+        const prevCoords = new LatLon(prevPoint.latitude, prevPoint.longitude)
+        cumulativeDistance += prevCoords.distanceTo(currentCoords)
+      }
+    }
+    return { ...point, cumulativeDistance, elevation }
+  })
+}
+
+export const elevationSeries = (pointsWithDistance, options) => ({
+  name: I18n.t('charts.elev.series.elevation'),
+  custom: {
+    code: 'elevation'
+  },
+  type: 'spline',
+  data: pointsWithDistance.map(point => ({
+    x: point.flTime - pointsWithDistance[0].flTime,
+    y: Math.round(point.elevation),
+    custom: {
+      tooltipValue: `${Math.round(point.elevation)} ${I18n.t('units.m')}`,
+      altitude: Math.round(point.altitude),
+      gpsTime: point.gpsTime
+    }
+  })),
+  yAxis: 1,
+  ...options
+})
+
+export const distanceSeries = (pointsWithDistance, options) => ({
+  name: I18n.t('charts.elev.series.distance'),
+  custom: {
+    code: 'distance'
+  },
+  type: 'spline',
+  data: pointsWithDistance.map(point => ({
+    x: point.flTime - pointsWithDistance[0].flTime,
+    y: Math.round(point.cumulativeDistance),
+    custom: {
+      tooltipValue: `${Math.round(point.cumulativeDistance)} ${I18n.t('units.m')}`,
+      altitude: Math.round(point.altitude),
+      gpsTime: point.gpsTime
+    }
+  })),
+  yAxis: 1,
+  ...options
+})
 
 export const altitudeSeries = (points, options) => ({
   name: I18n.t('charts.all_data.series.height'),
@@ -24,9 +98,13 @@ export const altitudeSeries = (points, options) => ({
 export const initAltitudeDistanceChart = (
   container,
   points,
-  { plotLines = [], plotBands = [] } = {}
+  { plotLines = [], plotBands = [], straightLine = false, rangeStartPosition = 0 } = {}
 ) => {
   const chartName = 'AltitudeDistance'
+  const pointsWithDistance = calculateCumulativeDistance(points, {
+    straightLine,
+    rangeStartPosition
+  })
 
   const chartOptions = {
     chart: {
@@ -65,23 +143,29 @@ export const initAltitudeDistanceChart = (
       }
     },
     xAxis: {
-      labels: {
-        enabled: false
-      },
-      tickWidth: 0,
       plotLines,
       plotBands
     },
-    yAxis: {
-      min: 0,
-      title: {
-        text: ''
+    yAxis: [
+      {
+        min: 0,
+        title: {
+          text: ''
+        },
+        labels: {
+          x: 20,
+          y: -2
+        }
       },
-      labels: {
-        x: 20,
-        y: -2
+      {
+        min: 0,
+        title: {
+          text: ''
+        },
+        gridLineWidth: 0,
+        opposite: true
       }
-    },
+    ],
     tooltip: {
       shared: true,
       crosshairs: true,
@@ -89,7 +173,11 @@ export const initAltitudeDistanceChart = (
       formatter: tooltipFormatter
     },
     credits: { enabled: false },
-    series: [altitudeSeries(points)]
+    series: [
+      altitudeSeries(pointsWithDistance),
+      elevationSeries(pointsWithDistance),
+      distanceSeries(pointsWithDistance)
+    ]
   }
 
   return Highcharts.chart(container, chartOptions)
