@@ -1,5 +1,7 @@
 class TrackFilesController < ApplicationController
-  def new; end
+  def new
+    @form = Track::Form.new(user: current_user)
+  end
 
   def create
     authorize Track
@@ -19,8 +21,6 @@ class TrackFilesController < ApplicationController
     else
       render :show
     end
-
-    store_recent_values(track_attributes)
   end
 
   def show
@@ -54,31 +54,4 @@ class TrackFilesController < ApplicationController
     )
   end
   helper_method :track_file_params
-
-  def track_attributes
-    track_file_params[:track_attributes]
-  end
-
-  def store_recent_values(form_params)
-    recent_values = RecentValues.new(cookies)
-    # suit can be selected or typed
-    # when suit selected suit_id param filled and suit param is not
-    # and vice versa - when typed suit_id is blank and suit isn't
-    suit_id = form_params[:suit_id]
-    if suit_id.present?
-      recent_values.add(:suit_id, suit_id)
-      recent_values.delete(:suit_name)
-    end
-
-    suit_name = form_params[:missing_suit_name]
-    if suit_name.present?
-      recent_values.add(:suit_name, suit_name)
-      recent_values.delete(:suit_id)
-    end
-
-    recent_values.add(:name, form_params[:name]) if form_params[:name]
-    recent_values.add(:location, form_params[:location])
-    recent_values.add(:activity, form_params[:kind])
-    recent_values.add(:visibility, form_params[:visibility])
-  end
 end

@@ -5,27 +5,25 @@
       <%= f.fields_for :track_attributes do |builder| %>
         <div class="grid">
           <label class="form-label col-4"><%= t('activerecord.attributes.profile.name') %></label>
-          <%= builder.text_field :name, class: 'form-input col-8', placeholder: t('static_pages.index.track_form.name_plh'), value: recent_value(:name) %>
+          <%= builder.text_field :name, class: 'form-input col-8', placeholder: t('static_pages.index.track_form.name_plh'), value: @form.name %>
         </div>
       <% end %>
     <% end %>
 
-    <% recent_suit_id = recent_value(:suit_id) %>
-    <% recent_suit_name = recent_value(:suit_name) %>
-    <% suit_mode = recent_suit_id || !recent_suit_name ? 'select' : 'text' %>
-    <div class="grid" data-controller="tracks--suit-field" data-mode="<%= suit_mode %>">
+    <% suit = @form.suit %>
+    <% suit_options = suit ? options_for_select([[suit.name, suit.id]], suit.id) : [] %>
+    <div class="grid" data-controller="tracks--suit-field" data-mode="select">
       <label class="form-label col-4"><%= t('activerecord.attributes.track.suit') %></label>
       <div class="col-8">
         <%= f.fields_for :track_attributes do |builder| %>
           <div data-tracks--suit-field-target="select" class="col-8">
             <%= render 'hot_select/select', form: builder, name: :suit_id, src: suits_select_options_path,
-                       placeholder: t('tracks.form.suit_select_placeholder'),
+                       placeholder: t('tracks.form.suit_select_placeholder'), options: suit_options,
                        select: { data: { 'tracks--suit-field-target': 'select' } } %>
           </div>
           <%= builder.text_field :missing_suit_name,
             class: 'form-input col-8',
             placeholder: t('tracks.form.suit_text_placeholder'),
-            value: recent_suit_name,
             data: { 'tracks--suit-field-target': 'text' }
           %>
           <div class="form-hint">
@@ -39,22 +37,21 @@
     <div class="grid">
       <label class="form-label col-4"><%= t('activerecord.attributes.track.place') %></label>
       <%= f.fields_for :track_attributes do |builder| %>
-        <%= builder.text_field :location, class: 'form-input col-8', placeholder: t('static_pages.index.track_form.location_plh'), value: recent_value(:location) %>
+        <%= builder.text_field :location, class: 'form-input col-8', placeholder: t('static_pages.index.track_form.location_plh'), value: @form.location %>
       <% end %>
     </div>
 
     <div class="grid">
       <label class="form-label col-4"><%= t('activerecord.attributes.track.kind') %></label>
       <%= f.fields_for :track_attributes do |builder| %>
-        <% activity = recent_value(:activity) || 'skydive' %>
         <div class="col-8">
           <div class="tab-bar">
             <label class="tab-bar-item">
-              <%= builder.radio_button :kind, 'skydive', checked: activity == 'skydive', class: 'tab-bar-radio' %>
+              <%= builder.radio_button :kind, 'skydive', checked: @form.activity == 'skydive', class: 'tab-bar-radio' %>
               <span>Skydive</span>
             </label>
             <label class="tab-bar-item">
-              <%= builder.radio_button :kind, 'base', checked: activity != 'skydive', class: 'tab-bar-radio' %>
+              <%= builder.radio_button :kind, 'base', checked: @form.activity != 'skydive', class: 'tab-bar-radio' %>
               <span>B.A.S.E</span>
             </label>
           </div>
@@ -66,14 +63,12 @@
       <div class="grid">
         <label class="form-label col-4"><%= t('tracks.edit.visibility') %></label>
         <%= f.fields_for :track_attributes do |builder| %>
-          <% visibility = recent_value(:visibility).presence || 'public_track' %>
           <div class="col-8">
             <div class="tab-bar">
               <% %w[public unlisted private].each do |visibility_name| %>
                 <% current_value = "#{visibility_name}_track" %>
-                <% active = visibility == current_value %>
                 <label class="tab-bar-item">
-                  <%= builder.radio_button 'visibility', current_value, checked: active, class: 'tab-bar-radio' %>
+                  <%= builder.radio_button 'visibility', current_value, checked: @form.visibility == current_value, class: 'tab-bar-radio' %>
                   <span><%= t("visibility.#{visibility_name}") %></span>
                 </label>
               <% end %>
