@@ -41,41 +41,14 @@
       <% end %>
     </div>
 
-    <div class="grid">
-      <label class="form-label col-4"><%= t('activerecord.attributes.track.kind') %></label>
-      <%= f.fields_for :track_attributes do |builder| %>
-        <div class="col-8">
-          <div class="tab-bar">
-            <label class="tab-bar-item">
-              <%= builder.radio_button :kind, 'skydive', checked: @form.activity == 'skydive', class: 'tab-bar-radio' %>
-              <span>Skydive</span>
-            </label>
-            <label class="tab-bar-item">
-              <%= builder.radio_button :kind, 'base', checked: @form.activity != 'skydive', class: 'tab-bar-radio' %>
-              <span>B.A.S.E</span>
-            </label>
-          </div>
-        </div>
-      <% end %>
-    </div>
+    <%= f.fields_for :track_attributes do |builder| %>
+      <%= render 'tracks/form/activity', form: builder, activity: @form.activity %>
+    <% end %>
 
     <% if user_signed_in? %>
-      <div class="grid">
-        <label class="form-label col-4"><%= t('tracks.edit.visibility') %></label>
-        <%= f.fields_for :track_attributes do |builder| %>
-          <div class="col-8">
-            <div class="tab-bar">
-              <% %w[public unlisted private].each do |visibility_name| %>
-                <% current_value = "#{visibility_name}_track" %>
-                <label class="tab-bar-item">
-                  <%= builder.radio_button 'visibility', current_value, checked: @form.visibility == current_value, class: 'tab-bar-radio' %>
-                  <span><%= t("visibility.#{visibility_name}") %></span>
-                </label>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      </div>
+      <%= f.fields_for :track_attributes do |builder| %>
+        <%= render 'tracks/form/visibility', form: builder, visibility: @form.visibility %>
+      <% end %>
     <% end %>
 
     <div class="grid">

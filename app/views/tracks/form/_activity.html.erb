@@ -1,15 +1,24 @@
 <% activity ||= 'skydive' %>
 
-<div class="form-group">
-  <%= form.label :kind, t('activerecord.attributes.track.kind'), class: 'col-sm-3 control-label' %>
-  <div class="btn-group col-sm-9" data-toggle="buttons">
-    <label class="btn btn-default <%= 'active' if activity == 'skydive' %>">
-      <%= form.radio_button :kind, 'skydive', checked: activity == 'skydive' %>
-      Skydive
-    </label>
-    <label class="btn btn-default <%= 'active' unless activity == 'skydive' %>">
-      <%= form.radio_button :kind, 'base', checked: activity != 'skydive' %>
-      B.A.S.E
-    </label>
+<div class="grid">
+  <label class="form-label col-4"><%= t('activerecord.attributes.track.kind') %></label>
+  <div class="col-8">
+    <div class="tab-bar hidden-mobile">
+      <label class="tab-bar-item">
+        <%= form.radio_button :kind, 'skydive', checked: activity == 'skydive', class: 'tab-bar-radio' %>
+        <span>Skydive</span>
+      </label>
+      <label class="tab-bar-item">
+        <%= form.radio_button :kind, 'base', checked: activity != 'skydive', class: 'tab-bar-radio' %>
+        <span>B.A.S.E</span>
+      </label>
+    </div>
+
+    <%= render 'hot_select/local_select',
+               form:,
+               name: :kind,
+               options: [['Skydive', 'skydive'], ['B.A.S.E', 'base']],
+               clearable: false,
+               class: 'hidden-desktop' %>
   </div>
 </div>

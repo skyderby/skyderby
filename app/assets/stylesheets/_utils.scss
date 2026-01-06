@@ -61,3 +61,15 @@
     width: 1200px;
   }
 }
+
+.hidden-mobile {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.hidden-desktop {
+  @media (min-width: 769px) {
+    display: none;
+  }
+}
