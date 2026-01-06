@@ -19,6 +19,7 @@ gem 'bootsnap', require: false
 
 # Auth
 gem 'devise'
+gem 'googleauth'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'

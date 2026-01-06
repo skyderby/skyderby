@@ -11,6 +11,7 @@
 <meta name="cesium-api-key" content="<%= ENV.fetch('CESIUM_API_TOKEN', nil) %>">
 <meta name="hb-api-key" content="<%= ENV.fetch('HONEYBADGER_API_KEY', nil) %>">
 <meta name="amplitude-api-key" content="<%= ENV.fetch('AMPLITUDE_API_KEY', nil) %>">
+<meta name="google-client-id" content="<%= ENV.fetch('GOOGLE_CLIENT_ID', nil) %>">
 <meta name="current-env" content="<%= Rails.env %>">
 <% if user_signed_in? %>
   <meta name="current-user-id" content="<%= current_user.id %>">

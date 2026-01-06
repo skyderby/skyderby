@@ -47,6 +47,8 @@ Skyderby::Application.routes.draw do
                             registrations: 'users/registrations',
                             sessions: 'users/sessions' }
 
+  post 'google_one_tap', to: 'users/google_one_tap#create'
+
   resources :subscriptions, only: [:index, :create] do
     collection do
       get :success

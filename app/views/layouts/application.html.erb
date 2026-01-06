@@ -8,6 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
+    <% unless user_signed_in? %>
+      <div data-controller="google-one-tap"></div>
+    <% end %>
+
     <div id="modal-root"></div>
     <div id="dropdown-root"></div>
 
