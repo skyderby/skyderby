@@ -39,17 +39,18 @@
 
         <hr>
 
+        <% competitors = @tournament.competitors.left_outer_joins(:profile).order('profiles.name') %>
+        <% competitor_options = competitors.map { |c| [c.name, c.id] } %>
         <% index = 1 %>
         <%= f.fields_for :slots do |slot| %>
           <div class="form-group">
             <%= slot.label :competitor, "Competitor #{index}", class: 'control-label col-sm-4' %>
             <div class="col-sm-8">
-              <%= slot.collection_select :competitor_id,
-                                         @tournament.competitors.left_outer_joins(:profile).order('profiles.name'),
-                                         :id,
-                                         :name,
-                                         { include_blank: 'Select competitor' },
-                                         { class: 'form-control', 'data-controller': 'select2--local' } %>
+              <%= render 'hot_select/local_select',
+                         form: slot,
+                         name: :competitor_id,
+                         options: competitor_options,
+                         placeholder: 'Select competitor' %>
             </div>
           </div>
           <% index += 1 %>

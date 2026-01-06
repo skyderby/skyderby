@@ -13,8 +13,8 @@ class ManageTournamentCompetitorsTest < ApplicationSystemTestCase
     click_link 'Add competitor'
     sleep 0.1 # wait for modal
 
-    select2 profile.name, from: 'tournament_competitor_profile_id'
-    select2 suit.name, from: 'tournament_competitor_suit_id'
+    hot_select profile.name, from: :profile_id
+    hot_select suit.name, from: :suit_id
 
     click_button I18n.t('general.save')
     sleep 0.1 # wait for ajax and modal
@@ -38,10 +38,10 @@ class ManageTournamentCompetitorsTest < ApplicationSystemTestCase
     fill_in 'tournament_competitor[profile_attributes][name]', with: 'Petr Zh'
 
     # Select country
-    select2 country.name, from: 'tournament_competitor_profile_attributes_country_id'
+    hot_select country.name, from: :country_id
 
     # Select suit
-    select2 suit.name, from: 'tournament_competitor_suit_id'
+    hot_select suit.name, from: :suit_id
 
     click_button I18n.t('general.save')
     sleep 0.1 # wait for ajax and modal

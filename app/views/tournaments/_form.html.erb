@@ -12,27 +12,25 @@
       <div class="form-group">
         <%= f.label :place, class: 'control-label col-sm-2' %>
         <div class="col-sm-10">
-          <%= f.select :place_id,
-                       options_for_select([[@tournament.place_name, @tournament.place_id]], @tournament.place_id),
-                       { include_blank: true },
-                       class: 'form-control',
-                       placeholder: t('events.show.place_placeholder'),
-                       'data-controller': 'select2--places',
-                       'data-action': 'change->tournaments--form#on_change_place' %>
+          <%= render 'hot_select/select',
+                     form: f,
+                     name: :place_id,
+                     src: places_select_options_path,
+                     placeholder: t('events.show.place_placeholder'),
+                     options: options_for_select([[@tournament.place_name, @tournament.place_id]], @tournament.place_id),
+                     select: { data: { action: 'change->tournaments--form#on_change_place' } } %>
         </div>
       </div>
 
       <div class="form-group">
         <%= f.label :finish_line, class: 'col-sm-2 control-label' %>
         <div class="col-sm-5">
-          <%= f.collection_select :finish_line_id,
-                                  Place::FinishLine.order(:name),
-                                  :id,
-                                  :name,
-                                  { include_blank: 'Select finish line' },
-                                  { class: 'form-control',
-                                    placeholder: t('events.show.place_placeholder'),
-                                    'data-controller': 'select2--local' } %>
+          <% finish_line_options = Place::FinishLine.order(:name).map { |fl| [fl.name, fl.id] } %>
+          <%= render 'hot_select/local_select',
+                     form: f,
+                     name: :finish_line_id,
+                     options: finish_line_options,
+                     placeholder: 'Select finish line' %>
         </div>
       </div>
 

@@ -8,7 +8,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include Devise::Test::IntegrationHelpers
   include ActionDispatch::TestProcess
   include ActiveJob::TestHelper
-  include Select2Helper
   include HotSelectHelper
 
   headless = ENV['SELENIUM_HEADLESS_CHROME'].present?

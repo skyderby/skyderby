@@ -52,12 +52,12 @@
         <div class="form-group">
           <%= f.label :track, class: 'control-label col-sm-4' %>
           <div class="col-sm-8">
-            <%= f.select :track_id,
-                         options_for_select([[(track_presentation(@result.track) if @result.track_id), @result.track_id]]),
-                         {},
-                         placeholder: "Choose track from list",
-                         class: 'form-control',
-                         data: { profile_id: @result.competitor.profile_id, controller: 'select2--tracks' } %>
+            <%= render 'hot_select/select',
+                       form: f,
+                       name: :track_id,
+                       src: tracks_select_options_path(profile_id: @result.competitor.profile_id),
+                       placeholder: 'Choose track from list',
+                       options: options_for_select([[(track_presentation(@result.track) if @result.track_id), @result.track_id]]) %>
           </div>
         </div>
       </div>

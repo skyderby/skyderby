@@ -104,6 +104,7 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.1)
+    benchmark (0.5.0)
     bigdecimal (3.3.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
@@ -251,8 +252,7 @@ GEM
     matrix (0.4.2)
     mini_magick (4.13.2)
     mini_mime (1.1.5)
-    minitest (6.0.1)
-      prism (~> 1.5)
+    minitest (5.27.0)
     minitest-mock (5.27.0)
     msgpack (1.7.5)
     multi_xml (0.7.2)
@@ -316,7 +316,6 @@ GEM
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
-    prism (1.7.0)
     psych (5.3.1)
       date
       stringio
@@ -533,6 +532,7 @@ DEPENDENCIES
   amplitude-api
   annotate
   aws-sdk-s3
+  benchmark
   bootsnap
   bootstrap-sass (~> 3.4.1)
   browser
@@ -557,7 +557,7 @@ DEPENDENCIES
   letter_opener
   listen
   matrix
-  minitest
+  minitest (< 6.0)
   minitest-mock
   net-imap
   net-pop
