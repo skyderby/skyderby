@@ -134,8 +134,8 @@ export default class extends Controller {
   }
 
   initializeRange() {
-    this.maxAltitude = this.points[0].altitude
-    this.minAltitude = this.points.at(-1).altitude
+    this.maxAltitude = Math.ceil(this.points[0].altitude)
+    this.minAltitude = Math.floor(this.points.at(-1).altitude)
 
     const url = new URL(window.location)
     const fromParam = url.searchParams.get('f')

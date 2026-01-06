@@ -378,14 +378,14 @@ class RangeSlider {
     this.minusX = sliderRect.left + clickOffset - slider.offsetLeft
 
     if (this.settings.type === 'single') {
-      this.dimensions.width = this.rangeSlider.offsetWidth - slider.offsetWidth
+      this.dimensions.width = this.dimensions.maxPosition
     } else {
       if (type === 'from') {
-        this.dimensions.left = 0
+        this.dimensions.left = this.dimensions.minPosition
         this.dimensions.right = parseInt(this.sliders.to.style.left || '0', 10)
       } else {
         this.dimensions.left = parseInt(this.sliders.from.style.left || '0', 10)
-        this.dimensions.right = this.rangeSlider.offsetWidth - slider.offsetWidth
+        this.dimensions.right = this.dimensions.maxPosition
       }
     }
   }
@@ -430,14 +430,9 @@ class RangeSlider {
   moveByClick(clickX) {
     this.firstStart = false
 
-    const sliderWidth =
-      this.settings.type === 'single'
-        ? this.sliders.single.offsetWidth
-        : this.sliders.from.offsetWidth
-
-    this.dimensions.left = 0
-    this.dimensions.width = this.rangeSlider.offsetWidth - sliderWidth
-    this.dimensions.right = this.rangeSlider.offsetWidth - sliderWidth
+    this.dimensions.left = this.dimensions.minPosition
+    this.dimensions.width = this.dimensions.maxPosition
+    this.dimensions.right = this.dimensions.maxPosition
 
     if (this.settings.type === 'single') {
       this.activeSlider = this.sliders.single
@@ -467,11 +462,15 @@ class RangeSlider {
 
   dragSlider(mouseX, isClick = false) {
     let xPure = isClick ? mouseX : mouseX - this.minusX
+    const minPos = this.dimensions.minPosition
+    const maxPos = this.dimensions.maxPosition
 
     if (this.settings.type === 'single') {
-      xPure = Math.max(0, Math.min(this.dimensions.width, xPure))
+      xPure = Math.max(minPos, Math.min(maxPos, xPure))
     } else {
-      xPure = Math.max(this.dimensions.left, Math.min(this.dimensions.right, xPure))
+      const left = Math.max(minPos, this.dimensions.left)
+      const right = Math.min(maxPos, this.dimensions.right)
+      xPure = Math.max(left, Math.min(right, xPure))
       this.updateDiapason()
     }
 
@@ -493,19 +492,26 @@ class RangeSlider {
   updateDiapason() {
     if (this.settings.type !== 'double') return
 
+    const padding = this.dimensions.trackPadding
     const sliderWidth = this.sliders.from.offsetWidth
     const fromX = this.getSliderPosition(this.sliders.from)
     const toX = this.getSliderPosition(this.sliders.to)
 
-    const x = fromX + sliderWidth / 2
-    const width = toX - fromX
+    let leftEdge = fromX + sliderWidth / 2
+    let rightEdge = toX + sliderWidth / 2
 
-    this.sliders.diapason.style.left = x + 'px'
+    leftEdge = Math.max(padding, leftEdge)
+    rightEdge = Math.min(this.dimensions.normalWidth - padding, rightEdge)
+
+    const width = Math.max(0, rightEdge - leftEdge)
+
+    this.sliders.diapason.style.left = leftEdge + 'px'
     this.sliders.diapason.style.width = width + 'px'
   }
 
   calculateDimensions() {
     this.dimensions.normalWidth = this.rangeSlider.offsetWidth
+    this.dimensions.trackPadding = 8
 
     if (this.settings.type === 'single') {
       this.dimensions.sliderWidth = this.sliders.single.offsetWidth
@@ -513,7 +519,10 @@ class RangeSlider {
       this.dimensions.sliderWidth = this.sliders.from.offsetWidth
     }
 
-    this.dimensions.fullWidth = this.dimensions.normalWidth - this.dimensions.sliderWidth
+    this.dimensions.minPosition = this.dimensions.trackPadding - this.dimensions.sliderWidth / 2
+    this.dimensions.maxPosition =
+      this.dimensions.normalWidth - this.dimensions.trackPadding - this.dimensions.sliderWidth / 2
+    this.dimensions.fullWidth = this.dimensions.maxPosition - this.dimensions.minPosition
 
     if (!this.settings.hideMinMax) {
       this.dimensions.fieldMinWidth = this.fields.min.offsetWidth
@@ -540,9 +549,11 @@ class RangeSlider {
       toX: 0
     }
 
+    const minPos = this.dimensions.minPosition
+
     if (this.settings.type === 'single') {
       this.numbers.fromX = this.getSliderPosition(this.sliders.single)
-      this.numbers.fromPers = (this.numbers.fromX / this.dimensions.fullWidth) * 100
+      this.numbers.fromPers = ((this.numbers.fromX - minPos) / this.dimensions.fullWidth) * 100
 
       let from = (diapason / 100) * this.numbers.fromPers + this.settings.min
       this.numbers.fromNumber = Math.round(from / this.settings.step) * this.settings.step
@@ -559,14 +570,14 @@ class RangeSlider {
       }
     } else {
       this.numbers.fromX = this.getSliderPosition(this.sliders.from)
-      this.numbers.fromPers = (this.numbers.fromX / this.dimensions.fullWidth) * 100
+      this.numbers.fromPers = ((this.numbers.fromX - minPos) / this.dimensions.fullWidth) * 100
 
       let from = (diapason / 100) * this.numbers.fromPers + this.settings.min
       this.numbers.fromNumber = Math.round(from / this.settings.step) * this.settings.step
       this.numbers.fromNumber = this.clampValue(this.numbers.fromNumber)
 
       this.numbers.toX = this.getSliderPosition(this.sliders.to)
-      this.numbers.toPers = (this.numbers.toX / this.dimensions.fullWidth) * 100
+      this.numbers.toPers = ((this.numbers.toX - minPos) / this.dimensions.fullWidth) * 100
 
       let to = (diapason / 100) * this.numbers.toPers + this.settings.min
       this.numbers.toNumber = Math.round(to / this.settings.step) * this.settings.step
@@ -598,25 +609,26 @@ class RangeSlider {
 
   setInitialPositions() {
     const diapason = this.settings.max - this.settings.min
+    const minPos = this.dimensions.minPosition
 
     if (this.settings.type === 'single') {
       const fromPers =
         diapason !== 0 ? ((this.settings.from - this.settings.min) / diapason) * 100 : 0
-      const fromX = (this.dimensions.fullWidth / 100) * fromPers
+      const fromX = (this.dimensions.fullWidth / 100) * fromPers + minPos
 
       this.sliders.single.style.left = Math.round(fromX) + 'px'
       this.sliders.single.dataset.x = fromX.toString()
     } else {
       const fromPers =
         diapason !== 0 ? ((this.settings.from - this.settings.min) / diapason) * 100 : 0
-      const fromX = (this.dimensions.fullWidth / 100) * fromPers
+      const fromX = (this.dimensions.fullWidth / 100) * fromPers + minPos
 
       this.sliders.from.style.left = Math.round(fromX) + 'px'
       this.sliders.from.dataset.x = fromX.toString()
 
       const toPers =
         diapason !== 0 ? ((this.settings.to - this.settings.min) / diapason) * 100 : 100
-      const toX = (this.dimensions.fullWidth / 100) * toPers
+      const toX = (this.dimensions.fullWidth / 100) * toPers + minPos
 
       this.sliders.to.style.left = Math.round(toX) + 'px'
       this.sliders.to.dataset.x = toX.toString()
