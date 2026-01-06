@@ -23,7 +23,6 @@ window.$ = window.jQuery = jQuery
 import 'jquery-jcrop'
 import 'jquery-validation'
 import 'jquery-validation/dist/additional-methods'
-import 'ion.rangeSlider'
 import 'bootstrap/js/alert'
 import 'bootstrap/js/button'
 import 'bootstrap/js/dropdown'

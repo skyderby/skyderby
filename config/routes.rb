@@ -264,7 +264,6 @@ Skyderby::Application.routes.draw do
       end
       resource :results, only: :show
       resource :download, only: :show
-      resource :jump_range, only: :show
       resource :altitude_data, only: :show
       resource :weather_data
       resource :points, only: :show
