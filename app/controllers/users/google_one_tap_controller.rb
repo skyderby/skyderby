@@ -2,6 +2,9 @@ module Users
   class GoogleOneTapController < ApplicationController
     skip_before_action :verify_authenticity_token
 
+    AuthInfo = Data.define(:email, :first_name, :last_name, :image)
+    AuthHash = Data.define(:provider, :uid, :info)
+
     def create
       payload = verify_google_token(params[:credential])
 
@@ -34,10 +37,10 @@ module Users
     end
 
     def build_auth_hash(payload)
-      OpenStruct.new(
+      AuthHash.new(
         provider: 'google_oauth2',
         uid: payload['sub'],
-        info: OpenStruct.new(
+        info: AuthInfo.new(
           email: payload['email'],
           first_name: payload['given_name'],
           last_name: payload['family_name'],
