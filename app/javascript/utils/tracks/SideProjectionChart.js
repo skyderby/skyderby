@@ -87,6 +87,7 @@ export default class SideProjectionChart {
     this.drawGrid()
     this.drawReferenceLine()
     this.drawTerrainProfile()
+    this.drawTerrainClearance()
     this.drawTrajectory()
     this.drawIntersectionPoint()
     this.drawFlares()
@@ -254,6 +255,93 @@ export default class SideProjectionChart {
     area.setAttribute('stroke', '#A67B5B')
     area.setAttribute('stroke-width', '1')
     this.svg.appendChild(area)
+  }
+
+  getTerrainAltitudeAt(distance) {
+    if (!this.terrainProfile?.length) return null
+
+    for (let i = 1; i < this.terrainProfile.length; i++) {
+      const prev = this.terrainProfile[i - 1]
+      const curr = this.terrainProfile[i]
+
+      if (distance >= prev.distance && distance <= curr.distance) {
+        const t = (distance - prev.distance) / (curr.distance - prev.distance)
+        return prev.altitude + t * (curr.altitude - prev.altitude)
+      }
+    }
+
+    const last = this.terrainProfile[this.terrainProfile.length - 1]
+    if (distance > last.distance) return null
+
+    return this.terrainProfile[0].altitude
+  }
+
+  drawTerrainClearance() {
+    if (!this.terrainProfile?.length || !this.flightProfile.length) return
+
+    const zones = { red: [], yellow: [] }
+
+    for (let i = 0; i < this.flightProfile.length; i++) {
+      const point = this.flightProfile[i]
+      const terrainAlt = this.getTerrainAltitudeAt(point.x)
+      if (terrainAlt === null) continue
+
+      const clearance = terrainAlt - point.y
+
+      if (clearance <= 25) {
+        zones.red.push({ flight: point, terrainAlt })
+      } else if (clearance <= 100) {
+        zones.yellow.push({ flight: point, terrainAlt })
+      }
+    }
+
+    this.drawClearanceZone(zones.yellow, 'rgba(255, 193, 7, 0.4)')
+    this.drawClearanceZone(zones.red, 'rgba(244, 67, 54, 0.4)')
+  }
+
+  drawClearanceZone(points, color) {
+    if (!points.length) return
+
+    const segments = []
+    let currentSegment = [points[0]]
+
+    for (let i = 1; i < points.length; i++) {
+      const prev = points[i - 1]
+      const curr = points[i]
+      const prevIdx = this.flightProfile.indexOf(prev.flight)
+      const currIdx = this.flightProfile.indexOf(curr.flight)
+
+      if (currIdx - prevIdx === 1) {
+        currentSegment.push(curr)
+      } else {
+        if (currentSegment.length > 0) segments.push(currentSegment)
+        currentSegment = [curr]
+      }
+    }
+    if (currentSegment.length > 0) segments.push(currentSegment)
+
+    for (const segment of segments) {
+      if (segment.length < 2) continue
+
+      let pathData = segment
+        .map(
+          (p, i) =>
+            `${i === 0 ? 'M' : 'L'} ${this.scaleX(p.flight.x)} ${this.scaleY(p.flight.y)}`
+        )
+        .join(' ')
+
+      for (let i = segment.length - 1; i >= 0; i--) {
+        const p = segment[i]
+        pathData += ` L ${this.scaleX(p.flight.x)} ${this.scaleY(p.terrainAlt)}`
+      }
+      pathData += ' Z'
+
+      const area = document.createElementNS(SVG_NS, 'path')
+      area.setAttribute('d', pathData)
+      area.setAttribute('fill', color)
+      area.setAttribute('stroke', 'none')
+      this.svg.appendChild(area)
+    }
   }
 
   drawTrajectory() {
@@ -624,6 +712,18 @@ export default class SideProjectionChart {
   }
 
   showTooltip(point) {
+    const terrainAlt = this.getTerrainAltitudeAt(point.x)
+    const clearance = terrainAlt !== null ? Math.round(terrainAlt - point.y) : null
+
+    let clearanceHtml = ''
+    if (clearance !== null) {
+      let color = '#4CAF50'
+      if (clearance <= 25) color = '#f44336'
+      else if (clearance <= 100) color = '#FFC107'
+
+      clearanceHtml = `<div><b>Clearance:</b> <span style="color: ${color}; font-weight: bold;">${clearance} m</span></div>`
+    }
+
     this.tooltip.innerHTML = `
       <div><b>Distance:</b> ${Math.round(point.x)} m</div>
       <div><b>Alt drop:</b> ${Math.round(point.y)} m</div>
@@ -631,6 +731,7 @@ export default class SideProjectionChart {
       <div><b>H speed:</b> ${Math.round(point.hSpeed)} km/h</div>
       <div><b>V speed:</b> ${Math.round(point.vSpeed)} km/h</div>
       <div><b>Glide:</b> ${point.glideRatio?.toFixed(2) ?? 'N/A'}</div>
+      ${clearanceHtml}
     `
 
     const svgRect = this.svg.getBoundingClientRect()
