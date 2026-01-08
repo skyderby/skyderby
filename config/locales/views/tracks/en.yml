@@ -49,6 +49,9 @@ en:
       elev_chart: Elevation
       elevation: Elevation
       back: Back to track
+    base_jump:
+      terrain_profile: Terrain Profile
+      select_terrain_profile: Select terrain profile
     form:
       suit_text_placeholder: Enter suit name
       suit_select_placeholder: Select suit from list

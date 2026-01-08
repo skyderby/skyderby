@@ -49,6 +49,9 @@ ru:
       elev_chart: График высот
       elevation: Высота
       back: Назад к треку
+    base_jump:
+      terrain_profile: Профиль рельефа
+      select_terrain_profile: Выберите профиль рельефа
     form:
       suit_text_placeholder: 'Введите название костюма'
       suit_select_placeholder: 'Выберите костюм из списка'

@@ -53,7 +53,9 @@ export const initAccuracyChart = (
     },
     xAxis: {
       plotLines,
-      plotBands
+      plotBands,
+      labels: { enabled: false },
+      tickLength: 0
     },
     yAxis: [
       {

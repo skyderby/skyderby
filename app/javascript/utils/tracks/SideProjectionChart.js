@@ -12,11 +12,17 @@ export default class SideProjectionChart {
     }
     this.points = []
     this.flightProfile = []
+    this.terrainProfile = null
   }
 
   setFlightProfile(points) {
     this.points = points
     this.flightProfile = this.calculateFlightProfile(points)
+    return this
+  }
+
+  setTerrainProfile(measurements) {
+    this.terrainProfile = measurements
     return this
   }
 
@@ -80,6 +86,7 @@ export default class SideProjectionChart {
     this.createSvg()
     this.drawGrid()
     this.drawReferenceLine()
+    this.drawTerrainProfile()
     this.drawTrajectory()
     this.drawIntersectionPoint()
     this.drawFlares()
@@ -219,6 +226,34 @@ export default class SideProjectionChart {
     label.setAttribute('transform', `rotate(-45, ${labelX}, ${labelY})`)
     label.textContent = '1:1'
     this.svg.appendChild(label)
+  }
+
+  drawTerrainProfile() {
+    if (!this.terrainProfile?.length) return
+
+    const maxAltitude = Math.max(...this.terrainProfile.map(p => p.altitude))
+    const maxAltitudeY = this.scaleY(maxAltitude)
+
+    const areaData = this.terrainProfile
+      .map(
+        (p, i) =>
+          `${i === 0 ? 'M' : 'L'} ${this.scaleX(p.distance)} ${this.scaleY(p.altitude)}`
+      )
+      .join(' ')
+
+    const lastPoint = this.terrainProfile[this.terrainProfile.length - 1]
+    const firstPoint = this.terrainProfile[0]
+
+    const closePath = ` L ${this.scaleX(lastPoint.distance)} ${maxAltitudeY} L ${this.scaleX(firstPoint.distance)} ${maxAltitudeY} Z`
+
+    const area = document.createElementNS(SVG_NS, 'path')
+    area.setAttribute('class', 'terrain-profile')
+    area.setAttribute('d', areaData + closePath)
+    area.setAttribute('fill', '#D4A574')
+    area.setAttribute('fill-opacity', '0.5')
+    area.setAttribute('stroke', '#A67B5B')
+    area.setAttribute('stroke-width', '1')
+    this.svg.appendChild(area)
   }
 
   drawTrajectory() {

@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { initGlideChart, initSpeedsChart } from 'charts'
+import { initGlideChart, initSpeedsChart, initAccuracyChart } from 'charts'
 import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
@@ -10,6 +10,8 @@ export default class extends Controller {
     'sideProjection',
     'glideChart',
     'speedChart',
+    'sepChart',
+    'terrainProfileSelect',
     'map',
     'playButton',
     'playbackSlider',
@@ -27,7 +29,8 @@ export default class extends Controller {
 
   static values = {
     pointsUrl: String,
-    locationArrowUrl: String
+    locationArrowUrl: String,
+    defaultTerrainProfileId: Number
   }
 
   connect() {
@@ -39,6 +42,7 @@ export default class extends Controller {
       this.initCharts()
       this.renderMap()
       this.initPlayback()
+      this.loadDefaultTerrainProfile()
     })
   }
 
@@ -62,6 +66,7 @@ export default class extends Controller {
     this.initSideProjection()
     this.initGlideChart()
     this.initSpeedsChart()
+    this.initSepChart()
   }
 
   initSideProjection() {
@@ -100,6 +105,40 @@ export default class extends Controller {
     this.speedChartTarget.chart = initSpeedsChart(this.speedChartTarget, this.points, {
       windCancellation: false
     })
+  }
+
+  initSepChart() {
+    if (!this.hasSepChartTarget) return
+
+    this.sepChartTarget.chart = initAccuracyChart(this.sepChartTarget, this.points)
+  }
+
+  loadDefaultTerrainProfile() {
+    if (!this.defaultTerrainProfileIdValue) return
+
+    this.fetchTerrainProfile(this.defaultTerrainProfileIdValue)
+  }
+
+  handleTerrainProfileSelection(event) {
+    const terrainProfileId = event.target.value
+    if (!terrainProfileId) {
+      this.sideProjectionChart?.setTerrainProfile(null).render()
+      return
+    }
+
+    this.fetchTerrainProfile(terrainProfileId)
+  }
+
+  fetchTerrainProfile(terrainProfileId) {
+    fetch(`/exit_measurements/${terrainProfileId}`, {
+      headers: { Accept: 'application/json' }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (this.sideProjectionChart) {
+          this.sideProjectionChart.setTerrainProfile(data.measurements).render()
+        }
+      })
   }
 
   renderMap() {
@@ -397,9 +436,11 @@ export default class extends Controller {
   }
 
   updateHighchartsCrosshair(index) {
-    const charts = [this.glideChartTarget?.chart, this.speedChartTarget?.chart].filter(
-      Boolean
-    )
+    const charts = [
+      this.glideChartTarget?.chart,
+      this.speedChartTarget?.chart,
+      this.sepChartTarget?.chart
+    ].filter(Boolean)
 
     charts.forEach(chart => {
       if (!chart.series?.[0]?.points?.[index]) return
@@ -479,6 +520,9 @@ export default class extends Controller {
     }
     if (this.speedChartTarget?.chart) {
       this.speedChartTarget.chart.destroy()
+    }
+    if (this.sepChartTarget?.chart) {
+      this.sepChartTarget.chart.destroy()
     }
   }
 }

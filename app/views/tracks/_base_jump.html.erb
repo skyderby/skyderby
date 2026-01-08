@@ -1,15 +1,27 @@
 <div class="show-page">
   <%= render partial: 'header', locals: { track: @track } %>
 
+  <% default_jump_line = @track.place&.jump_lines&.first %>
   <div class="track-show-content"
        data-controller="tracks--base-jump-track"
        data-tracks--base-jump-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
-       data-tracks--base-jump-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>">
+       data-tracks--base-jump-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
+       data-tracks--base-jump-track-default-terrain-profile-id-value="<%= default_jump_line&.id %>">
 
     <div class="base-jump-layout">
       <div class="base-jump-left">
         <div class="base-jump-chart-square"
              data-tracks--base-jump-track-target="sideProjection">
+        </div>
+
+        <div class="base-jump-terrain-select">
+          <label><%= t('tracks.base_jump.terrain_profile') %></label>
+          <%= render 'hot_select/select',
+                     name: :terrain_profile_id,
+                     src: places_jump_profiles_select_options_path,
+                     placeholder: t('tracks.base_jump.select_terrain_profile'),
+                     options: default_jump_line.present? ? options_for_select([["#{default_jump_line.place.name} - #{default_jump_line.name}", default_jump_line.id]], default_jump_line.id) : [],
+                     select: { data: { action: 'tracks--base-jump-track#handleTerrainProfileSelection', 'tracks--base-jump-track-target': 'terrainProfileSelect' } } %>
         </div>
       </div>
 
@@ -46,6 +58,9 @@
           <div data-tracks--base-jump-track-target="glideChart"
                data-synchronized-charts-target="chart"></div>
           <div data-tracks--base-jump-track-target="speedChart"
+               data-synchronized-charts-target="chart"></div>
+          <div class="base-jump-sep-chart"
+               data-tracks--base-jump-track-target="sepChart"
                data-synchronized-charts-target="chart"></div>
         </div>
       </div>
