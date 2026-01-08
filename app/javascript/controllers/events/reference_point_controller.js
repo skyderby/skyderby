@@ -4,10 +4,10 @@ export default class extends Controller {
   static outlets = ['map']
   static targets = ['latitude', 'longitude', 'name']
 
-  connect() {
+  mapOutletConnected(outlet) {
     const readOnly = this.element.getAttribute('data-readonly') === 'true'
 
-    this.mapOutlet
+    outlet
       .createMarker(
         this.latitudeTarget.value,
         this.longitudeTarget.value,
