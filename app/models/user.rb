@@ -61,7 +61,7 @@ class User < ApplicationRecord
   end
 
   def lifetime_subscription?
-    stripe_processor&.charges&.succeeded&.any? { |c| c.metadata['type'] == 'lifetime' }
+    stripe_processor&.charges&.any? { |c| c.metadata['type'] == 'lifetime' }
   end
 
   def stripe_processor
