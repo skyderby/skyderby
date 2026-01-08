@@ -308,13 +308,15 @@ export default class SideProjectionChart {
         const currDescending = curr.vSpeed > 0
         if (currDescending) {
           currentFlare.endIndex = i
-          flares.push(currentFlare)
+          if (currentFlare.zeroCrossHSpeed >= 100) {
+            flares.push(currentFlare)
+          }
           currentFlare = null
         }
       }
     }
 
-    if (currentFlare) {
+    if (currentFlare && currentFlare.zeroCrossHSpeed >= 100) {
       currentFlare.endIndex = this.flightProfile.length - 1
       flares.push(currentFlare)
     }
