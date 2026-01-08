@@ -245,22 +245,34 @@ export default class SideProjectionChart {
     const intersection = this.findIntersectionPoint()
     if (!intersection) return
 
+    const x = this.scaleX(intersection.x)
+    const y = this.scaleY(intersection.y)
+
     const circle = document.createElementNS(SVG_NS, 'circle')
     circle.setAttribute('class', 'intersection-marker')
-    circle.setAttribute('cx', this.scaleX(intersection.x))
-    circle.setAttribute('cy', this.scaleY(intersection.y))
-    circle.setAttribute('r', '6')
-    circle.setAttribute('fill', '#fff')
-    circle.setAttribute('stroke', '#f00')
-    circle.setAttribute('stroke-width', '2')
+    circle.setAttribute('cx', x)
+    circle.setAttribute('cy', y)
+    circle.setAttribute('r', '2')
+    circle.setAttribute('fill', '#f00')
     this.svg.appendChild(circle)
 
+    const extLine = document.createElementNS(SVG_NS, 'line')
+    extLine.setAttribute('x1', x)
+    extLine.setAttribute('y1', y)
+    extLine.setAttribute('x2', x)
+    extLine.setAttribute('y2', y - 25)
+    extLine.setAttribute('stroke', '#f00')
+    extLine.setAttribute('stroke-width', '1')
+    extLine.setAttribute('stroke-dasharray', '2,2')
+    this.svg.appendChild(extLine)
+
     const label = document.createElementNS(SVG_NS, 'text')
-    label.setAttribute('x', this.scaleX(intersection.x) + 10)
-    label.setAttribute('y', this.scaleY(intersection.y) - 10)
+    label.setAttribute('x', x)
+    label.setAttribute('y', y - 28)
+    label.setAttribute('text-anchor', 'middle')
     label.setAttribute('font-size', '11')
     label.setAttribute('fill', '#f00')
-    label.textContent = `1:1 @ ${Math.round(intersection.x)}m`
+    label.textContent = `1:1 ${Math.round(intersection.x)}m`
     this.svg.appendChild(label)
   }
 
@@ -543,7 +555,7 @@ export default class SideProjectionChart {
 
     const result = this.findClosestPoint(x, y)
     if (result) {
-      this.showTooltip(result.point, clientX, clientY)
+      this.showTooltip(result.point)
       this.showCrosshair(result.index)
 
       if (this.options.onPointHover) {
@@ -574,9 +586,7 @@ export default class SideProjectionChart {
     return closestIndex >= 0 ? { point: closestPoint, index: closestIndex } : null
   }
 
-  showTooltip(point, clientX, clientY) {
-    const containerRect = this.container.getBoundingClientRect()
-
+  showTooltip(point) {
     this.tooltip.innerHTML = `
       <div><b>Distance:</b> ${Math.round(point.x)} m</div>
       <div><b>Alt drop:</b> ${Math.round(point.y)} m</div>
@@ -586,11 +596,35 @@ export default class SideProjectionChart {
       <div><b>Glide:</b> ${point.glideRatio?.toFixed(2) ?? 'N/A'}</div>
     `
 
-    const tooltipX = clientX - containerRect.left + 15
-    const tooltipY = clientY - containerRect.top - 10
+    const svgRect = this.svg.getBoundingClientRect()
+    const containerRect = this.container.getBoundingClientRect()
 
-    this.tooltip.style.left = `${tooltipX}px`
-    this.tooltip.style.top = `${tooltipY}px`
+    const pointSvgX = this.scaleX(point.x)
+    const pointSvgY = this.scaleY(point.y)
+
+    const pointScreenX = (pointSvgX / this.width) * svgRect.width
+    const pointScreenY = (pointSvgY / this.height) * svgRect.height
+
+    const tooltipRect = this.tooltip.getBoundingClientRect()
+    const tooltipWidth = tooltipRect.width || 150
+    const tooltipHeight = tooltipRect.height || 100
+
+    const offsetX = 10
+    const offsetY = 10
+
+    let left = pointScreenX + offsetX
+    let top = pointScreenY - tooltipHeight - offsetY
+
+    if (left + tooltipWidth > containerRect.width) {
+      left = pointScreenX - tooltipWidth - offsetX
+    }
+
+    if (top < 0) {
+      top = 0
+    }
+
+    this.tooltip.style.left = `${left}px`
+    this.tooltip.style.top = `${top}px`
     this.tooltip.style.display = 'block'
   }
 
