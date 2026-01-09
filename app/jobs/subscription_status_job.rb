@@ -37,8 +37,10 @@ class SubscriptionStatusJob < ApplicationJob
   end
 end
 
-Sidekiq::Cron::Job.create(
-  name: 'Update subscription statuses - daily',
-  cron: '0 1 * * *',
-  class: 'SubscriptionStatusJob'
-)
+Sidekiq.configure_server do
+  Sidekiq::Cron::Job.create(
+    name: 'Update subscription statuses - daily',
+    cron: '0 1 * * *',
+    class: 'SubscriptionStatusJob'
+  )
+end
