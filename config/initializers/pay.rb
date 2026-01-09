@@ -12,3 +12,7 @@ Pay.setup do |config|
   config.enabled_processors = [:stripe]
 end
 
+Rails.application.config.to_prepare do
+  Pay::Subscription.include Pay::SubscriptionExtensions
+  Pay::Charge.include Pay::ChargeExtensions
+end

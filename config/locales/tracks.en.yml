@@ -1,0 +1,13 @@
+en:
+  tracks:
+    pro_view:
+      sign_in_required: Sign in to use BASE Pro View
+      limit_reached: Monthly limit reached. Upgrade for unlimited access.
+      view_button: View in BASE Pro View
+      remaining_free:
+        one: "%{count} more free this month"
+        other: "%{count} more free this month"
+      get_more_on: "Get 5 more on %{date} or"
+      unlock_unlimited: Unlock Unlimited
+      sign_in: Sign in
+      sign_in_prompt: "to try BASE Pro View — 5 free per month"

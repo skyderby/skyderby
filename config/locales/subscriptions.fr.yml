@@ -32,7 +32,7 @@ fr:
       feature_base: Lecture interactive avec profil de terrain et données synchronisées
       feature_skydive: Analyse de vol détaillée avec soustraction du vent
       feature_highlight_name: Ton nom se démarque
-      feature_compare: Comparaison de tracks côte à côte (bientôt)
+      feature_compare: Comparaison de tracks côte à côte
       explore_tracks: Commencer à utiliser
       manage_subscription: Gérer l'abonnement
     create:

@@ -8,6 +8,8 @@
        data-tracks--skydive-track-chart-type-value="<%= Current.charts_mode %>"
        data-tracks--skydive-track-tracks--range-selector-outlet="#range-selector"
        data-action="tracks--range-selector:change->tracks--skydive-track#updateRange">
+    <%= render 'tracks/pro_view_notice' %>
+
     <div class="card-action">
       <button class="btn-flat toggle-straight-line"
               data-tracks--skydive-track-target="straightLineButton"

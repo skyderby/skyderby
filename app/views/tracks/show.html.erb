@@ -1,6 +1,6 @@
 <% provide :title, title(@track) %>
 
-<% if @track.base? && Current.subscription_active? %>
+<% if @track.base? && @track.pro_view_available? %>
   <%= render 'tracks/base_jump' %>
 <% else %>
   <%= render 'tracks/default' %>

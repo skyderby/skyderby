@@ -4,6 +4,15 @@ class GiftedSubscription < ApplicationRecord
 
   scope :active, -> { where('expires_at IS NULL OR expires_at > ?', Time.current) }
 
+  after_destroy :update_user_subscribed_status
+  after_save :update_user_subscribed_status
+
+  private
+
+  def update_user_subscribed_status
+    user.update!(subscribed: user.subscription_active?)
+  end
+
   def lifetime? = expires_at.nil?
 
   def active? = lifetime? || expires_at > Time.current

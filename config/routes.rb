@@ -268,6 +268,7 @@ Skyderby::Application.routes.draw do
       resource :altitude_data, only: :show
       resource :weather_data
       resource :points, only: :show
+      resource :pro_view, only: :create
 
       collection do
         resources :select_options, only: :index, as: :tracks_select_options

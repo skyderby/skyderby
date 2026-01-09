@@ -79,6 +79,7 @@ class Track < ApplicationRecord
            inverse_of: :track,
            dependent: :destroy
   has_many :all_virtual_competition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
+  has_many :free_pro_views, dependent: :delete_all
 
   validates :name, presence: true, unless: :pilot
 
@@ -108,6 +109,14 @@ class Track < ApplicationRecord
   def duration = (points.last.gps_time_in_seconds - points.first.gps_time_in_seconds).to_i
 
   def competitive? = event_result.present?
+
+  def pro_view_available?(user: Current.user)
+    return false unless base?
+    return false unless user.registered?
+    return true if Current.subscription_active?
+
+    FreeProView.exists?(user:, track: self)
+  end
 
   def msl_offset
     @msl_offset ||=

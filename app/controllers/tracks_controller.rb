@@ -20,7 +20,7 @@ class TracksController < ApplicationController
                 :speed,
                 :time,
                 place: [:country],
-                pilot: [:contributions],
+                pilot: :owner,
                 suit: [:manufacturer]
               ).paginate(page: page, per_page: 25)
 

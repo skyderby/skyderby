@@ -41,7 +41,7 @@ module VirtualCompetitions
       [
         { suit: :manufacturer },
         { track: [{ place: :country }, :video] },
-        { profile: :contributions }
+        { profile: :owner }
       ]
     end
   end

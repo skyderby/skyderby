@@ -32,7 +32,7 @@ ru:
       feature_base: Интерактивный playback с профилем рельефа и синхронизацией данных
       feature_skydive: Детальный анализ полёта с вычитанием ветра
       feature_highlight_name: Твоё имя выделяется
-      feature_compare: Сравнение треков бок о бок (скоро)
+      feature_compare: Сравнение треков бок о бок
       explore_tracks: Начать пользоваться
       manage_subscription: Управление подпиской
     create:

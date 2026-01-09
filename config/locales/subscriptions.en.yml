@@ -32,7 +32,7 @@ en:
       feature_base: Interactive replay with terrain profile and all data synced
       feature_skydive: Detailed flight analysis with wind subtraction
       feature_highlight_name: Your name stands out
-      feature_compare: Side-by-side track comparison (coming soon)
+      feature_compare: Side-by-side track comparison
       explore_tracks: Start Using
       manage_subscription: Manage Subscription
     create:

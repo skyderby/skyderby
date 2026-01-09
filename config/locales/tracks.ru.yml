@@ -1,0 +1,15 @@
+ru:
+  tracks:
+    pro_view:
+      sign_in_required: Войдите чтобы использовать BASE Pro View
+      limit_reached: Месячный лимит исчерпан. Оформите подписку для безлимитного доступа.
+      view_button: Посмотреть в BASE Pro View
+      remaining_free:
+        one: "ещё %{count} бесплатный трек в этом месяце"
+        few: "ещё %{count} бесплатных трека в этом месяце"
+        many: "ещё %{count} бесплатных треков в этом месяце"
+        other: "ещё %{count} бесплатных треков в этом месяце"
+      get_more_on: "Ещё 5 бесплатных %{date} или"
+      unlock_unlimited: Разблокируй безлимит
+      sign_in: Войдите
+      sign_in_prompt: "чтобы попробовать BASE Pro View — 5 треков в месяц бесплатно"

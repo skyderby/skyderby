@@ -6,7 +6,12 @@ class Profiles::TracksController < ApplicationController
       .tracks
       .accessible
       .sorted(*order_params)
-      .includes(:distance, :speed, :time, :video, suit: :manufacturer, place: :country)
+      .includes(
+        :distance, :speed, :time, :video,
+        suit: :manufacturer,
+        place: :country,
+        pilot: :owner
+      )
       .then { |tracks| TrackFilter.new(index_params).apply(tracks) }
       .paginate(page:, per_page: 25)
   end

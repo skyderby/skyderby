@@ -1,0 +1,18 @@
+<% if @track.base? && !@track.pro_view_available? %>
+  <div class="notice justify-center">
+    <% if Current.user %>
+      <% remaining = FreeProView.remaining_for(Current.user) %>
+      <% if remaining > 0 %>
+        <%= button_to t('tracks.pro_view.view_button'), track_pro_view_path(@track),
+            class: "button button--primary button--sm" %>
+        <span><%= t('tracks.pro_view.remaining_free', count: remaining) %></span>
+      <% else %>
+        <span><%= t('tracks.pro_view.get_more_on', date: l(Date.current.next_month.beginning_of_month, format: :short)) %></span>
+        <%= link_to t('tracks.pro_view.unlock_unlimited'), subscriptions_path, class: "button button--primary button--sm" %>
+      <% end %>
+    <% else %>
+      <%= link_to t('tracks.pro_view.sign_in'), new_user_session_path, class: "button button--primary button--sm" %>
+      <span><%= t('tracks.pro_view.sign_in_prompt') %></span>
+    <% end %>
+  </div>
+<% end %>

@@ -32,7 +32,7 @@ es:
       feature_base: Reproducción interactiva con perfil de terreno y datos sincronizados
       feature_skydive: Análisis de vuelo detallado con sustracción del viento
       feature_highlight_name: Tu nombre destaca
-      feature_compare: Comparación de tracks lado a lado (próximamente)
+      feature_compare: Comparación de tracks lado a lado
       explore_tracks: Empezar a usar
       manage_subscription: Gestionar suscripción
     create:

@@ -74,7 +74,9 @@ class Profile < ApplicationRecord
 
   def participant_of_events = organizer_of_events + competitor_of_events
 
-  def contributor? = contributions.any?
+  def contributor?
+    donor? || (belongs_to_user? && owner.subscribed?)
+  end
 
   class << self
     def search(query) = where('unaccent(profiles.name) ILIKE unaccent(?)', "%#{query}%")

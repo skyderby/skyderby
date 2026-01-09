@@ -29,6 +29,7 @@ class User < ApplicationRecord
 
   has_one :profile, as: :owner, dependent: :nullify, inverse_of: :owner
   has_many :gifted_subscriptions, dependent: :destroy
+  has_many :free_pro_views, dependent: :delete_all
 
   scope :admins, -> { where('? = ANY(roles)', 'admin') }
 

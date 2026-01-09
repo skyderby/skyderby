@@ -214,7 +214,8 @@
   margin: 0;
 }
 
-.subscriptions-benefit__coming-soon {
+.subscriptions-benefit__coming-soon,
+.coming-soon {
   font-size: 0.625rem;
   color: var(--orange-80);
   background: var(--orange-10);

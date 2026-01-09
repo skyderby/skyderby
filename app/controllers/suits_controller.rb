@@ -26,12 +26,12 @@ class SuitsController < ApplicationController
       .accessible
       .order(recorded_at: :desc)
       .includes(
-        :pilot,
         :distance,
         :time,
         :speed,
         :video,
-        place: :country
+        place: :country,
+        pilot: :owner
       ).paginate(page:, per_page: 50)
   end
 
