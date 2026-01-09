@@ -22,11 +22,25 @@
     </div>
   <% else %>
     <div class="subscriptions-content">
-      <%= form_with url: subscriptions_path, method: :post, class: 'subscriptions-plans', data: { turbo: false } do |f| %>
+      <%= form_with url: subscriptions_path,
+                    method: :post,
+                    class: 'subscriptions-plans',
+                    data: {
+                      turbo: false,
+                      controller: 'subscription-tracking',
+                      subscription_tracking_plans_value: @plans.index_by { |p| p[:id] }.to_json,
+                      action: 'submit->subscription-tracking#startCheckout'
+                    } do |f| %>
         <div class="subscriptions-plans__options">
           <% @plans.each_with_index do |plan, index| %>
             <label class="subscription-plan-option <%= 'subscription-plan-option--popular' if plan[:popular] %>">
-              <input type="radio" name="plan" value="<%= plan[:id] %>" <%= 'checked' if plan[:popular] %> class="subscription-plan-option__radio">
+              <input type="radio"
+                     name="plan"
+                     value="<%= plan[:id] %>"
+                     <%= 'checked' if plan[:popular] %>
+                     class="subscription-plan-option__radio"
+                     data-subscription-tracking-target="option"
+                     data-action="change->subscription-tracking#selectOption">
               <span class="subscription-plan-option__content">
                 <span class="subscription-plan-option__left">
                   <span class="subscription-plan-option__name"><%= plan[:name] %></span>
