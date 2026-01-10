@@ -1,20 +1,20 @@
 import { Controller } from '@hotwired/stimulus'
 import { initYoutubeApi, videoCodeFromUrl, defaultPlayerOptions } from 'utils/youtube'
-import smooth_scroll from 'utils/smooth_scroll'
+import smoothScroll from 'utils/smooth_scroll'
 import I18n from 'i18n'
 
 const HEADER_HEIGHT = 71
 
 export default class extends Controller {
-  static targets = ['player', 'chart', 'url', 'video_offset', 'track_offset']
+  static targets = ['player', 'chart', 'url', 'videoOffset', 'trackOffset']
 
   connect() {
     initYoutubeApi()
-    this.init_chart()
-    this.fetch_chart_data()
+    this.initChart()
+    this.fetchChartData()
   }
 
-  fetch_chart_data() {
+  fetchChartData() {
     fetch(this.element.getAttribute('data-url'), { credentials: 'same-origin' })
       .then(response => response.json())
       .then(data => {
@@ -27,80 +27,83 @@ export default class extends Controller {
       })
   }
 
-  on_youtube_api_ready() {
-    this.init_player()
+  onYoutubeApiReady() {
+    this.initPlayer()
   }
 
-  on_change_url() {
-    this.init_player()
-    this.scroll_to(this.player_position)
+  onChangeUrl() {
+    this.initPlayer()
+    this.scrollTo(this.playerPosition)
   }
 
-  set_video_offset(event) {
+  setVideoOffset(event) {
     event.preventDefault()
     if (!this.player) return
 
-    this.video_offset = this.player.getCurrentTime()
+    this.videoOffset = this.player.getCurrentTime()
 
-    this.scroll_to(this.chart_position)
+    this.scrollTo(this.chartPosition)
   }
 
-  decrease_track_offset(event) {
+  decreaseTrackOffset(event) {
     event.preventDefault()
-    this.change_track_offset(-0.5)
+    this.changeTrackOffset(-0.5)
   }
 
-  increase_track_offset(event) {
+  increaseTrackOffset(event) {
     event.preventDefault()
-    this.change_track_offset(0.5)
+    this.changeTrackOffset(0.5)
   }
 
-  change_track_offset(value) {
-    this.track_offset = this.track_offset + value
-    this.update_plot_line()
+  changeTrackOffset(value) {
+    this.trackOffset = this.trackOffset + value
+    this.updatePlotLine()
   }
 
-  set_track_offset(value) {
-    this.track_offset = value
-    this.update_plot_line()
+  setTrackOffset(value) {
+    this.trackOffset = value
+    this.updatePlotLine()
   }
 
-  scroll_to(position) {
-    smooth_scroll(document.documentElement, position - HEADER_HEIGHT, 700)
+  scrollTo(position) {
+    smoothScroll(document.documentElement, position - HEADER_HEIGHT, 700)
   }
 
-  update_plot_line() {
+  updatePlotLine() {
     this.highchart.xAxis[0].removePlotLine('plot-line-track-offset')
 
-    if (!this.track_offset) return
+    if (!this.trackOffset) return
 
     this.highchart.xAxis[0].addPlotLine({
-      value: this.track_offset,
+      value: this.trackOffset,
       color: '#FF0000',
       width: 2,
       id: 'plot-line-track-offset'
     })
   }
 
-  init_player() {
-    if (this.player) {
-      this.player.loadVideoById({ videoId: this.video_code })
+  initPlayer() {
+    if (this.player && this.videoCode) {
+      this.player.loadVideoById({ videoId: this.videoCode })
       return
     }
 
     this.player = new YT.Player(
       this.playerTarget,
-      Object.assign(defaultPlayerOptions, { videoId: this.video_code })
+      Object.assign(
+        defaultPlayerOptions,
+        this.videoCode ? { videoId: this.videoCode } : {}
+      )
     )
   }
 
-  init_chart() {
-    this.chart.highcharts = new Highcharts.Chart(this.chart, this.chart_options)
+  initChart() {
+    this.chart.highcharts = new Highcharts.Chart(this.chart, this.chartOptions)
     this.highchart.showLoading()
-    this.update_plot_line()
+    this.updatePlotLine()
   }
 
-  get video_code() {
+  get videoCode() {
     return videoCodeFromUrl(this.url)
   }
 
@@ -108,7 +111,7 @@ export default class extends Controller {
     return this.urlTarget.value
   }
 
-  get player_position() {
+  get playerPosition() {
     return this.playerTarget.getBoundingClientRect().top + pageYOffset
   }
 
@@ -116,7 +119,7 @@ export default class extends Controller {
     return this.chartTarget
   }
 
-  get chart_position() {
+  get chartPosition() {
     return this.chart.getBoundingClientRect().top + pageYOffset
   }
 
@@ -124,19 +127,19 @@ export default class extends Controller {
     return this.chart.highcharts
   }
 
-  set video_offset(value) {
-    this.video_offsetTarget.value = value.toFixed(1)
+  set videoOffset(value) {
+    this.videoOffsetTarget.value = value.toFixed(1)
   }
 
-  get track_offset() {
-    return Number(this.track_offsetTarget.value)
+  get trackOffset() {
+    return Number(this.trackOffsetTarget.value)
   }
 
-  set track_offset(value) {
-    this.track_offsetTarget.value = value.toFixed(1)
+  set trackOffset(value) {
+    this.trackOffsetTarget.value = value.toFixed(1)
   }
 
-  get chart_options() {
+  get chartOptions() {
     return {
       chart: {
         type: 'spline',
@@ -146,7 +149,7 @@ export default class extends Controller {
         events: {
           click: event => {
             if (event.target.textContent) return
-            this.set_track_offset(event.xAxis[0].value)
+            this.setTrackOffset(event.xAxis[0].value)
           }
         }
       },
@@ -166,7 +169,7 @@ export default class extends Controller {
           point: {
             events: {
               click: event => {
-                this.set_track_offset(event.point.x)
+                this.setTrackOffset(event.point.x)
               }
             }
           }

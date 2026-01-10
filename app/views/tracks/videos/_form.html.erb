@@ -3,7 +3,7 @@
              remote: true,
              html: { class: 'form-horizontal',
                      'data-controller': 'tracks--video-form',
-                     'data-action': 'youtube_api:ready@window->tracks--video-form#on_youtube_api_ready',
+                     'data-action': 'youtube_api:ready@window->tracks--video-form#onYoutubeApiReady',
                      'data-url': track_video_chart_data_path(@video.track_id) } do |f| %>
   <div class="row">
     <div class="col-sm-4">
@@ -16,7 +16,7 @@
                          class: 'form-control',
                          placeholder: t('.url_placeholder'),
                          'data-tracks--video-form-target': 'url',
-                         'data-action': 'change->tracks--video-form#on_change_url input->tracks--video-form#on_change_url' %>
+                         'data-action': 'change->tracks--video-form#onChangeUrl input->tracks--video-form#onChangeUrl' %>
       </div>
       <%= f.hidden_field :video_code %>
       <%= f.hidden_field :track_id %>
@@ -35,9 +35,9 @@
     </div>
     <div class="col-sm-3 col-sm-offset-4 top-buffer">
       <div class="input-group">
-        <%= f.text_field :video_offset, class: 'form-control text-center', 'data-tracks--video-form-target': 'video_offset' %>
+        <%= f.text_field :video_offset, class: 'form-control text-center', 'data-tracks--video-form-target': 'videoOffset' %>
         <span class="input-group-btn">
-          <button class="btn btn-default" data-action="click->tracks--video-form#set_video_offset"><%= t '.set' %></button>
+          <button class="btn btn-default" data-action="click->tracks--video-form#setVideoOffset"><%= t '.set' %></button>
         </span>
       </div>
     </div>
@@ -56,13 +56,13 @@
     <div class="col-sm-3 col-sm-offset-4">
       <div class="input-group">
         <span class="input-group-btn">
-          <button class="btn btn-default" data-action="click->tracks--video-form#decrease_track_offset">
+          <button class="btn btn-default" data-action="click->tracks--video-form#decreaseTrackOffset">
             <i class="fa fa-chevron-left"></i>
           </button>
         </span>
-        <%= f.text_field :track_offset, class: 'form-control text-center', 'data-tracks--video-form-target': 'track_offset' %>
+        <%= f.text_field :track_offset, class: 'form-control text-center', 'data-tracks--video-form-target': 'trackOffset' %>
         <span class="input-group-btn">
-          <button class="btn btn-default" data-action="click->tracks--video-form#increase_track_offset">
+          <button class="btn btn-default" data-action="click->tracks--video-form#increaseTrackOffset">
             <i class="fa fa-chevron-right"></i>
           </button>
         </span>
