@@ -2,6 +2,7 @@ module SubscriptionsHelper
   SUBSCRIPTION_STATUS_COLORS = {
     'lifetime' => 'blue',
     'active' => 'green',
+    'expired' => 'gray',
     'past_due' => 'red',
     'trialing' => 'purple'
   }.freeze
