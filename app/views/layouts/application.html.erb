@@ -15,10 +15,27 @@
     <div id="modal-root"></div>
     <div id="dropdown-root"></div>
 
-    <div class="toast-container" id="toasts">
+    <div class="toast-container" id="toasts" data-controller="toasts">
       <% flash.each do |type, message| %>
-        <%= render 'toasts/toast', type: type, message: message %>
+        <%= render 'toasts/toast', type:, message: %>
       <% end %>
+
+      <template data-toasts-target="template">
+        <div class="toast" data-toasts-target="toast">
+          <div class="toast-icon icon-red hidden" data-icon="error">
+            <%= svg_icon 'circle-xmark-solid' %>
+          </div>
+          <div class="toast-icon icon-green hidden" data-icon="success">
+            <%= svg_icon 'circle-check-regular' %>
+          </div>
+          <div class="toast-message"></div>
+          <div class="toast-actions">
+            <button class="toast-dismiss" data-action="toasts#dismissClick">
+              <%= svg_icon 'xmark' %>
+            </button>
+          </div>
+        </div>
+      </template>
     </div>
 
     <div class="page <%= yield :page_class %>">

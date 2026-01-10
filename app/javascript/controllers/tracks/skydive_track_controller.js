@@ -51,7 +51,7 @@ export default class extends Controller {
     'straightLineButton'
   ]
 
-  static outlets = ['tracks--range-selector']
+  static outlets = ['tracks--range-selector', 'toasts']
 
   static values = {
     pointsUrl: String,
@@ -103,11 +103,21 @@ export default class extends Controller {
     history.replaceState({}, '', url)
   }
 
-  fetchPoints() {
+  fetchPoints(attempt = 1) {
+    const maxAttempts = 3
+    const retryDelay = attempt * 1000
+
     return fetch(this.pointsUrlValue, {
       headers: { Accept: 'application/json' }
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          const error = new Error(`HTTP ${response.status}`)
+          error.status = response.status
+          throw error
+        }
+        return response.json()
+      })
       .then(data => {
         data.points.forEach(point => {
           point.gpsTime = new Date(point.gpsTime)
@@ -118,6 +128,35 @@ export default class extends Controller {
 
         return data
       })
+      .catch(error => {
+        const isRetryable = this.isRetryableError(error)
+
+        if (isRetryable && attempt < maxAttempts) {
+          return new Promise(resolve => setTimeout(resolve, retryDelay)).then(() =>
+            this.fetchPoints(attempt + 1)
+          )
+        }
+
+        this.showError(error)
+        throw error
+      })
+  }
+
+  isRetryableError(error) {
+    if (error.name === 'TypeError') return true
+    if (error.status >= 500) return true
+    return false
+  }
+
+  showError(error) {
+    if (!this.hasToastsOutlet) return
+
+    const message =
+      error.status >= 400
+        ? `Failed to load track data: ${error.message}`
+        : 'Failed to load track data. Please check your connection.'
+
+    this.toastsOutlet.show(message, 'error')
   }
 
   fetchWeather() {

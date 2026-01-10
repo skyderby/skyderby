@@ -1,7 +1,6 @@
-<% type ||= 'info' %>
-<% errors ||= nil %>
+<%# locals: (message:, type: 'info', errors: nil) %>
 
-<div class="toast" data-controller="toast">
+<div class="toast" data-toasts-target="toast">
   <% if type == 'error' %>
     <div class="toast-icon icon-red">
       <%= svg_icon 'circle-xmark-solid' %>
@@ -24,7 +23,7 @@
   </div>
 
   <div class="toast-actions">
-    <button class="toast-dismiss" data-action='toast#dismiss'>
+    <button class="toast-dismiss" data-action="toasts#dismissClick">
       <%= svg_icon 'xmark' %>
     </button>
   </div>
