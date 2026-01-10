@@ -7,6 +7,7 @@ export default class extends Controller {
       'turbo:before-cache',
       () => {
         this.slider?.remove()
+        this.slider = null
       },
       { once: true }
     )

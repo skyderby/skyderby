@@ -8,13 +8,13 @@ class RangeSlider {
   static currentSlider = null
 
   constructor(element, options = {}) {
-    if (element.dataset.isActive) {
-      return
+    if (element.rangeSliderInstance) {
+      return element.rangeSliderInstance
     }
 
     this.element = element
     this.pluginCount = ++RangeSlider.pluginCount
-    this.element.dataset.isActive = 'true'
+    element.rangeSliderInstance = this
 
     this.settings = this.mergeSettings(options)
     this.parseDataAttributes()
@@ -871,6 +871,8 @@ class RangeSlider {
   }
 
   update(options) {
+    if (!this.settings) return
+
     this.firstStart = true
     Object.assign(this.settings, options)
     this.validateSettings()
@@ -889,7 +891,7 @@ class RangeSlider {
     document.removeEventListener('pointerup', this.handlePointerUp)
 
     this.container.remove()
-    this.element.dataset.isActive = 'false'
+    this.element.rangeSliderInstance = null
     this.element.style.display = ''
   }
 }
@@ -900,7 +902,7 @@ RangeSlider.create = function (selector, options = {}) {
   const instances = []
 
   elements.forEach(element => {
-    if (element && !element.dataset.isActive) {
+    if (element && !element.rangeSliderInstance) {
       instances.push(new RangeSlider(element, options))
     }
   })
