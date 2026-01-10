@@ -21,6 +21,8 @@ en:
     index:
       sign_in_to_create: Creating classic competitions available only for registered users.
       new: 'New'
+    lane_validations:
+      no_results: No results to validate yet
     rounds:
       completed_tooltip: Round results are final
       mark_completed_tooltip: Mark round as completed when results are final

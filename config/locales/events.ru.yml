@@ -21,6 +21,8 @@ ru:
     index:
       sign_in_to_create: Войдите или зарегистрируйтеся для создания соревнования
       new: 'Добавление'
+    lane_validations:
+      no_results: Нет результатов для проверки
     rounds:
       completed_tooltip: Результаты раунда окончательные
       mark_completed_tooltip: Отметьте раунд как завершенный, когда результаты финальные
