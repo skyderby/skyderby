@@ -57,7 +57,7 @@ export default class SideProjectionChart {
   }
 
   findIntersectionPoint() {
-    const minAltitudeDrop = 15
+    const minAltitudeDrop = 50
 
     for (let i = 1; i < this.flightProfile.length; i++) {
       const prev = this.flightProfile[i - 1]
