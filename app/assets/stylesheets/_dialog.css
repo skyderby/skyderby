@@ -8,6 +8,7 @@
   max-width: 100%;
   max-height: calc(100dvh - 2rem);
   margin: auto 0 0 0;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   opacity: 0;
@@ -132,7 +133,6 @@
 
 @media (max-width: 575px) {
   .dialog {
-    height: auto;
     max-height: 90dvh;
   }
 

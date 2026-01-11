@@ -1,6 +1,11 @@
 class TrackFilesController < ApplicationController
   def new
     @form = Track::Form.new(user: current_user)
+
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.turbo_stream
+    end
   end
 
   def create
