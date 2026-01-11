@@ -138,6 +138,8 @@ export default class extends Controller {
         }
 
         this.showError(error)
+
+        if (error.status === 403) return
         throw error
       })
   }
