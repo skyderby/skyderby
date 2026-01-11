@@ -11,3 +11,13 @@
   line-height: 1.4;
   margin-bottom: 1rem;
 }
+
+.notice--error {
+  border-color: var(--red-50);
+  background-color: transparent;
+  color: var(--red-90);
+}
+
+.notice--md {
+  padding: 0.5rem 0.75rem;
+}

@@ -1,7 +1,7 @@
 .button {
   --button-bg: var(--white);
   --button-color: var(--gray-80);
-  --button-border-color: var(--gray-30);
+  --button-border-color: var(--gray-40);
   --button-border-size: 1px;
   --button-padding: 0.5rem 1rem;
   --button-font-size: 0.875rem;
@@ -16,6 +16,7 @@
   white-space: nowrap;
   font-weight: 500;
   font-size: var(--button-font-size);
+  margin: 0;
   padding: var(--button-padding);
   border-radius: var(--button-border-radius);
   border: var(--button-border-size) solid var(--button-border-color);
@@ -103,9 +104,11 @@ form[aria-busy] .button:disabled::after {
 }
 
 .button--primary {
-  --button-bg: var(--blue-90);
   --button-color: var(--white);
-  --button-border-color: var(--blue-90);
+  --button-border-size: 0;
+
+  background: linear-gradient(135deg, var(--blue-80) 0%, var(--blue-90) 100%);
+  box-shadow: 0 2px 1px #0000001f;
 }
 
 .button--danger {
@@ -128,7 +131,11 @@ form[aria-busy] .button:disabled::after {
 .button--outline.button--primary {
   --button-bg: transparent;
   --button-color: var(--blue-90);
+  --button-border-size: 1px;
   --button-border-color: var(--blue-90);
+
+  background: none;
+  box-shadow: none;
 }
 
 .button--outline.button--danger {
@@ -151,4 +158,12 @@ form[aria-busy] .button:disabled::after {
 .button--sm {
   --button-font-size: 0.75rem;
   --button-padding: 0.25rem 0.5rem;
+}
+
+@media (any-hover: hover) {
+  .button--gradient:hover:not(:disabled) {
+    filter: none;
+    background: linear-gradient(135deg, #06b6d4 0%, #0a5c70 100%);
+    box-shadow: 0 4px 15px rgba(14, 116, 144, 0.4);
+  }
 }

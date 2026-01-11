@@ -1,28 +1,41 @@
+<% content_for :title, t('devise.sessions.new.sign_in') %>
+
 <div class="content-block">
   <h2><%= t('devise.sessions.new.sign_in') %></h2>
 
-  <%= form_for(:user, url: user_session_path, html: { 'data-controller': 'users--sign-in' }) do |f| %>
-    <div class="form-group">
-      <%= f.email_field :email, autofocus: true, class: 'form-control input-lg', placeholder: 'Email', required: true %>
+  <% if flash[:alert] %>
+    <div class="notice notice--error notice--md"><%= flash[:alert] %></div>
+  <% end %>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'sd-form' }) do |f| %>
+    <div>
+      <%= f.label :email, class: 'form-label' %>
+      <%= f.email_field :email, autofocus: true, class: 'form-input', required: true, placeholder: 'name@example.com' %>
     </div>
 
-    <div class="form-group">
-      <%= f.password_field :password, autocomplete: 'off', class: 'form-control input-lg', placeholder: 'Password', required: true %>
-      <%= link_to t('devise.shared.links.forgot_your_password'), new_user_password_path, class: 'secondary-text' %>
+    <div>
+      <%= f.label :password, class: 'form-label' %>
+      <%= f.password_field :password, autocomplete: 'off', class: 'form-input', required: true, placeholder: '•••••' %>
+      <div class="form-hint">
+        <%= link_to t('devise.shared.links.forgot_your_password'), new_user_password_path %>
+      </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-actions">
       <%= f.hidden_field :remember_me, value: 1 %>
-      <%= f.submit t('devise.sessions.new.sign_in'), class: 'btn btn-primary' %>
+      <%= f.submit t('devise.sessions.new.sign_in'), class: 'button button--primary' %>
     </div>
   <% end %>
 
-  <%= link_to t('devise.shared.links.sign_up'), new_user_registration_path, class: 'btn' %>
-
-  <p class="secondary-text"><%= t('general.or') %></p>
-
-  <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: :false }, class: 'btn btn-google' do %>
-    <%= svg_icon 'google-icon', class: 'auth-social-icon' %>
+  <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: :false }, class: 'button' do %>
+    <%= svg_icon 'google-icon' %>
     <%= t('devise.shared.links.sign_in_with_provider', provider: 'Google') %>
   <% end %>
+
+  <div class="divider"></div>
+
+  <p class="signup-prompt">
+    <%= t('devise.shared.links.no_account') %>
+    <%= link_to t('devise.shared.links.sign_up'), new_user_registration_path, class: 'button button--ghost button--sm' %>
+  </p>
 </div>

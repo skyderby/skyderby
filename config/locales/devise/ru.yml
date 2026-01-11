@@ -123,6 +123,8 @@ ru:
         didn_t_receive_confirmation_instructions: "Не получили подтверждение?"
         didn_t_receive_unlock_instructions: "Не получили код разблокировки?"
         forgot_your_password: "Забыли пароль?"
+        have_account: "Уже есть аккаунт?"
+        no_account: "Нет аккаунта?"
         sign_in: "Войти"
         sign_in_with_provider: "Войти с помощью: %{provider}"
         connect_provider: "Привязать %{provider}"

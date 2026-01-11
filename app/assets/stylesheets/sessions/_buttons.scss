@@ -46,3 +46,29 @@
     border-color: #1e7e34;
   }
 }
+
+.btn-gradient {
+  color: #fff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+
+  &:hover, &:focus {
+    background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.btn-ghost {
+  display: inline-flex;
+  width: auto;
+  padding: 4px 12px;
+  height: auto;
+  background: transparent;
+  border: 1px solid #667eea;
+  color: #667eea;
+
+  &:hover, &:focus {
+    background: rgba(102, 126, 234, 0.1);
+    box-shadow: none;
+  }
+}

@@ -129,6 +129,38 @@
   margin: 0;
 }
 
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .form-input {
+    padding-right: 2.5rem;
+  }
+}
+
+.input-icon-button {
+  position: absolute;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: var(--gray-60);
+
+  &:hover {
+    color: var(--gray-80);
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
 .form-input[type="file"] {
   overflow: hidden;
 

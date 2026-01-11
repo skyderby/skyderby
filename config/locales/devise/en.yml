@@ -123,6 +123,8 @@ en:
         didn_t_receive_confirmation_instructions: Didn't receive confirmation instructions?
         didn_t_receive_unlock_instructions: Didn't receive unlock instructions?
         forgot_your_password: Forgot your password?
+        have_account: Already have an account?
+        no_account: "Don't have an account?"
         sign_in: Log in
         sign_in_with_provider: Sign in with %{provider}
         connect_provider: Connect %{provider}

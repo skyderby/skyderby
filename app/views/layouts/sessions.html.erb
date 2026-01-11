@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title><%= content_for?(:title) ? "#{yield(:title)} - SkyDerby" : 'SkyDerby' %></title>
+    <% if content_for?(:description) %>
+      <meta name="description" content="<%= yield(:description) %>">
+    <% end %>
+
     <%= csrf_meta_tags %>
 
     <meta name="default-locale" content="<%= I18n.default_locale %>">
     <meta name="locale" content="<%= I18n.locale %>">
+    <meta name="current-env" content="<%= Rails.env %>">
+    <meta name="hb-api-key" content="<%= ENV.fetch('HONEYBADGER_API_KEY', nil) %>">
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="robots" content="noindex, nofollow">
 
     <%= render 'layouts/google_analytics' %>
 
-    <%= stylesheet_link_tag 'sessions/application', media: 'all', 'data-turbo-track': 'reload' %>
-    <%= javascript_pack_tag 'sessions', 'data-turbo-track': 'reload', defer: false %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload', defer: false %>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   </head>
-  <body>
-    <header>
+  <body class="sign-in-page">
+    <header class="app-navbar">
       <%= link_to root_path, class: 'header__home' do %>
         <span>SkyDerby</span>
       <% end %>

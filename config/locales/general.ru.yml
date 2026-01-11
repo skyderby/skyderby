@@ -1,4 +1,7 @@
 ru:
+  turnstile:
+    errors:
+      verification_failed: Проверка не пройдена. Попробуйте ещё раз.
   errors:
     attributes:
       base:

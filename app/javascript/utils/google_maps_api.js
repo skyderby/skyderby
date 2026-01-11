@@ -1,10 +1,19 @@
 import { loadScript } from 'utils/load_external'
 
-const mapsApiKey = document.querySelector('meta[name="maps-api-key"]').content
-const URL = `https://maps.googleapis.com/maps/api/js?callback=onMapsApiReady&key=${mapsApiKey}&libraries=marker`
+const getMapsApiKey = () => {
+  const meta = document.querySelector('meta[name="maps-api-key"]')
+  return meta ? meta.content : null
+}
 
 const initMapsApi = () =>
   new Promise((resolve, reject) => {
+    const mapsApiKey = getMapsApiKey()
+    if (!mapsApiKey) {
+      reject(new Error('Maps API key not found'))
+      return
+    }
+
+    const URL = `https://maps.googleapis.com/maps/api/js?callback=onMapsApiReady&key=${mapsApiKey}&libraries=marker`
     const onReady = () => {
       window.removeEventListener('maps_api:ready', onReady)
       window.removeEventListener('maps_api:failed', onFailed)

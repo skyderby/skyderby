@@ -1,30 +1,29 @@
+<% content_for :title, t('devise.confirmations.new.resend_confirmation_instructions') %>
+
 <div class="content-block">
   <h2><%= t('devise.confirmations.new.resend_confirmation_instructions') %></h2>
 
-  <%= form_for resource, as: resource_name, url: confirmation_path(resource_name) do |f| %>
-    <%= devise_error_messages! %>
-
-    <div class="form-group">
-      <%= f.label :email, t('activerecord.attributes.user.email'), class: 'col-sm-2 control-label' %>
-      <div class="col-sm-6">
-        <%= f.email_field :email, autofocus: true, class: 'form-control', required: true %>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <div class="col-sm-6 col-sm-offset-2">
-        <%= f.submit t('devise.confirmations.new.resend_confirmation_instructions'), class: 'btn btn-primary' %>
-      </div>
+  <% if resource.errors.any? %>
+    <div class="notice notice--error notice--md">
+      <%= resource.errors.full_messages.first %>
     </div>
   <% end %>
 
-  <%= link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'btn' %>
-  <%= link_to t('devise.shared.links.sign_up'), new_user_registration_path, class: 'btn' %>
+  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { class: 'sd-form' }) do |f| %>
+    <div>
+      <%= f.label :email, class: 'form-label' %>
+      <%= f.email_field :email, autofocus: true, class: 'form-input', required: true, placeholder: 'name@example.com' %>
+    </div>
 
-  <p class="secondary-text"><%= t('general.or') %></p>
-
-  <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: false }, class: 'btn btn-google' do %>
-    <%= svg_icon 'google-icon', class: 'auth-social-icon' %>
-    <%= t('devise.shared.links.sign_in_with_provider', provider: 'Google') %>
+    <div class="form-actions">
+      <%= f.submit t('devise.confirmations.new.resend_confirmation_instructions'), class: 'button button--primary' %>
+    </div>
   <% end %>
+
+  <div class="divider"></div>
+
+  <p class="signup-prompt">
+    <%= link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'button button--ghost button--sm' %>
+    <%= link_to t('devise.shared.links.sign_up'), new_user_registration_path, class: 'button button--ghost button--sm' %>
+  </p>
 </div>

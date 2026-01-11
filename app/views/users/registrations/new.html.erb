@@ -1,46 +1,55 @@
+<% content_for :title, t('devise.registrations.new.sign_up') %>
+
 <div class="content-block">
   <h2><%= t('devise.registrations.new.sign_up') %></h2>
 
-  <%= form_for :user, url: user_registration_path do |f| %>
-    <div class="form-group">
+  <% if resource.errors.any? %>
+    <div class="notice notice--error notice--md">
+      <%= resource.errors.full_messages.first %>
+    </div>
+  <% end %>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'sd-form' }) do |f| %>
+    <div>
       <%= f.fields_for :profile_attributes do |fields| %>
-        <%= fields.label :name %>
-        <%= fields.text_field :name, class: 'form-control input-lg', value: '', required: true, autofocus: true %>
-        <%= fields.text_field :last_name, class: 'form-control input-lg', value: '', tabindex: -1, autocomplete: 'off' %>
+        <%= fields.label :name, class: 'form-label' %>
+        <%= fields.text_field :name, class: 'form-input', required: true, autofocus: true, placeholder: 'John Doe' %>
       <% end %>
     </div>
 
-    <div class="form-group">
-      <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control input-lg', required: true %>
+    <div>
+      <%= f.label :email, class: 'form-label' %>
+      <%= f.email_field :email, class: 'form-input', required: true, placeholder: 'name@example.com' %>
     </div>
 
-    <div class="form-group">
-      <%= f.label :password %>
-      <%= f.password_field :password, autocomplete: 'new-password', class: 'form-control', required: true %>
-      <span class="secondary-text">Password must be at least 6 characters</span>
+    <div>
+      <%= f.label :password, class: 'form-label' %>
+      <div class="input-with-icon" data-controller="password-visibility">
+        <%= f.password_field :password, autocomplete: 'new-password', class: 'form-input', required: true, placeholder: '•••••', minlength: 6, data: { 'password-visibility-target': 'input' } %>
+        <button type="button" class="input-icon-button" data-action="password-visibility#toggle">
+          <span class="flex" data-password-visibility-target="showIcon"><%= svg_icon 'eye-solid-full' %></span>
+          <span class="flex hidden" data-password-visibility-target="hideIcon"><%= svg_icon 'eye-slash-solid' %></span>
+        </button>
+      </div>
+      <div class="form-hint"><%= t('devise.shared.minimum_password_length', count: 6) %></div>
     </div>
 
-    <div class="form-group">
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'form-control', required: true %>
-    </div>
+    <div class="cf-turnstile" data-sitekey="<%= ENV['TURNSTILE_SITE_KEY'] %>"></div>
 
-    <div class="form-group">
-      <%= f.submit t('devise.registrations.new.sign_up'), class: 'btn btn-lg btn-primary' %>
+    <div class="form-actions">
+      <%= f.submit t('devise.registrations.new.sign_up'), class: 'button button--primary' %>
     </div>
   <% end %>
 
-  <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: :false }, class: 'btn btn-google' do %>
-    <%= svg_icon 'google-icon', class: 'auth-social-icon' %>
+  <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: false }, class: 'button' do %>
+    <%= svg_icon 'google-icon' %>
     <%= t('devise.shared.links.sign_in_with_provider', provider: 'Google') %>
   <% end %>
 
-  <p class="secondary-text"><%= t('general.or') %></p>
+  <div class="divider"></div>
 
-  <%= link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'btn' %>
-
-  <div class="form-group">
-    <%= link_to t('devise.shared.links.didn_t_receive_confirmation_instructions'), new_user_confirmation_path %>
-  </div>
+  <p class="signup-prompt">
+    <%= t('devise.shared.links.have_account') %>
+    <%= link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'button button--ghost button--sm' %>
+  </p>
 </div>

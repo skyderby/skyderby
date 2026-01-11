@@ -1,0 +1,110 @@
+@import '../variables';
+
+.sign-in-page {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var(--primary-font);
+  line-height: 1.5;
+  color: #212529;
+  background: var(--gray-20);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .header__home {
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    font-weight: 200;
+    font-size: 25px;
+    letter-spacing: .05em;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    &:before {
+      content: $icon-skyderby;
+      color: #fff;
+      font: 38px $application-icon-font;
+      margin: 0 15px 0 0;
+    }
+
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+
+  h2 {
+    font-weight: 500;
+    color: rgba(37, 47, 60, 0.75);
+    border-left: 5px solid rgba(37, 47, 60, 0.75);
+    margin: 0 -1rem;
+    padding: 0px 10px;
+  }
+
+  .content-block {
+    background-color: white;
+    border-radius: 8px;
+    max-width: 320px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .notice {
+      margin-bottom: 0;
+    }
+  }
+
+  p {
+    text-align: center;
+    margin: 0;
+  }
+
+  .sd-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .form-input {
+    width: 100%;
+  }
+
+  .form-actions {
+    margin-top: 0.5rem;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .divider {
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 0.5rem 0;
+  }
+
+  .signup-prompt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #555;
+    gap: 0.25rem;
+
+    .button {
+      width: auto;
+    }
+  }
+}

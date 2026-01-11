@@ -1,4 +1,7 @@
 en:
+  turnstile:
+    errors:
+      verification_failed: Verification failed. Please try again.
   errors:
     attributes:
       name:

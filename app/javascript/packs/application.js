@@ -6,12 +6,12 @@ import 'utils/googleAnalytics'
 import 'utils/amplitude'
 
 import Honeybadger from '@honeybadger-io/js'
-const currentEnv = document.querySelector('meta[name="current-env"]').content
-const honeybadgerApiKey = document.querySelector('meta[name="hb-api-key"]').content
-if (currentEnv === 'production') {
+const currentEnvMeta = document.querySelector('meta[name="current-env"]')
+const honeybadgerApiKeyMeta = document.querySelector('meta[name="hb-api-key"]')
+if (currentEnvMeta && honeybadgerApiKeyMeta && currentEnvMeta.content === 'production') {
   Honeybadger.configure({
-    apiKey: honeybadgerApiKey,
-    environment: currentEnv
+    apiKey: honeybadgerApiKeyMeta.content,
+    environment: currentEnvMeta.content
   })
 }
 
