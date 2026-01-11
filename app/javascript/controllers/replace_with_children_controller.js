@@ -3,7 +3,7 @@ import { Controller } from '@hotwired/stimulus'
 export default class extends Controller {
   trigger() {
     this.ensureGroupUniqueness()
-    const parentSelector = this.element.dataset('parentSelector')
+    const parentSelector = this.element.dataset.parentSelector
     const container = parentSelector
       ? this.element.querySelector(parentSelector)
       : this.element
