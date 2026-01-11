@@ -1,6 +1,6 @@
 <% if @track.base? && !@track.pro_view_available? %>
   <div class="notice justify-center">
-    <% if Current.user %>
+    <% if Current.user.registered? %>
       <% remaining = FreeProView.remaining_for(Current.user) %>
       <% if remaining > 0 %>
         <%= button_to t('tracks.pro_view.view_button'), track_pro_view_path(@track),

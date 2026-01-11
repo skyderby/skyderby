@@ -3,7 +3,7 @@ module Tracks
     def create
       @track = Track.find(params[:track_id])
 
-      return redirect_to_sign_in unless Current.user
+      return redirect_to_sign_in unless Current.user.registered?
       return refresh_page if can_access_pro_view?
       return show_limit_error if limit_reached?
 
