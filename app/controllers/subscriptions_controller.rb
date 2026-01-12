@@ -42,9 +42,9 @@ class SubscriptionsController < ApplicationController
 
   def subscription_plans
     [
-      { id: 'monthly', name: I18n.t('subscriptions.index.plan_monthly'), price: 1500, interval: 'month' },
-      { id: 'annual', name: I18n.t('subscriptions.index.plan_annual'), price: 4500, interval: 'year', savings: I18n.t('subscriptions.index.save_75') },
-      { id: 'lifetime', name: I18n.t('subscriptions.index.plan_once'), price: 8800, interval: nil, popular: true }
+      { id: 'monthly', name: I18n.t('subscriptions.index.plan_monthly'), price: 1000, interval: 'month' },
+      { id: 'annual', name: I18n.t('subscriptions.index.plan_annual'), price: 3000, interval: 'year', savings: I18n.t('subscriptions.index.save_75') },
+      { id: 'lifetime', name: I18n.t('subscriptions.index.plan_once'), price: 5900, interval: nil, popular: true }
     ]
   end
 end
