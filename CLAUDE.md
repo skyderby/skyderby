@@ -2,38 +2,28 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Commands
-
-### Ruby Tests
-- Run all Ruby tests: `bin/rails test`
-- Run a specific test file: `bin/rails test test/path/to/test_file.rb`
-- Run a specific test method: `bin/rails test test/path/to/test_file.rb:line_number`
-- Run system tests: `bin/rails test:system`
-
-### JavaScript
-- Lint JavaScript: `yarn lint`
-- Run JavaScript tests: `yarn test`
-- Run a specific JS test: `yarn test path/to/test.js`
+Skyderby is a web application that provides gps tracks analysys, online ranknig and competition scoring
+for skydivers and base jumpers.
 
 ## Style Guidelines
-
 - You must not write comments in the code unless explicitly requested
-- 2 spaces for indentation
 
 ### Ruby
-- Line length 120 characters
+- Verify code style with Rubocop and run corresponding test if it exists
 - Prefer using fixtures and manually creating records instead of factories
 - Do not create service objects unless explicitly requested, either use a model method, concern or place the code in the controller
 - Check with rubocop for style issues
 
-### JavaScript
-- SingleQuotes over DoubleQuotes
-
-
-### CSS
-- Prefer CSS over SCSS
+### Frontend
+- For new styles use CSS, if you need to touch SCSS - rewrite it to CSS
+- Use shared styles as if you are creating a design system instead of writing page specific styles.
+  Write utility styles.
+- Use what Hotwire offers - Stimulus, Turbo Streams and Turbo Frames
+- Verify JS code style with `yarn lint`, if there is corresponding test to file - run test too
 
 ### Translations
-- Model translations should be in `config/locales/models/<model>.<locale>.yml`. No subfolders. 
-- View translations should be in `config/locales/<subsystem>.<locale>.yml`. Flat structure.
-- Use `general.<locale>.yml` for translations that are not specific to a model or subsystem, like cancel, delete, save, confirm, etc.
+- Application is translated to English, Russian, German, Italian, Spanish, French
+- All strings in UI should be placed in config/locales yml files
+  - Model translations should be in `config/locales/models/<model>.<locale>.yml`. No subfolders. 
+  - View translations should be in `config/locales/<subsystem>.<locale>.yml`. Flat structure.
+  - Use `general.<locale>.yml` for translations that are not specific to a model or subsystem, like cancel, delete, save, confirm, etc.

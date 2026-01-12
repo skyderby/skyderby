@@ -42,6 +42,9 @@ class VirtualCompetition < ApplicationRecord
   belongs_to :finish_line, optional: true, class_name: 'Place::FinishLine'
   belongs_to :group
 
+  scope :active, -> { where('period_to IS NULL OR period_to >= ?', Date.current) }
+  scope :finished, -> { where(period_to: ...Date.current) }
+
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, inverse_of: :sponsorable, dependent: :delete_all
 
   delegate :name, to: :place, prefix: true, allow_nil: true
@@ -60,5 +63,13 @@ class VirtualCompetition < ApplicationRecord
 
   def worldwide?
     !place
+  end
+
+  def finished?
+    period_to.present? && period_to < Date.current
+  end
+
+  def active?
+    !finished?
   end
 end

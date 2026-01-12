@@ -1,50 +1,66 @@
-<div class="container top-buffer">
-  <% if policy(:virtual_competition).create? %>
-    <a class="btn btn-default btn-info" href="<%= new_virtual_competition_path %>">
-      <i class="fa fa-plus"></i>
-      <%= t('activerecord.models.virtual_competition') %>
-    </a>
-  <% end %>
-  <% if policy([:virtual_competition, :group]).index? %>
-    <%= link_to 'Groups', virtual_competition_groups_path, class: 'btn btn-default' %>
-  <% end %>
+<div class="vc-index">
+  <div class="vc-index__header">
+    <div class="vc-index__actions">
+      <% if policy(:virtual_competition).create? %>
+        <a class="btn btn-default btn-info" href="<%= new_virtual_competition_path %>">
+          <i class="fa fa-plus"></i>
+          <%= t('activerecord.models.virtual_competition') %>
+        </a>
+      <% end %>
+      <% if policy([:virtual_competition, :group]).index? %>
+        <%= link_to 'Groups', virtual_competition_groups_path, class: 'btn btn-default' %>
+      <% end %>
+    </div>
 
-  <div class="top-buffer">
-    <% @competitions.each do |group, competitions| %>
-      <div class="content-block">
-        <h3><%= group %></h3>
-        <table class="table table-hover online-competitions-list">
-          <thead>
-            <tr>
-              <th><%= t('activerecord.attributes.virtual_competition.name') %></th>
-              <th><%= t('activerecord.attributes.virtual_competition.location') %></th>
-              <th><%= t('activerecord.attributes.virtual_competition.task') %></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% competitions.each do |competition| %>
-              <tr class="clickable" data-controller="clickable" data-url="<%= virtual_competition_path(id: competition.id) %>">
-                <td class="text-info"><%= competition.name %></td>
-                <td class="text-info">
-                  <% if competition.place %>
-                    <%= place_presentation(competition.place) %>
-                  <% else %>
-                    <%= t('virtual_competitions.worldwide') %>
-                  <% end %>
-                </td>
-                <td class="text-info">
-                  <% if competition.distance_in_time? %>
-                    <% task = 'Distance in ' + competition.discipline_parameter.to_s + ' sec' %>
-                  <% else %>
-                    <% task = competition.discipline.humanize %>
-                  <% end %>
-                  <%= task %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
+    <%= form_with url: virtual_competitions_path, method: :get, data: { controller: 'auto-submit', delay: 0 } do %>
+      <%= render 'components/switch',
+                 name: 'include_archived',
+                 checked: @include_archived,
+                 checked_value: 'true',
+                 include_hidden: false,
+                 label_text: t('virtual_competitions.index.show_archived'),
+                 data: { action: 'auto-submit#submit' } %>
     <% end %>
   </div>
+
+  <% @active_competitions.each do |group, competitions| %>
+    <div class="vc-group">
+      <h3 class="vc-group__title"><%= group %></h3>
+      <div class="vc-cards">
+        <% competitions.each do |competition| %>
+          <%= link_to virtual_competition_path(competition), class: class_names('vc-card', competition.jumps_kind.present? && "vc-card--#{competition.jumps_kind}") do %>
+            <div class="vc-card__inner">
+              <div class="vc-card__content">
+                <h4 class="vc-card__title"><%= competition.name %></h4>
+                <p class="vc-card__task"><%= t("virtual_competitions.tasks_short.#{competition.discipline}", parameter: competition.discipline_parameter) %></p>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @include_archived && @finished_competitions.present? %>
+    <div class="vc-finished-section">
+      <h3 class="vc-finished-section__title">Archived</h3>
+      <% @finished_competitions.each do |group, competitions| %>
+        <div class="vc-group">
+          <h3 class="vc-group__title"><%= group %></h3>
+          <div class="vc-cards">
+            <% competitions.each do |competition| %>
+              <%= link_to virtual_competition_path(competition), class: class_names('vc-card', competition.jumps_kind.present? && "vc-card--#{competition.jumps_kind}", 'vc-card--finished') do %>
+                <div class="vc-card__inner">
+                  <div class="vc-card__content">
+                    <h4 class="vc-card__title"><%= competition.name %></h4>
+                    <p class="vc-card__task"><%= t("virtual_competitions.tasks_short.#{competition.discipline}", parameter: competition.discipline_parameter) %></p>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
