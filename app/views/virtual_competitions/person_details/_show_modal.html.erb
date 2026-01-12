@@ -1,50 +1,35 @@
-<div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div class="pull-right">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-      </div>
-      <h4 class="modal-title">
-        <%= t('virtual_competitions.person_details.modal_title') %>
-      </h4>
-    </div>
-
-    <div class="modal-body">
-      <table class="table">
-        <thead>
-          <tr>
-            <th><%= t('activerecord.attributes.track.suit') %></th>
-            <% if @details.competition.worldwide? %>
-              <th><%= t('activerecord.attributes.track.place') %></th>
-            <% end %>
-            <th class="text-right">Result</th>
-            <th class="text-right"><%= t('activerecord.attributes.track.recorded_at') %></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @details.top_results.each do |record| %>
-            <tr>
-              <td><%= suit_presentation(record.suit) %></td>
-              <% if @details.competition.worldwide? %>
-                <td><%= track_place(record.track) %></td>
-              <% end %>
-              <td class="text-right">
-                <%= link_to format_result(record.result, @details.competition), record.track, 'data-toggle' => 'tooltip', title: t('.show_details'), class: 'dotted-underline' %>
-              </td>
-              <td class="text-right"><%= record.track.recorded_at&.strftime('%d.%m.%Y') %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-
-      <div id="person-details__chart"></div>
-    </div>
-
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
-    </div>
+<%= render 'components/dialog', title: t('virtual_competitions.person_details.modal_title'), dialog_size: 'lg' do %>
+  <div data-controller="person-details-chart">
+    <div data-person-details-chart-target="chart" style="height: 200px;"></div>
+    <script type="application/json" data-person-details-chart-target="data">
+      <%= @details.chart_data %>
+    </script>
   </div>
-</div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= t('activerecord.attributes.track.suit') %></th>
+        <% if @details.competition.worldwide? %>
+          <th><%= t('activerecord.attributes.track.place') %></th>
+        <% end %>
+        <th class="text-right">Result</th>
+        <th class="text-right"><%= t('activerecord.attributes.track.recorded_at') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @details.top_results.each do |record| %>
+        <tr>
+          <td><%= suit_presentation(record.suit) %></td>
+          <% if @details.competition.worldwide? %>
+            <td><%= track_place(record.track) %></td>
+          <% end %>
+          <td class="text-right">
+            <%= link_to format_result(record.result, @details.competition), record.track, class: 'dotted-underline' %>
+          </td>
+          <td class="text-right"><%= record.track.recorded_at&.strftime('%d.%m.%Y') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

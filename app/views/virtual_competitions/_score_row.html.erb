@@ -1,0 +1,65 @@
+<%# locals: (score:, competition:, current_user_row: false) %>
+
+<div class="<%= class_names('vc-scoreboard__row', score.rank <= 3 && 'vc-scoreboard__row--top', current_user_row && 'vc-scoreboard__row--current') %>" data-rank="<%= score.rank %>">
+  <div class="vc-scoreboard__rank"><%= score.rank %></div>
+
+  <div class="vc-scoreboard__main">
+    <div class="vc-scoreboard__name">
+      <%= link_to profile_path(score.profile), class: 'dotted-underline' do %>
+        <span class="<%= 'contributor' if score.profile.contributor? %>">
+          <%= score.profile.name.titleize %>
+        </span>
+      <% end %>
+    </div>
+    <div class="vc-scoreboard__meta">
+      <span class="vc-scoreboard__suit">
+        <%= svg_icon 'wingsuit' %>
+        <%= suit_presentation(score.suit) %>
+      </span>
+      <% if competition.worldwide? %>
+        <span class="vc-scoreboard__place">
+          <%= svg_icon 'location-dot-solid' %>
+          <%= track_place(score.track) %>
+        </span>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="vc-scoreboard__stats">
+    <% if competition.display_highest_speed %>
+      <div class="vc-scoreboard__stat vc-scoreboard__stat--speed">
+        <span class="vc-scoreboard__stat-label">Speed</span>
+        <span class="vc-scoreboard__stat-value"><%= (score.highest_speed || 0.0).round(1) %></span>
+      </div>
+    <% end %>
+    <% if competition.display_highest_gr %>
+      <div class="vc-scoreboard__stat vc-scoreboard__stat--gr">
+        <span class="vc-scoreboard__stat-label">G/R</span>
+        <span class="vc-scoreboard__stat-value"><%= (score.highest_gr || 0.0).round(2) %></span>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="vc-scoreboard__result">
+    <%= link_to score.track, class: 'vc-scoreboard__result-link' do %>
+      <span class="vc-scoreboard__result-value"><%= format_result(score.result, competition) %></span>
+      <span class="vc-scoreboard__result-unit"><%= competition_unit(competition) %></span>
+    <% end %>
+  </div>
+
+  <div class="vc-scoreboard__date">
+    <%= score.recorded_at&.strftime('%d.%m.%Y') %>
+  </div>
+
+  <div class="vc-scoreboard__actions">
+    <%= link_to virtual_competition_person_details_path(competition, profile_id: score.profile),
+                class: 'vc-scoreboard__action', data: { turbo_stream: true } do %>
+      <%= svg_icon 'list-ul-solid' %>
+    <% end %>
+    <% if score.track.video %>
+      <span class="vc-scoreboard__action vc-scoreboard__action--video">
+        <%= svg_icon 'play-solid' %>
+      </span>
+    <% end %>
+  </div>
+</div>

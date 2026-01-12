@@ -5,8 +5,10 @@ module VirtualCompetitions
         virtual_competition_id: details_params[:virtual_competition_id],
         profile_id: details_params[:profile_id]
       )
+
       respond_to do |format|
-        format.js
+        format.turbo_stream
+        format.html { redirect_to virtual_competition_path(details_params[:virtual_competition_id]) }
       end
     end
 
