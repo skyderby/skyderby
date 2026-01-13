@@ -11,7 +11,7 @@
         <sup class="text-danger">-<%= result.penalty_size %>%</sup>
       <% end %>
     <% elsif editable %>
-      <i class="far fa-question-circle text-danger"></i>
+      <%= icon_tag 'circle-question', class: 'text-danger' %>
     <% end %>
   <% end %>
 </td>

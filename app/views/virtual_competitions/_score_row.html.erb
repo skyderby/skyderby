@@ -13,12 +13,12 @@
     </div>
     <div class="vc-scoreboard__meta">
       <span class="vc-scoreboard__suit">
-        <%= svg_icon 'wingsuit' %>
+        <%= icon_tag 'wingsuit' %>
         <%= suit_presentation(score.suit) %>
       </span>
       <% if competition.worldwide? %>
         <span class="vc-scoreboard__place">
-          <%= svg_icon 'location-dot-solid' %>
+          <%= icon_tag 'location-dot-solid' %>
           <%= track_place(score.track) %>
         </span>
       <% end %>
@@ -54,11 +54,11 @@
   <div class="vc-scoreboard__actions">
     <%= link_to virtual_competition_person_details_path(competition, profile_id: score.profile),
                 class: 'vc-scoreboard__action', data: { turbo_stream: true } do %>
-      <%= svg_icon 'list-ul-solid' %>
+      <%= icon_tag 'list-ul-solid' %>
     <% end %>
     <% if score.track.video %>
       <span class="vc-scoreboard__action vc-scoreboard__action--video">
-        <%= svg_icon 'play-solid' %>
+        <%= icon_tag 'play-solid' %>
       </span>
     <% end %>
   </div>

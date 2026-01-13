@@ -14,7 +14,7 @@
             <button class="btn btn-default altitude-units" data-toggle="dropdown">
               <span>
                 <%= "#{t('weather_datum.altitude_units')}: #{t('units.' + @weather_data.selected_units.altitude)}" %>
-                <i class="fa fa-caret-down"></i>
+                <%= icon_tag 'angle-down-solid' %>
               </span>
             </button>
             <ul class="dropdown-menu" role="menu">
@@ -29,7 +29,7 @@
             <button class="btn btn-default wind-speed-units" data-toggle="dropdown">
               <span>
                 <%= "#{t('weather_datum.wind_speed_units')}: #{t('units.' + @weather_data.selected_units.speed)}" %>
-                <i class="fa fa-caret-down"></i>
+                <%= icon_tag 'angle-down-solid' %>
               </span>
             </button>
             <ul class="dropdown-menu" role="menu">

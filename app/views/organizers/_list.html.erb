@@ -16,7 +16,7 @@
                         method: :delete,
                         form: { data: { turbo: true } },
                         class: 'delete-organizer button button--ghost' do %>
-            <%= svg_icon 'xmark' %>
+            <%= icon_tag 'xmark' %>
           <% end %>
         <% end %>
       </li>
@@ -26,7 +26,7 @@
   <% if editable %>
     <div>
       <%= button_to polymorphic_path([:new, organizable, :organizer]), method: :get, form: { data: { turbo_stream: true } }, class: 'button' do %>
-        <%= svg_icon 'plus-solid' %>
+        <%= icon_tag 'plus-solid' %>
         <%= t('organizers.list.add_judge') %>
       <% end %>
     </div>

@@ -27,8 +27,8 @@
       <div class="input-with-icon" data-controller="password-visibility">
         <%= f.password_field :password, autocomplete: 'new-password', class: 'form-input', required: true, placeholder: '•••••', minlength: 6, data: { 'password-visibility-target': 'input' } %>
         <button type="button" class="input-icon-button" data-action="password-visibility#toggle">
-          <span class="flex" data-password-visibility-target="showIcon"><%= svg_icon 'eye-solid-full' %></span>
-          <span class="flex hidden" data-password-visibility-target="hideIcon"><%= svg_icon 'eye-slash-solid' %></span>
+          <span class="flex" data-password-visibility-target="showIcon"><%= icon_tag 'eye-solid-full' %></span>
+          <span class="flex hidden" data-password-visibility-target="hideIcon"><%= icon_tag 'eye-slash-solid' %></span>
         </button>
       </div>
       <div class="form-hint"><%= t('devise.shared.minimum_password_length', count: 6) %></div>
@@ -42,7 +42,7 @@
   <% end %>
 
   <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: false }, class: 'button' do %>
-    <%= svg_icon 'google-icon' %>
+    <%= icon_tag 'google-icon' %>
     <%= t('devise.shared.links.sign_in_with_provider', provider: 'Google') %>
   <% end %>
 

@@ -72,7 +72,6 @@ gem 'browser'
 
 # Assets
 gem 'bootstrap-sass', '~> 3.4.1'
-gem 'font-awesome-sass', '~> 5.8.1'
 gem 'sassc-rails'
 gem 'shakapacker', '6.5.0'
 gem 'terser'

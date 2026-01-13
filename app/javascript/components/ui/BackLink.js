@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 const BackLink = ({ children, ...props }) => (
   <a {...props}>
-    <i className="fa fa-chevron-left"></i>
+    <span className="icon icon--angle-left-solid" aria-hidden="true"></span>
     &nbsp;
     {children}
   </a>
@@ -20,8 +20,8 @@ export default styled(BackLink)`
   font-size: 24px;
   padding: 0px 12px 0px 10px;
 
-  i {
-    font-size: 21px;
+  .icon {
+    --icon-size: 21px;
   }
 
   &:hover {

@@ -3,12 +3,14 @@
     <div class="col-sm-9">
       <div id="round-map" data-events--round-globe-target="viewer">
         <div id="track-map-loading" class="text-muted" data-events--round-globe-target="loadingProgress">
-          <div id="track-map-loading-api" class="fa-2x">
-            <i class="fa fa-fw fa-spin fa-circle-notch" data-events--round-globe-target="cesiumStatus"></i>
+          <div id="track-map-loading-api" class="icon-2x">
+            <%= icon_tag 'circle-notch-solid', class: 'icon--fw icon-spin' %>
+            <span data-events--round-globe-target="cesiumStatus"></span>
             Loading Cesium API
           </div>
-          <div id="track-map-loading-data" class="fa-2x">
-            <i class="fa fa-fw fa-spin fa-circle-notch" data-events--round-globe-target="dataStatus"></i>
+          <div id="track-map-loading-data" class="icon-2x">
+            <%= icon_tag 'circle-notch-solid', class: 'icon--fw icon-spin' %>
+            <span data-events--round-globe-target="dataStatus"></span>
             Loading map data
           </div>
         </div>

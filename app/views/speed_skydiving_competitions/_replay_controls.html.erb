@@ -3,7 +3,7 @@
   <button class="replay-button button button--primary"
           data-action="click->replay-scoreboard#play"
           data-replay-scoreboard-target="playButton">
-    <%= svg_icon 'play-solid' %>
+    <%= icon_tag 'play-solid' %>
     <span>Play</span>
   </button>
 
@@ -16,7 +16,7 @@
           action: 'click->replay-scoreboard#goToRound',
           replay_scoreboard_target: 'roundLink'
         } %>
-    <div><%= svg_icon 'angle-right-solid' %></div>
+    <div><%= icon_tag 'angle-right-solid' %></div>
     <% event.rounds.ordered.each_with_index do |round, index| %>
       <%= link_to "R#{round.number}",
           speed_skydiving_competition_path(event, until_round: round.number),
@@ -28,7 +28,7 @@
           } %>
 
       <% if index < event.rounds.ordered.size - 1 %>
-        <div><%= svg_icon 'angle-right-solid' %></div>
+        <div><%= icon_tag 'angle-right-solid' %></div>
       <% end %>
     <% end %>
   </div>

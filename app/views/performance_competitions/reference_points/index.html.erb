@@ -20,15 +20,15 @@
     <div class="reference-points-list">
       <div class="reference-points-actions">
         <%= button_to performance_competition_reference_points_path(@event), class: 'button' do %>
-          <%= svg_icon 'plus-solid' %>
+          <%= icon_tag 'plus-solid' %>
           <%= t('general.create') %>
         <% end %>
         <%= link_to new_performance_competition_reference_points_import_path(@event), class: 'button', data: { turbo_stream: true } do %>
-          <%= svg_icon 'plus-solid' %>
+          <%= icon_tag 'plus-solid' %>
           <%= t('general.import_from_csv')  %>
         <% end %>
         <%= link_to performance_competition_reference_points_path(@event, format: :csv), class: 'button' do %>
-          <%= svg_icon 'download-solid' %>
+          <%= icon_tag 'download-solid' %>
           <%= t('general.export_to_csv') %>
         <% end %>
       </div>

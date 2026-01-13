@@ -1,5 +1,99 @@
-.svg-icon {
-  height: 0.875em;
-  width: 1em;
+.icon {
+  -webkit-touch-callout: none;
+  background-color: currentColor;
+  block-size: var(--icon-size, 1em);
+  display: inline-block;
+  flex-shrink: 0;
+  inline-size: var(--icon-size, 1em);
+  mask-image: var(--svg);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: var(--icon-size, 1em);
+  pointer-events: none;
+  user-select: none;
   vertical-align: middle;
 }
+
+.icon--fw {
+  inline-size: 1.25em;
+}
+
+.icon--lg {
+  --icon-size: 1.33em;
+}
+
+.icon--2x {
+  --icon-size: 2em;
+}
+
+.icon--3x {
+  --icon-size: 3em;
+}
+
+@keyframes icon-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.icon--spin {
+  animation: icon-spin 1s linear infinite;
+}
+
+.icon--angle-down-solid { --svg: url("icons/angle-down-solid.svg"); }
+.icon--angle-left-solid { --svg: url("icons/angle-left-solid.svg"); }
+.icon--angle-right-solid { --svg: url("icons/angle-right-solid.svg"); }
+.icon--angle-up-solid { --svg: url("icons/angle-up-solid.svg"); }
+.icon--arrow-down-short-wide { --svg: url("icons/arrow-down-short-wide.svg"); }
+.icon--arrow-up-short-wide { --svg: url("icons/arrow-up-short-wide.svg"); }
+.icon--bars-solid { --svg: url("icons/bars-solid.svg"); }
+.icon--bell-solid { --svg: url("icons/bell-solid.svg"); }
+.icon--calendar-days-solid { --svg: url("icons/calendar-days-solid.svg"); }
+.icon--certificate { --svg: url("icons/certificate.svg"); }
+.icon--chart-bar { --svg: url("icons/chart-bar.svg"); }
+.icon--chart-line-solid { --svg: url("icons/chart-line-solid.svg"); }
+.icon--check-solid { --svg: url("icons/check-solid.svg"); }
+.icon--circle-check-regular { --svg: url("icons/circle-check-regular.svg"); }
+.icon--circle-notch-solid { --svg: url("icons/circle-notch-solid.svg"); }
+.icon--circle-play { --svg: url("icons/circle-play.svg"); }
+.icon--circle-question { --svg: url("icons/circle-question.svg"); }
+.icon--circle-regular { --svg: url("icons/circle-regular.svg"); }
+.icon--circle-xmark-solid { --svg: url("icons/circle-xmark-solid.svg"); }
+.icon--compass-regular { --svg: url("icons/compass-regular.svg"); }
+.icon--copy-regular { --svg: url("icons/copy-regular.svg"); }
+.icon--crosshair { --svg: url("icons/crosshair.svg"); }
+.icon--dollar-sign-solid { --svg: url("icons/dollar-sign-solid.svg"); }
+.icon--download-solid { --svg: url("icons/download-solid.svg"); }
+.icon--ellipsis-solid { --svg: url("icons/ellipsis-solid.svg"); }
+.icon--ellipsis-vertical-solid { --svg: url("icons/ellipsis-vertical-solid.svg"); }
+.icon--eye-slash-solid { --svg: url("icons/eye-slash-solid.svg"); }
+.icon--eye-solid-full { --svg: url("icons/eye-solid-full.svg"); }
+.icon--filter-solid { --svg: url("icons/filter-solid.svg"); }
+.icon--fire-solid { --svg: url("icons/fire-solid.svg"); }
+.icon--gear-solid { --svg: url("icons/gear-solid.svg"); }
+.icon--google-icon { --svg: url("icons/google-icon.svg"); }
+.icon--list-ul-solid { --svg: url("icons/list-ul-solid.svg"); }
+.icon--location-arrow { --svg: url("icons/location-arrow.svg"); }
+.icon--location-dot-solid { --svg: url("icons/location-dot-solid.svg"); }
+.icon--lock-solid { --svg: url("icons/lock-solid.svg"); }
+.icon--magnifying-glass-solid { --svg: url("icons/magnifying-glass-solid.svg"); }
+.icon--minus-solid { --svg: url("icons/minus-solid.svg"); }
+.icon--navigate-solid { --svg: url("icons/navigate-solid.svg"); }
+.icon--pause-solid { --svg: url("icons/pause-solid.svg"); }
+.icon--pencil-solid { --svg: url("icons/pencil-solid.svg"); }
+.icon--play-solid { --svg: url("icons/play-solid.svg"); }
+.icon--plus-solid { --svg: url("icons/plus-solid.svg"); }
+.icon--right-from-bracket-solid { --svg: url("icons/right-from-bracket-solid.svg"); }
+.icon--rocket-outline { --svg: url("icons/rocket-outline.svg"); }
+.icon--skyderby { --svg: url("icons/skyderby.svg"); }
+.icon--star-solid { --svg: url("icons/star-solid.svg"); }
+.icon--stop-solid { --svg: url("icons/stop-solid.svg"); }
+.icon--trash-solid { --svg: url("icons/trash-solid.svg"); }
+.icon--triangle-exclamation-solid { --svg: url("icons/triangle-exclamation-solid.svg"); }
+.icon--trophy-solid { --svg: url("icons/trophy-solid.svg"); }
+.icon--up-right-from-square { --svg: url("icons/up-right-from-square.svg"); }
+.icon--upload-solid { --svg: url("icons/upload-solid.svg"); }
+.icon--user-solid { --svg: url("icons/user-solid.svg"); }
+.icon--video-solid { --svg: url("icons/video-solid.svg"); }
+.icon--wand-magic-sparkles-solid { --svg: url("icons/wand-magic-sparkles-solid.svg"); }
+.icon--wingsuit { --svg: url("icons/wingsuit.svg"); }
+.icon--xmark { --svg: url("icons/xmark.svg"); }

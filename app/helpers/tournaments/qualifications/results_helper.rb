@@ -8,14 +8,14 @@ module Tournaments
                                  'result[qualification_round_id]' => round.id }.to_param,
                 class: 'create-result-cell__link',
                 rel: 'nofollow' do
-          tag.i(nil, class: 'fa fa-upload')
+          icon_tag('upload-solid')
         end
       end
 
       def show_qualification_track_link(tournament, result, editable)
         link_to tournament_qualification_result_path(tournament, result),
                 remote: !mobile?, class: 'show-result', rel: 'nofollow' do
-          tag.i(nil, class: editable ? 'fas fa-pencil-alt' : 'fa fa-search')
+          icon_tag(editable ? 'pencil-solid' : 'magnifying-glass-solid')
         end
       end
 

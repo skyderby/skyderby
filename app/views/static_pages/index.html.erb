@@ -7,7 +7,7 @@
     <%= button_to new_track_file_path, method: :get,
                   form: { data: { turbo_stream: true }},
                   class: 'btn btn-lg button--green-gradient button--shadow' do %>
-      <%= svg_icon 'upload-solid' %>
+      <%= icon_tag 'upload-solid' %>
       <%= t('application.header.upload_track') %>
     <% end %>
   </div>

@@ -1,12 +1,12 @@
 <%# locals: (event:) %>
 <div class="card actions-bar" id="teams-actions-bar">
   <%= button_to new_speed_skydiving_competition_team_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
-    <%= svg_icon 'plus-solid' %>
+    <%= icon_tag 'plus-solid' %>
     Team
   <% end %>
 
   <%= button_to new_speed_skydiving_competition_team_competitor_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
-    <%= svg_icon 'plus-solid' %>
+    <%= icon_tag 'plus-solid' %>
     Competitor
   <% end %>
 </div>

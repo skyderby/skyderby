@@ -1,5 +1,5 @@
 <%= link_to root_path, class: 'nav-brand' do %>
-  <%= svg_icon 'skyderby' %>
+  <%= icon_tag 'skyderby' %>
   <span>Skyderby</span>
 <% end %>
 
@@ -21,7 +21,7 @@
     <button class="dropdown-toggle" data-action="dropdown#toggle">
       <%= t('application.header.explore') %>
       &nbsp;
-      <%= svg_icon 'angle-down-solid' %>
+      <%= icon_tag 'angle-down-solid' %>
     </button>
 
     <template data-dropdown-target="menu">

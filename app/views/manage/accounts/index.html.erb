@@ -6,7 +6,7 @@
   <div class="content-block">
     <div class="index-search__container" data-controller="index-search">
       <span class="index-search__icon">
-        <i class="fa fas-search"></i>
+        <%= icon_tag 'magnifying-glass-solid' %>
       </span>
       <input class="index-search__input" name="search" data-remote="true" data-url="<%= accounts_path %>" placeholder="Type to search" value="<%= params[:search] %>" data-action="input->index-search#perform">
     </div>

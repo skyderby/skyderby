@@ -12,7 +12,7 @@
         <%= render 'boogies/result', event:, result:, editable:, best_result: standings.best_result == result %>
       <% elsif editable %>
         <td class="result-cell">
-          <%= button_to svg_icon('upload-solid'), new_boogie_result_path(event),
+          <%= button_to icon_tag('upload-solid'), new_boogie_result_path(event),
                        params: { 'result[competitor_id]' => row.competitor.id, 'result[round_id]' => round.id },
                        method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } %>
         </td>

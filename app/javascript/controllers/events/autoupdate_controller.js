@@ -33,11 +33,11 @@ export default class extends Controller {
   }
 
   update_start() {
-    this.indicator.classList.add('fa-spin')
+    this.indicator.classList.add('icon-spin')
   }
 
   update_finish() {
-    this.indicator.classList.remove('fa-spin')
+    this.indicator.classList.remove('icon-spin')
   }
 
   get indicator() {

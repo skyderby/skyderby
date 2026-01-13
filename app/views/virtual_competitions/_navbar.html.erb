@@ -22,7 +22,7 @@
   <% if editable %>
     <%= link_to edit_virtual_competition_path(@competition),
                 class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_virtual_competition_path(@competition)))] do %>
-      <%= svg_icon 'gear-solid' %>
+      <%= icon_tag 'gear-solid' %>
       <%= t('general.edit') %>
     <% end %>
   <% end %>

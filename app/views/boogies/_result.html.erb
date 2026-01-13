@@ -8,7 +8,7 @@
     <% if result.result&.positive? %>
       <%= format('%d', result.result) %>
     <% elsif editable %>
-      <i class="far fa-question-circle text-danger"></i>
+      <%= icon_tag 'circle-question', class: 'text-danger' %>
     <% end %>
   <% end %>
 </td>

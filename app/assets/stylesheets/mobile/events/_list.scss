@@ -91,13 +91,12 @@
   position: relative;
   padding-left: 12px;
 
-  &:before {
-    content: $icon-wingsuit;
-    font: 10px $application-icon-font;
-    color: #999;
+  .icon {
+    --icon-size: 10px;
     position: absolute;
     top: 2px;
     left: -2px;
+    color: #999;
   }
 
   p {

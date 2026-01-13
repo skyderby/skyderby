@@ -30,11 +30,11 @@
         <div class="track-indicator-minmax-value">
           <div class="track-indicator-max">
             <span><%= presenter.max_horizontal_speed %></span>
-            <%= svg_icon 'angle-up-solid' %>
+            <%= icon_tag 'angle-up-solid' %>
           </div>
           <div class="track-indicator-min">
             <span><%= presenter.min_horizontal_speed %></span>
-            <%= svg_icon 'angle-down-solid' %>
+            <%= icon_tag 'angle-down-solid' %>
           </div>
         </div>
         <div class="track-indicator-units"><%= t "units.#{presenter.speed_units}" %></div>
@@ -64,11 +64,11 @@
         <div class="track-indicator-minmax-value">
           <div class="track-indicator-max">
             <span><%= presenter.max_glide_ratio %></span>
-            <%= svg_icon 'angle-up-solid' %>
+            <%= icon_tag 'angle-up-solid' %>
           </div>
           <div class="track-indicator-min">
             <span><%= presenter.min_glide_ratio %></span>
-            <%= svg_icon 'angle-down-solid' %>
+            <%= icon_tag 'angle-down-solid' %>
           </div>
         </div>
       </div>
@@ -107,11 +107,11 @@
         <div class="track-indicator-minmax-value">
           <div class="track-indicator-min">
             <span><%= presenter.max_vertical_speed %></span>
-            <%= svg_icon 'angle-up-solid' %>
+            <%= icon_tag 'angle-up-solid' %>
           </div>
           <div class="track-indicator-max">
             <span><%= presenter.min_vertical_speed %></span>
-            <%= svg_icon 'angle-down-solid' %>
+            <%= icon_tag 'angle-down-solid' %>
           </div>
         </div>
         <div class="track-indicator-units"><%= t "units.#{presenter.speed_units}" %></div>

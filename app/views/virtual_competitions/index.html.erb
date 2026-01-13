@@ -3,7 +3,7 @@
     <div class="vc-index__actions">
       <% if policy(:virtual_competition).create? %>
         <a class="btn btn-default btn-info" href="<%= new_virtual_competition_path %>">
-          <i class="fa fa-plus"></i>
+          <%= icon_tag 'plus-solid' %>
           <%= t('activerecord.models.virtual_competition') %>
         </a>
       <% end %>

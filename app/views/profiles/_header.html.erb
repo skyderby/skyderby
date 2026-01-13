@@ -4,7 +4,7 @@
       <%= image_tag(profile.userpic_url(:medium), class: 'profile-header__avatar-image') %>
       <% if policy(profile).edit? %>
         <%= link_to new_profile_avatar_path(profile), remote: true, class: 'profile-header__avatar-change', rel: 'nofollow' do %>
-          <i class="fa fa-pencil-alt"></i>
+          <%= icon_tag 'pencil-solid' %>
         <% end %>
       <% end %>
     </div>
@@ -37,7 +37,7 @@
 
     <% if @profile.belongs_to_user? && policy(@profile).masquerade? %>
       <%= button_to user_masquerades_path(@profile.owner), form: { class: 'page-tab-right' }, class: 'page-tab' do %>
-        <%= svg_icon 'wand-magic-sparkles-solid' %>
+        <%= icon_tag 'wand-magic-sparkles-solid' %>
         Masquerade
       <% end %>
     <% end %>
@@ -54,7 +54,7 @@
 
     <% if policy(profile).edit? %>
       <%= link_to edit_profile_path(profile), class: ['page-tab', ('page-tab-active' if current_page?(edit_profile_path(profile)))] do %>
-        <%= svg_icon 'gear-solid' %>
+        <%= icon_tag 'gear-solid' %>
         <%= t('general.edit') %>
       <% end %>
     <% end %>

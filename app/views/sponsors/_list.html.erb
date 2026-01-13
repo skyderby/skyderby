@@ -18,7 +18,7 @@
                           form: { data: { turbo: true } },
                           class: 'delete-sponsor button button--ghost',
                           title: t('general.delete') do %>
-              <%= svg_icon 'xmark' %>
+              <%= icon_tag 'xmark' %>
             <% end %>
           <% end %>
         </div>
@@ -28,12 +28,12 @@
     <% if editable %>
       <div class="sponsors-actions">
         <%= button_to polymorphic_path([:new, sponsorable, :sponsor]), method: :get, form: { data: { turbo_stream: true } }, class: 'button' do %>
-          <%= svg_icon 'plus-solid' %>
+          <%= icon_tag 'plus-solid' %>
           <%= t('sponsors.list.add_sponsor') %>
         <% end %>
         <% if copyable %>
           <%= button_to polymorphic_path([:new, sponsorable, :sponsors_copy]), method: :get, form: { data: { turbo_stream: true } }, class: 'button' do %>
-            <%= svg_icon 'copy-regular' %>
+            <%= icon_tag 'copy-regular' %>
             <%= t('sponsors.list.copy_sponsor') %>
           <% end %>
         <% end %>

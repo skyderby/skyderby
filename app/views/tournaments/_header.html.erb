@@ -6,7 +6,7 @@
   </h1>
 
   <div class="show-page-info">
-    <%= svg_icon 'location-dot-solid' %>
+    <%= icon_tag 'location-dot-solid' %>
     <%= place_presentation(@tournament.place) %>
   </div>
 
@@ -28,7 +28,7 @@
       <% end %>
 
       <%= link_to edit_tournament_path(@tournament), class: ['page-tab page-tab-right', ('page-tab-active' if controller_path == 'tournaments' && action_name == 'edit')] do %>
-        <%= svg_icon 'gear-solid' %>
+        <%= icon_tag 'gear-solid' %>
         <%= t('general.edit') %>
       <% end %>
     <% end %>

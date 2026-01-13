@@ -9,6 +9,7 @@
   <div class="events-list__item-content">
     <div class="events-list__item-title"><%= performance_competition_series.name %></div>
     <div class="events-list__item-participants">
+      <%= icon_tag 'wingsuit' %>
       <% performance_competition_series.competitions.each do |competition| %>
        <p><%= competition.name %></p>
       <% end %>

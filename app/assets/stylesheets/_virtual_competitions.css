@@ -397,7 +397,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
-  .svg-icon {
+  .icon {
     width: 12px;
     height: 12px;
     flex-shrink: 0;
@@ -522,7 +522,7 @@
     color: var(--blue-70);
   }
 
-  .svg-icon {
+  .icon {
     width: 16px;
     height: 16px;
   }

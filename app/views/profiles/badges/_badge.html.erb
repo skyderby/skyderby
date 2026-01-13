@@ -2,15 +2,15 @@
   <div class="achievement__icon <%= "achievement--#{badge.category}" %> <%= "achievement--#{badge.kind}" if badge.kind %>">
     <% case badge.category %>
     <% when 'sponsor' %>
-      <%= svg_icon 'dollar-sign-solid' %>
+      <%= icon_tag 'dollar-sign-solid' %>
     <% when 'special' %>
-      <%= svg_icon 'fire-solid' %>
+      <%= icon_tag 'fire-solid' %>
     <% when 'competition' %>
-      <%= svg_icon 'trophy-solid' %>
+      <%= icon_tag 'trophy-solid' %>
     <% when 'online' %>
-      <%= svg_icon 'star-solid' %>
+      <%= icon_tag 'star-solid' %>
     <% when 'skyderby' %>
-      <%= svg_icon 'rocket-outline' %>
+      <%= icon_tag 'rocket-outline' %>
     <% end %>
   </div>
   <div class="achievement__text <%= 'achievement--no-subtext' unless badge.comment.present? %>">

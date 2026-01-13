@@ -13,7 +13,7 @@
 
     <div class="track-header-info">
       <span class="track-header-suit">
-        <%= svg_icon 'wingsuit' %>
+        <%= icon_tag 'wingsuit' %>
         <% if track.suit %>
           <% manufacturer = track.suit.manufacturer %>
           <a href="<%= suit_path(track.suit) %>">
@@ -25,7 +25,7 @@
       </span>
 
       <span class="track-header-place">
-        <%= svg_icon 'location-dot-solid' %>
+        <%= icon_tag 'location-dot-solid' %>
         <% if track.place %>
           <a href="<%= place_path(track.place) %>">
             <span><%= place_presentation(track.place) %></span>
@@ -38,9 +38,9 @@
 
     <div class="track-header-id">
       <% if track.unlisted_track? %>
-        <%= svg_icon 'eye-slash-solid' %>
+        <%= icon_tag 'eye-slash-solid' %>
       <% elsif track.private_track? %>
-        <%= svg_icon 'lock-solid' %>
+        <%= icon_tag 'lock-solid' %>
       <% end %>
 
       #<%= track.id %>
@@ -50,39 +50,39 @@
   <div class="page-nav">
     <% controller_path = controller.controller_path %>
     <%= link_to track_path(track), class: ['page-tab', ('page-tab-active' if controller_path == 'tracks')] do %>
-      <i class="far fa-chart-bar"></i>
+      <%= icon_tag 'chart-bar' %>
       <%= t('tracks.show.charts') %>
     <% end %>
     <% if track.video %>
       <%= link_to track_video_path(track), class: ['page-tab', ('page-tab-active' if controller_path == 'tracks/videos')] do %>
-        <i class="far fa-play-circle"></i>
+        <%= icon_tag 'circle-play' %>
         Video
       <% end %>
     <% elsif policy(track).edit? %>
       <%= link_to new_track_video_path(track), class: ['page-tab', ('page-tab-active' if controller_path == 'tracks/videos')] do %>
-        <i class="far fa-play-circle"></i>
+        <%= icon_tag 'circle-play' %>
         Video
       <% end %>
     <% else %>
       <div class="tooltip-wrapper" data-toggle="tooltip" title="Pilot has not added video yet">
         <div class="page-tab">
-          <i class="far fa-play-circle"></i>
+          <%= icon_tag 'circle-play' %>
           Video
         </div>
       </div>
     <% end %>
     <% if track.ge_enabled %>
       <%= link_to track_globe_path(track), class: ['page-tab', ('page-tab-active' if controller.controller_path == 'tracks/globe')] do %>
-        <i class="far fa-compass"></i>
+        <%= icon_tag 'compass-regular' %>
         3D Maps
       <% end %>
     <% end %>
     <%= link_to track_map_path(track), class: ['page-tab', ('page-tab-active' if controller_path == 'tracks/maps')] do %>
-      <i class="far fa-compass"></i>
+      <%= icon_tag 'compass-regular' %>
       Google maps
     <% end %>
     <%= link_to track_results_path(@track), remote: true, class: 'page-tab', rel: 'nofollow' do %>
-      <i class="fas fa-list"></i>
+      <%= icon_tag 'list-ul-solid' %>
       <%= t('tracks.show.results') %>
     <% end %>
 
@@ -93,7 +93,7 @@
 
       <% if policy(track).edit? %>
         <a class="btn-flat btn-tab" href="<%= edit_track_path(track) %>">
-          <i class="fas fa-pencil-alt"></i>
+          <%= icon_tag 'pencil-solid' %>
         </a>
       <% end %>
     </div>

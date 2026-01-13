@@ -43,10 +43,10 @@
           <div class="lane-validation-sep-chart" data-lane-validation-target="sepChart"></div>
           <div class="lane-validation-check-indicators">
             <template data-lane-validation-target="indicatorOk">
-              <%= svg_icon 'check-solid', class: 'indicator-ok' %>
+              <%= icon_tag 'check-solid', class: 'indicator-ok' %>
             </template>
             <template data-lane-validation-target="indicatorWarning">
-              <%= svg_icon 'triangle-exclamation-solid', class: 'indicator-warning' %>
+              <%= icon_tag 'triangle-exclamation-solid', class: 'indicator-warning' %>
             </template>
 
             <div class="lane-validation-check-indicator">
@@ -86,7 +86,7 @@
                   <div class="lane-validation-competitor-header">
                     <label>
                       <input type="checkbox" data-action="change->lane-validation#handleCheckboxChange" />
-                      <%= svg_icon 'circle-notch-solid', class: 'lane-validation-loading-indicator' %>
+                      <%= icon_tag 'circle-notch-solid', class: 'lane-validation-loading-indicator' %>
                       <div class="lane-validation-competitor-color" style="background-color: <%= competitor_color_by_index(jump_index); %>"></div>
                       <%= render 'performance_competitions/lane_validations/competitor', result: jump %>
                     </label>
@@ -120,7 +120,7 @@
                       <% end %>
                     </div>
                     <div class="lane-validation-result-info">
-                      <%= svg_icon 'compass-regular' %> <%= jump.heading_within_window %>°
+                      <%= icon_tag 'compass-regular' %> <%= jump.heading_within_window %>°
                       Exit: <%= jump.exit_altitude.to_i %><%= t 'units.m' %>
                     </div>
                   </div>

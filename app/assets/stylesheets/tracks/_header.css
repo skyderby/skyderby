@@ -21,7 +21,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) max-content;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -42,7 +42,6 @@
   color: #bbb;
   text-align: right;
   display: flex;
-  align-items: baseline;
   gap: 0.5rem;
 }
 

@@ -118,22 +118,19 @@ export default class extends Controller {
 
   onCesiumReady() {
     this.cesiumLoaded = true
-    this.cesiumStatusTarget.classList.remove('fa-spin', 'fa-circle-notch')
-    this.cesiumStatusTarget.classList.add('fa-check')
+    this.cesiumStatusTarget.textContent = '✓'
 
     this.setupViewer()
     this.renderMap()
   }
 
   onCesiumFailed() {
-    this.cesiumStatusTarget.classList.remove('fa', 'fa-spin', 'fa-circle-notch')
-    this.cesiumStatusTarget.classList.add('fas', 'fa-exclamation-triangle')
+    this.cesiumStatusTarget.textContent = '✗'
   }
 
   setDataLoaded() {
     this.dataLoaded = true
-    this.dataStatusTarget.classList.remove('fa-spin', 'fa-circle-notch')
-    this.dataStatusTarget.classList.add('fa-check')
+    this.dataStatusTarget.textContent = '✓'
   }
 
   fastForward(e) {

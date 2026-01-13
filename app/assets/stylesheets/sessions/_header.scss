@@ -16,11 +16,9 @@ header {
   text-decoration: none;
   text-transform: uppercase;
 
-  &:before {
-    content: $icon-skyderby;
-    color: #fff;
-    font: 38px $application-icon-font;
-    margin: 0 15px 0 0;
+  .icon {
+    --icon-size: 2.5rem;
+    margin-right: 0.5rem;
   }
 
   &:hover {

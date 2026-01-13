@@ -5,12 +5,14 @@
     <div class="row" data-controller="tracks--globe" data-url="<%= url_for %>" data-action="cesium_api:ready@window->tracks--globe#onCesiumReady cesium_api:failed@window->tracks--globe#onCesiumFailed">
       <div class="track-map-wrapper col-sm-12">
         <div id="track-map-loading" class="text-muted" data-tracks--globe-target="loadingProgress">
-          <div id="track-map-loading-api" class="fa-2x">
-            <i class="fa fa-fw fa-spin fa-circle-notch" data-tracks--globe-target="cesiumStatus"></i>
+          <div id="track-map-loading-api" class="icon-2x">
+            <%= icon_tag 'circle-notch-solid', class: 'icon--fw icon-spin' %>
+            <span data-tracks--globe-target="cesiumStatus"></span>
             Loading Maps API
           </div>
-          <div id="track-map-loading-data" class="fa-2x">
-            <i class="fa fa-fw fa-spin fa-circle-notch" data-tracks--globe-target="dataStatus"></i>
+          <div id="track-map-loading-data" class="icon-2x">
+            <%= icon_tag 'circle-notch-solid', class: 'icon--fw icon-spin' %>
+            <span data-tracks--globe-target="dataStatus"></span>
             Loading track data
           </div>
         </div>

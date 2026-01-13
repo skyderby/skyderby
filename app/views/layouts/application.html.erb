@@ -23,15 +23,15 @@
       <template data-toasts-target="template">
         <div class="toast" data-toasts-target="toast">
           <div class="toast-icon icon-red hidden" data-icon="error">
-            <%= svg_icon 'circle-xmark-solid' %>
+            <%= icon_tag 'circle-xmark-solid' %>
           </div>
           <div class="toast-icon icon-green hidden" data-icon="success">
-            <%= svg_icon 'circle-check-regular' %>
+            <%= icon_tag 'circle-check-regular' %>
           </div>
           <div class="toast-message"></div>
           <div class="toast-actions">
             <button class="toast-dismiss" data-action="toasts#dismissClick">
-              <%= svg_icon 'xmark' %>
+              <%= icon_tag 'xmark' %>
             </button>
           </div>
         </div>

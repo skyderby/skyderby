@@ -10,7 +10,7 @@
     <% if editable %>
       <div class="scoreboard-actions">
         <%= button_to tournament_qualification_rounds_path(tournament_id: @tournament.id), method: :post, remote: true, class: 'btn btn-default' do %>
-          <i class="fa fa-plus"></i>
+          <%= icon_tag 'plus-solid' %>
           Round
         <% end %>
       </div>

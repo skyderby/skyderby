@@ -9,7 +9,7 @@
 
   <div class="success-content">
     <div class="success-badge">
-      <%= svg_icon 'trophy-solid' %>
+      <%= icon_tag 'trophy-solid' %>
     </div>
 
     <h1 class="success-title"><%= t('.title') %></h1>
@@ -19,19 +19,19 @@
       <h3 class="success-features__title"><%= t('.unlocked_title') %></h3>
       <ul class="success-features__list">
         <li>
-          <%= svg_icon 'check-solid' %>
+          <%= icon_tag 'check-solid' %>
           <span><strong>BASE Pro View</strong> — <%= t('.feature_base') %></span>
         </li>
         <li>
-          <%= svg_icon 'check-solid' %>
+          <%= icon_tag 'check-solid' %>
           <span><strong><%= t('.feature_highlight_name') %></strong> — <span class="contributor"><%= current_user.name %></span></span>
         </li>
         <li>
-          <%= svg_icon 'check-solid' %>
+          <%= icon_tag 'check-solid' %>
           <span><strong>Skydive Pro View</strong> <span class="coming-soon"><%= t('subscriptions.index.coming_soon') %></span> — <%= t('.feature_skydive') %></span>
         </li>
         <li>
-          <%= svg_icon 'check-solid' %>
+          <%= icon_tag 'check-solid' %>
           <span><strong>Pro Compare</strong>  <span class="coming-soon">(<%= t('subscriptions.index.coming_soon') %>)</span> — <%= t('.feature_compare') %></span>
         </li>
       </ul>

@@ -11,16 +11,16 @@
   <% if !mobile? %>
     <div class="tournament-match-links">
       <%= link_to tournament_match_map_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do %>
-        <i class="far fa-compass"></i>
+        <%= icon_tag 'compass-regular' %>
         Map
       <% end %>
       <%= link_to tournament_match_globe_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do %>
-        <i class="far fa-compass"></i>
+        <%= icon_tag 'compass-regular' %>
         3D map
       <% end %>
       <% if editable %>
         <%= link_to edit_tournament_match_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do %>
-          <i class="fa fa-pencil-alt"></i>
+          <%= icon_tag 'pencil-solid' %>
           <%= t('general.edit') %>
         <% end %>
       <% end %>
@@ -34,9 +34,9 @@
           <div class="tournament-competitor-profile">
             <% if match.gold_finals? || match.bronze_finals? %>
               <% if slot.earn_medal %>
-                <i class="fa fa-fw fa-certificate <%= slot.earn_medal %>"></i>
+                <%= icon_tag 'certificate', class: "icon--fw #{slot.earn_medal}" %>
               <% else %>
-                <i class="fa fa-fw"></i>
+                <span class="icon--fw"></span>
               <% end %>
             <% end %>
             <a href="<%= profile_path(slot.competitor.profile_id) %>">
@@ -66,7 +66,7 @@
               <% end %>
             <% else %>
               <%= link_to new_tournament_match_slot_result_path(@tournament, match, slot), remote: true, class: 'btn-flat btn-xs' do %>
-                <i class="fa fa-fw fa-upload text-muted"></i>
+                <%= icon_tag 'upload-solid', class: 'icon--fw text-muted' %>
               <% end %>
             <% end %>
           <% else %>

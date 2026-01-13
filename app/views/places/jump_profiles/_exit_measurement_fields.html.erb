@@ -9,7 +9,7 @@
     <%= form.hidden_field :id %>
     <%= form.hidden_field :_destroy %>
     <a class="place-form__mark-deleted-measurement" data-action="click->places--exit-measurements#remove">
-      <i class="fa fa-times"></i>
+      <%= icon_tag 'xmark' %>
     </a>
   </td>
 </tr>

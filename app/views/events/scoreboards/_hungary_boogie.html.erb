@@ -21,12 +21,12 @@
                   <% if can_update %>
                     <div class="scoreboard-round-actions dropdown">
                       <button class="btn-link" data-toggle="dropdown">
-                        <i class="fa fa-ellipsis-v text-muted"></i>
+                        <%= icon_tag 'ellipsis-vertical-solid', class: 'text-muted' %>
                       </button>
                       <ul class="dropdown-menu dropdown-menu-right">
                         <li>
                           <%= button_to boogie_round_path(@scoreboard.event, round), method: :delete, remote: true, class: 'btn-link delete-round' do %>
-                            <i class="fa fa-fw fa-times-circle text-muted"></i>
+                            <%= icon_tag 'circle-xmark-solid', class: 'icon--fw text-muted' %>
                             <%= t('general.delete') %>
                           <% end %>
                         </li>

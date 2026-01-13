@@ -9,9 +9,9 @@
     <div class="event-name">
       <%= event.name %>
       <% if event.unlisted_event? %>
-        <i class="fa fa-eye-slash" data-toggle="tooltip" title="<%= t('visibility.unlisted') %>"></i>
+        <%= icon_tag 'eye-slash-solid', data: { toggle: 'tooltip' }, title: t('visibility.unlisted') %>
       <% elsif event.private_event? %>
-        <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
+        <%= icon_tag 'lock-solid', data: { toggle: 'tooltip' }, title: t('visibility.private') %>
       <% end %>
 
       <div class="pill pill-blue">Speed Skydiving</div>

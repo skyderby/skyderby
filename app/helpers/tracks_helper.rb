@@ -48,16 +48,16 @@ module TracksHelper
 
   def track_icons(track)
     capture do
-      concat tag.i(nil, class: 'fa fa-fw fa-video') if track.video
+      concat icon_tag('video-solid', class: 'icon--fw') if track.video
 
       if track.unlisted_track?
-        concat tag.i(nil, class: 'fa fa-fw fa-eye-slash',
-                          'data-toggle' => 'tooltip',
-                          title: t('visibility.unlisted'))
+        concat icon_tag('eye-slash-solid', class: 'icon--fw',
+                                           data: { toggle: 'tooltip' },
+                                           title: t('visibility.unlisted'))
       elsif track.private_track?
-        concat tag.i(nil, class: 'fa fa-fw fa-lock',
-                          'data-toggle' => 'tooltip',
-                          title: t('visibility.private'))
+        concat icon_tag('lock-solid', class: 'icon--fw',
+                                      data: { toggle: 'tooltip' },
+                                      title: t('visibility.private'))
       end
     end
   end
@@ -68,14 +68,14 @@ module TracksHelper
                  'data-controller': 'tooltip',
                  'data-tooltip': "Sort by #{field_presentation} ascending",
                  rel: 'nofollow') do
-        tag.i(nil, class: 'fa fa-sort-amount-down')
+        icon_tag('arrow-down-short-wide')
       end
     elsif field.casecmp?(order_field) && order_direction == :asc
       tag.a(nil, href: url_for(index_params.merge(order: "-#{field}")),
                  'data-controller': 'tooltip',
                  'data-tooltip': "Sort by #{field_presentation} descending",
                  rel: 'nofollow') do
-        tag.i(nil, class: 'fa fa-sort-amount-up')
+        icon_tag('arrow-up-short-wide')
       end
     else
       tag.a(nil, class: 'text-muted',
@@ -83,7 +83,7 @@ module TracksHelper
                  'data-controller' => 'tooltip',
                  'data-tooltip': "Sort by #{field_presentation} descending",
                  rel: 'nofollow') do
-        tag.i(nil, class: 'fa fa-sort-amount-down')
+        icon_tag('arrow-down-short-wide')
       end
     end
   end

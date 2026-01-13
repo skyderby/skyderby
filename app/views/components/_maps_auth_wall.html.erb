@@ -2,7 +2,7 @@
 
 <div class="maps-auth-wall<%= ' maps-auth-wall-fill' if fill %>">
   <div class="maps-auth-wall-content">
-    <%= svg_icon 'compass-regular', class: 'maps-auth-wall-icon' %>
+    <%= icon_tag 'compass-regular', class: 'maps-auth-wall-icon' %>
     <p class="maps-auth-wall-message"><%= t('maps.auth_wall.message') %></p>
     <%= link_to t('maps.auth_wall.sign_in'), new_user_session_path, class: 'button' %>
   </div>

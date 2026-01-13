@@ -11,9 +11,9 @@
     <% end %>
   >
     <% if standings.completed_rounds.include?(round) %>
-      <%= svg_icon 'circle-check-regular', class: 'round-completed' %>
+      <%= icon_tag 'circle-check-regular', class: 'round-completed' %>
     <% elsif editable %>
-      <%= svg_icon 'circle-regular', class: 'round-not-completed-icon' %>
+      <%= icon_tag 'circle-regular', class: 'round-not-completed-icon' %>
     <% end %>
   </div>
 
@@ -23,7 +23,7 @@
     <div class="cell-actions">
       <div class="sd-dropdown" data-controller="dropdown">
         <button class="dropdown-toggle button button--ghost button--sm" data-action="click->dropdown#toggle">
-          <%= svg_icon 'ellipsis-vertical-solid' %>
+          <%= icon_tag 'ellipsis-vertical-solid' %>
         </button>
 
         <template data-dropdown-target="menu">

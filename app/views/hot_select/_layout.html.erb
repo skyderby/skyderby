@@ -32,12 +32,12 @@
     <div class="hot-select-indicators">
       <% if clearable %>
         <button type="button" class="hot-select-button" data-action="hot-select#clear" aria-label="<%= t('general.clear') %>">
-          <%= svg_icon 'xmark' %>
+          <%= icon_tag 'xmark' %>
         </button>
         <div class="hot-select-separator"></div>
       <% end %>
       <button type="button" class="hot-select-button" data-action="hot-select#toggle" aria-label="<%= t('hot_select.toggle_dropdown') %>">
-        <%= svg_icon 'angle-down-solid' %>
+        <%= icon_tag 'angle-down-solid' %>
       </button>
     </div>
   </div>

@@ -3,12 +3,14 @@
        data-url="<%= url_for %>"
        data-action="maps_api:ready@window->tournaments--match-map#on_maps_api_ready maps_api:failed@window->tournaments--match-map#on_maps_load_failed">
     <div id="track-map-loading" class="text-muted" data-tournaments--match-map-target="placeholder">
-      <div class="fa-2x">
-        <i class="fa fa-fw fa-spin fa-circle-notch" data-tournaments--match-map-target="maps_loading_status"></i>
+      <div class="icon-2x">
+        <%= icon_tag 'circle-notch-solid', class: 'icon--fw icon-spin' %>
+        <span data-tournaments--match-map-target="maps_loading_status"></span>
         Loading Google Maps API
       </div>
-      <div class="fa-2x">
-        <i class="fa fa-fw fa-spin fa-circle-notch" data-tournaments--match-map-target="data_loading_status"></i>
+      <div class="icon-2x">
+        <%= icon_tag 'circle-notch-solid', class: 'icon--fw icon-spin' %>
+        <span data-tournaments--match-map-target="data_loading_status"></span>
         Loading track data
       </div>
     </div>
@@ -18,7 +20,7 @@
   <div class="center-block text-center top-buffer">
     <% @match_map.competitors.each do |competitor| %>
       <span>
-        <i class="fa fa-fw fa-circle" style="color: <%= competitor.color %>"></i>
+        <%= icon_tag 'circle-regular', class: 'icon--fw', style: "color: #{competitor.color}" %>
         <span><%= competitor.name %></span>
       </span>
     <% end %>

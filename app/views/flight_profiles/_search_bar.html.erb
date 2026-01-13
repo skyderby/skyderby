@@ -3,19 +3,19 @@
 <%= render 'hot_select/omni_search', **attrs, placeholder: 'Search of filter tracks...' do %>
   <%= render 'hot_select/local_options', 'data-omni-search-target': 'typeSelect' do %>
     <div class="hot-select-option" data-value="year[]" data-label="Year">
-      <%= svg_icon 'calendar-days-solid' %>
+      <%= icon_tag 'calendar-days-solid' %>
       Year
     </div>
     <div class="hot-select-option" data-value="profile_id[]" data-label="Profile">
-      <%= svg_icon 'user-solid' %>
+      <%= icon_tag 'user-solid' %>
       Profile
     </div>
     <div class="hot-select-option" data-value="place_id[]" data-label="Place">
-      <%= svg_icon 'location-dot-solid' %>
+      <%= icon_tag 'location-dot-solid' %>
       Place
     </div>
     <div class="hot-select-option" data-value="suit_id[]" data-label="Suit">
-      <%= svg_icon 'wingsuit' %>
+      <%= icon_tag 'wingsuit' %>
       Suit
     </div>
   <% end %>

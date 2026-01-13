@@ -3,11 +3,11 @@
 <div class="toast" data-toasts-target="toast">
   <% if type == 'error' %>
     <div class="toast-icon icon-red">
-      <%= svg_icon 'circle-xmark-solid' %>
+      <%= icon_tag 'circle-xmark-solid' %>
     </div>
   <% elsif type == 'success' %>
     <div class="toast-icon icon-green">
-      <%= svg_icon 'circle-check-regular' %>
+      <%= icon_tag 'circle-check-regular' %>
     </div>
   <% end %>
 
@@ -24,7 +24,7 @@
 
   <div class="toast-actions">
     <button class="toast-dismiss" data-action="toasts#dismissClick">
-      <%= svg_icon 'xmark' %>
+      <%= icon_tag 'xmark' %>
     </button>
   </div>
 </div>

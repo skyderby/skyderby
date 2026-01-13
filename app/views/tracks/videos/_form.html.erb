@@ -57,13 +57,13 @@
       <div class="input-group">
         <span class="input-group-btn">
           <button class="btn btn-default" data-action="click->tracks--video-form#decreaseTrackOffset">
-            <i class="fa fa-chevron-left"></i>
+            <%= icon_tag 'angle-left-solid' %>
           </button>
         </span>
         <%= f.text_field :track_offset, class: 'form-control text-center', 'data-tracks--video-form-target': 'trackOffset' %>
         <span class="input-group-btn">
           <button class="btn btn-default" data-action="click->tracks--video-form#increaseTrackOffset">
-            <i class="fa fa-chevron-right"></i>
+            <%= icon_tag 'angle-right-solid' %>
           </button>
         </span>
       </div>

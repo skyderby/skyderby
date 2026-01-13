@@ -8,14 +8,14 @@
                       method: :get,
                       form: { data: { turbo_stream: true }, class: 'upload-track-button' },
                       title: t('application.header.upload_track') do %>
-          <%= svg_icon 'upload-solid' %>
+          <%= icon_tag 'upload-solid' %>
         <% end %>
       </li>
 
       <li class="sd-dropdown" data-controller="dropdown">
         <button class="dropdown-toggle profile-dropdown" data-action="dropdown#toggle">
           <% if masquerading? %>
-            <i class="fa fa-lg fa-exclamation-triangle text-danger"></i>
+            <%= icon_tag 'triangle-exclamation-solid', class: 'icon-lg text-danger' %>
           <% end %>
           <% avatar = current_user.profile ? current_user.profile.userpic_url(:thumb) : '/images/thumb/missing.png' %>
           <%= image_tag avatar, id: 'userpic-thumb', class: 'nav-profile' %>
@@ -53,18 +53,18 @@
                       method: :get,
                       form: { data: { turbo_stream: true }, class: 'upload-track-button' },
                       title: t('application.header.upload_track') do %>
-          <%= svg_icon 'upload-solid' %>
+          <%= icon_tag 'upload-solid' %>
         <% end %>
       </li>
       <li class="nav-menu-item">
         <button class="app-navbar-button" data-action="click->mobile--header#toggle_notifications">
-          <%= svg_icon 'bell-solid' %>
+          <%= icon_tag 'bell-solid' %>
         </button>
       </li>
     <% end %>
     <li class="nav-menu-item">
       <button class="app-navbar-button" data-action="click->mobile--header#open_menu">
-        <%= svg_icon 'bars-solid' %>
+        <%= icon_tag 'bars-solid' %>
       </button>
     </li>
   </ul>
@@ -85,11 +85,11 @@
       <div class="main-menu__bar-actions">
         <% if user_signed_in? %>
           <%= link_to destroy_user_session_path, method: :delete, class: 'app-navbar-button main-menu__logout' do %>
-            <%= svg_icon 'right-from-bracket-solid' %>
+            <%= icon_tag 'right-from-bracket-solid' %>
           <% end %>
         <% end %>
         <a class="app-navbar-button main-menu__close" data-action="click->mobile--header#close_menu">
-          <%= svg_icon 'xmark' %>
+          <%= icon_tag 'xmark' %>
         </a>
       </div>
     </div>
@@ -98,47 +98,47 @@
       <% root_controller = controller.controller_path.split('/').first %>
       <li class="main-menu__item <%= 'active' if root_controller == 'tracks' %>">
         <%= link_to tracks_path do %>
-          <%= svg_icon 'navigate-solid' %>
+          <%= icon_tag 'navigate-solid' %>
           <%= t('application.header.tracks') %>
         <% end %>
       </li>
       <li class="main-menu__item <%= 'active' if ['events', 'performance_competitions', 'speed_skydiving_competitions', 'tournaments'].include? root_controller %>">
         <%= link_to events_path do %>
-          <%= svg_icon 'trophy-solid' %>
+          <%= icon_tag 'trophy-solid' %>
           <%= t('application.header.competitions') %>
         <% end %>
       </li>
       <li class="main-menu__item <%= 'active' if root_controller == 'virtual_competitions' %>">
         <%= link_to virtual_competitions_path do %>
-          <%= svg_icon 'star-solid' %>
+          <%= icon_tag 'star-solid' %>
           <%= t('application.header.online_competitions') %>
         <% end %>
       </li>
 
       <li class="main-menu__item <%= 'active' if root_controller == 'flight_profiles' %>">
         <%= link_to flight_profiles_path do %>
-          <%= svg_icon 'star-solid' %>
+          <%= icon_tag 'star-solid' %>
           <%= t('flight_profiles.title') %>
         <% end %>
       </li>
 
       <li class="main-menu__item <%= 'active' if root_controller == 'places' %>">
         <%= link_to places_path do %>
-          <%= svg_icon 'location-dot-solid' %>
+          <%= icon_tag 'location-dot-solid' %>
           <%= t('application.header.places') %>
         <% end %>
       </li>
 
       <li class="main-menu__item <%= 'active' if root_controller == 'profiles' %>">
         <%= link_to profiles_path do %>
-          <%= svg_icon 'user-solid' %>
+          <%= icon_tag 'user-solid' %>
           <%= t('application.header.profiles') %>
         <% end %>
       </li>
 
       <li class="main-menu__item <%= 'active' if root_controller == 'places' %>">
         <%= link_to suits_path do %>
-          <%= svg_icon 'wingsuit' %>
+          <%= icon_tag 'wingsuit' %>
           <%= t('application.header.suits') %>
         <% end %>
       </li>

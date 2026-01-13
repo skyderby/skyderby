@@ -4,25 +4,25 @@
   <h1 class="show-page-title"><%= @event.name %></h1>
   <div class="show-page-info">
     <%= link_to place_path(@event.place), class: 'place-link' do %>
-      <%= svg_icon 'location-dot-solid' %>
+      <%= icon_tag 'location-dot-solid' %>
       <%= place_presentation(@event.place) %>
     <% end %>
   </div>
 
   <div class="page-nav">
     <%= link_to speed_skydiving_competition_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_path(@event)))] do %>
-      <%= svg_icon 'list-ul-solid' %>
+      <%= icon_tag 'list-ul-solid' %>
       <%= t('events.scoreboard') %>
     <% end %>
 
     <%= link_to speed_skydiving_competition_open_scoreboard_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_open_scoreboard_path(@event)))] do %>
-      <%= svg_icon 'list-ul-solid' %>
+      <%= icon_tag 'list-ul-solid' %>
       <%= t('events.open_event') %>
     <% end %>
 
     <% if @event.use_teams %>
       <%= link_to speed_skydiving_competition_teams_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_teams_path(@event)))] do %>
-        <%= svg_icon 'list-ul-solid' %>
+        <%= icon_tag 'list-ul-solid' %>
         <%= t('events.teams') %>
       <% end %>
     <% end %>
@@ -31,7 +31,7 @@
       <%= link_to t('events.downloads'), speed_skydiving_competition_downloads_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_downloads_path(@event)))] %>
 
       <%= link_to edit_speed_skydiving_competition_path(@event), class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_speed_skydiving_competition_path(@event)))] do %>
-        <%= svg_icon 'gear-solid' %>
+        <%= icon_tag 'gear-solid' %>
         <%= t('general.edit') %>
       <% end %>
     <% end %>

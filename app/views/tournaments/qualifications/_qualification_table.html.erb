@@ -13,12 +13,12 @@
             <% if editable %>
               <div class="scoreboard-round-actions dropdown">
                 <button class="btn-link" data-toggle="dropdown">
-                  <i class="fa fa-ellipsis-v"></i>
+                  <%= icon_tag 'ellipsis-vertical-solid' %>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
                   <li>
                     <%= button_to tournament_qualification_round_path(@tournament, round), method: :delete, remote: true, class: 'btn-link' do %>
-                      <i class="fa fa-times text-muted"></i>
+                      <%= icon_tag 'xmark', class: 'text-muted' %>
                       <%= t('general.delete') %>
                     <% end %>
                   </li>

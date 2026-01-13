@@ -181,8 +181,6 @@ GEM
     faraday-net_http (3.4.1)
       net-http (>= 0.5.0)
     ffi (1.17.0)
-    font-awesome-sass (5.8.1)
-      sassc (>= 1.11)
     fugit (1.12.1)
       et-orbi (~> 1.4)
       raabro (~> 1.4)
@@ -565,7 +563,6 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   ffi
-  font-awesome-sass (~> 5.8.1)
   googleauth
   honeybadger
   http_accept_language

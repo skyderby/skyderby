@@ -1,7 +1,7 @@
 module Events
   module ResultsHelper
     def new_event_track_link(event, competitor, round)
-      button_to svg_icon('upload-solid'), new_performance_competition_result_path(event),
+      button_to icon_tag('upload-solid'), new_performance_competition_result_path(event),
                 params: {
                   'result[competitor_id]' => competitor.id,
                   'result[round_id]' => round.id
@@ -13,8 +13,7 @@ module Events
       link_to(performance_competition_result_path(event, event_track, format: mobile? ? :html : :turbo_stream),
               class: 'show-result',
               rel: 'nofollow') do
-        class_list = can_update ? 'fas fa-pencil-alt' : 'fa fa-search'
-        tag.i(nil, class: class_list)
+        icon_tag(can_update ? 'pencil-solid' : 'magnifying-glass-solid')
       end
     end
 

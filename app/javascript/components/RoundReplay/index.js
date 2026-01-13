@@ -72,7 +72,10 @@ const RoundReplay = ({ eventId, roundId }) => {
       <PlayerControls>
         <GroupSelect options={groups} onChange={handleGroupChange} />
         <PlayButton onClick={handleTriggerPlay}>
-          {playing ? <i className="fas fa-stop" /> : <i className="fas fa-play" />}
+          <span
+            className={`icon icon--${playing ? 'stop-solid' : 'play-solid'}`}
+            aria-hidden="true"
+          ></span>
         </PlayButton>
       </PlayerControls>
 
