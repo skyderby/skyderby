@@ -13,6 +13,12 @@ es:
     teams: Equipos
     downloads: Descargas
 
+    round_replays:
+      no_results: No hay resultados para reproducir
+      not_completed: Los datos aparecerán después de que la ronda se marque como completada
+      selected: Seleccionados
+      loading: Cargando pistas...
+      select_competitors: Selecciona competidores y presiona reproducir
     rounds:
       completed_tooltip: Los resultados de la ronda son definitivos
       mark_completed_tooltip: Marque la ronda como completada cuando los resultados sean definitivos

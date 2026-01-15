@@ -1,0 +1,8 @@
+<%# locals: (result:) %>
+
+<div class="round-replay-competitor-info">
+  <% if result.competitor.assigned_number.present? %>
+    <span class="round-replay-competitor-number">#<%= result.competitor.assigned_number %></span>
+  <% end %>
+  <span class="round-replay-competitor-name"><%= result.competitor.name %></span>
+</div>

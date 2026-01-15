@@ -46,10 +46,12 @@ export default class extends Controller {
       legend: {
         enabled: false
       },
-      series: [{
-        name: 'Result',
-        data: data
-      }]
+      series: [
+        {
+          name: 'Result',
+          data: data
+        }
+      ]
     })
   }
 }

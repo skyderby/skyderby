@@ -1,0 +1,464 @@
+.round-replay {
+  --card-padding: 0;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+.round-replay-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: var(--default-border);
+}
+
+.round-replay-projections {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.round-replay-side-view {
+  flex: 2;
+  border-bottom: var(--default-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-70);
+  position: relative;
+  overflow: hidden;
+}
+
+.round-replay-top-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  color: var(--gray-70);
+  overflow: hidden;
+}
+
+.round-replay-roads {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  gap: 2px;
+  padding: 4px;
+  background: var(--gray-30);
+}
+
+.round-replay-road {
+  width: calc(25% - 1.5px);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(to bottom, #1e90ff 0%, #87ceeb 100%);
+}
+
+.round-replay-road-header {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.round-replay-road-header-color {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.round-replay-road-header-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.round-replay-road-header-position {
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.625rem;
+  background: var(--gray-30);
+  color: var(--gray-70);
+  font-size: 0.625rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.round-replay-road-header-position[data-position] {
+  width: 1.25rem;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.round-replay-road-header-position[data-position="1"] {
+  background: #ffd700;
+  color: #000;
+}
+
+.round-replay-road-header-position[data-position="2"] {
+  background: #c0c0c0;
+  color: #000;
+}
+
+.round-replay-road-header-position[data-position="3"] {
+  background: #cd7f32;
+  color: #fff;
+}
+
+.round-replay-road-body {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  min-height: 0;
+}
+
+.round-replay-road-chart {
+  flex: 1;
+  height: 100%;
+}
+
+.round-replay-road-data {
+  width: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background: rgba(0, 0, 0, 0.3);
+  font-size: 0.625rem;
+}
+
+.road-data-item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.125rem;
+  color: #fff;
+}
+
+.road-data-label {
+  width: 100%;
+  text-align: center;
+  font-size: 0.5rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+.road-data-value {
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.road-data-unit {
+  font-size: 0.5rem;
+  opacity: 0.7;
+}
+
+.road-data-item--lane {
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.road-data-item--lane.warning {
+  animation: blink-warning 0.5s ease-in-out infinite;
+}
+
+.road-data-item--lane.danger {
+  animation: blink-danger 0.5s ease-in-out infinite;
+}
+
+.road-data-item--lane.critical {
+  background: #000;
+}
+
+.road-data-item--lane.critical .road-data-value {
+  color: #ef4444;
+}
+
+@keyframes blink-warning {
+  0%, 100% { background: transparent; }
+  50% { background: #fbbf24; }
+}
+
+@keyframes blink-danger {
+  0%, 100% { background: transparent; }
+  50% { background: #ef4444; }
+}
+
+.round-replay-loading {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--gray-70);
+}
+
+.round-replay-loading-icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.round-replay-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-60);
+}
+
+.round-replay-chart {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.round-replay-chart .grid-line {
+  stroke: #e0e0e0;
+  stroke-width: 1;
+  stroke-dasharray: 5 5;
+}
+
+.round-replay-chart .grid-line-window-start {
+  stroke: #06D6A0;
+  stroke-width: 2;
+}
+
+.round-replay-chart .grid-line-window-end {
+  stroke: #EF476F;
+  stroke-width: 2;
+}
+
+.round-replay-chart .grid-line-vertical {
+  stroke: #e0e0e0;
+  stroke-width: 1;
+  stroke-dasharray: 5 5;
+}
+
+.round-replay-chart .grid-label {
+  fill: var(--gray-70);
+  font-size: 18px;
+  text-anchor: end;
+}
+
+.round-replay-chart .grid-label-distance {
+  fill: var(--gray-70);
+  font-size: 16px;
+  text-anchor: middle;
+}
+
+.round-replay-chart .track-path {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.round-replay-chart .track-marker {
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.round-replay-sidebar {
+  width: 25%;
+  max-width: 25%;
+  flex-shrink: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.round-replay-competitors {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.round-replay-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.round-replay-group-title {
+  font-size: 1.25rem;
+  color: var(--gray-80);
+}
+
+.round-replay-jumps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 3px solid var(--gray-50);
+}
+
+.round-replay-competitor {
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+}
+
+.round-replay-competitor:has(input:checked) {
+  background: linear-gradient(135deg, rgba(96, 125, 139, 0.12) 0%, rgba(120, 144, 156, 0.08) 100%);
+}
+
+.round-replay-competitor-label {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  overflow: hidden;
+
+  input {
+    margin: 0;
+    height: 1.125em;
+    width: 1.125em;
+  }
+
+  input:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.round-replay-competitor-info {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
+.round-replay-competitor-number {
+  font-size: 0.875rem;
+  color: var(--gray-70);
+}
+
+.round-replay-competitor-name {
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.round-replay-controls {
+  border-top: var(--default-border);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.round-replay-selection-counter {
+  font-size: 0.875rem;
+  color: var(--gray-70);
+  text-align: center;
+}
+
+.round-replay-playback {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: #f5f5f5;
+  border-radius: 2rem;
+}
+
+.round-replay-playback-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #2196F3;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.round-replay-playback-button:hover {
+  background: #1976D2;
+}
+
+.round-replay-playback-button.playing {
+  background: #f44336;
+}
+
+.round-replay-playback-button.playing:hover {
+  background: #d32f2f;
+}
+
+.round-replay-playback-button svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
+.round-replay-playback-button .icon-play,
+.round-replay-playback-button .icon-pause {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.round-replay-playback-button .icon-pause {
+  display: none;
+}
+
+.round-replay-playback-button.playing .icon-play {
+  display: none;
+}
+
+.round-replay-playback-button.playing .icon-pause {
+  display: flex;
+}
+
+.round-replay-playback-slider {
+  flex: 1;
+  height: 0.5rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ddd;
+  border-radius: 0.25rem;
+  outline: none;
+}
+
+.round-replay-playback-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  background: #2196F3;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.round-replay-playback-slider::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  background: #2196F3;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+

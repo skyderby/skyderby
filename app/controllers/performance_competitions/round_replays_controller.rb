@@ -1,0 +1,28 @@
+class PerformanceCompetitions::RoundReplaysController < ApplicationController
+  GROUP_SEPARATION = 2.minutes
+
+  include PerformanceCompetitionScoped
+
+  before_action :set_event
+  before_action :authorize_event_access!
+
+  def index
+    last_round = @event.results.order(created_at: :desc).first&.round
+
+    redirect_to performance_competition_round_replay_path(@event, last_round) if last_round
+  end
+
+  def show
+    event_rounds = @event.rounds.ordered
+    @rounds_by_discipline = event_rounds.group_by(&:discipline)
+    @round = event_rounds.find(params[:id])
+
+    @grouped_jumps =
+      @round
+      .results
+      .includes(competitor: :profile, round: { reference_point_assignments: :reference_point })
+      .order(:exited_at).slice_when do |first, second|
+        (first.exited_at - second.exited_at).abs >= GROUP_SEPARATION
+      end
+  end
+end

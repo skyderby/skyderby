@@ -16,6 +16,12 @@ fr:
     index:
       sign_in_to_create: Se connecter ou s'enregistrer pour créer une compétition.
       new: Nouveau
+    round_replays:
+      no_results: Aucun résultat à rejouer
+      not_completed: Les données apparaîtront une fois la manche marquée comme terminée
+      selected: Sélectionnés
+      loading: Chargement des traces...
+      select_competitors: Sélectionnez les compétiteurs et appuyez sur lecture
     rounds:
       completed_tooltip: Les résultats de la manche sont définitifs
       mark_completed_tooltip: Marquer la manche comme terminée lorsque les résultats sont définitifs

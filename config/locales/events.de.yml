@@ -16,6 +16,12 @@ de:
     index:
       sign_in_to_create: Nur registrierte Nutzer können einen Wettbewerb anlegen
       new: 'Neu'
+    round_replays:
+      no_results: Noch keine Ergebnisse zum Abspielen
+      not_completed: Daten werden angezeigt, nachdem die Runde als abgeschlossen markiert wurde
+      selected: Ausgewählt
+      loading: Tracks werden geladen...
+      select_competitors: Teilnehmer auswählen und Play drücken
     rounds:
       completed_tooltip: Rundenergebnisse sind endgültig
       mark_completed_tooltip: Markieren Sie die Runde als abgeschlossen, wenn die Ergebnisse endgültig sind

@@ -23,6 +23,12 @@ en:
       new: 'New'
     lane_validations:
       no_results: No results to validate yet
+    round_replays:
+      no_results: No results to replay yet
+      not_completed: Data will appear after the round is marked as completed
+      selected: Selected
+      loading: Loading tracks...
+      select_competitors: Select competitors and press play
     rounds:
       completed_tooltip: Round results are final
       mark_completed_tooltip: Mark round as completed when results are final

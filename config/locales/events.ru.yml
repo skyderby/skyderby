@@ -23,6 +23,12 @@ ru:
       new: 'Добавление'
     lane_validations:
       no_results: Нет результатов для проверки
+    round_replays:
+      no_results: Нет результатов для воспроизведения
+      not_completed: Данные появятся после того, как раунд будет отмечен как завершённый
+      selected: Выбрано
+      loading: Загрузка треков...
+      select_competitors: Выберите участников и нажмите воспроизведение
     rounds:
       completed_tooltip: Результаты раунда окончательные
       mark_completed_tooltip: Отметьте раунд как завершенный, когда результаты финальные

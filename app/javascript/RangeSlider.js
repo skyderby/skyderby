@@ -519,9 +519,12 @@ class RangeSlider {
       this.dimensions.sliderWidth = this.sliders.from.offsetWidth
     }
 
-    this.dimensions.minPosition = this.dimensions.trackPadding - this.dimensions.sliderWidth / 2
+    this.dimensions.minPosition =
+      this.dimensions.trackPadding - this.dimensions.sliderWidth / 2
     this.dimensions.maxPosition =
-      this.dimensions.normalWidth - this.dimensions.trackPadding - this.dimensions.sliderWidth / 2
+      this.dimensions.normalWidth -
+      this.dimensions.trackPadding -
+      this.dimensions.sliderWidth / 2
     this.dimensions.fullWidth = this.dimensions.maxPosition - this.dimensions.minPosition
 
     if (!this.settings.hideMinMax) {
@@ -553,7 +556,8 @@ class RangeSlider {
 
     if (this.settings.type === 'single') {
       this.numbers.fromX = this.getSliderPosition(this.sliders.single)
-      this.numbers.fromPers = ((this.numbers.fromX - minPos) / this.dimensions.fullWidth) * 100
+      this.numbers.fromPers =
+        ((this.numbers.fromX - minPos) / this.dimensions.fullWidth) * 100
 
       let from = (diapason / 100) * this.numbers.fromPers + this.settings.min
       this.numbers.fromNumber = Math.round(from / this.settings.step) * this.settings.step
@@ -570,14 +574,16 @@ class RangeSlider {
       }
     } else {
       this.numbers.fromX = this.getSliderPosition(this.sliders.from)
-      this.numbers.fromPers = ((this.numbers.fromX - minPos) / this.dimensions.fullWidth) * 100
+      this.numbers.fromPers =
+        ((this.numbers.fromX - minPos) / this.dimensions.fullWidth) * 100
 
       let from = (diapason / 100) * this.numbers.fromPers + this.settings.min
       this.numbers.fromNumber = Math.round(from / this.settings.step) * this.settings.step
       this.numbers.fromNumber = this.clampValue(this.numbers.fromNumber)
 
       this.numbers.toX = this.getSliderPosition(this.sliders.to)
-      this.numbers.toPers = ((this.numbers.toX - minPos) / this.dimensions.fullWidth) * 100
+      this.numbers.toPers =
+        ((this.numbers.toX - minPos) / this.dimensions.fullWidth) * 100
 
       let to = (diapason / 100) * this.numbers.toPers + this.settings.min
       this.numbers.toNumber = Math.round(to / this.settings.step) * this.settings.step

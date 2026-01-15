@@ -19,6 +19,7 @@ for skydivers and base jumpers.
 - Use shared styles as if you are creating a design system instead of writing page specific styles.
   Write utility styles.
 - Use what Hotwire offers - Stimulus, Turbo Streams and Turbo Frames
+- Pass urls as data-attribute using route helpers, do not hardcode urls in JS
 - Verify JS code style with `yarn lint`, if there is corresponding test to file - run test too
 
 ### Translations

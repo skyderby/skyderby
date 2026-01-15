@@ -16,6 +16,12 @@ it:
     index:
       sign_in_to_create: Accedi o registrati per creare una competizione.
       new: 'Nuovo'
+    round_replays:
+      no_results: Nessun risultato da riprodurre
+      not_completed: I dati verranno visualizzati dopo che il round sarà contrassegnato come completato
+      selected: Selezionati
+      loading: Caricamento tracce...
+      select_competitors: Seleziona i concorrenti e premi play
     rounds:
       completed_tooltip: I risultati del round sono definitivi
       mark_completed_tooltip: Contrassegna il round come completato quando i risultati sono definitivi

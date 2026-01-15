@@ -46,16 +46,6 @@
 
             <div class="dropdown-divider"></div>
 
-            <%= link_to performance_competition_round_globe_path(event, round), class: 'dropdown-item', data: { turbo: false }, rel: 'nofollow' do %>
-              3D maps
-            <% end %>
-
-            <%= link_to performance_competition_round_replay_path(event, round), class: 'dropdown-item', rel: 'nofollow' do %>
-              Replay
-            <% end %>
-
-            <div class="dropdown-divider"></div>
-
             <%= button_to performance_competition_round_path(event, round), class: 'dropdown-item', method: :delete, form: { data: { turbo_stream: true } } do %>
               <%= t('general.delete') %>
             <% end %>

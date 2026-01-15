@@ -137,7 +137,7 @@ Skyderby::Application.routes.draw do
       resources :rounds, only: %i[create update destroy] do
         scope module: :rounds do
           resource :globe, controller: 'globe', only: :show
-          resource :replay, only: :show
+          resource :replay, only: :show, as: :old_replay
           resource :reference_point_assignments, only: %i[create destroy]
         end
       end
@@ -173,6 +173,7 @@ Skyderby::Application.routes.draw do
       resources :teams
       resources :team_competitors, only: %i[new create destroy]
       resources :lane_validations, only: %i[index show]
+      resources :round_replays, only: %i[index show]
       resources :reference_point_assignments, only: :create
 
       resource :deletion, only: [:new, :create]

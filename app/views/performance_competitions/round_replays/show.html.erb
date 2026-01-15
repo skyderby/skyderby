@@ -1,0 +1,153 @@
+<% provide :title, @event.name %>
+<% provide :page_class, 'fullscreen' %>
+<% editable = @event.editable? %>
+
+<div class="show-page">
+  <%= render 'performance_competitions/header', editable: %>
+
+  <div class="tab-bar">
+    <% @rounds_by_discipline.each do |task, rounds| %>
+      <% next if rounds.empty? %>
+      <% rounds.each do |round| %>
+        <%= link_to t("disciplines.#{task}") + " - #{round.number}", performance_competition_round_replay_path(@event, round), class: class_names('tab-bar-item', ('active' if @round == round)) %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if !user_signed_in? %>
+    <section class="card round-replay">
+      <%= render 'components/maps_auth_wall', fill: true %>
+    </section>
+  <% elsif !editable && !@round.completed? %>
+    <section class="card round-replay">
+      <p class="placeholder-page__message"><%= t('events.round_replays.not_completed') %></p>
+    </section>
+  <% else %>
+    <section class="card round-replay"
+             data-controller="round-replay"
+             data-round-replay-window-start-value="<%= @event.range_from %>"
+             data-round-replay-window-end-value="<%= @event.range_to %>"
+             data-round-replay-discipline-value="<%= @round.discipline %>"
+             data-round-replay-dl-start-value="<%= @event.designated_lane_start %>">
+      <script type="application/json" data-round-replay-target="referencePoints">
+        <%= raw render partial: 'performance_competitions/reference_points/reference_points', locals: { reference_points: @event.reference_points }, formats: [:json] %>
+      </script>
+
+      <template data-round-replay-target="roadTemplate">
+        <div class="round-replay-road" data-controller="road-view">
+          <div class="round-replay-road-header">
+            <span class="round-replay-road-header-color" data-road-view-target="color"></span>
+            <span class="round-replay-road-header-name" data-road-view-target="name"></span>
+            <span class="round-replay-road-header-position" data-road-view-target="position">-</span>
+          </div>
+          <div class="round-replay-road-body">
+            <svg class="round-replay-road-chart" viewBox="0 0 200 300" preserveAspectRatio="xMidYMid meet">
+              <g data-road-view-target="zones"></g>
+              <g data-road-view-target="markers"></g>
+              <g data-road-view-target="trajectory"></g>
+              <g data-road-view-target="pilot"></g>
+            </svg>
+            <div class="round-replay-road-data">
+              <div class="road-data-item">
+                <span class="road-data-label">ALT</span>
+                <span class="road-data-value" data-road-view-target="altitude">--</span>
+                <span class="road-data-unit">m</span>
+              </div>
+              <div class="road-data-item">
+                <span class="road-data-label">GS</span>
+                <span class="road-data-value" data-road-view-target="groundSpeed">--</span>
+                <span class="road-data-unit">km/h</span>
+              </div>
+              <div class="road-data-item">
+                <span class="road-data-label">VS</span>
+                <span class="road-data-value" data-road-view-target="verticalSpeed">--</span>
+                <span class="road-data-unit">km/h</span>
+              </div>
+              <div class="road-data-item">
+                <span class="road-data-label">GR</span>
+                <span class="road-data-value" data-road-view-target="glideRatio">--</span>
+              </div>
+              <div class="road-data-item road-data-item--lane" data-road-view-target="laneItem">
+                <span class="road-data-label">Lane</span>
+                <span class="road-data-value" data-road-view-target="laneDeviation">--</span>
+                <span class="road-data-unit">m</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+      <div class="round-replay-main">
+        <div class="round-replay-projections">
+          <div class="round-replay-side-view" data-round-replay-target="sideView">
+            <div class="round-replay-loading" data-round-replay-target="loading">
+              <%= icon_tag 'circle-notch-solid', class: 'round-replay-loading-icon icon--spin' %>
+              <span><%= t('events.round_replays.loading') %></span>
+            </div>
+            <div class="round-replay-placeholder" data-round-replay-target="placeholder">
+              <%= t('events.round_replays.select_competitors') %>
+            </div>
+            <svg class="round-replay-chart" data-round-replay-target="chart" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
+              <g class="chart-grid" data-round-replay-target="grid"></g>
+              <g class="chart-tracks" data-round-replay-target="tracks"></g>
+            </svg>
+          </div>
+          <div class="round-replay-top-view" data-round-replay-target="topView">
+            <div class="round-replay-roads" data-round-replay-target="roadsContainer"></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="round-replay-sidebar">
+        <div class="round-replay-competitors">
+          <% @grouped_jumps.each_with_index do |jumps, group_index| %>
+            <div class="round-replay-group">
+              <h2 class="round-replay-group-title"><%= t 'events.rounds.map.group' %> <%= group_index + 1 %></h2>
+
+              <div class="round-replay-jumps">
+                <% jumps.each do |jump| %>
+                  <div class="round-replay-competitor">
+                    <label class="round-replay-competitor-label">
+                      <input type="checkbox"
+                             data-round-replay-target="checkbox"
+                             data-action="change->round-replay#handleSelectionChange"
+                             data-result-id="<%= jump.id %>"
+                             data-track-id="<%= jump.track_id %>"
+                             data-points-url="<%= track_points_path(jump.track_id) %>"
+                             data-reference-point-id="<%= jump.reference_point&.id %>"
+                             data-exited-at="<%= jump.exited_at&.iso8601 %>"
+                             data-competitor-name="<%= jump.competitor.name %>"
+                             data-result="<%= jump.result&.round(0)&.to_i %>" />
+                      <%= render 'performance_competitions/round_replays/competitor', result: jump %>
+                    </label>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="round-replay-controls">
+          <div class="round-replay-selection-counter">
+            <%= t('events.round_replays.selected') %> <span data-round-replay-target="counter">0</span>/4
+          </div>
+
+          <div class="round-replay-playback">
+            <button class="round-replay-playback-button"
+                    data-round-replay-target="playButton"
+                    data-action="round-replay#togglePlay">
+              <span class="icon-play"><%= icon_tag 'play-solid' %></span>
+              <span class="icon-pause"><%= icon_tag 'pause-solid' %></span>
+            </button>
+            <input type="range"
+                   class="round-replay-playback-slider"
+                   min="0"
+                   max="100"
+                   value="0"
+                   data-round-replay-target="slider"
+                   data-action="input->round-replay#onSliderInput">
+          </div>
+        </div>
+      </aside>
+    </section>
+  <% end %>
+</div>

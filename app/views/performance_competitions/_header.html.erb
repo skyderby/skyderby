@@ -60,6 +60,11 @@
         <%= icon_tag 'location-dot-solid' %>
         <span>Jump Validation</span>
       <% end %>
+
+      <%= link_to performance_competition_round_replays_path(@event), class: ['page-tab', ('page-tab-active' if controller_path == 'performance_competitions/round_replays')] do %>
+        <%= icon_tag 'play-solid' %>
+        <span>Replay</span>
+      <% end %>
     <% end %>
 
     <% if editable %>
