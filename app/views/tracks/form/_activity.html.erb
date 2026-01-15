@@ -1,24 +1,26 @@
 <% activity ||= 'skydive' %>
 
-<div class="grid">
+<div class="grid" data-controller="tracks--activity-field">
   <label class="form-label col-4"><%= t('activerecord.attributes.track.kind') %></label>
   <div class="col-8">
     <div class="tab-bar hidden-mobile">
       <label class="tab-bar-item">
-        <%= form.radio_button :kind, 'skydive', checked: activity == 'skydive', class: 'tab-bar-radio' %>
+        <%= form.radio_button :kind, 'skydive', checked: activity == 'skydive', class: 'tab-bar-radio', data: { action: 'tracks--activity-field#sync' } %>
         <span>Skydive</span>
       </label>
       <label class="tab-bar-item">
-        <%= form.radio_button :kind, 'base', checked: activity != 'skydive', class: 'tab-bar-radio' %>
+        <%= form.radio_button :kind, 'base', checked: activity != 'skydive', class: 'tab-bar-radio', data: { action: 'tracks--activity-field#sync' } %>
         <span>B.A.S.E</span>
       </label>
     </div>
 
-    <%= render 'hot_select/local_select',
-               form:,
-               name: :kind,
-               options: [['Skydive', 'skydive'], ['B.A.S.E', 'base']],
-               clearable: false,
-               class: 'hidden-desktop' %>
+    <div data-tracks--activity-field-target="select">
+      <%= render 'hot_select/local_select',
+                 form:,
+                 name: :kind,
+                 options: [['Skydive', 'skydive'], ['B.A.S.E', 'base']],
+                 clearable: false,
+                 class: 'hidden-desktop' %>
+    </div>
   </div>
 </div>
