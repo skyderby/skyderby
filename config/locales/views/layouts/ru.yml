@@ -21,3 +21,11 @@ ru:
       profiles: Спортсмены
     footer:
       text: Сделано с ❤️ Александром Куниным
+    accessibility:
+      user_menu: Меню пользователя
+      profile_picture: Фото профиля
+      change_language: Сменить язык
+      current_language: "Текущий язык: %{language}"
+      notifications: Уведомления
+      open_menu: Открыть меню
+      close_menu: Закрыть меню

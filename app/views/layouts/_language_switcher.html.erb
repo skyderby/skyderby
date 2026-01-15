@@ -11,8 +11,8 @@
 %>
 
 <div class="language-switcher sd-dropdown" data-controller="dropdown">
-  <button class="dropdown-toggle button button--ghost button--sm" data-action="dropdown#toggle">
-    <%= image_tag asset_path('blank.gif'), class: "flag flag-#{I18n.locale}" %>
+  <button class="dropdown-toggle button button--ghost button--sm" data-action="dropdown#toggle" aria-label="<%= t('application.accessibility.current_language', language: locale_local_names[I18n.locale]) %>">
+    <%= image_tag asset_path('blank.gif'), class: "flag flag-#{I18n.locale}", alt: "" %>
     <%= icon_tag 'angle-up-solid' %>
   </button>
 

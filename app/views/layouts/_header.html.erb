@@ -13,12 +13,12 @@
       </li>
 
       <li class="sd-dropdown" data-controller="dropdown">
-        <button class="dropdown-toggle profile-dropdown" data-action="dropdown#toggle">
+        <button class="dropdown-toggle profile-dropdown" data-action="dropdown#toggle" aria-label="<%= t('application.accessibility.user_menu') %>">
           <% if masquerading? %>
             <%= icon_tag 'triangle-exclamation-solid', class: 'icon-lg text-danger' %>
           <% end %>
           <% avatar = current_user.profile ? current_user.profile.userpic_url(:thumb) : '/images/thumb/missing.png' %>
-          <%= image_tag avatar, id: 'userpic-thumb', class: 'nav-profile' %>
+          <%= image_tag avatar, id: 'userpic-thumb', class: 'nav-profile', alt: t('application.accessibility.profile_picture') %>
         </button>
 
         <template data-dropdown-target="menu">
@@ -57,13 +57,13 @@
         <% end %>
       </li>
       <li class="nav-menu-item">
-        <button class="app-navbar-button" data-action="click->mobile--header#toggle_notifications">
+        <button class="app-navbar-button" data-action="click->mobile--header#toggle_notifications" aria-label="<%= t('application.accessibility.notifications') %>">
           <%= icon_tag 'bell-solid' %>
         </button>
       </li>
     <% end %>
     <li class="nav-menu-item">
-      <button class="app-navbar-button" data-action="click->mobile--header#open_menu">
+      <button class="app-navbar-button" data-action="click->mobile--header#open_menu" aria-label="<%= t('application.accessibility.open_menu') %>">
         <%= icon_tag 'bars-solid' %>
       </button>
     </li>
@@ -75,7 +75,7 @@
     <div class="main-menu-header">
       <% if user_signed_in? %>
         <%= link_to profile_path(current_user.profile), class: 'main-menu__profile' do %>
-          <%= image_tag current_user.profile.userpic_url(:thumb), class: 'main-menu__avatar' %>
+          <%= image_tag current_user.profile.userpic_url(:thumb), class: 'main-menu__avatar', alt: t('application.accessibility.profile_picture') %>
           <p><%= current_user.name %></p>
         <% end %>
       <% else %>
@@ -84,11 +84,11 @@
 
       <div class="main-menu__bar-actions">
         <% if user_signed_in? %>
-          <%= link_to destroy_user_session_path, method: :delete, class: 'app-navbar-button main-menu__logout' do %>
+          <%= link_to destroy_user_session_path, method: :delete, class: 'app-navbar-button main-menu__logout', aria: { label: t('application.header.sign_out') } do %>
             <%= icon_tag 'right-from-bracket-solid' %>
           <% end %>
         <% end %>
-        <a class="app-navbar-button main-menu__close" data-action="click->mobile--header#close_menu">
+        <a class="app-navbar-button main-menu__close" data-action="click->mobile--header#close_menu" aria-label="<%= t('application.accessibility.close_menu') %>">
           <%= icon_tag 'xmark' %>
         </a>
       </div>

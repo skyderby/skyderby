@@ -21,3 +21,11 @@ en:
       profiles: Athletes
     footer:
       text: Made with ❤️ by Aleksandr Kunin
+    accessibility:
+      user_menu: User menu
+      profile_picture: Profile picture
+      change_language: Change language
+      current_language: "Current language: %{language}"
+      notifications: Notifications
+      open_menu: Open menu
+      close_menu: Close menu

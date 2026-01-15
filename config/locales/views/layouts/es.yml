@@ -20,3 +20,11 @@ es:
       profiles: Atletas
     footer:
       text: Hecho con amor ❤️ por Alejandro Kunin
+    accessibility:
+      user_menu: Menú de usuario
+      profile_picture: Foto de perfil
+      change_language: Cambiar idioma
+      current_language: "Idioma actual: %{language}"
+      notifications: Notificaciones
+      open_menu: Abrir menú
+      close_menu: Cerrar menú

@@ -20,3 +20,11 @@ it:
       upload_track: Carica traccia
     footer:
       text: Fatto con il ❤️ da Aleksandr Kunin
+    accessibility:
+      user_menu: Menu utente
+      profile_picture: Foto del profilo
+      change_language: Cambia lingua
+      current_language: "Lingua attuale: %{language}"
+      notifications: Notifiche
+      open_menu: Apri menu
+      close_menu: Chiudi menu

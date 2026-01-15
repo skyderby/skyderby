@@ -63,6 +63,11 @@ env:
     - AWS_SECRET_ACCESS_KEY
     - AWS_REGION
     - AMPLITUDE_API_KEY
+    - STRIPE_PUBLIC_KEY
+    - STRIPE_PRIVATE_KEY
+    - STRIPE_SIGNING_SECRET
+    - TURNSTILE_SITE_KEY
+    - TURNSTILE_SECRET_KEY
 
 registry: &registry
   server: ghcr.io

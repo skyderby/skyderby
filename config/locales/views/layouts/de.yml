@@ -20,3 +20,11 @@ de:
       upload_track: Track hochladen
     footer:
       text: Gemacht mit ❤️ von Aleksandr Kunin
+    accessibility:
+      user_menu: Benutzermenü
+      profile_picture: Profilbild
+      change_language: Sprache ändern
+      current_language: "Aktuelle Sprache: %{language}"
+      notifications: Benachrichtigungen
+      open_menu: Menü öffnen
+      close_menu: Menü schließen

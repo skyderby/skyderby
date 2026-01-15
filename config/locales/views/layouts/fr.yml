@@ -20,3 +20,11 @@ fr:
       profiles: Athlètes
     footer:
       text: Réalisé avec ❤️ par Aleksandr Kunin
+    accessibility:
+      user_menu: Menu utilisateur
+      profile_picture: Photo de profil
+      change_language: Changer de langue
+      current_language: "Langue actuelle: %{language}"
+      notifications: Notifications
+      open_menu: Ouvrir le menu
+      close_menu: Fermer le menu
