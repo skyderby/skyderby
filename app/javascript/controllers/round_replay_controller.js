@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 import { get } from '@rails/request.js'
+import amplitude from 'utils/amplitude'
 
 const COLORS = ['#470FF4', '#F24C00', '#AA3E98', '#247BA0']
 const CHART_PADDING = { left: 60, right: 20, top: 20, bottom: 35 }
@@ -29,6 +30,8 @@ export default class extends Controller {
 
   static values = {
     maxSelection: { type: Number, default: 4 },
+    competitionId: Number,
+    round: String,
     windowStart: Number,
     windowEnd: Number,
     discipline: String,
@@ -139,6 +142,12 @@ export default class extends Controller {
 
     const selectedTracks = this.getSelectedTracks()
     if (selectedTracks.length === 0) return
+
+    amplitude.track('performance_competition_round_replay_play', {
+      competition_id: this.competitionIdValue,
+      round: this.roundValue,
+      selected_names: selectedTracks.map(t => t.competitorName)
+    })
 
     if (this.processedData.length > 0) {
       this.resumePlayback()

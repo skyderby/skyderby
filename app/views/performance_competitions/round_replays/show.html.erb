@@ -25,6 +25,8 @@
   <% else %>
     <section class="card round-replay"
              data-controller="round-replay"
+             data-round-replay-competition-id-value="<%= @event.id %>"
+             data-round-replay-round-value="<%= @round.discipline %>-<%= @round.number %>"
              data-round-replay-window-start-value="<%= @event.range_from %>"
              data-round-replay-window-end-value="<%= @event.range_to %>"
              data-round-replay-discipline-value="<%= @round.discipline %>"
