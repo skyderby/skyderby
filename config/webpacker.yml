@@ -25,7 +25,7 @@ default: &default
   # ['app/assets', 'engine/foo/app/assets']
   additional_paths: []
   cache_manifest: false
-  webpack_loader: 'babel'
+  webpack_loader: 'esbuild'
   ensure_consistent_versioning: true
 
   # Select whether the compiler will use SHA digest ('digest' option) or most most recent modified timestamp ('mtime') to determine freshness
