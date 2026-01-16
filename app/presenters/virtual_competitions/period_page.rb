@@ -28,6 +28,8 @@ module VirtualCompetitions
         .includes(associations)
     end
 
+    def rank_change_for(_score) = nil
+
     private
 
     attr_reader :page, :competition

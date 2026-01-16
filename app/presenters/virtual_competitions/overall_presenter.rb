@@ -33,6 +33,8 @@ module VirtualCompetitions
       @all_scores ||= personal_top_scores.wind_cancellation(false).includes(associations)
     end
 
+    def rank_change_for(_score) = nil
+
     private
 
     attr_reader :page, :competition

@@ -8,6 +8,7 @@ en:
       result: Result
       show_details: Click to view track details
       show_profile: Click to view profile
+      rank_up: "↑%{change} from last week"
     navbar:
       overall: Overall
     tasks:

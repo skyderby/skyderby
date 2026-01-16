@@ -6,6 +6,7 @@ fr:
       result: Résultat
       show_details: Cliquer pour voir les détails de l'enregistrement
       show_profile: Cliquer pour voir le profil
+      rank_up: "↑%{change} depuis la semaine dernière"
     navbar:
       overall: Vue d'ensemble
     tasks:

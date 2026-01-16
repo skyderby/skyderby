@@ -352,6 +352,17 @@
   }
 }
 
+.vc-scoreboard__rank-change {
+  width: 1rem;
+  text-align: center;
+
+  .rank-up {
+    color: var(--green-90);
+    font-weight: 900;
+    text-shadow: 0 0 1px var(--green-90);
+  }
+}
+
 .vc-scoreboard__main {
   flex: 1;
   min-width: 0;
@@ -460,6 +471,19 @@
   }
 }
 
+.vc-scoreboard__video {
+  width: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-70);
+
+  .icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
 .vc-scoreboard__result {
   display: flex;
   justify-content: center;
@@ -526,10 +550,6 @@
     width: 16px;
     height: 16px;
   }
-}
-
-.vc-scoreboard__action--video {
-  color: var(--red-60);
 }
 
 .vc-scoreboard__pagination {

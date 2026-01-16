@@ -4,6 +4,7 @@ es:
       result: Result
       show_details: Haz click para ver el seguimiento
       show_profile: Haz click para ver el perfil
+      rank_up: "↑%{change} desde la semana pasada"
     # navbar:
     #   overall: Overall
     # tasks:
