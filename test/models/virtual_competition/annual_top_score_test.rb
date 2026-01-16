@@ -15,7 +15,7 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     create_result(@competition, @alex, result: 3000, recorded_at: '2024-03-02')
     create_result(@competition, @travis, result: 2500, recorded_at: '2024-03-03')
 
-    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition, year: 2024)
+    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition).for_year(2024)
 
     assert_equal 3, scores.count
     assert_equal [@alex.id, @travis.id, @john.id], scores.map(&:profile_id)
@@ -27,7 +27,7 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     create_result(@ascending_competition, @alex, result: 25, recorded_at: '2024-03-02')
     create_result(@ascending_competition, @travis, result: 28, recorded_at: '2024-03-03')
 
-    scores = VirtualCompetition::AnnualTopScore.for_competition(@ascending_competition, year: 2024)
+    scores = VirtualCompetition::AnnualTopScore.for_competition(@ascending_competition).for_year(2024)
 
     assert_equal 3, scores.count
     assert_equal [@alex.id, @travis.id, @john.id], scores.map(&:profile_id)
@@ -40,7 +40,7 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     create_result(@competition, @john, result: 2500, recorded_at: '2024-03-15')
     create_result(@competition, @john, result: 2200, recorded_at: '2024-03-20')
 
-    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition, year: 2024)
+    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition).for_year(2024)
 
     assert_equal 1, scores.count
     assert_equal 2500, scores.first.result.to_i
@@ -51,7 +51,7 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     create_result(@competition, @alex, result: 3000, recorded_at: '2024-06-01')
     create_result(@competition, @travis, result: 2500, recorded_at: '2025-06-01')
 
-    scores_2024 = VirtualCompetition::AnnualTopScore.for_competition(@competition, year: 2024)
+    scores_2024 = VirtualCompetition::AnnualTopScore.for_competition(@competition).for_year(2024)
 
     assert_equal 1, scores_2024.count
     assert_equal @alex.id, scores_2024.first.profile_id
@@ -63,7 +63,10 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     create_result(@competition, @travis, result: 4000, recorded_at: '2024-03-20')
 
     snapshot = Time.zone.parse('2024-03-16')
-    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition, year: 2024, snapshot_at: snapshot)
+    scores = VirtualCompetition::AnnualTopScore
+      .at_snapshot(snapshot)
+      .for_competition(@competition)
+      .for_year(2024)
 
     assert_equal 2, scores.count
     assert_equal [@alex.id, @john.id], scores.map(&:profile_id)
@@ -76,37 +79,33 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     early_snapshot = Time.zone.parse('2024-03-10')
     late_snapshot = Time.zone.parse('2024-03-25')
 
-    early_scores = VirtualCompetition::AnnualTopScore.for_competition(@competition, year: 2024, snapshot_at: early_snapshot)
-    late_scores = VirtualCompetition::AnnualTopScore.for_competition(@competition, year: 2024, snapshot_at: late_snapshot)
+    early_scores = VirtualCompetition::AnnualTopScore
+      .at_snapshot(early_snapshot)
+      .for_competition(@competition)
+      .for_year(2024)
+    late_scores = VirtualCompetition::AnnualTopScore
+      .at_snapshot(late_snapshot)
+      .for_competition(@competition)
+      .for_year(2024)
 
     assert_equal 2000, early_scores.first.result.to_i
     assert_equal 3000, late_scores.first.result.to_i
   end
 
-  test 'filters by wind_cancelled false by default' do
+  test 'only includes non wind_cancelled results' do
     create_result(@competition, @john, result: 2000, recorded_at: '2024-03-01', wind_cancelled: false)
     create_result(@competition, @alex, result: 3000, recorded_at: '2024-03-01', wind_cancelled: true)
 
-    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition, year: 2024)
+    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition).for_year(2024)
 
     assert_equal 1, scores.count
     assert_equal @john.id, scores.first.profile_id
   end
 
-  test 'can filter by wind_cancelled true' do
-    create_result(@competition, @john, result: 2000, recorded_at: '2024-03-01', wind_cancelled: false)
-    create_result(@competition, @alex, result: 3000, recorded_at: '2024-03-01', wind_cancelled: true)
-
-    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition, year: 2024, wind_cancelled: true)
-
-    assert_equal 1, scores.count
-    assert_equal @alex.id, scores.first.profile_id
-  end
-
   test 'returns empty when no results for year' do
     create_result(@competition, @john, result: 2000, recorded_at: '2023-03-01')
 
-    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition, year: 2024)
+    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition).for_year(2024)
 
     assert_equal 0, scores.count
   end
@@ -115,7 +114,7 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     other_competition = virtual_competitions(:skydive_speed_wingsuit)
     create_result(@competition, @john, result: 2000, recorded_at: '2024-03-01')
 
-    scores = VirtualCompetition::AnnualTopScore.for_competition(other_competition, year: 2024)
+    scores = VirtualCompetition::AnnualTopScore.for_competition(other_competition).for_year(2024)
 
     assert_equal 0, scores.count
   end
@@ -124,7 +123,8 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     create_result(@competition, @john, result: 2000, recorded_at: '2024-03-01')
 
     scores = VirtualCompetition::AnnualTopScore
-      .for_competition(@competition, year: 2024)
+      .for_competition(@competition)
+      .for_year(2024)
       .includes(:profile)
 
     assert_nothing_raised { scores.first.profile.name }
@@ -135,7 +135,7 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     create_result(@competition, @alex, result: 3000, recorded_at: '2024-03-02')
     create_result(@competition, @travis, result: 2500, recorded_at: '2024-03-03')
 
-    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition, year: 2024).limit(2)
+    scores = VirtualCompetition::AnnualTopScore.for_competition(@competition).for_year(2024).limit(2)
 
     assert_equal 2, scores.size
     assert_equal [1, 2], scores.map(&:rank)
@@ -145,9 +145,19 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     recorded = Time.zone.parse('2024-03-15 12:00:00')
     create_result(@competition, @john, result: 2000, recorded_at: recorded)
 
-    score = VirtualCompetition::AnnualTopScore.for_competition(@competition, year: 2024).first
+    score = VirtualCompetition::AnnualTopScore.for_competition(@competition).for_year(2024).first
 
     assert_equal recorded.to_date, score.recorded_at.to_date
+  end
+
+  test 'can query by profile_id' do
+    create_result(@competition, @john, result: 2000, recorded_at: '2024-03-01')
+    create_result(@competition, @alex, result: 3000, recorded_at: '2024-03-02')
+
+    scores = VirtualCompetition::AnnualTopScore.where(profile_id: @john.id).for_year(2024)
+
+    assert_equal 1, scores.count
+    assert_equal @john.id, scores.first.profile_id
   end
 
   private

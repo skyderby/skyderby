@@ -22,7 +22,10 @@ module VirtualCompetitions
 
     def all_scores
       @all_scores ||=
-        VirtualCompetition::AnnualTopScore.for_competition(competition, year:).includes(associations)
+        VirtualCompetition::AnnualTopScore
+          .for_competition(competition)
+          .for_year(year)
+          .includes(associations)
     end
 
     def current_year? = year == Date.current.year
@@ -32,7 +35,9 @@ module VirtualCompetitions
 
       @previous_week_scores ||= Rails.cache.fetch(cache_key, expires_in: 15.minutes) do
         VirtualCompetition::AnnualTopScore
-          .for_competition(competition, year:, snapshot_at: 1.week.ago)
+          .at_snapshot(1.week.ago)
+          .for_competition(competition)
+          .for_year(year)
           .index_by(&:profile_id)
       end
     end

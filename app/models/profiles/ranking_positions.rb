@@ -16,7 +16,7 @@ module Profiles
       results.group_by(&:virtual_competition).each_value do |scores|
         next if scores.count == 3
 
-        position = scores.detect { |score| score.profile == profile }
+        position = scores.detect { |score| score.profile_id == profile.id }
         ranks_range = (position.rank - 1)..(position.rank + 1)
         scores.select! { |score| ranks_range.cover? score.rank }
       end
@@ -25,18 +25,18 @@ module Profiles
     def results
       VirtualCompetition::AnnualTopScore
         .includes(:profile, :virtual_competition)
-        .where(year: current_year)
-        .joins(profile_scores)
+        .for_year(current_year)
+        .joins(profile_scores_join)
     end
 
-    def profile_scores
-      profile_scores_query = VirtualCompetition::AnnualTopScore.where(profile: profile).to_sql
+    def profile_scores_join
+      profile_scores_sql = VirtualCompetition::AnnualTopScore.where(profile_id: profile.id).to_sql
 
       <<~SQL.squish
-        INNER JOIN (#{profile_scores_query}) AS profile_scores
-        ON profile_scores.virtual_competition_id = annual_top_scores.virtual_competition_id
-        AND profile_scores.year = annual_top_scores.year
-        AND annual_top_scores.rank BETWEEN profile_scores.rank - 2 AND profile_scores.rank + 2
+        INNER JOIN (#{profile_scores_sql}) AS profile_scores
+        ON profile_scores.virtual_competition_id = #{VirtualCompetition::AnnualTopScore.table_name}.virtual_competition_id
+        AND profile_scores.year = #{VirtualCompetition::AnnualTopScore.table_name}.year
+        AND #{VirtualCompetition::AnnualTopScore.table_name}.rank BETWEEN profile_scores.rank - 2 AND profile_scores.rank + 2
       SQL
     end
 
