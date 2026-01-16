@@ -35,7 +35,7 @@ class VirtualCompetition::AnnualTopScore < ApplicationRecord
 
     def ranked_results_sql(snapshot_at: Time.current, wind_cancelled: false)
       best_results_sql = <<~SQL.squish
-        SELECT DISTINCT ON (vcr.virtual_competition_id, t.profile_id)
+        SELECT DISTINCT ON (vcr.virtual_competition_id, EXTRACT(YEAR FROM t.recorded_at), t.profile_id)
           vcr.*,
           t.profile_id,
           t.suit_id,
@@ -47,14 +47,14 @@ class VirtualCompetition::AnnualTopScore < ApplicationRecord
         JOIN virtual_competitions vc ON vc.id = vcr.virtual_competition_id
         WHERE t.recorded_at < :snapshot_at
           AND vcr.wind_cancelled = :wind_cancelled
-        ORDER BY vcr.virtual_competition_id, t.profile_id,
+        ORDER BY vcr.virtual_competition_id, EXTRACT(YEAR FROM t.recorded_at), t.profile_id,
           CASE WHEN vc.results_sort_order = 'descending' THEN vcr.result ELSE -vcr.result END DESC
       SQL
 
       ranked_sql = <<~SQL.squish
         SELECT
           ROW_NUMBER() OVER (
-            PARTITION BY virtual_competition_id
+            PARTITION BY virtual_competition_id, year
             ORDER BY CASE WHEN results_sort_order = 'descending' THEN result ELSE -result END DESC
           ) as rank,
           best.*
