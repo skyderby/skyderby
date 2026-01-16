@@ -128,7 +128,7 @@
 .dialog-body {
   padding: 1rem;
   overflow-y: auto;
-  flex: 1;
+  flex: 0 0 auto;
 }
 
 @media (max-width: 575px) {
