@@ -144,12 +144,15 @@
 
 .lane-validation-competitor-name {
   font-size: 1rem;
+  overflow: hidden;
+  text-overflow: clip;
 }
 
 .lane-validation-competitor-color {
   height: 1em;
   width: 1em;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .lane-validation-competitor-details {
@@ -188,7 +191,7 @@
   background-color: #d9534f;
 }
 
-.lane-validation-loading-indicator {
+.lane-validation-loading-indicator.icon {
   display: none;
   height: 1.125em;
   width: 1.125em;
@@ -204,7 +207,7 @@
   display: none;
 }
 
-.lane-validation-competitor.loading .lane-validation-loading-indicator {
+.lane-validation-competitor.loading .lane-validation-loading-indicator.icon {
   display: inline-block;
 }
 

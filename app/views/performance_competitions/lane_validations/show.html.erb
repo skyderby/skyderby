@@ -4,7 +4,7 @@
 <%= turbo_stream_from @event, :validation %>
 
 <div class="show-page">
-  <%= render 'events/header', editable: %>
+  <%= render 'performance_competitions/header', editable: %>
 
   <div class="tab-bar">
     <% @rounds_by_discipline.each do |task, rounds| %>
@@ -78,7 +78,7 @@
                 <div class="lane-validation-competitor"
                      data-group-id="<%= group_index %>"
                      data-result-id="<%= jump.id %>"
-                     data-track-id="<%= jump.track_id %>"
+                     data-track-points-url="<%= track_points_path(jump.track_id) %>"
                      data-exited-at="<%= jump.exited_at&.iso8601 %>"
                      data-exit-altitude="<%= jump.exit_altitude.to_i %>"
                      data-color="<%= competitor_color_by_index(jump_index) %>"

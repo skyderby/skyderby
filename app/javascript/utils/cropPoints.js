@@ -1,5 +1,3 @@
-import { getTime } from 'date-fns'
-
 const interpolateField = (first, second, coeff) => first + (second - first) * coeff
 
 const interpolateByAltitude = (first, second, altitude) => {
@@ -27,9 +25,9 @@ const interpolateByAltitude = (first, second, altitude) => {
     }
   })
 
-  newPoint.gpsTime = new Date(
-    getTime(first.gpsTime) + (getTime(second.gpsTime) - getTime(first.gpsTime)) * coeff
-  )
+  const startTime = first.gpsTime.getTime()
+  const endTime = second.gpsTime.getTime()
+  newPoint.gpsTime = new Date(startTime + (endTime - startTime) * coeff)
 
   return newPoint
 }

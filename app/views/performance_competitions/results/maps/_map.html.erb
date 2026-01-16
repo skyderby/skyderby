@@ -5,7 +5,7 @@
 
   <section class="single-jump-map"
            data-controller="single-jump-map"
-           data-single-jump-map-track-id-value="<%= result.track_id %>"
+           data-single-jump-map-track-points-url-value="<%= track_points_path(result.track_id) %>"
            data-single-jump-map-event-id-value="<%= result.event.id %>"
            data-single-jump-map-window-start-value="<%= result.event.range_from %>"
            data-single-jump-map-window-end-value="<%= result.event.range_to %>"

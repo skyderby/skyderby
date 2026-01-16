@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
-import apiClient from 'utils/apiClient'
+import { post, put } from '@rails/request.js'
+import fetchTrackPoints from 'utils/fetchTrackPoints'
 import {
   createTrackGraphics,
   createWindowMarkers
@@ -105,12 +106,12 @@ export default class extends Controller {
     competitors.forEach(competitor => {
       const checkbox = competitor.querySelector('input[type="checkbox"]')
       const resultId = competitor.dataset.resultId
-      const trackId = competitor.dataset.trackId
+      const trackPointsUrl = competitor.dataset.trackPointsUrl
       const color = competitor.dataset.color
 
       checkbox.checked = true
       this.displayedCompetitors.add(resultId)
-      displayPromises.push(this.displayResult(resultId, trackId, color))
+      displayPromises.push(this.displayResult(resultId, trackPointsUrl, color))
     })
 
     this.updateReferencePointsOnMap()
@@ -148,7 +149,7 @@ export default class extends Controller {
     this.clearProximityMarkers()
   }
 
-  async displayResult(resultId, trackId, color) {
+  async displayResult(resultId, trackPointsUrl, color) {
     if (this.trackGraphics.has(resultId)) return
 
     const competitorElement = this.element.querySelector(`[data-result-id="${resultId}"]`)
@@ -157,13 +158,19 @@ export default class extends Controller {
     }
 
     try {
-      const data = await this.fetchPoints(trackId)
+      const data = await this.fetchPoints(trackPointsUrl)
       const map = this.mapTarget.mapInstance
       const exitedAt = competitorElement?.dataset.exitedAt
 
-      const { polylines } = createTrackGraphics(trackId, data, color, map, exitedAt)
+      const { polylines } = createTrackGraphics(
+        trackPointsUrl,
+        data,
+        color,
+        map,
+        exitedAt
+      )
       const windowMarkers = createWindowMarkers(
-        trackId,
+        trackPointsUrl,
         data.points || [],
         this.windowStartValue,
         this.windowEndValue,
@@ -198,17 +205,17 @@ export default class extends Controller {
     }
   }
 
-  async fetchPoints(trackId) {
-    if (this.pointsCache.has(trackId)) {
-      return this.pointsCache.get(trackId)
+  async fetchPoints(url) {
+    if (this.pointsCache.has(url)) {
+      return this.pointsCache.get(url)
     }
 
-    const data = await apiClient.fetchTrackPoints(trackId, {
+    const data = await fetchTrackPoints(url, {
       original_frequency: true,
       'trimmed[seconds_before_start]': 15,
       'trimmed[seconds_after_end]': 120
     })
-    this.pointsCache.set(trackId, data)
+    this.pointsCache.set(url, data)
     return data
   }
 
@@ -217,7 +224,7 @@ export default class extends Controller {
     if (!competitorElement) return
 
     const resultId = competitorElement.dataset.resultId
-    const trackId = competitorElement.dataset.trackId
+    const trackPointsUrl = competitorElement.dataset.trackPointsUrl
     const exitedAt = competitorElement.dataset.exitedAt
     const referencePointId = competitorElement.dataset.referencePointId
     const groupId = competitorElement.dataset.groupId
@@ -230,8 +237,8 @@ export default class extends Controller {
     await this.displayGroupAsync(groupId)
 
     try {
-      const data = await this.fetchPoints(trackId)
-      this.updateSepChart(resultId, trackId, data)
+      const data = await this.fetchPoints(trackPointsUrl)
+      this.updateSepChart(resultId, trackPointsUrl, data)
 
       const points = data.points || []
       const deployFlTime = data.deployFlTime
@@ -288,7 +295,7 @@ export default class extends Controller {
 
       this.updateExitAltitudeCheck(competitorElement)
       this.updateLaneViolationCheck(this.designatedLane)
-      await this.performProximityCheck(resultId, trackId, competitorElement)
+      await this.performProximityCheck(resultId, trackPointsUrl, competitorElement)
     } catch (error) {
       console.error('Failed to select jump for review:', error)
     }
@@ -308,9 +315,9 @@ export default class extends Controller {
     const referencePointId = select.value || null
 
     try {
-      const response = await apiClient.post(
+      const response = await post(
         `/events/performance/${this.eventIdValue}/reference_point_assignments`,
-        { roundId, competitorId, referencePointId }
+        { body: { roundId, competitorId, referencePointId } }
       )
 
       if (response.ok) {
@@ -379,7 +386,7 @@ export default class extends Controller {
     const validated = button.dataset.validated === 'true'
 
     try {
-      const response = await apiClient.put(url, { result: { validated: !validated } })
+      const response = await put(url, { body: { result: { validated: !validated } } })
 
       if (!response.ok) {
         console.error('Failed to toggle validation')
@@ -393,7 +400,7 @@ export default class extends Controller {
     return this.application.getControllerForElementAndIdentifier(this.mapTarget, 'map')
   }
 
-  updateSepChart(resultId, trackId, data) {
+  updateSepChart(resultId, trackPointsUrl, data) {
     if (!this.sepChart || !data.points || data.points.length === 0) return
 
     const competitorElement = this.element.querySelector(`[data-result-id="${resultId}"]`)
@@ -490,13 +497,13 @@ export default class extends Controller {
     this.proximityMarkers = []
   }
 
-  async performProximityCheck(resultId, trackId, competitorElement) {
+  async performProximityCheck(resultId, trackPointsUrl, competitorElement) {
     this.clearProximityMarkers()
 
     try {
-      const currentData = await this.fetchPoints(trackId)
+      const currentData = await this.fetchPoints(trackPointsUrl)
       const currentJump = {
-        trackId,
+        trackPointsUrl,
         points: currentData.points,
         exitedAt: competitorElement?.dataset.exitedAt,
         deployFlTime: currentData.deployFlTime
@@ -509,13 +516,13 @@ export default class extends Controller {
         const otherCompetitorElement = this.element.querySelector(
           `[data-result-id="${otherResultId}"]`
         )
-        const otherTrackId = otherCompetitorElement?.dataset.trackId
-        if (!otherTrackId || otherTrackId == trackId) continue
+        const otherTrackPointsUrl = otherCompetitorElement?.dataset.trackPointsUrl
+        if (!otherTrackPointsUrl || otherTrackPointsUrl === trackPointsUrl) continue
 
-        const otherData = await this.fetchPoints(otherTrackId)
+        const otherData = await this.fetchPoints(otherTrackPointsUrl)
 
         otherJumps.push({
-          trackId: otherTrackId,
+          trackPointsUrl: otherTrackPointsUrl,
           points: otherData.points,
           exitedAt: otherCompetitorElement?.dataset.exitedAt,
           deployFlTime: otherData.deployFlTime

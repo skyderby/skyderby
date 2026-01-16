@@ -1,7 +1,7 @@
 <% provide :title, @event.name %>
 
 <div class="show-page">
-  <%= render 'events/header', editable: @event.editable? %>
+  <%= render 'performance_competitions/header', editable: @event.editable? %>
 
   <div class="show-page-content placeholder-page">
     <p class="placeholder-page__message"><%= t('events.lane_validations.no_results') %></p>

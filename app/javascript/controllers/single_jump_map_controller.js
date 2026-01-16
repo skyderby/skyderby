@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import apiClient from 'utils/apiClient'
+import fetchTrackPoints from 'utils/fetchTrackPoints'
 import {
   createTrackGraphics,
   createWindowMarkers
@@ -15,7 +15,7 @@ import {
 export default class extends Controller {
   static targets = ['referencePoints', 'map']
   static values = {
-    trackId: Number,
+    trackPointsUrl: String,
     eventId: Number,
     windowStart: Number,
     windowEnd: Number,
@@ -58,10 +58,10 @@ export default class extends Controller {
   }
 
   async loadTrackData() {
-    if (!this.trackIdValue) return
+    if (!this.trackPointsUrlValue) return
 
     try {
-      const data = await this.fetchPoints(this.trackIdValue)
+      const data = await this.fetchPoints(this.trackPointsUrlValue)
       const map = this.mapTarget.mapInstance
 
       if (!map) {
@@ -70,7 +70,7 @@ export default class extends Controller {
       }
 
       const { polylines } = createTrackGraphics(
-        this.trackIdValue,
+        this.trackPointsUrlValue,
         data,
         '#470FF4',
         map,
@@ -78,7 +78,7 @@ export default class extends Controller {
       )
 
       const windowMarkers = createWindowMarkers(
-        this.trackIdValue,
+        this.trackPointsUrlValue,
         data.points || [],
         this.windowStartValue,
         this.windowEndValue,
@@ -97,17 +97,17 @@ export default class extends Controller {
     }
   }
 
-  async fetchPoints(trackId) {
-    if (this.pointsCache.has(trackId)) {
-      return this.pointsCache.get(trackId)
+  async fetchPoints(url) {
+    if (this.pointsCache.has(url)) {
+      return this.pointsCache.get(url)
     }
 
-    const data = await apiClient.fetchTrackPoints(trackId, {
+    const data = await fetchTrackPoints(url, {
       original_frequency: true,
       'trimmed[seconds_before_start]': 15,
       'trimmed[seconds_after_end]': 120
     })
-    this.pointsCache.set(trackId, data)
+    this.pointsCache.set(url, data)
     return data
   }
 

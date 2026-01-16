@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import format from 'date-fns/format'
+import { formatMonthYear } from 'utils/date'
 
 export default class extends Controller {
   static targets = ['chart', 'data']
@@ -17,7 +17,7 @@ export default class extends Controller {
   }
 
   chartOptions(data) {
-    const categories = data.map(donation => format(new Date(donation.month), 'MM-yyyy'))
+    const categories = data.map(donation => formatMonthYear(new Date(donation.month)))
 
     return {
       chart: {
