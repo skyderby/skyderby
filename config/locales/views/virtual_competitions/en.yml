@@ -9,6 +9,8 @@ en:
       show_details: Click to view track details
       show_profile: Click to view profile
       rank_up: "↑%{change} from last week"
+      rank_down: "↓%{change} from last week"
+      rank_new: "New this week"
     navbar:
       overall: Overall
     tasks:

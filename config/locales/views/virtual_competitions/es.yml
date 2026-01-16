@@ -5,6 +5,8 @@ es:
       show_details: Haz click para ver el seguimiento
       show_profile: Haz click para ver el perfil
       rank_up: "↑%{change} desde la semana pasada"
+      rank_down: "↓%{change} desde la semana pasada"
+      rank_new: "Nuevo esta semana"
     # navbar:
     #   overall: Overall
     # tasks:

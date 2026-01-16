@@ -361,6 +361,16 @@
     font-weight: 900;
     text-shadow: 0 0 1px var(--green-90);
   }
+
+  .rank-down {
+    color: var(--gray-50);
+  }
+
+  .rank-new {
+    color: var(--gray-50);
+    font-size: 1.5rem;
+    line-height: 1rem;
+  }
 }
 
 .vc-scoreboard__main {

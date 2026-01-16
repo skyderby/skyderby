@@ -4,11 +4,17 @@
 
 <div class="<%= class_names('vc-scoreboard__row', score.rank <= 3 && 'vc-scoreboard__row--top', current_user_row && 'vc-scoreboard__row--current') %>" data-rank="<%= score.rank %>">
   <div class="vc-scoreboard__rank"><%= score.rank %></div>
-  <div class="vc-scoreboard__rank-change">
-    <% if rank_change&.positive? %>
-      <span class="rank-up" data-controller="tooltip" data-tooltip="↑<%= rank_change %> from last week">▲</span>
-    <% end %>
-  </div>
+  <% if competition.show_rank_changes? %>
+    <div class="vc-scoreboard__rank-change">
+      <% if rank_change.nil? %>
+        <span class="rank-new" data-controller="tooltip" data-tooltip="<%= t('virtual_competitions.scoreboard.rank_new') %>">•</span>
+      <% elsif rank_change.positive? %>
+        <span class="rank-up" data-controller="tooltip" data-tooltip="<%= t('virtual_competitions.scoreboard.rank_up', change: rank_change) %>">▲</span>
+      <% elsif rank_change.negative? %>
+        <span class="rank-down" data-controller="tooltip" data-tooltip="<%= t('virtual_competitions.scoreboard.rank_down', change: rank_change.abs) %>">▼</span>
+      <% end %>
+    </div>
+  <% end %>
 
   <div class="vc-scoreboard__main">
     <div class="vc-scoreboard__name">

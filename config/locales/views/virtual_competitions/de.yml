@@ -5,6 +5,8 @@ de:
       show_details: 'Klicke hier für Trackdetails'
       show_profile: 'Hier klicken für Profil'
       rank_up: "↑%{change} seit letzter Woche"
+      rank_down: "↓%{change} seit letzter Woche"
+      rank_new: "Neu diese Woche"
     tasks:
       speed: Aufgabe ist es, horizontal so schnell wie möglich durch das Wettkampffenster (3000 - 2000 m bzw. seit Januar 2020 2500 - 1500 m) zu fliegen.
       distance: Aufgabe ist es, innerhalb des Wettkampffensters (3000 - 2000 m bzw. seit Januar 2020 2500 - 1500 m) so weit wie möglich zu fliegen bzw. die größtmögliche Strecke über Grund zurückzulegen.

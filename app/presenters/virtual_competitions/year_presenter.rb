@@ -30,6 +30,8 @@ module VirtualCompetitions
 
     def current_year? = year == Date.current.year
 
+    def show_rank_changes? = current_year?
+
     def previous_week_scores
       return {} unless current_year?
 

@@ -30,6 +30,8 @@ module VirtualCompetitions
 
     def rank_change_for(_score) = nil
 
+    def show_rank_changes? = false
+
     private
 
     attr_reader :page, :competition

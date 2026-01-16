@@ -7,6 +7,8 @@ ru:
       show_details: Нажмите для просмотра деталей трека
       show_profile: Нажмите для просмотра профиля пилота
       rank_up: "↑%{change} за неделю"
+      rank_down: "↓%{change} за неделю"
+      rank_new: "Новый результат"
     navbar:
       overall: За все время
     tasks:

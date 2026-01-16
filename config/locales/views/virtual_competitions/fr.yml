@@ -7,6 +7,8 @@ fr:
       show_details: Cliquer pour voir les détails de l'enregistrement
       show_profile: Cliquer pour voir le profil
       rank_up: "↑%{change} depuis la semaine dernière"
+      rank_down: "↓%{change} depuis la semaine dernière"
+      rank_new: "Nouveau cette semaine"
     navbar:
       overall: Vue d'ensemble
     tasks:

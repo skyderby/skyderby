@@ -7,6 +7,8 @@ it:
       show_details: Clicca il dettaglio della traccia
       show_profile: Clicca per vedere il profilo
       rank_up: "↑%{change} dalla settimana scorsa"
+      rank_down: "↓%{change} dalla settimana scorsa"
+      rank_new: "Nuovo questa settimana"
     navbar:
       overall: Generale
     tasks:
