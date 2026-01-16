@@ -412,7 +412,7 @@ export default class extends Controller {
   }
 
   updateAccelIcons(container, acceleration) {
-    const icons = container.querySelectorAll('svg')
+    const icons = container.querySelectorAll('.icon')
     icons.forEach(icon => icon.classList.remove('active'))
 
     const threshold = 4

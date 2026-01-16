@@ -143,12 +143,12 @@ export default class extends Controller {
     ].filter(Boolean)
 
     targets.forEach(target => {
-      target.querySelectorAll('svg').forEach(icon => icon.classList.remove('active'))
+      target.querySelectorAll('.icon').forEach(icon => icon.classList.remove('active'))
     })
   }
 
   updateAccelIcons(container, acceleration) {
-    const icons = container.querySelectorAll('svg')
+    const icons = container.querySelectorAll('.icon')
     icons.forEach(icon => icon.classList.remove('active'))
 
     const threshold = 4

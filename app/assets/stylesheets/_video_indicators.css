@@ -40,7 +40,6 @@
   display: flex;
   flex-basis: 0;
   flex-direction: column;
-
   text-align: center;
 }
 
@@ -85,14 +84,12 @@
   .video-indicator-value {
     grid-column: 1;
     grid-row: 1;
-
     text-align: right;
   }
 
   .video-indicator-title {
     grid-column: 1;
     grid-row: 2;
-
     text-align: right;
   }
 
@@ -106,7 +103,6 @@
 .video-indicator-minor-value {
   display: inline-flex;
   width: 1rem;
-
   font-weight: 100;
   font-size: 1.5rem;
 }
@@ -152,15 +148,13 @@
   border-radius: 0.25rem;
   padding: 0.125rem 0.25rem;
 
-  svg {
-    width: 0.75rem;
-    height: 0.75rem;
+  .icon {
+    --icon-size: 0.75rem;
     margin: -0.2rem 0;
-    fill: var(--gray-40);
+    color: var(--gray-40);
 
     &.active {
-      fill: var(--blue-80);
-      filter: drop-shadow(0 0 2px var(--blue-80));
+      color: var(--blue-80);
     }
   }
 }
