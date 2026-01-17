@@ -1,3 +1,4 @@
+<%# locals: (variant:) %>
 <%
   locale_local_names =
     {
@@ -10,21 +11,19 @@
     }
 %>
 
-<div class="language-switcher sd-dropdown" data-controller="dropdown">
-  <button class="dropdown-toggle button button--ghost button--sm" data-action="dropdown#toggle" aria-label="<%= t('application.accessibility.current_language', language: locale_local_names[I18n.locale]) %>">
+<div class="language-switcher" data-controller="dropdown">
+  <button class="dropdown-toggle button button--ghost button--sm" popovertarget="language-menu-<%= variant %>" aria-label="<%= t('application.accessibility.current_language', language: locale_local_names[I18n.locale]) %>">
     <%= image_tag asset_path('blank.gif'), class: "flag flag-#{I18n.locale}", alt: "" %>
     <%= icon_tag 'angle-up-solid' %>
   </button>
 
-  <template data-dropdown-target="menu">
-    <div class="sd-dropdown-menu">
-      <% I18n.available_locales.each do |locale| %>
-        <% active = I18n.locale == locale %>
-        <%= link_to( {locale: }, rel: 'nofollow', data: { 'turbo-prefetch': 'false' }, class: class_names('dropdown-item', active && 'active')) do %>
-          <div class="active-indicator"></div>
-          <%= locale_local_names[locale] %>
-        <% end %>
+  <div id="language-menu-<%= variant %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+    <% I18n.available_locales.each do |locale| %>
+      <% active = I18n.locale == locale %>
+      <%= link_to( {locale: }, rel: 'nofollow', data: { 'turbo-prefetch': 'false' }, class: class_names('dropdown-item', active && 'active')) do %>
+        <div class="active-indicator"></div>
+        <%= locale_local_names[locale] %>
       <% end %>
-    </div>
-  </template>
+    <% end %>
+  </div>
 </div>

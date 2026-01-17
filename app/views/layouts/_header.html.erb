@@ -12,8 +12,8 @@
         <% end %>
       </li>
 
-      <li class="sd-dropdown" data-controller="dropdown">
-        <button class="dropdown-toggle profile-dropdown" data-action="dropdown#toggle" aria-label="<%= t('application.accessibility.user_menu') %>">
+      <li data-controller="dropdown">
+        <button class="dropdown-toggle profile-dropdown" popovertarget="user-menu" aria-label="<%= t('application.accessibility.user_menu') %>">
           <% if masquerading? %>
             <%= icon_tag 'triangle-exclamation-solid', class: 'icon-lg text-danger' %>
           <% end %>
@@ -21,18 +21,16 @@
           <%= image_tag avatar, id: 'userpic-thumb', class: 'nav-profile', alt: t('application.accessibility.profile_picture') %>
         </button>
 
-        <template data-dropdown-target="menu">
-          <div class="sd-dropdown-menu">
-            <% if current_user.admin? %>
-              <%= link_to t('application.header.admin_panel'), manage_path, class: 'dropdown-item' %>
-            <% end %>
-            <% if masquerading? %>
-              <%= button_to 'Stop masquerading', user_masquerades_path(current_user), method: :delete, class: 'dropdown-item' %>
-            <% end %>
-            <%= link_to t('application.header.profile'), profile_path(current_user.profile), class: 'dropdown-item' %>
-            <%= button_to t('application.header.sign_out'), destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
-          </div>
-        </template>
+        <div id="user-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+          <% if current_user.admin? %>
+            <%= link_to t('application.header.admin_panel'), manage_path, class: 'dropdown-item' %>
+          <% end %>
+          <% if masquerading? %>
+            <%= button_to 'Stop masquerading', user_masquerades_path(current_user), method: :delete, class: 'dropdown-item' %>
+          <% end %>
+          <%= link_to t('application.header.profile'), profile_path(current_user.profile), class: 'dropdown-item' %>
+          <%= button_to t('application.header.sign_out'), destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
+        </div>
       </li>
     <% else %>
       <li>
@@ -154,7 +152,7 @@
       <a href="https://discord.gg/WX8kfrx7b8" class="button button--primary button--sm">
         Discord
       </a>
-      <%= render 'layouts/language_switcher' %>
+      <%= render 'layouts/language_switcher', variant: :mobile %>
     </div>
   </div>
 </header>

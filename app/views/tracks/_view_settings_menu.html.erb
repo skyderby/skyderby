@@ -1,24 +1,18 @@
-<button class="btn-flat same-padding dropdown-toggle" id="track-view-settings-dropdown" type="button" data-toggle="dropdown">
-  <%= icon_tag 'gear-solid' %>
-  <%= t('general.settings') %>
-</button>
-<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-  <li class="dropdown-header" role="presentation">
-    <%= t('tracks.show.menu_header') %>
-  </li>
-  <li class="<%= 'active' if Current.charts_mode.separate? %>" role="presentation">
-    <%= link_to t('tracks.show.menu_sep'), show_params.except(:range).merge(charts_mode: 'separate'), remote: true, rel: 'nofollow' %>
-  </li>
-  <li class="<%= 'active' if Current.charts_mode.single? %>" role="presentation">
-    <%= link_to t('tracks.show.menu_one'), show_params.except(:range).merge(charts_mode: 'single'), remote: true, rel: 'nofollow' %>
-  </li>
-  <li class="dropdown-header" role="presentation">
-    <%= t('tracks.show.units_header') %>
-  </li>
-  <li class="<%= 'active' if Current.charts_units.metric? %>" role="presentation">
-    <%= link_to t('tracks.show.m_units_metric'), show_params.except(:range).merge(charts_units: 'metric'), remote: true, rel: 'nofollow' %>
-  </li>
-  <li class="<%= 'active' if Current.charts_units.imperial? %>" role="presentation">
-    <%= link_to t('tracks.show.m_units_imperial'), show_params.except(:range).merge(charts_units: 'imperial'), remote: true, rel: 'nofollow' %>
-  </li>
-</ul>
+<div data-controller="dropdown">
+  <button class="btn-flat same-padding dropdown-toggle" popovertarget="track-view-settings-menu" type="button">
+    <%= icon_tag 'gear-solid' %>
+    <%= t('general.settings') %>
+  </button>
+
+  <div id="track-view-settings-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+    <div class="dropdown-header"><%= t('tracks.show.menu_header') %></div>
+    <%= link_to t('tracks.show.menu_sep'), show_params.except(:range).merge(charts_mode: 'separate'), remote: true, rel: 'nofollow', class: class_names('dropdown-item', Current.charts_mode.separate? && 'active') %>
+    <%= link_to t('tracks.show.menu_one'), show_params.except(:range).merge(charts_mode: 'single'), remote: true, rel: 'nofollow', class: class_names('dropdown-item', Current.charts_mode.single? && 'active') %>
+
+    <div class="dropdown-divider"></div>
+
+    <div class="dropdown-header"><%= t('tracks.show.units_header') %></div>
+    <%= link_to t('tracks.show.m_units_metric'), show_params.except(:range).merge(charts_units: 'metric'), remote: true, rel: 'nofollow', class: class_names('dropdown-item', Current.charts_units.metric? && 'active') %>
+    <%= link_to t('tracks.show.m_units_imperial'), show_params.except(:range).merge(charts_units: 'imperial'), remote: true, rel: 'nofollow', class: class_names('dropdown-item', Current.charts_units.imperial? && 'active') %>
+  </div>
+</div>

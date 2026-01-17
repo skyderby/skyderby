@@ -21,23 +21,23 @@
     <%= link_to 'Time Machine', speed_skydiving_competition_path(event, until_round: standings.completed_rounds.last&.number), class: 'actions-bar-button' %>
 
     <% if editable %>
-      <button class="actions-bar-button sd-dropdown" data-controller="dropdown" data-action="click->dropdown#toggle">
-        <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + event.status) %>
-        <%= icon_tag 'angle-down-solid' %>
+      <div data-controller="dropdown">
+        <button class="actions-bar-button" popovertarget="speed-status-menu-<%= event.id %>">
+          <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + event.status) %>
+          <%= icon_tag 'angle-down-solid' %>
+        </button>
 
-        <template data-dropdown-target="menu">
-          <div class="sd-dropdown-menu">
-            <% SpeedSkydivingCompetition.statuses.each do |status, _index| %>
-              <%= button_to(t("event_status.#{status}"),
-                            speed_skydiving_competition_status_path(event),
-                            method: :patch,
-                            form: { data: { turbo_stream: true } },
-                            params: { 'event[status]' => status },
-                            class: "dropdown-item #{'active' if event.status == status}") %>
-            <% end %>
-          </div>
-        </template>
-      </button>
+        <div id="speed-status-menu-<%= event.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+          <% SpeedSkydivingCompetition.statuses.each do |status, _index| %>
+            <%= button_to(t("event_status.#{status}"),
+                          speed_skydiving_competition_status_path(event),
+                          method: :patch,
+                          form: { data: { turbo_stream: true } },
+                          params: { 'event[status]' => status },
+                          class: "dropdown-item #{'active' if event.status == status}") %>
+          <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>

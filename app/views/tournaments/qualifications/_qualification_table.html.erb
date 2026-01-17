@@ -11,18 +11,17 @@
           <div class="scoreboard-round-content">
             <%= "Round #{round.order}" %>
             <% if editable %>
-              <div class="scoreboard-round-actions dropdown">
-                <button class="btn-link" data-toggle="dropdown">
+              <div class="scoreboard-round-actions" data-controller="dropdown">
+                <button class="btn-link" popovertarget="qual-round-menu-<%= round.id %>">
                   <%= icon_tag 'ellipsis-vertical-solid' %>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li>
-                    <%= button_to tournament_qualification_round_path(@tournament, round), method: :delete, remote: true, class: 'btn-link' do %>
-                      <%= icon_tag 'xmark', class: 'text-muted' %>
-                      <%= t('general.delete') %>
-                    <% end %>
-                  </li>
-                </ul>
+
+                <div id="qual-round-menu-<%= round.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+                  <%= button_to tournament_qualification_round_path(@tournament, round), method: :delete, remote: true, class: 'dropdown-item' do %>
+                    <%= icon_tag 'xmark', class: 'text-muted' %>
+                    <%= t('general.delete') %>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           </div>

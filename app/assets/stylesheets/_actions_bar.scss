@@ -31,9 +31,12 @@
   border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
 }
 
-.actions-bar > :last-child,
-.actions-bar-right > :last-child,
-.actions-bar-right > :last-child .actions-bar-button {
+.actions-bar > :last-child:not([popover]),
+.actions-bar-right > :last-child:not([popover]),
+.actions-bar-right > :last-child:not([popover]) .actions-bar-button,
+.actions-bar > :has(+ [popover]:last-child),
+.actions-bar-right > :has(+ [popover]:last-child),
+.actions-bar-right > :has(+ [popover]:last-child) .actions-bar-button {
   border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
 }
 

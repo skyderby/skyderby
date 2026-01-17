@@ -12,28 +12,26 @@
       <%= t('activerecord.models.event/competitor') %>
     <% end %>
 
-    <div class="sd-dropdown" data-controller="dropdown">
-      <button class="actions-bar-button" data-action="click->dropdown#toggle">
+    <div data-controller="dropdown">
+      <button class="actions-bar-button" popovertarget="add-round-menu-<%= event.id %>">
         <%= icon_tag 'plus-solid' %>
         <%= t('activerecord.models.event/round') %>
         <%= icon_tag 'angle-down-solid' %>
-
-        <template data-dropdown-target="menu">
-          <div class="sd-dropdown-menu">
-            <% %i[distance speed time].each do |task| %>
-              <%= button_to(t("disciplines.#{task}"),
-                            performance_competition_rounds_path(event),
-                            method: :post,
-                            params: { 'round[discipline]' => task },
-                            class: 'dropdown-item') %>
-            <% end %>
-          </div>
-        </template>
       </button>
+
+      <div id="add-round-menu-<%= event.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+        <% %i[distance speed time].each do |task| %>
+          <%= button_to(t("disciplines.#{task}"),
+                        performance_competition_rounds_path(event),
+                        method: :post,
+                        params: { 'round[discipline]' => task },
+                        class: 'dropdown-item') %>
+        <% end %>
+      </div>
     </div>
   <% end %>
 
-  <div class="sd-dropdown actions-bar-right">
+  <div class="actions-bar-right">
     <% if event.wind_cancellation %>
       <%= form_with url: url_for, method: :get, data: { controller: 'auto-submit' }, class: 'actions-bar-button' do |form| %>
         <%= form.switch :including_wind,
@@ -46,43 +44,43 @@
     <% end %>
 
     <% if editable %>
-      <button class="actions-bar-button" data-controller="dropdown" data-action="click->dropdown#toggle">
-        <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + event.status) %>
-        <%= icon_tag 'angle-down-solid' %>
+      <div data-controller="dropdown">
+        <button class="actions-bar-button" popovertarget="status-menu-<%= event.id %>">
+          <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + event.status) %>
+          <%= icon_tag 'angle-down-solid' %>
+        </button>
 
-        <template data-dropdown-target="menu">
-          <div class="sd-dropdown-menu">
-            <% PerformanceCompetition.statuses.each do |status, _index| %>
-              <%= button_to(t("event_status.#{status}"),
-                          performance_competition_path(event),
-                          method: :patch,
-                          form: { data: { turbo_stream: true } },
-                          params: { 'performance_competition[status]' => status },
-                          class: "dropdown-item #{'active' if event.status == status}") %>
-            <% end %>
-          </div>
-        </template>
-      </button>
+        <div id="status-menu-<%= event.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+          <% PerformanceCompetition.statuses.each do |status, _index| %>
+            <%= button_to(t("event_status.#{status}"),
+                        performance_competition_path(event),
+                        method: :patch,
+                        form: { data: { turbo_stream: true } },
+                        params: { 'performance_competition[status]' => status },
+                        class: "dropdown-item #{'active' if event.status == status}") %>
+          <% end %>
+        </div>
+      </div>
 
-      <button class="actions-bar-button" data-controller="dropdown" data-action="click->dropdown#toggle" title="More actions">
-        <%= icon_tag 'gear-solid' %>
+      <div data-controller="dropdown">
+        <button class="actions-bar-button" popovertarget="actions-menu-<%= event.id %>" title="More actions">
+          <%= icon_tag 'gear-solid' %>
+        </button>
 
-        <template data-dropdown-target="menu">
-          <div class="sd-dropdown-menu">
-            <div class="dropdown-header">Copy</div>
-            <%= button_to 'Copy competitors',
-                          new_performance_competition_competitors_copy_path(event),
-                          method: :get,
-                          form: { data: { turbo_stream: true } },
-                          class: 'dropdown-item' %>
-            <%= button_to 'Copy results',
-                          new_performance_competition_results_copy_path(event),
-                          method: :get,
-                          form: { data: { turbo_stream: true } },
-                          class: 'dropdown-item' %>
-          </div>
-        </template>
-      </button>
+        <div id="actions-menu-<%= event.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+          <div class="dropdown-header">Copy</div>
+          <%= button_to 'Copy competitors',
+                        new_performance_competition_competitors_copy_path(event),
+                        method: :get,
+                        form: { data: { turbo_stream: true } },
+                        class: 'dropdown-item' %>
+          <%= button_to 'Copy results',
+                        new_performance_competition_results_copy_path(event),
+                        method: :get,
+                        form: { data: { turbo_stream: true } },
+                        class: 'dropdown-item' %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>

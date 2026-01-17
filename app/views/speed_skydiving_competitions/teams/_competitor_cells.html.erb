@@ -4,18 +4,15 @@
   <% if competitor %>
     <%= link_to competitor.name, profile_path(competitor.profile), class: 'competitor-profile' %>
     <% if editable %>
-      <div class="cell-actions">
-        <div class="sd-dropdown" data-controller="dropdown">
-          <button class="dropdown-toggle button button--ghost button--sm" data-action="click->dropdown#toggle">
-            <%= icon_tag 'ellipsis-vertical-solid' %>
-          </button>
-          <template data-dropdown-target="menu">
-            <div class="sd-dropdown-menu">
-              <%= button_to 'Delete', speed_skydiving_competition_team_competitor_path(event, competitor),
-                            class: 'dropdown-item',
-                            method: :delete, form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } } %>
-            </div>
-          </template>
+      <div class="cell-actions" data-controller="dropdown">
+        <button class="dropdown-toggle button button--ghost button--sm" popovertarget="speed-team-competitor-menu-<%= competitor.id %>">
+          <%= icon_tag 'ellipsis-vertical-solid' %>
+        </button>
+
+        <div id="speed-team-competitor-menu-<%= competitor.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+          <%= button_to 'Delete', speed_skydiving_competition_team_competitor_path(event, competitor),
+                        class: 'dropdown-item',
+                        method: :delete, form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } } %>
         </div>
       </div>
     <% end %>

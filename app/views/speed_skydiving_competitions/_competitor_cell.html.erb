@@ -9,27 +9,23 @@
   <% end %>
 
   <% if editable %>
-    <div class="cell-actions">
-      <div class="sd-dropdown" data-controller="dropdown">
-        <button class="dropdown-toggle button button--ghost button--sm" data-action="click->dropdown#toggle">
-          <%= icon_tag 'ellipsis-vertical-solid' %>
-        </button>
+    <div class="cell-actions" data-controller="dropdown">
+      <button class="dropdown-toggle button button--ghost button--sm" popovertarget="speed-competitor-menu-<%= competitor.id %>">
+        <%= icon_tag 'ellipsis-vertical-solid' %>
+      </button>
 
-        <template data-dropdown-target="menu">
-          <div class="sd-dropdown-menu">
-            <%= button_to edit_speed_skydiving_competition_competitor_path(event, competitor),
-                          class: 'dropdown-item',
-                          method: :get, form: { data: { turbo_stream: true } } do %>
-                Edit
-            <% end %>
+      <div id="speed-competitor-menu-<%= competitor.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+        <%= button_to edit_speed_skydiving_competition_competitor_path(event, competitor),
+                      class: 'dropdown-item',
+                      method: :get, form: { data: { turbo_stream: true } } do %>
+            Edit
+        <% end %>
 
-            <%= button_to speed_skydiving_competition_competitor_path(event, competitor),
-                          class: 'dropdown-item',
-                          method: :delete, form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } } do %>
-              Delete
-            <% end %>
-          </div>
-        </template>
+        <%= button_to speed_skydiving_competition_competitor_path(event, competitor),
+                      class: 'dropdown-item',
+                      method: :delete, form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } } do %>
+          Delete
+        <% end %>
       </div>
     </div>
   <% end %>

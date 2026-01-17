@@ -23,11 +23,7 @@ window.$ = window.jQuery = jQuery
 import 'jquery-jcrop'
 import 'jquery-validation'
 import 'jquery-validation/dist/additional-methods'
-import 'bootstrap/js/alert'
-import 'bootstrap/js/button'
-import 'bootstrap/js/dropdown'
 import 'bootstrap/js/modal'
-import 'bootstrap/js/tab'
 import 'bootstrap/js/tooltip'
 import 'utils/bootstrap'
 

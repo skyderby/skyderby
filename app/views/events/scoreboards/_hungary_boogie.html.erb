@@ -19,18 +19,17 @@
                 <div class="scoreboard-round-content">
                   <%= round.number %>
                   <% if can_update %>
-                    <div class="scoreboard-round-actions dropdown">
-                      <button class="btn-link" data-toggle="dropdown">
+                    <div class="scoreboard-round-actions" data-controller="dropdown">
+                      <button class="btn-link" popovertarget="hungary-round-menu-<%= round.id %>">
                         <%= icon_tag 'ellipsis-vertical-solid', class: 'text-muted' %>
                       </button>
-                      <ul class="dropdown-menu dropdown-menu-right">
-                        <li>
-                          <%= button_to boogie_round_path(@scoreboard.event, round), method: :delete, remote: true, class: 'btn-link delete-round' do %>
-                            <%= icon_tag 'circle-xmark-solid', class: 'icon--fw text-muted' %>
-                            <%= t('general.delete') %>
-                          <% end %>
-                        </li>
-                      </ul>
+
+                      <div id="hungary-round-menu-<%= round.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+                        <%= button_to boogie_round_path(@scoreboard.event, round), method: :delete, remote: true, class: 'dropdown-item' do %>
+                          <%= icon_tag 'circle-xmark-solid', class: 'icon--fw text-muted' %>
+                          <%= t('general.delete') %>
+                        <% end %>
+                      </div>
                     </div>
                   <% end %>
                 </div>

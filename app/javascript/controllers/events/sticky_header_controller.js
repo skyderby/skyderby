@@ -104,6 +104,9 @@ export default class extends Controller {
       this._fixed_header.querySelectorAll('tbody').forEach(el => {
         el.remove()
       })
+      this._fixed_header.querySelectorAll('[popover]').forEach(el => {
+        el.remove()
+      })
 
       this._fixed_header.style.position = 'absolute'
       this._fixed_header.style.top = 0
