@@ -1,0 +1,45 @@
+<%# locals: (result:, canopy_time: nil) %>
+
+<div class="track-indicators">
+  <div class="track-indicator">
+    <div class="track-indicator-title">
+      <%= t('tournaments.results.result_time') %>
+    </div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value">
+        <%= number_with_precision(result, precision: 1) %>
+      </div>
+      <div class="track-indicator-units">
+        <%= t('units.s') %>
+      </div>
+    </div>
+  </div>
+
+  <div class="track-indicator">
+    <div class="track-indicator-title">
+      <%= t('tournaments.results.canopy_time') %>
+    </div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value">
+        <%= canopy_time.present? ? number_with_precision(canopy_time, precision: 1) : '--.-' %>
+      </div>
+      <div class="track-indicator-units">
+        <%= t('units.s') %>
+      </div>
+    </div>
+  </div>
+
+  <div class="track-indicator">
+    <div class="track-indicator-title">
+      <%= t('tournaments.results.max_horizontal_speed') %>
+    </div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value" data-tournaments--result-track-target="maxHSpeed">
+        --
+      </div>
+      <div class="track-indicator-units">
+        <%= t('units.kmh') %>
+      </div>
+    </div>
+  </div>
+</div>

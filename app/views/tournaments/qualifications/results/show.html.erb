@@ -1,0 +1,8 @@
+<% editable = policy(@tournament).update? %>
+
+<%= render partial: 'result',
+           layout: 'layout',
+           locals: {
+             result: @result,
+             editable:
+           } %>

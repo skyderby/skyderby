@@ -61,7 +61,7 @@
 
           <% if editable %>
             <% if has_result %>
-              <%= link_to tournament_match_slot_result_path(@tournament, match, slot), remote: true, 'data-toggle': 'tooltip', title: slot.notes do %>
+              <%= link_to tournament_match_slot_result_path(@tournament, match, slot), data: { turbo_stream: true, toggle: 'tooltip' }, title: slot.notes do %>
                 <%= result_html %>
               <% end %>
             <% else %>
@@ -71,7 +71,7 @@
             <% end %>
           <% else %>
             <% if slot.track_id %>
-              <%= link_to tournament_match_slot_result_path(@tournament, match, slot), remote: true, data: { toggle: 'tooltip' }, title: slot.notes do %>
+              <%= link_to tournament_match_slot_result_path(@tournament, match, slot), data: { turbo_stream: true, toggle: 'tooltip' }, title: slot.notes do %>
                 <%= result_html %>
               <% end %>
             <% else %>

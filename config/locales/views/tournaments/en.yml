@@ -3,3 +3,14 @@ en:
     show:
       show_details: 'Click to view track details'
       edit_link: 'Start time, result, canopy time'
+    qualifications:
+      round: 'Qualification'
+    matches:
+      round: 'Round'
+      winner: 'Winner'
+      disqualified: 'Disqualified'
+    results:
+      no_track_data: 'No track data available. Result was entered manually.'
+      result_time: 'Result'
+      canopy_time: 'Canopy time'
+      max_horizontal_speed: 'Max ground speed'

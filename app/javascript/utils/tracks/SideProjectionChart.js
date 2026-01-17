@@ -13,6 +13,7 @@ export default class SideProjectionChart {
     this.points = []
     this.flightProfile = []
     this.terrainProfile = null
+    this.finishLineCrossing = null
   }
 
   setFlightProfile(points) {
@@ -23,6 +24,11 @@ export default class SideProjectionChart {
 
   setTerrainProfile(measurements) {
     this.terrainProfile = measurements
+    return this
+  }
+
+  setFinishLineCrossing(distance, resultTime) {
+    this.finishLineCrossing = { distance, resultTime }
     return this
   }
 
@@ -90,6 +96,7 @@ export default class SideProjectionChart {
     this.drawTerrainClearance()
     this.drawTrajectory()
     this.drawIntersectionPoint()
+    this.drawFinishLineCrossing()
     this.drawFlares()
     this.createCrosshair()
     this.setupInteraction()
@@ -396,6 +403,62 @@ export default class SideProjectionChart {
     label.setAttribute('font-size', '11')
     label.setAttribute('fill', '#f00')
     label.textContent = `1:1 ${Math.round(intersection.x)}m`
+    this.svg.appendChild(label)
+  }
+
+  drawFinishLineCrossing() {
+    if (!this.finishLineCrossing) return
+
+    const { distance, resultTime } = this.finishLineCrossing
+    const crossingPoint =
+      this.flightProfile.find(p => p.x >= distance) ||
+      this.flightProfile[this.flightProfile.length - 1]
+    if (!crossingPoint) return
+
+    const x = this.scaleX(distance)
+    const y = this.scaleY(crossingPoint.y)
+    const { padding } = this.options
+
+    const line = document.createElementNS(SVG_NS, 'line')
+    line.setAttribute('class', 'finish-line-crossing')
+    line.setAttribute('x1', x)
+    line.setAttribute('y1', padding.top)
+    line.setAttribute('x2', x)
+    line.setAttribute('y2', this.height - padding.bottom)
+    line.setAttribute('stroke', '#f44336')
+    line.setAttribute('stroke-width', '2')
+    line.setAttribute('stroke-dasharray', '6,3')
+    this.svg.appendChild(line)
+
+    const circle = document.createElementNS(SVG_NS, 'circle')
+    circle.setAttribute('class', 'finish-crossing-marker')
+    circle.setAttribute('cx', x)
+    circle.setAttribute('cy', y)
+    circle.setAttribute('r', '6')
+    circle.setAttribute('fill', '#f44336')
+    circle.setAttribute('stroke', '#fff')
+    circle.setAttribute('stroke-width', '2')
+    this.svg.appendChild(circle)
+
+    const labelBg = document.createElementNS(SVG_NS, 'rect')
+    const labelText = resultTime ? `${resultTime.toFixed(1)}s` : 'FINISH'
+    const labelWidth = labelText.length * 7 + 8
+    labelBg.setAttribute('x', x - labelWidth / 2)
+    labelBg.setAttribute('y', padding.top + 5)
+    labelBg.setAttribute('width', labelWidth)
+    labelBg.setAttribute('height', 18)
+    labelBg.setAttribute('rx', '3')
+    labelBg.setAttribute('fill', '#f44336')
+    this.svg.appendChild(labelBg)
+
+    const label = document.createElementNS(SVG_NS, 'text')
+    label.setAttribute('x', x)
+    label.setAttribute('y', padding.top + 17)
+    label.setAttribute('text-anchor', 'middle')
+    label.setAttribute('font-size', '11')
+    label.setAttribute('font-weight', 'bold')
+    label.setAttribute('fill', '#fff')
+    label.textContent = labelText
     this.svg.appendChild(label)
   }
 

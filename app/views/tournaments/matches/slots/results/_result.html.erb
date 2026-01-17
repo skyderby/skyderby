@@ -1,14 +1,25 @@
-<%# locals: (result:, editable: false, modal: false, **) %>
+<%# locals: (slot:, editable: false, modal: false, **) %>
 
-<% finish_line = result.tournament.finish_line %>
+<% finish_line = slot.tournament.finish_line %>
 <% finish_line_coords = finish_line&.to_coordinates %>
 
 <div class="sd-container">
-  <%= render 'navbar', result:, modal: %>
+  <%= render 'navbar', slot:, modal: %>
 
-  <% if result.track.present? %>
+  <% if slot.is_winner || slot.is_disqualified %>
+    <div class="tournament-result-badges">
+      <% if slot.is_winner %>
+        <span class="tournament-result-badge tournament-result-badge--winner"><%= t('tournaments.matches.winner') %></span>
+      <% end %>
+      <% if slot.is_disqualified %>
+        <span class="tournament-result-badge tournament-result-badge--disqualified"><%= t('tournaments.matches.disqualified') %></span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if slot.track.present? %>
     <div data-controller="tournaments--result-track"
-         data-tournaments--result-track-points-url-value="<%= track_points_path(result.track, original_frequency: true, trimmed: { seconds_before_start: 5 }) %>"
+         data-tournaments--result-track-points-url-value="<%= track_points_path(slot.track, original_frequency: true, trimmed: { seconds_before_start: 5 }) %>"
          data-tournaments--result-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
          <% if finish_line_coords.present? %>
          data-tournaments--result-track-finish-line-start-lat-value="<%= finish_line_coords.first[:latitude] %>"
@@ -16,9 +27,9 @@
          data-tournaments--result-track-finish-line-end-lat-value="<%= finish_line_coords.last[:latitude] %>"
          data-tournaments--result-track-finish-line-end-lon-value="<%= finish_line_coords.last[:longitude] %>"
          <% end %>
-         data-tournaments--result-track-result-time-value="<%= result.result %>">
+         data-tournaments--result-track-result-time-value="<%= slot.result %>">
 
-      <%= render 'tournaments/results/indicators', result: result.result, canopy_time: result.canopy_time %>
+      <%= render 'tournaments/results/indicators', result: slot.result %>
       <hr />
 
       <div class="base-jump-layout">
@@ -70,7 +81,7 @@
       </div>
     </div>
   <% else %>
-    <%= render 'tournaments/results/indicators', result: result.result, canopy_time: result.canopy_time %>
+    <%= render 'tournaments/results/indicators', result: slot.result %>
     <hr />
     <p class="text-muted"><%= t('tournaments.results.no_track_data') %></p>
   <% end %>
@@ -79,7 +90,7 @@
     <div>
       <% if editable %>
         <%= link_to t('general.delete'),
-                    tournament_qualification_result_path(result.tournament, result),
+                    tournament_match_slot_result_path(slot.tournament, slot.match, slot),
                     data: { turbo_method: :delete, turbo_confirm: t('general.confirm') },
                     class: 'btn-flat btn-flat--danger' %>
       <% end %>

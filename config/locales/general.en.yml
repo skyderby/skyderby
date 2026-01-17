@@ -34,6 +34,7 @@ en:
     clear: Clear
     import_from_csv: Import from CSV
     import: Import
+    open_track: Open track
   users:
     profile:
       edit:

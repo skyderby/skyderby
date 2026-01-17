@@ -1,0 +1,14 @@
+<% provide :title, qualification_jump_presentation(@result) %>
+
+<div class="container">
+  <div class="event-result__header">
+    <%= link_to @tournament, class: 'btn-back' do %>
+      <%= icon_tag 'angle-left-solid' %>
+      <%= @tournament.name %>
+    <% end %>
+  </div>
+
+  <div class="content-block content-block--bordered">
+    <%= yield %>
+  </div>
+</div>

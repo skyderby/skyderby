@@ -1,0 +1,74 @@
+.tournament-result-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.tournament-result-time {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.tournament-result-time__value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--blue-grey-90);
+  line-height: 1;
+}
+
+.tournament-result-time__unit {
+  font-size: 1rem;
+  color: var(--blue-grey-60);
+}
+
+.tournament-result-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.tournament-result-badge--winner {
+  background-color: var(--green-10);
+  color: var(--green-70);
+}
+
+.tournament-result-badge--disqualified {
+  background-color: var(--red-10);
+  color: var(--red-70);
+}
+
+.tournament-result-badges {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.result-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}
+
+.result-navbar__title h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.result-navbar__subtitle {
+  font-size: 0.875rem;
+  color: var(--blue-grey-60);
+}
+
+.result-navbar__actions {
+  display: flex;
+  gap: 0.5rem;
+}

@@ -13,8 +13,9 @@ module Tournaments
       end
 
       def show_qualification_track_link(tournament, result, editable)
+        link_options = mobile? ? { target: '_blank' } : { data: { turbo_stream: true } }
         link_to tournament_qualification_result_path(tournament, result),
-                remote: !mobile?, class: 'show-result', rel: 'nofollow' do
+                **link_options, class: 'show-result', rel: 'nofollow' do
           icon_tag(editable ? 'pencil-solid' : 'magnifying-glass-solid')
         end
       end

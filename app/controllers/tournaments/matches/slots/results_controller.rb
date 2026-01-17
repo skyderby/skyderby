@@ -11,12 +11,7 @@ module Tournaments
 
           respond_to do |format|
             format.html { redirect_to @slot.track }
-            format.js do
-              @track_presenter = Tracks::BaseRaceTrackView.new(
-                @slot,
-                ChartsPreferences.new(session)
-              )
-            end
+            format.turbo_stream
           end
         end
 
@@ -65,11 +60,6 @@ module Tournaments
         def set_slot
           @slot = @match.slots.find(params[:slot_id])
         end
-
-        def show_params
-          params.permit(:charts_mode, :charts_units)
-        end
-        helper_method :show_params
 
         def destroy_params
           {

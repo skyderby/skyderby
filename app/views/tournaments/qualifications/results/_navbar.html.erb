@@ -1,0 +1,19 @@
+<%# locals: (result:, modal: false) %>
+
+<div class="result-navbar">
+  <div class="result-navbar__title">
+    <h4><%= result.competitor_name %></h4>
+    <span class="result-navbar__subtitle">
+      <%= result.tournament.name %> &mdash; <%= t('tournaments.qualifications.round') %> <%= result.round_order %>
+    </span>
+  </div>
+
+  <% if result.track.present? %>
+    <div class="result-navbar__actions">
+      <%= link_to track_path(result.track), class: 'btn-flat', target: '_blank' do %>
+        <%= icon_tag 'up-right-from-square' %>
+        <%= t('general.open_track') %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,13 @@
+<% editable = policy(@tournament).edit? %>
+
+<%= turbo_stream.update 'modal-root' do %>
+  <%= render partial: 'tournaments/matches/slots/results/result',
+             layout: 'components/modal',
+             locals: {
+               title: match_slot_presentation(@slot),
+               modal_size: 'lg',
+               slot: @slot,
+               modal: true,
+               editable:
+             } %>
+<% end %>

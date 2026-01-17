@@ -1,7 +1,7 @@
 module Tournaments
   module Qualifications
     class ResultsController < ApplicationController
-      include ChartParams, TournamentScoped
+      include TournamentScoped
       include RespondWithScoreboard
 
       before_action :set_tournament
@@ -29,12 +29,9 @@ module Tournaments
       def show
         authorize @tournament, :show?
 
-        @track_presenter = Tracks::BaseRaceTrackView.new \
-          @result,
-          ChartsPreferences.new(session)
-
         respond_to do |format|
           format.html
+          format.turbo_stream
           format.js { render :edit if @result.result.blank? }
         end
       end
@@ -93,11 +90,6 @@ module Tournaments
           :result,
           :canopy_time
       end
-
-      def show_params
-        params.permit(:charts_mode, :charts_units)
-      end
-      helper_method :show_params
     end
   end
 end
