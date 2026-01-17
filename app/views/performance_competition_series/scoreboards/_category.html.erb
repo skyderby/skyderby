@@ -19,7 +19,7 @@
         </div>
       </td>
       <td class="text-center">
-        <span data-toggle="tooltip" title="<%= row.competitor.country_name %>">
+        <span data-controller="tooltip" data-tooltip="<%= row.competitor.country_name %>">
           <%= row.competitor.country_code %>
         </span>
       </td>
@@ -51,7 +51,7 @@
 
             <td class="text-right <%= 'text-gray' unless round.completed %>">
               <% if result.penalized %>
-                <span class="dotted-underline <%= 'text-gray' unless round.completed %>" data-toggle="tooltip" title="<%= result.penalty_reason %>">
+                <span class="dotted-underline <%= 'text-gray' unless round.completed %>" data-controller="tooltip" data-tooltip="<%= result.penalty_reason %>">
                   <%= result.formatted_points %>
                 </span>
               <% else %>

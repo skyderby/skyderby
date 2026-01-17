@@ -24,7 +24,6 @@ import 'jquery-jcrop'
 import 'jquery-validation'
 import 'jquery-validation/dist/additional-methods'
 import 'bootstrap/js/modal'
-import 'bootstrap/js/tooltip'
 import 'utils/bootstrap'
 
 import Highcharts from 'highcharts'

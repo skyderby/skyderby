@@ -15,7 +15,7 @@
             <div><%= t('.visited_by') %>:</div>
             <% pilots.each do |pilot| %>
               <a href="<%= profile_path(pilot) %>">
-                <img class="img-50" src="<%= pilot.userpic_url(:thumb) %>" data-toggle="tooltip" title="<%= pilot.name %>">
+                <img class="img-50" src="<%= pilot.userpic_url(:thumb) %>" data-controller="tooltip" data-tooltip="<%= pilot.name %>">
               </a>
             <% end %>
           </div>

@@ -10,8 +10,8 @@ module PlacesHelper
 
     country = place.country
     code_span = tag.span(class: 'text-warning',
-                         'data-toggle' => 'tooltip',
-                         title: country.name) do
+                         'data-controller' => 'tooltip',
+                         'data-tooltip' => country.name) do
       (country.code || '').upcase
     end
 
