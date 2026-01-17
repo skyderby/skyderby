@@ -87,6 +87,7 @@ gem 'net-smtp', require: false
 group :development do
   gem 'annotate'
   gem 'bullet'
+  gem 'hotwire-spark'
   gem 'kamal', '~> 2.5'
   gem 'letter_opener'
   gem 'rubocop', require: false
