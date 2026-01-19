@@ -1,4 +1,4 @@
-<div class="row tournament-scoreboard">
+<div class="row tournament-scoreboard" id="tournament-scoreboard">
   <% rounds = @tournament.rounds.order(:order) %>
   <% if rounds.size < 4 %>
     <div class="col-lg-1"></div>

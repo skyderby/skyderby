@@ -6,7 +6,7 @@ module Tracks
 
       respond_to do |format|
         format.html { redirect_to @track }
-        format.js
+        format.turbo_stream
       end
     end
   end

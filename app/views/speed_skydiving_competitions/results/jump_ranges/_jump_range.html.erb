@@ -4,12 +4,12 @@
   <%= render 'speed_skydiving_competitions/results/navbar', event:, result: %>
 
   <%= form_for :jump_range, url: speed_skydiving_competition_result_jump_range_path(@result.event, @result),
-               method: :put, data: { turbo_stream: true , controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+               method: :put, data: { turbo_stream: true , controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
     <%= render 'concerns/jump_range_form', track: @result.track, form: f %>
 
     <div class="form-actions">
       <%= f.submit t('general.save'), class: 'button button--primary', disabled: !editable %>
-      <button type="button" class="button" data-action="modal#close"><%= t('general.cancel') %></button>
+      <button type="button" class="button" data-action="dialog#close"><%= t('general.cancel') %></button>
     </div>
   <% end %>
 </div>

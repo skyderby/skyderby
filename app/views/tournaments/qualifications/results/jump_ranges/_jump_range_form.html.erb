@@ -1,19 +1,20 @@
 <% show_cancel ||= false %>
 
-<%= form_for :jump_range, url: tournament_qualification_result_jump_range_path(@tournament, @result), method: :put, remote: true do |f| %>
+<%= render 'tournaments/qualifications/results/header' %>
+<hr class="condensed">
+
+<%= form_with scope: :jump_range, url: tournament_qualification_result_jump_range_path(@tournament, @result), method: :put, data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
   <%= render 'concerns/jump_range_form', track: @result.track, form: f %>
 
-  <hr>
-
-  <div class="modal-actions">
-    <div class="modal-actions__left">
+  <div class="form-actions justify-between">
+    <div>
       <%= delete_qualification_track_link(@tournament, @result) %>
     </div>
 
-    <div class="modal-actions__right">
-      <%= f.submit t('general.save'), class: 'btn btn-primary' %>
+    <div>
+      <%= f.submit t('general.save'), class: 'button button--primary' %>
       <% if show_cancel %>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
+        <button type="button" class="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
       <% end %>
     </div>
   </div>

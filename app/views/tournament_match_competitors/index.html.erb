@@ -31,7 +31,7 @@
 		<td><%= tournament_match_competitor.notes %></td>
 		<td><%= link_to 'Show', tournament_match_competitor %></td>
 		<td><%= link_to 'Edit', edit_tournament_match_competitor_path(tournament_match_competitor) %></td>
-		<td><%= link_to 'Destroy', tournament_match_competitor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		<td><%= link_to 'Destroy', tournament_match_competitor, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %></td>
 	      </tr>
 	    <% end %>
 	  </tbody>

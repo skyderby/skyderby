@@ -29,9 +29,9 @@ module VirtualCompetitions
 
       respond_to do |format|
         if @group.save
-          format.js { redirect_to virtual_competition_groups_path }
+          format.turbo_stream { redirect_to virtual_competition_groups_path }
         else
-          format.js { render 'errors/ajax_errors', locals: { errors: @group.errors } }
+          format.turbo_stream { respond_with_errors @group }
         end
       end
     end
@@ -41,9 +41,9 @@ module VirtualCompetitions
 
       respond_to do |format|
         if @group.update(group_params)
-          format.js { redirect_to virtual_competition_groups_path }
+          format.turbo_stream { redirect_to virtual_competition_groups_path }
         else
-          format.js { render 'errors/ajax_errors', locals: { errors: @group.errors } }
+          format.turbo_stream { respond_with_errors @group }
         end
       end
     end
@@ -53,9 +53,9 @@ module VirtualCompetitions
 
       respond_to do |format|
         if @group.destroy
-          format.js { redirect_to virtual_competition_groups_path }
+          format.turbo_stream { redirect_to virtual_competition_groups_path }
         else
-          format.js { render 'errors/ajax_errors', locals: { errors: @group.errors } }
+          format.turbo_stream { respond_with_errors @group }
         end
       end
     end

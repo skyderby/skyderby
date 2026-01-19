@@ -1,47 +1,33 @@
-<div class="modal-dialog modal-lg">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div class="pull-right">
-        <%= link_to @slot.track, class: 'modal-header-link', target: '_blank' do %>
-          <%= icon_tag 'up-right-from-square' %>
-        <% end %>
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-      </div>
-      <h4 class="modal-title">
-        <%= match_slot_presentation(@slot) %>
-      </h4>
-    </div>
+<div class="text-right" style="margin-bottom: 1rem;">
+  <%= link_to @slot.track, class: 'button button--ghost button--sm', target: '_blank' do %>
+    <%= icon_tag 'up-right-from-square' %>
+    Open in new tab
+  <% end %>
+</div>
 
-    <div class="modal-body">
-      <div class="container-fluid">
-        <%= render 'tournaments/matches/slots/header' %>
+<div class="container-fluid">
+  <%= render 'tournaments/matches/slots/header' %>
 
-        <%= form_for :jump_range, url: tournament_match_slot_jump_range_path(@tournament, @match, @slot), method: :put, remote: true do |f| %>
-          <div class="row" data-controller="jump-range" data-track-id="<%= @slot.track_id %>">
-            <div class="col-sm-12" data-jump-range-target="chart"></div>
-            <div class="col-sm-12">
-              <div class="time-selector">
-                <%= f.text_field :jump_range,
-                  value: @slot.track.jump_range,
-                  data: { max_value: @slot.track.duration, controller: 'jump-range-select', action: 'change->jump-range#on_change_range', 'jump-range-target': 'select' } %>
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="modal-actions">
-            <div class="modal-actions__left">
-              <%= link_to t('general.delete'), tournament_match_slot_result_path(@tournament, @match, @slot), remote: true, method: :delete, class: 'btn-flat btn-flat--danger' %>
-            </div>
-            <div class="modal-actions__right">
-              <%= f.submit t('general.save'), class: 'btn btn-primary' %>
-              <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
-            </div>
-          </div>
-        <% end %>
+  <%= form_with scope: :jump_range, url: tournament_match_slot_jump_range_path(@tournament, @match, @slot), method: :put, data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
+    <div class="row" data-controller="jump-range" data-track-id="<%= @slot.track_id %>">
+      <div class="col-sm-12" data-jump-range-target="chart"></div>
+      <div class="col-sm-12">
+        <div class="time-selector">
+          <%= f.text_field :jump_range,
+            value: @slot.track.jump_range,
+            data: { max_value: @slot.track.duration, controller: 'jump-range-select', action: 'change->jump-range#on_change_range', 'jump-range-target': 'select' } %>
+        </div>
       </div>
     </div>
-  </div>
+    <hr>
+    <div class="form-actions justify-between">
+      <div>
+        <%= link_to t('general.delete'), tournament_match_slot_result_path(@tournament, @match, @slot), data: { turbo_method: :delete, turbo_stream: true, turbo_confirm: 'Are you sure?' }, class: 'button button--danger' %>
+      </div>
+      <div>
+        <%= f.submit t('general.save'), class: 'button button--primary' %>
+        <button type="button" class="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
+      </div>
+    </div>
+  <% end %>
 </div>

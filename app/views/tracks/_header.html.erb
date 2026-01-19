@@ -81,14 +81,14 @@
       <%= icon_tag 'compass-regular' %>
       Google maps
     <% end %>
-    <%= link_to track_results_path(@track), remote: true, class: 'page-tab', rel: 'nofollow' do %>
+    <%= link_to track_results_path(@track), data: { turbo_stream: true }, class: 'page-tab', rel: 'nofollow' do %>
       <%= icon_tag 'list-ul-solid' %>
       <%= t('tracks.show.results') %>
     <% end %>
 
     <div class="page-nav-right">
       <% if track.skydive? %>
-        <%= link_to t('events.show.weather_data'), track_weather_data_path(@track), remote: true, class: 'page-tab', rel: 'nofollow' %>
+        <%= link_to t('events.show.weather_data'), track_weather_data_path(@track), data: { turbo_stream: true }, class: 'page-tab', rel: 'nofollow' %>
       <% end %>
 
       <% if policy(track).edit? %>

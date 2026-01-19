@@ -12,7 +12,7 @@
     <div class="text-muted">
       <%= button_to tournament_round_matches_path(tournament_id: @tournament.id, round_id: round.id),
                     method: :post,
-                    remote: true,
+                    data: { turbo_stream: true },
                     class: 'btn btn-link' do %>
         <%= icon_tag 'plus-solid' %>
         <%= t('activerecord.models.tournament_match') %>

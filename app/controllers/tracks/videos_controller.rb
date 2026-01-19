@@ -35,12 +35,12 @@ module Tracks
       if @video.save
         respond_to do |format|
           format.html { redirect_to @video }
-          format.js
+          format.turbo_stream { redirect_to track_video_path }
         end
       else
         respond_to do |format|
           format.html { render :new }
-          format.js
+          format.turbo_stream { respond_with_errors @video }
         end
       end
     end
@@ -51,12 +51,12 @@ module Tracks
       if @video.update(video_params)
         respond_to do |format|
           format.html { redirect_to @video }
-          format.js { @track_data = Tracks::VideoPresenter.new(@track) }
+          format.turbo_stream { redirect_to track_video_path }
         end
       else
         respond_to do |format|
           format.html { render :edit }
-          format.js { render template: 'errors/ajax_errors', locals: { errors: errors } }
+          format.turbo_stream { respond_with_errors @video }
         end
       end
     end

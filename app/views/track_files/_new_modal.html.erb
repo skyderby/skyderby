@@ -1,5 +1,5 @@
 <%= render 'components/dialog', title: t('static_pages.index.track_form.title'), dialog_size: 'lg' do %>
-  <%= form_with scope: :track_file, url: track_files_path, multipart: true, class: 'sd-form', data: { controller: 'tracks--form' } do |f| %>
+  <%= form_with scope: :track_file, url: track_files_path, multipart: true, class: 'sd-form' do |f| %>
 
     <% unless user_signed_in? %>
       <%= f.fields_for :track_attributes do |builder| %>

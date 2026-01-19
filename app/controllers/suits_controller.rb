@@ -8,11 +8,6 @@ class SuitsController < ApplicationController
     authorize Suit
 
     @suits = Suits::Index.for(params)
-
-    respond_to do |format|
-      format.html
-      format.js
-    end
   end
 
   def show

@@ -2,7 +2,7 @@
 
 <%= turbo_stream.update 'modal-root' do %>
   <%= render partial: 'performance_competitions/results/result',
-             layout: 'components/modal',
+             layout: 'components/dialog',
              locals: {
                title: event_result_presentation(@result),
                modal_size: 'lg',

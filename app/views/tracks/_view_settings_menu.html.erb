@@ -6,13 +6,13 @@
 
   <div id="track-view-settings-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
     <div class="dropdown-header"><%= t('tracks.show.menu_header') %></div>
-    <%= link_to t('tracks.show.menu_sep'), show_params.except(:range).merge(charts_mode: 'separate'), remote: true, rel: 'nofollow', class: class_names('dropdown-item', Current.charts_mode.separate? && 'active') %>
-    <%= link_to t('tracks.show.menu_one'), show_params.except(:range).merge(charts_mode: 'single'), remote: true, rel: 'nofollow', class: class_names('dropdown-item', Current.charts_mode.single? && 'active') %>
+    <%= link_to t('tracks.show.menu_sep'), show_params.except(:range).merge(charts_mode: 'separate'), rel: 'nofollow', class: class_names('dropdown-item', Current.charts_mode.separate? && 'active') %>
+    <%= link_to t('tracks.show.menu_one'), show_params.except(:range).merge(charts_mode: 'single'), rel: 'nofollow', class: class_names('dropdown-item', Current.charts_mode.single? && 'active') %>
 
     <div class="dropdown-divider"></div>
 
     <div class="dropdown-header"><%= t('tracks.show.units_header') %></div>
-    <%= link_to t('tracks.show.m_units_metric'), show_params.except(:range).merge(charts_units: 'metric'), remote: true, rel: 'nofollow', class: class_names('dropdown-item', Current.charts_units.metric? && 'active') %>
-    <%= link_to t('tracks.show.m_units_imperial'), show_params.except(:range).merge(charts_units: 'imperial'), remote: true, rel: 'nofollow', class: class_names('dropdown-item', Current.charts_units.imperial? && 'active') %>
+    <%= link_to t('tracks.show.m_units_metric'), show_params.except(:range).merge(charts_units: 'metric'), rel: 'nofollow', class: class_names('dropdown-item', Current.charts_units.metric? && 'active') %>
+    <%= link_to t('tracks.show.m_units_imperial'), show_params.except(:range).merge(charts_units: 'imperial'), rel: 'nofollow', class: class_names('dropdown-item', Current.charts_units.imperial? && 'active') %>
   </div>
 </div>

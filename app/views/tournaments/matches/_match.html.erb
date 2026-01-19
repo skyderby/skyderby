@@ -10,16 +10,16 @@
 <div class="tournament-match">
   <% if !mobile? %>
     <div class="tournament-match-links">
-      <%= link_to tournament_match_map_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do %>
+      <%= link_to tournament_match_map_path(@tournament, match), data: { turbo_stream: true }, class: 'tournament-match-map text-muted' do %>
         <%= icon_tag 'compass-regular' %>
         Map
       <% end %>
-      <%= link_to tournament_match_globe_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do %>
+      <%= link_to tournament_match_globe_path(@tournament, match), data: { turbo_stream: true }, class: 'tournament-match-map text-muted' do %>
         <%= icon_tag 'compass-regular' %>
         3D map
       <% end %>
       <% if editable %>
-        <%= link_to edit_tournament_match_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do %>
+        <%= link_to edit_tournament_match_path(@tournament, match), data: { turbo_stream: true }, class: 'tournament-match-map text-muted' do %>
           <%= icon_tag 'pencil-solid' %>
           <%= t('general.edit') %>
         <% end %>
@@ -65,7 +65,7 @@
                 <%= result_html %>
               <% end %>
             <% else %>
-              <%= link_to new_tournament_match_slot_result_path(@tournament, match, slot), remote: true, class: 'btn-flat btn-xs' do %>
+              <%= link_to new_tournament_match_slot_result_path(@tournament, match, slot), data: { turbo_stream: true }, class: 'btn-flat btn-xs' do %>
                 <%= icon_tag 'upload-solid', class: 'icon--fw text-muted' %>
               <% end %>
             <% end %>

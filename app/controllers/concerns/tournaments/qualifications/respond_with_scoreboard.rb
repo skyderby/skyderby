@@ -7,7 +7,7 @@ module Tournaments
         @scoreboard = Qualifications::Scoreboard.new(@tournament)
 
         respond_to do |format|
-          format.js { render template: 'tournaments/qualifications/update_scoreboard' }
+          format.turbo_stream { render template: 'tournaments/qualifications/update_scoreboard' }
         end
       end
     end

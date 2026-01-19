@@ -1,7 +1,7 @@
 <% url = performance_competition_result_path(@event, @result) if @result.persisted? %>
 <% url ||= performance_competition_results_path(@event) %>
 
-<%= form_with model: @result, scope: :result, url: url, multipart: true, class: 'sd-form', data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+<%= form_with model: @result, scope: :result, url: url, multipart: true, class: 'sd-form', data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
   <%= render 'concerns/upload_progress' %>
 
   <%= f.hidden_field :competitor_id, value: @result.competitor_id %>
@@ -34,6 +34,6 @@
 
   <div class="form-actions">
     <%= f.submit t('general.save'), class: 'button button--primary' %>
-    <button type="button" class="button" data-action="modal#close"><%= t 'general.cancel' %></button>
+    <button type="button" class="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
   </div>
 <% end %>

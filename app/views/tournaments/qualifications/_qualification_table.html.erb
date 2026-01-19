@@ -1,6 +1,6 @@
 <% editable = policy(@tournament).update? %>
 
-<table class="scoreboard-table">
+<table class="scoreboard-table" id="qualifications-scoreboard">
   <thead>
     <tr>
       <td class="text-center" rowspan="2">Rank</td>
@@ -17,7 +17,7 @@
                 </button>
 
                 <div id="qual-round-menu-<%= round.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
-                  <%= button_to tournament_qualification_round_path(@tournament, round), method: :delete, remote: true, class: 'dropdown-item' do %>
+                  <%= button_to tournament_qualification_round_path(@tournament, round), method: :delete, data: { turbo_stream: true }, class: 'dropdown-item' do %>
                     <%= icon_tag 'xmark', class: 'text-muted' %>
                     <%= t('general.delete') %>
                   <% end %>

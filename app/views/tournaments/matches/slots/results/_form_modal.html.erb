@@ -1,68 +1,54 @@
-<div class="modal-dialog">
-  <div class="modal-content">
-    <% path = tournament_match_slot_result_path(@tournament, @match, @slot) %>
-    <%= form_for [@tournament, @match, @slot], url: path, method: :post, remote: true, html: { multipart: true, class: 'form-horizontal' } do |f| %>
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-        <h4 class="modal-title">
-          <%= match_slot_presentation(@slot) %>
-        </h4>
-      </div>
+<% path = tournament_match_slot_result_path(@tournament, @match, @slot) %>
+<%= form_with url: path, model: [@tournament, @match, @slot], method: :post, data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' }, multipart: true do |f| %>
+  <div class="sd-form">
+    <%= render 'concerns/upload_progress' %>
 
-      <div class="modal-body">
-        <%= render 'concerns/upload_progress' %>
+    <div class="radio">
+      <%= f.label :track_from, value: :from_file do %>
+        <%= f.radio_button :track_from, :from_file, checked: @slot.track.blank? %>
+        <%= t 'event_tracks.form_modal.from_file' %>
+      <% end %>
+    </div>
 
-        <div class="radio">
-          <%= f.label :track_from, value: :from_file do %>
-            <%= f.radio_button :track_from, :from_file, checked: @slot.track.blank? %>
-            <%= t 'event_tracks.form_modal.from_file' %>
-          <% end %>
-        </div>
-
-        <%= f.fields_for :track_attributes do |builder| %>
-          <div class="form-group">
-            <%= builder.label :file, t('activerecord.attributes.event/result.file'), class: 'control-label col-sm-4' %>
-            <div class="col-sm-8">
-              <div class="input-group" data-controller="filefield">
-                <input type="text" class="form-control" readonly="true" data-filefield-target="text_field">
-                <span class="input-group-btn">
-                  <span class="btn btn-default btn-file">
-                    &hellip;
-                    <%= builder.file_field :file, class: 'form-control', data: { 'filefield-target': 'file_field', action: 'change->filefield#change' } %>
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
-        <% end %>
-
-        <div class="radio">
-          <%= f.label :track_from, value: :existing_track do %>
-            <%= f.radio_button :track_from, :existing_track, checked: @slot.track.present? %>
-            <%= t 'event_tracks.form_modal.from_existent_track' %>
-          <% end %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :track, class: 'control-label col-sm-4' %>
-          <div class="col-sm-8">
-            <%= render 'hot_select/select',
-                       form: f,
-                       name: :track_id,
-                       src: tracks_select_options_path(profile_id: @slot.competitor.profile_id),
-                       placeholder: 'Choose track from list',
-                       options: options_for_select([[(track_presentation(@slot.track) if @slot.track_id), @slot.track_id]]) %>
+    <%= f.fields_for :track_attributes do |builder| %>
+      <div class="grid">
+        <%= builder.label :file, t('activerecord.attributes.event/result.file'), class: 'form-label col-4' %>
+        <div class="col-8">
+          <div class="input-group" data-controller="filefield">
+            <input type="text" class="form-input" readonly="true" data-filefield-target="text_field">
+            <span class="input-group-btn">
+              <span class="button button--file">
+                &hellip;
+                <%= builder.file_field :file, class: 'form-input', data: { 'filefield-target': 'file_field', action: 'change->filefield#change' } %>
+              </span>
+            </span>
           </div>
         </div>
-      </div>
-
-      <div class="modal-footer">
-        <%= f.submit t('general.save'), class: 'btn btn-primary', data: { disable_with: t('general.saving') } %>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
       </div>
     <% end %>
+
+    <div class="radio">
+      <%= f.label :track_from, value: :existing_track do %>
+        <%= f.radio_button :track_from, :existing_track, checked: @slot.track.present? %>
+        <%= t 'event_tracks.form_modal.from_existent_track' %>
+      <% end %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :track, class: 'form-label col-4' %>
+      <div class="col-8">
+        <%= render 'hot_select/select',
+                   form: f,
+                   name: :track_id,
+                   src: tracks_select_options_path(profile_id: @slot.competitor.profile_id),
+                   placeholder: 'Choose track from list',
+                   options: options_for_select([[(track_presentation(@slot.track) if @slot.track_id), @slot.track_id]]) %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit t('general.save'), class: 'button button--primary', data: { disable_with: t('general.saving') } %>
+      <button type="button" class="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
+    </div>
   </div>
-</div>
+<% end %>

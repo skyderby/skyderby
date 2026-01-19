@@ -5,7 +5,11 @@ module Tournaments
     before_action :set_tournament, :authorize_action
     before_action :set_match, only: %i[edit update destroy]
 
-    def edit; end
+    def edit
+      respond_to do |format|
+        format.turbo_stream
+      end
+    end
 
     def create
       @round = @tournament.rounds.find(params[:round_id])
@@ -13,13 +17,9 @@ module Tournaments
 
       respond_to do |format|
         if @match.save
-          format.js { respond_with_scoreboard }
+          format.turbo_stream { respond_with_scoreboard }
         else
-          format.js do
-            render template: 'errors/ajax_errors',
-                   locals: { errors: @match.errors },
-                   status: :unprocessable_entity
-          end
+          format.turbo_stream { respond_with_errors @match }
         end
       end
     end
@@ -27,13 +27,9 @@ module Tournaments
     def update
       respond_to do |format|
         if @match.update(match_params)
-          format.js { respond_with_scoreboard }
+          format.turbo_stream { respond_with_scoreboard }
         else
-          format.js do
-            render template: 'errors/ajax_errors',
-                   locals: { errors: @match.errors },
-                   status: :unprocessable_entity
-          end
+          format.turbo_stream { respond_with_errors @match }
         end
       end
     end
@@ -41,13 +37,9 @@ module Tournaments
     def destroy
       respond_to do |format|
         if @match.destroy
-          format.js { respond_with_scoreboard }
+          format.turbo_stream { respond_with_scoreboard }
         else
-          format.js do
-            render template: 'errors/ajax_errors',
-                   locals: { errors: @match.errors },
-                   status: :unprocessable_entity
-          end
+          format.turbo_stream { respond_with_errors @match }
         end
       end
     end

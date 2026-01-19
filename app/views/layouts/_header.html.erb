@@ -82,7 +82,7 @@
 
       <div class="main-menu__bar-actions">
         <% if user_signed_in? %>
-          <%= link_to destroy_user_session_path, method: :delete, class: 'app-navbar-button main-menu__logout', aria: { label: t('application.header.sign_out') } do %>
+          <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: 'app-navbar-button main-menu__logout', aria: { label: t('application.header.sign_out') } do %>
             <%= icon_tag 'right-from-bracket-solid' %>
           <% end %>
         <% end %>

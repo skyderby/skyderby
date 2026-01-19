@@ -92,8 +92,7 @@
     <div class="form-actions">
       <%= link_to t('general.delete'),
                   @track,
-                  method: :delete,
-                  data: { confirm: t('tracks.show.delete_confirmation') },
+                  data: { turbo_method: :delete, turbo_confirm: t('tracks.show.delete_confirmation') },
                   class: 'button button--ghost button--danger' %>
     </div>
   <% end %>

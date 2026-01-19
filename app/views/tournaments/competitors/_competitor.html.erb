@@ -8,10 +8,10 @@
   </td>
   <td><%= competitor.suit_name %></td>
   <td>
-    <%= link_to edit_tournament_competitor_path(@tournament, competitor), remote: true do %>
+    <%= link_to edit_tournament_competitor_path(@tournament, competitor), data: { turbo_stream: true } do %>
       <%= icon_tag 'pencil-solid', class: 'text-muted' %>
     <% end %>
-    <%= button_to tournament_competitor_path(@tournament, competitor), method: :delete, remote: true, class: 'btn-link', data: { confirm: 'Are you sure?' } do %>
+    <%= button_to tournament_competitor_path(@tournament, competitor), method: :delete, data: { turbo_stream: true, turbo_confirm: 'Are you sure?' }, class: 'btn-link' do %>
       <%= icon_tag 'xmark', class: 'text-muted' %>
     <% end %>
   </td>

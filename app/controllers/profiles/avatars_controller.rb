@@ -4,7 +4,7 @@ module Profiles
 
     def new
       respond_to do |format|
-        format.js
+        format.turbo_stream
       end
     end
 
@@ -13,9 +13,7 @@ module Profiles
 
       @profile.update(avatar_params)
 
-      respond_to do |format|
-        format.js
-      end
+      redirect_to profile_path(@profile)
     end
 
     private

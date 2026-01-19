@@ -27,19 +27,15 @@
       <%= f.label :period_from, class: 'form-label col-3' %>
       <div class="col-9 grid">
         <div class="col-5">
-          <% period_from = @competition.period_from || Date.today.beginning_of_year %>
-          <%= f.text_field :period_from,
+          <%= f.date_field :period_from,
                            class: 'form-input',
-                           value: period_from.strftime("%d.%m.%Y"),
-                           data: { controller: 'datepicker' } %>
+                           value: @competition.period_from || Date.today.beginning_of_year %>
         </div>
         <span class="col-2 text-center">to</span>
         <div class="col-5">
-          <% period_to = @competition.period_to || Date.today.end_of_year %>
-          <%= f.text_field :period_to,
+          <%= f.date_field :period_to,
                            class: 'form-input',
-                           value: period_to.strftime("%d.%m.%Y"),
-                           data: { controller: 'datepicker' } %>
+                           value: @competition.period_to || Date.today.end_of_year %>
         </div>
       </div>
     </div>

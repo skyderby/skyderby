@@ -1,35 +1,33 @@
-<%= render 'components/modal', title: t('tracks.choose.title') do %>
-  <table class="table segments-table">
-    <thead>
-      <tr>
-        <th><%= t('tracks.choose.number') %></th>
-        <th><%= t('tracks.choose.name') %></th>
-        <th><%= t('tracks.choose.elev') %></th>
-        <th><%= t('tracks.choose.pt_cnt') %></th>
-        <th></th>
+<table class="table segments-table">
+  <thead>
+    <tr>
+      <th><%= t('tracks.choose.number') %></th>
+      <th><%= t('tracks.choose.name') %></th>
+      <th><%= t('tracks.choose.elev') %></th>
+      <th><%= t('tracks.choose.pt_cnt') %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @track_file.segments.each_with_index do |item, index| %>
+      <tr class="track-segment-row" data-controller="clickable-row" data-action="click->clickable-row#submit">
+        <td class="text-info"><%= index %></td>
+        <td class="text-info"><%= item.name %></td>
+        <td>
+          <span class="text-primary"><%= "#{item.h_up}↑" %></span>
+          <span class="text-success"><%= "#{item.h_down}↓" %></span>
+          <%= t('units.m') %>
+        </td>
+        <td class="text-info"><%= item.points_count %></td>
+        <td>
+          <%= button_to track_file_track_path(@track_file), method: :post,
+                        params: track_file_params.slice(:track_attributes).merge(segment: index),
+                        form: { 'data-clickable-row-target': 'form' },
+                        class: 'button button--ghost' do %>
+            <%= icon_tag 'angle-right-solid' %>
+          <% end %>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      <% @track_file.segments.each_with_index do |item, index| %>
-        <tr class="track-segment-row" data-controller="clickable-row" data-action="click->clickable-row#submit">
-          <td class="text-info"><%= index %></td>
-          <td class="text-info"><%= item.name %></td>
-          <td>
-            <span class="text-primary"><%= "#{item.h_up}↑" %></span>
-            <span class="text-success"><%= "#{item.h_down}↓" %></span>
-            <%= t('units.m') %>
-          </td>
-          <td class="text-info"><%= item.points_count %></td>
-          <td>
-            <%= button_to track_file_track_path(@track_file), method: :post,
-                          params: track_file_params.slice(:track_attributes).merge(segment: index),
-                          form: { 'data-clickable-row-target': 'form' },
-                          class: 'button button--ghost' do %>
-              <%= icon_tag 'angle-right-solid' %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+    <% end %>
+  </tbody>
+</table>

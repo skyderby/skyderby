@@ -4,9 +4,7 @@
   </button>
 
   <template id="tracks-filters-modal">
-    <%= render 'components/modal', title: t('tracks.index.filters') do %>
-      <%= render 'tracks/filters', modal: true %>
-    <% end %>
+    <%= render partial: 'tracks/filters', layout: 'components/dialog', locals: { title: t('tracks.index.filters'), modal: true } %>
   </template>
 
   <div>

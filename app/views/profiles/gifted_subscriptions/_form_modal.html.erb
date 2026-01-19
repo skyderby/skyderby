@@ -1,6 +1,6 @@
 <%= form_with model: @gifted_subscription,
               url: profile_subscription_gifted_subscriptions_path(@profile),
-              data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+              data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
   <div class="sd-form">
     <div class="grid">
       <%= f.label :expires_at, class: 'form-label col-4' %>
@@ -17,7 +17,7 @@
 
     <div class="form-actions">
       <%= f.submit 'Grant Subscription', class: 'button button--primary' %>
-      <button type="button" class="button" data-action="modal#close">Cancel</button>
+      <button type="button" class="button" data-action="dialog#close">Cancel</button>
     </div>
   </div>
 <% end %>

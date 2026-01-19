@@ -2,10 +2,10 @@
   <ul class="nav nav-pills">
     <% current_controller = controller.controller_path.split('/').last %>
     <li class="<%= 'active' if current_controller == 'results' %>">
-      <%= link_to t('general.charts'), tournament_match_slot_result_path(@tournament, @slot.match, @slot), remote: true %>
+      <%= link_to t('general.charts'), tournament_match_slot_result_path(@tournament, @slot.match, @slot), data: { turbo_stream: true } %>
     </li>
     <li class="<%= 'active' if current_controller == 'jump_ranges' %>">
-      <%= link_to t('general.jump_range'), tournament_match_slot_jump_range_path(@tournament, @slot.match, @slot), remote: true %>
+      <%= link_to t('general.jump_range'), tournament_match_slot_jump_range_path(@tournament, @slot.match, @slot), data: { turbo_stream: true } %>
     </li>
   </ul>
 

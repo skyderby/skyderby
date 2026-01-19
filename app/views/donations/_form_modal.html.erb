@@ -1,6 +1,6 @@
 <% url = @donation.new_record? ? donations_path : donation_path(@donation) %>
 
-<%= form_with model: @donation, url:, scope: :donation, data: { action: 'form:submit-success->modal#close' } do |f| %>
+<%= form_with model: @donation, url:, scope: :donation, data: { action: 'form:submit-success->dialog#close' } do |f| %>
   <div class="sd-form">
     <%= f.fields_for :details do |detail_form| %>
       <% details = detail_form.object %>

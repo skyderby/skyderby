@@ -1,5 +1,5 @@
 <%= form_with scope: :event_deletion, url: performance_competition_deletion_path(@event),
-              data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+              data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
 
   <div class="sd-form">
     <p>
@@ -28,7 +28,7 @@
 
     <div class="form-actions">
       <%= f.submit t('general.delete'), class: 'button button--danger' %>
-      <button type="button" class="button" data-action="modal#close"><%= t 'general.cancel' %></button>
+      <button type="button" class="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
     </div>
   </div>
 <% end %>

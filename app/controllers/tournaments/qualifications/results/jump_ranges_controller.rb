@@ -8,7 +8,7 @@ module Tournaments
         def show
           respond_to do |format|
             format.html
-            format.js
+            format.turbo_stream
           end
         end
 

@@ -10,7 +10,7 @@ module Tournaments
           authorize @tournament, :update?
 
           respond_to do |format|
-            format.js
+            format.turbo_stream
           end
         end
 

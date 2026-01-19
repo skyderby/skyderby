@@ -12,6 +12,10 @@ module Tournaments
         authorize @tournament, :update?
 
         @result = @round.qualification_jumps.new(new_result_params)
+
+        respond_to do |format|
+          format.turbo_stream
+        end
       end
 
       def create
@@ -19,7 +23,7 @@ module Tournaments
 
         if @result.save
           respond_to do |format|
-            format.js { render :edit }
+            format.turbo_stream { render :edit }
           end
         else
           respond_with_errors(@result.errors)
@@ -31,13 +35,16 @@ module Tournaments
 
         respond_to do |format|
           format.html
-          format.turbo_stream
-          format.js { render :edit if @result.result.blank? }
+          format.turbo_stream { @result.result.blank? ? render(:edit) : render(:show) }
         end
       end
 
       def edit
         authorize @tournament, :update?
+
+        respond_to do |format|
+          format.turbo_stream
+        end
       end
 
       def update

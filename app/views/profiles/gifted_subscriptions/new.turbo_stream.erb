@@ -1,5 +1,3 @@
 <%= turbo_stream.update 'modal-root' do %>
-  <%= render 'components/modal', title: 'Grant Subscription', modal_size: 'md' do %>
-    <%= render 'profiles/gifted_subscriptions/form_modal' %>
-  <% end %>
+  <%= render partial: 'profiles/gifted_subscriptions/form_modal', layout: 'components/dialog', locals: { title: 'Grant Subscription', dialog_size: 'md' } %>
 <% end %>

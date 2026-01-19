@@ -1,2 +1,0 @@
-<% can_manage = @event.editable? %>
-$('.event__scoreboard').replaceWith('<%= j render partial: @scoreboard, formats: [:html], locals: { can_manage: can_manage } %>');

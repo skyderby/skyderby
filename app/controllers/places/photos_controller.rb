@@ -12,6 +12,10 @@ module Places
       @photo = @place.photos.new
 
       authorize @photo
+
+      respond_to do |format|
+        format.turbo_stream
+      end
     end
 
     def create
@@ -19,12 +23,12 @@ module Places
 
       authorize @photo
 
-      respond_to do |format|
-        if @photo.save
-          format.js
-        else
-          format.js { render 'errors/ajax_errors', errors: @photo.errors }
+      if @photo.save
+        respond_to do |format|
+          format.turbo_stream
         end
+      else
+        respond_with_errors(@photo)
       end
     end
 
@@ -33,12 +37,12 @@ module Places
 
       authorize @photo
 
-      respond_to do |format|
-        if @photo.destroy
-          format.js
-        else
-          format.js { render 'errors/ajax_errors', errors: @photo.errors }
+      if @photo.destroy
+        respond_to do |format|
+          format.turbo_stream
         end
+      else
+        respond_with_errors(@photo)
       end
     end
 

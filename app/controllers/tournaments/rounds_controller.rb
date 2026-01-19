@@ -9,13 +9,9 @@ module Tournaments
 
       respond_to do |format|
         if @tournament_round.save
-          format.js
+          format.turbo_stream { render template: 'tournaments/scoreboard' }
         else
-          format.js do
-            render template: 'errors/ajax_errors',
-                   locals: { errors: @tournament_round.errors },
-                   status: :unprocessable_entity
-          end
+          format.turbo_stream { respond_with_errors @tournament_round }
         end
       end
     end
@@ -27,13 +23,9 @@ module Tournaments
 
       respond_to do |format|
         if @tournament_round.destroy
-          format.js
+          format.turbo_stream { render template: 'tournaments/scoreboard' }
         else
-          format.js do
-            render template: 'errors/ajax_errors',
-                   locals: { errors: @tournament_round.errors },
-                   status: :unprocessable_entity
-          end
+          format.turbo_stream { respond_with_errors @tournament_round }
         end
       end
     end

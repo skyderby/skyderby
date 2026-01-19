@@ -13,16 +13,17 @@
 
     <div class="grid">
       <%= f.label :kind, class: 'col-4', for: :kind %>
-      <div class="btn-group col-8" data-toggle="buttons">
-        <label class="btn btn-default <%= 'active' if @place.skydive? %>">
-          <%= f.radio_button 'kind', 'skydive' %>
-          Skydive
-        </label>
-
-        <label class="btn btn-default <%= 'active' if @place.base? %>">
-          <%= f.radio_button 'kind', 'base' %>
-          B.A.S.E
-        </label>
+      <div class="col-8">
+        <div class="tab-bar">
+          <label class="tab-bar-item">
+            <%= f.radio_button :kind, 'skydive', checked: @place.skydive?, class: 'tab-bar-radio' %>
+            <span>Skydive</span>
+          </label>
+          <label class="tab-bar-item">
+            <%= f.radio_button :kind, 'base', checked: @place.base?, class: 'tab-bar-radio' %>
+            <span>B.A.S.E</span>
+          </label>
+        </div>
       </div>
     </div>
 

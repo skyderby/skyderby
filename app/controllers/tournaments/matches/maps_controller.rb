@@ -4,7 +4,13 @@ module Tournaments
       include TournamentScoped
 
       def show
-        @match_map = MatchMap.new @tournament.matches.find(params[:match_id])
+        @match = @tournament.matches.find(params[:match_id])
+        @match_map = MatchMap.new @match
+
+        respond_to do |format|
+          format.html
+          format.turbo_stream
+        end
       end
     end
   end

@@ -1,6 +1,5 @@
 import { Application } from '@hotwired/stimulus'
 import { definitionsFromContext } from '@hotwired/stimulus-webpack-helpers'
-import Rails from '@rails/ujs'
 import '@hotwired/turbo-rails'
 import 'utils/googleAnalytics'
 import 'utils/amplitude'
@@ -14,17 +13,6 @@ if (currentEnvMeta && honeybadgerApiKeyMeta && currentEnvMeta.content === 'produ
     environment: currentEnvMeta.content
   })
 }
-
-import jQuery from 'jquery'
-
-window.Rails = Rails
-window.$ = window.jQuery = jQuery
-
-import 'jquery-jcrop'
-import 'jquery-validation'
-import 'jquery-validation/dist/additional-methods'
-import 'bootstrap/js/modal'
-import 'utils/bootstrap'
 
 import Highcharts from 'highcharts'
 import HighchartsMore from 'highcharts/highcharts-more'
@@ -46,8 +34,6 @@ application.load(definitionsFromContext(context))
 
 import { createConsumer } from '@rails/actioncable'
 window.cable = createConsumer()
-
-Rails.start()
 
 if (window.parent !== window) {
   document.documentElement.classList.add('inside-iframe')

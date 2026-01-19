@@ -1,6 +1,5 @@
 <%= form_for @video,
              url: track_video_path,
-             remote: true,
              html: { class: 'form-horizontal',
                      'data-controller': 'tracks--video-form',
                      'data-action': 'youtube_api:ready@window->tracks--video-form#onYoutubeApiReady',
@@ -77,8 +76,7 @@
     <div class="col-sm-4 text-right">
       <%= link_to t('general.delete'),
                   track_video_path,
-                  method: :delete,
-                  data: { confirm: 'Are you sure you want to delete this video?' },
+                  data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this video?' },
                   class: 'btn btn-default' %>
     </div>
   </div>

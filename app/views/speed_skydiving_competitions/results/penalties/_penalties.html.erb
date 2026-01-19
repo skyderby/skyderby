@@ -16,7 +16,7 @@
     </div>
 
     <%= form_with model: result, scope: :result, url: speed_skydiving_competition_result_penalties_path(event, result),
-                  data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+                  data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
       <div class="penalties" id="penalties">
         <%= f.fields_for :penalties do |form| %>
           <%= render 'penalty_fields', form: %>
@@ -24,7 +24,7 @@
       </div>
       <div class="form-actions">
         <%= f.submit t('general.save'), class: 'button button--primary' %>
-        <button data-action="modal#close" type="button" class="button"><%= t('general.cancel') %></button>
+        <button data-action="dialog#close" type="button" class="button"><%= t('general.cancel') %></button>
       </div>
     <% end %>
   </div>

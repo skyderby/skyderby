@@ -3,7 +3,7 @@
 <%= render 'performance_competitions/results/navbar', result:, modal: %>
 
 <%= form_with scope: :jump_range, url: performance_competition_result_jump_range_path(@result.event, @result),
-              method: :put, class: 'sd-form', data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+              method: :put, class: 'sd-form', data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
   <%= render 'concerns/jump_range_form', track: @result.track, form: f %>
 
   <div class="form-actions justify-between">
@@ -18,7 +18,7 @@
         <%= f.submit t('general.save'), class: 'button button--primary' %>
       <% end %>
       <% if modal %>
-        <button class="button" type="button" data-action="modal#close"><%= t 'general.cancel' %></button>
+        <button class="button" type="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
       <% end %>
     </div>
   </div>

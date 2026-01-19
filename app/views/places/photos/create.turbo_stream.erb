@@ -1,0 +1,4 @@
+<%= turbo_stream.update 'modal-root', '' %>
+<%= turbo_stream.append 'photos-list' do %>
+  <%= render partial: 'places/photos/photo', locals: { photo: @photo } %>
+<% end %>

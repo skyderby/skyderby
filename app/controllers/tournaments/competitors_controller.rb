@@ -9,9 +9,17 @@ module Tournaments
 
     def new
       @competitor = tournament.competitors.new
+
+      respond_to do |format|
+        format.turbo_stream
+      end
     end
 
-    def edit; end
+    def edit
+      respond_to do |format|
+        format.turbo_stream
+      end
+    end
 
     def create
       @competitor = tournament.competitors.new(tournament_competitor_params)
@@ -19,10 +27,7 @@ module Tournaments
       if @competitor.save
         respond_with_index
       else
-        respond_to do |format|
-          format.html { render action: 'new' }
-          format.js { respond_with_errors }
-        end
+        respond_with_errors @competitor
       end
     end
 
@@ -30,7 +35,7 @@ module Tournaments
       if @competitor.update(tournament_competitor_params)
         respond_with_index
       else
-        respond_with_errors
+        respond_with_errors @competitor
       end
     end
 
@@ -38,7 +43,7 @@ module Tournaments
       if @competitor.destroy
         respond_with_index
       else
-        respond_with_errors
+        respond_with_errors @competitor
       end
     end
 
@@ -47,12 +52,6 @@ module Tournaments
     def respond_with_index
       @competitors = tournament.competitors.includes(:profile, suit: :manufacturer).order('profiles.name')
       render :index
-    end
-
-    def respond_with_errors
-      render template: 'errors/ajax_errors',
-             locals: { errors: @competitor.errors },
-             status: :unprocessable_entity
     end
 
     def tournament

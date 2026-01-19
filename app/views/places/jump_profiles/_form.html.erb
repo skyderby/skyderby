@@ -40,7 +40,7 @@
 
   <div class="text-center">
     <% if @jump_profile.persisted? %>
-      <%= link_to t('general.delete'), place_jump_profile_path(@place, @jump_profile), method: :delete, class: 'btn btn-lg btn-danger', data: { confirm: t('general.confirm_delete') } %>
+      <%= link_to t('general.delete'), place_jump_profile_path(@place, @jump_profile), class: 'btn btn-lg btn-danger', data: { turbo_method: :delete, turbo_confirm: t('general.confirm_delete') } %>
     <% end %>
     <%= form.submit t('general.save'), class: 'btn btn-lg btn-primary' %>
   </div>

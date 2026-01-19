@@ -4,27 +4,30 @@
   </div>
 
   <div class="content-block">
-    <div class="index-search__container" data-controller="index-search">
+    <%= form_with url: accounts_path, method: :get, class: 'index-search__container',
+                  data: { controller: 'auto-submit', action: 'input->auto-submit#submit', turbo_frame: 'accounts-list' } do %>
       <span class="index-search__icon">
         <%= icon_tag 'magnifying-glass-solid' %>
       </span>
-      <input class="index-search__input" name="search" data-remote="true" data-url="<%= accounts_path %>" placeholder="Type to search" value="<%= params[:search] %>" data-action="input->index-search#perform">
-    </div>
+      <input class="index-search__input" name="search" placeholder="Type to search" value="<%= params[:search] %>">
+    <% end %>
 
-    <div class="table accounts__table">
-      <div class="thead">
-        <div class="th">#</div>
-        <div class="th">Name</div>
-        <div class="th">Email</div>
-        <div class="th">Last sign in</div>
+    <turbo-frame id="accounts-list">
+      <div class="table accounts__table">
+        <div class="thead">
+          <div class="th">#</div>
+          <div class="th">Name</div>
+          <div class="th">Email</div>
+          <div class="th">Last sign in</div>
+        </div>
+        <div class="tbody">
+          <%= render partial: 'manage/accounts/account', collection: @accounts, as: :account %>
+        </div>
       </div>
-      <div class="tbody">
-        <%= render partial: 'manage/accounts/account', collection: @accounts, as: :account %>
-      </div>
-    </div>
-  </div>
 
-  <div class="accounts__pagination text-center top-buffer">
-    <%= will_paginate @accounts, renderer: BootstrapPagination::Rails %>
+      <div class="accounts__pagination text-center top-buffer">
+        <%= will_paginate @accounts, renderer: BootstrapPagination::Rails %>
+      </div>
+    </turbo-frame>
   </div>
 </div>

@@ -9,7 +9,7 @@ class PerformanceCompetitions::Rounds::GlobeController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js
+      format.turbo_stream
       format.json
     end
   end

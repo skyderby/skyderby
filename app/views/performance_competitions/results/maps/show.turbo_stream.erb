@@ -3,7 +3,7 @@
     <% editable = @event.editable? && !@event.finished? && !@result.round.completed? %>
 
     <%= render partial: 'map',
-               layout: 'components/modal',
+               layout: 'components/dialog',
                locals: {
                  title: event_result_presentation(@result),
                  modal_size: 'lg',
@@ -12,7 +12,7 @@
                  editable:
                } %>
   <% else %>
-    <%= render layout: 'components/modal', locals: { title: event_result_presentation(@result), modal_size: 'lg' } do %>
+    <%= render layout: 'components/dialog', locals: { title: event_result_presentation(@result), modal_size: 'lg' } do %>
       <div class="sd-container">
         <%= render 'performance_competitions/results/navbar', result: @result, modal: true %>
         <%= render 'components/maps_auth_wall' %>

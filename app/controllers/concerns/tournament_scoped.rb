@@ -6,7 +6,9 @@ module TournamentScoped
   end
 
   def respond_with_scoreboard
-    render 'tournaments/scoreboard'
+    respond_to do |format|
+      format.turbo_stream { render template: 'tournaments/scoreboard' }
+    end
   end
 
   def set_tournament

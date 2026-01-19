@@ -2,57 +2,61 @@
 <% show_cancel ||= false %>
 
 <div class="<%= wrap_in_container ? 'container-fluid' : '' %>">
-  <%= form_for :result, url: tournament_qualification_result_path(@tournament, @result), method: :patch, remote: true, html: { class: 'form-horizontal' } do |f| %>
-    <div class="form-group">
-      <label class="control-label col-sm-4">
-        Apx. start time
-      </label>
-      <div class="col-sm-8">
-        <p class="form-control-static">
-          <%= @result.track_start_time.strftime('%Y-%m-%d %T.%L') %>
-        </p>
-      </div>
-    </div>
+  <%= render 'tournaments/qualifications/results/header' %>
+  <hr class="condensed">
 
-    <div class="form-group">
-      <label class="control-label col-sm-4">
-        Start time
-      </label>
-      <div class="col-sm-8">
-        <%= f.text_field :start_time, class: 'form-control', value: @result.start_time&.strftime('%Y-%m-%d %T.%L') %>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <%= f.label :result, class: 'control-label col-sm-4' %>
-      <div class="col-sm-8">
-        <%= f.text_field :result, class: 'form-control' %>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <%= f.label :canopy_time, class: 'control-label col-sm-4' %>
-      <div class="col-sm-8">
-        <%= f.text_field :canopy_time, class: 'form-control' %>
-      </div>
-    </div>
-
-    <% show_actions = policy(@tournament).update? || show_cancel %>
-    <% if show_actions %>
-      <hr>
-      <div class="modal-actions">
-        <div class="modal-actions__left">
-          <% if policy(@tournament).update? %>
-            <%= delete_qualification_track_link(@tournament, @result) %>
-          <% end %>
-        </div>
-        <div class="modal-actions__right">
-          <%= f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving') %>
-          <% if show_cancel %>
-            <button type="button" class="btn btn-default" data-dismiss="modal"><%= t 'general.cancel' %></button>
-          <% end %>
+  <%= form_with scope: :result, url: tournament_qualification_result_path(@tournament, @result), method: :patch, data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
+    <div class="sd-form">
+      <div class="grid">
+        <label class="form-label col-4">
+          Apx. start time
+        </label>
+        <div class="col-8">
+          <p class="form-control-static">
+            <%= @result.track_start_time.strftime('%Y-%m-%d %T.%L') %>
+          </p>
         </div>
       </div>
-    <% end %>
+
+      <div class="grid">
+        <label class="form-label col-4">
+          Start time
+        </label>
+        <div class="col-8">
+          <%= f.text_field :start_time, class: 'form-input', value: @result.start_time&.strftime('%Y-%m-%d %T.%L') %>
+        </div>
+      </div>
+
+      <div class="grid">
+        <%= f.label :result, class: 'form-label col-4' %>
+        <div class="col-8">
+          <%= f.text_field :result, class: 'form-input' %>
+        </div>
+      </div>
+
+      <div class="grid">
+        <%= f.label :canopy_time, class: 'form-label col-4' %>
+        <div class="col-8">
+          <%= f.text_field :canopy_time, class: 'form-input' %>
+        </div>
+      </div>
+
+      <% show_actions = policy(@tournament).update? || show_cancel %>
+      <% if show_actions %>
+        <div class="form-actions justify-between">
+          <div>
+            <% if policy(@tournament).update? %>
+              <%= delete_qualification_track_link(@tournament, @result) %>
+            <% end %>
+          </div>
+          <div>
+            <%= f.submit t('general.save'), class: 'button button--primary', 'data-disable-with': t('general.saving') %>
+            <% if show_cancel %>
+              <button type="button" class="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 </div>

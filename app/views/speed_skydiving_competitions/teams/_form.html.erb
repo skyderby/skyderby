@@ -3,7 +3,7 @@
            speed_skydiving_competition_team_path(@event, @team) %>
 
 <%= form_with model: @team, url:, scope: :team, class: 'sd-form',
-              data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+              data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
   <div class="grid">
     <%= f.label :name, class: 'form-label col-4' %>
     <%= f.text_field :name, class: 'form-input col-8' %>
@@ -11,6 +11,6 @@
 
   <div class="form-actions">
     <%= f.submit t('general.save'), class: 'button button--primary' %>
-    <button type="button" class="button" data-action="modal#close"><%= t 'general.cancel' %></button>
+    <button type="button" class="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
   </div>
 <% end %>

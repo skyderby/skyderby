@@ -8,7 +8,7 @@
   <% end %>
 
   <%= form_with model: result, scope: :penalty, url: url, method: :put, class: 'sd-form',
-                data: { controller: 'modal-form', action: 'form:submit-success->modal#close' } do |f| %>
+                data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
     <div class="grid">
       <label class="col-start-4 col-4 checkbox-label">
         <%= f.check_box :penalized, checked: result.penalized %>
@@ -45,7 +45,7 @@
           <%= f.submit t('general.save'), class: 'button button--primary' %>
         <% end %>
         <% if modal %>
-          <button class="button" type="button" data-action="modal#close"><%= t 'general.cancel' %></button>
+          <button class="button" type="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
         <% end %>
       </div>
     </div>

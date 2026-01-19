@@ -278,7 +278,7 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :users do
+  resources :users, only: [] do
     resource :masquerades, only: [:create, :destroy]
     scope module: :users do
       collection do

@@ -4,12 +4,12 @@
   <div class="content-block">
     <div class="row">
       <div class="col-sm-12">
-        <%= link_to 'Add competitor', new_tournament_competitor_path, remote: true, class: "btn btn-default" %>
+        <%= link_to 'Add competitor', new_tournament_competitor_path, data: { turbo_stream: true }, class: "btn btn-default" %>
       </div>
     </div>
 
     <div class="row top-buffer">
-      <div class="col-sm-12">
+      <div class="col-sm-12" id="competitors-table">
         <%= render 'tournaments/competitors/table' %>
       </div>
     </div>

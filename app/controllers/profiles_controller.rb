@@ -67,14 +67,10 @@ class ProfilesController < ApplicationController
     respond_to do |format|
       if @profile.destroy
         format.html { redirect_to profiles_path }
-        format.js
+        format.turbo_stream { redirect_to profiles_path }
       else
         format.html { render :show }
-        format.js do
-          render template: 'errors/ajax_errors',
-                 locals: { errors: @profile.errors },
-                 status: :unprocessable_entity
-        end
+        format.turbo_stream { respond_with_errors @profile }
       end
     end
   end

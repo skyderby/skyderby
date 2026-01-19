@@ -3,7 +3,7 @@
     <div class="profile-header__avatar">
       <%= image_tag(profile.userpic_url(:medium), class: 'profile-header__avatar-image') %>
       <% if policy(profile).edit? %>
-        <%= link_to new_profile_avatar_path(profile), remote: true, class: 'profile-header__avatar-change', rel: 'nofollow' do %>
+        <%= link_to new_profile_avatar_path(profile), data: { turbo_stream: true }, class: 'profile-header__avatar-change', rel: 'nofollow' do %>
           <%= icon_tag 'pencil-solid' %>
         <% end %>
       <% end %>
@@ -49,7 +49,7 @@
     <% end %>
 
     <% if policy(@profile).destroy? %>
-      <%= link_to t('general.delete'), @profile, method: :delete, data: { turbo_confirm: 'Are you sure you want to delete this profile?' }, class: 'page-tab' %>
+      <%= link_to t('general.delete'), @profile, data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this profile?' }, class: 'page-tab' %>
     <% end %>
 
     <% if policy(profile).edit? %>

@@ -10,7 +10,6 @@
  *
  *= require normalize.min
  *= require_self
- *= require jquery.Jcrop
 */
 
 @import 'bootstrap_variables_overrides';
@@ -145,10 +144,6 @@ label.valid {
 .top-buffer-30 { margin-top: 30px }
 
 .clickable { cursor: pointer }
-
-.datepicker {
-  z-index: 1151 !important;
-}
 
 input[readonly] {
   background-color: white !important;

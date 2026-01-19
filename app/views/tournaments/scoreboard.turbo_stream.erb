@@ -1,0 +1,4 @@
+<%= turbo_stream.update 'modal-root', '' %>
+<%= turbo_stream.update 'tournament-scoreboard' do %>
+  <%= render 'tournaments/scoreboard' %>
+<% end %>

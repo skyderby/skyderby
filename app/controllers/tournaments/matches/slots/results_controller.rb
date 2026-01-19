@@ -17,6 +17,10 @@ module Tournaments
 
         def new
           authorize @tournament, :edit?
+
+          respond_to do |format|
+            format.turbo_stream
+          end
         end
 
         def create
@@ -24,13 +28,9 @@ module Tournaments
 
           respond_to do |format|
             if @slot.update(result_params)
-              format.js { respond_with_scoreboard }
+              format.turbo_stream { respond_with_scoreboard }
             else
-              format.js do
-                render template: 'errors/ajax_errors',
-                       locals: { errors: @slot.errors },
-                       status: :unprocessable_entity
-              end
+              format.turbo_stream { respond_with_errors @slot }
             end
           end
         end
@@ -40,13 +40,9 @@ module Tournaments
 
           respond_to do |format|
             if @slot.update(destroy_params)
-              format.js { respond_with_scoreboard }
+              format.turbo_stream { respond_with_scoreboard }
             else
-              format.js do
-                render template: 'errors/ajax_errors',
-                       locals: { errors: @slot.errors },
-                       status: :unprocessable_entity
-              end
+              format.turbo_stream { respond_with_errors @slot }
             end
           end
         end

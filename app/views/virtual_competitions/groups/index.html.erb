@@ -22,9 +22,7 @@
               <%= link_to t('general.edit'), edit_virtual_competition_group_path(group), class: 'btn btn-default btn-xs' %>
               <%= link_to t('general.delete'),
                           virtual_competition_group_path(group),
-                          remote: true,
-                          method: :delete,
-                          data: { confirm: t('.confirm', default: t("general.confirm_delete")) },
+                          data: { turbo_method: :delete, turbo_confirm: t('.confirm', default: t("general.confirm_delete")) },
                           class: 'btn btn-xs btn-danger' %>
             </td>
           </tr>
