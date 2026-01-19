@@ -1,7 +1,6 @@
 import { Application } from '@hotwired/stimulus'
 import { definitionsFromContext } from '@hotwired/stimulus-webpack-helpers'
 import '@hotwired/turbo-rails'
-import 'utils/googleAnalytics'
 import 'utils/amplitude'
 
 import Honeybadger from '@honeybadger-io/js'
