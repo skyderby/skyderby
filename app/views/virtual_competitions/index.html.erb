@@ -2,13 +2,13 @@
   <div class="vc-index__header">
     <div class="vc-index__actions">
       <% if policy(:virtual_competition).create? %>
-        <a class="btn btn-default btn-info" href="<%= new_virtual_competition_path %>">
+        <a class="button" href="<%= new_virtual_competition_path %>">
           <%= icon_tag 'plus-solid' %>
           <%= t('activerecord.models.virtual_competition') %>
         </a>
       <% end %>
       <% if policy([:virtual_competition, :group]).index? %>
-        <%= link_to 'Groups', virtual_competition_groups_path, class: 'btn btn-default' %>
+        <%= link_to 'Groups', virtual_competition_groups_path, class: 'button' %>
       <% end %>
     </div>
 

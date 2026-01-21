@@ -60,9 +60,9 @@
       </div>
 
       <div class="col-sm-offset-2 col-sm-8">
-        <%= f.submit nil, class: 'btn btn-primary' %>
+        <%= f.submit nil, class: 'button button--primary' %>
         <% path = @tournament.persisted? ? tournament_path(@tournament) : events_path %>
-        <%= link_to t('general.cancel'), path, class: 'btn btn-default' %>
+        <%= link_to t('general.cancel'), path, class: 'button' %>
       </div>
 
     <% end %>

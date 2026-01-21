@@ -122,6 +122,29 @@
   gap: 1rem;
 }
 
+.input-group {
+  display: flex;
+  align-items: stretch;
+
+  > .form-control,
+  > .form-input,
+  > input:not([type="file"]) {
+    flex: 1;
+    min-width: 0;
+  }
+
+  > *:not(:first-child) {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  > *:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
 .form-section-title {
   color: var(--gray-80);
   font-weight: 500;

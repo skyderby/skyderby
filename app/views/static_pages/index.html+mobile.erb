@@ -25,12 +25,12 @@
       <%= button_to new_track_file_path,
                     method: :get,
                     form: { data: { turbo_stream: true } },
-                    class: 'btn btn-success btn-lg' do %>
+                    class: 'button button--success' do %>
         <%= icon_tag 'upload-solid' %>
         <%= t('application.header.upload_track') %>
       <% end %>
     <% else %>
-      <%= link_to t('devise.shared.links.sign_up'), new_registration_path(:user), class: 'btn btn-success btn-lg' %>
+      <%= link_to t('devise.shared.links.sign_up'), new_registration_path(:user), class: 'button button--success' %>
     <% end %>
   </section>
 

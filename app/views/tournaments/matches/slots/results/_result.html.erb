@@ -92,7 +92,7 @@
         <%= link_to t('general.delete'),
                     tournament_match_slot_result_path(slot.tournament, slot.match, slot),
                     data: { turbo_method: :delete, turbo_confirm: t('general.confirm') },
-                    class: 'btn-flat btn-flat--danger' %>
+                    class: 'button button--ghost button--danger' %>
       <% end %>
     </div>
 

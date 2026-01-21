@@ -90,12 +90,12 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <%= link_to edit_place_finish_line_path(@finish_line.place, @finish_line), class: 'btn btn-default' do %>
+      <%= link_to edit_place_finish_line_path(@finish_line.place, @finish_line), class: 'button' do %>
         <%= icon_tag 'pencil-solid' %>
         <%= t('general.edit') %>
       <% end %>
 
-      <%= button_to t('general.delete'), place_finish_line_path(@finish_line.place, @finish_line), method: :delete, class: 'btn-flat btn-flat--danger' %>
+      <%= button_to t('general.delete'), place_finish_line_path(@finish_line.place, @finish_line), method: :delete, class: 'button button--ghost button--danger' %>
     </div>
   </div>
 </div>

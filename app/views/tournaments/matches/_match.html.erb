@@ -65,7 +65,7 @@
                 <%= result_html %>
               <% end %>
             <% else %>
-              <%= link_to new_tournament_match_slot_result_path(@tournament, match, slot), data: { turbo_stream: true }, class: 'btn-flat btn-xs' do %>
+              <%= link_to new_tournament_match_slot_result_path(@tournament, match, slot), data: { turbo_stream: true }, class: 'button button--ghost button--sm' do %>
                 <%= icon_tag 'upload-solid', class: 'icon--fw text-muted' %>
               <% end %>
             <% end %>

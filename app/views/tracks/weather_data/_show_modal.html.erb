@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-7">
-    <div class="btn-group btn-group-xs" data-controller="dropdown">
-      <button class="btn btn-default altitude-units" popovertarget="altitude-units-menu">
+    <div data-controller="dropdown">
+      <button class="button button--sm altitude-units" popovertarget="altitude-units-menu">
         <span>
           <%= "#{t('weather_datum.altitude_units')}: #{t('units.' + @weather_data.selected_units.altitude)}" %>
           <%= icon_tag 'angle-down-solid' %>
@@ -14,8 +14,8 @@
         <% end %>
       </div>
     </div>
-    <div class="btn-group btn-group-xs" data-controller="dropdown">
-      <button class="btn btn-default wind-speed-units" popovertarget="wind-speed-units-menu">
+    <div data-controller="dropdown">
+      <button class="button button--sm wind-speed-units" popovertarget="wind-speed-units-menu">
         <span>
           <%= "#{t('weather_datum.wind_speed_units')}: #{t('units.' + @weather_data.selected_units.speed)}" %>
           <%= icon_tag 'angle-down-solid' %>

@@ -10,7 +10,7 @@
 
   <% if result.track.present? %>
     <div class="result-navbar__actions">
-      <%= link_to track_path(result.track), class: 'btn-flat', target: '_blank' do %>
+      <%= link_to track_path(result.track), class: 'button button--ghost', target: '_blank' do %>
         <%= icon_tag 'up-right-from-square' %>
         <%= t('general.open_track') %>
       <% end %>

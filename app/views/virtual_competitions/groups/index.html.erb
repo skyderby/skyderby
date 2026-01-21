@@ -19,11 +19,11 @@
             <td><%= link_to group.name, virtual_competition_group_path(group) %></td>
             <td><%= group.created_at %></td>
             <td>
-              <%= link_to t('general.edit'), edit_virtual_competition_group_path(group), class: 'btn btn-default btn-xs' %>
+              <%= link_to t('general.edit'), edit_virtual_competition_group_path(group), class: 'button button--sm' %>
               <%= link_to t('general.delete'),
                           virtual_competition_group_path(group),
                           data: { turbo_method: :delete, turbo_confirm: t('.confirm', default: t("general.confirm_delete")) },
-                          class: 'btn btn-xs btn-danger' %>
+                          class: 'button button--sm button--danger' %>
             </td>
           </tr>
         <% end %>
@@ -31,7 +31,7 @@
     </table>
     <%= link_to t('general.new'),
                 new_virtual_competition_group_path,
-                class: 'btn btn-primary' %>
-    <%= link_to t('general.back'), virtual_competitions_path, class: 'btn btn-default' %>
+                class: 'button button--primary' %>
+    <%= link_to t('general.back'), virtual_competitions_path, class: 'button' %>
   </div>
 </div>

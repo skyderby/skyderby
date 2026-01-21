@@ -35,9 +35,7 @@
     <div class="col-sm-3 col-sm-offset-4 top-buffer">
       <div class="input-group">
         <%= f.text_field :video_offset, class: 'form-control text-center', 'data-tracks--video-form-target': 'videoOffset' %>
-        <span class="input-group-btn">
-          <button class="btn btn-default" data-action="click->tracks--video-form#setVideoOffset"><%= t '.set' %></button>
-        </span>
+        <button class="button" data-action="click->tracks--video-form#setVideoOffset"><%= t '.set' %></button>
       </div>
     </div>
   </div>
@@ -54,30 +52,26 @@
     </div>
     <div class="col-sm-3 col-sm-offset-4">
       <div class="input-group">
-        <span class="input-group-btn">
-          <button class="btn btn-default" data-action="click->tracks--video-form#decreaseTrackOffset">
-            <%= icon_tag 'angle-left-solid' %>
-          </button>
-        </span>
+        <button class="button" data-action="click->tracks--video-form#decreaseTrackOffset">
+          <%= icon_tag 'angle-left-solid' %>
+        </button>
         <%= f.text_field :track_offset, class: 'form-control text-center', 'data-tracks--video-form-target': 'trackOffset' %>
-        <span class="input-group-btn">
-          <button class="btn btn-default" data-action="click->tracks--video-form#increaseTrackOffset">
-            <%= icon_tag 'angle-right-solid' %>
-          </button>
-        </span>
+        <button class="button" data-action="click->tracks--video-form#increaseTrackOffset">
+          <%= icon_tag 'angle-right-solid' %>
+        </button>
       </div>
     </div>
   </div>
 
   <div class="row top-buffer-30">
     <div class="col-sm-4 col-sm-offset-4">
-      <%= f.submit t('general.save'), class: 'btn btn-primary btn-lg' %>
+      <%= f.submit t('general.save'), class: 'button button--primary' %>
     </div>
     <div class="col-sm-4 text-right">
       <%= link_to t('general.delete'),
                   track_video_path,
                   data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this video?' },
-                  class: 'btn btn-default' %>
+                  class: 'button' %>
     </div>
   </div>
 <% end %>

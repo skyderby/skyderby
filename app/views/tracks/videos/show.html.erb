@@ -16,7 +16,7 @@
       <% if policy(@track).edit? %>
         <div class="card-action">
           <div class="position-right">
-            <%= link_to edit_track_video_path(@track), class: 'btn-flat same-padding' do %>
+            <%= link_to edit_track_video_path(@track), class: 'button button--ghost' do %>
               <%= icon_tag 'gear-solid' %>
               <%= t('general.settings') %>
             <% end %>

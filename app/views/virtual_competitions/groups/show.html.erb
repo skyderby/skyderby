@@ -6,8 +6,8 @@
     </h1>
   </div>
 
-  <%= link_to t('general.back'), virtual_competition_groups_path, class: 'btn btn-default' %>
-  <%= link_to t('general.edit'), edit_virtual_competition_group_path(@group), class: 'btn btn-default' %>
+  <%= link_to t('general.back'), virtual_competition_groups_path, class: 'button' %>
+  <%= link_to t('general.edit'), edit_virtual_competition_group_path(@group), class: 'button' %>
   <%= link_to t('general.delete'), virtual_competition_group_path(@group),
-              data: { turbo_method: :delete, turbo_confirm: t('general.confirm_delete') }, class: 'btn btn-danger' %>
+              data: { turbo_method: :delete, turbo_confirm: t('general.confirm_delete') }, class: 'button button--danger' %>
 </div>

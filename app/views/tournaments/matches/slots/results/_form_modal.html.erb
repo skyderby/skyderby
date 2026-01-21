@@ -16,11 +16,9 @@
         <div class="col-8">
           <div class="input-group" data-controller="filefield">
             <input type="text" class="form-input" readonly="true" data-filefield-target="text_field">
-            <span class="input-group-btn">
-              <span class="button button--file">
-                &hellip;
-                <%= builder.file_field :file, class: 'form-input', data: { 'filefield-target': 'file_field', action: 'change->filefield#change' } %>
-              </span>
+            <span class="button button--file">
+              &hellip;
+              <%= builder.file_field :file, class: 'form-input', data: { 'filefield-target': 'file_field', action: 'change->filefield#change' } %>
             </span>
           </div>
         </div>

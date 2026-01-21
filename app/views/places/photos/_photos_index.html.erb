@@ -2,7 +2,7 @@
   <%= render partial: 'places/photos/photo', collection: @photos, as: :photo %>
 </div>
 
-<%= link_to new_place_photo_path(@place), data: { turbo_stream: true }, class: 'btn btn-default' do %>
+<%= link_to new_place_photo_path(@place), data: { turbo_stream: true }, class: 'button' do %>
   <%= icon_tag 'plus-solid' %>
   Add
 <% end %>

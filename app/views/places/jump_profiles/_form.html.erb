@@ -24,11 +24,11 @@
           <%= render 'places/jump_profiles/exit_measurements', form: form %>
         </tbody>
       </table>
-      <a class="btn btn-default place-form__add-measurement" data-action="click->places--exit-measurements#add">
+      <a class="button place-form__add-measurement" data-action="click->places--exit-measurements#add">
         <%= icon_tag 'plus-solid' %>
         Add
       </a>
-      <a class="btn btn-default" data-action="click->places--exit-measurements#addFromText">
+      <a class="button" data-action="click->places--exit-measurements#addFromText">
         <%= icon_tag 'plus-solid' %>
         Add from text
       </a>
@@ -40,8 +40,8 @@
 
   <div class="text-center">
     <% if @jump_profile.persisted? %>
-      <%= link_to t('general.delete'), place_jump_profile_path(@place, @jump_profile), class: 'btn btn-lg btn-danger', data: { turbo_method: :delete, turbo_confirm: t('general.confirm_delete') } %>
+      <%= link_to t('general.delete'), place_jump_profile_path(@place, @jump_profile), class: 'button button--danger', data: { turbo_method: :delete, turbo_confirm: t('general.confirm_delete') } %>
     <% end %>
-    <%= form.submit t('general.save'), class: 'btn btn-lg btn-primary' %>
+    <%= form.submit t('general.save'), class: 'button button--primary' %>
   </div>
 <% end %>

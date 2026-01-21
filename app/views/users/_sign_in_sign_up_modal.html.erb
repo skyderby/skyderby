@@ -11,9 +11,9 @@
 
       <div class="modal-body">
         <h4>Для участия в соревновании Вам необходимо</h4>
-        <%= link_to 'Войти', new_session_path(:user), class: 'btn btn-default' %>
+        <%= link_to 'Войти', new_session_path(:user), class: 'button' %>
         или
-        <%= link_to 'Зарегистрироваться', new_registration_path(:user), class: 'btn btn-default' %>
+        <%= link_to 'Зарегистрироваться', new_registration_path(:user), class: 'button' %>
         и иметь полностью заполненный профиль
         <br>
         <%= link_to t('devise.shared.links.sign_in_with_provider', provider: 'Google'), user_google_oauth2_omniauth_authorize_path %>

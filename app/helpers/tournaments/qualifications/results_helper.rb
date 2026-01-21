@@ -26,7 +26,7 @@ module Tournaments
                 'data-confirm': t('event_tracks.show.delete_confirmation'),
                 remote: true,
                 method: :delete,
-                class: 'btn-flat btn-flat--danger')
+                class: 'button button--ghost button--danger')
       end
     end
   end

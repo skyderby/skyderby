@@ -12,7 +12,7 @@
     <%= render 'tracks/pro_view_notice' %>
 
     <div class="card-action">
-      <button class="btn-flat toggle-straight-line"
+      <button class="button button--ghost toggle-straight-line"
               data-tracks--skydive-track-target="straightLineButton"
               data-action="tracks--skydive-track#toggleStraightLine">
         Straight-line distance
@@ -32,21 +32,21 @@
       </div>
 
       <div class="range-shortcuts">
-        <button class="btn btn-xs btn-default button--rounded hidden"
+        <button class="button button--sm button--rounded hidden"
                 data-tracks--skydive-track-target="range3000to2000"
                 data-action="tracks--skydive-track#setRange"
                 data-from="3000"
                 data-to="2000">
           3000 — 2000<%= t('units.m') %>
         </button>
-        <button class="btn btn-xs btn-default button--rounded hidden"
+        <button class="button button--sm button--rounded hidden"
                 data-tracks--skydive-track-target="range2500to1500"
                 data-action="tracks--skydive-track#setRange"
                 data-from="2500"
                 data-to="1500">
           2500 — 1500<%= t('units.m') %>
         </button>
-        <button class="btn btn-xs btn-default button--rounded"
+        <button class="button button--sm button--rounded"
                 data-action="tracks--skydive-track#resetRange">
           <%= t('tracks.show.full_jump') %>
         </button>
