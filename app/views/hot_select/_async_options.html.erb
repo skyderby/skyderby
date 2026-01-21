@@ -1,28 +1,24 @@
-<%# locals: (select_id:, src:, **attrs)  %>
+<%# locals: (select_id:, src:, as: :popover, controller: 'hot-select', **attrs)  %>
 
-<%= tag.template **attrs do %>
-  <div class="hot-select-dropdown" role="listbox">
-    <turbo-frame id="hot-select-search">
-      <% query_params = URI.parse(src).then do |uri|
-           uri.query ? URI.decode_www_form(uri.query).to_h : {}
-         end
-      %>
-      <%= form_with url: src,
-                    class: 'hot-select-search-form',
-                    method: :get, data: { controller: 'auto-submit', 'turbo-frame': select_id } do |f| %>
-        <%= f.hidden_field :frame_id, value: select_id %>
-        <% query_params.except('term', 'frame_id', 'page').each do |key, value| %>
-          <%= f.hidden_field key, value: value %>
-        <% end %>
-        <%= f.text_field :term, class: 'hot-select-search', placeholder: t('hot_select.search_placeholder'),
-                         data: { action: 'input->auto-submit#submit', 'hot-select-target': 'searchInput' } %>
-      <% end %>
-    </turbo-frame>
-
-    <turbo-frame id="<%= select_id %>" src="<%= merge_query_params(src, frame_id: select_id) %>" loading="lazy" class="hot-select-scrollable hot-select-selectable">
-      <div class="hot-select-options">
-        <div class="hot-select-option" role="option"><%= t('hot_select.loading') %></div>
-      </div>
-    </turbo-frame>
+<%= hot_select_options_container(as:, **attrs) do %>
+  <div class="hot-select-search-form">
+    <%= text_field_tag nil, nil,
+                       class: 'hot-select-search',
+                       placeholder: t('hot_select.search_placeholder'),
+                       disabled: true,
+                       data: {
+                         'hot-select-target': (controller == 'hot-select' ? 'searchInput' : nil),
+                         action: "input->#{controller}#search"
+                       }.compact %>
   </div>
+
+  <turbo-frame id="<%= select_id %>"
+               src="<%= merge_query_params(src, frame_id: select_id) %>"
+               loading="lazy"
+               class="hot-select-scrollable hot-select-selectable"
+               data-hot-select-target="<%= 'frame' if controller == 'hot-select' %>">
+    <div class="hot-select-options">
+      <div class="hot-select-option" role="option"><%= t('hot_select.loading') %></div>
+    </div>
+  </turbo-frame>
 <% end %>

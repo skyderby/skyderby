@@ -5,3 +5,9 @@ fr:
     distance_to_terrain: Distance au terrain
     show:
       select_jump_line: Sélectionner la ligne de saut
+    filters:
+      placeholder: Filtrer la liste
+      year: Année
+      profile: Profil
+      place: Lieu
+      suit: Combinaison

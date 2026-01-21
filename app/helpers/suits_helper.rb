@@ -9,16 +9,9 @@ module SuitsHelper
     return unless suit
 
     manufacturer = suit.manufacturer
-    code_span = tag.span(class: 'text-warning',
-                         'data-toggle' => 'tooltip',
-                         title: manufacturer.name) do
-      manufacturer.code || ''
-    end
+    code = tag.span(manufacturer.code,
+                    class: 'text-warning', data: { controller: 'tooltip', tooltip: manufacturer.name })
 
-    name_span = tag.span do
-      " #{suit.name}"
-    end
-
-    code_span.concat(name_span)
+    tag.span safe_join([code, suit.name], '&nbsp;'.html_safe)
   end
 end

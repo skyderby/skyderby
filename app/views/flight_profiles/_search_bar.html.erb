@@ -1,28 +1,32 @@
 <%# locals: (**attrs) %>
 
-<%= render 'hot_select/omni_search', **attrs, placeholder: 'Search of filter tracks...' do %>
-  <%= render 'hot_select/local_options', 'data-omni-search-target': 'typeSelect' do %>
-    <div class="hot-select-option" data-value="year[]" data-label="Year">
+<%= render 'hot_select/omni_search', **attrs, placeholder: t('flight_profiles.filters.placeholder') do %>
+  <%= omni_search_type_options do %>
+    <div class="hot-select-option" data-value="year[]" data-label="<%= t('flight_profiles.filters.year') %>">
       <%= icon_tag 'calendar-days-solid' %>
-      Year
+      &nbsp;
+      <%= t('flight_profiles.filters.year') %>
     </div>
-    <div class="hot-select-option" data-value="profile_id[]" data-label="Profile">
+    <div class="hot-select-option" data-value="profile_id[]" data-label="<%= t('flight_profiles.filters.profile') %>">
       <%= icon_tag 'user-solid' %>
-      Profile
+      &nbsp;
+      <%= t('flight_profiles.filters.profile') %>
     </div>
-    <div class="hot-select-option" data-value="place_id[]" data-label="Place">
+    <div class="hot-select-option" data-value="place_id[]" data-label="<%= t('flight_profiles.filters.place') %>">
       <%= icon_tag 'location-dot-solid' %>
-      Place
+      &nbsp;
+      <%= t('flight_profiles.filters.place') %>
     </div>
-    <div class="hot-select-option" data-value="suit_id[]" data-label="Suit">
+    <div class="hot-select-option" data-value="suit_id[]" data-label="<%= t('flight_profiles.filters.suit') %>">
       <%= icon_tag 'wingsuit' %>
-      Suit
+      &nbsp;
+      <%= t('flight_profiles.filters.suit') %>
     </div>
   <% end %>
 
-  <%= render 'hot_select/local_options', options: 2014..2025, 'data-omni-search-target': 'model', 'data-name': 'year[]' %>
-  <%= render 'hot_select/async_options', src: profiles_select_options_path, select_id: :profile, 'data-omni-search-target': 'model', 'data-name': 'profile_id[]' %>
-  <%= render 'hot_select/async_options', src: places_select_options_path, select_id: :place, 'data-omni-search-target': 'model', 'data-name': 'place_id[]' %>
-  <%= render 'hot_select/async_options', src: suits_select_options_path, select_id: :suit, 'data-omni-search-target': 'model', 'data-name': 'suit_id[]' %>
+  <%= omni_search_local_options name: 'year[]', options: (2014..Date.current.year).to_a.reverse %>
+  <%= omni_search_async_options name: 'profile_id[]', src: profiles_select_options_path, select_id: :profile %>
+  <%= omni_search_async_options name: 'place_id[]', src: places_select_options_path, select_id: :place %>
+  <%= omni_search_async_options name: 'suit_id[]', src: suits_select_options_path, select_id: :suit %>
 <% end %>
 

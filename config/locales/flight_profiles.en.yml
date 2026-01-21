@@ -5,3 +5,9 @@ en:
     distance_to_terrain: Distance to terrain
     show:
       select_jump_line: Select jump line
+    filters:
+      placeholder: Filter list
+      year: Year
+      profile: Profile
+      place: Place
+      suit: Suit

@@ -1,53 +1,71 @@
 import { Controller } from '@hotwired/stimulus'
-import { createPopper } from '@popperjs/core'
+import debounce from 'lodash.debounce'
 
 export default class OmniSearchController extends Controller {
-  static targets = ['model', 'typeSelect', 'tagsContainer', 'tagTemplate']
+  static targets = ['model', 'typeSelect', 'tagsContainer', 'tagTemplate', 'dropdown']
 
   connect() {
-    this.onClickOutside = this.onClickOutside.bind(this)
     this.close = this.close.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
+    this.onToggle = this.onToggle.bind(this)
+    this.onClick = this.onClick.bind(this)
+    this.search = debounce(this.search.bind(this), 300)
 
     this.focusedOptionIndex = -1
     this.currentView = null
     this.currentType = null
     this.currentTypeLabel = null
 
-    document.addEventListener('click', this.onClickOutside)
+    this.dropdownTarget.addEventListener('toggle', this.onToggle)
     document.addEventListener('turbo:before-render', this.close)
   }
 
   disconnect() {
-    document.removeEventListener('click', this.onClickOutside)
+    this.dropdownTarget.removeEventListener('toggle', this.onToggle)
+    this.dropdownTarget.removeEventListener('click', this.onClick)
     document.removeEventListener('turbo:before-render', this.close)
     document.removeEventListener('keydown', this.onKeyDown)
 
-    if (this.element.classList.contains('hot-select--open')) this.close()
+    if (this.isOpen) this.close()
   }
 
   toggle() {
-    this.element.classList.toggle('hot-select--open')
-
-    if (!this.element.classList.contains('hot-select--open')) {
-      this.close()
-      return
+    if (this.isOpen) {
+      this.dropdownTarget.hidePopover()
+    } else {
+      this.openTypeSelect()
+      this.dropdownTarget.showPopover()
     }
+  }
 
-    this.openTypeSelect()
+  onToggle(event) {
+    if (event.newState === 'open') {
+      document.addEventListener('keydown', this.onKeyDown)
+      this.dropdownTarget.addEventListener('click', this.onClick)
+    } else {
+      document.removeEventListener('keydown', this.onKeyDown)
+      this.dropdownTarget.removeEventListener('click', this.onClick)
+      this.focusedOptionIndex = -1
+      this.currentView = null
+      this.currentType = null
+    }
+  }
+
+  onClick(event) {
+    const optionElement = event.target.closest('.hot-select-option')
+    if (!optionElement) return
+
+    if (this.currentView === 'type') {
+      this.selectType({ target: optionElement })
+    } else if (this.currentView === 'model') {
+      this.selectModel({ target: optionElement })
+    }
   }
 
   openTypeSelect() {
-    this.dropdownRoot.innerHTML = this.typeSelectTarget.innerHTML
-
-    const optionsContainer = this.dropdownRoot.querySelector('.hot-select-dropdown')
-    optionsContainer.addEventListener('click', this.selectType.bind(this))
-
-    this.positionDropdown()
-
+    this.dropdownTarget.innerHTML = this.typeSelectTarget.innerHTML
     this.currentView = 'type'
     this.focusedOptionIndex = -1
-    document.addEventListener('keydown', this.onKeyDown)
   }
 
   selectType({ target }) {
@@ -68,46 +86,16 @@ export default class OmniSearchController extends Controller {
     if (!modelElement)
       throw new Error(`Can not find elements dropdown for type: ${this.currentType}`)
 
-    this.dropdownRoot.innerHTML = modelElement.innerHTML
+    this.dropdownTarget.innerHTML = modelElement.innerHTML
 
-    const optionsContainer = this.dropdownRoot.querySelector('.hot-select-dropdown')
-    if (!optionsContainer)
-      throw new Error(`Can not find dropdown element for ${this.currentType}`)
-
-    optionsContainer.addEventListener('click', this.selectModel.bind(this))
-
-    const searchInput = this.dropdownRoot.querySelector(
-      '[data-hot-select-target="searchInput"]'
-    )
-    if (searchInput) searchInput.focus()
-
-    this.positionDropdown()
+    const searchInput = this.dropdownTarget.querySelector('.hot-select-search')
+    if (searchInput) {
+      searchInput.disabled = false
+      searchInput.focus()
+    }
 
     this.currentView = 'model'
     this.focusedOptionIndex = -1
-  }
-
-  positionDropdown() {
-    createPopper(this.element, this.dropdownRoot.querySelector('.hot-select-dropdown'), {
-      placement: 'bottom-start',
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [0, 8]
-          }
-        },
-        {
-          name: 'sameWidth',
-          enabled: true,
-          fn: ({ state }) => {
-            state.styles.popper.width = `${state.rects.reference.width}px`
-          },
-          phase: 'beforeWrite',
-          requires: ['computeStyles']
-        }
-      ]
-    })
   }
 
   selectModel(event) {
@@ -162,19 +150,8 @@ export default class OmniSearchController extends Controller {
     this.tagsContainerTarget.replaceChildren()
   }
 
-  onClickOutside(event) {
-    if (!this.element.classList.contains('hot-select--open')) return
-
-    if (
-      !this.element.contains(event.target) &&
-      !this.dropdownRoot.contains(event.target)
-    ) {
-      this.close()
-    }
-  }
-
   onKeyDown(event) {
-    if (!this.element.classList.contains('hot-select--open')) return
+    if (!this.isOpen) return
 
     const options = this.getOptions()
 
@@ -235,7 +212,7 @@ export default class OmniSearchController extends Controller {
     const options = this.getOptions()
     if (this.focusedOptionIndex >= 0 && this.focusedOptionIndex < options.length) {
       const focusedOption = options[this.focusedOptionIndex]
-      const container = this.dropdownRoot.querySelector('.hot-select-selectable')
+      const container = this.dropdownTarget.querySelector('.hot-select-selectable')
 
       const optionTop = focusedOption.offsetTop
       const optionBottom = optionTop + focusedOption.offsetHeight
@@ -251,19 +228,25 @@ export default class OmniSearchController extends Controller {
   }
 
   getOptions() {
-    return Array.from(this.dropdownRoot.querySelectorAll('.hot-select-option'))
+    return Array.from(this.dropdownTarget.querySelectorAll('.hot-select-option'))
   }
 
   close() {
-    this.dropdownRoot.replaceChildren()
-    this.element.classList.remove('hot-select--open')
-    document.removeEventListener('keydown', this.onKeyDown)
-    this.focusedOptionIndex = -1
-    this.currentView = null
-    this.currentType = null
+    this.dropdownTarget.hidePopover()
   }
 
-  get dropdownRoot() {
-    return document.getElementById('dropdown-root')
+  search(event) {
+    const frame = this.dropdownTarget.querySelector('turbo-frame')
+    if (!frame) return
+
+    const term = event.target.value
+    const url = new URL(frame.src)
+    url.searchParams.set('term', term)
+    url.searchParams.set('page', '1')
+    frame.src = url.toString()
+  }
+
+  get isOpen() {
+    return this.dropdownTarget.matches(':popover-open')
   }
 }

@@ -11,7 +11,7 @@
     <% end %>
 
     <% suit = @form.suit %>
-    <% suit_options = suit ? options_for_select([[suit.name, suit.id]], suit.id) : [] %>
+    <% suit_options = suit ? options_for_select([[suit_presentation(suit), suit.id]], suit.id) : [] %>
     <div class="grid" data-controller="tracks--suit-field" data-mode="select">
       <label class="form-label col-4"><%= t('activerecord.attributes.track.suit') %></label>
       <div class="col-8">

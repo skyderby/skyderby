@@ -1,0 +1,13 @@
+de:
+  flight_profiles:
+    title: Flugprofile
+    distance_traveled: Entfernung vom Ausstieg
+    distance_to_terrain: Entfernung zum Gelände
+    show:
+      select_jump_line: Sprunglinie auswählen
+    filters:
+      placeholder: Liste filtern
+      year: Jahr
+      profile: Profil
+      place: Ort
+      suit: Anzug

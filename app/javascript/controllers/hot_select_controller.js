@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { createPopper } from '@popperjs/core'
+import debounce from 'lodash.debounce'
 
 export default class HotSelect extends Controller {
   static targets = [
@@ -7,19 +7,22 @@ export default class HotSelect extends Controller {
     'searchInput',
     'selectInput',
     'displayValue',
-    'placeholder'
+    'placeholder',
+    'options',
+    'frame'
   ]
 
   connect() {
-    this.onClickOutside = this.onClickOutside.bind(this)
     this.close = this.close.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
+    this.onToggle = this.onToggle.bind(this)
+    this.search = debounce(this.search.bind(this), 300)
 
-    this.instanceId = `hot_select_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`
     this.focusedOptionIndex = -1
 
-    document.addEventListener('click', this.onClickOutside)
+    this.dropdownTarget.addEventListener('toggle', this.onToggle)
     document.addEventListener('turbo:before-render', this.close)
+
     if (
       this.selectInputTarget.selectedOptions.length > 0 &&
       this.selectInputTarget.selectedOptions[0].value
@@ -32,7 +35,7 @@ export default class HotSelect extends Controller {
   }
 
   disconnect() {
-    document.removeEventListener('click', this.onClickOutside)
+    this.dropdownTarget.removeEventListener('toggle', this.onToggle)
     document.removeEventListener('turbo:before-render', this.close)
     document.removeEventListener('keydown', this.onKeyDown)
 
@@ -40,60 +43,39 @@ export default class HotSelect extends Controller {
   }
 
   toggle() {
-    this.element.classList.toggle('hot-select--open')
-    this.element.setAttribute('aria-expanded', this.isOpen ? 'true' : 'false')
+    if (this.isOpen) {
+      this.dropdownTarget.hidePopover()
+    } else {
+      this.dropdownTarget.showPopover()
+    }
+  }
 
-    if (!this.isOpen) return this.close()
+  onToggle(event) {
+    this.element.setAttribute(
+      'aria-expanded',
+      event.newState === 'open' ? 'true' : 'false'
+    )
 
-    this.dropdownContainer.innerHTML = this.dropdownTarget.innerHTML
-    this.copyOptionsFromSelect()
-    this.selectableContainer.addEventListener('click', this.choose.bind(this))
-
-    this.focusedOptionIndex = -1
-
-    document.addEventListener('keydown', this.onKeyDown)
-
-    if (this.hasSearch) this.searchInput.focus()
-
-    createPopper(this.element, this.dropdown, {
-      placement: 'bottom-start',
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [0, 8]
-          }
-        },
-        {
-          name: 'sameWidth',
-          enabled: true,
-          fn: ({ state }) => {
-            state.styles.popper.width = `${state.rects.reference.width}px`
-          },
-          phase: 'beforeWrite',
-          requires: ['computeStyles']
-        }
-      ]
-    })
+    if (event.newState === 'open') {
+      this.copyOptionsFromSelect()
+      this.selectableContainer.addEventListener('click', this.choose.bind(this))
+      this.focusedOptionIndex = -1
+      document.addEventListener('keydown', this.onKeyDown)
+      if (this.hasSearchInputTarget) {
+        this.searchInputTarget.disabled = false
+        this.searchInputTarget.focus()
+      }
+    } else {
+      document.removeEventListener('keydown', this.onKeyDown)
+      this.focusedOptionIndex = -1
+      if (this.hasSearchInputTarget) {
+        this.searchInputTarget.disabled = true
+      }
+    }
   }
 
   close() {
-    this.dropdownContainer.remove()
-    this.element.classList.remove('hot-select--open')
-    this.element.setAttribute('aria-expanded', 'false')
-    document.removeEventListener('keydown', this.onKeyDown)
-    this.focusedOptionIndex = -1
-  }
-
-  onClickOutside(event) {
-    if (!this.isOpen) return
-
-    const clickedInside =
-      this.element.contains(event.target) || this.dropdownContainer.contains(event.target)
-
-    if (!clickedInside) {
-      this.close()
-    }
+    this.dropdownTarget.hidePopover()
   }
 
   onKeyDown(event) {
@@ -217,10 +199,22 @@ export default class HotSelect extends Controller {
     this.selectInputTarget.dispatchEvent(new Event('change', { bubbles: true }))
   }
 
+  search() {
+    if (!this.hasFrameTarget) return
+
+    const term = this.searchInputTarget.value
+    const url = new URL(this.frameTarget.src)
+    url.searchParams.set('term', term)
+    url.searchParams.set('page', '1')
+    this.frameTarget.src = url.toString()
+  }
+
   copyOptionsFromSelect() {
+    if (!this.hasOptionsTarget) return
+
     const options = this.selectInputTarget.options
     if (options.length > 0) {
-      this.optionsContainer.innerHTML = ''
+      this.optionsTarget.innerHTML = ''
       Array.from(this.selectInputTarget.options).forEach(this.createOption.bind(this))
     }
   }
@@ -232,59 +226,18 @@ export default class HotSelect extends Controller {
     div.setAttribute('data-value', option.value)
     div.setAttribute('tabindex', '-1')
     div.setAttribute('role', 'option')
-    this.optionsContainer.insertAdjacentHTML('beforeend', div.outerHTML)
+    this.optionsTarget.insertAdjacentHTML('beforeend', div.outerHTML)
   }
 
   getOptions() {
-    return Array.from(this.optionsContainer.querySelectorAll('.hot-select-option'))
+    return Array.from(this.dropdownTarget.querySelectorAll('.hot-select-option'))
   }
 
   get isOpen() {
-    return this.element.classList.contains('hot-select--open')
-  }
-
-  get dropdownRoot() {
-    const dialog = this.element.closest('dialog')
-    if (dialog) {
-      let root = dialog.querySelector('.dialog-dropdown-root')
-      if (!root) {
-        root = document.createElement('div')
-        root.className = 'dialog-dropdown-root'
-        dialog.appendChild(root)
-      }
-      return root
-    }
-
-    return document.getElementById('dropdown-root')
-  }
-
-  get dropdownContainer() {
-    let container = document.getElementById(this.instanceId)
-    if (!container) {
-      container = document.createElement('div')
-      container.id = this.instanceId
-      this.dropdownRoot.appendChild(container)
-    }
-    return container
-  }
-
-  get dropdown() {
-    return this.dropdownContainer.querySelector('.hot-select-dropdown')
-  }
-
-  get optionsContainer() {
-    return this.dropdownContainer.querySelector('.hot-select-options')
+    return this.dropdownTarget.matches(':popover-open')
   }
 
   get selectableContainer() {
-    return this.dropdownContainer.querySelector('.hot-select-selectable')
-  }
-
-  get hasSearch() {
-    return this.dropdown.querySelector('[data-hot-select-target="searchInput"]') !== null
-  }
-
-  get searchInput() {
-    return this.dropdown.querySelector('[data-hot-select-target="searchInput"]')
+    return this.dropdownTarget.querySelector('.hot-select-selectable')
   }
 }

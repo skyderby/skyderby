@@ -5,3 +5,9 @@ it:
     distance_to_terrain: Distanza dal terreno
     show:
       select_jump_line: Profilo del terreno
+    filters:
+      placeholder: Filtra elenco
+      year: Anno
+      profile: Profilo
+      place: Luogo
+      suit: Tuta
