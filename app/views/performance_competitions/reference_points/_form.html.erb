@@ -45,8 +45,9 @@
         <%= icon_tag 'xmark' %>
       <% end %>
     <% elsif event_editable && reference_point.assignments.any? %>
-      <span data-controller="tooltip" data-tooltip="Cannot change this reference point as it is assigned to competitors">
+      <span data-controller="tooltip">
         <%= icon_tag 'lock-solid' %>
+        <span class="for-screen-reader">Cannot change this reference point as it is assigned to competitors</span>
       </span>
     <% end %>
   </div>

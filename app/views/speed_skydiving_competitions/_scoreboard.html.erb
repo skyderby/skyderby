@@ -48,16 +48,17 @@
                 <% if row[:previous_rank] == row[:rank] || standings.completed_rounds.length == 1 %>
                   <span class="rank-same">—</span>
                 <% elsif row[:previous_rank] < row[:rank] %>
-                  <span class="rank-down" data-controller="tooltip" data-tooltip="from <%= row[:previous_rank] %>">▼</span>
+                  <span class="rank-down" data-controller="tooltip">▼<span class="for-screen-reader">from <%= row[:previous_rank] %></span></span>
                 <% else %>
-                  <span class="rank-up" data-controller="tooltip" data-tooltip="from <%= row[:previous_rank] %>">▲</span>
+                  <span class="rank-up" data-controller="tooltip">▲<span class="for-screen-reader">from <%= row[:previous_rank] %></span></span>
                 <% end %>
               <% end %>
             </td>
             <%= render 'speed_skydiving_competitions/competitor_cell', competitor:, event:, editable: %>
             <td class="competitor-country">
-              <span data-controller="tooltip" data-tooltip="<%= competitor.country_name %>">
+              <span data-controller="tooltip">
                 <%= competitor.country_code %>
+                <span class="for-screen-reader"><%= competitor.country_name %></span>
               </span>
             </td>
             <% standings.rounds.each do |round| %>

@@ -7,11 +7,11 @@
   <% if competition.show_rank_changes? %>
     <div class="vc-scoreboard__rank-change">
       <% if rank_change.nil? %>
-        <span class="rank-new" data-controller="tooltip" data-tooltip="<%= t('virtual_competitions.scoreboard.rank_new') %>">•</span>
+        <span class="rank-new" data-controller="tooltip">•<span class="for-screen-reader"><%= t('virtual_competitions.scoreboard.rank_new') %></span></span>
       <% elsif rank_change.positive? %>
-        <span class="rank-up" data-controller="tooltip" data-tooltip="<%= t('virtual_competitions.scoreboard.rank_up', change: rank_change) %>">▲</span>
+        <span class="rank-up" data-controller="tooltip">▲<span class="for-screen-reader"><%= t('virtual_competitions.scoreboard.rank_up', change: rank_change) %></span></span>
       <% elsif rank_change.negative? %>
-        <span class="rank-down" data-controller="tooltip" data-tooltip="<%= t('virtual_competitions.scoreboard.rank_down', change: rank_change.abs) %>">▼</span>
+        <span class="rank-down" data-controller="tooltip">▼<span class="for-screen-reader"><%= t('virtual_competitions.scoreboard.rank_down', change: rank_change.abs) %></span></span>
       <% end %>
     </div>
   <% end %>

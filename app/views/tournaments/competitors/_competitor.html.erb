@@ -2,8 +2,9 @@
   <td><%= competitor_counter + 1 %></td>
   <td><%= competitor.name %></td>
   <td class="text-center text-muted">
-    <span class="dotted-underline" data-controller="tooltip" data-tooltip="<%= competitor.country_name %>">
+    <span class="dotted-underline" data-controller="tooltip">
       <%= competitor.country_code %>
+      <span class="for-screen-reader"><%= competitor.country_name %></span>
     </span>
   </td>
   <td><%= competitor.suit_name %></td>

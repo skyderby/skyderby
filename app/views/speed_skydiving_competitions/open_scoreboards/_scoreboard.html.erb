@@ -22,8 +22,9 @@
           <td><%= row[:rank] %></td>
           <%= render 'speed_skydiving_competitions/competitor_cell', competitor:, event:, editable: %>
           <td class="competitor-country">
-              <span data-controller="tooltip" data-tooltip="<%= competitor.country_name %>">
+              <span data-controller="tooltip">
                 <%= competitor.country_code %>
+                <span class="for-screen-reader"><%= competitor.country_name %></span>
               </span>
           </td>
           <% standings.rounds.each do |round| %>

@@ -13,9 +13,10 @@
     <%= button_to speed_skydiving_competition_result_path(event, result),
                   method: :get, form: { data: { turbo_stream: true }, class: 'result-show-cell' } do %>
       <% if result.penalized? %>
-        <span data-controller="tooltip" data-tooltip="<%= result.result.round(1) %> - <%= result.penalty_size.round %>%. Reason: <%= result.penalty_reason %>">
+        <span data-controller="tooltip">
           <%= result.final_result.round(1) %>
           <sup class="text-danger">-<%= result.penalty_size.round %>%</sup>
+          <span class="for-screen-reader"><%= result.result.round(1) %> - <%= result.penalty_size.round %>%. Reason: <%= result.penalty_reason %></span>
         </span>
       <% else %>
         <%= result.final_result.round(2) %>

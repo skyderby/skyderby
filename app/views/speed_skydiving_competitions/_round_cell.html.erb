@@ -1,19 +1,13 @@
 <%# locals: (event:, standings:, round:, editable: false) %>
 
 <th class="round">
-  <div
-    class="round-status"
-    data-controller="tooltip"
-    <% if round.completed %>
-      data-tooltip="<%= t('events.rounds.completed_tooltip') %>"
-    <% elsif editable %>
-      data-tooltip="<%= t('events.rounds.mark_completed_tooltip') %>"
-    <% end %>
-  >
+  <div class="round-status" data-controller="tooltip">
     <% if standings.completed_rounds.include?(round) %>
       <%= icon_tag 'circle-check-regular', class: 'round-completed' %>
+      <span class="for-screen-reader"><%= t('events.rounds.completed_tooltip') %></span>
     <% elsif editable %>
       <%= icon_tag 'circle-regular', class: 'round-not-completed-icon' %>
+      <span class="for-screen-reader"><%= t('events.rounds.mark_completed_tooltip') %></span>
     <% end %>
   </div>
 

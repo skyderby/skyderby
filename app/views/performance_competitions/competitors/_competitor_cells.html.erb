@@ -41,8 +41,8 @@
 <td class="text-center">
   <% russia_restricted = event.is_official && [2020, 2021].include?(event.starts_at.year) %>
   <% if russia_restricted && competitor.country_code == 'RUS' %>
-    <span data-controller="tooltip" data-tooltip="Neutral Athletes">RPF</span>
+    <span data-controller="tooltip">RPF<span class="for-screen-reader">Neutral Athletes</span></span>
   <% else %>
-    <span data-controller="tooltip" data-tooltip="<%= competitor.country_name %>"><%= competitor.country_code %></span>
+    <span data-controller="tooltip"><%= competitor.country_code %><span class="for-screen-reader"><%= competitor.country_name %></span></span>
   <% end %>
 </td>

@@ -13,8 +13,9 @@
       <%= profile.name %>
       <% if profile.country %>
         <span class="separator">//</span>
-        <span class="tip-text" data-controller="tooltip" data-tooltip="<%= profile.country.name %>">
+        <span class="tip-text" data-controller="tooltip">
           <%= profile.country.code.upcase %>
+          <span class="for-screen-reader"><%= profile.country.name %></span>
         </span>
       <% end %>
     </h1>

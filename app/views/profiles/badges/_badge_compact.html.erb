@@ -1,4 +1,5 @@
-<div class="achievement" data-controller="tooltip" data-tooltip="<%= badge.name %> <% badge.comment %>">
+<div class="achievement" data-controller="tooltip">
+  <span class="for-screen-reader"><%= badge.name %> <% badge.comment %></span>
   <div class="achievement__icon <%= "achievement--#{badge.category}" %> <%= "achievement--#{badge.kind}" if badge.kind %>">
     <% case badge.category %>
     <% when 'sponsor' %>

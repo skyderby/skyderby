@@ -42,7 +42,7 @@
         <td>
           <%= link_to competitor.name, profile_path(competitor.profile_id), class: 'competitor-name' %>
           <% if competitor.is_disqualified %>
-            <span class="text-danger" data-controller="tooltip" data-tooltip="<%= competitor.disqualification_reason %>">(DQ)</span>
+            <span class="text-danger" data-controller="tooltip">(DQ)<span class="for-screen-reader"><%= competitor.disqualification_reason %></span></span>
           <% end %>
           <div class="competitor-suit text-gray">
             <%= competitor.suit.manufacturer_code %>
@@ -59,12 +59,12 @@
                 <span><%= show_qualification_track_link(@tournament, result, editable) %></span>
               </td>
               <td class="text-right">
-                <span data-controller="tooltip" data-tooltip="Canopy time"><%= result.canopy_time %></span>
+                <span data-controller="tooltip"><%= result.canopy_time %><span class="for-screen-reader">Canopy time</span></span>
               </td>
             <% elsif result.result || !editable %>
               <td class="text-right"><%= result.result %></td>
               <td class="text-right">
-                <span data-controller="tooltip" data-tooltip="Canopy time"><%= result.canopy_time %></span>
+                <span data-controller="tooltip"><%= result.canopy_time %><span class="for-screen-reader">Canopy time</span></span>
               </td>
             <% end %>
           <% else %>

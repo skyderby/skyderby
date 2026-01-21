@@ -9,10 +9,8 @@ module PlacesHelper
     return unless place
 
     country = place.country
-    code_span = tag.span(class: 'text-warning',
-                         'data-controller' => 'tooltip',
-                         'data-tooltip' => country.name) do
-      (country.code || '').upcase
+    code_span = tag.span(class: 'text-warning', data: { controller: 'tooltip' }) do
+      safe_join([(country.code || '').upcase, tag.span(country.name, class: 'for-screen-reader')])
     end
 
     name_span = tag.span do

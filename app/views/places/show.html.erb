@@ -15,7 +15,10 @@
             <div><%= t('.visited_by') %>:</div>
             <% pilots.each do |pilot| %>
               <a href="<%= profile_path(pilot) %>">
-                <img class="img-50" src="<%= pilot.userpic_url(:thumb) %>" data-controller="tooltip" data-tooltip="<%= pilot.name %>">
+                <span data-controller="tooltip">
+                  <img class="img-50" src="<%= pilot.userpic_url(:thumb) %>">
+                  <span class="for-screen-reader"><%= pilot.name %></span>
+                </span>
               </a>
             <% end %>
           </div>
