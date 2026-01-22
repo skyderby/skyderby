@@ -33,7 +33,6 @@ gem 'stripe', '~> 18.0'
 
 # Pagination
 gem 'will_paginate'
-gem 'will_paginate-bootstrap'
 
 # Template engines
 gem 'jbuilder', '~> 2.6'
@@ -71,7 +70,6 @@ gem 'listen'
 gem 'browser'
 
 # Assets
-gem 'bootstrap-sass', '~> 3.4.1'
 gem 'sassc-rails'
 gem 'shakapacker', '6.5.0'
 gem 'terser'

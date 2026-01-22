@@ -154,8 +154,11 @@
 
 }
 
-.upload-track-button {
+li:has(.upload-track-button) {
+  height: 100%;
+}
 
+.upload-track-button {
   height: 100%;
   width: 60px;
   font-size: 1.25rem;

@@ -83,8 +83,6 @@ GEM
       activerecord (>= 2.3.0)
       rake (>= 0.8.7)
     ast (2.4.2)
-    autoprefixer-rails (10.4.19.0)
-      execjs (~> 2)
     aws-eventstream (1.3.0)
     aws-partitions (1.1010.0)
     aws-sdk-core (3.213.0)
@@ -108,9 +106,6 @@ GEM
     bigdecimal (3.3.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
-    bootstrap-sass (3.4.1)
-      autoprefixer-rails (>= 5.2.1)
-      sassc (>= 2.0.0)
     browser (6.1.0)
     builder (3.3.0)
     bullet (8.1.0)
@@ -538,8 +533,6 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     will_paginate (4.0.1)
-    will_paginate-bootstrap (1.0.2)
-      will_paginate (>= 3.0.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.7.4)
@@ -555,7 +548,6 @@ DEPENDENCIES
   aws-sdk-s3
   benchmark
   bootsnap
-  bootstrap-sass (~> 3.4.1)
   browser
   bullet
   capybara
@@ -616,7 +608,6 @@ DEPENDENCIES
   vincenty_distance
   webmock
   will_paginate
-  will_paginate-bootstrap
 
 RUBY VERSION
    ruby 3.4.8p72

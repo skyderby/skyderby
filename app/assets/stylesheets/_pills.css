@@ -5,6 +5,7 @@
   padding: 0.125rem 0.75rem;
   font-weight: 500;
   color: var(--white);
+  white-space: nowrap;
 }
 
 .pill-orange {

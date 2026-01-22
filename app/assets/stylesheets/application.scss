@@ -8,13 +8,8 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require normalize.min
  *= require_self
 */
-
-@import 'bootstrap_variables_overrides';
-@import "bootstrap-sprockets";
-@import "bootstrap";
 
 @import 'variables';
 @import './mixins/**/*';
@@ -30,52 +25,12 @@
 @import './contributions';
 @import './*';
 
-html, body {
-  height: 100%;
-  width: 100%;
-  background-color: #fafafa;
-}
-
-*, input[type="search"] {
-  box-sizing: border-box;
-}
-
-a, button, label, span {
-  transition-property: border-color, background, color;
-  transition-duration: 0.2s;
-  transition-timing-function: ease;
-}
-
 .loading-bg {
   background: image-url('loading.gif') no-repeat center center;
 }
 
 .overflow-hidden {
   overflow: hidden;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
-}
-
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-label {
-  font-weight: 500;
-  font-size: 0.875rem;
-  margin: 0;
-}
-
-code {
-  padding: 0.125rem 0.25rem;
-  font-size: 0.875rem;
-  color: var(--gray-80);
-  background-color: var(--gray-20);
-  border-radius: var(--border-radius-sm);
 }
 
 #modal-root, #dropdown-root {
@@ -92,20 +47,6 @@ code {
   &.wrap--no-top-padding {
     padding-top: 0px;
   }
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-input[type=radio] {
-  margin: 0;
 }
 
 .fullscreen {
@@ -140,11 +81,6 @@ label.valid {
 }
 
 .clickable { cursor: pointer }
-
-input[readonly] {
-  background-color: white !important;
-  cursor: text !important;
-}
 
 .no-right-space {
   margin-right: -5px;

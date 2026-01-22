@@ -8,7 +8,7 @@
 
   <div class="event-details">
     <div class="event-name">
-      <%= event.name %>
+      <h2 class="event-title"><%= event.name %></h2>
       <% if event.unlisted_event? %>
         <%= icon_tag 'eye-slash-solid', data: { toggle: 'tooltip' }, title: t('visibility.unlisted') %>
       <% elsif event.private_event? %>

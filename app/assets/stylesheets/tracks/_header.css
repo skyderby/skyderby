@@ -54,6 +54,9 @@
 }
 
 .track-header-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   color: var(--gray-90);
   font-size: 1.5rem;
   white-space: nowrap;

@@ -1,34 +1,6 @@
-<div class="row">
-  <div class="col-sm-7">
-    <div data-controller="dropdown">
-      <button class="button button--sm altitude-units" popovertarget="altitude-units-menu">
-        <span>
-          <%= "#{t('weather_datum.altitude_units')}: #{t('units.' + @weather_data.selected_units.altitude)}" %>
-          <%= icon_tag 'angle-down-solid' %>
-        </span>
-      </button>
-
-      <div id="altitude-units-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
-        <% @weather_data.altitude_units.each do |unit| %>
-          <%= link_to t("units.#{unit}"), track_weather_data_path(@track, index_params.merge(altitude_unit: unit)), data: { turbo_stream: true }, class: class_names('dropdown-item', @weather_data.selected_units.altitude == unit && 'active') %>
-        <% end %>
-      </div>
-    </div>
-    <div data-controller="dropdown">
-      <button class="button button--sm wind-speed-units" popovertarget="wind-speed-units-menu">
-        <span>
-          <%= "#{t('weather_datum.wind_speed_units')}: #{t('units.' + @weather_data.selected_units.speed)}" %>
-          <%= icon_tag 'angle-down-solid' %>
-        </span>
-      </button>
-
-      <div id="wind-speed-units-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
-        <% @weather_data.speed_units.each do |unit| %>
-          <%= link_to t("units.#{unit}"), track_weather_data_path(index_params.merge(wind_speed_unit: unit)), data: { turbo_stream: true }, class: class_names('dropdown-item', @weather_data.selected_units.speed == unit && 'active') %>
-        <% end %>
-      </div>
-    </div>
-  </div>
+<div class="flex gap-1">
+  <span class="text-muted"><%= t('weather_datum.altitude_units') %>: <%= t('units.m') %></span>
+  <span class="text-muted"><%= t('weather_datum.wind_speed_units') %>: <%= t('units.kmh') %></span>
 </div>
 
 <%= render 'table' %>
