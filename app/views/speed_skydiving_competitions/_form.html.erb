@@ -1,4 +1,4 @@
-<%= form_with model: @event, scope: :event, html: { class: 'form-horizontal', role: 'form' } do |f| %>
+<%= form_with model: @event, scope: :event, html: { role: 'form' } do |f| %>
   <div class="sd-form">
     <div class="grid">
       <%= f.label :name, class: 'form-label col-4' %>
@@ -23,9 +23,9 @@
 
     <div class="grid">
       <%= f.label :visibility, class: 'form-label col-4' %>
-      <div class="col-8 form-radio-input-group">
+      <div class="col-8 form-radio-group">
         <% SpeedSkydivingCompetition.visibilities.each do |key, _value| %>
-          <label class="form-radio-input">
+          <label class="form-radio">
             <%= f.radio_button 'visibility', key %>
             <%= t("activerecord.attributes.event.visibilities.#{key}") %>
           </label>

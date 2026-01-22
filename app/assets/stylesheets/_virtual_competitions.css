@@ -91,7 +91,8 @@
 }
 
 .vc-group__title {
-  font-size: 1.25rem;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
   font-weight: 600;
   color: var(--gray-90);
   margin-bottom: 16px;

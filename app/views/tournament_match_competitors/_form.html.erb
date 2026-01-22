@@ -13,11 +13,11 @@
 
   <div class="field">
     <%= f.label :tournament_match_id %><br>
-    <%= f.collection_select(:tournament_match_id, TournamentMatch.all, :id, :id, {promt: 'Select match'}, {class: 'form-control'}) %>
+    <%= f.collection_select(:tournament_match_id, TournamentMatch.all, :id, :id, {promt: 'Select match'}, {class: 'form-input'}) %>
   </div>
   <div class="field">
     <%= f.label :tournament_competitor_id %><br>
-    <%= f.collection_select(:tournament_competitor_id, TournamentCompetitor.all, :id, :name, {promt: 'Select competitor'}, {class: 'form-control'}) %>
+    <%= f.collection_select(:tournament_competitor_id, TournamentCompetitor.all, :id, :name, {promt: 'Select competitor'}, {class: 'form-input'}) %>
   </div>
 
   <div class="field">

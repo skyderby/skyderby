@@ -1,8 +1,8 @@
-<%= form_for @group, html: { class: 'form-horizontal' } do |f| %>
-  <div class="form-group">
-    <%= f.label :name, class: 'control-label col-sm-2' %>
+<%= form_for @group do |f| %>
+  <div class="form-row">
+    <%= f.label :name, class: 'form-label col-sm-2' %>
     <div class="col-sm-5">
-      <%= f.text_field :name, class: 'form-control' %>
+      <%= f.text_field :name, class: 'form-input' %>
     </div>
   </div>
 

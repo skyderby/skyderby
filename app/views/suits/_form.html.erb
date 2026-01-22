@@ -1,5 +1,5 @@
 <% url = @suit.new_record? ? suits_path : suit_path(@suit) %>
-<%= form_with model: @suit, url:, html: { class: 'form-horizontal', role: 'form', id: "#{action_name}_suit_form"} do |f| %>
+<%= form_with model: @suit, url:, html: { role: 'form', id: "#{action_name}_suit_form"} do |f| %>
   <div class="sd-form">
     <div class="grid">
       <%= f.label :name, class: 'form-label col-4' %>
@@ -19,9 +19,9 @@
 
     <div class="grid">
       <%= f.label :kind, class: 'form-label col-4' %>
-      <div class="col-8 form-radio-input-group">
+      <div class="col-8 form-radio-group">
         <% SuitTypes.each do |type| %>
-          <label class="form-radio-input">
+          <label class="form-radio">
             <%= f.radio_button 'kind', type %>
             <%= type.capitalize %>
           </label>

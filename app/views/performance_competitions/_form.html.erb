@@ -1,5 +1,5 @@
 <% url = @event.new_record? ? '/events/performance' : performance_competition_path(@event) %>
-<%= form_with model: @event, url:, html: { class: 'form-horizontal', role: 'form', id: "#{action_name}_event_form"} do |f| %>
+<%= form_with model: @event, url:, html: { role: 'form', id: "#{action_name}_event_form"} do |f| %>
   <div class="sd-form">
     <div class="grid">
       <%= f.label :name, class: 'form-label col-4' %>
@@ -33,9 +33,9 @@
 
     <div class="grid">
       <%= f.label :visibility, class: 'form-label col-4' %>
-      <div class="col-8 form-radio-input-group">
+      <div class="col-8 form-radio-group">
         <% Event.visibilities.each do |key, _value| %>
-          <label class="form-radio-input">
+          <label class="form-radio">
             <%= f.radio_button 'visibility', key %>
             <%= t("activerecord.attributes.event.visibilities.#{key}") %>
           </label>

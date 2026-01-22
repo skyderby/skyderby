@@ -1,4 +1,4 @@
-<%= form_for(@country, html: { class: 'form-horizontal' }) do |f| %>
+<%= form_for(@country) do |f| %>
   <% if @country.errors.any? %>
     <div id="error_explanation">
       <h2>
@@ -13,21 +13,21 @@
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= f.label :name, class: 'col-sm-2 control-label', for: :name %>
+  <div class="form-row">
+    <%= f.label :name, class: 'col-sm-2 form-label', for: :name %>
     <div class="col-sm-5">
-      <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+      <%= f.text_field :name, autofocus: true, class: 'form-input' %>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :code, class: 'col-sm-2 control-label', for: :code %>
+  <div class="form-row">
+    <%= f.label :code, class: 'col-sm-2 form-label', for: :code %>
     <div class="col-sm-5">
-      <%= f.text_field :code, class: 'form-control' %>
+      <%= f.text_field :code, class: 'form-input' %>
     </div>
   </div>
 
-  <div class="form-group">
+  <div class="form-row">
     <div class="col-sm-offset-2 col-sm-8">
       <%= f.submit t('general.save'), class: 'button button--primary' %>
     </div>

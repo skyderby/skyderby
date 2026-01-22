@@ -1,13 +1,13 @@
 <% url = @jump_profile.new_record? ? place_jump_profiles_path(@place) : place_jump_profile_path(@place, @jump_profile) %>
-<%= form_with model: @jump_profile, url:, data: { 'controller': 'places--jump-profile-form' }, class: 'form-horizontal' do |form| %>
-  <div class="form-group">
-    <%= form.label :name, class: 'col-sm-3 control-label' %>
+<%= form_with model: @jump_profile, url:, data: { 'controller': 'places--jump-profile-form' } do |form| %>
+  <div class="form-row">
+    <%= form.label :name, class: 'col-sm-3 form-label' %>
     <div class="col-sm-5">
-      <%= form.text_field :name, class: 'form-control' %>
+      <%= form.text_field :name, class: 'form-input' %>
     </div>
   </div>
-  <div class="form-group" data-controller="places--exit-measurements">
-    <label class="col-sm-3 control-label">Exit measurements</label>
+  <div class="form-row" data-controller="places--exit-measurements">
+    <label class="col-sm-3 form-label">Exit measurements</label>
     <div class="col-sm-5">
       <table class="table place-form__exit-measurements">
         <thead>

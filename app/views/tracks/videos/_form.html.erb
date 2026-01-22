@@ -1,7 +1,6 @@
 <%= form_for @video,
              url: track_video_path,
-             html: { class: 'form-horizontal',
-                     'data-controller': 'tracks--video-form',
+             html: { 'data-controller': 'tracks--video-form',
                      'data-action': 'youtube_api:ready@window->tracks--video-form#onYoutubeApiReady',
                      'data-url': track_video_chart_data_path(@video.track_id) } do |f| %>
   <div class="row">
@@ -12,7 +11,7 @@
     <div class="col-sm-8">
       <div class="url-group">
         <%= f.text_field :url,
-                         class: 'form-control',
+                         class: 'form-input',
                          placeholder: t('.url_placeholder'),
                          'data-tracks--video-form-target': 'url',
                          'data-action': 'change->tracks--video-form#onChangeUrl input->tracks--video-form#onChangeUrl' %>
@@ -34,7 +33,7 @@
     </div>
     <div class="col-sm-3 col-sm-offset-4 top-buffer">
       <div class="input-group">
-        <%= f.text_field :video_offset, class: 'form-control text-center', 'data-tracks--video-form-target': 'videoOffset' %>
+        <%= f.text_field :video_offset, class: 'form-input text-center', 'data-tracks--video-form-target': 'videoOffset' %>
         <button class="button" data-action="click->tracks--video-form#setVideoOffset"><%= t '.set' %></button>
       </div>
     </div>
@@ -55,7 +54,7 @@
         <button class="button" data-action="click->tracks--video-form#decreaseTrackOffset">
           <%= icon_tag 'angle-left-solid' %>
         </button>
-        <%= f.text_field :track_offset, class: 'form-control text-center', 'data-tracks--video-form-target': 'trackOffset' %>
+        <%= f.text_field :track_offset, class: 'form-input text-center', 'data-tracks--video-form-target': 'trackOffset' %>
         <button class="button" data-action="click->tracks--video-form#increaseTrackOffset">
           <%= icon_tag 'angle-right-solid' %>
         </button>

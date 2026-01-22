@@ -1,16 +1,16 @@
 <div id="tournament-form" data-controller="tournaments--form">
   <div class="col-sm-6">
-    <%= form_for @tournament, html: { class: 'form-horizontal' } do |f| %>
+    <%= form_for @tournament do |f| %>
 
-      <div class="form-group">
-        <%= f.label :name, class: 'control-label col-sm-2' %>
+      <div class="form-row">
+        <%= f.label :name, class: 'form-label col-sm-2' %>
         <div class="col-sm-10">
-          <%= f.text_field :name, class: 'form-control' %>
+          <%= f.text_field :name, class: 'form-input' %>
         </div>
       </div>
 
-      <div class="form-group">
-        <%= f.label :place, class: 'control-label col-sm-2' %>
+      <div class="form-row">
+        <%= f.label :place, class: 'form-label col-sm-2' %>
         <div class="col-sm-10">
           <%= render 'hot_select/select',
                      form: f,
@@ -22,8 +22,8 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <%= f.label :finish_line, class: 'col-sm-2 control-label' %>
+      <div class="form-row">
+        <%= f.label :finish_line, class: 'col-sm-2 form-label' %>
         <div class="col-sm-5">
           <% finish_line_options = Place::FinishLine.order(:name).map { |fl| [fl.name, fl.id] } %>
           <%= render 'hot_select/local_select',
@@ -34,28 +34,26 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <%= f.label :starts_at, class: 'control-label col-sm-2' %>
+      <div class="form-row">
+        <%= f.label :starts_at, class: 'form-label col-sm-2' %>
         <div class="col-sm-10">
-          <%= f.date_field :starts_at, class: 'form-control' %>
+          <%= f.date_field :starts_at, class: 'form-input' %>
         </div>
       </div>
 
-      <div class="form-group">
-        <%= f.label :bracket_size, class: 'control-label col-sm-2' %>
+      <div class="form-row">
+        <%= f.label :bracket_size, class: 'form-label col-sm-2' %>
         <div class="col-sm-10">
-          <%= f.text_field :bracket_size, class: 'form-control' %>
+          <%= f.text_field :bracket_size, class: 'form-input' %>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-row">
         <div class="col-sm-4 col-sm-offset-2">
-          <div class="checkbox">
-            <label>
-              <%= f.check_box :has_qualification %>
-              Has qualification
-            </label>
-          </div>
+          <label class="form-checkbox">
+            <%= f.check_box :has_qualification %>
+            Has qualification
+          </label>
         </div>
       </div>
 

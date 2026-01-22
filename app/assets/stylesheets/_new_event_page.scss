@@ -15,6 +15,7 @@
 .new-event h1 {
   font-size: 2rem;
   font-weight: 600;
+  font-family: var(--font-serif);
   color: var(--gray-80);
   text-align: center;
 }
@@ -33,16 +34,20 @@
 .new-event .item h2 {
   font-size: 1.5rem;
   font-weight: 600;
+  font-family: var(--font-serif);
   color: var(--gray-90);
 }
 
 .new-event .item p {
   font-size: 1rem;
-  font-family: var(--secondary-font);
+  font-family: var(--font-sans);
   color: var(--gray-80);
   line-height: 1.4;
 }
 
 .new-event .notice {
-  padding: 1rem;
+  display: block;
+  text-align: justify;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
 }

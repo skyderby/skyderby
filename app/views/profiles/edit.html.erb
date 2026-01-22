@@ -7,16 +7,16 @@
   </div>
 
   <div class="content-block">
-    <%= form_for @profile, html: { class: 'edit-user-profile form-horizontal' } do |f| %>
-      <div class="form-group">
-        <%= f.label :name, class: 'col-sm-2 control-label' %>
+    <%= form_for @profile, html: { class: 'edit-user-profile' } do |f| %>
+      <div class="form-row">
+        <%= f.label :name, class: 'col-sm-2 form-label' %>
         <div class="col-sm-5">
-          <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+          <%= f.text_field :name, autofocus: true, class: 'form-input' %>
         </div>
       </div>
 
-      <div class="form-group">
-        <%= f.label :country, class: 'col-sm-2 control-label' %>
+      <div class="form-row">
+        <%= f.label :country, class: 'col-sm-2 form-label' %>
         <div class="col-sm-5">
           <% options = options_for_select([[@profile.country_name, @profile.country_id]]) %>
           <%= render 'hot_select/select',
@@ -28,14 +28,14 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <%= f.label t('activerecord.attributes.profile.userpic'), class: 'col-sm-2 control-label', for: :userpic %>
+      <div class="form-row">
+        <%= f.label t('activerecord.attributes.profile.userpic'), class: 'col-sm-2 form-label', for: :userpic %>
         <div class="col-sm-4">
           <%= f.file_field :userpic %>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-row">
         <div class="col-sm-offset-2 col-sm-8">
           <%= f.submit t('general.save'), class: 'button button--primary' %>
         </div>
@@ -68,36 +68,36 @@
 
         <br>
 
-        <%= form_for(:user, url: registration_path(:user), html: { method: :put, class: 'form-horizontal' }) do |f| %>
-          <div class="form-group">
-            <%= f.label t('activerecord.attributes.user.email'), class: 'col-sm-4 control-label', for: :email %>
+        <%= form_for(:user, url: registration_path(:user), html: { method: :put }) do |f| %>
+          <div class="form-row">
+            <%= f.label t('activerecord.attributes.user.email'), class: 'col-sm-4 form-label', for: :email %>
             <div class="col-sm-7">
-              <%= f.email_field :email, class: 'form-control' %>
+              <%= f.email_field :email, class: 'form-input' %>
             </div>
           </div>
 
-          <div class="form-group">
-            <%= f.label t('activerecord.attributes.user.current_password'), class: 'col-sm-4 control-label', for: :current_password %>
+          <div class="form-row">
+            <%= f.label t('activerecord.attributes.user.current_password'), class: 'col-sm-4 form-label', for: :current_password %>
             <div class="col-sm-7">
-              <%= f.password_field :current_password, autocomplete: 'off', class: 'form-control', placeholder: 'Необходимо ввести текущий пароль для подтверждения изменений' %>
+              <%= f.password_field :current_password, autocomplete: 'off', class: 'form-input', placeholder: 'Необходимо ввести текущий пароль для подтверждения изменений' %>
             </div>
           </div>
 
-          <div class="form-group">
-            <%= f.label t('activerecord.attributes.user.password'), class: 'col-sm-4 control-label', for: :password %>
+          <div class="form-row">
+            <%= f.label t('activerecord.attributes.user.password'), class: 'col-sm-4 form-label', for: :password %>
             <div class="col-sm-7">
-              <%= f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: 'Оставьте пустым если не планируете менять пароль' %>
+              <%= f.password_field :password, autocomplete: 'off', class: 'form-input', placeholder: 'Оставьте пустым если не планируете менять пароль' %>
             </div>
           </div>
 
-          <div class="form-group">
-            <%= f.label t('activerecord.attributes.user.password_confirmation'), class: 'col-sm-4 control-label', for: :password_confirmation %>
+          <div class="form-row">
+            <%= f.label t('activerecord.attributes.user.password_confirmation'), class: 'col-sm-4 form-label', for: :password_confirmation %>
             <div class="col-sm-7">
-              <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', placeholder: 'Оставьте пустым если не планируете менять пароль' %>
+              <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-input', placeholder: 'Оставьте пустым если не планируете менять пароль' %>
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-row">
             <div class="col-sm-offset-4 col-sm-7">
               <%= f.submit t('general.update'), class: 'button button--primary' %>
             </div>
@@ -117,10 +117,10 @@
         }
       },
       highlight: function(element) {
-        $(element).closest('.form-group').addClass('has-error');
+        $(element).closest('.form-row').addClass('has-error');
       },
       unhighlight: function(element) {
-        $(element).closest('.form-group').removeClass('has-error');
+        $(element).closest('.form-row').removeClass('has-error');
       }
     });
   </script>
