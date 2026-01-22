@@ -25,6 +25,8 @@
   </div>
 
   <div class="vc-scoreboard__pagination">
-    <%= will_paginate @competition.scores, renderer: BootstrapPagination::Rails %>
+    <div class="pagination">
+      <%= paginate @competition.scores %>
+    </div>
   </div>
 </div>

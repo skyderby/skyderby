@@ -9,7 +9,7 @@ class Tracks::SelectOptionsController < ApplicationController
       .order(recorded_at: :desc)
       .then { |tracks| profile_id ? tracks.where(profile_id: profile_id) : tracks }
       .search(search_query)
-      .paginate(page:, per_page: 25)
+      .page(page).per(25)
 
     respond_with_no_results(params[:frame_id]) if @tracks.empty? && @tracks.current_page == 1
   end

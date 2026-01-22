@@ -17,7 +17,7 @@ module VirtualCompetitions
     def overall? = false
 
     def scores
-      @scores ||= all_scores.paginate(page: page, per_page: 25)
+      @scores ||= all_scores.page(page).per(25)
     end
 
     def all_scores

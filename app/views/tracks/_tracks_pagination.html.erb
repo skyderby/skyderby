@@ -1,6 +1,6 @@
 <div class="text-center">
   <% if @tracks.next_page %>
-    <%= button_to t('will_paginate.load_more', default: 'Load more...'),
+    <%= button_to t('general.load_more', default: 'Load more...'),
                   tracks_path,
                   params: index_params.merge(page: @tracks.next_page),
                   form: { data: { turbo: true, turbo_stream: true } },
@@ -8,7 +8,7 @@
                   class: 'button' %>
   <% end %>
 
-  <div class="pagination-list">
-    <%= will_paginate @tracks, renderer: BootstrapPagination::Rails %>
+  <div class="pagination">
+    <%= paginate @tracks %>
   </div>
 </div>

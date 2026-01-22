@@ -22,7 +22,7 @@ class TracksController < ApplicationController
                 place: [:country],
                 pilot: :owner,
                 suit: [:manufacturer]
-              ).paginate(page: page, per_page: 25)
+              ).page(page).per(25)
 
     respond_to do |format|
       format.html

@@ -7,7 +7,7 @@ class Suits::SelectOptionsController < ApplicationController
     @suits = Suit.includes(:manufacturer)
                  .order('manufacturers.name, suits.name')
                  .search(search_query)
-                 .paginate(page:, per_page: 25)
+                 .page(page).per(25)
 
     respond_with_no_results(params[:frame_id]) if @suits.empty? && @suits.current_page == 1
   end

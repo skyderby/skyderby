@@ -13,7 +13,7 @@ class Profiles::TracksController < ApplicationController
         pilot: :owner
       )
       .then { |tracks| TrackFilter.new(index_params).apply(tracks) }
-      .paginate(page:, per_page: 25)
+      .page(page).per(25)
   end
 
   private

@@ -9,7 +9,7 @@ class BadgesController < ApplicationController
       .includes(:profile)
       .left_outer_joins(:profile)
       .order('profiles.name', 'achieved_at desc')
-      .paginate(page: page, per_page: 25)
+      .page(page).per(25)
   end
 
   def new

@@ -26,7 +26,9 @@
       </div>
 
       <div class="accounts__pagination text-center top-buffer">
-        <%= will_paginate @accounts, renderer: BootstrapPagination::Rails %>
+        <div class="pagination">
+          <%= paginate @accounts %>
+        </div>
       </div>
     </turbo-frame>
   </div>

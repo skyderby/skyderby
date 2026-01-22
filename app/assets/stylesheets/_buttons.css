@@ -91,6 +91,13 @@ form[aria-busy] .button:disabled::after {
   --button-border-size: 0;
 }
 
+.button--ghost.button--active {
+  --button-border-size: 1px;
+  --button-border-color: var(--gray-40);
+
+  box-shadow: 0 2px 1px #0000001f;
+}
+
 .button--outline {
   --button-bg: transparent;
 }

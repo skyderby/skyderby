@@ -68,8 +68,8 @@
     </div>
 
     <div class="text-center top-buffer">
-      <div class="pagination-list">
-        <%= will_paginate @tracks, renderer: BootstrapPagination::Rails %>
+      <div class="pagination">
+        <%= paginate @tracks %>
       </div>
     </div>
   </div>

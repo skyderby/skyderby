@@ -12,7 +12,9 @@
         </div>
       </div>
       <div class="flex justify-center">
-        <%= will_paginate @tracks, renderer: BootstrapPagination::Rails %>
+        <div class="pagination">
+          <%= paginate @tracks %>
+        </div>
       </div>
     </div>
   </div>

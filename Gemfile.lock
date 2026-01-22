@@ -235,6 +235,18 @@ GEM
       sshkit (>= 1.23.0, < 2.0)
       thor (~> 1.3)
       zeitwerk (>= 2.6.18, < 3.0)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     kramdown (2.5.1)
       rexml (>= 3.3.9)
     language_server-protocol (3.17.0.3)
@@ -532,7 +544,6 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    will_paginate (4.0.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.7.4)
@@ -567,6 +578,7 @@ DEPENDENCIES
   image_processing (~> 1.12)
   jbuilder (~> 2.6)
   kamal (~> 2.5)
+  kaminari
   kramdown
   letter_opener
   listen
@@ -607,7 +619,6 @@ DEPENDENCIES
   vcr
   vincenty_distance
   webmock
-  will_paginate
 
 RUBY VERSION
    ruby 3.4.8p72

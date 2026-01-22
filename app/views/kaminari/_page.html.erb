@@ -1,0 +1,5 @@
+<% if page.current? -%>
+  <span class="button button--ghost button--active"><%= page %></span>
+<% else -%>
+  <%= link_to page, url, class: 'button button--ghost' %>
+<% end -%>

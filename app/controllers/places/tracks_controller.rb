@@ -14,7 +14,7 @@ class Places::TracksController < ApplicationController
         pilot: :owner,
         suit: :manufacturer
       )
-      .paginate(page:, per_page: 25)
+      .page(page).per(25)
   end
 
   private

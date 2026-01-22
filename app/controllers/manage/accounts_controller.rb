@@ -6,7 +6,7 @@ module Manage
       @accounts = User.includes(:profile)
                       .search(params[:search])
                       .order(:created_at)
-                      .paginate(per_page: 25, page:)
+                      .page(page).per(25)
     end
 
     def show

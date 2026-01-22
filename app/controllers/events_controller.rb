@@ -8,7 +8,7 @@ class EventsController < ApplicationController
       .includes(place: :country)
       .by_activity(index_params[:kind])
       .search(index_params[:query])
-      .paginate(page:, per_page: rows_per_page)
+      .page(page).per(rows_per_page)
 
     respond_to do |format|
       format.html

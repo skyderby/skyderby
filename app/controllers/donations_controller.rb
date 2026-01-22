@@ -2,7 +2,7 @@ class DonationsController < ApplicationController
   before_action :authorize!
 
   def index
-    @donations = Contribution.includes(details: :profile).paginate(page:, per_page: 25).order(received_at: :desc)
+    @donations = Contribution.includes(details: :profile).page(page).per(25).order(received_at: :desc)
   end
 
   def new

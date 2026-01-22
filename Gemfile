@@ -32,7 +32,7 @@ gem 'pay', '~> 11.0'
 gem 'stripe', '~> 18.0'
 
 # Pagination
-gem 'will_paginate'
+gem 'kaminari'
 
 # Template engines
 gem 'jbuilder', '~> 2.6'

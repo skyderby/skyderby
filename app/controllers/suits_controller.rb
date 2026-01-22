@@ -27,7 +27,7 @@ class SuitsController < ApplicationController
         :video,
         place: :country,
         pilot: :owner
-      ).paginate(page:, per_page: 50)
+      ).page(page).per(50)
   end
 
   def new
