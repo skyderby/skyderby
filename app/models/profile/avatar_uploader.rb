@@ -11,9 +11,9 @@ class Profile::AvatarUploader < Shrine
     vips = ImageProcessing::Vips.source(original).then { |img| apply_crop(img) }
 
     {
-      thumb: vips.resize_to_fill(40, 40).call,
-      medium: vips.resize_to_fill(150, 150).call,
-      large: vips.resize_to_limit(500, 500).call
+      thumb: vips.resize_to_fill(40, 40).convert('webp').call,
+      medium: vips.resize_to_fill(150, 150).convert('webp').call,
+      large: vips.resize_to_limit(500, 500).convert('webp').call
     }
   end
 

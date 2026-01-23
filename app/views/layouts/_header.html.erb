@@ -17,8 +17,8 @@
           <% if masquerading? %>
             <%= icon_tag 'triangle-exclamation-solid', class: 'icon-lg text-danger' %>
           <% end %>
-          <% avatar = current_user.profile ? current_user.profile.userpic_url(:thumb) : '/images/thumb/missing.png' %>
-          <%= image_tag avatar, id: 'userpic-thumb', class: 'nav-profile', alt: t('application.accessibility.profile_picture') %>
+          <% avatar = current_user.profile ? current_user.profile.userpic_url(:medium) : '/images/medium/missing.png' %>
+          <%= image_tag avatar, class: 'nav-profile', alt: t('application.accessibility.profile_picture') %>
         </button>
 
         <div id="user-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
@@ -73,7 +73,7 @@
     <div class="main-menu-header">
       <% if user_signed_in? %>
         <%= link_to profile_path(current_user.profile), class: 'main-menu__profile' do %>
-          <%= image_tag current_user.profile.userpic_url(:thumb), class: 'main-menu__avatar', alt: t('application.accessibility.profile_picture') %>
+          <%= image_tag current_user.profile.userpic_url(:medium), class: 'main-menu__avatar', alt: t('application.accessibility.profile_picture') %>
           <p><%= current_user.name %></p>
         <% end %>
       <% else %>
