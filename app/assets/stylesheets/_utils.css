@@ -70,7 +70,7 @@
   }
 
   .text-warning {
-    color: var(--orange-80);
+    color: var(--orange-90);
   }
 
   .text-info {
@@ -174,5 +174,9 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+  }
+
+  .rounded {
+    border-radius: 9999px;
   }
 }
