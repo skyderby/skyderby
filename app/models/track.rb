@@ -52,6 +52,7 @@ class Track < ApplicationRecord
 
   has_one :event_result, class_name: 'PerformanceCompetition::Result', dependent: :restrict_with_error
   has_one :video, class_name: 'TrackVideo', dependent: :destroy, inverse_of: :track
+  has_one :reference_point, dependent: :destroy
 
   has_one :time,
           -> { where(discipline: Result.disciplines[:time]) },

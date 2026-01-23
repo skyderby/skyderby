@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_09_074413) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_23_050853) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -658,6 +658,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_09_074413) do
     t.timestamptz "updated_at", null: false
   end
 
+  create_table "track_reference_points", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.decimal "latitude", precision: 15, scale: 10, null: false
+    t.decimal "longitude", precision: 15, scale: 10, null: false
+    t.bigint "track_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["track_id"], name: "index_track_reference_points_on_track_id", unique: true
+  end
+
   create_table "track_results", id: :serial, force: :cascade do |t|
     t.integer "discipline"
     t.integer "range_from"
@@ -855,6 +864,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_09_074413) do
   add_foreign_key "tournament_competitors", "profiles"
   add_foreign_key "tournaments", "place_finish_lines", column: "finish_line_id"
   add_foreign_key "tournaments", "profiles"
+  add_foreign_key "track_reference_points", "tracks"
   add_foreign_key "tracks", "profiles"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
 

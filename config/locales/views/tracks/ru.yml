@@ -38,6 +38,7 @@ ru:
       window: 'окно'
       loading: 'Загрузка данных трека'
       full_jump: 'Весь прыжок'
+      designated_lane: 'Designated Lane'
     choose:
       title: 'Выберите трек для загрузки'
       number: 'Номер'

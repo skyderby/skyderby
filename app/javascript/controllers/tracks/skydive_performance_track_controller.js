@@ -1,13 +1,15 @@
 import { Controller } from '@hotwired/stimulus'
-import { initGlideChart, initSpeedsChart } from 'charts'
+import { initGlideChart, initSpeedsChart, initAccuracyChart } from 'charts'
 import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 import cropPoints from 'utils/cropPoints'
 import calculateWindCancellation from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
+import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
+import { interpolatePointByTime } from 'utils/laneValidation/utils'
 
-const CHART_PADDING = { left: 60, right: 20, top: 20, bottom: 35 }
+const CHART_PADDING = { left: 60, right: 20, top: 10, bottom: 10 }
 
 export default class extends Controller {
   static targets = [
@@ -56,7 +58,9 @@ export default class extends Controller {
     'windEffectGlideRatioPercent',
     'windEffectGlideRatioWindPercent',
     'windEffectGlideRatio',
-    'windEffectGlideRatioWind'
+    'windEffectGlideRatioWind',
+    'designatedLaneToggle',
+    'sepChart'
   ]
 
   static outlets = ['tracks--range-selector']
@@ -64,21 +68,35 @@ export default class extends Controller {
   static values = {
     pointsUrl: String,
     locationArrowUrl: String,
-    weatherUrl: String
+    weatherUrl: String,
+    referencePointUrl: String
   }
 
   connect() {
     this.playing = false
     this.currentIndex = 0
+    this.referencePointData = null
 
-    Promise.all([this.fetchPoints(), this.fetchWeather(), initMapsApi()]).then(
-      ([pointsData, weatherData]) => {
-        this.points = pointsData.points
-        this.weatherData = weatherData
-        this.initializeRange()
-        this.updateView()
-      }
-    )
+    Promise.all([
+      this.fetchPoints(),
+      this.fetchWeather(),
+      this.fetchReferencePoint(),
+      initMapsApi()
+    ]).then(([pointsData, weatherData, referencePointData]) => {
+      this.points = pointsData.points
+      this.weatherData = weatherData
+      this.referencePointData = referencePointData
+      this.initializeRange()
+      this.updateView()
+      this.initDesignatedLane()
+    })
+  }
+
+  initDesignatedLane() {
+    if (this.referencePointData?.reference_point && this.hasDesignatedLaneToggleTarget) {
+      this.designatedLaneToggleTarget.checked = true
+      this.showDesignatedLane()
+    }
   }
 
   fetchPoints() {
@@ -108,6 +126,19 @@ export default class extends Controller {
         return response.json()
       })
       .catch(() => [])
+  }
+
+  fetchReferencePoint() {
+    if (!this.hasReferencePointUrlValue) return Promise.resolve(null)
+
+    return fetch(this.referencePointUrlValue, {
+      headers: { Accept: 'application/json' }
+    })
+      .then(response => {
+        if (!response.ok) return null
+        return response.json()
+      })
+      .catch(() => null)
   }
 
   get hasWeatherData() {
@@ -224,6 +255,7 @@ export default class extends Controller {
     this.renderSideProjection()
     this.initGlideChart()
     this.initSpeedsChart()
+    this.initSepChart()
     this.renderMap()
     this.initPlayback()
     this.updateSummaryIndicators()
@@ -561,7 +593,9 @@ export default class extends Controller {
       this.chartPoints,
       {
         plotBands: this.bufferPlotBands(),
-        windCancellation: this.hasWeatherData
+        windCancellation: this.hasWeatherData,
+        showTitle: false,
+        showLegend: false
       }
     )
   }
@@ -579,10 +613,19 @@ export default class extends Controller {
     )
   }
 
+  initSepChart() {
+    if (!this.hasSepChartTarget) return
+
+    this.sepChartTarget.chart = initAccuracyChart(this.sepChartTarget, this.chartPoints, {
+      plotBands: this.bufferPlotBands()
+    })
+  }
+
   destroyCharts() {
     const charts = [
       this.hasGlideChartTarget && this.glideChartTarget.chart,
-      this.hasSpeedChartTarget && this.speedChartTarget.chart
+      this.hasSpeedChartTarget && this.speedChartTarget.chart,
+      this.hasSepChartTarget && this.sepChartTarget.chart
     ]
 
     charts.filter(Boolean).forEach(chart => chart.destroy())
@@ -1167,6 +1210,148 @@ export default class extends Controller {
 
     const bearing = (Math.atan2(y, x) * 180) / Math.PI
     return (bearing + 360) % 360
+  }
+
+  toggleDesignatedLane() {
+    const enabled = this.designatedLaneToggleTarget.checked
+
+    if (enabled) {
+      this.showDesignatedLane()
+    } else {
+      this.hideDesignatedLane()
+    }
+  }
+
+  showDesignatedLane() {
+    if (!this.map || !this.points.length) return
+
+    this.clearDesignatedLane()
+
+    const exitPoint = this.findExitPoint()
+    if (!exitPoint) return
+
+    const exitTime = exitPoint.gpsTime.getTime()
+    const dlStartTime = exitTime + 9000
+    const dlStartPoint = interpolatePointByTime(this.points, dlStartTime)
+
+    if (!dlStartPoint) return
+
+    let referencePoint
+    if (this.referencePointData?.reference_point) {
+      referencePoint = {
+        latitude: this.referencePointData.reference_point.latitude,
+        longitude: this.referencePointData.reference_point.longitude
+      }
+    } else {
+      referencePoint = {
+        latitude: dlStartPoint.latitude,
+        longitude: dlStartPoint.longitude
+      }
+    }
+
+    const isEditable = this.referencePointData?.editable ?? false
+
+    this.designatedLane = createDesignatedLane(
+      this.map,
+      dlStartPoint,
+      dlStartPoint,
+      null,
+      referencePoint,
+      [],
+      'window_end'
+    )
+
+    this.createReferenceMarker(referencePoint, isEditable)
+  }
+
+  findExitPoint() {
+    const verticalSpeedThreshold = 10 * 3.6
+    const consecutiveRequired = 15
+
+    for (let i = 0; i <= this.points.length - consecutiveRequired; i++) {
+      const range = this.points.slice(i, i + consecutiveRequired)
+      const allAboveThreshold = range.every(
+        point => point.vSpeed > verticalSpeedThreshold
+      )
+
+      if (allAboveThreshold) {
+        return this.points[i]
+      }
+    }
+
+    return this.points[0]
+  }
+
+  createReferenceMarker(referencePoint, isEditable) {
+    if (this.referencePointMarker) {
+      this.referencePointMarker.map = null
+    }
+
+    const pin = new google.maps.marker.PinElement({
+      background: '#FF5722',
+      borderColor: '#E64A19',
+      glyphColor: '#fff',
+      scale: 0.7
+    })
+
+    const marker = new google.maps.marker.AdvancedMarkerElement({
+      map: this.map,
+      position: new google.maps.LatLng(referencePoint.latitude, referencePoint.longitude),
+      content: pin.element,
+      gmpDraggable: isEditable
+    })
+    marker.pin = pin
+
+    marker.addListener('dragend', () => {
+      this.saveReferencePoint()
+    })
+
+    this.referencePointMarker = marker
+  }
+
+  hideDesignatedLane() {
+    this.clearDesignatedLane()
+    if (this.referencePointMarker) {
+      this.referencePointMarker.map = null
+    }
+  }
+
+  clearDesignatedLane() {
+    if (this.designatedLane) {
+      this.designatedLane.cleanup()
+      this.designatedLane = null
+    }
+  }
+
+  saveReferencePoint() {
+    if (!this.referencePointMarker || !this.hasReferencePointUrlValue) return
+
+    const position = this.referencePointMarker.position
+    const hasExisting = this.referencePointData?.reference_point
+
+    const method = hasExisting ? 'PATCH' : 'POST'
+
+    fetch(this.referencePointUrlValue, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content
+      },
+      body: JSON.stringify({
+        reference_point: {
+          latitude: position.lat,
+          longitude: position.lng
+        }
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.referencePointData = data
+        if (this.designatedLaneToggleTarget.checked) {
+          this.showDesignatedLane()
+        }
+      })
   }
 
   disconnect() {

@@ -5,6 +5,7 @@
        data-controller="tracks--skydive-performance-track"
        data-tracks--skydive-performance-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 5, seconds_after_end: 10 }) %>"
        data-tracks--skydive-performance-track-weather-url-value="<%= track_weather_data_path(@track) %>"
+       data-tracks--skydive-performance-track-reference-point-url-value="<%= track_reference_point_path(@track) %>"
        data-tracks--skydive-performance-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
        data-tracks--skydive-performance-track-tracks--range-selector-outlet="#range-selector"
        data-action="tracks--range-selector:change->tracks--skydive-performance-track#updateRange">
@@ -49,6 +50,24 @@
             <g class="chart-trajectory" data-tracks--skydive-performance-track-target="trajectory"></g>
           </svg>
         </div>
+
+        <div class="skydive-performance-map-container">
+          <div class="skydive-performance-map"
+               data-tracks--skydive-performance-track-target="map">
+          </div>
+        </div>
+
+        <div class="switch-container">
+          <input type="checkbox"
+                 id="designated-lane-toggle"
+                 class="switch-input"
+                 data-tracks--skydive-performance-track-target="designatedLaneToggle"
+                 data-action="tracks--skydive-performance-track#toggleDesignatedLane">
+          <label for="designated-lane-toggle" class="switch-label">
+            <span class="switch-slider"></span>
+            <span class="switch-text"><%= t('tracks.show.designated_lane') %></span>
+          </label>
+        </div>
       </div>
 
       <div class="skydive-performance-controls">
@@ -72,18 +91,14 @@
       </div>
 
       <div class="skydive-performance-right">
-        <div class="skydive-performance-map-container">
-          <div class="skydive-performance-map"
-               data-tracks--skydive-performance-track-target="map">
-          </div>
-        </div>
-
         <div class="skydive-performance-charts"
              data-controller="synchronized-charts"
              data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip">
           <div data-tracks--skydive-performance-track-target="glideChart"
                data-synchronized-charts-target="chart"></div>
           <div data-tracks--skydive-performance-track-target="speedChart"
+               data-synchronized-charts-target="chart"></div>
+          <div data-tracks--skydive-performance-track-target="sepChart"
                data-synchronized-charts-target="chart"></div>
         </div>
       </div>

@@ -38,6 +38,7 @@ en:
       window: 'window'
       loading: 'Loading track data'
       full_jump: 'Full jump'
+      designated_lane: 'Designated Lane'
     choose:
       title: 'Select a track to upload'
       number: '#'

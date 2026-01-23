@@ -51,7 +51,13 @@ export const zeroWindGlideRatioSeries = (points, options) => ({
 export const initGlideChart = (
   container,
   points,
-  { plotLines = [], plotBands = [], windCancellation = false } = {}
+  {
+    plotLines = [],
+    plotBands = [],
+    windCancellation = false,
+    showTitle = true,
+    showLegend = true
+  } = {}
 ) => {
   const chartName = 'GlideChart'
 
@@ -65,10 +71,13 @@ export const initGlideChart = (
         }
       }
     },
-    title: {
-      text: I18n.t('charts.gr.title'),
-      style: { color: 'var(--gray-80)', fontSize: '16px' }
-    },
+    title: showTitle
+      ? {
+          text: I18n.t('charts.gr.title'),
+          style: { color: 'var(--gray-80)', fontSize: '16px' }
+        }
+      : undefined,
+    legend: { enabled: showLegend },
     plotOptions: {
       spline: {
         marker: {

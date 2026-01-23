@@ -271,6 +271,7 @@ Skyderby::Application.routes.draw do
       resource :weather_data
       resource :points, only: :show
       resource :pro_view, only: :create
+      resource :reference_point, only: [:show, :create, :update, :destroy]
 
       collection do
         resources :select_options, only: :index, as: :tracks_select_options
