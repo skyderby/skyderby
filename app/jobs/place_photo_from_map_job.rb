@@ -7,7 +7,7 @@ class PlacePhotoFromMapJob < ApplicationJob
     return if place.photos.any?
 
     response = fetch_image(place.google_map_image_url)
-    return unless response&.is_a?(Net::HTTPSuccess)
+    return unless response.is_a?(Net::HTTPSuccess)
 
     create_photo(place, response.body)
   end

@@ -4,7 +4,7 @@ module Tracks
     before_action :authorize_edit, except: :show
 
     def new
-      (redirect_to action: :edit && return) if @track.video
+      return redirect_to(action: :edit) if @track.video
 
       default_values = { track_offset: @track.ff_start, track_id: @track.id }
       @video = TrackVideo.new(default_values)

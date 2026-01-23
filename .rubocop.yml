@@ -111,3 +111,12 @@ Style/GuardClause:
 
 Style/StringConcatenation:
   Enabled: false
+
+Rails/StrongParametersExpect:
+  Enabled: false
+
+Naming/PredicateMethod:
+  Enabled: false
+
+Naming/PredicatePrefix:
+  Enabled: false

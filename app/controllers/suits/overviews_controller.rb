@@ -20,7 +20,7 @@ class Suits::OverviewsController < ApplicationController
         'round(tracks.count::numeric / sum(tracks.count) OVER () * 100, 2) AS popularity'
       )
       .group(:id, :name, :manufacturer_id, 'manufacturer_name', 'tracks.count')
-      .order('popularity desc')
+      .order(popularity: :desc)
   end
 
   def tracks_query

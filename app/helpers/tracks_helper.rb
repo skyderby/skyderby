@@ -64,7 +64,7 @@ module TracksHelper
     end
   end
 
-  def tracks_sort_header(order_field, order_direction, field, field_presentation)
+  def tracks_sort_header(order_field, order_direction, field, field_presentation) # rubocop:disable Metrics/AbcSize
     if field.casecmp?(order_field) && order_direction == :desc
       tag.a(href: url_for(index_params.merge(order: field)),
             data: { controller: 'tooltip' },

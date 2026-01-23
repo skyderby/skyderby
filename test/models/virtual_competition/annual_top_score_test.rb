@@ -32,7 +32,7 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     assert_equal 3, scores.count
     assert_equal [@alex.id, @travis.id, @john.id], scores.map(&:profile_id)
     assert_equal [1, 2, 3], scores.map(&:rank)
-    assert_equal [25, 28, 30], scores.map(&:result).map(&:to_i)
+    assert_equal([25, 28, 30], scores.map { |score| score.result.to_i })
   end
 
   test 'returns only best result per profile' do

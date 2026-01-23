@@ -4,7 +4,7 @@ class Tournaments::SelectOptionsController < ApplicationController
   layout false
 
   def index
-    @tournaments = policy_scope(Tournament).order('starts_at DESC')
+    @tournaments = policy_scope(Tournament).order(starts_at: :desc)
 
     @tournaments = @tournaments.search(search_query) if search_query
 

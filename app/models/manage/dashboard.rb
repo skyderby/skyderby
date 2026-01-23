@@ -38,7 +38,7 @@ module Manage
            .where(profiles: { owner_type: 'User' })
            .where.not(profiles: { owner_id: nil })
            .group('profile_id')
-           .order('count_all desc')
+           .order(count_all: :desc)
            .limit(12)
            .count
            .transform_keys { |profile_id| Profile.find(profile_id) }

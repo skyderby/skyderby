@@ -3,7 +3,7 @@ json.partial! @competition, partial: 'api/v1/virtual_competitions/virtual_compet
 results_by_pilot =
   @competition
   .virtual_comp_results
-  .order('result DESC')
+  .order(result: :desc)
   .group_by(&:profile_id)
   .map do |_, results|
     {

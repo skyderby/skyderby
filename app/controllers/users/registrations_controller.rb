@@ -1,12 +1,12 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+  TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'.freeze
 
   rate_limit to: 10, within: 3.minutes, only: :create, with: -> {
     redirect_to new_user_registration_path, alert: 'Try again later.'
   }
   before_action :configure_sign_up_params, only: [:create]
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     build_resource(sign_up_params)
 
     unless verify_turnstile
@@ -42,7 +42,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def verify_turnstile
     return true if Rails.env.test?
-    return true unless ENV['TURNSTILE_SECRET_KEY'].present?
+    return true if ENV['TURNSTILE_SECRET_KEY'].blank?
 
     token = params['cf_turnstile_response']
     return false if token.blank?

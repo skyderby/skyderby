@@ -11,10 +11,10 @@ class PointInterpolation
     interpolate(factor)
   end
 
-  private
-
   INTERPOLATION_FIELDS =
     %i[gps_time latitude longitude altitude h_speed v_speed distance].freeze
+
+  private
 
   def interpolate(factor)
     new_point = @first_point.clone

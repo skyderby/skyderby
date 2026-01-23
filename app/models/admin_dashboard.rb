@@ -16,7 +16,7 @@ class AdminDashboard < Dashboard
         'sum(amount) as amount'
       )
       .group("date_trunc('month', received_at)")
-      .order('month')
+      .order(:month)
       .where('received_at > ?', 1.year.ago)
   end
 end

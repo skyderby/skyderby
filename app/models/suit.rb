@@ -16,7 +16,7 @@ class Suit < ApplicationRecord
 
   belongs_to :manufacturer
 
-  has_many :tracks, -> { order('created_at DESC') }, inverse_of: :suit, dependent: :nullify
+  has_many :tracks, -> { order(created_at: :desc) }, inverse_of: :suit, dependent: :nullify
   has_many :competitors, dependent: :restrict_with_error
   has_many :pilots, through: :tracks
 
