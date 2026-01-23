@@ -1,2 +1,6 @@
 ---
 api_key: ENV.fetch('HONEYBADGER_API_KEY', nil)
+
+sidekiq:
+  insights:
+    enabled: false
