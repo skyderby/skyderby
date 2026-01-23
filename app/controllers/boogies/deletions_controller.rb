@@ -17,7 +17,7 @@ class Boogies::DeletionsController < ApplicationController
           partial: 'toasts/toast',
           locals: { message: t('events.event_name_mismatch'), type: 'error' }
         ),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
     end
   rescue ActiveRecord::RecordNotDestroyed
@@ -27,7 +27,7 @@ class Boogies::DeletionsController < ApplicationController
         partial: 'toasts/toast',
         locals: { message: t('events.event_deletion_failed'), type: 'error' }
       ),
-      status: :unprocessable_entity
+      status: :unprocessable_content
     )
   end
 

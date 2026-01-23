@@ -16,7 +16,7 @@ class Profiles::GiftedSubscriptionsController < ApplicationController
     if @gifted_subscription.save
       redirect_to profile_subscription_path(@profile), notice: 'Subscription granted successfully'
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

@@ -64,9 +64,9 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
 
     snapshot = Time.zone.parse('2024-03-16')
     scores = VirtualCompetition::AnnualTopScore
-      .at_snapshot(snapshot)
-      .for_competition(@competition)
-      .for_year(2024)
+             .at_snapshot(snapshot)
+             .for_competition(@competition)
+             .for_year(2024)
 
     assert_equal 2, scores.count
     assert_equal [@alex.id, @john.id], scores.map(&:profile_id)
@@ -80,13 +80,13 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     late_snapshot = Time.zone.parse('2024-03-25')
 
     early_scores = VirtualCompetition::AnnualTopScore
-      .at_snapshot(early_snapshot)
-      .for_competition(@competition)
-      .for_year(2024)
+                   .at_snapshot(early_snapshot)
+                   .for_competition(@competition)
+                   .for_year(2024)
     late_scores = VirtualCompetition::AnnualTopScore
-      .at_snapshot(late_snapshot)
-      .for_competition(@competition)
-      .for_year(2024)
+                  .at_snapshot(late_snapshot)
+                  .for_competition(@competition)
+                  .for_year(2024)
 
     assert_equal 2000, early_scores.first.result.to_i
     assert_equal 3000, late_scores.first.result.to_i
@@ -123,9 +123,9 @@ class VirtualCompetition::AnnualTopScoreTest < ActiveSupport::TestCase
     create_result(@competition, @john, result: 2000, recorded_at: '2024-03-01')
 
     scores = VirtualCompetition::AnnualTopScore
-      .for_competition(@competition)
-      .for_year(2024)
-      .includes(:profile)
+             .for_competition(@competition)
+             .for_year(2024)
+             .includes(:profile)
 
     assert_nothing_raised { scores.first.profile.name }
   end

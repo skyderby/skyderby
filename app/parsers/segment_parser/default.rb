@@ -11,7 +11,7 @@ module SegmentParser
   end
 
   class Default
-    def initialize(file); end # rubocop:disable Style/RedundantInitialize
+    def initialize(file); end
 
     def segments
       [NullSegment.new]

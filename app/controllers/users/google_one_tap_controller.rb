@@ -9,7 +9,7 @@ module Users
       payload = verify_google_token(params[:credential])
 
       if payload.nil?
-        render json: { error: 'Invalid credential' }, status: :unprocessable_entity
+        render json: { error: 'Invalid credential' }, status: :unprocessable_content
         return
       end
 
@@ -21,7 +21,7 @@ module Users
         Amplitude.identify(user_id: user.id, properties: { plan: user.subscription_plan })
         render json: { success: true }
       else
-        render json: { error: 'Could not authenticate' }, status: :unprocessable_entity
+        render json: { error: 'Could not authenticate' }, status: :unprocessable_content
       end
     end
 

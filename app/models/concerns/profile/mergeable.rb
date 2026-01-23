@@ -3,7 +3,7 @@ class Profile < ApplicationRecord
     extend ActiveSupport::Concern
 
     class_methods do
-      def has_many_associations # rubocop:disable Naming/PredicateName
+      def has_many_associations
         reflections.select do |_association_name, reflection|
           reflection.macro == :has_many
         end

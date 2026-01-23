@@ -2,6 +2,7 @@ module Tournaments
   module Qualifications
     class CompetitorsCollection
       include Enumerable
+
       delegate :each, to: :competitors
 
       def initialize(tournament_competitors, scoreboard)

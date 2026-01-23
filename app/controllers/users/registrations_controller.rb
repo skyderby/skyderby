@@ -1,7 +1,9 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 
-  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_user_registration_path, alert: "Try again later." }
+  rate_limit to: 10, within: 3.minutes, only: :create, with: -> {
+    redirect_to new_user_registration_path, alert: 'Try again later.'
+  }
   before_action :configure_sign_up_params, only: [:create]
 
   def create
@@ -11,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       resource.errors.add(:base, I18n.t('turnstile.errors.verification_failed'))
       clean_up_passwords resource
       set_minimum_password_length
-      return render :new, status: :unprocessable_entity
+      return render :new, status: :unprocessable_content
     end
 
     resource.save
@@ -28,7 +30,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -47,7 +49,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     response = Net::HTTP.post_form(
       URI(TURNSTILE_VERIFY_URL),
-      secret: ENV['TURNSTILE_SECRET_KEY'],
+      secret: ENV.fetch('TURNSTILE_SECRET_KEY', nil),
       response: token,
       remoteip: request.remote_ip
     )

@@ -20,7 +20,7 @@ class PerformanceCompetition::Result < ApplicationRecord
 
   def reference_point
     round.reference_point_assignments
-         .find { _1.competitor_id == competitor_id }&.reference_point
+         .find { it.competitor_id == competitor_id }&.reference_point
   end
 
   def penalty_sizes = [10, 20, 50, 100]

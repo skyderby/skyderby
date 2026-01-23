@@ -84,7 +84,7 @@ class EventListTest < ActiveSupport::TestCase
     tournaments(:world_base_race).update!(name: 'Tournament')
     tournaments(:qualification_loen).update!(name: 'Qualification')
 
-    event_array = EventList.listable(user).map { _1.event.name }
+    event_array = EventList.listable(user).map { it.event.name }
 
     assert_includes event_array, 'Finished/Public'
     assert_includes event_array, 'Published/Public'

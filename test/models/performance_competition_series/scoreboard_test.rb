@@ -26,6 +26,6 @@ class PerformanceCompetitionSeries::ScoreboardTest < ActiveSupport::TestCase
 
     categories = PerformanceCompetitionSeries::Scoreboard.new(@series, {}).categories
 
-    assert_equal %w[open intermediate], categories.map { _1.name.downcase }
+    assert_equal(%w[open intermediate], categories.map { it.name.downcase })
   end
 end

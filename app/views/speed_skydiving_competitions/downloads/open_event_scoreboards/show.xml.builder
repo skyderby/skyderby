@@ -12,7 +12,7 @@ xml.EventResult do
       xml.Average row[:average]
       @event.rounds.ordered.each do |round|
         xml.Round(No: round.number) do
-          result = row[:accountable_results].find { _1.round == round }
+          result = row[:accountable_results].find { it.round == round }
           xml.Result result&.final_result&.round(2) || ''
           if result
             xml.Notes(<<~HTML)

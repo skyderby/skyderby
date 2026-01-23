@@ -72,7 +72,7 @@ class GfsForecast
   def datasets
     @datasets ||= begin
       params = [current_cycle_params] + previous_cycle_params
-      params.map { Dataset.new(_1[:date], _1[:cycle], _1[:forecast_hour], @subregion) }
+      params.map { Dataset.new(it[:date], it[:cycle], it[:forecast_hour], @subregion) }
     end
   end
 

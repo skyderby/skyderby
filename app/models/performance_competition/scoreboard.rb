@@ -29,7 +29,7 @@ class PerformanceCompetition::Scoreboard
       if until_round.nil?
         rounds
       else
-        rounds.take_while { _1 != until_round }
+        rounds.take_while { it != until_round }
       end
     end
   end

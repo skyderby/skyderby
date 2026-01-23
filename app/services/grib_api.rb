@@ -4,6 +4,7 @@ require 'logger'
 module GribApi
   module Stdio
     extend FFI::Library
+
     ffi_lib FFI::Library::LIBC
 
     typedef :pointer, :file_pointer

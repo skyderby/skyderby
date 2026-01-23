@@ -25,7 +25,7 @@ class GribApi::MessageTest < ActiveSupport::TestCase
     assert_equal [28.25, 28.25, 28.0, 28.0], result.lats
     assert_equal [278.0, 277.75, 278.0, 277.75], result.lons
     assert_equal [1053.871875, 1053.007875, 1054.463875, 1053.855875], result.values
-    assert_equal [15.17754275, 10.25846057, 28.57849134, 26.29288722], result.distances.map { _1.truncate(8) }
+    assert_equal([15.17754275, 10.25846057, 28.57849134, 26.29288722], result.distances.map { it.truncate(8) })
   end
 
   test '#surrounding_points_outside_of_area' do

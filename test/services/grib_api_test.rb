@@ -71,7 +71,7 @@ class GribApiTest < ActiveSupport::TestCase
 
     assert_equal(
       expected_messages,
-      @file.messages.map { [_1.variable, _1.level] }.sort_by { |name, level| [name, level.level] }
+      @file.messages.map { [it.variable, it.level] }.sort_by { |name, level| [name, level.level] }
     )
   end
 end

@@ -56,7 +56,7 @@ class ProfilesController < ApplicationController
     else
       respond_to do |format|
         format.html { redirect_to edit_profile_path(@profile) }
-        format.json { render json: @profile.errors, status: :unprocessable_entity }
+        format.json { render json: @profile.errors, status: :unprocessable_content }
       end
     end
   end

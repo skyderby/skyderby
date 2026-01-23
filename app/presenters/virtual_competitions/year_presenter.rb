@@ -23,9 +23,9 @@ module VirtualCompetitions
     def all_scores
       @all_scores ||=
         VirtualCompetition::AnnualTopScore
-          .for_competition(competition)
-          .for_year(year)
-          .includes(associations)
+        .for_competition(competition)
+        .for_year(year)
+        .includes(associations)
     end
 
     def current_year? = year == Date.current.year

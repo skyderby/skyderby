@@ -54,10 +54,10 @@ styles = {
         end
 
         points_in_discipline = row.points_in_disciplines[discipline]
-        competitor_cells << (points_in_discipline.to_f)
+        competitor_cells << points_in_discipline.to_f
       end
 
-      competitor_cells << (row.total_points.to_f)
+      competitor_cells << row.total_points.to_f
 
       cell_styles = [styles[:rank], styles[:competitor], styles[:competitor]]
       (@scoreboard.rounds_by_discipline.values.flatten.count * 2 + @scoreboard.rounds_by_discipline.count).times do
@@ -97,14 +97,14 @@ wb.add_worksheet(name: 'Open Standings') do |sheet|
         result = row.result_in_round(round)
         if result
           competitor_cells << result.formatted_result
-          competitor_cells << (result.points.to_f)
+          competitor_cells << result.points.to_f
         else
           competitor_cells += [nil, 0.0]
         end
       end
 
       points_in_discipline = row.points_in_disciplines[discipline]
-      competitor_cells << (points_in_discipline.to_f)
+      competitor_cells << points_in_discipline.to_f
     end
 
     competitor_cells << row.total_points.to_f
@@ -146,13 +146,13 @@ tasks.each do |task|
         result = row.result_in_round(round)
         if result
           competitor_cells << result.formatted_result
-          competitor_cells << (result.points.to_f)
+          competitor_cells << result.points.to_f
         else
           competitor_cells += [nil, 0.0]
         end
       end
 
-      competitor_cells << (row.total_points.to_f)
+      competitor_cells << row.total_points.to_f
 
       cell_styles = [styles[:rank], styles[:competitor], styles[:competitor], styles[:competitor]]
       (task_scoreboard.rounds.count * 2).times do

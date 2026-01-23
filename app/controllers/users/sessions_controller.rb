@@ -12,7 +12,7 @@ class Users::SessionsController < Devise::SessionsController
     else
       self.resource = resource_class.new(sign_in_params)
       flash.now[:alert] = I18n.t('devise.failure.invalid', authentication_keys: 'Email')
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 end
