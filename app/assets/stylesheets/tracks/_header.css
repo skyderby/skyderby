@@ -81,3 +81,12 @@
     grid-column: 2;
   }
 }
+
+.speed-grades {
+  display: flex;
+  text-align: center;
+}
+
+.speed-grades > div {
+  flex: 1;
+}
