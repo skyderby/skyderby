@@ -1137,15 +1137,25 @@ export default class extends Controller {
   }
 
   updateHighchartsCrosshair(index) {
-    const charts = [this.glideChartTarget?.chart, this.speedChartTarget?.chart].filter(
-      Boolean
-    )
+    const charts = [
+      this.glideChartTarget?.chart,
+      this.speedChartTarget?.chart,
+      this.sepChartTarget?.chart
+    ].filter(Boolean)
 
     charts.forEach(chart => {
       if (!chart.series?.[0]?.points?.[index]) return
 
-      const point = chart.series[0].points[index]
-      chart.xAxis[0].drawCrosshair(null, point)
+      const points = chart.series
+        .filter(series => series.visible)
+        .map(series => series.points[index])
+        .filter(Boolean)
+
+      if (points.length > 0) {
+        points[0].onMouseOver()
+        chart.tooltip.refresh(points)
+        chart.xAxis[0].drawCrosshair(null, points[0])
+      }
     })
   }
 
