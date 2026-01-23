@@ -8,6 +8,7 @@ import calculateWindCancellation from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
 import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
 import { interpolatePointByTime } from 'utils/laneValidation/utils'
+import { detectFlares, drawFlares } from 'utils/tracks/flareDetection'
 
 const CHART_PADDING = { left: 60, right: 20, top: 10, bottom: 10 }
 
@@ -373,7 +374,8 @@ export default class extends Controller {
     if (!this.hasSideProjectionTarget || this.processedPoints.length === 0) return
 
     this.renderGrid()
-    this.renderTrajectory()
+    this.renderTrajectoryContent()
+    this.renderZoomLens()
     this.setupInteraction()
   }
 
@@ -501,11 +503,21 @@ export default class extends Controller {
     return 50
   }
 
-  renderTrajectory() {
+  renderTrajectoryContent() {
     const trajectoryGroup = this.trajectoryTarget
     trajectoryGroup.innerHTML = ''
 
     if (this.processedPoints.length === 0) return
+
+    let defs = this.sideProjectionTarget.querySelector('defs')
+    if (!defs) {
+      defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs')
+      this.sideProjectionTarget.insertBefore(defs, this.sideProjectionTarget.firstChild)
+    }
+    defs.innerHTML = ''
+
+    const contentGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+    contentGroup.setAttribute('id', 'trajectory-content')
 
     const pathData = this.processedPoints
       .map((point, index) => {
@@ -517,7 +529,114 @@ export default class extends Controller {
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
     path.setAttribute('d', pathData)
     path.setAttribute('class', 'track-path')
-    trajectoryGroup.appendChild(path)
+    contentGroup.appendChild(path)
+
+    this.renderFlares(contentGroup)
+
+    defs.appendChild(contentGroup)
+
+    const useElement = document.createElementNS('http://www.w3.org/2000/svg', 'use')
+    useElement.setAttribute('href', '#trajectory-content')
+    trajectoryGroup.appendChild(useElement)
+  }
+
+  renderFlares(container) {
+    const flares = detectFlares(this.processedPoints)
+    if (!flares.length) return
+
+    const { plotWidth, plotHeight } = this.chartDimensions
+    const { left, top } = CHART_PADDING
+    const totalAltitudeRange = this.altitudeRange.top - this.altitudeRange.bottom
+
+    const scaleX = distance => {
+      return (
+        left +
+        ((distance - this.distanceRange.min) /
+          (this.distanceRange.max - this.distanceRange.min)) *
+          plotWidth
+      )
+    }
+
+    const scaleY = altitude => {
+      return top + ((this.altitudeRange.top - altitude) / totalAltitudeRange) * plotHeight
+    }
+
+    drawFlares(container, flares, scaleX, scaleY)
+  }
+
+  renderZoomLens() {
+    const zoomAltitudeRange = 80
+    const zoomStartAlt = this.fromValue
+    const zoomEndAlt = this.fromValue - zoomAltitudeRange
+
+    const zoomPoints = this.processedPoints.filter(
+      p => p.altitude <= zoomStartAlt && p.altitude >= zoomEndAlt
+    )
+
+    if (zoomPoints.length < 2) return
+
+    const startPoint = this.getChartCoordinates(zoomPoints[0])
+    const endPoint = this.getChartCoordinates(zoomPoints[zoomPoints.length - 1])
+
+    const minX = Math.min(startPoint.x, endPoint.x)
+    const maxX = Math.max(startPoint.x, endPoint.x)
+    const minY = Math.min(startPoint.y, endPoint.y)
+    const maxY = Math.max(startPoint.y, endPoint.y)
+
+    const padding = 10
+    const viewBoxX = minX - padding
+    const viewBoxY = minY - padding
+    const viewBoxWidth = maxX - minX + padding * 2
+    const viewBoxHeight = maxY - minY + padding * 2
+
+    const { width, height } = this.chartDimensions
+    const lensWidth = width * 0.5
+    const lensHeight = height * 0.25
+    const lensX = width - lensWidth - 10
+    const lensY = 10
+
+    const lensGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+    lensGroup.setAttribute('class', 'zoom-lens')
+
+    const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+    bg.setAttribute('x', lensX)
+    bg.setAttribute('y', lensY)
+    bg.setAttribute('width', lensWidth)
+    bg.setAttribute('height', lensHeight)
+    bg.setAttribute('fill', 'white')
+    bg.setAttribute('fill-opacity', '0.95')
+    bg.setAttribute('stroke', 'var(--gray-40)')
+    bg.setAttribute('stroke-width', '1')
+    bg.setAttribute('rx', '4')
+    lensGroup.appendChild(bg)
+
+    const nestedSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    nestedSvg.setAttribute('x', lensX)
+    nestedSvg.setAttribute('y', lensY)
+    nestedSvg.setAttribute('width', lensWidth)
+    nestedSvg.setAttribute('height', lensHeight)
+    nestedSvg.setAttribute(
+      'viewBox',
+      `${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`
+    )
+    nestedSvg.setAttribute('preserveAspectRatio', 'xMidYMid meet')
+
+    const useElement = document.createElementNS('http://www.w3.org/2000/svg', 'use')
+    useElement.setAttribute('href', '#trajectory-content')
+    nestedSvg.appendChild(useElement)
+
+    lensGroup.appendChild(nestedSvg)
+
+    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+    label.setAttribute('x', lensX + lensWidth / 2)
+    label.setAttribute('y', lensY + lensHeight - 5)
+    label.setAttribute('text-anchor', 'middle')
+    label.setAttribute('font-size', '10')
+    label.setAttribute('fill', 'var(--gray-70)')
+    label.textContent = `First ${zoomAltitudeRange}m`
+    lensGroup.appendChild(label)
+
+    this.sideProjectionTarget.appendChild(lensGroup)
   }
 
   getChartCoordinates(point) {
@@ -750,7 +869,8 @@ export default class extends Controller {
       this.crosshairGroup.remove()
     }
 
-    const trajectoryGroup = this.trajectoryTarget
+    const contentGroup = this.sideProjectionTarget.querySelector('#trajectory-content')
+    if (!contentGroup) return
 
     this.crosshairGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g')
     this.crosshairGroup.setAttribute('class', 'crosshair-group')
@@ -772,7 +892,7 @@ export default class extends Controller {
     this.crosshairMarker.setAttribute('r', '6')
     this.crosshairGroup.appendChild(this.crosshairMarker)
 
-    trajectoryGroup.parentElement.appendChild(this.crosshairGroup)
+    contentGroup.appendChild(this.crosshairGroup)
   }
 
   togglePlay() {
