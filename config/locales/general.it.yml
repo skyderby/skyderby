@@ -4,6 +4,8 @@ it:
       base:
         event_finished: Non puoi effettuare modifiche perché l'evento è concluso.
   general:
+    previous_page: Pagina precedente
+    next_page: Pagina successiva
     new: New
     cancel: Annulla
     create: Crea

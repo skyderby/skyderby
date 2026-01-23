@@ -13,6 +13,8 @@ en:
       duplicate_file: "File already used. Pilot: %{pilot_name}, round: %{round}"
       round_completed: "Round already completed. Changes couldn't be made."
   general:
+    previous_page: Previous page
+    next_page: Next page
     cancel: Cancel
     create: Create
     save: Save

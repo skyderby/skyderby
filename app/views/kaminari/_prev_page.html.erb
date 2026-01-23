@@ -1,5 +1,5 @@
 <% if current_page.first? -%>
-  <span class="button button--ghost" disabled><%= icon_tag 'angle-left-solid' %></span>
+  <span class="button button--ghost" disabled aria-label="<%= t('general.previous_page') %>"><%= icon_tag 'angle-left-solid' %></span>
 <% else -%>
-  <%= link_to icon_tag('angle-left-solid'), url, class: 'button button--ghost' %>
+  <%= link_to icon_tag('angle-left-solid'), url, class: 'button button--ghost', aria: { label: t('general.previous_page') } %>
 <% end -%>

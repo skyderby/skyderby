@@ -6,6 +6,8 @@ fr:
     messages:
       duplicate_file: "Fichier déjà utilisé. Pilot: %{pilot_name}, round: %{round}"
   general:
+    previous_page: Page précédente
+    next_page: Page suivante
     new: Nouveau
     cancel: Annuler
     create: Crée

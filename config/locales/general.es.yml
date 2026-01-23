@@ -35,6 +35,8 @@ es:
       es_translate: "Traducción al español por Ekaterina Larina y Daniel Duarte"
       logo_designed_by: "Logo diseñado por Julia Makoveeva"
   general:
+    previous_page: Página anterior
+    next_page: Página siguiente
     cancel: "Anular"
     create: "Agregar"
     save: "Guardar"

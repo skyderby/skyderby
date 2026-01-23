@@ -1,5 +1,7 @@
 de:
   general:
+    previous_page: Vorherige Seite
+    next_page: Nächste Seite
     cancel: Abbrechen
     create: Hinzufügen
     save: Speichern
