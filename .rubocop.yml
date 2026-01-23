@@ -1,10 +1,10 @@
-require:
+plugins:
   - rubocop-rails
   - rubocop-performance
   - rubocop-minitest
 
 AllCops:
-  TargetRubyVersion: 3.4
+  TargetRubyVersion: 4.0
   NewCops: enable
   Exclude:
     - bin/*
@@ -12,6 +12,7 @@ AllCops:
     - lib/**/*
     - vendor/**/*
     - node_modules/**/*
+  SuggestExtensions: false
 
 Layout/LineLength:
   Max: 120
@@ -57,7 +58,7 @@ Minitest/EmptyLineBeforeAssertionMethods:
   Enabled: false
 
 Naming/VariableNumber:
-  Enabled: false # TODO: Enable
+  Enabled: false
 
 Rails/ActionOrder:
   Enabled: false
