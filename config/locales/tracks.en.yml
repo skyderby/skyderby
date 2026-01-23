@@ -1,5 +1,8 @@
 en:
   tracks:
+    index:
+      meta:
+        description: Browse GPS tracks from skydivers and BASE jumpers. Analyze flight performance, speed, distance, and glide ratio.
     pro_view:
       sign_in_required: Sign in to use BASE Pro View
       limit_reached: Monthly limit reached. Upgrade for unlimited access.

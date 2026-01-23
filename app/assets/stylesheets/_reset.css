@@ -59,9 +59,8 @@
     max-inline-size: 100%;
   }
 
-  /* Inherit fonts for inputs and buttons */
+  /* Inherit fonts for inputs */
   input,
-  button,
   textarea,
   select {
     font: inherit;

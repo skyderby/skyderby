@@ -118,6 +118,14 @@ class Track < ApplicationRecord
     FreeProView.exists?(user:, track: self)
   end
 
+  def skydive_pro_view_available?(user: Current.user)
+    return false unless user.admin?
+    return false unless skydive?
+    return false unless user.registered?
+
+    Current.subscription_active?
+  end
+
   def msl_offset
     @msl_offset ||=
       if ground_level&.positive?

@@ -1,0 +1,96 @@
+<div class="show-page">
+  <%= render partial: 'header', locals: { track: @track } %>
+
+  <div class="track-show-content"
+       data-controller="tracks--skydive-performance-track"
+       data-tracks--skydive-performance-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 5, seconds_after_end: 10 }) %>"
+       data-tracks--skydive-performance-track-weather-url-value="<%= track_weather_data_path(@track) %>"
+       data-tracks--skydive-performance-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
+       data-tracks--skydive-performance-track-tracks--range-selector-outlet="#range-selector"
+       data-action="tracks--range-selector:change->tracks--skydive-performance-track#updateRange">
+
+    <%= render 'tracks/skydive_performance_indicators' %>
+
+    <hr class="top-buffer">
+
+    <div class="track-jump-range">
+      <input id="range-selector" class="hidden" type="text" name="range" data-controller="tracks--range-selector">
+
+      <div class="range-shortcuts">
+        <button class="button button--sm rounded hidden"
+                data-tracks--skydive-performance-track-target="range3000to2000"
+                data-action="tracks--skydive-performance-track#setRange"
+                data-from="3000"
+                data-to="2000">
+          3000 — 2000<%= t('units.m') %>
+        </button>
+        <button class="button button--sm rounded hidden"
+                data-tracks--skydive-performance-track-target="range2500to1500"
+                data-action="tracks--skydive-performance-track#setRange"
+                data-from="2500"
+                data-to="1500">
+          2500 — 1500<%= t('units.m') %>
+        </button>
+        <button class="button button--sm rounded"
+                data-action="tracks--skydive-performance-track#resetRange">
+          <%= t('tracks.show.full_jump') %>
+        </button>
+      </div>
+    </div>
+
+    <div class="skydive-performance-layout">
+      <div class="skydive-performance-left">
+        <div class="skydive-performance-chart-container">
+          <svg class="skydive-performance-chart"
+               data-tracks--skydive-performance-track-target="sideProjection"
+               viewBox="0 0 1000 600"
+               preserveAspectRatio="xMidYMid meet">
+            <g class="chart-grid" data-tracks--skydive-performance-track-target="grid"></g>
+            <g class="chart-trajectory" data-tracks--skydive-performance-track-target="trajectory"></g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="skydive-performance-controls">
+        <%= render 'tracks/playback_indicators', controller: 'tracks--skydive-performance-track', show_altitude_spent: false %>
+
+        <div class="skydive-performance-playback">
+          <button class="skydive-performance-playback-button"
+                  data-tracks--skydive-performance-track-target="playButton"
+                  data-action="tracks--skydive-performance-track#togglePlay">
+            <span class="icon-play"><%= icon_tag 'play-solid' %></span>
+            <span class="icon-pause"><%= icon_tag 'pause-solid' %></span>
+          </button>
+          <input type="range"
+                 class="skydive-performance-playback-slider"
+                 min="0"
+                 max="100"
+                 value="0"
+                 data-tracks--skydive-performance-track-target="playbackSlider"
+                 data-action="input->tracks--skydive-performance-track#onSliderInput">
+        </div>
+      </div>
+
+      <div class="skydive-performance-right">
+        <div class="skydive-performance-map-container">
+          <div class="skydive-performance-map"
+               data-tracks--skydive-performance-track-target="map">
+          </div>
+        </div>
+
+        <div class="skydive-performance-charts"
+             data-controller="synchronized-charts"
+             data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip">
+          <div data-tracks--skydive-performance-track-target="glideChart"
+               data-synchronized-charts-target="chart"></div>
+          <div data-tracks--skydive-performance-track-target="speedChart"
+               data-synchronized-charts-target="chart"></div>
+        </div>
+      </div>
+    </div>
+
+    <blockquote class="flex flex-column">
+      <%= render 'track_metadata' %>
+    </blockquote>
+  </div>
+</div>

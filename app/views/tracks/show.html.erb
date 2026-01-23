@@ -2,6 +2,8 @@
 
 <% if @track.base? && @track.pro_view_available? %>
   <%= render 'tracks/base_jump' %>
+<% elsif @track.skydive? && @track.skydive_pro_view_available? %>
+  <%= render 'tracks/skydive_performance' %>
 <% else %>
   <%= render 'tracks/default' %>
 <% end %>

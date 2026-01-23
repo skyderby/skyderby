@@ -1,0 +1,164 @@
+<div class="track-indicators">
+  <div class="track-indicator" data-value="distance">
+    <div class="track-indicator-title"><%= t('tracks.indicators.distance') %></div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value"
+           aria-label="distance"
+           data-tracks--skydive-performance-track-target="distance"></div>
+      <div class="track-indicator-units"><%= t('units.m') %></div>
+    </div>
+
+    <div class="wind-effect-container"
+         style="display: none;"
+         data-tracks--skydive-performance-track-target="windEffectContainerDistance">
+      <div class="wind-effect-rail">
+        <div class="wind-effect-result-percent"
+             data-tracks--skydive-performance-track-target="windEffectDistancePercent"></div>
+        <div class="wind-effect-wind-percent"
+             data-tracks--skydive-performance-track-target="windEffectDistanceWindPercent"></div>
+      </div>
+
+      <div class="wind-effect-values">
+        <div class="wind-effect-result"
+             aria-label="wind cancelled value"
+             data-tracks--skydive-performance-track-target="windEffectDistance"></div>
+        <div class="wind-effect-wind"
+             data-tracks--skydive-performance-track-target="windEffectDistanceWind"
+             aria-label="wind effect"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="track-indicator" data-value="ground-speed">
+    <div class="track-indicator-title"><%= t('tracks.indicators.ground_speed') %></div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value"
+           aria-label="average horizontal speed"
+           data-tracks--skydive-performance-track-target="groundSpeed">
+      </div>
+      <div class="track-indicator-minmax-value">
+        <div class="track-indicator-max">
+          <span aria-label="maximum horizontal speed"
+                data-tracks--skydive-performance-track-target="groundSpeedMax">
+          </span>
+          <%= icon_tag 'angle-up-solid' %>
+        </div>
+        <div class="track-indicator-min">
+          <span aria-label="minimum horizontal speed"
+                data-tracks--skydive-performance-track-target="groundSpeedMin">
+          </span>
+          <%= icon_tag 'angle-down-solid' %>
+        </div>
+      </div>
+      <div class="track-indicator-units"><%= t('units.kmh') %></div>
+    </div>
+
+    <div class="wind-effect-container"
+         style="display: none;"
+         data-tracks--skydive-performance-track-target="windEffectContainerSpeed">
+      <div class="wind-effect-rail">
+        <div class="wind-effect-result-percent"
+             data-tracks--skydive-performance-track-target="windEffectSpeedPercent"></div>
+        <div class="wind-effect-wind-percent"
+             data-tracks--skydive-performance-track-target="windEffectSpeedWindPercent"></div>
+      </div>
+
+      <div class="wind-effect-values">
+        <div class="wind-effect-result"
+             aria-label="wind cancelled value"
+             data-tracks--skydive-performance-track-target="windEffectSpeed"></div>
+        <div class="wind-effect-wind"
+             data-tracks--skydive-performance-track-target="windEffectSpeedWind"
+             aria-label="wind effect"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="track-indicator" data-value="glide-ratio">
+    <div class="track-indicator-title"><%= t('tracks.indicators.glide_ratio') %></div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value"
+           aria-label="average glide ratio"
+           data-tracks--skydive-performance-track-target="summaryGlideRatio">
+      </div>
+      <div class="track-indicator-minmax-value">
+        <div class="track-indicator-max">
+          <span aria-label="maximum glide ratio"
+                data-tracks--skydive-performance-track-target="glideRatioMax"></span>
+          <%= icon_tag 'angle-up-solid' %>
+        </div>
+        <div class="track-indicator-min">
+          <span aria-label="minimum glide ratio"
+                data-tracks--skydive-performance-track-target="glideRatioMin"></span>
+          <%= icon_tag 'angle-down-solid' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="wind-effect-container"
+         style="display: none;"
+         data-tracks--skydive-performance-track-target="windEffectContainerGlideRatio">
+      <div class="wind-effect-rail">
+        <div class="wind-effect-result-percent"
+             data-tracks--skydive-performance-track-target="windEffectGlideRatioPercent"></div>
+        <div class="wind-effect-wind-percent"
+             data-tracks--skydive-performance-track-target="windEffectGlideRatioWindPercent"></div>
+      </div>
+
+      <div class="wind-effect-values">
+        <div class="wind-effect-result"
+             aria-label="wind cancelled value"
+             data-tracks--skydive-performance-track-target="windEffectGlideRatio"></div>
+        <div class="wind-effect-wind"
+             data-tracks--skydive-performance-track-target="windEffectGlideRatioWind"
+             aria-label="wind effect"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="track-indicator" data-value="elevation">
+    <div class="track-indicator-title"><%= t('tracks.indicators.elevation') %></div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value"
+           aria-label="elevation"
+           data-tracks--skydive-performance-track-target="elevation"></div>
+      <div class="track-indicator-units"><%= t('units.m') %></div>
+    </div>
+  </div>
+
+  <div class="track-indicator" data-value="vertical-speed">
+    <div class="track-indicator-title"><%= t('tracks.indicators.vertical_speed') %></div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value"
+           aria-label="average vertical speed"
+           data-tracks--skydive-performance-track-target="verticalSpeed">
+      </div>
+
+      <div class="track-indicator-minmax-value">
+        <div class="track-indicator-min">
+          <span aria-label="maximum vertical speed"
+                data-tracks--skydive-performance-track-target="verticalSpeedMax">
+          </span>
+          <%= icon_tag 'angle-up-solid' %>
+        </div>
+        <div class="track-indicator-max">
+          <span aria-label="minimum vertical speed"
+                data-tracks--skydive-performance-track-target="verticalSpeedMin"></span>
+          <%= icon_tag 'angle-down-solid' %>
+        </div>
+      </div>
+
+      <div class="track-indicator-units"><%= t('units.kmh') %></div>
+    </div>
+  </div>
+
+  <div class="track-indicator" data-value="time">
+    <div class="track-indicator-title"><%= t('tracks.indicators.duration') %></div>
+    <div class="track-indicator-value-container">
+      <div class="track-indicator-value"
+           aria-label="duration"
+           data-tracks--skydive-performance-track-target="duration"></div>
+      <div class="track-indicator-units"><%= t('units.sec') %></div>
+    </div>
+  </div>
+</div>

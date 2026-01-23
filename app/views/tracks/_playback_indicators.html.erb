@@ -1,4 +1,5 @@
 <% controller ||= 'tracks--base-jump-track' %>
+<% show_altitude_spent = local_assigns.fetch(:show_altitude_spent, true) %>
 
 <div class="video-indicators">
   <div class="video-indicator-value-container">
@@ -6,10 +7,12 @@
       <span class="video-indicator-value" data-<%= controller %>-target="altitude">
         ---
       </span>
-      <span class="video-indicator-sub-value">
-        <span data-<%= controller %>-target="altitudeSpent">---</span>
-        <%= icon_tag 'angle-down-solid' %>
-      </span>
+      <% if show_altitude_spent %>
+        <span class="video-indicator-sub-value">
+          <span data-<%= controller %>-target="altitudeSpent">---</span>
+          <%= icon_tag 'angle-down-solid' %>
+        </span>
+      <% end %>
       &nbsp;
       <span class="video-indicator-units"><%= t 'units.m' %></span>
     </div>
