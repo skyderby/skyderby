@@ -127,18 +127,10 @@
     }
   }
 
-  .hidden-mobile {
-    display: block;
-  }
-
   @media (max-width: 768px) {
     .hidden-mobile {
       display: none;
     }
-  }
-
-  .hidden-desktop {
-    display: block;
   }
 
   @media (min-width: 769px) {
