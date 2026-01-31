@@ -1,8 +1,8 @@
-<%# locals: (parent_controller: 'tracks--base-jump-track', show_altitude_spent: true, compare: false) %>
+<%# locals: (show_altitude_spent: true, compare: false, **attributes) %>
 
 <div class="video-indicators<%= ' video-indicators--compare' if compare %>"
      data-controller="playback-indicators"
-     data-<%= parent_controller %>-target="<%= compare ? 'comparePlaybackIndicators' : 'playbackIndicators' %>">
+     <%= tag.attributes(attributes) %>>
   <div class="video-indicator-value-container">
     <div>
       <span class="video-indicator-value" data-playback-indicators-target="altitude">
@@ -10,7 +10,7 @@
       </span>
       <% if show_altitude_spent && !compare %>
         <span class="video-indicator-sub-value">
-          <span data-<%= parent_controller %>-target="altitudeSpent">---</span>
+          <span data-playback-indicators-target="altitudeSpent">---</span>
           <%= icon_tag 'angle-down-solid' %>
         </span>
       <% end %>
@@ -26,7 +26,7 @@
         ---
       </span>
       <% unless compare %>
-        <div class="video-indicator-accel" data-<%= parent_controller %>-target="fullSpeedAccel">
+        <div class="video-indicator-accel" data-playback-indicators-target="fullSpeedAccel">
           <%= icon_tag 'angle-up-solid' %>
           <%= icon_tag 'angle-up-solid' %>
           <%= icon_tag 'minus-solid' %>
@@ -45,7 +45,7 @@
         ---
       </span>
       <% unless compare %>
-        <div class="video-indicator-accel" data-<%= parent_controller %>-target="hSpeedAccel">
+        <div class="video-indicator-accel" data-playback-indicators-target="hSpeedAccel">
           <%= icon_tag 'angle-up-solid' %>
           <%= icon_tag 'angle-up-solid' %>
           <%= icon_tag 'minus-solid' %>
@@ -64,7 +64,7 @@
         ---
       </span>
       <% unless compare %>
-        <div class="video-indicator-accel" data-<%= parent_controller %>-target="vSpeedAccel">
+        <div class="video-indicator-accel" data-playback-indicators-target="vSpeedAccel">
           <%= icon_tag 'angle-up-solid' %>
           <%= icon_tag 'angle-up-solid' %>
           <%= icon_tag 'minus-solid' %>

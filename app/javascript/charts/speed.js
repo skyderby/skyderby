@@ -141,6 +141,7 @@ export const initSpeedsChart = (
     plotLines = [],
     plotBands = [],
     windCancellation = false,
+    showTitle = true,
     comparePoints = null,
     compareTimeOffset = 0,
     compareTrackName = null
@@ -158,10 +159,12 @@ export const initSpeedsChart = (
         }
       }
     },
-    title: {
-      text: I18n.t('charts.spd.title'),
-      style: { color: 'var(--gray-80)', fontSize: '16px' }
-    },
+    title: showTitle
+      ? {
+          text: I18n.t('charts.spd.title'),
+          style: { color: 'var(--gray-80)', fontSize: '16px' }
+        }
+      : undefined,
     plotOptions: {
       spline: {
         marker: {

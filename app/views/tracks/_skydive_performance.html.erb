@@ -90,9 +90,9 @@
       </div>
 
       <div class="skydive-performance-indicators-row">
-        <%= render 'tracks/playback_indicators', parent_controller: 'tracks--skydive-performance-track', show_altitude_spent: false %>
+        <%= render 'tracks/playback_indicators', show_altitude_spent: false, data: { 'tracks--skydive-performance-track-target': 'playbackIndicators' } %>
         <% if @compare_track %>
-          <%= render 'tracks/playback_indicators', parent_controller: 'tracks--skydive-performance-track', show_altitude_spent: false, compare: true %>
+          <%= render 'tracks/playback_indicators', show_altitude_spent: false, compare: true, data: { 'tracks--skydive-performance-track-target': 'comparePlaybackIndicators' } %>
         <% end %>
       </div>
 

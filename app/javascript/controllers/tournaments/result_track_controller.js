@@ -15,16 +15,7 @@ export default class extends Controller {
     'map',
     'playButton',
     'playbackSlider',
-    'altitude',
-    'altitudeSpent',
-    'fullSpeed',
-    'fullSpeedAccel',
-    'hSpeed',
-    'hSpeedAccel',
-    'vSpeed',
-    'vSpeedAccel',
-    'glideRatio',
-    'angle',
+    'playbackIndicators',
     'resultTime',
     'maxHSpeed'
   ]
@@ -470,7 +461,6 @@ export default class extends Controller {
     const next = this.points[Math.min(index + 1, this.points.length - 1)]
 
     const interpolate = (a, b) => a + (b - a) * fraction
-    const roundToStep = (value, step) => Math.round(value / step) * step
 
     const altitude = interpolate(curr.altitude, next.altitude)
     const altitudeSpent = this.startAltitude - altitude
@@ -479,31 +469,16 @@ export default class extends Controller {
     const vSpeed = interpolate(curr.vSpeed, next.vSpeed)
     const glideRatio = interpolate(curr.glideRatio ?? 0, next.glideRatio ?? 0)
 
-    if (this.hasAltitudeTarget) {
-      this.altitudeTarget.textContent = roundToStep(altitude, 10).toFixed()
-    }
-    if (this.hasAltitudeSpentTarget) {
-      this.altitudeSpentTarget.textContent = roundToStep(altitudeSpent, 10).toFixed()
-    }
-    if (this.hasFullSpeedTarget) {
-      this.fullSpeedTarget.textContent = roundToStep(fullSpeed, 5).toFixed()
-    }
-    if (this.hasHSpeedTarget) {
-      this.hSpeedTarget.textContent = roundToStep(hSpeed, 5).toFixed()
-    }
-    if (this.hasVSpeedTarget) {
-      this.vSpeedTarget.textContent = roundToStep(vSpeed, 5).toFixed()
-    }
-    if (this.hasGlideRatioTarget) {
-      this.glideRatioTarget.textContent = glideRatio.toFixed(1)
-    }
-    if (this.hasAngleTarget) {
-      const angle = (90 * Math.PI) / 180 - Math.atan2(vSpeed, hSpeed)
-      const startX = 15 * Math.sin(angle)
-      const startY = 115 + 15 * Math.cos(angle)
-      const endX = 65 * Math.sin(angle)
-      const endY = 115 + 65 * Math.cos(angle)
-      this.angleTarget.setAttribute('d', `M ${startX} ${startY} ${endX} ${endY}`)
+    const controller = this.getPlaybackIndicatorsController()
+    if (controller) {
+      controller.update({
+        altitude,
+        altitudeSpent,
+        fullSpeed,
+        hSpeed,
+        vSpeed,
+        glideRatio
+      })
     }
 
     this.updateAccelerationIndicators(index, fraction)
@@ -535,15 +510,19 @@ export default class extends Controller {
     const hSpeedAccel = (futureHSpeed - currHSpeed) / deltaTime
     const vSpeedAccel = (futureVSpeed - currVSpeed) / deltaTime
 
-    if (this.hasFullSpeedAccelTarget) {
-      this.updateAccelIcons(this.fullSpeedAccelTarget, fullSpeedAccel)
+    const controller = this.getPlaybackIndicatorsController()
+    if (controller) {
+      controller.updateAcceleration({ fullSpeedAccel, hSpeedAccel, vSpeedAccel })
     }
-    if (this.hasHSpeedAccelTarget) {
-      this.updateAccelIcons(this.hSpeedAccelTarget, hSpeedAccel)
-    }
-    if (this.hasVSpeedAccelTarget) {
-      this.updateAccelIcons(this.vSpeedAccelTarget, vSpeedAccel)
-    }
+  }
+
+  getPlaybackIndicatorsController() {
+    if (!this.hasPlaybackIndicatorsTarget) return null
+
+    return this.application.getControllerForElementAndIdentifier(
+      this.playbackIndicatorsTarget,
+      'playback-indicators'
+    )
   }
 
   findFutureIndexFrom(fromIndex, milliseconds) {
@@ -557,30 +536,6 @@ export default class extends Controller {
     }
 
     return null
-  }
-
-  updateAccelIcons(container, acceleration) {
-    const icons = container.querySelectorAll('.icon')
-    icons.forEach(icon => icon.classList.remove('active'))
-
-    const threshold = 4
-    const smallThreshold = 0.5
-
-    if (Math.abs(acceleration) < smallThreshold) {
-      icons[2].classList.add('active')
-    } else if (acceleration > 0) {
-      icons[2].classList.add('active')
-      icons[1].classList.add('active')
-      if (acceleration >= threshold) {
-        icons[0].classList.add('active')
-      }
-    } else {
-      icons[2].classList.add('active')
-      icons[3].classList.add('active')
-      if (acceleration <= -threshold) {
-        icons[4].classList.add('active')
-      }
-    }
   }
 
   updateHighchartsCrosshair(index) {

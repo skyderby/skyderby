@@ -26,7 +26,7 @@
       </div>
 
       <div class="base-jump-controls">
-        <%= render 'tracks/playback_indicators', controller: 'tracks--base-jump-track' %>
+        <%= render 'tracks/playback_indicators', data: { 'tracks--base-jump-track-target': 'playbackIndicators' } %>
 
         <div class="base-jump-playback">
           <button class="base-jump-playback-button"
@@ -55,9 +55,11 @@
         <div class="base-jump-charts"
              data-controller="synchronized-charts"
              data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip">
-          <div data-tracks--base-jump-track-target="glideChart"
+          <div class="base-jump-glide-chart"
+               data-tracks--base-jump-track-target="glideChart"
                data-synchronized-charts-target="chart"></div>
-          <div data-tracks--base-jump-track-target="speedChart"
+          <div class="base-jump-speed-chart"
+               data-tracks--base-jump-track-target="speedChart"
                data-synchronized-charts-target="chart"></div>
           <div class="base-jump-sep-chart"
                data-tracks--base-jump-track-target="sepChart"

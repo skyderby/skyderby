@@ -2,23 +2,10 @@ import { Controller } from '@hotwired/stimulus'
 import { initYoutubeApi } from 'utils/youtube'
 import getPointsAroundTime from 'utils/getPointsAroundTime'
 
-const valueWithStep = (value, step) => Math.round(value / step) * step
 const interpolateValue = (first, second, factor) => first + (second - first) * factor
 
 export default class extends Controller {
-  static targets = [
-    'data',
-    'altitude',
-    'altitudeSpent',
-    'fullSpeed',
-    'fullSpeedAccel',
-    'hSpeed',
-    'hSpeedAccel',
-    'vSpeed',
-    'vSpeedAccel',
-    'glideRatio',
-    'angle'
-  ]
+  static targets = ['data', 'playbackIndicators']
 
   connect() {
     initYoutubeApi()
@@ -76,39 +63,16 @@ export default class extends Controller {
   }
 
   updateProgress(currentData, trackTime) {
+    const controller = this.getPlaybackIndicatorsController()
+    if (!controller) return
+
     if (currentData) {
-      this.altitudeTarget.innerText = valueWithStep(currentData.altitude, 10).toFixed()
-      this.altitudeSpentTarget.innerText = valueWithStep(
-        currentData.altitudeSpent,
-        10
-      ).toFixed()
-      this.fullSpeedTarget.innerText = valueWithStep(currentData.fullSpeed, 5).toFixed()
-      this.hSpeedTarget.innerText = valueWithStep(currentData.hSpeed, 5).toFixed()
-      this.vSpeedTarget.innerText = valueWithStep(currentData.vSpeed, 5).toFixed()
-      this.glideRatioTarget.innerText = currentData.glideRatio.toFixed(1)
-
-      const angle =
-        (90 * Math.PI) / 180 - Math.atan2(currentData.vSpeed, currentData.hSpeed)
-      const startX = 15 * Math.sin(angle)
-      const startY = 115 + 15 * Math.cos(angle)
-      const endX = 65 * Math.sin(angle)
-      const endY = 115 + 65 * Math.cos(angle)
-      this.angleTarget.setAttribute('d', `M ${startX} ${startY} ${endX} ${endY}`)
-
-      this.updateAccelerationIndicators(currentData, trackTime)
-    } else {
-      this.altitudeTarget.innerText = '---'
-      this.altitudeSpentTarget.innerText = '---'
-      this.fullSpeedTarget.innerText = '---'
-      this.hSpeedTarget.innerText = '---'
-      this.vSpeedTarget.innerText = '---'
-      this.glideRatioTarget.innerText = '--.-'
-      this.angleTarget.setAttribute('d', 'M 15 117 65 117')
-      this.resetAccelerationIndicators()
+      controller.update(currentData)
+      this.updateAccelerationIndicators(currentData, trackTime, controller)
     }
   }
 
-  updateAccelerationIndicators(currentData, trackTime) {
+  updateAccelerationIndicators(currentData, trackTime, controller) {
     const futureTime = trackTime + 1
     const futureData = this.getInterpolatedPoint(futureTime)
     if (!futureData) return
@@ -124,51 +88,16 @@ export default class extends Controller {
     const hSpeedAccel = futureHSpeed - currHSpeed
     const vSpeedAccel = futureVSpeed - currVSpeed
 
-    if (this.hasFullSpeedAccelTarget) {
-      this.updateAccelIcons(this.fullSpeedAccelTarget, fullSpeedAccel)
-    }
-    if (this.hasHSpeedAccelTarget) {
-      this.updateAccelIcons(this.hSpeedAccelTarget, hSpeedAccel)
-    }
-    if (this.hasVSpeedAccelTarget) {
-      this.updateAccelIcons(this.vSpeedAccelTarget, vSpeedAccel)
-    }
+    controller.updateAcceleration({ fullSpeedAccel, hSpeedAccel, vSpeedAccel })
   }
 
-  resetAccelerationIndicators() {
-    const targets = [
-      this.hasFullSpeedAccelTarget && this.fullSpeedAccelTarget,
-      this.hasHSpeedAccelTarget && this.hSpeedAccelTarget,
-      this.hasVSpeedAccelTarget && this.vSpeedAccelTarget
-    ].filter(Boolean)
+  getPlaybackIndicatorsController() {
+    if (!this.hasPlaybackIndicatorsTarget) return null
 
-    targets.forEach(target => {
-      target.querySelectorAll('.icon').forEach(icon => icon.classList.remove('active'))
-    })
-  }
-
-  updateAccelIcons(container, acceleration) {
-    const icons = container.querySelectorAll('.icon')
-    icons.forEach(icon => icon.classList.remove('active'))
-
-    const threshold = 4
-    const smallThreshold = 0.5
-
-    if (Math.abs(acceleration) < smallThreshold) {
-      icons[2].classList.add('active')
-    } else if (acceleration > 0) {
-      icons[2].classList.add('active')
-      icons[1].classList.add('active')
-      if (acceleration >= threshold) {
-        icons[0].classList.add('active')
-      }
-    } else {
-      icons[2].classList.add('active')
-      icons[3].classList.add('active')
-      if (acceleration <= -threshold) {
-        icons[4].classList.add('active')
-      }
-    }
+    return this.application.getControllerForElementAndIdentifier(
+      this.playbackIndicatorsTarget,
+      'playback-indicators'
+    )
   }
 
   getDataForTime(time) {

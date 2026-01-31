@@ -29,7 +29,7 @@
         </div>
 
         <div class="base-jump-controls">
-          <%= render 'tracks/playback_indicators', controller: 'tournaments--result-track' %>
+          <%= render 'tracks/playback_indicators', data: { 'tournaments--result-track-target': 'playbackIndicators' } %>
 
           <div class="base-jump-playback">
             <button class="base-jump-playback-button"
