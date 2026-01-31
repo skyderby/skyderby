@@ -78,10 +78,73 @@ export const zeroWindSpeedSeries = (points, options) => ({
   ...options
 })
 
+export const compareHorizontalSpeedSeries = (
+  points,
+  primaryPoints,
+  timeOffset,
+  name,
+  options
+) => ({
+  name: name ? `${name} H` : 'Comparison H',
+  custom: { code: 'compare_ground_speed' },
+  type: 'spline',
+  color: '#9e9e9e',
+  dashStyle: 'ShortDash',
+  data: points.map(point => {
+    const relativeTime = point.flTime - points[0].flTime
+    const adjustedTime = relativeTime + timeOffset
+    return {
+      x: adjustedTime,
+      y: Math.round(point.hSpeed),
+      custom: {
+        altitude: Math.round(point.altitude),
+        gpsTime: point.gpsTime,
+        tooltipValue: `${Math.round(point.hSpeed)} ${I18n.t('units.kmh')}`
+      }
+    }
+  }),
+  ...options
+})
+
+export const compareVerticalSpeedSeries = (
+  points,
+  primaryPoints,
+  timeOffset,
+  name,
+  options
+) => ({
+  name: name ? `${name} V` : 'Comparison V',
+  custom: { code: 'compare_vertical_speed' },
+  type: 'spline',
+  color: '#bdbdbd',
+  dashStyle: 'ShortDash',
+  data: points.map(point => {
+    const relativeTime = point.flTime - points[0].flTime
+    const adjustedTime = relativeTime + timeOffset
+    return {
+      x: adjustedTime,
+      y: Math.round(point.vSpeed),
+      custom: {
+        altitude: Math.round(point.altitude),
+        gpsTime: point.gpsTime,
+        tooltipValue: `${Math.round(point.vSpeed)} ${I18n.t('units.kmh')}`
+      }
+    }
+  }),
+  ...options
+})
+
 export const initSpeedsChart = (
   container,
   points,
-  { plotLines = [], plotBands = [], windCancellation = false } = {}
+  {
+    plotLines = [],
+    plotBands = [],
+    windCancellation = false,
+    comparePoints = null,
+    compareTimeOffset = 0,
+    compareTrackName = null
+  } = {}
 ) => {
   const chartName = 'SpeedsChart'
 
@@ -150,7 +213,23 @@ export const initSpeedsChart = (
       horizontalSpeedSeries(points),
       verticalSpeedSeries(points),
       fullSpeedSeries(points),
-      windCancellation && zeroWindSpeedSeries(points)
+      windCancellation && zeroWindSpeedSeries(points),
+      comparePoints &&
+        comparePoints.length > 0 &&
+        compareHorizontalSpeedSeries(
+          comparePoints,
+          points,
+          compareTimeOffset,
+          compareTrackName
+        ),
+      comparePoints &&
+        comparePoints.length > 0 &&
+        compareVerticalSpeedSeries(
+          comparePoints,
+          points,
+          compareTimeOffset,
+          compareTrackName
+        )
     ].filter(Boolean)
   }
 

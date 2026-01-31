@@ -1,15 +1,16 @@
-<% controller ||= 'tracks--base-jump-track' %>
-<% show_altitude_spent = local_assigns.fetch(:show_altitude_spent, true) %>
+<%# locals: (parent_controller: 'tracks--base-jump-track', show_altitude_spent: true, compare: false) %>
 
-<div class="video-indicators">
+<div class="video-indicators<%= ' video-indicators--compare' if compare %>"
+     data-controller="playback-indicators"
+     data-<%= parent_controller %>-target="<%= compare ? 'comparePlaybackIndicators' : 'playbackIndicators' %>">
   <div class="video-indicator-value-container">
     <div>
-      <span class="video-indicator-value" data-<%= controller %>-target="altitude">
+      <span class="video-indicator-value" data-playback-indicators-target="altitude">
         ---
       </span>
-      <% if show_altitude_spent %>
+      <% if show_altitude_spent && !compare %>
         <span class="video-indicator-sub-value">
-          <span data-<%= controller %>-target="altitudeSpent">---</span>
+          <span data-<%= parent_controller %>-target="altitudeSpent">---</span>
           <%= icon_tag 'angle-down-solid' %>
         </span>
       <% end %>
@@ -21,16 +22,18 @@
 
   <div class="video-indicator-value-container">
     <div class="video-indicator-with-accel">
-      <span class="video-indicator-value" data-<%= controller %>-target="fullSpeed">
+      <span class="video-indicator-value" data-playback-indicators-target="fullSpeed">
         ---
       </span>
-      <div class="video-indicator-accel" data-<%= controller %>-target="fullSpeedAccel">
-        <%= icon_tag 'angle-up-solid' %>
-        <%= icon_tag 'angle-up-solid' %>
-        <%= icon_tag 'minus-solid' %>
-        <%= icon_tag 'angle-down-solid' %>
-        <%= icon_tag 'angle-down-solid' %>
-      </div>
+      <% unless compare %>
+        <div class="video-indicator-accel" data-<%= parent_controller %>-target="fullSpeedAccel">
+          <%= icon_tag 'angle-up-solid' %>
+          <%= icon_tag 'angle-up-solid' %>
+          <%= icon_tag 'minus-solid' %>
+          <%= icon_tag 'angle-down-solid' %>
+          <%= icon_tag 'angle-down-solid' %>
+        </div>
+      <% end %>
       <span class="video-indicator-units"><%= t 'units.kmh' %></span>
     </div>
     <div class="video-indicator-title"><%= t 'tracks.indicators.full_speed' %></div>
@@ -38,16 +41,18 @@
 
   <div class="video-indicator-value-container">
     <div class="video-indicator-with-accel">
-      <span class="video-indicator-value" data-<%= controller %>-target="hSpeed">
+      <span class="video-indicator-value" data-playback-indicators-target="hSpeed">
         ---
       </span>
-      <div class="video-indicator-accel" data-<%= controller %>-target="hSpeedAccel">
-        <%= icon_tag 'angle-up-solid' %>
-        <%= icon_tag 'angle-up-solid' %>
-        <%= icon_tag 'minus-solid' %>
-        <%= icon_tag 'angle-down-solid' %>
-        <%= icon_tag 'angle-down-solid' %>
-      </div>
+      <% unless compare %>
+        <div class="video-indicator-accel" data-<%= parent_controller %>-target="hSpeedAccel">
+          <%= icon_tag 'angle-up-solid' %>
+          <%= icon_tag 'angle-up-solid' %>
+          <%= icon_tag 'minus-solid' %>
+          <%= icon_tag 'angle-down-solid' %>
+          <%= icon_tag 'angle-down-solid' %>
+        </div>
+      <% end %>
       <span class="video-indicator-units"><%= t 'units.kmh' %></span>
     </div>
     <div class="video-indicator-title"><%= t 'tracks.indicators.ground_speed' %></div>
@@ -55,29 +60,31 @@
 
   <div class="video-indicator-value-container">
     <div class="video-indicator-with-accel">
-      <span class="video-indicator-value" data-<%= controller %>-target="vSpeed">
+      <span class="video-indicator-value" data-playback-indicators-target="vSpeed">
         ---
       </span>
-      <div class="video-indicator-accel" data-<%= controller %>-target="vSpeedAccel">
-        <%= icon_tag 'angle-up-solid' %>
-        <%= icon_tag 'angle-up-solid' %>
-        <%= icon_tag 'minus-solid' %>
-        <%= icon_tag 'angle-down-solid' %>
-        <%= icon_tag 'angle-down-solid' %>
-      </div>
+      <% unless compare %>
+        <div class="video-indicator-accel" data-<%= parent_controller %>-target="vSpeedAccel">
+          <%= icon_tag 'angle-up-solid' %>
+          <%= icon_tag 'angle-up-solid' %>
+          <%= icon_tag 'minus-solid' %>
+          <%= icon_tag 'angle-down-solid' %>
+          <%= icon_tag 'angle-down-solid' %>
+        </div>
+      <% end %>
       <span class="video-indicator-units"><%= t 'units.kmh' %></span>
     </div>
     <div class="video-indicator-title"><%= t 'tracks.indicators.vertical_speed' %></div>
   </div>
 
   <div class="video-indicator-glide-container">
-    <div class="video-indicator-value" data-<%= controller %>-target="glideRatio">
+    <div class="video-indicator-value" data-playback-indicators-target="glideRatio">
       --.-
     </div>
     <svg class="video-indicator-angle" viewBox="0 0 240 240">
       <defs>
         <marker
-          id="head"
+          id="head<%= '-compare' if compare %>"
           orient="auto"
           markerWidth="3"
           markerHeight="4"
@@ -95,10 +102,10 @@
         d=" M 0 20 A 100 100 0 0 1 0 220"
         />
       <path
-        data-<%= controller %>-target="angle"
+        data-playback-indicators-target="angle"
         stroke="var(--blue-gray-80)"
         stroke-width="14"
-        marker-end="url(#head)"
+        marker-end="url(#head<%= '-compare' if compare %>)"
         d="M 15 117 65 117"
         />
     </svg>

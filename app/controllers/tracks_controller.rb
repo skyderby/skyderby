@@ -3,6 +3,7 @@ class TracksController < ApplicationController
   include UnitsHelper
 
   before_action :set_track, only: [:show, :edit, :update, :destroy]
+  before_action :set_compare_track, only: [:show]
 
   def index
     authorize Track
@@ -90,6 +91,13 @@ class TracksController < ApplicationController
     ).find(params[:id])
   end
 
+  def set_compare_track
+    return unless params[:compare_id].present?
+
+    @compare_track = Track.find_by(id: params[:compare_id])
+    @compare_track = nil unless @compare_track && policy(@compare_track).show?
+  end
+
   def track_params
     params.require(:track).permit(
       :name,
@@ -133,7 +141,7 @@ class TracksController < ApplicationController
   helper_method :index_params
 
   def show_params
-    params.permit(:range, :f, :t, :charts_mode, :charts_units, 'straight-line')
+    params.permit(:range, :f, :t, :charts_mode, :charts_units, 'straight-line', :compare_id)
   end
   helper_method :show_params
 

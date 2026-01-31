@@ -9,6 +9,7 @@ import RangeSummary from 'charts/RangeSummary'
 import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
 import { interpolatePointByTime } from 'utils/laneValidation/utils'
 import { detectFlares, drawFlares } from 'utils/tracks/flareDetection'
+import debounce from 'lodash.debounce'
 
 const CHART_PADDING = { left: 60, right: 20, top: 10, bottom: 10 }
 
@@ -22,15 +23,11 @@ export default class extends Controller {
     'map',
     'playButton',
     'playbackSlider',
-    'altitude',
-    'fullSpeed',
+    'playbackIndicators',
+    'comparePlaybackIndicators',
     'fullSpeedAccel',
-    'hSpeed',
     'hSpeedAccel',
-    'vSpeed',
     'vSpeedAccel',
-    'glideRatio',
-    'angle',
     'distance',
     'groundSpeed',
     'groundSpeedMax',
@@ -61,7 +58,39 @@ export default class extends Controller {
     'windEffectGlideRatio',
     'windEffectGlideRatioWind',
     'designatedLaneToggle',
-    'sepChart'
+    'straightLineToggle',
+    'sepChart',
+    'compareModal',
+    'compareSearchInput',
+    'compareResults',
+    'compareMap',
+    'compareDistance',
+    'compareGroundSpeed',
+    'compareGroundSpeedMax',
+    'compareGroundSpeedMin',
+    'compareSummaryGlideRatio',
+    'compareGlideRatioMax',
+    'compareGlideRatioMin',
+    'compareElevation',
+    'compareVerticalSpeed',
+    'compareVerticalSpeedMax',
+    'compareVerticalSpeedMin',
+    'compareDuration',
+    'compareWindEffectContainerDistance',
+    'compareWindEffectDistancePercent',
+    'compareWindEffectDistanceWindPercent',
+    'compareWindEffectDistance',
+    'compareWindEffectDistanceWind',
+    'compareWindEffectContainerSpeed',
+    'compareWindEffectSpeedPercent',
+    'compareWindEffectSpeedWindPercent',
+    'compareWindEffectSpeed',
+    'compareWindEffectSpeedWind',
+    'compareWindEffectContainerGlideRatio',
+    'compareWindEffectGlideRatioPercent',
+    'compareWindEffectGlideRatioWindPercent',
+    'compareWindEffectGlideRatio',
+    'compareWindEffectGlideRatioWind'
   ]
 
   static outlets = ['tracks--range-selector']
@@ -70,27 +99,45 @@ export default class extends Controller {
     pointsUrl: String,
     locationArrowUrl: String,
     weatherUrl: String,
-    referencePointUrl: String
+    referencePointUrl: String,
+    comparePointsUrl: String,
+    compareTrackName: String,
+    trackId: Number,
+    searchUrl: String
   }
 
   connect() {
     this.playing = false
     this.currentIndex = 0
     this.referencePointData = null
+    this.comparePoints = null
+    this.searchCompareTracks = debounce(this.searchCompareTracks.bind(this), 300)
+    this.initializeStraightLine()
 
-    Promise.all([
+    const fetches = [
       this.fetchPoints(),
       this.fetchWeather(),
       this.fetchReferencePoint(),
       initMapsApi()
-    ]).then(([pointsData, weatherData, referencePointData]) => {
-      this.points = pointsData.points
-      this.weatherData = weatherData
-      this.referencePointData = referencePointData
-      this.initializeRange()
-      this.updateView()
-      this.initDesignatedLane()
-    })
+    ]
+
+    if (this.hasComparePointsUrlValue) {
+      fetches.push(this.fetchComparePoints())
+    }
+
+    Promise.all(fetches).then(
+      ([pointsData, weatherData, referencePointData, _, compareData]) => {
+        this.points = pointsData.points
+        this.weatherData = weatherData
+        this.referencePointData = referencePointData
+        if (compareData) {
+          this.comparePoints = compareData.points
+        }
+        this.initializeRange()
+        this.updateView()
+        this.initDesignatedLane()
+      }
+    )
   }
 
   initDesignatedLane() {
@@ -98,6 +145,54 @@ export default class extends Controller {
       this.designatedLaneToggleTarget.checked = true
       this.showDesignatedLane()
     }
+  }
+
+  initializeStraightLine() {
+    const url = new URL(window.location)
+    this.straightLine = url.searchParams.get('straight-line') === 'true'
+    if (this.hasStraightLineToggleTarget) {
+      this.straightLineToggleTarget.checked = this.straightLine
+    }
+  }
+
+  toggleStraightLine() {
+    this.straightLine = this.straightLineToggleTarget.checked
+    this.updateStraightLineUrl()
+    this.rangeSummary = new RangeSummary(this.windowPoints, {
+      straightLine: this.straightLine
+    })
+    if (this.comparePoints) {
+      let compareWindowPoints = cropPoints(
+        this.comparePoints,
+        this.fromValue,
+        this.toValue
+      )
+      if (compareWindowPoints.length > 0) {
+        if (this.hasWeatherData) {
+          compareWindowPoints = calculateWindCancellation(
+            compareWindowPoints,
+            this.weatherData
+          )
+        }
+        this.compareRangeSummary = new RangeSummary(compareWindowPoints, {
+          straightLine: this.straightLine
+        })
+      }
+    }
+    this.updateSummaryIndicators()
+    if (this.comparePoints) {
+      this.updateCompareSummaryIndicators()
+    }
+  }
+
+  updateStraightLineUrl() {
+    const url = new URL(window.location)
+    if (this.straightLine) {
+      url.searchParams.set('straight-line', 'true')
+    } else {
+      url.searchParams.delete('straight-line')
+    }
+    history.replaceState({}, '', url)
   }
 
   fetchPoints() {
@@ -140,6 +235,24 @@ export default class extends Controller {
         return response.json()
       })
       .catch(() => null)
+  }
+
+  fetchComparePoints() {
+    if (!this.hasComparePointsUrlValue) return Promise.resolve(null)
+
+    return fetch(this.comparePointsUrlValue, {
+      headers: { Accept: 'application/json' }
+    })
+      .then(response => response.json())
+      .then(data => {
+        data.points.forEach(point => {
+          point.gpsTime = new Date(point.gpsTime)
+          point.hSpeed = point.hSpeed * 3.6
+          point.vSpeed = point.vSpeed * 3.6
+          point.fullSpeed = point.fullSpeed * 3.6
+        })
+        return data
+      })
   }
 
   get hasWeatherData() {
@@ -246,10 +359,17 @@ export default class extends Controller {
       this.windowPoints = calculateWindCancellation(this.windowPoints, this.weatherData)
     }
 
-    this.rangeSummary = new RangeSummary(this.windowPoints, { straightLine: false })
+    this.rangeSummary = new RangeSummary(this.windowPoints, {
+      straightLine: this.straightLine
+    })
 
     this.calculateChartPoints()
     this.processedPoints = this.processPoints()
+
+    if (this.comparePoints) {
+      this.processCompareTrack()
+    }
+
     this.calculateRanges()
 
     this.destroyCharts()
@@ -258,8 +378,14 @@ export default class extends Controller {
     this.initSpeedsChart()
     this.initSepChart()
     this.renderMap()
+    if (this.comparePoints) {
+      this.renderCompareMap()
+    }
     this.initPlayback()
     this.updateSummaryIndicators()
+    if (this.comparePoints) {
+      this.updateCompareSummaryIndicators()
+    }
   }
 
   calculateChartPoints() {
@@ -366,8 +492,186 @@ export default class extends Controller {
       maxTime = Math.max(maxTime, p.playerTime)
     })
 
+    if (this.compareProcessedPoints) {
+      this.compareProcessedPoints.forEach(p => {
+        maxDist = Math.max(maxDist, p.distance)
+      })
+    }
+
     this.distanceRange = { min: minDist - 50, max: maxDist + 100 }
     this.timeRange = { min: minTime, max: maxTime }
+  }
+
+  processCompareTrack() {
+    if (!this.comparePoints || this.comparePoints.length === 0) return
+
+    const primaryWindowEntry = this.findWindowEntryTime(this.points, this.fromValue)
+    const compareWindowEntry = this.findWindowEntryTime(
+      this.comparePoints,
+      this.fromValue
+    )
+
+    if (!primaryWindowEntry || !compareWindowEntry) {
+      this.compareChartPoints = []
+      this.compareProcessedPoints = []
+      this.compareRangeSummary = null
+      return
+    }
+
+    this.compareTimeOffset = primaryWindowEntry - compareWindowEntry
+
+    const rangeStartTime = this.windowPoints[0].gpsTime.getTime()
+    const rangeEndTime = this.windowPoints.at(-1).gpsTime.getTime()
+    const bufferSeconds = 3
+
+    const adjustedStartTime =
+      rangeStartTime - this.compareTimeOffset - bufferSeconds * 1000
+    const adjustedEndTime = rangeEndTime - this.compareTimeOffset + bufferSeconds * 1000
+
+    let compareChartPoints = this.comparePoints.filter(
+      point =>
+        point.gpsTime.getTime() >= adjustedStartTime &&
+        point.gpsTime.getTime() <= adjustedEndTime
+    )
+
+    if (compareChartPoints.length === 0) {
+      this.compareChartPoints = []
+      this.compareProcessedPoints = []
+      this.compareRangeSummary = null
+      return
+    }
+
+    this.compareChartPoints = compareChartPoints
+
+    const primaryEntryFlTime = this.findFlTimeAtWindowEntry(
+      this.chartPoints,
+      this.fromValue
+    )
+    const compareEntryFlTime = this.findFlTimeAtWindowEntry(
+      compareChartPoints,
+      this.fromValue
+    )
+    const primaryChartStartTime = this.chartPoints[0].flTime
+    const primaryEntryX = primaryEntryFlTime - primaryChartStartTime
+    const compareEntryX = compareEntryFlTime - compareChartPoints[0].flTime
+    this.chartTimeOffset = primaryEntryX - compareEntryX
+
+    const primaryEntryDistance = this.findDistanceAtWindowEntry(
+      this.processedPoints,
+      this.fromValue
+    )
+
+    const compareStartPoint = compareChartPoints[0]
+    const compareDistances = compareChartPoints.map(point =>
+      this.calculateDistance(point, compareStartPoint)
+    )
+
+    const compareEntryIndexInfo = this.findWindowEntryIndex(
+      compareChartPoints,
+      this.fromValue
+    )
+    let compareEntryDistance = 0
+    if (compareEntryIndexInfo) {
+      const { index, fraction } = compareEntryIndexInfo
+      const d1 = compareDistances[index]
+      const d2 = compareDistances[Math.min(index + 1, compareDistances.length - 1)]
+      compareEntryDistance = d1 + (d2 - d1) * fraction
+    }
+
+    const distanceOffset = primaryEntryDistance - compareEntryDistance
+
+    const primaryStartTime = this.chartPoints[0].gpsTime.getTime()
+
+    this.compareProcessedPoints = compareChartPoints.map((point, idx) => {
+      const adjustedGpsTime = point.gpsTime.getTime() + this.compareTimeOffset
+      const playerTime = (adjustedGpsTime - primaryStartTime) / 1000
+      const distance = compareDistances[idx] + distanceOffset
+
+      return {
+        playerTime,
+        altitude: point.altitude,
+        distance,
+        latitude: point.latitude,
+        longitude: point.longitude,
+        hSpeed: point.hSpeed,
+        vSpeed: point.vSpeed,
+        fullSpeed: point.fullSpeed,
+        glideRatio: point.glideRatio,
+        gpsTime: adjustedGpsTime
+      }
+    })
+
+    let compareWindowPoints = cropPoints(this.comparePoints, this.fromValue, this.toValue)
+    if (compareWindowPoints.length > 0) {
+      if (this.hasWeatherData) {
+        compareWindowPoints = calculateWindCancellation(
+          compareWindowPoints,
+          this.weatherData
+        )
+      }
+      this.compareRangeSummary = new RangeSummary(compareWindowPoints, {
+        straightLine: this.straightLine
+      })
+    }
+  }
+
+  findFlTimeAtWindowEntry(points, windowAltitude) {
+    for (let i = 0; i < points.length - 1; i++) {
+      const curr = points[i]
+      const next = points[i + 1]
+
+      if (curr.altitude >= windowAltitude && next.altitude < windowAltitude) {
+        const fraction =
+          (curr.altitude - windowAltitude) / (curr.altitude - next.altitude)
+        return curr.flTime + (next.flTime - curr.flTime) * fraction
+      }
+    }
+    return points[0]?.flTime || 0
+  }
+
+  findDistanceAtWindowEntry(processedPoints, windowAltitude) {
+    for (let i = 0; i < processedPoints.length - 1; i++) {
+      const curr = processedPoints[i]
+      const next = processedPoints[i + 1]
+
+      if (curr.altitude >= windowAltitude && next.altitude < windowAltitude) {
+        const fraction =
+          (curr.altitude - windowAltitude) / (curr.altitude - next.altitude)
+        return curr.distance + (next.distance - curr.distance) * fraction
+      }
+    }
+    return processedPoints[0]?.distance || 0
+  }
+
+  findWindowEntryIndex(points, windowAltitude) {
+    for (let i = 0; i < points.length - 1; i++) {
+      const curr = points[i]
+      const next = points[i + 1]
+
+      if (curr.altitude >= windowAltitude && next.altitude < windowAltitude) {
+        const fraction =
+          (curr.altitude - windowAltitude) / (curr.altitude - next.altitude)
+        return { index: i, fraction }
+      }
+    }
+    return null
+  }
+
+  findWindowEntryTime(points, windowAltitude) {
+    for (let i = 0; i < points.length - 1; i++) {
+      const curr = points[i]
+      const next = points[i + 1]
+
+      if (curr.altitude >= windowAltitude && next.altitude < windowAltitude) {
+        const fraction =
+          (curr.altitude - windowAltitude) / (curr.altitude - next.altitude)
+        const entryTime =
+          curr.gpsTime.getTime() +
+          fraction * (next.gpsTime.getTime() - curr.gpsTime.getTime())
+        return entryTime
+      }
+    }
+    return null
   }
 
   renderSideProjection() {
@@ -519,6 +823,20 @@ export default class extends Controller {
     const contentGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g')
     contentGroup.setAttribute('id', 'trajectory-content')
 
+    if (this.compareProcessedPoints && this.compareProcessedPoints.length > 0) {
+      const comparePathData = this.compareProcessedPoints
+        .map((point, index) => {
+          const { x, y } = this.getChartCoordinates(point)
+          return index === 0 ? `M ${x} ${y}` : `L ${x} ${y}`
+        })
+        .join(' ')
+
+      const comparePath = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+      comparePath.setAttribute('d', comparePathData)
+      comparePath.setAttribute('class', 'track-path--compare')
+      contentGroup.appendChild(comparePath)
+    }
+
     const pathData = this.processedPoints
       .map((point, index) => {
         const { x, y } = this.getChartCoordinates(point)
@@ -621,6 +939,19 @@ export default class extends Controller {
     )
     nestedSvg.setAttribute('preserveAspectRatio', 'xMidYMid meet')
 
+    const windowEntryY = this.getChartCoordinates({
+      altitude: this.fromValue,
+      distance: 0
+    }).y
+    const windowLine = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+    windowLine.setAttribute('x1', viewBoxX)
+    windowLine.setAttribute('y1', windowEntryY)
+    windowLine.setAttribute('x2', viewBoxX + viewBoxWidth)
+    windowLine.setAttribute('y2', windowEntryY)
+    windowLine.setAttribute('stroke', '#06D6A0')
+    windowLine.setAttribute('stroke-width', '3')
+    nestedSvg.appendChild(windowLine)
+
     const useElement = document.createElementNS('http://www.w3.org/2000/svg', 'use')
     useElement.setAttribute('href', '#trajectory-content')
     nestedSvg.appendChild(useElement)
@@ -714,7 +1045,10 @@ export default class extends Controller {
         plotBands: this.bufferPlotBands(),
         windCancellation: this.hasWeatherData,
         showTitle: false,
-        showLegend: false
+        showLegend: false,
+        comparePoints: this.compareChartPoints,
+        compareTimeOffset: this.chartTimeOffset,
+        compareTrackName: this.compareTrackNameValue
       }
     )
   }
@@ -727,7 +1061,10 @@ export default class extends Controller {
       this.chartPoints,
       {
         plotBands: this.bufferPlotBands(),
-        windCancellation: this.hasWeatherData
+        windCancellation: this.hasWeatherData,
+        comparePoints: this.compareChartPoints,
+        compareTimeOffset: this.chartTimeOffset,
+        compareTrackName: this.compareTrackNameValue
       }
     )
   }
@@ -830,6 +1167,81 @@ export default class extends Controller {
     this.map.setCenter(mapBounds.getCenter())
   }
 
+  renderCompareMap() {
+    if (!this.hasCompareMapTarget || !this.comparePoints) return
+
+    if (!this.compareMap) {
+      this.compareMap = new google.maps.Map(this.compareMapTarget, {
+        zoom: 2,
+        center: new google.maps.LatLng(20, 20),
+        mapTypeId: 'terrain',
+        mapId: 'SKYDIVE_PERFORMANCE_COMPARE_MAP'
+      })
+      this.compareMapPolylines = []
+    }
+
+    if (this.compareMapPolylines) {
+      this.compareMapPolylines.forEach(p => p.setMap(null))
+      this.compareMapPolylines = []
+    }
+
+    const fullTrackPoints = this.comparePoints.map(p => ({
+      latitude: p.latitude,
+      longitude: p.longitude,
+      hSpeed: p.hSpeed
+    }))
+    this.drawCompareTrajectorySegment(fullTrackPoints, 3, 0.7)
+
+    const compareWindowPoints = cropPoints(
+      this.comparePoints,
+      this.fromValue,
+      this.toValue
+    )
+    const windowPoints = compareWindowPoints.map(p => ({
+      latitude: p.latitude,
+      longitude: p.longitude,
+      hSpeed: p.hSpeed
+    }))
+    this.drawCompareTrajectorySegment(windowPoints, 5, 1)
+
+    this.fitCompareBounds()
+  }
+
+  drawCompareTrajectorySegment(points, strokeWeight, strokeOpacity) {
+    if (points.length < 2) return
+
+    const trajectory = new Trajectory(points)
+
+    for (let { path, color } of trajectory.polylines) {
+      const polyline = new google.maps.Polyline({
+        path,
+        strokeColor: color,
+        strokeOpacity,
+        strokeWeight
+      })
+      polyline.setMap(this.compareMap)
+      this.compareMapPolylines.push(polyline)
+    }
+  }
+
+  fitCompareBounds() {
+    const mapPoints = this.comparePoints.map(p => ({
+      latitude: p.latitude,
+      longitude: p.longitude
+    }))
+
+    if (mapPoints.length === 0) return
+
+    const bounds = new Bounds(mapPoints)
+    const mapBounds = new google.maps.LatLngBounds()
+
+    mapBounds.extend(new google.maps.LatLng(bounds.minLatitude, bounds.minLongitude))
+    mapBounds.extend(new google.maps.LatLng(bounds.maxLatitude, bounds.maxLongitude))
+
+    this.compareMap.fitBounds(mapBounds)
+    this.compareMap.setCenter(mapBounds.getCenter())
+  }
+
   initPlayback() {
     if (!this.hasPlaybackSliderTarget || this.processedPoints.length === 0) return
 
@@ -892,7 +1304,50 @@ export default class extends Controller {
     this.crosshairMarker.setAttribute('r', '6')
     this.crosshairGroup.appendChild(this.crosshairMarker)
 
+    if (this.compareProcessedPoints?.length) {
+      this.compareCrosshairMarker = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'circle'
+      )
+      this.compareCrosshairMarker.setAttribute('class', 'crosshair-marker--compare')
+      this.compareCrosshairMarker.setAttribute('r', '5')
+      this.crosshairGroup.appendChild(this.compareCrosshairMarker)
+
+      this.createComparisonTooltip()
+    }
+
     contentGroup.appendChild(this.crosshairGroup)
+  }
+
+  createComparisonTooltip() {
+    if (this.comparisonTooltip) {
+      this.comparisonTooltip.remove()
+    }
+
+    this.comparisonTooltip = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+    this.comparisonTooltip.setAttribute('class', 'comparison-tooltip')
+    this.comparisonTooltip.style.display = 'none'
+
+    this.tooltipBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+    this.tooltipBg.setAttribute('rx', '12')
+    this.tooltipBg.setAttribute('fill', '#fff')
+    this.tooltipBg.setAttribute('stroke', 'var(--gray-70)')
+    this.tooltipBg.setAttribute('stroke-width', '2')
+    this.comparisonTooltip.appendChild(this.tooltipBg)
+
+    this.tooltipText1 = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+    this.tooltipText1.setAttribute('fill', 'var(--gray-90)')
+    this.tooltipText1.setAttribute('font-size', '36')
+    this.tooltipText1.setAttribute('font-weight', '500')
+    this.comparisonTooltip.appendChild(this.tooltipText1)
+
+    this.tooltipText2 = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+    this.tooltipText2.setAttribute('fill', 'var(--gray-90)')
+    this.tooltipText2.setAttribute('font-size', '36')
+    this.tooltipText2.setAttribute('font-weight', '500')
+    this.comparisonTooltip.appendChild(this.tooltipText2)
+
+    this.sideProjectionTarget.appendChild(this.comparisonTooltip)
   }
 
   togglePlay() {
@@ -987,7 +1442,7 @@ export default class extends Controller {
     if (!this.crosshairGroup || index < 0 || index >= this.processedPoints.length) return
 
     const point = this.processedPoints[index]
-    this.showCrosshairAtPosition(point)
+    this.showCrosshairAtPosition(point, point.playerTime)
   }
 
   showCrosshairInterpolated(index, fraction) {
@@ -999,13 +1454,14 @@ export default class extends Controller {
 
     const interpolatedPoint = {
       distance: curr.distance + (next.distance - curr.distance) * fraction,
-      altitude: curr.altitude + (next.altitude - curr.altitude) * fraction
+      altitude: curr.altitude + (next.altitude - curr.altitude) * fraction,
+      playerTime: curr.playerTime + (next.playerTime - curr.playerTime) * fraction
     }
 
-    this.showCrosshairAtPosition(interpolatedPoint)
+    this.showCrosshairAtPosition(interpolatedPoint, interpolatedPoint.playerTime)
   }
 
-  showCrosshairAtPosition(point) {
+  showCrosshairAtPosition(point, playerTime) {
     const { x, y } = this.getChartCoordinates(point)
     const { width, height } = this.chartDimensions
     const { left, right, top, bottom } = CHART_PADDING
@@ -1024,6 +1480,66 @@ export default class extends Controller {
     this.crosshairMarker.setAttribute('cy', y)
 
     this.crosshairGroup.style.display = ''
+
+    this.updateComparisonCrosshair(point, playerTime, x, y)
+  }
+
+  updateComparisonCrosshair(primaryPoint, playerTime, primaryX, primaryY) {
+    if (!this.compareCrosshairMarker || !this.compareProcessedPoints?.length) return
+
+    const comparePoint = this.findComparePointAtPlayerTime(playerTime)
+    if (!comparePoint) {
+      this.compareCrosshairMarker.style.display = 'none'
+      this.comparisonTooltip.style.display = 'none'
+      return
+    }
+
+    const { x: compareX, y: compareY } = this.getChartCoordinates(comparePoint)
+
+    this.compareCrosshairMarker.setAttribute('cx', compareX)
+    this.compareCrosshairMarker.setAttribute('cy', compareY)
+    this.compareCrosshairMarker.style.display = ''
+
+    const altDiff = primaryPoint.altitude - comparePoint.altitude
+    const distDiff = primaryPoint.distance - comparePoint.distance
+
+    const altText =
+      Math.abs(altDiff) < 1
+        ? 'same altitude'
+        : `${Math.abs(Math.round(altDiff))}m ${altDiff > 0 ? 'above' : 'below'}`
+    const distText =
+      Math.abs(distDiff) < 1
+        ? 'same distance'
+        : `${Math.abs(Math.round(distDiff))}m ${distDiff > 0 ? 'ahead' : 'behind'}`
+
+    this.tooltipText1.textContent = altText
+    this.tooltipText2.textContent = distText
+
+    const padding = 24
+    const lineHeight = 48
+    const text1Width = this.tooltipText1.getBBox().width || 240
+    const text2Width = this.tooltipText2.getBBox().width || 240
+    const tooltipWidth = Math.max(text1Width, text2Width) + padding * 2
+    const tooltipHeight = lineHeight * 2 + padding * 2
+
+    const tooltipX = Math.min(
+      primaryX + 10,
+      this.chartDimensions.width - tooltipWidth - 10
+    )
+    const tooltipY = Math.max(primaryY - tooltipHeight - 10, 10)
+
+    this.tooltipBg.setAttribute('x', tooltipX)
+    this.tooltipBg.setAttribute('y', tooltipY)
+    this.tooltipBg.setAttribute('width', tooltipWidth)
+    this.tooltipBg.setAttribute('height', tooltipHeight)
+
+    this.tooltipText1.setAttribute('x', tooltipX + padding)
+    this.tooltipText1.setAttribute('y', tooltipY + padding + 36)
+
+    this.tooltipText2.setAttribute('x', tooltipX + padding)
+    this.tooltipText2.setAttribute('y', tooltipY + padding + 36 + lineHeight)
+
+    this.comparisonTooltip.style.display = ''
   }
 
   updateSummaryIndicators() {
@@ -1148,39 +1664,72 @@ export default class extends Controller {
       this.processedPoints[Math.min(index + 1, this.processedPoints.length - 1)]
 
     const interpolate = (a, b) => a + (b - a) * fraction
-    const roundToStep = (value, step) => Math.round(value / step) * step
 
-    const altitude = interpolate(curr.altitude, next.altitude)
-    const fullSpeed = interpolate(curr.fullSpeed, next.fullSpeed)
-    const hSpeed = interpolate(curr.hSpeed, next.hSpeed)
-    const vSpeed = interpolate(curr.vSpeed, next.vSpeed)
-    const glideRatio = interpolate(curr.glideRatio ?? 0, next.glideRatio ?? 0)
+    const primaryData = {
+      altitude: interpolate(curr.altitude, next.altitude),
+      fullSpeed: interpolate(curr.fullSpeed, next.fullSpeed),
+      hSpeed: interpolate(curr.hSpeed, next.hSpeed),
+      vSpeed: interpolate(curr.vSpeed, next.vSpeed),
+      glideRatio: interpolate(curr.glideRatio ?? 0, next.glideRatio ?? 0)
+    }
 
-    if (this.hasAltitudeTarget) {
-      this.altitudeTarget.textContent = roundToStep(altitude, 10).toFixed()
-    }
-    if (this.hasFullSpeedTarget) {
-      this.fullSpeedTarget.textContent = roundToStep(fullSpeed, 5).toFixed()
-    }
-    if (this.hasHSpeedTarget) {
-      this.hSpeedTarget.textContent = roundToStep(hSpeed, 5).toFixed()
-    }
-    if (this.hasVSpeedTarget) {
-      this.vSpeedTarget.textContent = roundToStep(vSpeed, 5).toFixed()
-    }
-    if (this.hasGlideRatioTarget) {
-      this.glideRatioTarget.textContent = glideRatio.toFixed(1)
-    }
-    if (this.hasAngleTarget) {
-      const angle = (90 * Math.PI) / 180 - Math.atan2(vSpeed, hSpeed)
-      const startX = 15 * Math.sin(angle)
-      const startY = 115 + 15 * Math.cos(angle)
-      const endX = 65 * Math.sin(angle)
-      const endY = 115 + 65 * Math.cos(angle)
-      this.angleTarget.setAttribute('d', `M ${startX} ${startY} ${endX} ${endY}`)
+    if (this.hasPlaybackIndicatorsTarget) {
+      const controller = this.getPlaybackIndicatorsController(
+        this.playbackIndicatorsTarget
+      )
+      if (controller) controller.update(primaryData)
     }
 
     this.updateAccelerationIndicators(index, fraction)
+
+    if (this.hasComparePlaybackIndicatorsTarget && this.compareProcessedPoints?.length) {
+      const targetTime = curr.playerTime + (next.playerTime - curr.playerTime) * fraction
+      const compareData = this.findComparePointAtPlayerTime(targetTime)
+      if (compareData) {
+        const compareController = this.getPlaybackIndicatorsController(
+          this.comparePlaybackIndicatorsTarget
+        )
+        if (compareController) compareController.update(compareData)
+      }
+    }
+  }
+
+  getPlaybackIndicatorsController(element) {
+    return this.application.getControllerForElementAndIdentifier(
+      element,
+      'playback-indicators'
+    )
+  }
+
+  findComparePointAtPlayerTime(targetTime) {
+    if (!this.compareProcessedPoints || this.compareProcessedPoints.length === 0)
+      return null
+
+    for (let i = 0; i < this.compareProcessedPoints.length - 1; i++) {
+      const curr = this.compareProcessedPoints[i]
+      const next = this.compareProcessedPoints[i + 1]
+
+      if (targetTime >= curr.playerTime && targetTime < next.playerTime) {
+        const fraction =
+          (targetTime - curr.playerTime) / (next.playerTime - curr.playerTime)
+        return {
+          altitude: curr.altitude + (next.altitude - curr.altitude) * fraction,
+          distance: curr.distance + (next.distance - curr.distance) * fraction,
+          fullSpeed: curr.fullSpeed + (next.fullSpeed - curr.fullSpeed) * fraction,
+          hSpeed: curr.hSpeed + (next.hSpeed - curr.hSpeed) * fraction,
+          vSpeed: curr.vSpeed + (next.vSpeed - curr.vSpeed) * fraction,
+          glideRatio:
+            (curr.glideRatio ?? 0) +
+            ((next.glideRatio ?? 0) - (curr.glideRatio ?? 0)) * fraction
+        }
+      }
+    }
+
+    if (targetTime < this.compareProcessedPoints[0].playerTime) {
+      return this.compareProcessedPoints[0]
+    }
+
+    return this.compareProcessedPoints[this.compareProcessedPoints.length - 1]
   }
 
   updateAccelerationIndicators(index, fraction) {
@@ -1482,6 +2031,209 @@ export default class extends Controller {
           this.showDesignatedLane()
         }
       })
+  }
+
+  updateCompareSummaryIndicators() {
+    if (!this.compareRangeSummary) return
+
+    if (this.hasCompareDistanceTarget) {
+      this.compareDistanceTarget.innerText = Math.floor(this.compareRangeSummary.distance)
+    }
+    if (this.hasCompareSummaryGlideRatioTarget) {
+      this.compareSummaryGlideRatioTarget.innerText = this.formatGlideRatio(
+        this.compareRangeSummary.glideRatio.avg
+      )
+    }
+    if (this.hasCompareGlideRatioMinTarget) {
+      this.compareGlideRatioMinTarget.innerText = this.formatGlideRatio(
+        this.compareRangeSummary.glideRatio.min
+      )
+    }
+    if (this.hasCompareGlideRatioMaxTarget) {
+      this.compareGlideRatioMaxTarget.innerText = this.formatGlideRatio(
+        this.compareRangeSummary.glideRatio.max
+      )
+    }
+    if (this.hasCompareGroundSpeedTarget) {
+      this.compareGroundSpeedTarget.innerText =
+        this.compareRangeSummary.horizontalSpeed.avg.toFixed(0)
+    }
+    if (this.hasCompareGroundSpeedMinTarget) {
+      this.compareGroundSpeedMinTarget.innerText =
+        this.compareRangeSummary.horizontalSpeed.min.toFixed(0)
+    }
+    if (this.hasCompareGroundSpeedMaxTarget) {
+      this.compareGroundSpeedMaxTarget.innerText =
+        this.compareRangeSummary.horizontalSpeed.max.toFixed(0)
+    }
+    if (this.hasCompareElevationTarget) {
+      this.compareElevationTarget.innerText =
+        this.compareRangeSummary.elevation.toFixed(0)
+    }
+    if (this.hasCompareVerticalSpeedTarget) {
+      this.compareVerticalSpeedTarget.innerText =
+        this.compareRangeSummary.verticalSpeed.avg.toFixed(0)
+    }
+    if (this.hasCompareVerticalSpeedMinTarget) {
+      this.compareVerticalSpeedMinTarget.innerText =
+        this.compareRangeSummary.verticalSpeed.min.toFixed(0)
+    }
+    if (this.hasCompareVerticalSpeedMaxTarget) {
+      this.compareVerticalSpeedMaxTarget.innerText =
+        this.compareRangeSummary.verticalSpeed.max.toFixed(0)
+    }
+    if (this.hasCompareDurationTarget) {
+      this.compareDurationTarget.innerText = this.compareRangeSummary.time.toFixed(1)
+    }
+
+    if (this.hasWeatherData) this.updateCompareWindEffectIndicators()
+  }
+
+  updateCompareWindEffectIndicators() {
+    const distanceEffect = this.compareRangeSummary.distanceWindEffect
+    if (
+      distanceEffect?.value !== null &&
+      this.hasCompareWindEffectContainerDistanceTarget
+    ) {
+      this.compareWindEffectContainerDistanceTarget.style.display = ''
+      this.updateWindEffectValues(
+        distanceEffect,
+        this.compareWindEffectDistanceTarget,
+        this.compareWindEffectDistanceWindTarget,
+        this.compareWindEffectDistancePercentTarget,
+        this.compareWindEffectDistanceWindPercentTarget,
+        0
+      )
+    }
+
+    const speedEffect = this.compareRangeSummary.horizontalSpeedWindEffect
+    if (speedEffect?.value !== null && this.hasCompareWindEffectContainerSpeedTarget) {
+      this.compareWindEffectContainerSpeedTarget.style.display = ''
+      this.updateWindEffectValues(
+        speedEffect,
+        this.compareWindEffectSpeedTarget,
+        this.compareWindEffectSpeedWindTarget,
+        this.compareWindEffectSpeedPercentTarget,
+        this.compareWindEffectSpeedWindPercentTarget,
+        0
+      )
+    }
+
+    const glideEffect = this.compareRangeSummary.glideRatioWindEffect
+    if (
+      glideEffect?.value !== null &&
+      this.hasCompareWindEffectContainerGlideRatioTarget
+    ) {
+      this.compareWindEffectContainerGlideRatioTarget.style.display = ''
+      this.updateWindEffectValues(
+        glideEffect,
+        this.compareWindEffectGlideRatioTarget,
+        this.compareWindEffectGlideRatioWindTarget,
+        this.compareWindEffectGlideRatioPercentTarget,
+        this.compareWindEffectGlideRatioWindPercentTarget,
+        2
+      )
+    }
+  }
+
+  openCompareModal() {
+    if (!this.hasCompareModalTarget) return
+
+    this.compareModalTarget.showModal()
+    document.body.classList.add('overflow-hidden')
+
+    if (this.hasCompareSearchInputTarget) {
+      this.compareSearchInputTarget.focus()
+    }
+  }
+
+  closeCompareModal() {
+    if (!this.hasCompareModalTarget) return
+
+    this.compareModalTarget.close()
+    document.body.classList.remove('overflow-hidden')
+  }
+
+  searchCompareTracks(event) {
+    const term = event.target.value.trim()
+
+    if (term.length < 2) {
+      this.compareResultsTarget.innerHTML = `
+        <div class="comparison-results-placeholder">
+          Enter at least 2 characters to search
+        </div>
+      `
+      return
+    }
+
+    this.compareResultsTarget.innerHTML = `
+      <div class="comparison-loading">
+        <span>Searching...</span>
+      </div>
+    `
+
+    const url = new URL(this.searchUrlValue, window.location.origin)
+    url.searchParams.set('term', term)
+
+    fetch(url, {
+      headers: { Accept: 'application/json' }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.renderCompareResults(data)
+      })
+      .catch(() => {
+        this.compareResultsTarget.innerHTML = `
+          <div class="comparison-results-placeholder">
+            Error searching tracks
+          </div>
+        `
+      })
+  }
+
+  renderCompareResults(tracks) {
+    if (!tracks || tracks.length === 0) {
+      this.compareResultsTarget.innerHTML = `
+        <div class="comparison-results-placeholder">
+          No tracks found
+        </div>
+      `
+      return
+    }
+
+    const filteredTracks = tracks.filter(track => track.id !== this.trackIdValue)
+
+    const html = filteredTracks
+      .map(
+        track => `
+        <div class="comparison-result-item"
+             data-action="click->tracks--skydive-performance-track#selectCompareTrack"
+             data-track-id="${track.id}">
+          ${
+            track.pilot?.userpic_url
+              ? `<img src="${track.pilot.userpic_url}" class="comparison-result-item-photo loading-bg" alt="">`
+              : ''
+          }
+          <div class="comparison-result-item-info">
+            <div class="comparison-result-item-name">${track.pilot?.name || track.name || `Track #${track.id}`}</div>
+            <div class="comparison-result-item-details">
+              ${track.suit?.name || ''}
+              ${track.place?.name ? `• ${track.place.name}` : ''}
+            </div>
+          </div>
+        </div>
+      `
+      )
+      .join('')
+
+    this.compareResultsTarget.innerHTML = html
+  }
+
+  selectCompareTrack(event) {
+    const trackId = event.currentTarget.dataset.trackId
+    const url = new URL(window.location)
+    url.searchParams.set('compare_id', trackId)
+    window.location.href = url.toString()
   }
 
   disconnect() {

@@ -39,6 +39,7 @@ en:
       loading: 'Loading track data'
       full_jump: 'Full jump'
       designated_lane: 'Designated Lane'
+      straight_line_distance: 'Straight-line distance'
     choose:
       title: 'Select a track to upload'
       number: '#'

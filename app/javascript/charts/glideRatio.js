@@ -48,6 +48,34 @@ export const zeroWindGlideRatioSeries = (points, options) => ({
   ...options
 })
 
+export const compareGlideRatioSeries = (
+  points,
+  primaryPoints,
+  timeOffset,
+  name,
+  options
+) => ({
+  name: name || 'Comparison',
+  custom: { code: 'gr_compare' },
+  type: 'spline',
+  color: '#9e9e9e',
+  dashStyle: 'ShortDash',
+  data: points.map(point => {
+    const relativeTime = point.flTime - points[0].flTime
+    const adjustedTime = relativeTime + timeOffset
+    return {
+      x: adjustedTime,
+      y: clampGlideValue(point.glideRatio),
+      custom: {
+        tooltipValue: Math.round(point.glideRatio * 100) / 100,
+        altitude: Math.round(point.altitude),
+        gpsTime: point.gpsTime
+      }
+    }
+  }),
+  ...options
+})
+
 export const initGlideChart = (
   container,
   points,
@@ -56,10 +84,21 @@ export const initGlideChart = (
     plotBands = [],
     windCancellation = false,
     showTitle = true,
-    showLegend = true
+    showLegend = true,
+    comparePoints = null,
+    compareTimeOffset = 0,
+    compareTrackName = null
   } = {}
 ) => {
   const chartName = 'GlideChart'
+
+  const series = [
+    glideRatioSeries(points),
+    windCancellation && zeroWindGlideRatioSeries(points),
+    comparePoints &&
+      comparePoints.length > 0 &&
+      compareGlideRatioSeries(comparePoints, points, compareTimeOffset, compareTrackName)
+  ].filter(Boolean)
 
   const chartOptions = {
     chart: {
@@ -126,10 +165,7 @@ export const initGlideChart = (
       }
     },
     credits: { enabled: false },
-    series: [
-      glideRatioSeries(points),
-      windCancellation && zeroWindGlideRatioSeries(points)
-    ].filter(Boolean)
+    series
   }
 
   return Highcharts.chart(container, chartOptions)

@@ -14,3 +14,9 @@ en:
       unlock_unlimited: Unlock Unlimited
       sign_in: Sign in
       sign_in_prompt: "to try BASE Pro View — 5 free per month"
+    comparison:
+      modal_title: Compare with another track
+      search_placeholder: Search by pilot name or track ID
+      search_hint: Search for a track to compare
+      compare_button: Compare
+      remove: Remove comparison

@@ -39,6 +39,7 @@ ru:
       loading: 'Загрузка данных трека'
       full_jump: 'Весь прыжок'
       designated_lane: 'Designated Lane'
+      straight_line_distance: 'Расстояние по прямой'
     choose:
       title: 'Выберите трек для загрузки'
       number: 'Номер'

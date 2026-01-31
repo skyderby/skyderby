@@ -7,10 +7,49 @@
        data-tracks--skydive-performance-track-weather-url-value="<%= track_weather_data_path(@track) %>"
        data-tracks--skydive-performance-track-reference-point-url-value="<%= track_reference_point_path(@track) %>"
        data-tracks--skydive-performance-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
+       data-tracks--skydive-performance-track-track-id-value="<%= @track.id %>"
+       data-tracks--skydive-performance-track-search-url-value="<%= tracks_path(kind: 'skydive', format: :json) %>"
+       <% if @compare_track %>
+       data-tracks--skydive-performance-track-compare-points-url-value="<%= track_points_path(@compare_track, original_frequency: true, trimmed: { seconds_before_start: 5, seconds_after_end: 10 }) %>"
+       data-tracks--skydive-performance-track-compare-track-name-value="<%= @compare_track.pilot&.name || @compare_track.name %>"
+       <% end %>
        data-tracks--skydive-performance-track-tracks--range-selector-outlet="#range-selector"
        data-action="tracks--range-selector:change->tracks--skydive-performance-track#updateRange">
 
-    <%= render 'tracks/skydive_performance_indicators' %>
+    <div class="switch-container">
+      <input type="checkbox"
+             id="straight-line-toggle"
+             class="switch-input"
+             data-tracks--skydive-performance-track-target="straightLineToggle"
+             data-action="tracks--skydive-performance-track#toggleStraightLine">
+      <label for="straight-line-toggle" class="switch-label">
+        <span class="switch-slider"></span>
+        <span class="switch-text"><%= t('tracks.show.straight_line_distance') %></span>
+      </label>
+    </div>
+
+    <div class="skydive-performance-indicators-header">
+      <%= render 'tracks/skydive_performance_indicators' %>
+      <% if @compare_track %>
+        <%= render 'tracks/skydive_performance_indicators', compare: true %>
+      <% end %>
+    </div>
+
+    <div class="comparison-actions">
+      <% if @compare_track %>
+        <a href="<%= track_path(@track) %>" class="button button--sm button--ghost">
+          <%= t('tracks.comparison.remove') %>
+        </a>
+      <% else %>
+        <button type="button"
+                class="button button--sm button--ghost"
+                data-action="tracks--skydive-performance-track#openCompareModal">
+          <%= t('tracks.comparison.compare_button') %>
+        </button>
+      <% end %>
+    </div>
+
+    <%= render 'tracks/comparison_modal' %>
 
     <hr class="top-buffer">
 
@@ -40,67 +79,75 @@
     </div>
 
     <div class="skydive-performance-layout">
-      <div class="skydive-performance-left">
-        <div class="skydive-performance-chart-container">
-          <svg class="skydive-performance-chart"
-               data-tracks--skydive-performance-track-target="sideProjection"
-               viewBox="0 0 1000 600"
-               preserveAspectRatio="xMidYMid meet">
-            <g class="chart-grid" data-tracks--skydive-performance-track-target="grid"></g>
-            <g class="chart-trajectory" data-tracks--skydive-performance-track-target="trajectory"></g>
-          </svg>
-        </div>
+      <div class="skydive-performance-chart-container">
+        <svg class="skydive-performance-chart"
+             data-tracks--skydive-performance-track-target="sideProjection"
+             viewBox="0 0 1000 600"
+             preserveAspectRatio="xMidYMid meet">
+          <g class="chart-grid" data-tracks--skydive-performance-track-target="grid"></g>
+          <g class="chart-trajectory" data-tracks--skydive-performance-track-target="trajectory"></g>
+        </svg>
+      </div>
 
+      <div class="skydive-performance-indicators-row">
+        <%= render 'tracks/playback_indicators', parent_controller: 'tracks--skydive-performance-track', show_altitude_spent: false %>
+        <% if @compare_track %>
+          <%= render 'tracks/playback_indicators', parent_controller: 'tracks--skydive-performance-track', show_altitude_spent: false, compare: true %>
+        <% end %>
+      </div>
+
+      <div class="skydive-performance-charts"
+           data-controller="synchronized-charts"
+           data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip">
+        <div data-tracks--skydive-performance-track-target="glideChart"
+             data-synchronized-charts-target="chart"></div>
+        <div data-tracks--skydive-performance-track-target="speedChart"
+             data-synchronized-charts-target="chart"></div>
+        <div data-tracks--skydive-performance-track-target="sepChart"
+             data-synchronized-charts-target="chart"></div>
+      </div>
+
+      <div class="skydive-performance-maps-container">
         <div class="skydive-performance-map-container">
           <div class="skydive-performance-map"
                data-tracks--skydive-performance-track-target="map">
           </div>
         </div>
-
-        <div class="switch-container">
-          <input type="checkbox"
-                 id="designated-lane-toggle"
-                 class="switch-input"
-                 data-tracks--skydive-performance-track-target="designatedLaneToggle"
-                 data-action="tracks--skydive-performance-track#toggleDesignatedLane">
-          <label for="designated-lane-toggle" class="switch-label">
-            <span class="switch-slider"></span>
-            <span class="switch-text"><%= t('tracks.show.designated_lane') %></span>
-          </label>
-        </div>
+        <% if @compare_track %>
+          <div class="skydive-performance-map-container">
+            <div class="skydive-performance-map"
+                 data-tracks--skydive-performance-track-target="compareMap">
+            </div>
+          </div>
+        <% end %>
       </div>
 
-      <div class="skydive-performance-controls">
-        <%= render 'tracks/playback_indicators', controller: 'tracks--skydive-performance-track', show_altitude_spent: false %>
-
-        <div class="skydive-performance-playback">
-          <button class="skydive-performance-playback-button"
-                  data-tracks--skydive-performance-track-target="playButton"
-                  data-action="tracks--skydive-performance-track#togglePlay">
-            <span class="icon-play"><%= icon_tag 'play-solid' %></span>
-            <span class="icon-pause"><%= icon_tag 'pause-solid' %></span>
-          </button>
-          <input type="range"
-                 class="skydive-performance-playback-slider"
-                 min="0"
-                 max="100"
-                 value="0"
-                 data-tracks--skydive-performance-track-target="playbackSlider"
-                 data-action="input->tracks--skydive-performance-track#onSliderInput">
-        </div>
+      <div class="switch-container">
+        <input type="checkbox"
+               id="designated-lane-toggle"
+               class="switch-input"
+               data-tracks--skydive-performance-track-target="designatedLaneToggle"
+               data-action="tracks--skydive-performance-track#toggleDesignatedLane">
+        <label for="designated-lane-toggle" class="switch-label">
+          <span class="switch-slider"></span>
+          <span class="switch-text"><%= t('tracks.show.designated_lane') %></span>
+        </label>
       </div>
 
-      <div class="skydive-performance-right">
-        <div class="skydive-performance-charts"
-             data-controller="synchronized-charts"
-             data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip">
-          <div data-tracks--skydive-performance-track-target="glideChart"
-               data-synchronized-charts-target="chart"></div>
-          <div data-tracks--skydive-performance-track-target="speedChart"
-               data-synchronized-charts-target="chart"></div>
-          <div data-tracks--skydive-performance-track-target="sepChart"
-               data-synchronized-charts-target="chart"></div>
-        </div>
+      <div class="skydive-performance-playback">
+        <button class="skydive-performance-playback-button"
+                data-tracks--skydive-performance-track-target="playButton"
+                data-action="tracks--skydive-performance-track#togglePlay">
+          <span class="icon-play"><%= icon_tag 'play-solid' %></span>
+          <span class="icon-pause"><%= icon_tag 'pause-solid' %></span>
+        </button>
+        <input type="range"
+               class="skydive-performance-playback-slider"
+               min="0"
+               max="100"
+               value="0"
+               data-tracks--skydive-performance-track-target="playbackSlider"
+               data-action="input->tracks--skydive-performance-track#onSliderInput">
       </div>
     </div>
 

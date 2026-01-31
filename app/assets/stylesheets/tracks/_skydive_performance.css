@@ -7,31 +7,12 @@
 .skydive-performance-layout {
   display: flex;
   flex-direction: column;
-}
-
-@media (min-width: 768px) {
-  .skydive-performance-layout {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-}
-
-.skydive-performance-left {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-@media (min-width: 768px) {
-  .skydive-performance-left {
-    flex: 0 0 50%;
-  }
+  gap: 1rem;
 }
 
 .skydive-performance-chart-container {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 300px;
   position: relative;
 }
 
@@ -88,6 +69,15 @@
   stroke-linejoin: round;
 }
 
+.skydive-performance-chart .track-path--compare {
+  fill: none;
+  stroke: var(--gray-50);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 8 4;
+}
+
 .skydive-performance-chart .crosshair {
   stroke: #333;
   stroke-width: 1;
@@ -100,29 +90,55 @@
   stroke-width: 2;
 }
 
-.skydive-performance-controls {
-  order: 2;
+.skydive-performance-chart .crosshair-marker--compare {
+  fill: var(--gray-50);
+  stroke: #fff;
+  stroke-width: 2;
 }
 
-@media (min-width: 768px) {
-  .skydive-performance-controls {
-    order: 3;
-    flex: 0 0 100%;
-  }
-}
-
-.skydive-performance-right {
-  flex: 1;
+.skydive-performance-indicators-row {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  order: 3;
+}
+
+.video-indicators--compare {
+  border: 2px dashed var(--gray-40);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.skydive-performance-charts {
+  display: flex;
+  flex-direction: column;
+}
+
+.skydive-performance-charts > div {
+  min-height: 200px;
+}
+
+.skydive-performance-charts > div:first-child {
+  min-height: 170px;
+}
+
+.skydive-performance-charts > div:last-child {
+  min-height: 70px;
+}
+
+.skydive-performance-maps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 @media (min-width: 768px) {
-  .skydive-performance-right {
-    flex: 0 0 50%;
-    order: 2;
+  .skydive-performance-maps-container {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .skydive-performance-maps-container .skydive-performance-map-container {
+    flex: 1;
   }
 }
 
@@ -138,27 +154,6 @@
   height: 100%;
 }
 
-.skydive-performance-charts {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.skydive-performance-charts > div {
-  flex: 1;
-  min-height: 200px;
-}
-
-.skydive-performance-charts > div:first-child {
-  flex: 0 0 170px;
-  min-height: 170px;
-}
-
-.skydive-performance-charts > div:last-child {
-  flex: 0 0 70px;
-  min-height: 70px;
-}
-
 .skydive-performance-playback {
   display: flex;
   align-items: center;
@@ -166,12 +161,6 @@
   padding: 0.75rem 1rem;
   background: #f5f5f5;
   border-radius: 2rem;
-}
-
-@media (min-width: 768px) {
-  .skydive-performance-playback {
-    margin-top: 1rem;
-  }
 }
 
 .skydive-performance-playback-button {
@@ -254,4 +243,105 @@
   border-radius: 50%;
   border: none;
   cursor: pointer;
+}
+
+.skydive-performance-indicators-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .skydive-performance-indicators-header {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .skydive-performance-indicators-header .track-indicators {
+    flex: 1;
+  }
+}
+
+.skydive-performance-indicators-header .track-indicators {
+  padding: 0.75rem;
+}
+
+.track-indicators--compare {
+  background: var(--gray-10);
+  border-radius: 8px;
+}
+
+.track-indicators-label {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--gray-70);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--gray-30);
+}
+
+.comparison-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.comparison-search {
+  margin-bottom: 1rem;
+}
+
+.comparison-results {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.comparison-results-placeholder {
+  text-align: center;
+  color: var(--gray-60);
+  padding: 2rem;
+}
+
+.comparison-result-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.comparison-result-item:hover {
+  background: var(--gray-10);
+}
+
+.comparison-result-item-photo {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comparison-result-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.comparison-result-item-name {
+  font-weight: 500;
+  color: var(--gray-90);
+}
+
+.comparison-result-item-details {
+  font-size: 0.875rem;
+  color: var(--gray-60);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.comparison-loading {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
 }

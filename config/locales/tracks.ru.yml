@@ -16,3 +16,9 @@ ru:
       unlock_unlimited: Разблокируй безлимит
       sign_in: Войдите
       sign_in_prompt: "чтобы попробовать BASE Pro View — 5 треков в месяц бесплатно"
+    comparison:
+      modal_title: Сравнить с другим треком
+      search_placeholder: Поиск по имени пилота или ID трека
+      search_hint: Найдите трек для сравнения
+      compare_button: Сравнить
+      remove: Убрать сравнение

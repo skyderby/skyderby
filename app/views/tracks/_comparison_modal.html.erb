@@ -1,0 +1,28 @@
+<dialog class="dialog dialog-size-md"
+        data-tracks--skydive-performance-track-target="compareModal">
+  <div class="dialog-header">
+    <h2 class="dialog-title"><%= t('tracks.comparison.modal_title') %></h2>
+    <button class="dialog-close"
+            aria-label="Close"
+            data-action="tracks--skydive-performance-track#closeCompareModal">
+      <%= icon_tag 'xmark' %>
+    </button>
+  </div>
+
+  <div class="dialog-body">
+    <div class="comparison-search">
+      <input type="text"
+             class="form-control"
+             placeholder="<%= t('tracks.comparison.search_placeholder') %>"
+             data-tracks--skydive-performance-track-target="compareSearchInput"
+             data-action="input->tracks--skydive-performance-track#searchCompareTracks">
+    </div>
+
+    <div class="comparison-results"
+         data-tracks--skydive-performance-track-target="compareResults">
+      <div class="comparison-results-placeholder">
+        <%= t('tracks.comparison.search_hint') %>
+      </div>
+    </div>
+  </div>
+</dialog>

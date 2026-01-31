@@ -9,14 +9,14 @@
   max-height: calc(100dvh - 2rem);
   margin: auto 0 0 0;
   height: fit-content;
-  display: flex;
-  flex-direction: column;
   opacity: 0;
   transform: translateY(100%);
   transition: opacity 0.2s ease, transform 0.2s ease, overlay 0.2s ease allow-discrete, display 0.2s ease allow-discrete;
 }
 
 .dialog[open] {
+  display: flex;
+  flex-direction: column;
   opacity: 1;
   transform: translateY(0);
 }
