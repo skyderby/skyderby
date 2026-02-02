@@ -4,6 +4,8 @@ require 'sidekiq/cron/web'
 Skyderby::Application.routes.draw do
   mount ActionCable.server, at: '/cable'
 
+  use_doorkeeper
+
   get '/up', to: 'rails/health#show'
 
   # Backward compatibility, app used to have locale in path, like
@@ -98,7 +100,7 @@ Skyderby::Application.routes.draw do
 
       resources :suits, only: :index
 
-      resources :tracks, only: [] do
+      resources :tracks, only: [:create] do
         scope module: :tracks do
           resource :points, only: :show
         end

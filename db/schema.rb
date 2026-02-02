@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_23_050853) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_02_055101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -200,6 +200,52 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_23_050853) do
     t.string "code", limit: 510
     t.string "name", limit: 510
     t.index ["code"], name: "index_manufacturers_on_code", unique: true
+  end
+
+  create_table "oauth_access_grants", force: :cascade do |t|
+    t.bigint "application_id", null: false
+    t.string "code_challenge"
+    t.string "code_challenge_method"
+    t.datetime "created_at", null: false
+    t.integer "expires_in", null: false
+    t.text "redirect_uri", null: false
+    t.bigint "resource_owner_id", null: false
+    t.string "resource_owner_type", null: false
+    t.datetime "revoked_at"
+    t.string "scopes", default: "", null: false
+    t.string "token", null: false
+    t.index ["application_id"], name: "index_oauth_access_grants_on_application_id"
+    t.index ["resource_owner_type", "resource_owner_id"], name: "index_oauth_access_grants_on_resource_owner"
+    t.index ["token"], name: "index_oauth_access_grants_on_token", unique: true
+  end
+
+  create_table "oauth_access_tokens", force: :cascade do |t|
+    t.bigint "application_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "expires_in"
+    t.string "previous_refresh_token", default: "", null: false
+    t.string "refresh_token"
+    t.bigint "resource_owner_id"
+    t.string "resource_owner_type"
+    t.datetime "revoked_at"
+    t.string "scopes"
+    t.string "token", null: false
+    t.index ["application_id"], name: "index_oauth_access_tokens_on_application_id"
+    t.index ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true
+    t.index ["resource_owner_type", "resource_owner_id"], name: "index_oauth_access_tokens_on_resource_owner"
+    t.index ["token"], name: "index_oauth_access_tokens_on_token", unique: true
+  end
+
+  create_table "oauth_applications", force: :cascade do |t|
+    t.boolean "confidential", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.text "redirect_uri"
+    t.string "scopes", default: "", null: false
+    t.string "secret"
+    t.string "uid", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
   create_table "organizers", id: :serial, force: :cascade do |t|
@@ -833,6 +879,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_23_050853) do
   add_foreign_key "free_pro_views", "users"
   add_foreign_key "gifted_subscriptions", "users"
   add_foreign_key "gifted_subscriptions", "users", column: "granted_by_id"
+  add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
+  add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
@@ -868,48 +916,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_23_050853) do
   add_foreign_key "tracks", "profiles"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
 
-  create_view "interval_top_scores", sql_definition: <<-SQL
-      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.custom_interval_id, entities.wind_cancelled ORDER BY
-          CASE
-              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
-              ELSE (- entities.result)
-          END DESC) AS rank,
-      entities.virtual_competition_id,
-      entities.track_id,
-      entities.result,
-      entities.highest_speed,
-      entities.highest_gr,
-      entities.profile_id,
-      entities.suit_id,
-      entities.custom_interval_id,
-      entities.wind_cancelled,
-      entities.recorded_at
-     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, intervals.id, results.wind_cancelled) results.virtual_competition_id,
-              results.track_id,
-              results.result,
-              results.highest_speed,
-              results.highest_gr,
-              results.wind_cancelled,
-              tracks.profile_id,
-              tracks.suit_id,
-              tracks.recorded_at,
-              competitions.results_sort_order,
-              intervals.id AS custom_interval_id
-             FROM (((virtual_competition_results results
-               JOIN virtual_competitions competitions ON ((results.virtual_competition_id = competitions.id)))
-               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
-               JOIN virtual_competition_custom_intervals intervals ON (((intervals.virtual_competition_id = competitions.id) AND ((tracks.recorded_at >= intervals.period_from) AND (tracks.recorded_at <= intervals.period_to)))))
-            ORDER BY results.virtual_competition_id, tracks.profile_id, intervals.id, results.wind_cancelled,
-                  CASE
-                      WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
-                      ELSE (- results.result)
-                  END DESC) entities
-    ORDER BY
-          CASE
-              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
-              ELSE (- entities.result)
-          END DESC;
-  SQL
   create_view "annual_top_scores", sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.year, entities.wind_cancelled ORDER BY
           CASE
@@ -950,129 +956,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_23_050853) do
               WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
               ELSE (- entities.result)
           END DESC;
-  SQL
-  create_view "personal_top_scores", sql_definition: <<-SQL
-      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.wind_cancelled ORDER BY
-          CASE
-              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
-              ELSE (- entities.result)
-          END DESC) AS rank,
-      entities.virtual_competition_id,
-      entities.track_id,
-      entities.result,
-      entities.highest_speed,
-      entities.highest_gr,
-      entities.wind_cancelled,
-      entities.profile_id,
-      entities.suit_id,
-      entities.recorded_at,
-      entities.results_sort_order
-     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, results.wind_cancelled, tracks.profile_id) results.virtual_competition_id,
-              results.track_id,
-              results.result,
-              results.highest_speed,
-              results.highest_gr,
-              results.wind_cancelled,
-              tracks.profile_id,
-              tracks.suit_id,
-              tracks.recorded_at,
-              competitions.results_sort_order
-             FROM ((virtual_competition_results results
-               JOIN virtual_competitions competitions ON ((results.virtual_competition_id = competitions.id)))
-               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
-            ORDER BY results.virtual_competition_id, results.wind_cancelled, tracks.profile_id,
-                  CASE
-                      WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
-                      ELSE (- results.result)
-                  END DESC) entities
-    ORDER BY
-          CASE
-              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
-              ELSE (- entities.result)
-          END DESC;
-  SQL
-  create_view "virtual_competition_group_overall_standing_rows", sql_definition: <<-SQL
-      WITH results_by_profile AS (
-           SELECT DISTINCT ON (virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled) virtual_competitions.suits_kind,
-              tracks.profile_id,
-              tracks.suit_id,
-              virtual_competition_results.wind_cancelled,
-              virtual_competitions.id AS competition_id,
-              virtual_competitions.group_id,
-              virtual_competitions.discipline,
-              virtual_competition_results.result,
-              virtual_competition_results.track_id,
-              round((((virtual_competition_results.result / max(virtual_competition_results.result) OVER (PARTITION BY virtual_competitions.id, virtual_competition_results.wind_cancelled)) * (100)::double precision))::numeric, 1) AS points
-             FROM ((virtual_competitions
-               LEFT JOIN virtual_competition_results ON ((virtual_competition_results.virtual_competition_id = virtual_competitions.id)))
-               LEFT JOIN tracks ON ((virtual_competition_results.track_id = tracks.id)))
-            ORDER BY virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled, virtual_competition_results.result DESC
-          ), ranked_results_by_profile AS (
-           SELECT results_by_profile.suits_kind,
-              results_by_profile.profile_id,
-              results_by_profile.suit_id,
-              results_by_profile.wind_cancelled,
-              results_by_profile.competition_id,
-              results_by_profile.group_id,
-              results_by_profile.discipline,
-              results_by_profile.result,
-              results_by_profile.track_id,
-              results_by_profile.points,
-              rank() OVER (PARTITION BY results_by_profile.competition_id, results_by_profile.wind_cancelled ORDER BY results_by_profile.result DESC) AS rank
-             FROM results_by_profile
-          )
-   SELECT ranked_results_by_profile.group_id,
-      ranked_results_by_profile.suits_kind,
-      ranked_results_by_profile.profile_id,
-      ranked_results_by_profile.wind_cancelled,
-      rank() OVER (PARTITION BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.wind_cancelled ORDER BY (sum(ranked_results_by_profile.points)) DESC) AS rank,
-      json_object_agg(ranked_results_by_profile.discipline, json_build_object('rank', ranked_results_by_profile.rank, 'suit_id', ranked_results_by_profile.suit_id, 'track_id', ranked_results_by_profile.track_id, 'result', ranked_results_by_profile.result, 'points', ranked_results_by_profile.points)) AS results,
-      sum(ranked_results_by_profile.points) AS total_points
-     FROM ranked_results_by_profile
-    GROUP BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.profile_id, ranked_results_by_profile.wind_cancelled;
-  SQL
-  create_view "virtual_competition_group_annual_standing_rows", sql_definition: <<-SQL
-      WITH results_by_profile AS (
-           SELECT DISTINCT ON (virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled, (date_part('year'::text, tracks.recorded_at))) virtual_competitions.suits_kind,
-              tracks.profile_id,
-              tracks.suit_id,
-              virtual_competition_results.wind_cancelled,
-              virtual_competitions.id AS competition_id,
-              virtual_competitions.group_id,
-              virtual_competitions.discipline,
-              virtual_competition_results.result,
-              virtual_competition_results.track_id,
-              round((((virtual_competition_results.result / max(virtual_competition_results.result) OVER (PARTITION BY virtual_competitions.id, virtual_competition_results.wind_cancelled, (date_part('year'::text, tracks.recorded_at)))) * (100)::double precision))::numeric, 1) AS points,
-              date_part('year'::text, tracks.recorded_at) AS year
-             FROM ((virtual_competitions
-               LEFT JOIN virtual_competition_results ON ((virtual_competition_results.virtual_competition_id = virtual_competitions.id)))
-               LEFT JOIN tracks ON ((virtual_competition_results.track_id = tracks.id)))
-            ORDER BY virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled, (date_part('year'::text, tracks.recorded_at)), virtual_competition_results.result DESC
-          ), ranked_results_by_profile AS (
-           SELECT results_by_profile.suits_kind,
-              results_by_profile.profile_id,
-              results_by_profile.suit_id,
-              results_by_profile.wind_cancelled,
-              results_by_profile.competition_id,
-              results_by_profile.group_id,
-              results_by_profile.discipline,
-              results_by_profile.result,
-              results_by_profile.track_id,
-              results_by_profile.points,
-              results_by_profile.year,
-              rank() OVER (PARTITION BY results_by_profile.competition_id, results_by_profile.wind_cancelled, results_by_profile.year ORDER BY results_by_profile.result DESC) AS rank
-             FROM results_by_profile
-          )
-   SELECT ranked_results_by_profile.group_id,
-      ranked_results_by_profile.suits_kind,
-      ranked_results_by_profile.profile_id,
-      ranked_results_by_profile.wind_cancelled,
-      ranked_results_by_profile.year,
-      rank() OVER (PARTITION BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.wind_cancelled, ranked_results_by_profile.year ORDER BY (sum(ranked_results_by_profile.points)) DESC) AS rank,
-      json_object_agg(ranked_results_by_profile.discipline, json_build_object('rank', ranked_results_by_profile.rank, 'suit_id', ranked_results_by_profile.suit_id, 'track_id', ranked_results_by_profile.track_id, 'result', ranked_results_by_profile.result, 'points', ranked_results_by_profile.points)) AS results,
-      sum(ranked_results_by_profile.points) AS total_points
-     FROM ranked_results_by_profile
-    GROUP BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.profile_id, ranked_results_by_profile.wind_cancelled, ranked_results_by_profile.year;
   SQL
   create_view "event_lists", sql_definition: <<-SQL
       SELECT events.event_type,
@@ -1261,5 +1144,170 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_23_050853) do
                     GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
             GROUP BY series.id, participant_countries.country_ids) events
     ORDER BY events.starts_at DESC, events.created_at DESC;
+  SQL
+  create_view "interval_top_scores", sql_definition: <<-SQL
+      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.custom_interval_id, entities.wind_cancelled ORDER BY
+          CASE
+              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
+              ELSE (- entities.result)
+          END DESC) AS rank,
+      entities.virtual_competition_id,
+      entities.track_id,
+      entities.result,
+      entities.highest_speed,
+      entities.highest_gr,
+      entities.profile_id,
+      entities.suit_id,
+      entities.custom_interval_id,
+      entities.wind_cancelled,
+      entities.recorded_at
+     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, intervals.id, results.wind_cancelled) results.virtual_competition_id,
+              results.track_id,
+              results.result,
+              results.highest_speed,
+              results.highest_gr,
+              results.wind_cancelled,
+              tracks.profile_id,
+              tracks.suit_id,
+              tracks.recorded_at,
+              competitions.results_sort_order,
+              intervals.id AS custom_interval_id
+             FROM (((virtual_competition_results results
+               JOIN virtual_competitions competitions ON ((results.virtual_competition_id = competitions.id)))
+               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
+               JOIN virtual_competition_custom_intervals intervals ON (((intervals.virtual_competition_id = competitions.id) AND ((tracks.recorded_at >= intervals.period_from) AND (tracks.recorded_at <= intervals.period_to)))))
+            ORDER BY results.virtual_competition_id, tracks.profile_id, intervals.id, results.wind_cancelled,
+                  CASE
+                      WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
+                      ELSE (- results.result)
+                  END DESC) entities
+    ORDER BY
+          CASE
+              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
+              ELSE (- entities.result)
+          END DESC;
+  SQL
+  create_view "personal_top_scores", sql_definition: <<-SQL
+      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.wind_cancelled ORDER BY
+          CASE
+              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
+              ELSE (- entities.result)
+          END DESC) AS rank,
+      entities.virtual_competition_id,
+      entities.track_id,
+      entities.result,
+      entities.highest_speed,
+      entities.highest_gr,
+      entities.wind_cancelled,
+      entities.profile_id,
+      entities.suit_id,
+      entities.recorded_at,
+      entities.results_sort_order
+     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, results.wind_cancelled, tracks.profile_id) results.virtual_competition_id,
+              results.track_id,
+              results.result,
+              results.highest_speed,
+              results.highest_gr,
+              results.wind_cancelled,
+              tracks.profile_id,
+              tracks.suit_id,
+              tracks.recorded_at,
+              competitions.results_sort_order
+             FROM ((virtual_competition_results results
+               JOIN virtual_competitions competitions ON ((results.virtual_competition_id = competitions.id)))
+               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
+            ORDER BY results.virtual_competition_id, results.wind_cancelled, tracks.profile_id,
+                  CASE
+                      WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
+                      ELSE (- results.result)
+                  END DESC) entities
+    ORDER BY
+          CASE
+              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
+              ELSE (- entities.result)
+          END DESC;
+  SQL
+  create_view "virtual_competition_group_annual_standing_rows", sql_definition: <<-SQL
+      WITH results_by_profile AS (
+           SELECT DISTINCT ON (virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled, (date_part('year'::text, tracks.recorded_at))) virtual_competitions.suits_kind,
+              tracks.profile_id,
+              tracks.suit_id,
+              virtual_competition_results.wind_cancelled,
+              virtual_competitions.id AS competition_id,
+              virtual_competitions.group_id,
+              virtual_competitions.discipline,
+              virtual_competition_results.result,
+              virtual_competition_results.track_id,
+              round((((virtual_competition_results.result / max(virtual_competition_results.result) OVER (PARTITION BY virtual_competitions.id, virtual_competition_results.wind_cancelled, (date_part('year'::text, tracks.recorded_at)))) * (100)::double precision))::numeric, 1) AS points,
+              date_part('year'::text, tracks.recorded_at) AS year
+             FROM ((virtual_competitions
+               LEFT JOIN virtual_competition_results ON ((virtual_competition_results.virtual_competition_id = virtual_competitions.id)))
+               LEFT JOIN tracks ON ((virtual_competition_results.track_id = tracks.id)))
+            ORDER BY virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled, (date_part('year'::text, tracks.recorded_at)), virtual_competition_results.result DESC
+          ), ranked_results_by_profile AS (
+           SELECT results_by_profile.suits_kind,
+              results_by_profile.profile_id,
+              results_by_profile.suit_id,
+              results_by_profile.wind_cancelled,
+              results_by_profile.competition_id,
+              results_by_profile.group_id,
+              results_by_profile.discipline,
+              results_by_profile.result,
+              results_by_profile.track_id,
+              results_by_profile.points,
+              results_by_profile.year,
+              rank() OVER (PARTITION BY results_by_profile.competition_id, results_by_profile.wind_cancelled, results_by_profile.year ORDER BY results_by_profile.result DESC) AS rank
+             FROM results_by_profile
+          )
+   SELECT ranked_results_by_profile.group_id,
+      ranked_results_by_profile.suits_kind,
+      ranked_results_by_profile.profile_id,
+      ranked_results_by_profile.wind_cancelled,
+      ranked_results_by_profile.year,
+      rank() OVER (PARTITION BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.wind_cancelled, ranked_results_by_profile.year ORDER BY (sum(ranked_results_by_profile.points)) DESC) AS rank,
+      json_object_agg(ranked_results_by_profile.discipline, json_build_object('rank', ranked_results_by_profile.rank, 'suit_id', ranked_results_by_profile.suit_id, 'track_id', ranked_results_by_profile.track_id, 'result', ranked_results_by_profile.result, 'points', ranked_results_by_profile.points)) AS results,
+      sum(ranked_results_by_profile.points) AS total_points
+     FROM ranked_results_by_profile
+    GROUP BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.profile_id, ranked_results_by_profile.wind_cancelled, ranked_results_by_profile.year;
+  SQL
+  create_view "virtual_competition_group_overall_standing_rows", sql_definition: <<-SQL
+      WITH results_by_profile AS (
+           SELECT DISTINCT ON (virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled) virtual_competitions.suits_kind,
+              tracks.profile_id,
+              tracks.suit_id,
+              virtual_competition_results.wind_cancelled,
+              virtual_competitions.id AS competition_id,
+              virtual_competitions.group_id,
+              virtual_competitions.discipline,
+              virtual_competition_results.result,
+              virtual_competition_results.track_id,
+              round((((virtual_competition_results.result / max(virtual_competition_results.result) OVER (PARTITION BY virtual_competitions.id, virtual_competition_results.wind_cancelled)) * (100)::double precision))::numeric, 1) AS points
+             FROM ((virtual_competitions
+               LEFT JOIN virtual_competition_results ON ((virtual_competition_results.virtual_competition_id = virtual_competitions.id)))
+               LEFT JOIN tracks ON ((virtual_competition_results.track_id = tracks.id)))
+            ORDER BY virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled, virtual_competition_results.result DESC
+          ), ranked_results_by_profile AS (
+           SELECT results_by_profile.suits_kind,
+              results_by_profile.profile_id,
+              results_by_profile.suit_id,
+              results_by_profile.wind_cancelled,
+              results_by_profile.competition_id,
+              results_by_profile.group_id,
+              results_by_profile.discipline,
+              results_by_profile.result,
+              results_by_profile.track_id,
+              results_by_profile.points,
+              rank() OVER (PARTITION BY results_by_profile.competition_id, results_by_profile.wind_cancelled ORDER BY results_by_profile.result DESC) AS rank
+             FROM results_by_profile
+          )
+   SELECT ranked_results_by_profile.group_id,
+      ranked_results_by_profile.suits_kind,
+      ranked_results_by_profile.profile_id,
+      ranked_results_by_profile.wind_cancelled,
+      rank() OVER (PARTITION BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.wind_cancelled ORDER BY (sum(ranked_results_by_profile.points)) DESC) AS rank,
+      json_object_agg(ranked_results_by_profile.discipline, json_build_object('rank', ranked_results_by_profile.rank, 'suit_id', ranked_results_by_profile.suit_id, 'track_id', ranked_results_by_profile.track_id, 'result', ranked_results_by_profile.result, 'points', ranked_results_by_profile.points)) AS results,
+      sum(ranked_results_by_profile.points) AS total_points
+     FROM ranked_results_by_profile
+    GROUP BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.profile_id, ranked_results_by_profile.wind_cancelled;
   SQL
 end

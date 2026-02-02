@@ -154,6 +154,8 @@ GEM
       responders
       warden (~> 1.2.3)
     docile (1.4.1)
+    doorkeeper (5.8.2)
+      railties (>= 5)
     dotenv (3.2.0)
     dotenv-rails (3.2.0)
       dotenv (= 3.2.0)
@@ -587,6 +589,7 @@ DEPENDENCIES
   codeclimate-test-reporter
   csv
   devise
+  doorkeeper
   dotenv-rails
   factory_bot_rails
   ffi
