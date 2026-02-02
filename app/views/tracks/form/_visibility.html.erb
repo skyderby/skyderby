@@ -1,23 +1,25 @@
 <% visibility ||= 'public_track' %>
 
-<div class="grid">
+<div class="grid" data-controller="tab-bar-select">
   <label class="form-label col-4"><%= t('tracks.edit.visibility') %></label>
   <div class="col-8">
-    <div class="tab-bar hidden-mobile">
+    <div class="tab-bar hidden-mobile" data-tab-bar-select-target="tabBar">
       <% %w[public unlisted private].each do |visibility_name| %>
         <% current_value = "#{visibility_name}_track" %>
         <label class="tab-bar-item">
-          <%= form.radio_button :visibility, current_value, checked: visibility == current_value, class: 'tab-bar-radio' %>
+          <%= form.radio_button :visibility, current_value, checked: visibility == current_value, class: 'tab-bar-radio', data: { action: 'tab-bar-select#syncToSelect' } %>
           <span><%= t("visibility.#{visibility_name}") %></span>
         </label>
       <% end %>
     </div>
 
-    <%= render 'hot_select/local_select',
-               form:,
-               name: :visibility,
-               options: track_visibility_options,
-               clearable: false,
-               class: 'hidden-desktop' %>
+    <div data-tab-bar-select-target="select" data-action="change->tab-bar-select#syncToRadio">
+      <%= render 'hot_select/local_select',
+                 form:,
+                 name: :visibility,
+                 options: track_visibility_options,
+                 clearable: false,
+                 class: 'hidden-desktop' %>
+    </div>
   </div>
 </div>

@@ -1,20 +1,20 @@
 <% activity ||= 'skydive' %>
 
-<div class="grid" data-controller="tracks--activity-field">
+<div class="grid" data-controller="tab-bar-select">
   <label class="form-label col-4"><%= t('activerecord.attributes.track.kind') %></label>
   <div class="col-8">
-    <div class="tab-bar hidden-mobile">
+    <div class="tab-bar hidden-mobile" data-tab-bar-select-target="tabBar">
       <label class="tab-bar-item">
-        <%= form.radio_button :kind, 'skydive', checked: activity == 'skydive', class: 'tab-bar-radio', data: { action: 'tracks--activity-field#sync' } %>
+        <%= form.radio_button :kind, 'skydive', checked: activity == 'skydive', class: 'tab-bar-radio', data: { action: 'tab-bar-select#syncToSelect' } %>
         <span>Skydive</span>
       </label>
       <label class="tab-bar-item">
-        <%= form.radio_button :kind, 'base', checked: activity != 'skydive', class: 'tab-bar-radio', data: { action: 'tracks--activity-field#sync' } %>
+        <%= form.radio_button :kind, 'base', checked: activity != 'skydive', class: 'tab-bar-radio', data: { action: 'tab-bar-select#syncToSelect' } %>
         <span>B.A.S.E</span>
       </label>
     </div>
 
-    <div data-tracks--activity-field-target="select">
+    <div data-tab-bar-select-target="select" data-action="change->tab-bar-select#syncToRadio">
       <%= render 'hot_select/local_select',
                  form:,
                  name: :kind,
