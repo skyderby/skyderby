@@ -3,11 +3,15 @@ import { Controller } from '@hotwired/stimulus'
 export default class extends Controller {
   static targets = ['select', 'tabBar']
 
-  syncToSelect(event) {
-    const value = event.target.value
+  connect() {
+    this.syncToSelect()
+  }
+
+  syncToSelect() {
+    const checkedRadio = this.tabBarTarget.querySelector('input[type="radio"]:checked')
     const selectInput = this.selectTarget.querySelector('select')
-    if (selectInput) {
-      selectInput.value = value
+    if (checkedRadio && selectInput) {
+      selectInput.value = checkedRadio.value
     }
   }
 
