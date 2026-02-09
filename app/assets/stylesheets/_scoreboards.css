@@ -35,6 +35,21 @@
   z-index: 1;
 }
 
+.sticky-header-popover {
+  position: fixed;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  background: transparent;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.sticky-header-popover table {
+  table-layout: fixed;
+}
+
 .scoreboard-table {
   background-color: var(--white);
   border: var(--default-border);

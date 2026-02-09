@@ -1,0 +1,6 @@
+<%# locals: (event:, editable:, wind_cancellation:) %>
+<% target = ['scoreboard', ('no_wind' if wind_cancellation)].compact.join('_') %>
+
+<%= turbo_stream.replace target, method: :morph do %>
+  <%= render 'performance_competitions/scoreboard', event:, editable:, wind_cancellation: %>
+<% end %>

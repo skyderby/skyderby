@@ -4,127 +4,119 @@ export default class extends Controller {
   static targets = ['container', 'table']
 
   connect() {
-    const resizeHandler = this.onResize.bind(this)
-    const scrollHandler = this.onScroll.bind(this)
-    window.addEventListener('resize', resizeHandler)
-    window.addEventListener('scroll', scrollHandler)
-    window.addEventListener('load', resizeHandler, { once: true })
-    window.addEventListener('turbo:load', resizeHandler, { once: true })
+    this.onResize = this.onResize.bind(this)
+    this.onScroll = this.onScroll.bind(this)
 
-    this.init()
+    window.addEventListener('resize', this.onResize)
+    window.addEventListener('scroll', this.onScroll)
+
+    this.element.addEventListener('turbo:before-morph-element', event => {
+      if (event.target === this._popover) event.preventDefault()
+    })
+
+    this.element.addEventListener('turbo:morph-element', () => {
+      if (this._refreshPending) return
+      this._refreshPending = true
+      queueMicrotask(() => {
+        this._refreshPending = false
+        this.refreshContent()
+      })
+    })
+
+    this.buildPopover()
+    this.onScroll()
   }
 
   disconnect() {
-    this.header_container.remove()
+    if (this._popover) {
+      this._popover.hidePopover()
+      this._popover.remove()
+      this._popover = null
+    }
 
     window.removeEventListener('resize', this.onResize)
     window.removeEventListener('scroll', this.onScroll)
   }
 
-  init() {
-    this.containerTarget.insertAdjacentElement('afterbegin', this.header_container)
+  buildPopover() {
+    this._popover = document.createElement('div')
+    this._popover.popover = 'manual'
+    this._popover.classList.add('sticky-header-popover')
+    this.containerTarget.insertAdjacentElement('beforebegin', this._popover)
+    this.refreshContent()
+  }
 
+  refreshContent() {
+    const clone = this.tableTarget.cloneNode(true)
+    clone.removeAttribute('data-events--sticky-header-target')
+    clone.querySelectorAll('tbody').forEach(el => el.remove())
+    clone.querySelectorAll('[popover]').forEach(el => el.remove())
+    clone.querySelectorAll('[data-controller]').forEach(el => {
+      el.removeAttribute('data-controller')
+    })
+
+    this._popover.replaceChildren(clone)
     this.onResize()
   }
 
   onResize() {
-    const original_cells = this.tableTarget.querySelectorAll('th')
-    this.fixed_header.style.width = this.tableTarget.offsetWidth + 'px'
+    if (!this._popover) return
 
-    this.fixed_header.querySelectorAll('th').forEach((el, index) => {
-      el.style.width = original_cells[index].offsetWidth + 'px'
-    })
+    const clone = this._popover.querySelector('table')
+    if (!clone) return
+
+    clone.style.width = this.tableTarget.offsetWidth + 'px'
+
+    const dataRow = this.tableTarget.querySelector('tbody tr.scoreboard-competitor')
+    if (dataRow) {
+      let colgroup = clone.querySelector('colgroup')
+      if (!colgroup) {
+        colgroup = document.createElement('colgroup')
+        clone.insertAdjacentElement('afterbegin', colgroup)
+      }
+      colgroup.innerHTML = ''
+      Array.from(dataRow.cells).forEach(td => {
+        const col = document.createElement('col')
+        col.style.width = `${td.getBoundingClientRect().width}px`
+        colgroup.appendChild(col)
+      })
+    }
+
+    this._popover.style.left = `${this.containerLeft}px`
+    this._popover.style.right = `${this.containerRight}px`
   }
 
   onScroll() {
-    if (
-      this.offset_top < this.table_offset_top ||
-      this.offset_top > this.table_offset_bottom
-    ) {
-      this.container_display_mode = 'none'
-    } else if (
-      this.offset_top > this.table_offset_top &&
-      this.offset_top < this.table_offset_bottom
-    ) {
-      if (this.container_display_mode === 'block') return
+    if (!this._popover) return
 
-      this.onResize()
-      this.container_display_mode = 'block'
+    const scrollTop = document.scrollingElement.scrollTop
+    const tableTop = this.element.getBoundingClientRect().top + pageYOffset
+    const headerHeight = this.tableTarget.querySelector('thead').offsetHeight
+    const tableBottom =
+      this.element.getBoundingClientRect().bottom + pageYOffset - headerHeight
+
+    if (scrollTop > tableTop && scrollTop < tableBottom) {
+      if (!this._visible) {
+        this._popover.showPopover()
+        this._visible = true
+        this.onResize()
+      }
+    } else if (this._visible) {
+      this._popover.hidePopover()
+      this._visible = false
     }
   }
 
   on_horizontal_scroll() {
-    this.fixed_header.style.left = `-${this.containerTarget.scrollLeft}px`
+    const clone = this._popover?.querySelector('table')
+    if (clone) clone.style.marginLeft = `-${this.containerTarget.scrollLeft}px`
   }
 
-  get offset_top() {
-    return document.scrollingElement.scrollTop
-  }
-
-  get table_offset_top() {
-    return this.element.getBoundingClientRect().top + pageYOffset
-  }
-
-  get table_offset_bottom() {
-    return (
-      this.element.getBoundingClientRect().bottom + pageYOffset - this.table_header_height
-    )
-  }
-
-  get container_display_mode() {
-    return this.header_container.style.display
-  }
-
-  set container_display_mode(value) {
-    this.header_container.style.display = value
-  }
-
-  get header_container() {
-    if (!this._header_container) {
-      this._header_container = document.createElement('div')
-      this._header_container.style.top = 0
-      this._header_container.style.position = 'fixed'
-      this._header_container.style.display = 'none'
-      this._header_container.style.zIndex = 10
-      this._header_container.style.height = `${this.table_header_height + 1}px`
-      this._header_container.style.left = `${this.container_left}px`
-      this._header_container.style.right = `${this.container_right}px`
-      this._header_container.style.overflowX = 'hidden'
-
-      this.header_container.insertAdjacentElement('afterbegin', this.fixed_header)
-    }
-
-    return this._header_container
-  }
-
-  get fixed_header() {
-    if (!this._fixed_header) {
-      this._fixed_header = this.tableTarget.cloneNode(true)
-      this._fixed_header.removeAttribute('data-events--sticky-header-target')
-      this._fixed_header.querySelectorAll('tbody').forEach(el => {
-        el.remove()
-      })
-      this._fixed_header.querySelectorAll('[popover]').forEach(el => {
-        el.remove()
-      })
-
-      this._fixed_header.style.position = 'absolute'
-      this._fixed_header.style.top = 0
-      this._fixed_header.style.left = 0
-    }
-
-    return this._fixed_header
-  }
-
-  get table_header_height() {
-    return this.tableTarget.querySelector('thead').offsetHeight
-  }
-
-  get container_left() {
+  get containerLeft() {
     return this.element.offsetLeft
   }
 
-  get container_right() {
-    return window.innerWidth - (this.container_left + this.element.offsetWidth)
+  get containerRight() {
+    return window.innerWidth - (this.containerLeft + this.element.offsetWidth)
   }
 }
