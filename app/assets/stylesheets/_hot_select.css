@@ -1,14 +1,5 @@
 .hot-select-container {
   padding: 0;
-  anchor-name: --hot-select-anchor;
-}
-
-.hot-select-container.hot-select-control {
-  anchor-name: --omni-search-anchor;
-}
-
-.hot-select-container.hot-select-control > .hot-select-dropdown[popover] {
-  position-anchor: --omni-search-anchor;
 }
 
 .omni-search-container {
@@ -148,7 +139,6 @@
 .hot-select-dropdown[popover] {
   inset: unset;
   margin: 0;
-  position-anchor: --hot-select-anchor;
   top: calc(anchor(bottom) + 0.5rem);
   left: anchor(left);
   width: anchor-size(width);

@@ -4,6 +4,7 @@
 <% clearable = attrs.key?(:clearable) ? attrs.delete(:clearable) : true %>
 
 <div id="<%= select_id %>-container" class="form-input hot-select-container <%= container_class %>"
+     style="anchor-name: --<%= select_id %>"
      data-controller="hot-select"
      role="combobox"
      aria-haspopup="listbox"
@@ -37,7 +38,7 @@
         </button>
         <div class="hot-select-separator"></div>
       <% end %>
-      <button type="button" class="hot-select-button" data-action="hot-select#toggle" aria-label="<%= t('hot_select.toggle_dropdown') %>">
+      <button type="button" class="hot-select-button" popovertarget="<%= select_id %>-dropdown" aria-label="<%= t('hot_select.toggle_dropdown') %>">
         <%= icon_tag 'angle-down-solid' %>
       </button>
     </div>

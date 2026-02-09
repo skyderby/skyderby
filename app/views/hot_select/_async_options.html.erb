@@ -1,6 +1,6 @@
 <%# locals: (select_id:, src:, as: :popover, controller: 'hot-select', **attrs)  %>
 
-<%= hot_select_options_container(as:, **attrs) do %>
+<%= hot_select_options_container(as:, id: "#{select_id}-dropdown", style: "position-anchor: --#{select_id}", **attrs) do %>
   <div class="hot-select-search-form">
     <%= text_field_tag nil, nil,
                        class: 'hot-select-search',

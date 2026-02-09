@@ -1,6 +1,6 @@
-<%# locals: (options: [], as: :popover, **attrs) %>
+<%# locals: (options: [], as: :popover, select_id: nil, **attrs) %>
 
-<%= hot_select_options_container(as:, **attrs) do %>
+<%= hot_select_options_container(as:, id: (select_id ? "#{select_id}-dropdown" : nil), style: (select_id ? "position-anchor: --#{select_id}" : nil), **attrs) do %>
   <div class="hot-select-scrollable hot-select-selectable">
     <div class="hot-select-options" data-hot-select-target="options">
       <% if options.any? %>
