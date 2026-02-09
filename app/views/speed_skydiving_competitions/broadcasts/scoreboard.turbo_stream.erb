@@ -1,0 +1,9 @@
+<%# locals: (event:, editable:) %>
+
+<%= turbo_stream.replace 'scoreboard', method: :morph do %>
+  <% if !editable && event.surprise? %>
+    <%= render 'speed_skydiving_competitions/surprise' %>
+  <% else %>
+    <%= render 'speed_skydiving_competitions/scoreboard', event:, standings: event.standings, editable: %>
+  <% end %>
+<% end %>

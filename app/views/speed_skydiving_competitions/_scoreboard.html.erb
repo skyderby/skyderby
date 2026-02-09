@@ -3,13 +3,18 @@
 <% at_least_one_round_completed = standings.completed_rounds.length > 0 %>
 
 <% container_id = standings.until_round ? 'scoreboard-time-machine' : 'scoreboard'  %>
-<div class="scoreboard-container" id="<%= container_id %>">
-  <table class="scoreboard-table"
-         <% if standings.until_round %>
-           data-replay-scoreboard-target="scoreboard"
-           data-until-round="<%= standings.until_round %>"
-         <% end %>
-  >
+<div class="scoreboard-container" id="<%= container_id %>"
+     data-controller="events--sticky-header">
+  <div class="scoreboard-scroll"
+       data-events--sticky-header-target="container"
+       data-action="scroll->events--sticky-header#on_horizontal_scroll">
+    <table class="scoreboard-table"
+           data-events--sticky-header-target="table"
+           <% if standings.until_round %>
+             data-replay-scoreboard-target="scoreboard"
+             data-until-round="<%= standings.until_round %>"
+           <% end %>
+    >
     <thead>
       <tr>
         <th>#</th>
@@ -76,5 +81,6 @@
         <% end %>
       </tbody>
     <% end %>
-  </table>
+    </table>
+  </div>
 </div>

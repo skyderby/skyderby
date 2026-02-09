@@ -67,7 +67,7 @@ export default class extends Controller {
 
     clone.style.width = this.tableTarget.offsetWidth + 'px'
 
-    const dataRow = this.tableTarget.querySelector('tbody tr.scoreboard-competitor')
+    const dataRow = this.tableTarget.querySelector('tbody tr:has(td + td)')
     if (dataRow) {
       let colgroup = clone.querySelector('colgroup')
       if (!colgroup) {

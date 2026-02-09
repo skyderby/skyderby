@@ -18,55 +18,45 @@ module SpeedSkydivingCompetitionScoped
   end
 
   def broadcast_scoreboard
-    Turbo::StreamsChannel.broadcast_replace_to(
-      @event, :scoreboard, :editable,
-      target: 'scoreboard',
-      partial: 'speed_skydiving_competitions/scoreboard',
-      locals: { event: @event, standings: @event.standings, editable: !@event.finished? }
-    )
-    Turbo::StreamsChannel.broadcast_replace_to @event, :open_scoreboard, :editable,
-                                               target: 'open-scoreboard',
-                                               partial: 'speed_skydiving_competitions/open_scoreboards/scoreboard',
-                                               locals: { event: @event, editable: !@event.finished? }
+    editable = !@event.finished?
 
-    if @event.surprise?
-      Turbo::StreamsChannel.broadcast_replace_to @event, :scoreboard, :read_only,
-                                                 target: 'scoreboard',
-                                                 partial: 'speed_skydiving_competitions/surprise'
-      Turbo::StreamsChannel.broadcast_replace_to @event, :open_scoreboard, :read_only,
-                                                 target: 'open-scoreboard',
-                                                 partial: 'speed_skydiving_competitions/surprise'
-    else
-      Turbo::StreamsChannel.broadcast_replace_to(
-        @event, :scoreboard, :read_only,
-        target: 'scoreboard',
-        partial: 'speed_skydiving_competitions/scoreboard',
-        locals: { event: @event, standings: @event.standings, editable: false }
-      )
-      Turbo::StreamsChannel.broadcast_replace_to @event, :open_scoreboard, :read_only,
-                                                 target: 'open-scoreboard',
-                                                 partial: 'speed_skydiving_competitions/open_scoreboards/scoreboard',
-                                                 locals: { event: @event, editable: false }
-    end
+    Turbo::StreamsChannel.broadcast_render_later_to(
+      [@event, :scoreboard, :editable],
+      template: 'speed_skydiving_competitions/broadcasts/scoreboard',
+      locals: { event: @event, editable: }
+    )
+    Turbo::StreamsChannel.broadcast_render_later_to(
+      [@event, :scoreboard, :read_only],
+      template: 'speed_skydiving_competitions/broadcasts/scoreboard',
+      locals: { event: @event, editable: false }
+    )
+
+    Turbo::StreamsChannel.broadcast_render_later_to(
+      [@event, :open_scoreboard, :editable],
+      template: 'speed_skydiving_competitions/broadcasts/open_scoreboard',
+      locals: { event: @event, editable: }
+    )
+    Turbo::StreamsChannel.broadcast_render_later_to(
+      [@event, :open_scoreboard, :read_only],
+      template: 'speed_skydiving_competitions/broadcasts/open_scoreboard',
+      locals: { event: @event, editable: false }
+    )
 
     broadcast_teams_scoreboard
   end
 
   def broadcast_teams_scoreboard
-    Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :editable,
-                                               target: 'teams-scoreboard',
-                                               partial: 'speed_skydiving_competitions/teams/scoreboard',
-                                               locals: { event: @event, editable: !@event.finished? }
+    editable = !@event.finished?
 
-    if @event.surprise?
-      Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :read_only,
-                                                 target: 'teams-scoreboard',
-                                                 partial: 'speed_skydiving_competitions/surprise'
-    else
-      Turbo::StreamsChannel.broadcast_replace_to @event, :teams, :read_only,
-                                                 target: 'teams-scoreboard',
-                                                 partial: 'speed_skydiving_competitions/teams/scoreboard',
-                                                 locals: { event: @event, editable: false }
-    end
+    Turbo::StreamsChannel.broadcast_render_later_to(
+      [@event, :teams, :editable],
+      template: 'speed_skydiving_competitions/broadcasts/teams_scoreboard',
+      locals: { event: @event, editable: }
+    )
+    Turbo::StreamsChannel.broadcast_render_later_to(
+      [@event, :teams, :read_only],
+      template: 'speed_skydiving_competitions/broadcasts/teams_scoreboard',
+      locals: { event: @event, editable: false }
+    )
   end
 end
