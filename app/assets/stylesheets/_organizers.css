@@ -1,7 +1,5 @@
-.organizers__list {
-  .organizers__item {
-    padding: 6px 1px;
-  }
+.organizers__list .organizers__item {
+  padding: 6px 1px;
 }
 
 .organizers {
@@ -13,13 +11,20 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
 
-  @media (min-width: $bp-large) {
+@media (min-width: 1200px) {
+  .organizers {
     border: 0;
     box-shadow: var(--block-box-shadow);
     border-radius: var(--border-radius-md);
-    width: $bp-large;
+    width: 1200px;
     margin: 0 auto;
   }
 }
 
+@media print {
+  .organizers {
+    display: none;
+  }
+}

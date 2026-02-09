@@ -16,12 +16,12 @@ ul {
 }
 
 @page {
-  size: A4;
+  size: A4 landscape;
 }
 
 @media print {
   html, body {
-    width: 210mm;
-    height: 297mm;
+    width: 297mm;
+    height: 210mm;
   }
 }

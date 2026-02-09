@@ -13,8 +13,10 @@
   display: flex;
   gap: 0.5rem;
   flex-direction: column;
+}
 
-  @media (min-width: $bp-large) {
+@media (min-width: 1200px) {
+  .show-page-header {
     padding: 1rem calc((100vw - 1200px) / 2) 0;
   }
 }
@@ -38,4 +40,20 @@
   font-size: 0.875rem;
   color: var(--gray-70);
   padding: 0 0.5rem;
+}
+
+@media print {
+  .show-page {
+    gap: 0;
+    padding-bottom: 0;
+  }
+
+  .show-page-header {
+    border-bottom: none;
+    padding: 0 0 0.5rem;
+  }
+
+  .show-page-info .icon {
+    display: none;
+  }
 }

@@ -16,11 +16,11 @@
   height: 100%;
   font-size: 0.875rem;
   font-weight: 500;
+}
 
-  &:hover {
-    background-color: var(--gray-20);
-    color: var(--gray-80);
-  }
+.actions-bar-button:hover {
+  background-color: var(--gray-20);
+  color: var(--gray-80);
 }
 
 .actions-bar > :first-child:not(.actions-bar-right) {
@@ -43,9 +43,15 @@
 .actions-bar-right {
   display: flex;
   margin-left: auto;
+}
 
-  .actions-bar-button {
-    border-left: var(--default-border);
-    border-right: 0;
+.actions-bar-right .actions-bar-button {
+  border-left: var(--default-border);
+  border-right: 0;
+}
+
+@media print {
+  .actions-bar {
+    display: none;
   }
 }

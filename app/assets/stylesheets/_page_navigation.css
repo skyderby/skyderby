@@ -44,20 +44,26 @@
 
 .page-tab-active {
   color: var(--blue-gray-60);
+}
 
-  &::after {
-    position: absolute;
-    background-color: var(--blue-gray-60);
-    bottom: -3px;
-    display: block;
-    height: 3px;
-    left: 0;
-    right: 0;
-    content: "";
-    border-radius: 2px;
-  }
+.page-tab-active::after {
+  position: absolute;
+  background-color: var(--blue-gray-60);
+  bottom: -3px;
+  display: block;
+  height: 3px;
+  left: 0;
+  right: 0;
+  content: "";
+  border-radius: 2px;
 }
 
 .page-tab-right {
   margin-left: auto;
+}
+
+@media print {
+  .page-nav {
+    display: none;
+  }
 }
