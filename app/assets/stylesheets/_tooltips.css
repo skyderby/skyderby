@@ -10,54 +10,24 @@
   border: 0;
 }
 
-[data-controller~="tooltip"] {
-  --tooltip-delay: 250ms;
-  --tooltip-duration: 150ms;
+.tooltip-popover {
+  position: fixed;
+  inset: unset;
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+  background: var(--gray-90);
+  border-radius: var(--border-radius-sm);
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: normal;
+  white-space: nowrap;
+  max-inline-size: 50ch;
+  border: 0;
+  /* starts invisible; JS positions it while hidden, then :popover-open fades in */
+  opacity: 0;
+  transition: opacity 0.15s ease 20ms;
+}
 
-  position: relative;
-
-  .for-screen-reader {
-    background: var(--gray-90);
-    border-radius: var(--border-radius-sm);
-    color: var(--white);
-    font-size: 0.75rem;
-    font-weight: normal;
-    inset: -0.25rem auto auto 50%;
-    max-inline-size: 50ch;
-    opacity: 0;
-    padding: 0.25rem 0.5rem;
-    transition: var(--tooltip-duration) ease-out;
-    transition-property: opacity;
-    translate: -50% -100%;
-    white-space: nowrap;
-    z-index: 1000;
-
-    &.orient-right {
-      inset-inline: 0 auto;
-      translate: 0 -100%;
-    }
-
-    &.orient-left {
-      inset-inline: auto 0;
-      translate: 0 -100%;
-    }
-  }
-
-  @media (any-hover: hover) {
-    &:hover .for-screen-reader {
-      block-size: auto;
-      inline-size: auto;
-      clip-path: none;
-      margin: 0;
-      opacity: 1;
-      overflow: visible;
-      transform: translate3d(0, 0, 0);
-      transition-delay: var(--tooltip-delay);
-
-      &.orient-left,
-      &.orient-right {
-        translate: 0 -100%;
-      }
-    }
-  }
+.tooltip-popover:popover-open {
+  opacity: 1;
 }
