@@ -2,5 +2,10 @@
 
 <% select_id = "hot-select-#{name}" %>
 <%= render 'hot_select/layout', select_id:, name:, **options do %>
+  <% if block_given? %>
+    <div hidden data-hot-select-target="initialOptions">
+      <%= yield %>
+    </div>
+  <% end %>
   <%= render 'hot_select/async_options', select_id:, src:, 'data-hot-select-target': 'dropdown' %>
 <% end %>

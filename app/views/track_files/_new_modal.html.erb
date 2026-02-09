@@ -11,7 +11,7 @@
     <% end %>
 
     <% suit = @form.suit %>
-    <% suit_options = suit ? options_for_select([[suit_presentation(suit), suit.id]], suit.id) : [] %>
+    <% suit_options = suit ? options_for_select([[suit.name, suit.id]], suit.id) : [] %>
     <div class="grid" data-controller="tracks--suit-field" data-mode="select">
       <label class="form-label col-4"><%= t('activerecord.attributes.track.suit') %></label>
       <div class="col-8">
@@ -19,7 +19,13 @@
           <div data-tracks--suit-field-target="select" class="col-8">
             <%= render 'hot_select/select', form: builder, name: :suit_id, src: suits_select_options_path,
                        placeholder: t('tracks.form.suit_select_placeholder'), options: suit_options,
-                       select: { data: { 'tracks--suit-field-target': 'select' } } %>
+                       select: { data: { 'tracks--suit-field-target': 'select' } } do %>
+              <% if suit %>
+                <div class="hot-select-option" data-value="<%= suit.id %>" aria-selected="true">
+                  <%= suit_presentation(suit) %>
+                </div>
+              <% end %>
+            <% end %>
           </div>
           <%= builder.text_field :missing_suit_name,
             class: 'form-input col-8',

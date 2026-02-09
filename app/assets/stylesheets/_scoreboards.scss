@@ -21,7 +21,7 @@
 }
 
 .scoreboard {
-  background-color: $white;
+  background-color: var(--white);
   color: $main-text-color;
   margin-bottom: 0;
   padding: 0;
@@ -36,11 +36,10 @@
 }
 
 .scoreboard-table {
-  background-color: $white;
+  background-color: var(--white);
   border: var(--default-border);
   border-collapse: collapse;
   overflow: hidden;
-  margin-right: 20px;
   width: 100%;
   font-size: 0.875rem;
 
@@ -126,7 +125,7 @@
   }
 
   thead tr {
-    background-color: $white;
+    background-color: var(--white);
   }
 
   .competitor-row {

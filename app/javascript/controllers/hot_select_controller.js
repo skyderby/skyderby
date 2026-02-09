@@ -7,6 +7,7 @@ export default class HotSelect extends Controller {
     'searchInput',
     'selectInput',
     'displayValue',
+    'initialOptions',
     'placeholder',
     'options',
     'frame'
@@ -23,7 +24,13 @@ export default class HotSelect extends Controller {
     this.dropdownTarget.addEventListener('toggle', this.onToggle)
     document.addEventListener('turbo:before-render', this.close)
 
-    if (
+    if (this.hasInitialOptionsTarget) {
+      const selected = this.initialOptionsTarget.querySelector('[aria-selected="true"]')
+      if (selected) {
+        this.displayValueTarget.innerHTML = selected.innerHTML
+        this.placeholderTarget.classList.add('hide')
+      }
+    } else if (
       this.selectInputTarget.selectedOptions.length > 0 &&
       this.selectInputTarget.selectedOptions[0].value
     ) {
@@ -151,7 +158,7 @@ export default class HotSelect extends Controller {
     if (index >= 0 && index < options.length) {
       const option = options[index]
       const value = option.getAttribute('data-value')
-      const text = option.textContent
+      const text = option.innerHTML
 
       this.selectOption(value, text)
     }
