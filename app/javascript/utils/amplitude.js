@@ -24,6 +24,28 @@ const identifyUser = () => {
   amplitude.identify(identifyEvent)
 }
 
+const trackPageEnrichmentPlugin = () => ({
+  name: 'track-page-enrichment',
+  type: 'enrichment',
+  setup: async () => undefined,
+  execute: async event => {
+    if (!window.location.pathname.startsWith('/tracks/')) return event
+
+    const trackKind = document.querySelector('meta[name="track-kind"]')?.content
+    const proView = document.querySelector('meta[name="track-pro-view"]')
+
+    if (trackKind) {
+      event.event_properties = {
+        ...event.event_properties,
+        track_kind: trackKind,
+        track_pro_view: proView?.content === 'true'
+      }
+    }
+
+    return event
+  }
+})
+
 const initializeAmplitude = () => {
   if (!apiKey) return
 
@@ -38,6 +60,7 @@ const initializeAmplitude = () => {
 
     amplitude.init(apiKey, userId, options)
     amplitude.add(sessionReplay.plugin({ sampleRate: 1 }))
+    amplitude.add(trackPageEnrichmentPlugin())
     initialized = true
   }
 

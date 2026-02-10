@@ -1,3 +1,8 @@
+<% content_for :head do %>
+  <meta name="track-kind" content="<%= @track.kind %>">
+  <meta name="track-pro-view" content="false">
+<% end %>
+
 <div class="show-page">
   <%= render partial: 'header', locals: { track: @track } %>
 
