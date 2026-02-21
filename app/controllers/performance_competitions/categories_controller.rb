@@ -9,7 +9,7 @@ class PerformanceCompetitions::CategoriesController < ApplicationController
     @section = @event.categories.new section_params
 
     if @section.save
-      respond_with_scoreboard
+      respond_with_scoreboard toast: { message: t('events.section_created'), type: 'success' }
       broadcast_scoreboards
     else
       respond_with_errors @section

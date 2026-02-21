@@ -12,7 +12,7 @@ class PerformanceCompetitions::CompetitorsController < ApplicationController
     @competitor = @event.competitors.new(competitor_params)
 
     if @competitor.save
-      respond_with_scoreboard
+      respond_with_scoreboard toast: { message: t('events.competitor_added'), type: 'success' }
       broadcast_scoreboards
     else
       respond_with_errors @competitor

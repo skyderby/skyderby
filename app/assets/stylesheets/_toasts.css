@@ -1,13 +1,17 @@
 .toast-container {
   position: fixed;
-  top: 0px;
-  right: 0px;
-  z-index: 6000;
+  inset: 0 0 auto auto;
+  margin: 0;
+  padding: 1rem 1rem 0;
   max-width: 450px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  border: none;
+  background: transparent;
+  overflow: visible;
+  pointer-events: none;
 }
 
 .toast {
@@ -18,10 +22,7 @@
   display: flex;
   gap: 0.5rem;
   transition: transform 0.2s ease-in-out;
-}
-
-.toast:first-child {
-  margin-top: 1.25rem;
+  pointer-events: auto;
 }
 
 .toast-dismissed {

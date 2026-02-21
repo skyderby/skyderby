@@ -24,6 +24,7 @@ it:
     charts: Grafici
     jump_range: Intervallo di caduta libera
     or: Oppure
+    add_more: Aggiungi altri
   users:
     profile:
       edit:

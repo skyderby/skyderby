@@ -3,6 +3,10 @@ import { Controller } from '@hotwired/stimulus'
 export default class extends Controller {
   static targets = ['template', 'toast']
 
+  connect() {
+    this.element.showPopover()
+  }
+
   toastTargetConnected(element) {
     setTimeout(() => this.dismiss(element), 5000)
   }

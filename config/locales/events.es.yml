@@ -12,6 +12,7 @@ es:
     open_event: Clase abierta
     teams: Equipos
     downloads: Descargas
+    competitor_added: Competidor agregado exitosamente
 
     round_replays:
       no_results: No hay resultados para reproducir

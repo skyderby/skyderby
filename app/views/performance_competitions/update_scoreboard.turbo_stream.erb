@@ -1,3 +1,7 @@
+<% if @toast %>
+  <%= turbo_stream.append(:toasts, partial: 'toasts/toast', locals: @toast) %>
+<% end %>
+
 <%= turbo_stream.replace 'scoreboard' do %>
   <%= render 'performance_competitions/scoreboard', event: @event, editable: true, wind_cancellation: false %>
 <% end %>

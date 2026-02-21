@@ -37,6 +37,7 @@ en:
     import_from_csv: Import from CSV
     import: Import
     open_track: Open track
+    add_more: Add more
   users:
     profile:
       edit:

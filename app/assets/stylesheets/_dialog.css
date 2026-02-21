@@ -1,4 +1,19 @@
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.2s ease;
+  z-index: 1000;
+}
+
+.dialog-overlay-visible {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 .dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
   border: 0;
   border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
   padding: 0;
@@ -11,7 +26,7 @@
   height: fit-content;
   opacity: 0;
   transform: translateY(100%);
-  transition: opacity 0.2s ease, transform 0.2s ease, overlay 0.2s ease allow-discrete, display 0.2s ease allow-discrete;
+  transition: opacity 0.2s ease, transform 0.2s ease, display 0.2s ease allow-discrete;
 }
 
 .dialog[open] {
@@ -25,21 +40,6 @@
   .dialog[open] {
     opacity: 0;
     transform: translateY(100%);
-  }
-}
-
-.dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0);
-  transition: background-color 0.2s ease, overlay 0.2s ease allow-discrete, display 0.2s ease allow-discrete;
-}
-
-.dialog[open]::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-@starting-style {
-  .dialog[open]::backdrop {
-    background-color: rgba(0, 0, 0, 0);
   }
 }
 

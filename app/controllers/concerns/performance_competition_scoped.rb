@@ -1,7 +1,8 @@
 module PerformanceCompetitionScoped
   extend ActiveSupport::Concern
 
-  def respond_with_scoreboard
+  def respond_with_scoreboard(toast: nil)
+    @toast = toast
     respond_to do |format|
       format.turbo_stream { render template: 'performance_competitions/update_scoreboard' }
     end

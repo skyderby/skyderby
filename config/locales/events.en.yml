@@ -17,6 +17,7 @@ en:
     open_event: Open Class
     teams: Teams
     downloads: Downloads
+    competitor_added: Competitor added successfully
 
     index:
       sign_in_to_create: Creating classic competitions available only for registered users.

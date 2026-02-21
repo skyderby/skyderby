@@ -15,7 +15,7 @@
     <div id="modal-root"></div>
     <div id="dropdown-root"></div>
 
-    <div class="toast-container" id="toasts" data-controller="toasts">
+    <div class="toast-container" id="toasts" data-controller="toasts" popover="manual">
       <% flash.each do |type, message| %>
         <%= render 'toasts/toast', type:, message: %>
       <% end %>

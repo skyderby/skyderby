@@ -12,6 +12,7 @@ it:
     open_event: Classe aperta
     teams: Squadre
     downloads: Download
+    competitor_added: Concorrente aggiunto con successo
 
     index:
       sign_in_to_create: Accedi o registrati per creare una competizione.

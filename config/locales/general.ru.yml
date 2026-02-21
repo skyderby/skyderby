@@ -38,6 +38,7 @@ ru:
     or: Или
     import_from_csv: "Импорт из CSV"
     import: "Импорт"
+    add_more: "Добавить ещё"
   maps:
     auth_wall:
       message: Войдите, чтобы увидеть карту

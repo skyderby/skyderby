@@ -140,7 +140,12 @@
 .form-actions {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 1rem;
+}
+
+.form-actions .switch-container {
+  margin-right: auto;
 }
 
 .input-group {
