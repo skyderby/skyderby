@@ -28,6 +28,12 @@
         <span>SkyDerby</span>
       <% end %>
     </header>
+    <div class="toast-container" id="toasts" data-controller="toasts" popover="manual">
+      <% flash.each do |type, message| %>
+        <%= render 'toasts/toast', type:, message: %>
+      <% end %>
+    </div>
+
     <div class="container">
       <%= yield %>
     </div>
