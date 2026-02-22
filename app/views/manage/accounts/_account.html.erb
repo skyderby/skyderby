@@ -1,4 +1,4 @@
-<%= link_to account_path(account.id), class: 'tr' do %>
+<%= link_to account_path(account.id), class: 'tr', data: { turbo_frame: '_top' } do %>
   <div class="td"><%= account.id %></div>
   <div class="td"><%= account.name %></div>
   <div class="td"><%= account.email %></div>
