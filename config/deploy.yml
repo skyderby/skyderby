@@ -18,13 +18,7 @@ proxy:
   ssl: true
   hosts:
     - skyderby.io
-    - skyder.by
-    - skyderby.ru
     - www.skyderby.io
-    - www.skyder.by
-    - www.skyderby.ru
-  # Proxy connects to your container on port 80 by default.
-  # app_port: 3000
 
 env:
   clear:
@@ -32,7 +26,7 @@ env:
     RAILS_MAX_THREADS: 5
     PORT: 80
     TRACK_SCANNER_URL: http://track-scanner/
-    ACTIONCABLE_ALLOWED_ORIGINS: https://skyderby.ru,https://skyderby.io,https://skyder.by
+    ACTIONCABLE_ALLOWED_ORIGINS: https://skyderby.io
     RAILS_SERVE_STATIC_FILES: 1
     REDIS_DB: 12
     REDIS_CABLE_DB: 11
@@ -45,10 +39,8 @@ env:
     - DB_PASSWORD
     - MAILER_ASSET_HOST
     - MAILER_URL_HOST
-    - SMTP_ADDRESS
-    - SMTP_PORT
-    - SMTP_DOMAIN
-    - SMTP_USER_NAME
+    - SMTP_SERVER
+    - SMTP_USERNAME
     - SMTP_PASSWORD
     - REDIS_HOST
     - REDIS_PORT
@@ -98,26 +90,3 @@ accessories:
     service: track-scanner
     image: skyderby/track-scanner:latest
     host: 88.99.213.244
-  next-web:
-    image: skyderby/app:next
-    registry:
-      <<: *registry
-    host: 88.99.213.244
-    proxy:
-      ssl: true
-      host: next.skyderby.ru
-      app_port: 3000
-    env: &next-env
-      clear:
-        MAILER_URL_HOST: next.skyderby.ru
-        REDIS_DB: 1
-        REDIS_CABLE_DB: 2
-        RAILS_SERVE_STATIC_FILES: 1
-      secret: *secrets
-  next-workers:
-    image: skyderby/app:next
-    registry:
-      <<: *registry
-    host: 88.99.213.244
-    env: *next-env
-    cmd: bundle exec sidekiq -C config/sidekiq_next.yml

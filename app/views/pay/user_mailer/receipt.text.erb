@@ -1,0 +1,26 @@
+<% charge = params[:pay_charge] %>
+<% owner = charge.customer.owner %>
+<% lifetime = charge.metadata&.dig('type') == 'lifetime' %>
+Hey <%= owner.try(:name).presence || 'there' %>!
+
+<% if lifetime %>
+You've unlocked Skyderby Pro for life!
+<% elsif charge.subscription %>
+Your <%= charge.subscription.name %> subscription is now active.
+<% else %>
+Your payment has been received.
+<% end %>
+All Pro features are now available to you.
+
+Payment details
+---
+Amount: <%= charge.amount_with_currency %>
+Date: <%= l charge.created_at, format: :long %>
+<% if charge.charged_to.present? %>
+Paid with: <%= charge.charged_to %>
+<% end %>
+---
+
+<%= root_url %>
+
+Questions? Just reply to this email or write to aleksandr@skyderby.io

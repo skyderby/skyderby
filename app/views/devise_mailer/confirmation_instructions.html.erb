@@ -1,36 +1,29 @@
-<p>
-  Hi!
-</p>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td style="padding-bottom: 24px;">
+      <span style="font-size: 20px; font-weight: 600; color: #1a1a1a;">
+        Welcome to Skyderby!
+      </span>
+    </td>
+  </tr>
 
-<p>
-  Thanks for creating a Skyderby account. To continue, please confirm your email
-  address by clicking the button below.
-</p>
+  <tr>
+    <td style="padding-bottom: 24px; font-size: 15px; color: #4a4a4a; line-height: 1.6;">
+      Thanks for creating an account. Please confirm your email address by clicking the button below.
+    </td>
+  </tr>
 
-<div style="text-align: center;">
-  <% button_style = <<~STYLES
-      color: #fff;
-      background-color: #5cb85c;
-      border: 1px solid #4cae4c;
-      border-radius: 8px;
-      display: inline-block;
-      padding: 10px 16px;
-      font-size: 18px;
-      font-weight: 400;
-      line-height: 1.4;
-      text-decoration: none;
-      text-align: center;
-      vertical-align: middle;
-    STYLES
-  %>
+  <tr>
+    <td align="center" style="padding-bottom: 32px;">
+      <a href="<%= confirmation_url(@resource, confirmation_token: @token) %>" style="display: inline-block; background-color: #3b82f6; color: #ffffff; font-size: 15px; font-weight: 600; text-decoration: none; padding: 12px 32px; border-radius: 8px;">
+        Confirm email address
+      </a>
+    </td>
+  </tr>
 
-  <%= link_to 'Confirm email address',
-    confirmation_url(@resource, confirmation_token: @token),
-    style: button_style %>
-</div>
-
-<p>
-  Thanks,
-  <br>
-  Skyderby Team
-</p>
+  <tr>
+    <td style="font-size: 14px; color: #6b7280; line-height: 1.5;">
+      If you didn't create this account, you can safely ignore this email.
+    </td>
+  </tr>
+</table>

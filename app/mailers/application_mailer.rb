@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'info@skyderby.ru'
+  default from: 'aleksandr@skyderby.io'
   layout 'mailer'
 end

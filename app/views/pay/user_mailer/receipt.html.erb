@@ -1,0 +1,95 @@
+<% charge = params[:pay_charge] %>
+<% owner = charge.customer.owner %>
+<% lifetime = charge.metadata&.dig('type') == 'lifetime' %>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td style="padding-bottom: 24px;">
+      <span style="font-size: 20px; font-weight: 600; color: #1a1a1a;">
+        Hey <%= owner.try(:name).presence || 'there' %>!
+      </span>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="padding-bottom: 8px; font-size: 15px; color: #4a4a4a; line-height: 1.6;">
+      <% if lifetime %>
+        You've unlocked Skyderby Pro for life!
+      <% elsif charge.subscription %>
+        Your <%= charge.subscription.name %> subscription is now active.
+      <% else %>
+        Your payment has been received.
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="padding-bottom: 24px; font-size: 15px; color: #4a4a4a; line-height: 1.6;">
+      All Pro features are now available to you.
+    </td>
+  </tr>
+
+  <tr>
+    <td style="padding-bottom: 24px;">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8f9fa; border-radius: 8px;">
+        <tr>
+          <td style="padding: 20px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td style="padding-bottom: 12px; font-size: 12px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em;">
+                  Payment details
+                </td>
+              </tr>
+              <tr>
+                <td style="padding-bottom: 8px;">
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                      <td style="font-size: 14px; color: #6b7280;">Amount</td>
+                      <td align="right" style="font-size: 14px; font-weight: 600; color: #1a1a1a;"><%= charge.amount_with_currency %></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding-bottom: 8px;">
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                      <td style="font-size: 14px; color: #6b7280;">Date</td>
+                      <td align="right" style="font-size: 14px; color: #1a1a1a;"><%= l charge.created_at, format: :long %></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <% if charge.charged_to.present? %>
+                <tr>
+                  <td>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td style="font-size: 14px; color: #6b7280;">Paid with</td>
+                        <td align="right" style="font-size: 14px; color: #1a1a1a;"><%= charge.charged_to %></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" style="padding-bottom: 32px;">
+      <a href="<%= root_url %>" style="display: inline-block; background-color: #3b82f6; color: #ffffff; font-size: 15px; font-weight: 600; text-decoration: none; padding: 12px 32px; border-radius: 8px;">
+        Open Skyderby
+      </a>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="font-size: 14px; color: #6b7280; line-height: 1.5;">
+      Questions? Just reply to this email or write to <a href="mailto:aleksandr@skyderby.io" style="color: #3b82f6; text-decoration: none;">aleksandr@skyderby.io</a>
+    </td>
+  </tr>
+</table>
