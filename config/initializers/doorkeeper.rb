@@ -23,7 +23,7 @@ Doorkeeper.configure do
 
   grant_flows %w[authorization_code]
 
-  force_ssl_in_redirect_uri !Rails.env.development?
+  force_ssl_in_redirect_uri { |uri| !Rails.env.development? && uri.host != 'localhost' }
 
   allow_blank_redirect_uri false
 

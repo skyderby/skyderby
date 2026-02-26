@@ -72,6 +72,7 @@ builder:
 
 aliases:
   console: app exec --interactive --reuse "bin/rails console"
+  runner: app exec --interactive --reuse "bin/rails runner"
   logs: app logs -f
 
 volumes:
