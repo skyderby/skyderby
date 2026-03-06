@@ -45,7 +45,7 @@ class CreateTrackTest < ApplicationSystemTestCase
 
   test 'Garmin gps: multiple tracks in file' do
     upload_track 'two_tracks.gpx'
-    assert_selector '.modal-title', text: I18n.t('tracks.choose.title')
+    assert_selector '.dialog-title', text: I18n.t('tracks.choose.title')
 
     first('.track-segment-row').click
 
@@ -55,7 +55,7 @@ class CreateTrackTest < ApplicationSystemTestCase
   def upload_track(file_name)
     visit root_path
     click_button I18n.t('application.header.upload_track')
-    assert_selector '.modal-title', text: I18n.t('static_pages.index.track_form.title')
+    assert_selector '.dialog-title', text: I18n.t('static_pages.index.track_form.title')
 
     within 'form' do
       fill_in 'track_file[track_attributes][name]', with: 'John'

@@ -15,13 +15,13 @@ class EventsCompetitorsTest < ApplicationSystemTestCase
     sign_in @user
     visit performance_competition_path(event)
     click_button I18n.t('activerecord.models.event/competitor')
-    assert_selector('.modal-title', text: I18n.t('events.add_competitor'))
+    assert_selector('.dialog-title', text: I18n.t('events.add_competitor'))
     hot_select profile.name, from: :profile_id
     hot_select suit.name, from: :suit_id
 
     click_button I18n.t('general.save')
 
-    assert_no_selector('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
+    assert_no_selector('.dialog-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
     assert_text(profile.name)
   end
 
@@ -36,7 +36,7 @@ class EventsCompetitorsTest < ApplicationSystemTestCase
     sign_in @user
     visit performance_competition_path(event)
     click_button I18n.t('activerecord.models.event/competitor')
-    assert_selector('.modal-title', text: I18n.t('events.add_competitor'))
+    assert_selector('.dialog-title', text: I18n.t('events.add_competitor'))
 
     find('label', text: I18n.t('competitors.form.create_profile')).click
 
@@ -46,7 +46,7 @@ class EventsCompetitorsTest < ApplicationSystemTestCase
     hot_select suit.name, from: :suit_id
 
     click_button I18n.t('general.save')
-    assert_no_selector('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
+    assert_no_selector('.dialog-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
     assert_text(profile_name)
   end
 end

@@ -11,7 +11,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
     visit performance_competition_reference_points_path(@event)
 
     click_on I18n.t('general.import_from_csv')
-    assert_selector '.modal-title', text: 'Import Reference Points'
+    assert_selector '.dialog-title', text: 'Import Reference Points'
 
     within('#modal-root') do
       attach_file 'file', file_fixture('reference_points_valid.csv')
@@ -38,7 +38,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
 
     visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
-    assert_selector '.modal-title', text: 'Import Reference Points'
+    assert_selector '.dialog-title', text: 'Import Reference Points'
 
     within('#modal-root') do
       attach_file 'file', file_fixture('reference_points_update_name.csv')
@@ -58,7 +58,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
 
     visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
-    assert_selector '.modal-title', text: 'Import Reference Points'
+    assert_selector '.dialog-title', text: 'Import Reference Points'
 
     within('#modal-root') do
       attach_file 'file', file_fixture('reference_points_update_coords.csv')
@@ -83,7 +83,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
 
     visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
-    assert_selector '.modal-title', text: 'Import Reference Points'
+    assert_selector '.dialog-title', text: 'Import Reference Points'
 
     within('#modal-root') do
       attach_file 'file', file_fixture('reference_points_update_assigned.csv')
@@ -101,7 +101,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
   test 'validation error for non-unique coordinate pairs' do
     visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
-    assert_selector '.modal-title', text: 'Import Reference Points'
+    assert_selector '.dialog-title', text: 'Import Reference Points'
 
     within('#modal-root') do
       attach_file 'file', file_fixture('reference_points_duplicate_coords.csv')
@@ -117,7 +117,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
   test 'validation error for empty name' do
     visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
-    assert_selector '.modal-title', text: 'Import Reference Points'
+    assert_selector '.dialog-title', text: 'Import Reference Points'
 
     within('#modal-root') do
       attach_file 'file', file_fixture('reference_points_empty_name.csv')
@@ -133,7 +133,7 @@ class ReferencePointsImportTest < ApplicationSystemTestCase
   test 'validation error for invalid coordinates' do
     visit performance_competition_reference_points_path(@event)
     click_on I18n.t('general.import_from_csv')
-    assert_selector '.modal-title', text: 'Import Reference Points'
+    assert_selector '.dialog-title', text: 'Import Reference Points'
 
     within('#modal-root') do
       attach_file 'file', file_fixture('reference_points_invalid_coords.csv')

@@ -21,7 +21,7 @@ class QualificationRoundsTest < ApplicationSystemTestCase
     visit tournament_qualification_path(tournament)
 
     # open dropdown
-    find('.scoreboard-round-actions .btn-link').click
+    find('.scoreboard-round-actions .button--ghost').click
     click_button I18n.t('general.delete')
 
     assert_no_selector 'td', text: 'Round 1'

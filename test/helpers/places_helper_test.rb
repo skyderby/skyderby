@@ -5,7 +5,7 @@ class PlacesHelperTest < ActionView::TestCase
     place = places(:hellesylt)
 
     expected_output =
-      '<span>Hellesylt</span> (<span class="text-warning" data-controller="tooltip" data-tooltip="Norway">NOR</span>)'
+      '<span>Hellesylt</span> (<span class="text-warning" data-controller="tooltip">NOR<span class="for-screen-reader">Norway</span></span>)'
     assert_equal expected_output, place_presentation(place)
   end
 end

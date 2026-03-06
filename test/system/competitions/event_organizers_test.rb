@@ -9,12 +9,12 @@ class EventOrganizersTest < ApplicationSystemTestCase
     visit performance_competition_path(event)
 
     click_button I18n.t('organizers.list.add_judge')
-    assert_selector('.modal-title', text: I18n.t('activerecord.models.organizer').to_s)
+    assert_selector('.dialog-title', text: I18n.t('activerecord.models.organizer').to_s)
 
     hot_select organizer.name, from: :user_id
 
     click_button I18n.t('general.save')
-    assert_no_selector('.modal-title', text: I18n.t('activerecord.models.organizer').to_s)
+    assert_no_selector('.dialog-title', text: I18n.t('activerecord.models.organizer').to_s)
 
     assert_text organizer.name
   end

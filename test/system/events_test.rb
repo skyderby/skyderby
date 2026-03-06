@@ -60,7 +60,7 @@ class EventsTest < ApplicationSystemTestCase
     suit = create :suit
 
     click_button I18n.t('activerecord.models.event/competitor')
-    assert_selector('.modal-title', text: I18n.t('events.add_competitor'))
+    assert_selector('.dialog-title', text: I18n.t('events.add_competitor'))
     hot_select category, from: 'section_id'
     hot_select suit.name, from: 'suit_id'
 
@@ -106,7 +106,7 @@ class EventsTest < ApplicationSystemTestCase
     row.find('.result-cell a').click
 
     modal_title = "#{competitor} | Distance - 1"
-    assert_selector('.modal-title', text: modal_title)
+    assert_selector('.dialog-title', text: modal_title)
 
     click_link 'Penalties'
 

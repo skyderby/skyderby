@@ -15,11 +15,6 @@ module PerformanceCompetitionScoped
     ).find(event_id)
   end
 
-  def scoreboard_params(event)
-    display_event_params = params.permit(:wind_cancellation)
-    @scoreboard_params ||= Events::Scoreboards::Params.new(event, display_event_params)
-  end
-
   def authorize_event_access!
     respond_not_authorized unless @event.viewable?
   end

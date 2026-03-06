@@ -34,12 +34,12 @@ class CompetitorsCopyTest < ApplicationSystemTestCase
     click_button title: 'More actions'
     click_button 'Copy competitors'
 
-    assert_selector('.modal-title', text: I18n.t('performance_competitions.competitors_copies.form_modal.title'))
+    assert_selector('.dialog-title', text: I18n.t('performance_competitions.competitors_copies.form_modal.title'))
 
     hot_select @source_event.name, from: :source_event_id
     click_button I18n.t('general.save')
 
-    assert_no_selector('.modal-title')
+    assert_no_selector('.dialog-title')
 
     assert_text 'OPEN'
     assert_text 'FEMALE'

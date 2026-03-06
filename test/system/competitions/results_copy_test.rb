@@ -112,12 +112,12 @@ class ResultsCopyTest < ApplicationSystemTestCase
     click_button title: 'More actions'
     click_button 'Copy results'
 
-    assert_selector('.modal-title', text: I18n.t('performance_competitions.results_copies.form_modal.title'))
+    assert_selector('.dialog-title', text: I18n.t('performance_competitions.results_copies.form_modal.title'))
 
     hot_select @source_event.name, from: :source_event_id
     click_button I18n.t('general.save')
 
-    assert_no_selector('.modal-title')
+    assert_no_selector('.dialog-title')
 
     assert_equal 2, @target_event.rounds.count
     assert_equal 2, @target_event.results.count
