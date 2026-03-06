@@ -92,7 +92,7 @@ class TracksController < ApplicationController
   end
 
   def set_compare_track
-    return unless params[:compare_id].present?
+    return if params[:compare_id].blank?
 
     @compare_track = Track.find_by(id: params[:compare_id])
     @compare_track = nil unless @compare_track && policy(@compare_track).show?

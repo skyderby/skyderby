@@ -14,7 +14,7 @@ module Tracks
       if @reference_point.save
         render json: reference_point_data, status: :created
       else
-        render json: { errors: @reference_point.errors }, status: :unprocessable_entity
+        render json: { errors: @reference_point.errors }, status: :unprocessable_content
       end
     end
 
@@ -22,7 +22,7 @@ module Tracks
       if reference_point.update(reference_point_params)
         render json: reference_point_data
       else
-        render json: { errors: reference_point.errors }, status: :unprocessable_entity
+        render json: { errors: reference_point.errors }, status: :unprocessable_content
       end
     end
 
