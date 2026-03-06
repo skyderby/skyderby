@@ -1,0 +1,32 @@
+ru:
+  gift_subscriptions:
+    gift_button: Подарить Pro
+    already_pro: У этого пользователя уже есть активная подписка Pro
+    plan_annual: Подарить Pro на год
+    plan_lifetime: Подарить Pro навсегда
+    new:
+      title: Подарить подписку
+      subtitle: "Подарите %{name} возможности Pro"
+      gift_button: Перейти к оплате
+      recipient_hint: Этот человек получит Pro доступ после вашей покупки
+    create:
+      invalid_plan: Выбран неверный план
+    success:
+      title: Вы великолепны!
+      subtitle: Какой щедрый поступок
+      message: "Вы подарили Pro для %{name}!"
+      extra: "Это один из тех прекрасных жестов, которые делают сообщество парашютистов таким особенным. Вы помогаете товарищу по полётам увидеть свои прыжки по-новому."
+      notified: Будет уведомлен по email
+      back_to_profile: Вернуться к профилю
+      explore_tracks: Смотреть треки
+  gift_subscription_mailer:
+    gift_received:
+      subject: "Вам подарили Skyderby Pro!"
+      title: "У вас подарок!"
+      greeting: "Привет, %{name}!"
+      message: "%{gifter} подарил вам %{plan} подписку Skyderby Pro!"
+      lifetime: бессрочную
+      annual: годовую
+      anonymous: Кто-то
+      explore: Начать пользоваться Pro
+      footer: Наслаждайтесь всеми Pro возможностями — интерактивные реплеи, профили рельефа и многое другое. Хороших полётов!

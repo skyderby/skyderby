@@ -1,0 +1,53 @@
+<% provide :title, t('.title') %>
+
+<div class="gift-page">
+  <header class="gift-header">
+    <h1 class="gift-title"><%= t('.title') %></h1>
+    <p class="gift-subtitle"><%= t('.subtitle', name: @profile.name) %></p>
+  </header>
+
+  <div class="gift-content">
+    <%= form_with url: gift_subscriptions_path,
+                  method: :post,
+                  class: 'gift-plans',
+                  data: { turbo: false } do |f| %>
+      <%= f.hidden_field :profile_id, value: @profile.id %>
+
+      <div class="subscriptions-plans__options">
+        <% @plans.each do |plan| %>
+          <label class="subscription-plan-option <%= 'subscription-plan-option--popular' if plan[:popular] %>">
+            <input type="radio"
+                   name="plan"
+                   value="<%= plan[:id] %>"
+                   <%= 'checked' if plan[:popular] %>
+                   class="subscription-plan-option__radio">
+            <span class="subscription-plan-option__content">
+              <span class="subscription-plan-option__left">
+                <span class="subscription-plan-option__name"><%= plan[:name] %></span>
+                <% if plan[:popular] %>
+                  <span class="subscription-plan-option__best-value"><%= t('subscriptions.index.best_value') %></span>
+                <% elsif plan[:savings] %>
+                  <span class="subscription-plan-option__savings"><%= plan[:savings] %></span>
+                <% end %>
+              </span>
+              <span class="subscription-plan-option__right">
+                <span class="subscription-plan-option__price">$<%= (plan[:price] / 100.0).to_i %></span>
+                <span class="subscription-plan-option__period"><%= plan[:interval] ? t('subscriptions.index.per_interval', interval: plan[:interval]) : '' %></span>
+              </span>
+            </span>
+          </label>
+        <% end %>
+      </div>
+
+      <%= f.submit t('.gift_button'), class: 'button button--primary subscriptions-plans__submit' %>
+    <% end %>
+
+    <div class="gift-recipient">
+      <div class="gift-recipient__avatar">
+        <%= image_tag(@profile.userpic_url(:medium), class: 'gift-recipient__avatar-image') %>
+      </div>
+      <p class="gift-recipient__name"><%= @profile.name %></p>
+      <p class="gift-recipient__hint"><%= t('.recipient_hint') %></p>
+    </div>
+  </div>
+</div>

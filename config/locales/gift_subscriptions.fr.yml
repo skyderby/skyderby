@@ -1,0 +1,32 @@
+fr:
+  gift_subscriptions:
+    gift_button: Offrir Pro
+    already_pro: Cette personne a déjà un abonnement Pro actif
+    plan_annual: Offrir Pro Annuel
+    plan_lifetime: Offrir Pro à Vie
+    new:
+      title: Offrir un Abonnement
+      subtitle: "Offrez à %{name} les fonctionnalités Pro"
+      gift_button: Procéder au Paiement
+      recipient_hint: Cette personne recevra l'accès Pro après votre achat
+    create:
+      invalid_plan: Plan sélectionné invalide
+    success:
+      title: Vous êtes formidable !
+      subtitle: Quel geste généreux
+      message: "Vous avez offert Pro à %{name} !"
+      extra: "C'est l'un de ces gestes magnifiques qui rendent la communauté du parachutisme si spéciale. Vous aidez un compagnon de vol à voir ses sauts d'une toute nouvelle façon."
+      notified: Sera notifié par email
+      back_to_profile: Retour au Profil
+      explore_tracks: Explorer les Tracks
+  gift_subscription_mailer:
+    gift_received:
+      subject: "On vous a offert Skyderby Pro !"
+      title: "Vous avez un cadeau !"
+      greeting: "Bonjour %{name},"
+      message: "%{gifter} vous a offert un abonnement %{plan} à Skyderby Pro !"
+      lifetime: à vie
+      annual: annuel
+      anonymous: Quelqu'un
+      explore: Commencer à utiliser Pro
+      footer: Profitez de toutes les fonctionnalités Pro — replays interactifs, profils de terrain et plus encore. Bons vols !

@@ -1,0 +1,33 @@
+<% provide :title, t('.title') %>
+
+<div class="success-page">
+  <div class="confetti-container">
+    <% 50.times do |i| %>
+      <div class="confetti confetti--<%= i % 6 %>" style="--delay: <%= rand(0..3000) %>ms; --x: <%= rand(0..100) %>vw; --drift: <%= rand(-50..50) %>px;"></div>
+    <% end %>
+  </div>
+
+  <div class="success-content">
+    <div class="success-badge gift-badge">
+      <%= icon_tag 'gift-solid' %>
+    </div>
+
+    <h1 class="success-title"><%= t('.title') %></h1>
+    <p class="success-subtitle"><%= t('.subtitle') %></p>
+
+    <div class="gift-success-message">
+      <p class="gift-success-message__text"><%= t('.message', name: @profile.name) %></p>
+      <p class="gift-success-message__extra"><%= t('.extra') %></p>
+    </div>
+
+    <div class="gift-success-recipient">
+      <%= image_tag(@profile.userpic_url(:medium), class: 'gift-success-recipient__avatar-image') %>
+      <p class="gift-success-recipient__name contributor"><%= @profile.name %></p>
+      <p class="gift-success-recipient__status"><%= t('.notified') %></p>
+    </div>
+
+    <div class="success-actions">
+      <%= link_to t('.back_to_profile'), profile_path(@profile), class: 'button button--primary success-actions__primary' %>
+    </div>
+  </div>
+</div>

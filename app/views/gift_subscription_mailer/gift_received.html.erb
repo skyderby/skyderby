@@ -1,0 +1,35 @@
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td style="padding-bottom: 24px;">
+      <span style="font-size: 20px; font-weight: 600; color: #1a1a1a;">
+        <%= t('.title') %>
+      </span>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="padding-bottom: 16px; font-size: 15px; color: #4a4a4a; line-height: 1.6;">
+      <%= t('.greeting', name: @recipient.name) %>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="padding-bottom: 24px; font-size: 15px; color: #4a4a4a; line-height: 1.6;">
+      <%= t('.message', gifter: @gifter&.name || t('.anonymous'), plan: @gifted_subscription.lifetime? ? t('.lifetime') : t('.annual')) %>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" style="padding-bottom: 32px;">
+      <a href="<%= root_url %>" style="display: inline-block; background-color: #3b82f6; color: #ffffff; font-size: 15px; font-weight: 600; text-decoration: none; padding: 12px 32px; border-radius: 8px;">
+        <%= t('.explore') %>
+      </a>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="font-size: 14px; color: #6b7280; line-height: 1.5;">
+      <%= t('.footer') %>
+    </td>
+  </tr>
+</table>

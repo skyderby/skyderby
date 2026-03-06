@@ -60,6 +60,12 @@ Skyderby::Application.routes.draw do
     end
   end
 
+  resources :gift_subscriptions, only: [:new, :create] do
+    collection do
+      get :success
+    end
+  end
+
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/manage/sidekiq'
   end

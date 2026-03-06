@@ -1,0 +1,32 @@
+de:
+  gift_subscriptions:
+    gift_button: Pro verschenken
+    already_pro: Diese Person hat bereits ein aktives Pro-Abonnement
+    plan_annual: Pro Jahresabo verschenken
+    plan_lifetime: Pro Lifetime verschenken
+    new:
+      title: Abo verschenken
+      subtitle: "Schenke %{name} die Vorteile von Pro"
+      gift_button: Zur Zahlung
+      recipient_hint: Diese Person erhält Pro-Zugang nach deinem Kauf
+    create:
+      invalid_plan: Ungültiger Plan ausgewählt
+    success:
+      title: Du bist großartig!
+      subtitle: Was für eine großzügige Geste
+      message: "Du hast Pro an %{name} verschenkt!"
+      extra: "Das ist eine dieser wunderbaren Gesten, die die Fallschirmsprung-Community so besonders machen. Du hilfst einem Mitspringer, seine Flüge auf eine ganz neue Art zu sehen."
+      notified: Wird per E-Mail benachrichtigt
+      back_to_profile: Zurück zum Profil
+      explore_tracks: Tracks entdecken
+  gift_subscription_mailer:
+    gift_received:
+      subject: "Du hast Skyderby Pro geschenkt bekommen!"
+      title: "Du hast ein Geschenk!"
+      greeting: "Hey %{name},"
+      message: "%{gifter} hat dir ein %{plan} Skyderby Pro Abo geschenkt!"
+      lifetime: lebenslanges
+      annual: Jahres-
+      anonymous: Jemand
+      explore: Pro nutzen
+      footer: Genieße alle Pro-Funktionen — interaktive Replays, Geländeprofile und mehr. Gute Flüge!

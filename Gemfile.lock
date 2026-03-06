@@ -206,10 +206,6 @@ GEM
     honeybadger (6.2.0)
       logger
       ostruct
-    hotwire-spark (0.1.13)
-      listen
-      rails (>= 7.0.0)
-      zeitwerk
     htmlentities (4.4.2)
     http_accept_language (2.1.1)
     i18n (1.14.8)
@@ -595,7 +591,6 @@ DEPENDENCIES
   ffi
   googleauth
   honeybadger
-  hotwire-spark
   http_accept_language
   i18n-js
   image_processing (~> 1.12)

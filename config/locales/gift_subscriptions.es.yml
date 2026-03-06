@@ -1,0 +1,32 @@
+es:
+  gift_subscriptions:
+    gift_button: Regalar Pro
+    already_pro: Esta persona ya tiene una suscripción Pro activa
+    plan_annual: Regalar Pro Anual
+    plan_lifetime: Regalar Pro de por Vida
+    new:
+      title: Regalar una Suscripción
+      subtitle: "Dale a %{name} el poder de las funciones Pro"
+      gift_button: Proceder al Pago
+      recipient_hint: Esta persona recibirá acceso Pro después de tu compra
+    create:
+      invalid_plan: Plan seleccionado no válido
+    success:
+      title: ¡Eres increíble!
+      subtitle: Qué gesto tan generoso
+      message: "¡Le regalaste Pro a %{name}!"
+      extra: "Este es uno de esos gestos hermosos que hacen que la comunidad de paracaidismo sea tan especial. Estás ayudando a un compañero a ver sus vuelos de una manera completamente nueva."
+      notified: Será notificado por email
+      back_to_profile: Volver al Perfil
+      explore_tracks: Explorar Tracks
+  gift_subscription_mailer:
+    gift_received:
+      subject: "¡Te han regalado Skyderby Pro!"
+      title: "¡Tienes un regalo!"
+      greeting: "¡Hola %{name}!"
+      message: "¡%{gifter} te ha regalado una suscripción %{plan} a Skyderby Pro!"
+      lifetime: de por vida
+      annual: anual
+      anonymous: Alguien
+      explore: Empezar a usar Pro
+      footer: Disfruta de todas las funciones Pro — replays interactivos, perfiles del terreno y más. ¡Buenos vuelos!

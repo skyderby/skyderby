@@ -1,0 +1,32 @@
+en:
+  gift_subscriptions:
+    gift_button: Gift Pro
+    already_pro: This person already has an active Pro subscription
+    plan_annual: Gift Pro Annual
+    plan_lifetime: Gift Pro Lifetime
+    new:
+      title: Gift a Subscription
+      subtitle: "Give %{name} the power of Pro features"
+      gift_button: Proceed to Payment
+      recipient_hint: This person will receive Pro access after your purchase
+    create:
+      invalid_plan: Invalid plan selected
+    success:
+      title: You're Amazing!
+      subtitle: What a generous thing to do
+      message: "You just gifted Pro to %{name}!"
+      extra: "This is one of those beautiful gestures that makes the skydiving community so special. You're helping a fellow jumper see their flights in a whole new way."
+      notified: Will be notified by email
+      back_to_profile: Back to Profile
+      explore_tracks: Explore Tracks
+  gift_subscription_mailer:
+    gift_received:
+      subject: "You've been gifted Skyderby Pro!"
+      title: "You've Got a Gift!"
+      greeting: "Hey %{name},"
+      message: "%{gifter} just gifted you a %{plan} Skyderby Pro subscription!"
+      lifetime: lifetime
+      annual: one-year
+      anonymous: Someone
+      explore: Start Using Pro
+      footer: Enjoy all the Pro features — interactive replays, terrain profiles, and more. Happy flying!

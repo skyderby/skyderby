@@ -22,6 +22,10 @@ class ProfilePolicy < ApplicationPolicy
     admin? && record.belongs_to_user?
   end
 
+  def gift_subscription?
+    user && record.belongs_to_user? && record.owner != user && !record.owner.subscription_active?
+  end
+
   def owner?
     user && record.owner == user
   end

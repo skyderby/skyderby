@@ -36,6 +36,13 @@
       <%= link_to 'Subscription', profile_subscription_path(@profile), class: ['page-tab', ('page-tab-active' if current_page?(profile_subscription_path(@profile)))] %>
     <% end %>
 
+    <% if policy(@profile).gift_subscription? %>
+      <%= link_to new_gift_subscription_path(profile_id: @profile.id), class: 'page-tab gift-subscription-tab' do %>
+        <%= icon_tag 'gift-solid' %>
+        <%= t('gift_subscriptions.gift_button') %>
+      <% end %>
+    <% end %>
+
     <% if @profile.belongs_to_user? && policy(@profile).masquerade? %>
       <%= button_to user_masquerades_path(@profile.owner), form: { class: 'page-tab-right' }, class: 'page-tab' do %>
         <%= icon_tag 'wand-magic-sparkles-solid' %>
