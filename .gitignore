@@ -22,7 +22,9 @@
 /tags
 
 .env
+.env.local
 .kamal/secrets
+Procfile.local
 
 # Ignore application configuration
 /config/application.yml
@@ -36,3 +38,4 @@ yarn-error.log
 /config/credentials/production.key
 
 **/.claude/settings.local.json
+.claude/worktrees/

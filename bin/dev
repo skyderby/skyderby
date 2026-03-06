@@ -5,4 +5,9 @@ if ! command -v foreman &> /dev/null; then
   gem install foreman
 fi
 
-exec foreman start -f Procfile.dev "$@"
+PROCFILE="Procfile.dev"
+if [ -f Procfile.local ]; then
+  PROCFILE="Procfile.local"
+fi
+
+exec foreman start -f "$PROCFILE" "$@"
