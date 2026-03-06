@@ -62,7 +62,13 @@ module TrackParser
     end
 
     def gps_time(time_str)
-      Time.strptime(time_str, '%Y-%m-%dT%H:%M:%S.%L %Z')
+      fixed = time_str.sub(/\.(-\d+)Z\z/) do
+        ms = Regexp.last_match(1).to_i
+        rounded = (ms / 100.0).round * 100
+        ".#{rounded.clamp(0, 900).to_s.ljust(3, '0')}Z"
+      end
+
+      Time.strptime(fixed, '%Y-%m-%dT%H:%M:%S.%L %Z')
     end
   end
 end
