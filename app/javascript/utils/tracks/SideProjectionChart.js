@@ -52,7 +52,8 @@ export default class SideProjectionChart {
         vSpeed: point.vSpeed,
         fullSpeed: point.fullSpeed,
         glideRatio: point.glideRatio,
-        gpsTime: point.gpsTime
+        gpsTime: point.gpsTime,
+        flTime: point.flTime
       }
     })
   }
@@ -589,7 +590,10 @@ export default class SideProjectionChart {
       clearanceHtml = `<div><b>Clearance:</b> <span style="color: ${color}; font-weight: bold;">${clearance} m</span></div>`
     }
 
+    const timeFromExit = Math.round(point.flTime - this.flightProfile[0].flTime)
+
     this.tooltip.innerHTML = `
+      <div><b>Time:</b> ${timeFromExit} s</div>
       <div><b>Distance:</b> ${Math.round(point.x)} m</div>
       <div><b>Alt drop:</b> ${Math.round(point.y)} m</div>
       <div><b>Altitude:</b> ${Math.round(point.altitude)} m</div>
