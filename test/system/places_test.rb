@@ -7,7 +7,7 @@ class PlacesTest < ApplicationSystemTestCase
   end
 
   test 'Admin user can add place' do
-    user = create :user, :admin
+    user = users(:admin)
     sign_in user
 
     country = countries(:norway)

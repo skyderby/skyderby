@@ -57,7 +57,7 @@ class CreateTrackTest < ApplicationSystemTestCase
     click_button I18n.t('application.header.upload_track')
     assert_selector '.dialog-title', text: I18n.t('static_pages.index.track_form.title')
 
-    within 'form' do
+    within 'form.sd-form' do
       fill_in 'track_file[track_attributes][name]', with: 'John'
 
       click_link I18n.t('tracks.form.toggle_suit_link')

@@ -2,7 +2,7 @@ require 'application_system_test_case'
 
 class EditProfileTest < ApplicationSystemTestCase
   test 'user changes name' do
-    user = create :user
+    user = users(:regular_user)
     new_profile_name = 'Ivan Popov'
 
     sign_in user

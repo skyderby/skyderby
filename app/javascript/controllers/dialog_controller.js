@@ -49,13 +49,13 @@ export default class extends Controller {
   }
 
   close() {
-    this.dialogTarget.addEventListener(
-      'transitionend',
-      () => {
-        this.element.remove()
-      },
-      { once: true }
-    )
+    const cleanup = () => {
+      clearTimeout(fallback)
+      this.element.remove()
+    }
+
+    this.dialogTarget.addEventListener('transitionend', cleanup, { once: true })
+    const fallback = setTimeout(cleanup, 300)
 
     this.overlay?.classList.remove('dialog-overlay-visible')
     this.dialogTarget.close()

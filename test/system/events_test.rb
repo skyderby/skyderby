@@ -54,6 +54,7 @@ class EventsTest < ApplicationSystemTestCase
     click_button I18n.t('activerecord.models.event/section')
     fill_in :section_name, with: name
     click_button I18n.t('general.save')
+    assert_no_selector 'dialog[open]'
   end
 
   def add_competitor(name:, category:, new_profile: false)
@@ -77,6 +78,7 @@ class EventsTest < ApplicationSystemTestCase
     end
 
     click_button I18n.t('general.save')
+    assert_no_selector 'dialog[open]'
   end
 
   def add_round(discipline)

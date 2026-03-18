@@ -37,6 +37,6 @@ class BadgesTest < ApplicationSystemTestCase
   end
 
   def admin_user
-    @admin_user ||= create(:user, :admin)
+    @admin_user ||= users(:admin)
   end
 end

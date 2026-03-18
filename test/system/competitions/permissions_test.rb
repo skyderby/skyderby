@@ -15,7 +15,7 @@ class PermissionsCompetitionsTest < ApplicationSystemTestCase
     event.private_event!
     event.published!
 
-    user = create :user
+    user = users(:regular_user)
     create :event_competitor, event: event, profile: user.profile
 
     sign_in user

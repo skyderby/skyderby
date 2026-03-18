@@ -10,7 +10,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include ActiveJob::TestHelper
   include HotSelectHelper
 
-  headless = ENV['SELENIUM_HEADLESS_CHROME'].present?
+  headless = ENV.fetch('SELENIUM_HEADLESS_CHROME', 'true') != 'false'
   browser = headless ? :headless_chrome : :chrome
   driven_by :selenium, using: browser do |options|
     options.add_preference('intl.accept_languages', 'en-US')

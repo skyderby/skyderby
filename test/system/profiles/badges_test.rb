@@ -2,7 +2,7 @@ require 'application_system_test_case'
 
 class ProfileBadgesTest < ApplicationSystemTestCase
   test 'Create' do
-    user = create :user, :admin
+    user = users(:admin)
     sign_in user
 
     profile = create :profile
