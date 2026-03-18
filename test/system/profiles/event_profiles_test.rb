@@ -2,7 +2,7 @@ require 'application_system_test_case'
 
 class EventProfilesTest < ApplicationSystemTestCase
   test 'change name by responsible of event' do
-    user = create :user
+    user = users(:event_responsible)
     event = create :event, responsible: user
 
     profile = create :profile, owner: event

@@ -2,7 +2,7 @@ require 'application_system_test_case'
 
 class SponsorableTest < ApplicationSystemTestCase
   test 'Competition sponsor' do
-    user = create :user
+    user = users(:event_responsible)
     sign_in user
 
     competition = create :event, responsible: user

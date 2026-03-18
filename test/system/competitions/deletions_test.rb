@@ -2,7 +2,7 @@ require 'application_system_test_case'
 
 class DeletionEventTest < ApplicationSystemTestCase
   test 'responsible delete his own competition' do
-    user = create :user
+    user = users(:event_responsible)
     event = create :event, name: 'event_to_delete', responsible: user
 
     sign_in user

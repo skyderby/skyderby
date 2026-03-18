@@ -2,7 +2,7 @@ require 'application_system_test_case'
 
 class EventsCompetitorsTest < ApplicationSystemTestCase
   setup do
-    @user = create :user
+    @user = users(:event_responsible)
   end
 
   test 'add competitor with existing profile' do

@@ -2,7 +2,7 @@ require 'application_system_test_case'
 
 class EventSectionsTest < ApplicationSystemTestCase
   test 'add section' do
-    user = create :user
+    user = users(:event_responsible)
     event = create(:event,
                    status: Event.statuses[:published],
                    visibility: Event.visibilities[:public_event],
