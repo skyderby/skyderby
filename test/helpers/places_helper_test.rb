@@ -4,8 +4,9 @@ class PlacesHelperTest < ActionView::TestCase
   test 'returns place presentation with country code' do
     place = places(:hellesylt)
 
-    expected_output =
-      '<span>Hellesylt</span> (<span class="text-warning" data-controller="tooltip">NOR<span class="for-screen-reader">Norway</span></span>)'
+    expected_output = '<span>Hellesylt</span> ' \
+                      '(<span class="text-warning" data-controller="tooltip">' \
+                      'NOR<span class="for-screen-reader">Norway</span></span>)'
     assert_equal expected_output, place_presentation(place)
   end
 end
