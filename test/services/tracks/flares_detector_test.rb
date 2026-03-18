@@ -3,7 +3,7 @@ require 'test_helper'
 class Tracks::FlaresDetectorTest < ActiveSupport::TestCase
   test 'finds flare in skydive track' do
     track = create_track_from_file '13-31-51_Ravenna.CSV'
-    track.update!(ff_start: 10, ff_end: 144) unless track.ff_start == 10
+    track.update!(ff_start: 10, ff_end: 144)
     points = PointsQuery.execute track, trimmed: true, only: %i[gps_time altitude v_speed]
 
     flares = Tracks::FlaresDetector.call(points)
