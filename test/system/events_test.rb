@@ -78,6 +78,7 @@ class EventsTest < ApplicationSystemTestCase
     end
 
     click_button I18n.t('general.save')
+    assert_no_selector '.dialog-overlay'
   end
 
   def add_round(discipline)
