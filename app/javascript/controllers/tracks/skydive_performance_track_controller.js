@@ -4,6 +4,7 @@ import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 import cropPoints from 'utils/cropPoints'
+import downsamplePoints from 'utils/downsamplePoints'
 import calculateWindCancellation from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
 import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
@@ -411,6 +412,7 @@ export default class extends Controller {
     }
 
     this.chartPoints = chartPoints
+    this.downsampledChartPoints = downsamplePoints(this.chartPoints)
 
     const firstChartTime = this.chartPoints[0].flTime
     this.bufferStartPosition = rangeStartTime - this.chartPoints[0].gpsTime.getTime()
@@ -1040,13 +1042,13 @@ export default class extends Controller {
 
     this.glideChartTarget.chart = initGlideChart(
       this.glideChartTarget,
-      this.chartPoints,
+      this.downsampledChartPoints,
       {
         plotBands: this.bufferPlotBands(),
         windCancellation: this.hasWeatherData,
         showTitle: false,
         showLegend: false,
-        comparePoints: this.compareChartPoints,
+        comparePoints: downsamplePoints(this.compareChartPoints),
         compareTimeOffset: this.chartTimeOffset,
         compareTrackName: this.compareTrackNameValue
       }
@@ -1058,11 +1060,11 @@ export default class extends Controller {
 
     this.speedChartTarget.chart = initSpeedsChart(
       this.speedChartTarget,
-      this.chartPoints,
+      this.downsampledChartPoints,
       {
         plotBands: this.bufferPlotBands(),
         windCancellation: this.hasWeatherData,
-        comparePoints: this.compareChartPoints,
+        comparePoints: downsamplePoints(this.compareChartPoints),
         compareTimeOffset: this.chartTimeOffset,
         compareTrackName: this.compareTrackNameValue
       }
@@ -1072,9 +1074,13 @@ export default class extends Controller {
   initSepChart() {
     if (!this.hasSepChartTarget) return
 
-    this.sepChartTarget.chart = initAccuracyChart(this.sepChartTarget, this.chartPoints, {
-      plotBands: this.bufferPlotBands()
-    })
+    this.sepChartTarget.chart = initAccuracyChart(
+      this.sepChartTarget,
+      this.downsampledChartPoints,
+      {
+        plotBands: this.bufferPlotBands()
+      }
+    )
   }
 
   destroyCharts() {

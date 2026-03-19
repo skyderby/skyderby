@@ -10,4 +10,5 @@ if [ -f Procfile.local ]; then
   PROCFILE="Procfile.local"
 fi
 
-exec foreman start -f "$PROCFILE" "$@"
+export WEB_PORT="${PORT:-3000}"
+exec foreman start -f "$PROCFILE" -p "${PORT:-3000}" "$@"

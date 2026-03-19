@@ -1,4 +1,4 @@
-web: bin/rails server -p 3000
+web: bin/rails server -p $WEB_PORT
 webpack: bin/webpacker-dev-server
 scanner: docker rm -f track-scanner 2>/dev/null; docker run --rm -p 8000:80 --name track-scanner skyderby/track-scanner
-ngrok: ngrok http 3000 --url undespotically-nongerundive-anson.ngrok-free.dev
+ngrok: ngrok http $WEB_PORT --url undespotically-nongerundive-anson.ngrok-free.dev

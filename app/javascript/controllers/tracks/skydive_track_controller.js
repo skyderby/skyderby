@@ -9,6 +9,7 @@ import {
   initCombinedChart
 } from 'charts'
 import cropPoints from 'utils/cropPoints'
+import downsamplePoints from 'utils/downsamplePoints'
 import calculateWindCancellation from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
 
@@ -321,6 +322,7 @@ export default class extends Controller {
     }
 
     this.chartPoints = chartPoints
+    this.downsampledChartPoints = downsamplePoints(this.chartPoints)
 
     const firstChartTime = this.chartPoints[0].flTime
     this.bufferStartPosition = rangeStartTime - this.chartPoints[0].gpsTime.getTime()
@@ -446,7 +448,7 @@ export default class extends Controller {
   initCombinedChart() {
     this.combinedChartTarget.chart = initCombinedChart(
       this.combinedChartTarget,
-      this.chartPoints,
+      this.downsampledChartPoints,
       {
         plotLines: this.altitudePlotLines({ includeLabels: true }),
         plotBands: this.bufferPlotBands(),
@@ -461,7 +463,7 @@ export default class extends Controller {
   initAccuracyChart() {
     this.accuracyChartTarget.chart = initAccuracyChart(
       this.accuracyChartTarget,
-      this.chartPoints,
+      this.downsampledChartPoints,
       {
         plotLines: this.altitudePlotLines(),
         plotBands: this.bufferPlotBands()
@@ -472,7 +474,7 @@ export default class extends Controller {
   initGlideChart() {
     this.glideChartTarget.chart = initGlideChart(
       this.glideChartTarget,
-      this.chartPoints,
+      this.downsampledChartPoints,
       {
         plotLines: this.altitudePlotLines({ includeLabels: true }),
         plotBands: this.bufferPlotBands(),
@@ -484,7 +486,7 @@ export default class extends Controller {
   initSpeedsChart() {
     this.speedChartTarget.chart = initSpeedsChart(
       this.speedChartTarget,
-      this.chartPoints,
+      this.downsampledChartPoints,
       {
         plotLines: this.altitudePlotLines(),
         plotBands: this.bufferPlotBands(),
@@ -496,7 +498,7 @@ export default class extends Controller {
   initAltitudeDistanceChart() {
     this.altitudeDistanceChartTarget.chart = initAltitudeDistanceChart(
       this.altitudeDistanceChartTarget,
-      this.chartPoints,
+      this.downsampledChartPoints,
       {
         plotLines: this.altitudePlotLines(),
         plotBands: this.bufferPlotBands(),
