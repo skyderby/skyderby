@@ -2,22 +2,22 @@ de:
   event_payments:
     tab: Zahlungen
     title: Zahlungen
-    product_name: "Wettkampfplätze — %{event}"
-    paid_for_seats:
-      one: "1 Platz bezahlt"
-      other: "%{count} Plätze bezahlt"
+    product_name: "Wettkampfanmeldungen — %{event}"
+    paid_for_entries:
+      one: "1 Anmeldung bezahlt"
+      other: "%{count} Anmeldungen bezahlt"
     competitors_registered:
       one: "1 Teilnehmer registriert"
       other: "%{count} Teilnehmer registriert"
-    buy_title: Plätze kaufen
-    price_per_seat: "%{price} pro Teilnehmer"
-    seats_label: Plätze
+    buy_title: Anmeldungen kaufen
+    price_per_entry: "%{price} pro Teilnehmer"
+    entries_label: Anmeldungen
     buy_button: Mit Stripe bezahlen
     history_title: Zahlungsverlauf
     history:
       date: Datum
       kind: Typ
-      seats: Plätze
+      entries: Anmeldungen
       amount: Betrag
       receipt: Beleg
       view_receipt: Beleg anzeigen
@@ -25,7 +25,7 @@ de:
       purchase: Kauf
       refund: Erstattung
     notes_title: Erstattungen & Rechnungen
-    contact_note_html: "Sie benötigen eine Rechnung mit Firmendaten? Oder eine Erstattung für ungenutzte Plätze? Schreiben Sie an %{email}, wir bearbeiten es manuell."
+    contact_note_html: "Sie benötigen eine Rechnung mit Firmendaten? Oder eine Erstattung für ungenutzte Anmeldungen? Schreiben Sie an %{email}, wir bearbeiten es manuell."
     success: "Zahlung erhalten. Es kann einige Sekunden dauern, bis sie unten erscheint."
     errors:
-      invalid_seats: "Bitte geben Sie eine Anzahl Plätze größer als null ein."
+      invalid_entries: "Bitte geben Sie eine Anzahl Anmeldungen größer als null ein."

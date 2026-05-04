@@ -5,7 +5,7 @@ module Pay
     included do
       after_save :update_owner_subscribed_status_for_lifetime
       after_save :process_gift_subscription
-      after_save :process_event_seat_payment
+      after_save :process_event_entry_payment
       after_destroy :update_owner_subscribed_status_for_lifetime
     end
 
@@ -38,10 +38,10 @@ module Pay
       GiftSubscriptionMailer.gift_received(gifted).deliver_later
     end
 
-    def process_event_seat_payment
-      return unless metadata&.dig('type') == EventSeatPayment::CHARGE_TYPE
+    def process_event_entry_payment
+      return unless metadata&.dig('type') == EventEntryPayment::CHARGE_TYPE
 
-      EventSeatPayment.reconcile_from_charge(self)
+      EventEntryPayment.reconcile_from_charge(self)
     end
 
     def gift_charge?

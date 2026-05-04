@@ -2,22 +2,22 @@ en:
   event_payments:
     tab: Payments
     title: Payments
-    product_name: "Competition seats — %{event}"
-    paid_for_seats:
-      one: "Paid for 1 seat"
-      other: "Paid for %{count} seats"
+    product_name: "Competition entries — %{event}"
+    paid_for_entries:
+      one: "Paid for 1 entry"
+      other: "Paid for %{count} entries"
     competitors_registered:
       one: "1 competitor registered"
       other: "%{count} competitors registered"
-    buy_title: Buy seats
-    price_per_seat: "%{price} per competitor"
-    seats_label: Seats
+    buy_title: Buy entries
+    price_per_entry: "%{price} per competitor"
+    entries_label: Entries
     buy_button: Pay with Stripe
     history_title: Payment history
     history:
       date: Date
       kind: Type
-      seats: Seats
+      entries: Entries
       amount: Amount
       receipt: Receipt
       view_receipt: View receipt
@@ -25,7 +25,7 @@ en:
       purchase: Purchase
       refund: Refund
     notes_title: Refunds & invoices
-    contact_note_html: "Need an invoice with your company details? Or a refund for unused seats? Email %{email} and we'll process it manually."
+    contact_note_html: "Need an invoice with your company details? Or a refund for unused entries? Email %{email} and we'll process it manually."
     success: "Payment received. It may take a few seconds to appear below."
     errors:
-      invalid_seats: "Please enter a number of seats greater than zero."
+      invalid_entries: "Please enter a number of entries greater than zero."

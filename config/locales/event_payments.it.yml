@@ -2,22 +2,22 @@ it:
   event_payments:
     tab: Pagamenti
     title: Pagamenti
-    product_name: "Posti gara — %{event}"
-    paid_for_seats:
-      one: "1 posto pagato"
-      other: "%{count} posti pagati"
+    product_name: "Iscrizioni gara — %{event}"
+    paid_for_entries:
+      one: "1 iscrizione pagata"
+      other: "%{count} iscrizioni pagate"
     competitors_registered:
       one: "1 concorrente iscritto"
       other: "%{count} concorrenti iscritti"
-    buy_title: Acquista posti
-    price_per_seat: "%{price} per concorrente"
-    seats_label: Posti
+    buy_title: Acquista iscrizioni
+    price_per_entry: "%{price} per concorrente"
+    entries_label: Iscrizioni
     buy_button: Paga con Stripe
     history_title: Storico pagamenti
     history:
       date: Data
       kind: Tipo
-      seats: Posti
+      entries: Iscrizioni
       amount: Importo
       receipt: Ricevuta
       view_receipt: Vedi ricevuta
@@ -25,7 +25,7 @@ it:
       purchase: Acquisto
       refund: Rimborso
     notes_title: Rimborsi e fatture
-    contact_note_html: "Hai bisogno di una fattura con i dati della tua azienda? O di un rimborso per posti non utilizzati? Scrivi a %{email} e lo gestiremo manualmente."
+    contact_note_html: "Hai bisogno di una fattura con i dati della tua azienda? O di un rimborso per iscrizioni non utilizzate? Scrivi a %{email} e lo gestiremo manualmente."
     success: "Pagamento ricevuto. Potrebbero servire alcuni secondi prima che appaia qui sotto."
     errors:
-      invalid_seats: "Inserisci un numero di posti maggiore di zero."
+      invalid_entries: "Inserisci un numero di iscrizioni maggiore di zero."

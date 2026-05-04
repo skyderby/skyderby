@@ -1,10 +1,10 @@
-class EventSeatPayment::Reconciler
+class EventEntryPayment::Reconciler
   def initialize(pay_charge)
     @pay_charge = pay_charge
   end
 
   def call
-    return unless event_seat_charge?
+    return unless event_entries_charge?
     return unless event
 
     ensure_purchase_row
@@ -15,8 +15,8 @@ class EventSeatPayment::Reconciler
 
   attr_reader :pay_charge
 
-  def event_seat_charge?
-    pay_charge.metadata&.dig('type') == EventSeatPayment::CHARGE_TYPE
+  def event_entries_charge?
+    pay_charge.metadata&.dig('type') == EventEntryPayment::CHARGE_TYPE
   end
 
   def event
@@ -29,16 +29,16 @@ class EventSeatPayment::Reconciler
   end
 
   def ensure_purchase_row
-    return if EventSeatPayment.exists?(pay_charge_id: pay_charge.id, kind: 'purchase')
+    return if EventEntryPayment.exists?(pay_charge_id: pay_charge.id, kind: 'purchase')
 
-    seats = pay_charge.metadata['seats'].to_i
-    return if seats <= 0
+    entries = pay_charge.metadata['entries'].to_i
+    return if entries <= 0
 
-    EventSeatPayment.create!(
+    EventEntryPayment.create!(
       payable: event,
       pay_charge: pay_charge,
-      seats: seats,
-      amount_cents: seats * EventSeatPayment::SEAT_PRICE_CENTS,
+      entries: entries,
+      amount_cents: entries * EventEntryPayment::ENTRY_PRICE_CENTS,
       kind: 'purchase'
     )
   end
@@ -53,18 +53,18 @@ class EventSeatPayment::Reconciler
   def record_refund(refund)
     refund_id = refund['id']
     return if refund_id.blank?
-    return if EventSeatPayment.exists?(stripe_refund_id: refund_id)
+    return if EventEntryPayment.exists?(stripe_refund_id: refund_id)
 
     amount_cents = refund['amount'].to_i
     return if amount_cents <= 0
 
-    seats_refunded = amount_cents / EventSeatPayment::SEAT_PRICE_CENTS
-    return if seats_refunded <= 0
+    entries_refunded = amount_cents / EventEntryPayment::ENTRY_PRICE_CENTS
+    return if entries_refunded <= 0
 
-    EventSeatPayment.create!(
+    EventEntryPayment.create!(
       payable: event,
       pay_charge: pay_charge,
-      seats: -seats_refunded,
+      entries: -entries_refunded,
       amount_cents: -amount_cents,
       kind: 'refund',
       stripe_refund_id: refund_id

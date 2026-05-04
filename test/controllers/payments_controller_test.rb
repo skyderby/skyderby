@@ -31,9 +31,9 @@ class PaymentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'create rejects zero or negative seats' do
+  test 'create rejects zero or negative entries' do
     sign_in @organizer
-    post speed_skydiving_competition_payments_path(@event), params: { seats: 0 }
+    post speed_skydiving_competition_payments_path(@event), params: { entries: 0 }
     assert_redirected_to speed_skydiving_competition_payments_path(@event)
     follow_redirect!
     assert_match(/greater than zero/i, flash[:alert] || @response.body)
