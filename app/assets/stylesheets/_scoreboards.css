@@ -156,19 +156,26 @@
   padding: 0;
 }
 
+.scoreboard-table .result-show-cell,
+.scoreboard-table .result-upload-cell {
+  height: 100%;
+  width: 100%;
+}
+
 .scoreboard-table .result-show-cell {
   display: flex;
   align-items: center;
   justify-content: right;
   gap: 0.25rem;
-  height: 100%;
-  width: 100%;
 }
 
-.scoreboard-table .result-show-cell button {
+.scoreboard-table .result-show-cell button,
+.scoreboard-table a.result-show-cell,
+.scoreboard-table .result-upload-cell button,
+.scoreboard-table a.result-upload-cell {
+  font: inherit;
+  color: inherit;
   background-color: var(--white);
-  color: var(--gray-90);
-  text-align: right;
   border: 0;
   padding: 0.5rem;
   height: 100%;
@@ -177,28 +184,18 @@
   cursor: pointer;
 }
 
-.scoreboard-table .result-show-cell button:hover::before {
-  content: '';
-  background-color: var(--blue-70);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-}
-
+.scoreboard-table .result-show-cell button,
 .scoreboard-table a.result-show-cell {
-  background-color: var(--white);
-  color: var(--gray-90);
   text-align: right;
-  border: 0;
-  padding: 0.5rem;
-  height: 100%;
-  width: 100%;
-  position: relative;
-  cursor: pointer;
 }
 
+.scoreboard-table .result-upload-cell button,
+.scoreboard-table a.result-upload-cell {
+  color: var(--white);
+  font-size: 1.125rem;
+}
+
+.scoreboard-table .result-show-cell button:hover::before,
 .scoreboard-table a.result-show-cell:hover::before {
   content: '';
   background-color: var(--blue-70);
@@ -209,39 +206,7 @@
   height: 3px;
 }
 
-.scoreboard-table .result-upload-cell {
-  height: 100%;
-  width: 100%;
-}
-
-.scoreboard-table .result-upload-cell button {
-  background-color: var(--white);
-  border: 0;
-  padding: 0.5rem;
-  height: 100%;
-  width: 100%;
-  position: relative;
-  cursor: pointer;
-  color: var(--white);
-  font-size: 1.125rem;
-}
-
-.scoreboard-table .result-upload-cell button:hover {
-  background-color: var(--blue-70);
-}
-
-.scoreboard-table a.result-upload-cell {
-  background-color: var(--white);
-  border: 0;
-  padding: 0.5rem;
-  height: 100%;
-  width: 100%;
-  position: relative;
-  cursor: pointer;
-  color: var(--white);
-  font-size: 1.125rem;
-}
-
+.scoreboard-table .result-upload-cell button:hover,
 .scoreboard-table a.result-upload-cell:hover {
   background-color: var(--blue-70);
 }
