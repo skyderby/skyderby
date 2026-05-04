@@ -1,5 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
-  rate_limit to: 10, within: 3.minutes, only: :create, with: :rate_limit_exceeded unless Rails.env.test?
+  rate_limit to: 10, within: 3.minutes, only: :create, with: :rate_limit_exceeded
 
   def create # rubocop:disable Metrics/AbcSize
     self.resource = warden.authenticate(auth_options)
