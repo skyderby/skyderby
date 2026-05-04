@@ -1,0 +1,35 @@
+ru:
+  event_payments:
+    tab: Оплата
+    title: Оплата
+    product_name: "Места участников — %{event}"
+    paid_for_seats:
+      one: "Оплачено %{count} место"
+      few: "Оплачено %{count} места"
+      many: "Оплачено %{count} мест"
+      other: "Оплачено %{count} мест"
+    competitors_registered:
+      one: "Зарегистрирован %{count} участник"
+      few: "Зарегистрировано %{count} участника"
+      many: "Зарегистрировано %{count} участников"
+      other: "Зарегистрировано %{count} участников"
+    buy_title: Купить места
+    price_per_seat: "%{price} за участника"
+    seats_label: Мест
+    buy_button: Оплатить через Stripe
+    history_title: История платежей
+    history:
+      date: Дата
+      kind: Тип
+      seats: Мест
+      amount: Сумма
+      receipt: Чек
+      view_receipt: Открыть чек
+    kinds:
+      purchase: Оплата
+      refund: Возврат
+    notes_title: Возвраты и счета
+    contact_note_html: "Нужен счёт с реквизитами компании? Или возврат за неиспользованные места? Напишите %{email}, и мы оформим всё вручную."
+    success: "Платёж получен. Информация может появиться ниже через несколько секунд."
+    errors:
+      invalid_seats: "Введите количество мест больше нуля."
