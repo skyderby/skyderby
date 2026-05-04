@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_04_122251) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_04_182323) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -71,6 +71,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_122251) do
     t.index ["team_id"], name: "index_event_competitors_on_team_id"
   end
 
+  create_table "event_entry_payments", force: :cascade do |t|
+    t.integer "amount_cents", null: false
+    t.datetime "created_at", null: false
+    t.integer "entries", null: false
+    t.string "kind", null: false
+    t.bigint "pay_charge_id", null: false
+    t.bigint "payable_id", null: false
+    t.string "payable_type", null: false
+    t.string "stripe_refund_id"
+    t.datetime "updated_at", null: false
+    t.index ["pay_charge_id", "kind"], name: "index_event_entry_payments_unique_purchase", unique: true, where: "((kind)::text = 'purchase'::text)"
+    t.index ["pay_charge_id"], name: "index_event_entry_payments_on_pay_charge_id"
+    t.index ["payable_type", "payable_id"], name: "index_event_entry_payments_on_payable"
+    t.index ["stripe_refund_id"], name: "index_event_entry_payments_on_stripe_refund_id", unique: true, where: "(stripe_refund_id IS NOT NULL)"
+  end
+
   create_table "event_reference_point_assignments", force: :cascade do |t|
     t.bigint "competitor_id"
     t.datetime "created_at", precision: nil, null: false
@@ -123,22 +139,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_122251) do
     t.integer "profile_id"
     t.timestamptz "updated_at"
     t.index ["event_id"], name: "index_event_rounds_on_event_id"
-  end
-
-  create_table "event_seat_payments", force: :cascade do |t|
-    t.integer "amount_cents", null: false
-    t.datetime "created_at", null: false
-    t.string "kind", null: false
-    t.bigint "pay_charge_id", null: false
-    t.bigint "payable_id", null: false
-    t.string "payable_type", null: false
-    t.integer "seats", null: false
-    t.string "stripe_refund_id"
-    t.datetime "updated_at", null: false
-    t.index ["pay_charge_id", "kind"], name: "index_event_seat_payments_unique_purchase", unique: true, where: "((kind)::text = 'purchase'::text)"
-    t.index ["pay_charge_id"], name: "index_event_seat_payments_on_pay_charge_id"
-    t.index ["payable_type", "payable_id"], name: "index_event_seat_payments_on_payable"
-    t.index ["stripe_refund_id"], name: "index_event_seat_payments_on_stripe_refund_id", unique: true, where: "(stripe_refund_id IS NOT NULL)"
   end
 
   create_table "event_sections", id: :serial, force: :cascade do |t|
@@ -889,8 +889,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_122251) do
   add_foreign_key "contribution_details", "profiles"
   add_foreign_key "event_competitors", "event_teams", column: "team_id"
   add_foreign_key "event_competitors", "profiles"
+  add_foreign_key "event_entry_payments", "pay_charges"
   add_foreign_key "event_results", "tracks"
-  add_foreign_key "event_seat_payments", "pay_charges"
   add_foreign_key "event_teams", "countries"
   add_foreign_key "free_pro_views", "tracks"
   add_foreign_key "free_pro_views", "users"

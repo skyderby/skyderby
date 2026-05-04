@@ -4,20 +4,20 @@ module EventPayable
   BILLING_STARTS_AT = Date.new(2026, 4, 30)
 
   included do
-    has_many :seat_payments,
+    has_many :entry_payments,
              -> { order(created_at: :desc) },
              as: :payable,
-             class_name: 'EventSeatPayment',
+             class_name: 'EventEntryPayment',
              dependent: :destroy,
              inverse_of: :payable
   end
 
-  def paid_seats
-    seat_payments.sum(:seats)
+  def paid_entries
+    entry_payments.sum(:entries)
   end
 
-  def seats_underpaid?
-    paid_seats < competitors.count
+  def entries_underpaid?
+    paid_entries < competitors.count
   end
 
   def billable?

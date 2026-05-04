@@ -6,18 +6,18 @@ class PaymentsController < ApplicationController
   before_action :authorize_payable!
 
   def show
-    @paid_seats = @payable.paid_seats
+    @paid_entries = @payable.paid_entries
     @competitors_count = @payable.competitors.count
-    @seat_payments = @payable.seat_payments.includes(:pay_charge)
+    @entry_payments = @payable.entry_payments.includes(:pay_charge)
     assign_event_ivar
   end
 
   def create
-    seats = params[:seats].to_i
+    entries = params[:entries].to_i
 
-    if seats < 1
+    if entries < 1
       redirect_to polymorphic_path([@payable, :payments]),
-                  alert: t('event_payments.errors.invalid_seats')
+                  alert: t('event_payments.errors.invalid_entries')
       return
     end
 
@@ -29,16 +29,16 @@ class PaymentsController < ApplicationController
           product_data: {
             name: t('event_payments.product_name', event: @payable.name)
           },
-          unit_amount: EventSeatPayment::SEAT_PRICE_CENTS
+          unit_amount: EventEntryPayment::ENTRY_PRICE_CENTS
         },
-        quantity: seats
+        quantity: entries
       }],
       payment_intent_data: {
         metadata: {
-          type: EventSeatPayment::CHARGE_TYPE,
+          type: EventEntryPayment::CHARGE_TYPE,
           event_type: @payable.class.name,
           event_id: @payable.id,
-          seats: seats
+          entries: entries
         }
       },
       success_url: polymorphic_url([:success, @payable, :payments]),

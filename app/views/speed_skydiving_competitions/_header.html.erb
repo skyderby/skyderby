@@ -31,7 +31,7 @@
       <% if @event.billable? %>
         <%= link_to speed_skydiving_competition_payments_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_payments_path(@event)))] do %>
           <%= t('event_payments.tab') %>
-          <% if @event.seats_underpaid? %><span class="page-tab__dot" aria-hidden="true"></span><% end %>
+          <% if @event.entries_underpaid? %><span class="page-tab__dot" aria-hidden="true"></span><% end %>
         <% end %>
       <% end %>
 
