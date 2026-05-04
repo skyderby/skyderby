@@ -1,0 +1,31 @@
+es:
+  event_payments:
+    tab: Pagos
+    title: Pagos
+    product_name: "Plazas de competición — %{event}"
+    paid_for_seats:
+      one: "1 plaza pagada"
+      other: "%{count} plazas pagadas"
+    competitors_registered:
+      one: "1 competidor registrado"
+      other: "%{count} competidores registrados"
+    buy_title: Comprar plazas
+    price_per_seat: "%{price} por competidor"
+    seats_label: Plazas
+    buy_button: Pagar con Stripe
+    history_title: Historial de pagos
+    history:
+      date: Fecha
+      kind: Tipo
+      seats: Plazas
+      amount: Importe
+      receipt: Recibo
+      view_receipt: Ver recibo
+    kinds:
+      purchase: Compra
+      refund: Reembolso
+    notes_title: Reembolsos y facturas
+    contact_note_html: "¿Necesitas una factura con los datos de tu empresa? ¿O un reembolso por plazas no usadas? Escribe a %{email} y lo gestionaremos manualmente."
+    success: "Pago recibido. Puede tardar unos segundos en aparecer abajo."
+    errors:
+      invalid_seats: "Introduce un número de plazas mayor que cero."

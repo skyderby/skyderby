@@ -1,0 +1,91 @@
+<% provide :title, "#{@payable.name} - #{t('event_payments.title')}" %>
+
+<div class="show-page">
+  <%= render "#{@payable.class.name.underscore.pluralize}/header", editable: true %>
+
+  <div class="show-page-content">
+    <% underpaid = @paid_seats < @competitors_count %>
+    <% default_seats = underpaid ? (@competitors_count - @paid_seats) : 1 %>
+
+    <div class="card payments-status payments-status--<%= underpaid ? 'underpaid' : 'ok' %>">
+      <div class="payments-status__primary">
+        <%= t('event_payments.paid_for_seats', count: @paid_seats) %>
+      </div>
+      <% if underpaid %>
+        <div class="payments-status__secondary">
+          <%= t('event_payments.competitors_registered', count: @competitors_count) %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="card payments-buy">
+      <h3 class="payments-buy__title"><%= t('event_payments.buy_title') %></h3>
+      <p class="payments-buy__price">
+        <%= t('event_payments.price_per_seat',
+              price: number_to_currency(EventSeatPayment::SEAT_PRICE_CENTS / 100.0)) %>
+      </p>
+      <%= form_with url: polymorphic_path([@payable, :payments]),
+                    method: :post,
+                    class: 'payments-buy__form',
+                    data: {
+                      controller: 'payments-buy',
+                      payments_buy_price_cents_value: EventSeatPayment::SEAT_PRICE_CENTS
+                    } do |f| %>
+        <%= f.label :seats, t('event_payments.seats_label'), class: 'payments-buy__label' %>
+        <%= f.number_field :seats,
+                           value: default_seats,
+                           min: 1,
+                           step: 1,
+                           required: true,
+                           class: 'payments-buy__input',
+                           data: {
+                             payments_buy_target: 'seats',
+                             action: 'input->payments-buy#updateTotal'
+                           } %>
+        <span class="payments-buy__total" data-payments-buy-target="total">
+          <%= number_to_currency(default_seats * EventSeatPayment::SEAT_PRICE_CENTS / 100.0) %>
+        </span>
+        <%= f.submit t('event_payments.buy_button'), class: 'button primary' %>
+      <% end %>
+    </div>
+
+    <% if @seat_payments.any? %>
+      <div class="card payments-history">
+        <h3 class="payments-history__title"><%= t('event_payments.history_title') %></h3>
+        <div class="table">
+          <div class="thead">
+            <div class="tr">
+              <div class="th"><%= t('event_payments.history.date') %></div>
+              <div class="th"><%= t('event_payments.history.kind') %></div>
+              <div class="th"><%= t('event_payments.history.seats') %></div>
+              <div class="th"><%= t('event_payments.history.amount') %></div>
+              <div class="th"><%= t('event_payments.history.receipt') %></div>
+            </div>
+          </div>
+          <div class="tbody">
+            <% @seat_payments.each do |payment| %>
+              <div class="tr">
+                <div class="td"><%= l(payment.created_at, format: :long) %></div>
+                <div class="td"><%= t("event_payments.kinds.#{payment.kind}") %></div>
+                <div class="td"><%= payment.seats %></div>
+                <div class="td"><%= number_to_currency(payment.amount_cents / 100.0) %></div>
+                <div class="td">
+                  <% receipt_url = payment.pay_charge.data&.dig('receipt_url') ||
+                                   payment.pay_charge.object&.dig('receipt_url') %>
+                  <% if receipt_url.present? %>
+                    <%= link_to t('event_payments.history.view_receipt'), receipt_url, target: '_blank', rel: 'noopener' %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="card payments-notes">
+      <h3 class="payments-notes__title"><%= t('event_payments.notes_title') %></h3>
+      <p><%= t('event_payments.contact_note_html', email: mail_to('aleksandr@skyderby.io')) %></p>
+    </div>
+  </div>
+</div>

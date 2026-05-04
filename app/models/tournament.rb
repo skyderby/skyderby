@@ -22,6 +22,8 @@
 #
 
 class Tournament < ApplicationRecord
+  include EventPayable
+
   enum :status, { draft: 0, published: 1, finished: 2, surprise: 3 }
   enum :discipline, {
     time: 0,
@@ -53,6 +55,12 @@ class Tournament < ApplicationRecord
   after_initialize :set_default_values
 
   def active? = starts_at < Time.zone.now && !finished?
+
+  def editable?(user = Current.user)
+    return false unless user&.registered?
+
+    user.admin? || user == responsible || organizers.exists?(user:)
+  end
 
   # For compatibility with Event
   def finished? = false

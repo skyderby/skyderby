@@ -68,6 +68,13 @@
     <% end %>
 
     <% if editable %>
+      <% if @event.billable? %>
+        <%= link_to performance_competition_payments_path(@event), class: ['page-tab', ('page-tab-active' if controller_path == 'payments')] do %>
+          <%= t('event_payments.tab') %>
+          <% if @event.seats_underpaid? %><span class="page-tab__dot" aria-hidden="true"></span><% end %>
+        <% end %>
+      <% end %>
+
       <%= link_to t('events.downloads'), performance_competition_downloads_path(@event), class: ['page-tab', ('page-tab-active' if controller_path == 'performance_competitions/downloads')] %>
 
       <%= link_to edit_performance_competition_path(@event), class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_performance_competition_path(@event)))] do %>

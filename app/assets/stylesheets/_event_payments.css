@@ -1,0 +1,88 @@
+.payments-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 1rem;
+  border-left: 4px solid var(--green-500, #22c55e);
+}
+
+.payments-status--underpaid {
+  border-left-color: var(--red-500, #ef4444);
+}
+
+.payments-status__primary {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.payments-status__secondary {
+  color: var(--red-500, #ef4444);
+  font-weight: 500;
+}
+
+.payments-buy {
+  margin-top: 1rem;
+}
+
+.payments-buy__title {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.payments-buy__price {
+  color: var(--text-muted, #6b7280);
+  margin: 0 0 0.75rem;
+}
+
+.payments-buy__form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.payments-buy__label {
+  font-weight: 500;
+}
+
+.payments-buy__input {
+  width: 5rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--border-color, #d1d5db);
+  border-radius: var(--border-radius-md, 4px);
+}
+
+.payments-buy__total {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-left: auto;
+}
+
+.payments-history,
+.payments-notes {
+  margin-top: 1rem;
+}
+
+.payments-history__title,
+.payments-notes__title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.payments-notes p {
+  margin: 0.25rem 0;
+  color: var(--text-muted, #6b7280);
+  font-size: 0.9rem;
+}
+
+.page-tab__dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--red-500, #ef4444);
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}

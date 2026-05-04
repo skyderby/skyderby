@@ -86,6 +86,12 @@ Skyderby::Application.routes.draw do
     resources :organizers, only: %i[new create destroy]
   end
 
+  concern :payable do
+    resource :payments, only: %i[show create] do
+      get :success, on: :collection
+    end
+  end
+
   namespace :api, module: :api, defaults: { format: :json } do
     namespace :v1, module: :v1 do
       resources :profiles, only: :show do
@@ -137,7 +143,7 @@ Skyderby::Application.routes.draw do
   resources :events, only: %i[index new show]
   resources :performance_competitions,
             path: 'events/performance',
-            concerns: %i[sponsorable organizable],
+            concerns: %i[sponsorable organizable payable],
             except: :index do
     scope module: :performance_competitions do
       resources :rounds, only: %i[create update destroy] do
@@ -225,7 +231,7 @@ Skyderby::Application.routes.draw do
 
   resources :speed_skydiving_competitions,
             path: '/events/speed_skydiving',
-            concerns: %i[sponsorable organizable],
+            concerns: %i[sponsorable organizable payable],
             except: :index do
     scope module: :speed_skydiving_competitions do
       resources :categories, except: %i[index show] do
@@ -370,7 +376,10 @@ Skyderby::Application.routes.draw do
   end
   resources :virtual_comp_results
 
-  resources :tournaments, path: 'events/tournaments', concerns: [:sponsorable, :organizable], except: :index do
+  resources :tournaments,
+            path: 'events/tournaments',
+            concerns: %i[sponsorable organizable payable],
+            except: :index do
     scope module: :tournaments do
       resource :qualification, only: :show do
         scope module: :qualifications do

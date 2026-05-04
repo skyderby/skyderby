@@ -1,0 +1,31 @@
+fr:
+  event_payments:
+    tab: Paiements
+    title: Paiements
+    product_name: "Places de compétition — %{event}"
+    paid_for_seats:
+      one: "1 place payée"
+      other: "%{count} places payées"
+    competitors_registered:
+      one: "1 concurrent inscrit"
+      other: "%{count} concurrents inscrits"
+    buy_title: Acheter des places
+    price_per_seat: "%{price} par concurrent"
+    seats_label: Places
+    buy_button: Payer avec Stripe
+    history_title: Historique des paiements
+    history:
+      date: Date
+      kind: Type
+      seats: Places
+      amount: Montant
+      receipt: Reçu
+      view_receipt: Voir le reçu
+    kinds:
+      purchase: Achat
+      refund: Remboursement
+    notes_title: Remboursements et factures
+    contact_note_html: "Besoin d'une facture avec les coordonnées de votre entreprise ? Ou d'un remboursement pour des places non utilisées ? Écrivez à %{email} et nous nous en occuperons manuellement."
+    success: "Paiement reçu. Il peut s'écouler quelques secondes avant qu'il n'apparaisse ci-dessous."
+    errors:
+      invalid_seats: "Veuillez saisir un nombre de places supérieur à zéro."

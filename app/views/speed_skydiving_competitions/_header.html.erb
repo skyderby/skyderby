@@ -28,6 +28,13 @@
     <% end %>
 
     <% if editable %>
+      <% if @event.billable? %>
+        <%= link_to speed_skydiving_competition_payments_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_payments_path(@event)))] do %>
+          <%= t('event_payments.tab') %>
+          <% if @event.seats_underpaid? %><span class="page-tab__dot" aria-hidden="true"></span><% end %>
+        <% end %>
+      <% end %>
+
       <%= link_to t('events.downloads'), speed_skydiving_competition_downloads_path(@event), class: ['page-tab', ('page-tab-active' if current_page?(speed_skydiving_competition_downloads_path(@event)))] %>
 
       <%= link_to edit_speed_skydiving_competition_path(@event), class: ['page-tab page-tab-right', ('page-tab-active' if current_page?(edit_speed_skydiving_competition_path(@event)))] do %>

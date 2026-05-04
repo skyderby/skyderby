@@ -27,6 +27,13 @@
         Competitors
       <% end %>
 
+      <% if @tournament.billable? %>
+        <%= link_to tournament_payments_path(@tournament), class: ['page-tab', ('page-tab-active' if controller_path == 'payments')] do %>
+          <%= t('event_payments.tab') %>
+          <% if @tournament.seats_underpaid? %><span class="page-tab__dot" aria-hidden="true"></span><% end %>
+        <% end %>
+      <% end %>
+
       <%= link_to edit_tournament_path(@tournament), class: ['page-tab page-tab-right', ('page-tab-active' if controller_path == 'tournaments' && action_name == 'edit')] do %>
         <%= icon_tag 'gear-solid' %>
         <%= t('general.edit') %>

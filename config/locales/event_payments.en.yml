@@ -1,0 +1,31 @@
+en:
+  event_payments:
+    tab: Payments
+    title: Payments
+    product_name: "Competition seats — %{event}"
+    paid_for_seats:
+      one: "Paid for 1 seat"
+      other: "Paid for %{count} seats"
+    competitors_registered:
+      one: "1 competitor registered"
+      other: "%{count} competitors registered"
+    buy_title: Buy seats
+    price_per_seat: "%{price} per competitor"
+    seats_label: Seats
+    buy_button: Pay with Stripe
+    history_title: Payment history
+    history:
+      date: Date
+      kind: Type
+      seats: Seats
+      amount: Amount
+      receipt: Receipt
+      view_receipt: View receipt
+    kinds:
+      purchase: Purchase
+      refund: Refund
+    notes_title: Refunds & invoices
+    contact_note_html: "Need an invoice with your company details? Or a refund for unused seats? Email %{email} and we'll process it manually."
+    success: "Payment received. It may take a few seconds to appear below."
+    errors:
+      invalid_seats: "Please enter a number of seats greater than zero."
