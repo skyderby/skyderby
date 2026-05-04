@@ -28,6 +28,7 @@
                     method: :post,
                     class: 'payments-buy__form',
                     data: {
+                      turbo: false,
                       controller: 'payments-buy',
                       payments_buy_price_cents_value: EventSeatPayment::SEAT_PRICE_CENTS
                     } do |f| %>
