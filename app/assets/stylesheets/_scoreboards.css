@@ -167,6 +167,7 @@
 
 .scoreboard-table .result-show-cell button {
   background-color: var(--white);
+  color: var(--gray-90);
   text-align: right;
   border: 0;
   padding: 0.5rem;
@@ -188,6 +189,7 @@
 
 .scoreboard-table a.result-show-cell {
   background-color: var(--white);
+  color: var(--gray-90);
   text-align: right;
   border: 0;
   padding: 0.5rem;
