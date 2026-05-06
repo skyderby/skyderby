@@ -47,7 +47,8 @@ gem 'shrine', '~> 3.0'
 # XML
 gem 'nokogiri', '~> 1.16'
 
-# Background jobs
+# Background jobs & cache
+gem 'redis'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 
