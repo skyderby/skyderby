@@ -415,6 +415,8 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
+    redis (5.4.1)
+      redis-client (>= 0.22.0)
     redis-client (0.26.3)
       connection_pool
     regexp_parser (2.11.3)
@@ -617,6 +619,7 @@ DEPENDENCIES
   pundit
   rack-cors
   rails (~> 8.1.0)
+  redis
   rubocop
   rubocop-minitest
   rubocop-performance
