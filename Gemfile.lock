@@ -303,9 +303,9 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.5)
-    nokogiri (1.19.0-arm64-darwin)
+    nokogiri (1.19.3-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.19.0-x86_64-linux-gnu)
+    nokogiri (1.19.3-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.0.18)
       faraday (>= 0.17.3, < 4.0)
@@ -608,7 +608,7 @@ DEPENDENCIES
   net-imap
   net-pop
   net-smtp
-  nokogiri (~> 1.16)
+  nokogiri (~> 1.19)
   omniauth
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
