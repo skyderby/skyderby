@@ -6,4 +6,5 @@ en:
       details: 'More'
     show:
       visited_by: 'Visited by'
+      and_more: "+%{count} more"
       delete_confirmation: "Are you sure you want delete this place?"

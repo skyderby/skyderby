@@ -6,4 +6,5 @@ ru:
       details: 'Подробнее'
     show:
       visited_by: 'Здесь летали'
+      and_more: "+ ещё %{count}"
       delete_confirmation: 'Вы уверены, что хотиту удалить эту локацию?'

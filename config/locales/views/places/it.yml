@@ -6,4 +6,5 @@ it:
       details: 'dettagli'
     show:
       visited_by: 'Visitato da'
+      and_more: "+%{count} altri"
       delete_confirmation: "Sei sicuro di voler cancellare questo luogo?"

@@ -6,4 +6,5 @@ fr:
       details: Plus
     show:
       visited_by: Visité par
+      and_more: "+%{count} de plus"
       delete_confirmation: Êtes-vous sûr de vouloir supprimer ce lieu?

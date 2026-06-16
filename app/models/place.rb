@@ -29,9 +29,36 @@ class Place < ApplicationRecord
     )
   end
 
+  def visited_profiles_sample(limit: 10)
+    accessible_profiles
+      .order(Arel.sql('userpic_data IS NOT NULL DESC'), Arel.sql('RANDOM()'))
+      .limit(limit)
+  end
+
+  def recent_trajectories(limit: 50)
+    Rails.cache.fetch("places/#{id}/recent_trajectories/#{limit}", expires_in: 15.minutes) do
+      tracks
+        .public_track
+        .chronologically
+        .limit(limit)
+        .map { |track| trajectory_points(track) }
+        .compact_blank
+    end
+  end
+
   def editable?(user = Current.user)
     user&.role?(:edit_places) || user&.role?(:admin)
   end
+
+  def trajectory_points(track)
+    PointsQuery
+      .execute(track, trimmed: true, freq_1hz: true, only: %i[latitude longitude h_speed])
+      .map do |point|
+        latitude, longitude, h_speed = point.values
+        { latitude:, longitude:, h_speed: }
+      end
+  end
+  private :trajectory_points
 
   def viewable?(_user = Current.user) = true
 

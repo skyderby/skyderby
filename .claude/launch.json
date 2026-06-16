@@ -6,6 +6,12 @@
       "runtimeExecutable": "bin/dev",
       "runtimeArgs": [],
       "autoPort": true
+    },
+    {
+      "name": "web",
+      "runtimeExecutable": "bin/dev",
+      "runtimeArgs": ["-m", "web=1,webpack=1,scanner=0,ngrok=0"],
+      "autoPort": true
     }
   ]
 }

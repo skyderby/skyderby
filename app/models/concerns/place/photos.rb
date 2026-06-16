@@ -17,7 +17,7 @@ module Place::Photos
   def google_map_image_url
     center = [latitude, longitude].join(',')
 
-    'https://maps.googleapis.com/maps/api/staticmap' + {
+    'https://maps.googleapis.com/maps/api/staticmap?' + {
       center:,
       zoom: 13,
       maptype: 'hybrid',
