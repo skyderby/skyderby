@@ -60,24 +60,26 @@ export default class extends Controller {
   drawTrajectory(trajectory) {
     const { polylines } = new Trajectory(trajectory.points)
 
-    for (const { path, color } of polylines) {
-      const polyline = new google.maps.Polyline({
-        path,
-        strokeColor: color,
-        ...DEFAULT_STYLE,
-        map: this.map
-      })
+    const segments = polylines.map(
+      ({ path, color }) =>
+        new google.maps.Polyline({
+          path,
+          strokeColor: color,
+          ...DEFAULT_STYLE,
+          map: this.map
+        })
+    )
 
-      polyline.addListener('click', () => Turbo.visit(trajectory.url))
-      polyline.addListener('mouseover', () => {
-        polyline.setOptions(HOVER_STYLE)
-        this.map.setOptions({ draggableCursor: 'pointer' })
-      })
-      polyline.addListener('mouseout', () => {
-        polyline.setOptions(DEFAULT_STYLE)
-        this.map.setOptions({ draggableCursor: null })
-      })
-    }
+    segments.forEach(segment => {
+      segment.addListener('click', () => Turbo.visit(trajectory.url))
+      segment.addListener('mouseover', () => this.highlight(segments, true))
+      segment.addListener('mouseout', () => this.highlight(segments, false))
+    })
+  }
+
+  highlight(segments, active) {
+    segments.forEach(segment => segment.setOptions(active ? HOVER_STYLE : DEFAULT_STYLE))
+    this.map.setOptions({ draggableCursor: active ? 'pointer' : null })
   }
 
   fitBounds(points) {
