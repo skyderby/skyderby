@@ -41,8 +41,8 @@ class Place < ApplicationRecord
         .public_track
         .chronologically
         .limit(limit)
-        .map { |track| trajectory_points(track) }
-        .compact_blank
+        .map { |track| { id: track.id, points: trajectory_points(track) } }
+        .reject { |trajectory| trajectory[:points].blank? }
     end
   end
 

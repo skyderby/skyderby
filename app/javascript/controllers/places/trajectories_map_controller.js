@@ -4,6 +4,9 @@ import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 
+const DEFAULT_STYLE = { strokeOpacity: 0.5, strokeWeight: 3 }
+const HOVER_STYLE = { strokeOpacity: 1, strokeWeight: 5 }
+
 export default class extends Controller {
   static targets = ['map']
   static values = { url: String, latitude: Number, longitude: Number }
@@ -45,25 +48,34 @@ export default class extends Controller {
   renderTrajectories() {
     const allPoints = []
 
-    this.trajectories.forEach(points => {
-      if (!points.length) return
-      this.drawTrajectory(points)
-      allPoints.push(...points)
+    this.trajectories.forEach(trajectory => {
+      if (!trajectory.points.length) return
+      this.drawTrajectory(trajectory)
+      allPoints.push(...trajectory.points)
     })
 
     this.fitBounds(allPoints)
   }
 
-  drawTrajectory(points) {
-    const trajectory = new Trajectory(points)
+  drawTrajectory(trajectory) {
+    const { polylines } = new Trajectory(trajectory.points)
 
-    for (const { path, color } of trajectory.polylines) {
-      new google.maps.Polyline({
+    for (const { path, color } of polylines) {
+      const polyline = new google.maps.Polyline({
         path,
         strokeColor: color,
-        strokeOpacity: 0.5,
-        strokeWeight: 3,
+        ...DEFAULT_STYLE,
         map: this.map
+      })
+
+      polyline.addListener('click', () => Turbo.visit(trajectory.url))
+      polyline.addListener('mouseover', () => {
+        polyline.setOptions(HOVER_STYLE)
+        this.map.setOptions({ draggableCursor: 'pointer' })
+      })
+      polyline.addListener('mouseout', () => {
+        polyline.setOptions(DEFAULT_STYLE)
+        this.map.setOptions({ draggableCursor: null })
       })
     }
   }
