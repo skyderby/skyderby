@@ -41,7 +41,8 @@ export default class extends Controller {
     this.map = new google.maps.Map(this.mapTarget, {
       zoom: 14,
       center: { lat: this.latitudeValue, lng: this.longitudeValue },
-      mapTypeId: 'terrain'
+      mapTypeId: 'terrain',
+      zoomControl: true
     })
   }
 
