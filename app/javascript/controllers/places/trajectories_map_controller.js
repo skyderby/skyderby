@@ -4,7 +4,7 @@ import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 
-const DEFAULT_STYLE = { strokeOpacity: 0.5, strokeWeight: 3 }
+const DEFAULT_STYLE = { strokeOpacity: 0.9, strokeWeight: 3 }
 const HOVER_STYLE = { strokeOpacity: 1, strokeWeight: 5 }
 
 export default class extends Controller {
