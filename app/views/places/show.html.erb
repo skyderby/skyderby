@@ -8,23 +8,30 @@
     <div class="card">
       <div class="place-popular-times" data-controller="places--popularity-chart" data-place-id="<%= @place.id %>"></div>
 
-      <% pilots = @place.accessible_profiles %>
-      <% unless pilots.blank? %>
-        <div class="row top-buffer">
-          <div class="col-sm-12">
-            <div><%= t('.visited_by') %>:</div>
-            <% pilots.each do |pilot| %>
-              <a href="<%= profile_path(pilot) %>">
-                <span data-controller="tooltip">
-                  <img class="img-50" src="<%= pilot.userpic_url(:thumb) %>">
-                  <span class="for-screen-reader"><%= pilot.name %></span>
-                </span>
+      <% if @visited_profiles.any? %>
+        <div class="visited-by top-buffer">
+          <div class="visited-by__label"><%= t('.visited_by') %>:</div>
+          <div class="visited-avatars">
+            <% @visited_profiles.each do |pilot| %>
+              <a href="<%= profile_path(pilot) %>" class="visited-avatar" data-controller="tooltip">
+                <img src="<%= pilot.userpic_url(:thumb) %>" alt="<%= pilot.name %>">
+                <span class="for-screen-reader"><%= pilot.name %></span>
               </a>
+            <% end %>
+            <% if @visited_count > @visited_profiles.size %>
+              <span class="visited-avatar visited-avatar--more"><%= t('.and_more', count: @visited_count - @visited_profiles.size) %></span>
             <% end %>
           </div>
         </div>
-        <hr>
       <% end %>
+
+      <div class="place-trajectories top-buffer"
+           data-controller="places--trajectories-map"
+           data-places--trajectories-map-url-value="<%= place_trajectories_path(@place, format: :json) %>"
+           data-places--trajectories-map-latitude-value="<%= @place.latitude %>"
+           data-places--trajectories-map-longitude-value="<%= @place.longitude %>">
+        <div class="place-trajectories__map" data-places--trajectories-map-target="map"></div>
+      </div>
     </div>
   </div>
 </div>

@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { get } from '@rails/request.js'
 
 export default class PopularityChart extends Controller {
   connect() {
@@ -6,10 +7,11 @@ export default class PopularityChart extends Controller {
     this.fetchData().then(data => this.initChart(data))
   }
 
-  fetchData() {
-    return fetch(`/places/${this.placeId}/stats`, {
-      headers: { Accept: 'application/json' }
-    }).then(response => response.json())
+  async fetchData() {
+    const response = await get(`/places/${this.placeId}/stats`, {
+      responseKind: 'json'
+    })
+    return response.json
   }
 
   initChart(data) {

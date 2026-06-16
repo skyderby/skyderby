@@ -4,7 +4,10 @@ class PlacesController < ApplicationController
 
   def index; end
 
-  def show; end
+  def show
+    @visited_profiles = @place.visited_profiles_sample
+    @visited_count = @place.accessible_profiles.count
+  end
 
   def edit
     respond_not_authorized unless @place.editable?
