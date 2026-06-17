@@ -7,7 +7,8 @@ module VirtualCompetitionsHelper
       flare: t('units.m'),
       time: t('units.t_unit'),
       base_race: t('units.t_unit'),
-      speed: t('units.kmh')
+      speed: t('units.kmh'),
+      vertical_speed: t('units.kmh')
     }.with_indifferent_access
 
     untis_for_discipline[competition.discipline]
@@ -18,6 +19,7 @@ module VirtualCompetitionsHelper
       distance: t('virtual_competitions.tasks.distance'),
       time: t('virtual_competitions.tasks.time'),
       speed: t('virtual_competitions.tasks.speed'),
+      vertical_speed: t('virtual_competitions.tasks.vertical_speed'),
       flare: t('virtual_competitions.tasks.flare'),
       base_race: t('virtual_competitions.tasks.base_race'),
       distance_in_time:

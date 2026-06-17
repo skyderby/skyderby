@@ -25,7 +25,7 @@
 class VirtualCompetition < ApplicationRecord
   include Intervals, Results, SuitableFinder
 
-  enum :jumps_kind, { skydive: 0, base: 1 }
+  enum :jumps_kind, { skydive: 0, base: 1, speed_skydiving: 2 }
   enum :suits_kind, SuitTypes
   enum :discipline, {
     time: 0,
@@ -34,7 +34,8 @@ class VirtualCompetition < ApplicationRecord
     distance_in_time: 3,
     distance_in_altitude: 4,
     flare: 5,
-    base_race: 6
+    base_race: 6,
+    vertical_speed: 7
   }
   enum :default_view, { default_overall: 0, default_last_year: 1 }
 

@@ -14,6 +14,10 @@ class SpeedSkydivingCompetition::ResultScore
 
   def exit_altitude = exit_point&.dig(:altitude)
 
+  def points
+    @points ||= PointsQuery.execute(track, trimmed: { seconds_before_start: 15 })
+  end
+
   private
 
   attr_reader :track
@@ -50,9 +54,5 @@ class SpeedSkydivingCompetition::ResultScore
       .points
   rescue WindowRangeFinder::ValueOutOfRange
     []
-  end
-
-  def points
-    @points ||= PointsQuery.execute(track, trimmed: { seconds_before_start: 15 })
   end
 end

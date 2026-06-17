@@ -30,7 +30,7 @@ class VirtualCompetition < ApplicationRecord
 
       def available_for_scoring(track)
         track.public_track? &&
-          track.suit &&
+          (track.suit || track.speed_skydiving?) &&
           track.pilot &&
           !track.disqualified_from_online_competitions
       end

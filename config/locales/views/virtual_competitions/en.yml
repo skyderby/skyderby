@@ -22,6 +22,7 @@ en:
       time: Task is to fly with the slowest fall rate possible through the competition window 3000 - 2000 m and 2500 - 1500 m (starting Jan 2020)
       flare: Task is to gain as much altitude as possible
       base_race: Task is to cross finish line as fast as possible
+      vertical_speed: Task is to reach the highest vertical speed averaged over the fastest 3 seconds within the scoring window
     tasks_short:
       speed: Speed
       distance: Distance
@@ -30,6 +31,7 @@ en:
       time: Time
       flare: Flare
       base_race: Base Race
+      vertical_speed: Speed skydiving
     place: 'Location:'
     worldwide: Worldwide
     suit: 'Suit type: %{suit}'

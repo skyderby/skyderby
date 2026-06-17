@@ -1,11 +1,23 @@
 class Tracks::SpeedSkydivingResult
+  VALIDATION_WINDOW = 1000 # m above the end of the scoring window
+  ACCURACY_THRESHOLD = 3
+
   delegate :id, to: :track, prefix: true
 
   def initialize(track)
     @track = track
   end
 
-  def present? = !best_range.nil?
+  def scored? = !best_range.nil?
+
+  def accuracy_valid?
+    return false unless scored?
+
+    validation_points.none? do |point|
+      point[:vertical_accuracy] &&
+        Math.sqrt(2) * point[:vertical_accuracy] / 3 >= ACCURACY_THRESHOLD
+    end
+  end
 
   def result = best_range && best_range[:speed] * 3.6
 
@@ -24,6 +36,12 @@ class Tracks::SpeedSkydivingResult
   attr_reader :track
 
   def scoring = @scoring ||= SpeedSkydivingCompetition::ResultScore.new(track)
+
+  def validation_points
+    scoring.points.select do |point|
+      point[:altitude].between?(window_end_altitude, window_end_altitude + VALIDATION_WINDOW)
+    end
+  end
 
   def best_range
     return @best_range if defined?(@best_range)

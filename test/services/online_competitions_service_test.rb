@@ -108,6 +108,42 @@ class OnlineCompetitionsServiceTest < ActiveSupport::TestCase
     assert_in_delta 3410, record.result, 1
   end
 
+  test 'Speed skydiving competition scores vertical speed without a suit' do
+    competition = virtual_competitions(:speed_skydiving)
+
+    track = create_track_from_file(
+      'speed_skydiving_411.csv',
+      kind: :speed_skydiving,
+      suit: nil,
+      recorded_at: Date.parse('2024-01-01')
+    )
+
+    OnlineCompetitionsService.score_track(track)
+
+    results = competition.results.where(track: track)
+    assert_equal 1, results.count
+
+    record = results.first
+    assert_not record.wind_cancelled
+    assert_in_delta 411, record.result, 1
+  end
+
+  test 'Speed skydiving competition skips results that fail the accuracy threshold' do
+    competition = virtual_competitions(:speed_skydiving)
+
+    track = create_track_from_file(
+      'speed_skydiving_411.csv',
+      kind: :speed_skydiving,
+      suit: nil,
+      recorded_at: Date.parse('2024-01-01')
+    )
+    track.points.update_all(vertical_accuracy: 50)
+
+    OnlineCompetitionsService.score_track(track)
+
+    assert_equal 0, competition.results.where(track: track).count
+  end
+
   test 'When one range out of data recorded' do
     place = create :place, name: 'Ravenna', msl: 1000
     competition = virtual_competitions(:skydive_distance_wingsuit)

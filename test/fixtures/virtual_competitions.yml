@@ -59,3 +59,12 @@ skydive_speed_tracksuit:
   discipline: speed
   period_from: 2015-01-01
   period_to: 2025-01-01
+
+speed_skydiving:
+  name: Speed skydiving
+  group: cumulative
+  jumps_kind: speed_skydiving
+  interval_type: annual
+  discipline: vertical_speed
+  period_from: 2015-01-01
+  period_to: 2026-01-01

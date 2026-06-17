@@ -25,10 +25,12 @@
       <% end %>
     </div>
     <div class="vc-scoreboard__meta">
-      <span class="vc-scoreboard__suit">
-        <%= icon_tag 'wingsuit' %>
-        <%= suit_presentation(score.suit) %>
-      </span>
+      <% if score.suit %>
+        <span class="vc-scoreboard__suit">
+          <%= icon_tag 'wingsuit' %>
+          <%= suit_presentation(score.suit) %>
+        </span>
+      <% end %>
       <% if competition.worldwide? %>
         <span class="vc-scoreboard__place">
           <%= icon_tag 'location-dot-solid' %>

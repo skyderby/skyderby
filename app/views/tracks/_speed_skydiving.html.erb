@@ -13,7 +13,7 @@
 
     <hr class="top-buffer">
 
-    <% if result.present? %>
+    <% if result.scored? %>
       <div class="speed-skydiving-chart"
            data-controller="speed-skydiving-chart"
            data-track-id="<%= result.track_id %>"

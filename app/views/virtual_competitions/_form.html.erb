@@ -52,6 +52,10 @@
             <%= f.radio_button 'jumps_kind', 'base', checked: @competition.base?, class: 'tab-bar-radio' %>
             <span>B.A.S.E</span>
           </label>
+          <label class="tab-bar-item">
+            <%= f.radio_button 'jumps_kind', 'speed_skydiving', checked: @competition.speed_skydiving?, class: 'tab-bar-radio' %>
+            <span>Speed skydiving</span>
+          </label>
         </div>
       </div>
     </div>
