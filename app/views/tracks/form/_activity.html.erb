@@ -9,8 +9,12 @@
         <span>Skydive</span>
       </label>
       <label class="tab-bar-item">
-        <%= form.radio_button :kind, 'base', checked: activity != 'skydive', class: 'tab-bar-radio', data: { action: 'tab-bar-select#syncToSelect' } %>
+        <%= form.radio_button :kind, 'base', checked: activity == 'base', class: 'tab-bar-radio', data: { action: 'tab-bar-select#syncToSelect' } %>
         <span>B.A.S.E</span>
+      </label>
+      <label class="tab-bar-item">
+        <%= form.radio_button :kind, 'speed_skydiving', checked: activity == 'speed_skydiving', class: 'tab-bar-radio', data: { action: 'tab-bar-select#syncToSelect' } %>
+        <span>Speed skydiving</span>
       </label>
     </div>
 
@@ -18,7 +22,7 @@
       <%= render 'hot_select/local_select',
                  form:,
                  name: :kind,
-                 options: [['Skydive', 'skydive'], ['B.A.S.E', 'base']],
+                 options: [['Skydive', 'skydive'], ['B.A.S.E', 'base'], ['Speed skydiving', 'speed_skydiving']],
                  clearable: false,
                  class: 'hidden-desktop' %>
     </div>

@@ -37,6 +37,7 @@ it:
       window: 'finestra'
       loading: 'Caricamento dati traccia'
       full_jump: 'Salto completo'
+      no_speed_skydiving_result: 'Impossibile calcolare il risultato di speed skydiving per questa traccia'
     choose:
       title: 'Seleziona una traccia da caricare'
       number: '#'

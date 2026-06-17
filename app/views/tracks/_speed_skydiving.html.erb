@@ -1,0 +1,34 @@
+<% content_for :head do %>
+  <meta name="track-kind" content="<%= @track.kind %>">
+  <meta name="track-pro-view" content="false">
+<% end %>
+
+<div class="show-page">
+  <%= render partial: 'header', locals: { track: @track } %>
+
+  <% result = @track.speed_skydiving_result %>
+
+  <div class="track-show-content">
+    <%= render 'speed_skydiving_competitions/results/indicators', result: %>
+
+    <hr class="top-buffer">
+
+    <% if result.present? %>
+      <div class="speed-skydiving-chart"
+           data-controller="speed-skydiving-chart"
+           data-track-id="<%= result.track_id %>"
+           data-result="<%= result.result %>"
+           data-exit-altitude="<%= result.exit_altitude %>"
+           data-window-start="<%= result.window_start_time&.iso8601 %>"
+           data-window-end="<%= result.window_end_time&.iso8601 %>"
+      >
+      </div>
+    <% else %>
+      <p class="text-center text-muted"><%= t('tracks.show.no_speed_skydiving_result') %></p>
+    <% end %>
+
+    <blockquote class="flex flex-column">
+      <%= render 'track_metadata' %>
+    </blockquote>
+  </div>
+</div>

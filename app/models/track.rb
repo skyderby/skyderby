@@ -109,6 +109,8 @@ class Track < ApplicationRecord
 
   def duration = (points.last.gps_time_in_seconds - points.first.gps_time_in_seconds).to_i
 
+  def speed_skydiving_result = @speed_skydiving_result ||= Tracks::SpeedSkydivingResult.new(self)
+
   def competitive? = event_result.present?
 
   def pro_view_available?(user: Current.user)
