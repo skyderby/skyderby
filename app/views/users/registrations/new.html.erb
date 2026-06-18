@@ -34,7 +34,7 @@
       <div class="form-hint"><%= t('devise.shared.minimum_password_length', count: 6) %></div>
     </div>
 
-    <div class="cf-turnstile" data-sitekey="<%= ENV['TURNSTILE_SITE_KEY'] %>"></div>
+    <div data-controller="turnstile" data-turnstile-sitekey-value="<%= ENV['TURNSTILE_SITE_KEY'] %>"></div>
 
     <div class="form-actions">
       <%= f.submit t('devise.registrations.new.sign_up'), class: 'button button--primary' %>

@@ -15,7 +15,7 @@
       <%= f.email_field :email, autofocus: true, class: 'form-input', required: true, placeholder: 'name@example.com' %>
     </div>
 
-    <div class="cf-turnstile" data-sitekey="<%= ENV['TURNSTILE_SITE_KEY'] %>"></div>
+    <div data-controller="turnstile" data-turnstile-sitekey-value="<%= ENV['TURNSTILE_SITE_KEY'] %>"></div>
 
     <div class="form-actions">
       <%= f.submit t('devise.confirmations.new.resend_confirmation_instructions'), class: 'button button--primary' %>
