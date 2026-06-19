@@ -10,9 +10,10 @@ import RangeSummary from 'charts/RangeSummary'
 import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
 import { interpolatePointByTime } from 'utils/laneValidation/utils'
 import { detectFlares, drawFlares } from 'utils/tracks/flareDetection'
+import { computeBestWindows } from 'utils/tracks/bestWindows'
 import debounce from 'lodash.debounce'
 
-const CHART_PADDING = { left: 60, right: 20, top: 10, bottom: 10 }
+const CHART_PADDING = { left: 100, right: 20, top: 10, bottom: 45 }
 
 export default class extends Controller {
   static targets = [
@@ -26,9 +27,6 @@ export default class extends Controller {
     'playbackSlider',
     'playbackIndicators',
     'comparePlaybackIndicators',
-    'fullSpeedAccel',
-    'hSpeedAccel',
-    'vSpeedAccel',
     'distance',
     'groundSpeed',
     'groundSpeedMax',
@@ -43,6 +41,9 @@ export default class extends Controller {
     'duration',
     'range3000to2000',
     'range2500to1500',
+    'bestSpeed',
+    'bestDistance',
+    'bestTime',
     'windEffectContainerDistance',
     'windEffectDistancePercent',
     'windEffectDistanceWindPercent',
@@ -137,8 +138,47 @@ export default class extends Controller {
         this.initializeRange()
         this.updateView()
         this.initDesignatedLane()
+        this.computeBestWindows()
       }
     )
+  }
+
+  computeBestWindows() {
+    computeBestWindows(this.points)
+      .then(result => {
+        if (result) this.renderBestWindowShortcuts(result)
+      })
+      .catch(() => {})
+  }
+
+  renderBestWindowShortcuts(result) {
+    const shortcuts = [
+      {
+        target: this.hasBestSpeedTarget && this.bestSpeedTarget,
+        window: result.speed,
+        value: Math.round(result.speed.value)
+      },
+      {
+        target: this.hasBestDistanceTarget && this.bestDistanceTarget,
+        window: result.distance,
+        value: Math.round(result.distance.value)
+      },
+      {
+        target: this.hasBestTimeTarget && this.bestTimeTarget,
+        window: result.time,
+        value: result.time.value.toFixed(1)
+      }
+    ]
+
+    shortcuts.forEach(({ target, window, value }) => {
+      if (!target) return
+      target.dataset.from = window.from
+      target.dataset.to = window.to
+      target.querySelector('[data-best-window-range]').textContent =
+        `${window.from} — ${window.to}`
+      target.querySelector('[data-best-window-value]').textContent = value
+      target.classList.remove('hidden')
+    })
   }
 
   initDesignatedLane() {
@@ -436,15 +476,23 @@ export default class extends Controller {
   }
 
   processPoints() {
-    if (this.chartPoints.length === 0) return []
+    if (this.points.length === 0 || this.chartPoints.length === 0) return []
 
-    const startPoint = this.chartPoints[0]
-    const startTime = startPoint.gpsTime.getTime()
+    let points = this.points
+    if (this.hasWeatherData) {
+      points = calculateWindCancellation(points, this.weatherData)
+    }
 
-    return this.chartPoints.map(point => {
+    return this.buildPoints(points, this.points[0], this.chartPoints[0])
+  }
+
+  buildPoints(points, distanceAnchor, timeAnchor) {
+    const startTime = timeAnchor.gpsTime.getTime()
+
+    return points.map(point => {
       const gpsTime = point.gpsTime.getTime()
       const playerTime = (gpsTime - startTime) / 1000
-      const distance = this.calculateDistance(point, startPoint)
+      const distance = this.calculateDistance(point, distanceAnchor)
 
       return {
         playerTime,
@@ -681,8 +729,39 @@ export default class extends Controller {
 
     this.renderGrid()
     this.renderTrajectoryContent()
-    this.renderZoomLens()
+    this.renderMaxSpeedMarker()
     this.setupInteraction()
+  }
+
+  renderMaxSpeedMarker() {
+    const beforeWindow = this.processedPoints.filter(p => p.altitude >= this.fromValue)
+    if (beforeWindow.length === 0) return
+
+    const maxPoint = beforeWindow.reduce((max, p) =>
+      p.fullSpeed > max.fullSpeed ? p : max
+    )
+
+    const { x, y } = this.getChartCoordinates(maxPoint)
+    const fontSize = this.viewBoxFontSize(14)
+
+    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+    group.setAttribute('class', 'max-speed-marker')
+
+    const marker = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+    marker.setAttribute('cx', x)
+    marker.setAttribute('cy', y)
+    marker.setAttribute('r', 6)
+    group.appendChild(marker)
+
+    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+    label.setAttribute('x', x)
+    label.setAttribute('y', y - fontSize * 0.7)
+    label.setAttribute('text-anchor', 'middle')
+    label.setAttribute('font-size', fontSize)
+    label.textContent = `${Math.round(maxPoint.fullSpeed)} km/h`
+    group.appendChild(label)
+
+    this.trajectoryTarget.appendChild(group)
   }
 
   renderGrid() {
@@ -691,10 +770,10 @@ export default class extends Controller {
 
     const { left, right, top, bottom } = CHART_PADDING
 
-    const altitudeBuffer = (this.fromValue - this.toValue) * 0.1
+    const altitudeBuffer = (this.maxAltitude - this.minAltitude) * 0.05
     this.altitudeRange = {
-      top: this.fromValue + altitudeBuffer,
-      bottom: this.toValue - altitudeBuffer
+      top: this.maxAltitude + altitudeBuffer,
+      bottom: this.minAltitude - altitudeBuffer
     }
 
     const totalAltitudeRange = this.altitudeRange.top - this.altitudeRange.bottom
@@ -746,10 +825,19 @@ export default class extends Controller {
     endLabel.textContent = this.toValue
     grid.appendChild(endLabel)
 
-    const gridLines = 5
-    for (let i = 1; i < gridLines; i++) {
-      const altitude = this.fromValue - ((this.fromValue - this.toValue) * i) / gridLines
+    const altitudeStep = 250
+    const labelGap = 30
+    const firstLine = Math.ceil(this.minAltitude / altitudeStep) * altitudeStep
+    for (
+      let altitude = firstLine;
+      altitude <= this.maxAltitude;
+      altitude += altitudeStep
+    ) {
       const y = altitudeToY(altitude)
+
+      if (Math.abs(y - windowStartY) < labelGap || Math.abs(y - windowEndY) < labelGap) {
+        continue
+      }
 
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
       line.setAttribute('x1', left)
@@ -763,7 +851,7 @@ export default class extends Controller {
       label.setAttribute('x', left - 10)
       label.setAttribute('y', y + 4)
       label.setAttribute('class', 'grid-label')
-      label.textContent = Math.round(altitude)
+      label.textContent = altitude
       grid.appendChild(label)
     }
 
@@ -815,13 +903,6 @@ export default class extends Controller {
 
     if (this.processedPoints.length === 0) return
 
-    let defs = this.sideProjectionTarget.querySelector('defs')
-    if (!defs) {
-      defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs')
-      this.sideProjectionTarget.insertBefore(defs, this.sideProjectionTarget.firstChild)
-    }
-    defs.innerHTML = ''
-
     const contentGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g')
     contentGroup.setAttribute('id', 'trajectory-content')
 
@@ -853,11 +934,7 @@ export default class extends Controller {
 
     this.renderFlares(contentGroup)
 
-    defs.appendChild(contentGroup)
-
-    const useElement = document.createElementNS('http://www.w3.org/2000/svg', 'use')
-    useElement.setAttribute('href', '#trajectory-content')
-    trajectoryGroup.appendChild(useElement)
+    trajectoryGroup.appendChild(contentGroup)
   }
 
   renderFlares(container) {
@@ -881,95 +958,16 @@ export default class extends Controller {
       return top + ((this.altitudeRange.top - altitude) / totalAltitudeRange) * plotHeight
     }
 
-    drawFlares(container, flares, scaleX, scaleY)
+    drawFlares(container, flares, scaleX, scaleY, this.viewBoxFontSize(14))
   }
 
-  renderZoomLens() {
-    const zoomAltitudeRange = 80
-    const zoomStartAlt = this.fromValue
-    const zoomEndAlt = this.fromValue - zoomAltitudeRange
+  viewBoxFontSize(remPx) {
+    const rect = this.sideProjectionTarget.getBoundingClientRect()
+    const viewBox = this.sideProjectionTarget.viewBox.baseVal
+    if (!rect.width || !viewBox.width) return remPx
 
-    const zoomPoints = this.processedPoints.filter(
-      p => p.altitude <= zoomStartAlt && p.altitude >= zoomEndAlt
-    )
-
-    if (zoomPoints.length < 2) return
-
-    const startPoint = this.getChartCoordinates(zoomPoints[0])
-    const endPoint = this.getChartCoordinates(zoomPoints[zoomPoints.length - 1])
-
-    const minX = Math.min(startPoint.x, endPoint.x)
-    const maxX = Math.max(startPoint.x, endPoint.x)
-    const minY = Math.min(startPoint.y, endPoint.y)
-    const maxY = Math.max(startPoint.y, endPoint.y)
-
-    const padding = 10
-    const viewBoxX = minX - padding
-    const viewBoxY = minY - padding
-    const viewBoxWidth = maxX - minX + padding * 2
-    const viewBoxHeight = maxY - minY + padding * 2
-
-    const { width, height } = this.chartDimensions
-    const lensWidth = width * 0.5
-    const lensHeight = height * 0.25
-    const lensX = width - lensWidth - 10
-    const lensY = 10
-
-    const lensGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g')
-    lensGroup.setAttribute('class', 'zoom-lens')
-
-    const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-    bg.setAttribute('x', lensX)
-    bg.setAttribute('y', lensY)
-    bg.setAttribute('width', lensWidth)
-    bg.setAttribute('height', lensHeight)
-    bg.setAttribute('fill', 'white')
-    bg.setAttribute('fill-opacity', '0.95')
-    bg.setAttribute('stroke', 'var(--gray-40)')
-    bg.setAttribute('stroke-width', '1')
-    bg.setAttribute('rx', '4')
-    lensGroup.appendChild(bg)
-
-    const nestedSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-    nestedSvg.setAttribute('x', lensX)
-    nestedSvg.setAttribute('y', lensY)
-    nestedSvg.setAttribute('width', lensWidth)
-    nestedSvg.setAttribute('height', lensHeight)
-    nestedSvg.setAttribute(
-      'viewBox',
-      `${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`
-    )
-    nestedSvg.setAttribute('preserveAspectRatio', 'xMidYMid meet')
-
-    const windowEntryY = this.getChartCoordinates({
-      altitude: this.fromValue,
-      distance: 0
-    }).y
-    const windowLine = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-    windowLine.setAttribute('x1', viewBoxX)
-    windowLine.setAttribute('y1', windowEntryY)
-    windowLine.setAttribute('x2', viewBoxX + viewBoxWidth)
-    windowLine.setAttribute('y2', windowEntryY)
-    windowLine.setAttribute('stroke', '#06D6A0')
-    windowLine.setAttribute('stroke-width', '3')
-    nestedSvg.appendChild(windowLine)
-
-    const useElement = document.createElementNS('http://www.w3.org/2000/svg', 'use')
-    useElement.setAttribute('href', '#trajectory-content')
-    nestedSvg.appendChild(useElement)
-
-    lensGroup.appendChild(nestedSvg)
-
-    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-    label.setAttribute('x', lensX + lensWidth / 2)
-    label.setAttribute('y', lensY + lensHeight - 5)
-    label.setAttribute('text-anchor', 'middle')
-    label.setAttribute('font-size', '10')
-    label.setAttribute('fill', 'var(--gray-70)')
-    label.textContent = `First ${zoomAltitudeRange}m`
-    lensGroup.appendChild(label)
-
-    this.sideProjectionTarget.appendChild(lensGroup)
+    const scale = Math.min(rect.width / viewBox.width, rect.height / viewBox.height)
+    return scale > 0 ? remPx / scale : remPx
   }
 
   getChartCoordinates(point) {
@@ -1000,10 +998,13 @@ export default class extends Controller {
   }
 
   handleInteraction(e) {
-    const svgRect = this.sideProjectionTarget.getBoundingClientRect()
-    const viewBox = this.sideProjectionTarget.viewBox.baseVal
-    const scaleX = viewBox.width / svgRect.width
-    const svgX = (e.clientX - svgRect.left) * scaleX
+    const ctm = this.sideProjectionTarget.getScreenCTM()
+    if (!ctm) return
+
+    const point = this.sideProjectionTarget.createSVGPoint()
+    point.x = e.clientX
+    point.y = e.clientY
+    const svgX = point.matrixTransform(ctm.inverse()).x
 
     const { left } = CHART_PADDING
     const plotWidth = this.chartDimensions.plotWidth
@@ -1110,7 +1111,10 @@ export default class extends Controller {
       zoom: 2,
       center: new google.maps.LatLng(20, 20),
       mapTypeId: 'terrain',
-      mapId: 'SKYDIVE_PERFORMANCE_MAP'
+      mapId: 'SKYDIVE_PERFORMANCE_MAP',
+      cameraControl: false,
+      streetViewControl: false,
+      zoomControl: true
     })
     this.mapPolylines = []
   }
@@ -1181,7 +1185,10 @@ export default class extends Controller {
         zoom: 2,
         center: new google.maps.LatLng(20, 20),
         mapTypeId: 'terrain',
-        mapId: 'SKYDIVE_PERFORMANCE_COMPARE_MAP'
+        mapId: 'SKYDIVE_PERFORMANCE_COMPARE_MAP',
+        cameraControl: false,
+        streetViewControl: false,
+        zoomControl: true
       })
       this.compareMapPolylines = []
     }
@@ -1661,6 +1668,7 @@ export default class extends Controller {
 
   formatGlideRatio(value) {
     if (value === null || value === undefined || !isFinite(value)) return '--'
+    if (value >= 10) return '≥ 10'
     return value.toFixed(2)
   }
 
@@ -1739,6 +1747,11 @@ export default class extends Controller {
   }
 
   updateAccelerationIndicators(index, fraction) {
+    if (!this.hasPlaybackIndicatorsTarget) return
+
+    const controller = this.getPlaybackIndicatorsController(this.playbackIndicatorsTarget)
+    if (!controller) return
+
     const futureIndex = this.findFutureIndexFrom(index, 1000)
     if (futureIndex === null) return
 
@@ -1759,19 +1772,11 @@ export default class extends Controller {
     const currTime = curr.gpsTime + fraction * (next.gpsTime - curr.gpsTime)
     const deltaTime = (future.gpsTime - currTime) / 1000
 
-    const fullSpeedAccel = (futureFullSpeed - currFullSpeed) / deltaTime
-    const hSpeedAccel = (futureHSpeed - currHSpeed) / deltaTime
-    const vSpeedAccel = (futureVSpeed - currVSpeed) / deltaTime
-
-    if (this.hasFullSpeedAccelTarget) {
-      this.updateAccelIcons(this.fullSpeedAccelTarget, fullSpeedAccel)
-    }
-    if (this.hasHSpeedAccelTarget) {
-      this.updateAccelIcons(this.hSpeedAccelTarget, hSpeedAccel)
-    }
-    if (this.hasVSpeedAccelTarget) {
-      this.updateAccelIcons(this.vSpeedAccelTarget, vSpeedAccel)
-    }
+    controller.updateAcceleration({
+      fullSpeedAccel: (futureFullSpeed - currFullSpeed) / deltaTime,
+      hSpeedAccel: (futureHSpeed - currHSpeed) / deltaTime,
+      vSpeedAccel: (futureVSpeed - currVSpeed) / deltaTime
+    })
   }
 
   findFutureIndexFrom(fromIndex, milliseconds) {
@@ -1787,31 +1792,12 @@ export default class extends Controller {
     return null
   }
 
-  updateAccelIcons(container, acceleration) {
-    const icons = container.querySelectorAll('.icon')
-    icons.forEach(icon => icon.classList.remove('active'))
-
-    const threshold = 4
-    const smallThreshold = 0.5
-
-    if (Math.abs(acceleration) < smallThreshold) {
-      icons[2].classList.add('active')
-    } else if (acceleration > 0) {
-      icons[2].classList.add('active')
-      icons[1].classList.add('active')
-      if (acceleration >= threshold) {
-        icons[0].classList.add('active')
-      }
-    } else {
-      icons[2].classList.add('active')
-      icons[3].classList.add('active')
-      if (acceleration <= -threshold) {
-        icons[4].classList.add('active')
-      }
-    }
-  }
-
   updateHighchartsCrosshair(index) {
+    const point = this.processedPoints[index]
+    if (!point) return
+
+    const targetX = point.playerTime
+
     const charts = [
       this.glideChartTarget?.chart,
       this.speedChartTarget?.chart,
@@ -1819,11 +1805,25 @@ export default class extends Controller {
     ].filter(Boolean)
 
     charts.forEach(chart => {
-      if (!chart.series?.[0]?.points?.[index]) return
+      const baseSeries = chart.series.find(
+        series => series.visible && series.points?.length
+      )
+      if (!baseSeries) return
 
+      const basePoints = baseSeries.points
+      const firstX = basePoints[0].x
+      const lastX = basePoints[basePoints.length - 1].x
+
+      if (targetX < firstX || targetX > lastX) {
+        chart.tooltip?.hide()
+        chart.xAxis[0]?.hideCrosshair()
+        return
+      }
+
+      const chartIndex = this.findNearestChartIndex(basePoints, targetX)
       const points = chart.series
         .filter(series => series.visible)
-        .map(series => series.points[index])
+        .map(series => series.points[chartIndex])
         .filter(Boolean)
 
       if (points.length > 0) {
@@ -1832,6 +1832,21 @@ export default class extends Controller {
         chart.xAxis[0].drawCrosshair(null, points[0])
       }
     })
+  }
+
+  findNearestChartIndex(points, targetX) {
+    let nearestIndex = 0
+    let minDiff = Infinity
+
+    points.forEach((point, index) => {
+      const diff = Math.abs(point.x - targetX)
+      if (diff < minDiff) {
+        minDiff = diff
+        nearestIndex = index
+      }
+    })
+
+    return nearestIndex
   }
 
   updateMapMarkerAtIndex(index) {

@@ -47,7 +47,7 @@
         </a>
       <% else %>
         <button type="button"
-                class="button button--sm button--ghost"
+                class="button button--sm button--ghost hidden"
                 data-action="tracks--skydive-performance-track#openCompareModal">
           <%= t('tracks.comparison.compare_button') %>
         </button>
@@ -80,18 +80,82 @@
                 data-action="tracks--skydive-performance-track#resetRange">
           <%= t('tracks.show.full_jump') %>
         </button>
+
+        <button class="button button--sm rounded best-window-shortcut hidden"
+                data-tracks--skydive-performance-track-target="bestSpeed"
+                data-action="tracks--skydive-performance-track#setRange">
+          <span data-best-window-range></span><%= t('units.m') %>
+          <span class="best-window-shortcut-value"><span data-best-window-value>—</span> <%= t('units.kmh') %></span>
+        </button>
+        <button class="button button--sm rounded best-window-shortcut hidden"
+                data-tracks--skydive-performance-track-target="bestDistance"
+                data-action="tracks--skydive-performance-track#setRange">
+          <span data-best-window-range></span><%= t('units.m') %>
+          <span class="best-window-shortcut-value"><span data-best-window-value>—</span> <%= t('units.m') %></span>
+        </button>
+        <button class="button button--sm rounded best-window-shortcut hidden"
+                data-tracks--skydive-performance-track-target="bestTime"
+                data-action="tracks--skydive-performance-track#setRange">
+          <span data-best-window-range></span><%= t('units.m') %>
+          <span class="best-window-shortcut-value"><span data-best-window-value>—</span> <%= t('units.sec') %></span>
+        </button>
       </div>
     </div>
 
     <div class="skydive-performance-layout">
-      <div class="skydive-performance-chart-container">
-        <svg class="skydive-performance-chart"
-             data-tracks--skydive-performance-track-target="sideProjection"
-             viewBox="0 0 1000 600"
-             preserveAspectRatio="xMidYMid meet">
-          <g class="chart-grid" data-tracks--skydive-performance-track-target="grid"></g>
-          <g class="chart-trajectory" data-tracks--skydive-performance-track-target="trajectory"></g>
-        </svg>
+      <div class="skydive-performance-stage">
+        <div class="skydive-performance-maps-container">
+          <div class="skydive-performance-map-container">
+            <div class="skydive-performance-map"
+                 data-tracks--skydive-performance-track-target="map">
+            </div>
+          </div>
+          <% if @compare_track %>
+            <div class="skydive-performance-map-container">
+              <div class="skydive-performance-map"
+                   data-tracks--skydive-performance-track-target="compareMap">
+              </div>
+            </div>
+          <% end %>
+
+          <div class="switch-container">
+            <input type="checkbox"
+                   id="designated-lane-toggle"
+                   class="switch-input"
+                   data-tracks--skydive-performance-track-target="designatedLaneToggle"
+                   data-action="tracks--skydive-performance-track#toggleDesignatedLane">
+            <label for="designated-lane-toggle" class="switch-label">
+              <span class="switch-slider"></span>
+              <span class="switch-text"><%= t('tracks.show.designated_lane') %></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="skydive-performance-chart-container">
+          <svg class="skydive-performance-chart"
+               data-tracks--skydive-performance-track-target="sideProjection"
+               viewBox="0 0 1000 600"
+               preserveAspectRatio="xMidYMid meet">
+            <g class="chart-grid" data-tracks--skydive-performance-track-target="grid"></g>
+            <g class="chart-trajectory" data-tracks--skydive-performance-track-target="trajectory"></g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="skydive-performance-playback">
+        <button class="skydive-performance-playback-button"
+                data-tracks--skydive-performance-track-target="playButton"
+                data-action="tracks--skydive-performance-track#togglePlay">
+          <span class="icon-play"><%= icon_tag 'play-solid' %></span>
+          <span class="icon-pause"><%= icon_tag 'pause-solid' %></span>
+        </button>
+        <input type="range"
+               class="skydive-performance-playback-slider"
+               min="0"
+               max="100"
+               value="0"
+               data-tracks--skydive-performance-track-target="playbackSlider"
+               data-action="input->tracks--skydive-performance-track#onSliderInput">
       </div>
 
       <div class="skydive-performance-indicators-row">
@@ -110,49 +174,6 @@
              data-synchronized-charts-target="chart"></div>
         <div data-tracks--skydive-performance-track-target="sepChart"
              data-synchronized-charts-target="chart"></div>
-      </div>
-
-      <div class="skydive-performance-maps-container">
-        <div class="skydive-performance-map-container">
-          <div class="skydive-performance-map"
-               data-tracks--skydive-performance-track-target="map">
-          </div>
-        </div>
-        <% if @compare_track %>
-          <div class="skydive-performance-map-container">
-            <div class="skydive-performance-map"
-                 data-tracks--skydive-performance-track-target="compareMap">
-            </div>
-          </div>
-        <% end %>
-      </div>
-
-      <div class="switch-container">
-        <input type="checkbox"
-               id="designated-lane-toggle"
-               class="switch-input"
-               data-tracks--skydive-performance-track-target="designatedLaneToggle"
-               data-action="tracks--skydive-performance-track#toggleDesignatedLane">
-        <label for="designated-lane-toggle" class="switch-label">
-          <span class="switch-slider"></span>
-          <span class="switch-text"><%= t('tracks.show.designated_lane') %></span>
-        </label>
-      </div>
-
-      <div class="skydive-performance-playback">
-        <button class="skydive-performance-playback-button"
-                data-tracks--skydive-performance-track-target="playButton"
-                data-action="tracks--skydive-performance-track#togglePlay">
-          <span class="icon-play"><%= icon_tag 'play-solid' %></span>
-          <span class="icon-pause"><%= icon_tag 'pause-solid' %></span>
-        </button>
-        <input type="range"
-               class="skydive-performance-playback-slider"
-               min="0"
-               max="100"
-               value="0"
-               data-tracks--skydive-performance-track-target="playbackSlider"
-               data-action="input->tracks--skydive-performance-track#onSliderInput">
       </div>
     </div>
 

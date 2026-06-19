@@ -50,7 +50,7 @@ export function detectFlares(points) {
   return flares
 }
 
-export function drawFlares(svg, flares, scaleX, scaleY) {
+export function drawFlares(svg, flares, scaleX, scaleY, fontSize = 12) {
   if (!flares.length) return
 
   const flareGroup = document.createElementNS(SVG_NS, 'g')
@@ -114,9 +114,9 @@ export function drawFlares(svg, flares, scaleX, scaleY) {
 
     const hDimLabel = document.createElementNS(SVG_NS, 'text')
     hDimLabel.setAttribute('x', (zeroCrossSvgX + peakSvgX) / 2)
-    hDimLabel.setAttribute('y', hDimY + 12)
+    hDimLabel.setAttribute('y', hDimY + fontSize)
     hDimLabel.setAttribute('text-anchor', 'middle')
-    hDimLabel.setAttribute('font-size', '10')
+    hDimLabel.setAttribute('font-size', fontSize)
     hDimLabel.setAttribute('fill', 'var(--red-80)')
     hDimLabel.textContent = `${Math.round(horizontalDist)} m`
     flareGroup.appendChild(hDimLabel)
@@ -124,18 +124,18 @@ export function drawFlares(svg, flares, scaleX, scaleY) {
     const hSpeedExtLine = document.createElementNS(SVG_NS, 'line')
     hSpeedExtLine.setAttribute('x1', zeroCrossSvgX)
     hSpeedExtLine.setAttribute('y1', zeroCrossSvgY)
-    hSpeedExtLine.setAttribute('x2', zeroCrossSvgX - 10)
-    hSpeedExtLine.setAttribute('y2', hDimY - 4)
+    hSpeedExtLine.setAttribute('x2', zeroCrossSvgX - fontSize)
+    hSpeedExtLine.setAttribute('y2', hDimY + fontSize)
     hSpeedExtLine.setAttribute('stroke', 'var(--red-80)')
     hSpeedExtLine.setAttribute('stroke-width', '1')
     hSpeedExtLine.setAttribute('stroke-dasharray', '2,2')
     flareGroup.appendChild(hSpeedExtLine)
 
     const hSpeedLabel = document.createElementNS(SVG_NS, 'text')
-    hSpeedLabel.setAttribute('x', zeroCrossSvgX - 10)
-    hSpeedLabel.setAttribute('y', hDimY)
+    hSpeedLabel.setAttribute('x', zeroCrossSvgX - fontSize)
+    hSpeedLabel.setAttribute('y', hDimY + fontSize)
     hSpeedLabel.setAttribute('text-anchor', 'end')
-    hSpeedLabel.setAttribute('font-size', '10')
+    hSpeedLabel.setAttribute('font-size', fontSize)
     hSpeedLabel.setAttribute('fill', 'var(--red-80)')
     hSpeedLabel.textContent = `${Math.round(flare.zeroCrossHSpeed)} km/h`
     flareGroup.appendChild(hSpeedLabel)
@@ -173,10 +173,10 @@ export function drawFlares(svg, flares, scaleX, scaleY) {
     drawArrowHead(flareGroup, vDimX, peakSvgY, 'up', 'var(--red-80)')
 
     const vDimLabel = document.createElementNS(SVG_NS, 'text')
-    vDimLabel.setAttribute('x', zeroCrossSvgX)
-    vDimLabel.setAttribute('y', peakSvgY - 5)
+    vDimLabel.setAttribute('x', peakSvgX)
+    vDimLabel.setAttribute('y', peakSvgY - fontSize * 0.6)
     vDimLabel.setAttribute('text-anchor', 'middle')
-    vDimLabel.setAttribute('font-size', '12')
+    vDimLabel.setAttribute('font-size', fontSize)
     vDimLabel.setAttribute('fill', 'var(--red-80)')
     vDimLabel.textContent = `${Math.round(altitudeGain * 10) / 10} m`
     flareGroup.appendChild(vDimLabel)

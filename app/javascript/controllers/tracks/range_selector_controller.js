@@ -2,6 +2,8 @@ import { Controller } from '@hotwired/stimulus'
 import RangeSlider from 'RangeSlider'
 
 export default class extends Controller {
+  static values = { step: { type: Number, default: 50 } }
+
   connect() {
     document.addEventListener(
       'turbo:before-cache',
@@ -16,7 +18,7 @@ export default class extends Controller {
   initSlider(max, min, from, to) {
     this.slider = new RangeSlider(this.element, {
       type: 'double',
-      step: 50,
+      step: 1,
       prettify: false,
       hasGrid: true,
       min: max,
@@ -24,9 +26,20 @@ export default class extends Controller {
       from,
       to,
       onFinish: numbers => {
-        this.dispatchRangeChange(numbers.fromNumber, numbers.toNumber)
+        const from = this.snap(numbers.fromNumber)
+        const to = this.snap(numbers.toNumber)
+
+        if (from !== numbers.fromNumber || to !== numbers.toNumber) {
+          this.slider.update({ from, to })
+        }
+
+        this.dispatchRangeChange(from, to)
       }
     })
+  }
+
+  snap(value) {
+    return Math.round(value / this.stepValue) * this.stepValue
   }
 
   dispatchRangeChange(from, to) {
