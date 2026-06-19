@@ -42,6 +42,11 @@
   padding: 0 0.5rem;
 }
 
+.show-page-date {
+  margin-left: 1rem;
+  white-space: nowrap;
+}
+
 @media print {
   .show-page {
     gap: 0;

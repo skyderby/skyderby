@@ -1,0 +1,8 @@
+<%# locals: (event:) %>
+
+<% if event.starts_at %>
+  <span class="show-page-date">
+    <%= icon_tag 'calendar-days-solid' %>
+    <%= event.starts_at.strftime('%d.%m.%Y') %>
+  </span>
+<% end %>

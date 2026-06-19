@@ -7,6 +7,7 @@
       <%= icon_tag 'location-dot-solid' %>
       <%= place_presentation(@event.place) %>
     <% end %>
+    <%= render 'events/started_at', event: @event %>
   </div>
 
   <div class="page-nav">

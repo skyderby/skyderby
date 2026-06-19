@@ -17,6 +17,7 @@
     <% if @event.place_msl %>
       <span>(MSL: <%= @event.place_msl %> <%= t('units.m') %>)</span>
     <% end %>
+    <%= render 'events/started_at', event: @event %>
   </div>
   <div class="show-page-info">
     <%= "#{t('events.show.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}" %>
