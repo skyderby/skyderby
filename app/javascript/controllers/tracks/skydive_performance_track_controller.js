@@ -483,16 +483,20 @@ export default class extends Controller {
       points = calculateWindCancellation(points, this.weatherData)
     }
 
-    return this.buildPoints(points, this.points[0], this.chartPoints[0])
+    return this.buildPoints(points, this.chartPoints[0])
   }
 
-  buildPoints(points, distanceAnchor, timeAnchor) {
+  buildPoints(points, timeAnchor) {
     const startTime = timeAnchor.gpsTime.getTime()
 
-    return points.map(point => {
+    let distance = 0
+
+    return points.map((point, index) => {
       const gpsTime = point.gpsTime.getTime()
       const playerTime = (gpsTime - startTime) / 1000
-      const distance = this.calculateDistance(point, distanceAnchor)
+      if (index > 0) {
+        distance += this.calculateDistance(point, points[index - 1])
+      }
 
       return {
         playerTime,
@@ -611,10 +615,13 @@ export default class extends Controller {
       this.fromValue
     )
 
-    const compareStartPoint = compareChartPoints[0]
-    const compareDistances = compareChartPoints.map(point =>
-      this.calculateDistance(point, compareStartPoint)
-    )
+    let compareCumulative = 0
+    const compareDistances = compareChartPoints.map((point, idx) => {
+      if (idx > 0) {
+        compareCumulative += this.calculateDistance(point, compareChartPoints[idx - 1])
+      }
+      return compareCumulative
+    })
 
     const compareEntryIndexInfo = this.findWindowEntryIndex(
       compareChartPoints,
