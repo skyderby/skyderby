@@ -1,4 +1,7 @@
-<div data-controller="dropdown">
+<div id="track-view-settings"
+     data-controller="dropdown tracks--chart-settings"
+     data-tracks--chart-settings-units-value="<%= Current.charts_units %>"
+     data-tracks--chart-settings-tracks--skydive-track-outlet=".track-show-content">
   <button class="button button--ghost dropdown-toggle" popovertarget="track-view-settings-menu" type="button">
     <%= icon_tag 'gear-solid' %>
     <%= t('general.settings') %>
@@ -6,13 +9,13 @@
 
   <div id="track-view-settings-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
     <div class="dropdown-header"><%= t('tracks.show.menu_header') %></div>
-    <%= link_to t('tracks.show.menu_sep'), show_params.except(:range).merge(charts_mode: 'separate'), rel: 'nofollow', class: class_names('dropdown-item', Current.charts_mode.separate? && 'active') %>
-    <%= link_to t('tracks.show.menu_one'), show_params.except(:range).merge(charts_mode: 'single'), rel: 'nofollow', class: class_names('dropdown-item', Current.charts_mode.single? && 'active') %>
+    <%= link_to t('tracks.show.menu_sep'), track_path(@track, show_params.except(:range).merge(charts_mode: 'separate')), rel: 'nofollow', class: class_names('dropdown-item', Current.charts_mode.separate? && 'active') %>
+    <%= link_to t('tracks.show.menu_one'), track_path(@track, show_params.except(:range).merge(charts_mode: 'single')), rel: 'nofollow', class: class_names('dropdown-item', Current.charts_mode.single? && 'active') %>
 
     <div class="dropdown-divider"></div>
 
     <div class="dropdown-header"><%= t('tracks.show.units_header') %></div>
-    <%= link_to t('tracks.show.m_units_metric'), show_params.except(:range).merge(charts_units: 'metric'), rel: 'nofollow', class: class_names('dropdown-item', Current.charts_units.metric? && 'active') %>
-    <%= link_to t('tracks.show.m_units_imperial'), show_params.except(:range).merge(charts_units: 'imperial'), rel: 'nofollow', class: class_names('dropdown-item', Current.charts_units.imperial? && 'active') %>
+    <%= button_to t('tracks.show.m_units_metric'), track_chart_settings_path(@track), method: :patch, params: { charts_units: 'metric' }, form_class: 'dropdown-item-form', class: class_names('dropdown-item', Current.charts_units.metric? && 'active') %>
+    <%= button_to t('tracks.show.m_units_imperial'), track_chart_settings_path(@track), method: :patch, params: { charts_units: 'imperial' }, form_class: 'dropdown-item-form', class: class_names('dropdown-item', Current.charts_units.imperial? && 'active') %>
   </div>
 </div>

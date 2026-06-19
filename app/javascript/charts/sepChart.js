@@ -1,6 +1,7 @@
 import { tooltipFormatter } from './utils'
+import { convertLength, lengthUnitLabel } from 'utils/units'
 
-export const sep50Series = (points, options) => {
+export const sep50Series = (points, { units = 'metric', ...options } = {}) => {
   const clampAccuracy = val => Math.round(Math.min(Math.max(val, 0), 15) * 10) / 10
 
   return {
@@ -18,7 +19,8 @@ export const sep50Series = (points, options) => {
             y: clampAccuracy(point.sep50),
             custom: {
               tooltipValue: Math.round(point.sep50 * 10) / 10,
-              altitude: Math.round(point.altitude),
+              altitude: Math.round(convertLength(point.altitude, units)),
+              altitudeUnits: lengthUnitLabel(units),
               gpsTime: point.gpsTime
             }
           }))
@@ -30,7 +32,7 @@ export const sep50Series = (points, options) => {
 export const initAccuracyChart = (
   container,
   points,
-  { plotLines = [], plotBands = [] } = {}
+  { plotLines = [], plotBands = [], units = 'metric' } = {}
 ) => {
   const chartOptions = {
     chart: {
@@ -83,7 +85,7 @@ export const initAccuracyChart = (
       useHTML: true,
       formatter: tooltipFormatter
     },
-    series: [sep50Series(points)]
+    series: [sep50Series(points, { units })]
   }
 
   return Highcharts.chart(container, chartOptions)

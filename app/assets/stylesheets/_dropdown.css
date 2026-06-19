@@ -26,6 +26,10 @@
   flex-direction: column;
 }
 
+.sd-dropdown-menu .dropdown-item-form {
+  display: contents;
+}
+
 .sd-dropdown-menu .dropdown-item {
   display: inline-flex;
   justify-content: flex-start;

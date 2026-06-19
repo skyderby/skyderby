@@ -1,6 +1,7 @@
 import I18n from 'i18n'
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
 import { restoreSeriesVisibility, saveSeriesVisibility, tooltipFormatter } from './utils'
+import { convertLength, lengthUnitLabel } from 'utils/units'
 
 export const calculateCumulativeDistance = (
   points,
@@ -37,7 +38,10 @@ export const calculateCumulativeDistance = (
   })
 }
 
-export const elevationSeries = (pointsWithDistance, options) => ({
+export const elevationSeries = (
+  pointsWithDistance,
+  { units = 'metric', ...options } = {}
+) => ({
   name: I18n.t('charts.elev.series.elevation'),
   custom: {
     code: 'elevation'
@@ -45,10 +49,11 @@ export const elevationSeries = (pointsWithDistance, options) => ({
   type: 'spline',
   data: pointsWithDistance.map(point => ({
     x: point.flTime - pointsWithDistance[0].flTime,
-    y: Math.round(point.elevation),
+    y: Math.round(convertLength(point.elevation, units)),
     custom: {
-      tooltipValue: `${Math.round(point.elevation)} ${I18n.t('units.m')}`,
-      altitude: Math.round(point.altitude),
+      tooltipValue: `${Math.round(convertLength(point.elevation, units))} ${lengthUnitLabel(units)}`,
+      altitude: Math.round(convertLength(point.altitude, units)),
+      altitudeUnits: lengthUnitLabel(units),
       gpsTime: point.gpsTime
     }
   })),
@@ -56,7 +61,10 @@ export const elevationSeries = (pointsWithDistance, options) => ({
   ...options
 })
 
-export const distanceSeries = (pointsWithDistance, options) => ({
+export const distanceSeries = (
+  pointsWithDistance,
+  { units = 'metric', ...options } = {}
+) => ({
   name: I18n.t('charts.elev.series.distance'),
   custom: {
     code: 'distance'
@@ -64,10 +72,11 @@ export const distanceSeries = (pointsWithDistance, options) => ({
   type: 'spline',
   data: pointsWithDistance.map(point => ({
     x: point.flTime - pointsWithDistance[0].flTime,
-    y: Math.round(point.cumulativeDistance),
+    y: Math.round(convertLength(point.cumulativeDistance, units)),
     custom: {
-      tooltipValue: `${Math.round(point.cumulativeDistance)} ${I18n.t('units.m')}`,
-      altitude: Math.round(point.altitude),
+      tooltipValue: `${Math.round(convertLength(point.cumulativeDistance, units))} ${lengthUnitLabel(units)}`,
+      altitude: Math.round(convertLength(point.altitude, units)),
+      altitudeUnits: lengthUnitLabel(units),
       gpsTime: point.gpsTime
     }
   })),
@@ -75,7 +84,7 @@ export const distanceSeries = (pointsWithDistance, options) => ({
   ...options
 })
 
-export const altitudeSeries = (points, options) => ({
+export const altitudeSeries = (points, { units = 'metric', ...options } = {}) => ({
   name: I18n.t('charts.all_data.series.height'),
   custom: {
     code: 'height'
@@ -83,10 +92,11 @@ export const altitudeSeries = (points, options) => ({
   type: 'area',
   data: points.map(point => ({
     x: point.flTime - points[0].flTime,
-    y: Math.round(point.altitude),
+    y: Math.round(convertLength(point.altitude, units)),
     custom: {
-      tooltipValue: Math.round(point.altitude),
-      altitude: Math.round(point.altitude),
+      tooltipValue: Math.round(convertLength(point.altitude, units)),
+      altitude: Math.round(convertLength(point.altitude, units)),
+      altitudeUnits: lengthUnitLabel(units),
       gpsTime: point.gpsTime
     }
   })),
@@ -98,7 +108,13 @@ export const altitudeSeries = (points, options) => ({
 export const initAltitudeDistanceChart = (
   container,
   points,
-  { plotLines = [], plotBands = [], straightLine = false, rangeStartPosition = 0 } = {}
+  {
+    plotLines = [],
+    plotBands = [],
+    straightLine = false,
+    rangeStartPosition = 0,
+    units = 'metric'
+  } = {}
 ) => {
   const chartName = 'AltitudeDistance'
   const pointsWithDistance = calculateCumulativeDistance(points, {
@@ -174,9 +190,9 @@ export const initAltitudeDistanceChart = (
     },
     credits: { enabled: false },
     series: [
-      altitudeSeries(pointsWithDistance),
-      elevationSeries(pointsWithDistance),
-      distanceSeries(pointsWithDistance)
+      altitudeSeries(pointsWithDistance, { units }),
+      elevationSeries(pointsWithDistance, { units }),
+      distanceSeries(pointsWithDistance, { units })
     ]
   }
 

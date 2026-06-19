@@ -24,7 +24,8 @@ export const initCombinedChart = (
     windCancellation = false,
     straightLine = false,
     rangeStartPosition = 0,
-    chartName = 'CombinedChart'
+    chartName = 'CombinedChart',
+    units = 'metric'
   } = {}
 ) => {
   const pointsWithDistance = calculateCumulativeDistance(points, {
@@ -116,16 +117,21 @@ export const initCombinedChart = (
       enabled: false
     },
     series: [
-      altitudeSeries(pointsWithDistance, { yAxis: 0, color: '#aaa', type: 'spline' }),
-      elevationSeries(pointsWithDistance, { yAxis: 0, visible: false }),
-      distanceSeries(pointsWithDistance, { yAxis: 0, visible: false }),
-      horizontalSpeedSeries(pointsWithDistance, { yAxis: 1 }),
-      verticalSpeedSeries(pointsWithDistance, { yAxis: 1 }),
-      fullSpeedSeries(pointsWithDistance, { yAxis: 1 }),
-      windCancellation && zeroWindSpeedSeries(pointsWithDistance, { yAxis: 1 }),
-      glideRatioSeries(pointsWithDistance, { yAxis: 2 }),
+      altitudeSeries(pointsWithDistance, {
+        units,
+        yAxis: 0,
+        color: '#aaa',
+        type: 'spline'
+      }),
+      elevationSeries(pointsWithDistance, { units, yAxis: 0, visible: false }),
+      distanceSeries(pointsWithDistance, { units, yAxis: 0, visible: false }),
+      horizontalSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
+      verticalSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
+      fullSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
+      windCancellation && zeroWindSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
+      glideRatioSeries(pointsWithDistance, { units, yAxis: 2 }),
       windCancellation && zeroWindGlideRatioSeries(pointsWithDistance, { yAxis: 2 }),
-      sep50Series(pointsWithDistance, { yAxis: 3 })
+      sep50Series(pointsWithDistance, { units, yAxis: 3 })
     ].filter(Boolean)
   }
 

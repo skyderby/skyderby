@@ -1,51 +1,55 @@
 import I18n from 'i18n'
 import { restoreSeriesVisibility, saveSeriesVisibility, tooltipFormatter } from './utils'
+import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 
-export const horizontalSpeedSeries = (points, options) => ({
+export const horizontalSpeedSeries = (points, { units = 'metric', ...options } = {}) => ({
   name: I18n.t('charts.all_data.series.horiz_speed'),
   custom: { code: 'ground_speed' },
   type: 'spline',
   data: points.map(point => ({
     x: point.flTime - points[0].flTime,
-    y: Math.round(point.hSpeed),
+    y: Math.round(convertSpeed(point.hSpeed, units)),
     custom: {
-      altitude: Math.round(point.altitude),
+      altitude: Math.round(convertLength(point.altitude, units)),
+      altitudeUnits: lengthUnitLabel(units),
       gpsTime: point.gpsTime,
-      tooltipValue: `${Math.round(point.hSpeed)} ${I18n.t('units.kmh')}`
+      tooltipValue: `${Math.round(convertSpeed(point.hSpeed, units))} ${speedUnitLabel(units)}`
     }
   })),
   color: '#52A964',
   ...options
 })
 
-export const verticalSpeedSeries = (points, options) => ({
+export const verticalSpeedSeries = (points, { units = 'metric', ...options } = {}) => ({
   name: I18n.t('charts.all_data.series.vert_speed'),
   custom: { code: 'vertical_speed' },
   type: 'spline',
   data: points.map(point => ({
     x: point.flTime - points[0].flTime,
-    y: Math.round(point.vSpeed),
+    y: Math.round(convertSpeed(point.vSpeed, units)),
     custom: {
-      altitude: Math.round(point.altitude),
+      altitude: Math.round(convertLength(point.altitude, units)),
+      altitudeUnits: lengthUnitLabel(units),
       gpsTime: point.gpsTime,
-      tooltipValue: `${Math.round(point.vSpeed)} ${I18n.t('units.kmh')}`
+      tooltipValue: `${Math.round(convertSpeed(point.vSpeed, units))} ${speedUnitLabel(units)}`
     }
   })),
   color: '#A7414E',
   ...options
 })
 
-export const fullSpeedSeries = (points, options) => ({
+export const fullSpeedSeries = (points, { units = 'metric', ...options } = {}) => ({
   name: I18n.t('charts.all_data.series.full_speed'),
   custom: { code: 'full_speed' },
   type: 'spline',
   data: points.map(point => ({
     x: point.flTime - points[0].flTime,
-    y: Math.round(point.fullSpeed),
+    y: Math.round(convertSpeed(point.fullSpeed, units)),
     custom: {
-      altitude: Math.round(point.altitude),
+      altitude: Math.round(convertLength(point.altitude, units)),
+      altitudeUnits: lengthUnitLabel(units),
       gpsTime: point.gpsTime,
-      tooltipValue: `${Math.round(point.fullSpeed)} ${I18n.t('units.kmh')}`
+      tooltipValue: `${Math.round(convertSpeed(point.fullSpeed, units))} ${speedUnitLabel(units)}`
     }
   })),
   color: '#D6A184',
@@ -53,7 +57,7 @@ export const fullSpeedSeries = (points, options) => ({
   ...options
 })
 
-export const zeroWindSpeedSeries = (points, options) => ({
+export const zeroWindSpeedSeries = (points, { units = 'metric', ...options } = {}) => ({
   name: I18n.t('charts.spd.series.wind_effect'),
   custom: { code: 'speed_wind_effect' },
   data: points.map(point => {
@@ -62,12 +66,13 @@ export const zeroWindSpeedSeries = (points, options) => ({
 
     return {
       x: point.flTime - points[0].flTime,
-      low: Math.round(point.hSpeed),
-      high: Math.round(point.zerowindHSpeed),
+      low: Math.round(convertSpeed(point.hSpeed, units)),
+      high: Math.round(convertSpeed(point.zerowindHSpeed, units)),
       custom: {
-        altitude: Math.round(point.altitude),
+        altitude: Math.round(convertLength(point.altitude, units)),
+        altitudeUnits: lengthUnitLabel(units),
         gpsTime: point.gpsTime,
-        tooltipValue: `${effectSign}${Math.round(windEffect)} ${I18n.t('units.kmh')}`
+        tooltipValue: `${effectSign}${Math.round(convertSpeed(windEffect, units))} ${speedUnitLabel(units)}`
       }
     }
   }),
@@ -144,7 +149,8 @@ export const initSpeedsChart = (
     showTitle = true,
     comparePoints = null,
     compareTimeOffset = 0,
-    compareTrackName = null
+    compareTrackName = null,
+    units = 'metric'
   } = {}
 ) => {
   const chartName = 'SpeedsChart'
@@ -213,10 +219,10 @@ export const initSpeedsChart = (
     },
     credits: { enabled: false },
     series: [
-      horizontalSpeedSeries(points),
-      verticalSpeedSeries(points),
-      fullSpeedSeries(points),
-      windCancellation && zeroWindSpeedSeries(points),
+      horizontalSpeedSeries(points, { units }),
+      verticalSpeedSeries(points, { units }),
+      fullSpeedSeries(points, { units }),
+      windCancellation && zeroWindSpeedSeries(points, { units }),
       comparePoints &&
         comparePoints.length > 0 &&
         compareHorizontalSpeedSeries(

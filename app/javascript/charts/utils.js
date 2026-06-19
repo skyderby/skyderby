@@ -3,9 +3,10 @@ import I18n from 'i18n'
 export const tooltipFormatter = function () {
   const point = this.points[0].point
   const seconds = Math.round(point.x)
+  const altitudeUnits = point.options.custom.altitudeUnits || I18n.t('units.m')
 
   return `
-    <div>${seconds}${I18n.t('units.sec')} | ${I18n.t('charts.all_data.series.height')}: ${point.options.custom.altitude} ${I18n.t('units.m')}</div>
+    <div>${seconds}${I18n.t('units.sec')} | ${I18n.t('charts.all_data.series.height')}: ${point.options.custom.altitude} ${altitudeUnits}</div>
     ${this.points
       .map(
         p =>

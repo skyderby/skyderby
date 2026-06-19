@@ -1,9 +1,10 @@
 import I18n from 'i18n'
 import { restoreSeriesVisibility, saveSeriesVisibility, tooltipFormatter } from './utils'
+import { convertLength, lengthUnitLabel } from 'utils/units'
 
 const clampGlideValue = val => Math.round(Math.min(Math.max(val, 0), 7) * 100) / 100
 
-export const glideRatioSeries = (points, options) => ({
+export const glideRatioSeries = (points, { units = 'metric', ...options } = {}) => ({
   name: 'Glide Ratio',
   custom: { code: 'gr' },
   type: 'spline',
@@ -18,7 +19,8 @@ export const glideRatioSeries = (points, options) => ({
     y: clampGlideValue(point.glideRatio),
     custom: {
       tooltipValue: Math.round(point.glideRatio * 100) / 100,
-      altitude: Math.round(point.altitude),
+      altitude: Math.round(convertLength(point.altitude, units)),
+      altitudeUnits: lengthUnitLabel(units),
       gpsTime: point.gpsTime
     }
   })),
@@ -87,13 +89,14 @@ export const initGlideChart = (
     showLegend = true,
     comparePoints = null,
     compareTimeOffset = 0,
-    compareTrackName = null
+    compareTrackName = null,
+    units = 'metric'
   } = {}
 ) => {
   const chartName = 'GlideChart'
 
   const series = [
-    glideRatioSeries(points),
+    glideRatioSeries(points, { units }),
     windCancellation && zeroWindGlideRatioSeries(points),
     comparePoints &&
       comparePoints.length > 0 &&

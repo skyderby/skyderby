@@ -1,11 +1,11 @@
-<div class="track-indicators">
+<div id="track-indicators" class="track-indicators">
   <div class="track-indicator" data-value="distance">
     <div class="track-indicator-title"><%= t('tracks.indicators.distance') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
            aria-label="distance"
            data-tracks--skydive-track-target="distance"></div>
-      <div class="track-indicator-units"><%= t('units.m') %></div>
+      <div class="track-indicator-units"><%= t("units.#{Current.charts_units.imperial? ? 'ft' : 'm'}") %></div>
     </div>
 
     <div class="wind-effect-container"
@@ -50,7 +50,7 @@
           <%= icon_tag 'angle-down-solid' %>
         </div>
       </div>
-      <div class="track-indicator-units"><%= t('units.kmh') %></div>
+      <div class="track-indicator-units"><%= t("units.#{speed_units_by_type(Current.charts_units)}") %></div>
     </div>
 
     <div class="wind-effect-container"
@@ -122,7 +122,7 @@
       <div class="track-indicator-value"
            aria-label="elevation"
            data-tracks--skydive-track-target="elevation"></div>
-      <div class="track-indicator-units"><%= t('units.m') %></div>
+      <div class="track-indicator-units"><%= t("units.#{Current.charts_units.imperial? ? 'ft' : 'm'}") %></div>
     </div>
   </div>
 
@@ -148,7 +148,7 @@
         </div>
       </div>
 
-      <div class="track-indicator-units"><%= t('units.kmh') %></div>
+      <div class="track-indicator-units"><%= t("units.#{speed_units_by_type(Current.charts_units)}") %></div>
     </div>
   </div>
 

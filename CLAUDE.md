@@ -13,6 +13,7 @@ for skydivers and base jumpers.
 - Prefer using fixtures and manually creating records instead of factories
 - Do not create service objects unless explicitly requested, either use a model method, concern or place the code in the controller
 - Check with rubocop for style issues
+- Prefer RESTful/resourceful routes (standard CRUD actions on a resource) over custom member/collection actions. For sub-features, use a nested resource with its own controller (e.g. `Tracks::ChartSettingsController#update`) instead of adding a custom action to the parent controller.
 
 ### Frontend
 - For new styles use CSS, if you need to touch SCSS - rewrite it to CSS

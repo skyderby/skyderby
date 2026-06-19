@@ -1,5 +1,4 @@
 import { Controller } from '@hotwired/stimulus'
-import I18n from 'i18n'
 import {
   findPositionForAltitude,
   initAccuracyChart,
@@ -12,6 +11,7 @@ import cropPoints from 'utils/cropPoints'
 import downsamplePoints from 'utils/downsamplePoints'
 import calculateWindCancellation from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
+import { convertSpeed, convertLength, lengthUnitLabel } from 'utils/units'
 
 export default class extends Controller {
   static targets = [
@@ -57,7 +57,8 @@ export default class extends Controller {
   static values = {
     pointsUrl: String,
     weatherUrl: String,
-    chartType: { type: String, default: 'separate' }
+    chartType: { type: String, default: 'separate' },
+    chartsUnits: { type: String, default: 'metric' }
   }
 
   connect() {
@@ -295,6 +296,22 @@ export default class extends Controller {
     return this.chartTypeValue
   }
 
+  get units() {
+    return this.chartsUnitsValue
+  }
+
+  applyUnits(units) {
+    this.chartsUnitsValue = units
+  }
+
+  chartsUnitsValueChanged(value, previousValue) {
+    if (previousValue === undefined) return
+    if (value === previousValue) return
+    if (!this.points) return
+
+    this.updateCharts()
+  }
+
   get hasWeatherData() {
     return this.weatherData && this.weatherData.length > 0
   }
@@ -365,7 +382,11 @@ export default class extends Controller {
   }
 
   updateIndicators() {
-    this.distanceTarget.innerText = Math.floor(this.rangeSummary.distance)
+    const { units } = this
+
+    this.distanceTarget.innerText = Math.floor(
+      convertLength(this.rangeSummary.distance, units)
+    )
     this.glideRatioTarget.innerText = this.formatGlideRatio(
       this.rangeSummary.glideRatio.avg
     )
@@ -375,19 +396,42 @@ export default class extends Controller {
     this.glideRatioMaxTarget.innerText = this.formatGlideRatio(
       this.rangeSummary.glideRatio.max
     )
-    this.groundSpeedTarget.innerText = this.rangeSummary.horizontalSpeed.avg.toFixed(0)
-    this.groundSpeedMinTarget.innerText = this.rangeSummary.horizontalSpeed.min.toFixed(0)
-    this.groundSpeedMaxTarget.innerText = this.rangeSummary.horizontalSpeed.max.toFixed(0)
-    this.elevationTarget.innerText = this.rangeSummary.elevation.toFixed(0)
-    this.verticalSpeedTarget.innerText = this.rangeSummary.verticalSpeed.avg.toFixed(0)
-    this.verticalSpeedMinTarget.innerText = this.rangeSummary.verticalSpeed.min.toFixed(0)
-    this.verticalSpeedMaxTarget.innerText = this.rangeSummary.verticalSpeed.max.toFixed(0)
+    this.groundSpeedTarget.innerText = convertSpeed(
+      this.rangeSummary.horizontalSpeed.avg,
+      units
+    ).toFixed(0)
+    this.groundSpeedMinTarget.innerText = convertSpeed(
+      this.rangeSummary.horizontalSpeed.min,
+      units
+    ).toFixed(0)
+    this.groundSpeedMaxTarget.innerText = convertSpeed(
+      this.rangeSummary.horizontalSpeed.max,
+      units
+    ).toFixed(0)
+    this.elevationTarget.innerText = convertLength(
+      this.rangeSummary.elevation,
+      units
+    ).toFixed(0)
+    this.verticalSpeedTarget.innerText = convertSpeed(
+      this.rangeSummary.verticalSpeed.avg,
+      units
+    ).toFixed(0)
+    this.verticalSpeedMinTarget.innerText = convertSpeed(
+      this.rangeSummary.verticalSpeed.min,
+      units
+    ).toFixed(0)
+    this.verticalSpeedMaxTarget.innerText = convertSpeed(
+      this.rangeSummary.verticalSpeed.max,
+      units
+    ).toFixed(0)
     this.durationTarget.innerText = this.rangeSummary.time.toFixed(1)
 
     if (this.hasWeatherData) this.updateWindEffectIndicators()
   }
 
   updateWindEffectIndicators() {
+    const { units } = this
+
     const distanceEffect = this.rangeSummary.distanceWindEffect
     if (distanceEffect?.value !== null) {
       this.windEffectContainerDistanceTarget.style.display = ''
@@ -397,7 +441,8 @@ export default class extends Controller {
         this.windEffectDistanceWindTarget,
         this.windEffectDistancePercentTarget,
         this.windEffectDistanceWindPercentTarget,
-        0
+        0,
+        value => convertLength(value, units)
       )
     }
 
@@ -410,7 +455,8 @@ export default class extends Controller {
         this.windEffectSpeedWindTarget,
         this.windEffectSpeedPercentTarget,
         this.windEffectSpeedWindPercentTarget,
-        0
+        0,
+        value => convertSpeed(value, units)
       )
     }
 
@@ -428,12 +474,20 @@ export default class extends Controller {
     }
   }
 
-  updateWindEffectValues(effect, valueEl, windEl, percentEl, windPercentEl, decimals) {
-    valueEl.innerText = effect.value.toFixed(decimals)
+  updateWindEffectValues(
+    effect,
+    valueEl,
+    windEl,
+    percentEl,
+    windPercentEl,
+    decimals,
+    convert = value => value
+  ) {
+    valueEl.innerText = convert(effect.value).toFixed(decimals)
     windEl.innerText =
       effect.windEffect > 0
-        ? `+${effect.windEffect.toFixed(decimals)}`
-        : effect.windEffect.toFixed(decimals)
+        ? `+${convert(effect.windEffect).toFixed(decimals)}`
+        : convert(effect.windEffect).toFixed(decimals)
 
     const absPercent = Math.abs(effect.windEffectPercent)
     const valuePercent = 100 - absPercent
@@ -455,7 +509,8 @@ export default class extends Controller {
         windCancellation: this.hasWeatherData,
         straightLine: this.straightLine,
         rangeStartPosition: this.bufferStartPosition / 1000,
-        chartName: 'TrackCombinedChart'
+        chartName: 'TrackCombinedChart',
+        units: this.units
       }
     )
   }
@@ -466,7 +521,8 @@ export default class extends Controller {
       this.downsampledChartPoints,
       {
         plotLines: this.altitudePlotLines(),
-        plotBands: this.bufferPlotBands()
+        plotBands: this.bufferPlotBands(),
+        units: this.units
       }
     )
   }
@@ -478,7 +534,8 @@ export default class extends Controller {
       {
         plotLines: this.altitudePlotLines({ includeLabels: true }),
         plotBands: this.bufferPlotBands(),
-        windCancellation: this.hasWeatherData
+        windCancellation: this.hasWeatherData,
+        units: this.units
       }
     )
   }
@@ -490,7 +547,8 @@ export default class extends Controller {
       {
         plotLines: this.altitudePlotLines(),
         plotBands: this.bufferPlotBands(),
-        windCancellation: this.hasWeatherData
+        windCancellation: this.hasWeatherData,
+        units: this.units
       }
     )
   }
@@ -503,7 +561,8 @@ export default class extends Controller {
         plotLines: this.altitudePlotLines(),
         plotBands: this.bufferPlotBands(),
         straightLine: this.straightLine,
-        rangeStartPosition: this.bufferStartPosition / 1000
+        rangeStartPosition: this.bufferStartPosition / 1000,
+        units: this.units
       }
     )
   }
@@ -533,7 +592,7 @@ export default class extends Controller {
       ...(includeLabels
         ? {
             label: {
-              text: `${altitude} ${I18n.t('units.m')}`,
+              text: `${altitude} ${lengthUnitLabel('metric')}`,
               style: { color: '#999' },
               y: 10
             }
