@@ -64,7 +64,7 @@
   position: fixed;
   top: 50%;
   left: 275px;
-  z-index: 1000;
+  z-index: 50;
 
   @media (min-width: $bp-large) {
     display: none;

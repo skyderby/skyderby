@@ -3,7 +3,7 @@
   inset: 0;
   background-color: rgba(0, 0, 0, 0);
   transition: background-color 0.2s ease;
-  z-index: 1000;
+  z-index: 200;
 }
 
 .dialog-overlay-visible {
@@ -13,7 +13,7 @@
 .dialog {
   position: fixed;
   inset: 0;
-  z-index: 1001;
+  z-index: 250;
   border: 0;
   border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
   padding: 0;

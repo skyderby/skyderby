@@ -7,7 +7,7 @@
   height: 60px;
   width: 100%;
   padding: 0 0.5rem;
-  z-index: 2000;
+  z-index: 150;
 
   @media (min-width: $bp-small) {
     padding: 0 1rem;
@@ -291,7 +291,7 @@ li:has(.upload-track-button) {
   bottom: 0;
   background: rgba(0,0,0,.8);
   transition: opacity 350ms ease-in-out;
-  z-index: 10;
+  z-index: 50;
 
   &.overlay--hidden {
     visibility: hidden;
@@ -308,7 +308,7 @@ li:has(.upload-track-button) {
   right: -100vw;
   background: var(--blue-gray-90);
   opacity: 0;
-  z-index: 31;
+  z-index: 100;
   transition: all 200ms ease-in-out;
   transition-delay: 0;
   display: grid;

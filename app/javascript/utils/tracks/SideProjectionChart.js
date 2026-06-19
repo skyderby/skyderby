@@ -493,7 +493,7 @@ export default class SideProjectionChart {
       padding: 8px;
       font-size: 12px;
       pointer-events: none;
-      z-index: 100;
+      z-index: 50;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     `
     this.container.style.position = 'relative'

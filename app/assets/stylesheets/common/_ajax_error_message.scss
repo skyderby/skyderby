@@ -6,7 +6,7 @@
   width: 700px;
   margin-left: -350px;
   transition: top 0.5s ease-in-out;
-  z-index: 9999;
+  z-index: 300;
 
   &.visible {
     top: 0;
