@@ -867,12 +867,13 @@ export default class extends Controller {
 
   renderDistanceGrid(grid, width, height, left, right, top, bottom) {
     const plotWidth = width - left - right
-    const distanceStep = this.calculateDistanceStep()
+    const lineStep = this.calculateLineStep()
+    const labelStep = this.calculateLabelStep(plotWidth, lineStep)
 
-    const minDist = Math.ceil(this.distanceRange.min / distanceStep) * distanceStep
-    const maxDist = Math.floor(this.distanceRange.max / distanceStep) * distanceStep
+    const minDist = Math.ceil(this.distanceRange.min / lineStep) * lineStep
+    const maxDist = Math.floor(this.distanceRange.max / lineStep) * lineStep
 
-    for (let dist = Math.max(0, minDist); dist <= maxDist; dist += distanceStep) {
+    for (let dist = Math.max(0, minDist); dist <= maxDist; dist += lineStep) {
       const x =
         left +
         ((dist - this.distanceRange.min) /
@@ -887,6 +888,8 @@ export default class extends Controller {
       line.setAttribute('class', 'grid-line-vertical')
       grid.appendChild(line)
 
+      if (dist % labelStep !== 0) continue
+
       const label = document.createElementNS('http://www.w3.org/2000/svg', 'text')
       label.setAttribute('x', x)
       label.setAttribute('y', height - bottom + 20)
@@ -896,12 +899,24 @@ export default class extends Controller {
     }
   }
 
-  calculateDistanceStep() {
+  calculateLineStep() {
     const range = this.distanceRange.max - this.distanceRange.min
     if (range > 3000) return 500
     if (range > 1500) return 250
     if (range > 500) return 100
     return 50
+  }
+
+  calculateLabelStep(plotWidth, lineStep) {
+    const range = this.distanceRange.max - this.distanceRange.min
+    const minLabelSpacing = 110
+    const minStep = (range / plotWidth) * minLabelSpacing
+
+    const niceSteps = [50, 100, 250, 500, 1000, 2000, 2500, 5000, 10000]
+    return (
+      niceSteps.find(step => step >= minStep && step % lineStep === 0) ||
+      niceSteps[niceSteps.length - 1]
+    )
   }
 
   renderTrajectoryContent() {
