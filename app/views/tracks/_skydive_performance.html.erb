@@ -50,9 +50,9 @@
     </div>
 
     <div class="skydive-performance-indicators-header">
-      <%= render 'tracks/skydive_performance_indicators' %>
+      <%= render 'tracks/skydive_performance_indicators', data: { 'tracks--skydive-performance-track-target': 'summaryIndicators' } %>
       <% if @compare_track %>
-        <%= render 'tracks/skydive_performance_indicators', compare: true %>
+        <%= render 'tracks/skydive_performance_indicators', compare: true, data: { 'tracks--skydive-performance-track-target': 'compareSummaryIndicators' } %>
       <% end %>
     </div>
 
