@@ -1,8 +1,11 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class TracksSearchController extends Controller {
+  static values = { storageKey: String }
+
   connect() {
     this.params = ['year[]', 'profile_id[]', 'suit_id[]', 'place_id[]']
+    this.restoreFilters()
     this.form.requestSubmit()
   }
 
@@ -15,6 +18,7 @@ export default class TracksSearchController extends Controller {
     this.element.appendChild(input)
 
     this.submitWithUrlUpdate()
+    this.persistFilters()
   }
 
   handleFilterRemove(event) {
@@ -22,6 +26,7 @@ export default class TracksSearchController extends Controller {
     this.element.querySelector(`input[name="${type}"][value="${value}"]`)?.remove()
 
     this.submitWithUrlUpdate()
+    this.persistFilters()
   }
 
   handleFilterClear() {
@@ -32,6 +37,63 @@ export default class TracksSearchController extends Controller {
       .forEach(element => element.remove())
 
     this.submitWithUrlUpdate()
+    this.clearPersistedFilters()
+  }
+
+  restoreFilters() {
+    if (!this.hasStorageKeyValue) return
+
+    const tagsContainer = this.element.querySelector('.selected-tags-container')
+    if (!tagsContainer || tagsContainer.children.length > 0) return
+
+    this.readPersistedFilters().forEach(({ param, value, label, name }) => {
+      const input = document.createElement('input')
+      input.type = 'hidden'
+      input.name = param
+      input.value = value
+      this.element.appendChild(input)
+
+      tagsContainer.appendChild(this.buildTag(param, value, label, name))
+    })
+  }
+
+  persistFilters() {
+    if (!this.hasStorageKeyValue) return
+
+    const tags = Array.from(
+      this.element.querySelectorAll('.selected-tags-container .filter-tag')
+    ).map(tag => ({
+      param: tag.dataset.type,
+      value: tag.dataset.value,
+      label: tag.querySelector('.filter-tag-type').textContent,
+      name: tag.querySelector('.filter-tag-value').textContent
+    }))
+
+    localStorage.setItem(this.storageKeyValue, JSON.stringify(tags))
+  }
+
+  clearPersistedFilters() {
+    if (!this.hasStorageKeyValue) return
+
+    localStorage.removeItem(this.storageKeyValue)
+  }
+
+  readPersistedFilters() {
+    try {
+      return JSON.parse(localStorage.getItem(this.storageKeyValue) || '[]')
+    } catch {
+      return []
+    }
+  }
+
+  buildTag(param, value, label, name) {
+    const template = this.element.querySelector('[data-omni-search-target="tagTemplate"]')
+    const tag = template.content.querySelector('.filter-tag').cloneNode(true)
+    tag.dataset.type = param
+    tag.dataset.value = value
+    tag.querySelector('.filter-tag-type').textContent = label
+    tag.querySelector('.filter-tag-value').textContent = name
+    return tag
   }
 
   submitWithUrlUpdate() {
