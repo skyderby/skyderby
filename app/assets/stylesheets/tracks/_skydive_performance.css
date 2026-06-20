@@ -224,6 +224,10 @@
   min-height: 170px;
 }
 
+.skydive-performance-charts > div:nth-child(2) {
+  min-height: 350px;
+}
+
 .skydive-performance-charts > div:last-child {
   min-height: 70px;
 }
