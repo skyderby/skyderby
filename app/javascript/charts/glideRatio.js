@@ -60,7 +60,7 @@ export const compareGlideRatioSeries = (
   name: name || 'Comparison',
   custom: { code: 'gr_compare' },
   type: 'spline',
-  color: '#9e9e9e',
+  color: '#37889B',
   dashStyle: 'ShortDash',
   data: points.map(point => {
     const relativeTime = point.flTime - points[0].flTime

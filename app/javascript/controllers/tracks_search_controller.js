@@ -26,7 +26,9 @@ export default class TracksSearchController extends Controller {
 
   handleFilterClear() {
     this.element
-      .querySelectorAll('input:not([name="kind"]):not([name="infinite"])')
+      .querySelectorAll(
+        'input:not([name="kind"]):not([name="infinite"]):not([name="exclude_id"])'
+      )
       .forEach(element => element.remove())
 
     this.submitWithUrlUpdate()
@@ -43,7 +45,7 @@ export default class TracksSearchController extends Controller {
     })
 
     for (const [key, value] of formData.entries()) {
-      if (key === 'kind' || key === 'infinite') continue
+      if (key === 'kind' || key === 'infinite' || key === 'exclude_id') continue
       url.searchParams.append(key, value)
     }
 

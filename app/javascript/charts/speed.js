@@ -93,7 +93,7 @@ export const compareHorizontalSpeedSeries = (
   name: name ? `${name} H` : 'Comparison H',
   custom: { code: 'compare_ground_speed' },
   type: 'spline',
-  color: '#9e9e9e',
+  color: '#52A964',
   dashStyle: 'ShortDash',
   data: points.map(point => {
     const relativeTime = point.flTime - points[0].flTime
@@ -121,7 +121,7 @@ export const compareVerticalSpeedSeries = (
   name: name ? `${name} V` : 'Comparison V',
   custom: { code: 'compare_vertical_speed' },
   type: 'spline',
-  color: '#bdbdbd',
+  color: '#A7414E',
   dashStyle: 'ShortDash',
   data: points.map(point => {
     const relativeTime = point.flTime - points[0].flTime
@@ -133,6 +133,35 @@ export const compareVerticalSpeedSeries = (
         altitude: Math.round(point.altitude),
         gpsTime: point.gpsTime,
         tooltipValue: `${Math.round(point.vSpeed)} ${I18n.t('units.kmh')}`
+      }
+    }
+  }),
+  ...options
+})
+
+export const compareFullSpeedSeries = (
+  points,
+  primaryPoints,
+  timeOffset,
+  name,
+  options
+) => ({
+  name: name ? `${name} Full` : 'Comparison Full',
+  custom: { code: 'compare_full_speed' },
+  type: 'spline',
+  color: '#D6A184',
+  dashStyle: 'ShortDash',
+  visible: false,
+  data: points.map(point => {
+    const relativeTime = point.flTime - points[0].flTime
+    const adjustedTime = relativeTime + timeOffset
+    return {
+      x: adjustedTime,
+      y: Math.round(point.fullSpeed),
+      custom: {
+        altitude: Math.round(point.altitude),
+        gpsTime: point.gpsTime,
+        tooltipValue: `${Math.round(point.fullSpeed)} ${I18n.t('units.kmh')}`
       }
     }
   }),
@@ -238,7 +267,10 @@ export const initSpeedsChart = (
           points,
           compareTimeOffset,
           compareTrackName
-        )
+        ),
+      comparePoints &&
+        comparePoints.length > 0 &&
+        compareFullSpeedSeries(comparePoints, points, compareTimeOffset, compareTrackName)
     ].filter(Boolean)
   }
 

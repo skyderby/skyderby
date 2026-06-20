@@ -1,6 +1,8 @@
 import { Controller } from '@hotwired/stimulus'
 import debounce from 'lodash.debounce'
 
+let anchorCounter = 0
+
 export default class OmniSearchController extends Controller {
   static targets = ['model', 'typeSelect', 'tagsContainer', 'tagTemplate', 'dropdown']
 
@@ -10,6 +12,10 @@ export default class OmniSearchController extends Controller {
     this.onToggle = this.onToggle.bind(this)
     this.onClick = this.onClick.bind(this)
     this.search = debounce(this.search.bind(this), 300)
+
+    const anchorName = `--omni-search-${(anchorCounter += 1)}`
+    this.element.style.setProperty('anchor-name', anchorName)
+    this.dropdownTarget.style.setProperty('position-anchor', anchorName)
 
     this.focusedOptionIndex = -1
     this.currentView = null
