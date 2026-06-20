@@ -1193,9 +1193,10 @@ export default class extends Controller {
         longitude: this.referencePointData.reference_point.longitude
       }
     } else {
+      const lastPoint = this.points.at(-1)
       referencePoint = {
-        latitude: dlStartPoint.latitude,
-        longitude: dlStartPoint.longitude
+        latitude: lastPoint.latitude,
+        longitude: lastPoint.longitude
       }
     }
 
