@@ -7,7 +7,7 @@ class FreeProViewTrackingJob < ApplicationJob
 
     Amplitude.track(
       user_id: user.id,
-      event: 'base_pro_view_activated',
+      event: "#{track.kind}_pro_view_activated",
       properties: {
         track_id: track.id,
         views_remaining: summary.views_remaining,
@@ -20,7 +20,7 @@ class FreeProViewTrackingJob < ApplicationJob
 
     Amplitude.track(
       user_id: user.id,
-      event: 'base_pro_view_limit_reached',
+      event: "#{track.kind}_pro_view_limit_reached",
       properties: {
         days_to_reset: summary.days_to_reset,
         track_ids: summary.track_ids,

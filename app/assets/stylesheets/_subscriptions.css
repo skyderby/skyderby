@@ -214,18 +214,6 @@
   margin: 0;
 }
 
-.subscriptions-benefit__coming-soon,
-.coming-soon {
-  font-size: 0.625rem;
-  color: var(--orange-80);
-  background: var(--orange-10);
-  padding: 0.125rem 0.5rem;
-  border-radius: 0.25rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
 .subscriptions-social-proof {
   margin-top: 4rem;
   text-align: center;

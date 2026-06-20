@@ -2,7 +2,7 @@
 
 <% if @track.base? && @track.pro_view_available? %>
   <%= render 'tracks/base_jump' %>
-<% elsif @track.skydive? && @track.skydive_pro_view_available? %>
+<% elsif @track.skydive? && @track.pro_view_available? %>
   <%= render 'tracks/skydive_performance' %>
 <% elsif @track.speed_skydiving? %>
   <%= render 'tracks/speed_skydiving' %>

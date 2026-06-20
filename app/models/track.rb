@@ -114,18 +114,11 @@ class Track < ApplicationRecord
   def competitive? = event_result.present?
 
   def pro_view_available?(user: Current.user)
-    return false unless base?
+    return false unless base? || skydive?
     return false unless user.registered?
     return true if Current.subscription_active?
 
     FreeProView.exists?(user:, track: self)
-  end
-
-  def skydive_pro_view_available?(user: Current.user)
-    return false unless skydive?
-    return false unless user.registered?
-
-    Current.subscription_active?
   end
 
   def msl_offset

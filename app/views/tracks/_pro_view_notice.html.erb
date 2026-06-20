@@ -1,9 +1,10 @@
-<% if @track.base? && !@track.pro_view_available? %>
+<% if (@track.base? || @track.skydive?) && !@track.pro_view_available? %>
+  <% product = t("tracks.pro_view.product.#{@track.kind}") %>
   <div class="notice justify-center">
     <% if Current.user.registered? %>
       <% remaining = FreeProView.remaining_for(Current.user) %>
       <% if remaining > 0 %>
-        <%= button_to t('tracks.pro_view.view_button'), track_pro_view_path(@track),
+        <%= button_to t('tracks.pro_view.view_button', product: product), track_pro_view_path(@track),
             class: "button button--primary button--sm" %>
         <span><%= t('tracks.pro_view.remaining_free', count: remaining) %></span>
       <% else %>
@@ -12,7 +13,7 @@
       <% end %>
     <% else %>
       <%= link_to t('tracks.pro_view.sign_in'), new_user_session_path, class: "button button--primary button--sm" %>
-      <span><%= t('tracks.pro_view.sign_in_prompt') %></span>
+      <span><%= t('tracks.pro_view.sign_in_prompt', product: product) %></span>
     <% end %>
   </div>
 <% end %>

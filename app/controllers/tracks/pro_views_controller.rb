@@ -22,7 +22,9 @@ module Tracks
     end
 
     def redirect_to_sign_in
-      redirect_to new_user_session_path, notice: t('tracks.pro_view.sign_in_required')
+      redirect_to new_user_session_path,
+                  notice: t('tracks.pro_view.sign_in_required',
+                            product: t("tracks.pro_view.product.#{@track.kind}"))
     end
 
     def refresh_page
