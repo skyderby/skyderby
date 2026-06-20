@@ -122,7 +122,6 @@ class Track < ApplicationRecord
   end
 
   def skydive_pro_view_available?(user: Current.user)
-    return false unless user.admin?
     return false unless skydive?
     return false unless user.registered?
 

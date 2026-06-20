@@ -38,6 +38,7 @@ ru:
       window: 'окно'
       loading: 'Загрузка данных трека'
       full_jump: 'Весь прыжок'
+      no_data: 'Нет данных трека для этого прыжка'
       no_speed_skydiving_result: 'Не удалось рассчитать результат скоростного парашютизма для этого трека'
       designated_lane: 'Designated Lane'
       straight_line_distance: 'Расстояние по прямой'

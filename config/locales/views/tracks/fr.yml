@@ -37,6 +37,7 @@ fr:
       window: Fenêtre
       loading: Chargmenet des données de l'enregistrement
       full_jump: Saut complet
+      no_data: Aucune donnée d'enregistrement disponible pour ce saut
       no_speed_skydiving_result: Impossible de calculer le résultat de speed skydiving pour cet enregistrement
     choose:
       title: Sélectionner l'enregistrement à télécharger

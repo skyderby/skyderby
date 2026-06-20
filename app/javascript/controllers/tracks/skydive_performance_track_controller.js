@@ -11,7 +11,6 @@ import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
 import { interpolatePointByTime } from 'utils/laneValidation/utils'
 import { detectFlares, drawFlares } from 'utils/tracks/flareDetection'
 import { computeBestWindows } from 'utils/tracks/bestWindows'
-import debounce from 'lodash.debounce'
 
 const CHART_PADDING = { left: 100, right: 20, top: 10, bottom: 45 }
 
@@ -67,10 +66,9 @@ export default class extends Controller {
     'windEffectGlideRatioWind',
     'designatedLaneToggle',
     'straightLineToggle',
+    'emptyState',
     'sepChart',
     'compareModal',
-    'compareSearchInput',
-    'compareResults',
     'compareMap',
     'compareDistance',
     'compareGroundSpeed',
@@ -109,9 +107,9 @@ export default class extends Controller {
     weatherUrl: String,
     referencePointUrl: String,
     comparePointsUrl: String,
+    compareWeatherUrl: String,
     compareTrackName: String,
-    trackId: Number,
-    searchUrl: String
+    trackId: Number
   }
 
   connect() {
@@ -119,7 +117,6 @@ export default class extends Controller {
     this.currentIndex = 0
     this.referencePointData = null
     this.comparePoints = null
-    this.searchCompareTracks = debounce(this.searchCompareTracks.bind(this), 300)
     this.initializeStraightLine()
 
     const fetches = [
@@ -131,22 +128,50 @@ export default class extends Controller {
 
     if (this.hasComparePointsUrlValue) {
       fetches.push(this.fetchComparePoints())
+      fetches.push(this.fetchCompareWeather())
     }
 
-    Promise.all(fetches).then(
-      ([pointsData, weatherData, referencePointData, _, compareData]) => {
-        this.points = pointsData.points
-        this.weatherData = weatherData
-        this.referencePointData = referencePointData
-        if (compareData) {
-          this.comparePoints = compareData.points
+    Promise.all(fetches)
+      .then(
+        ([
+          pointsData,
+          weatherData,
+          referencePointData,
+          _,
+          compareData,
+          compareWeatherData
+        ]) => {
+          this.points = pointsData.points
+          this.weatherData = weatherData
+          this.referencePointData = referencePointData
+          if (compareData) {
+            this.comparePoints = compareData.points
+          }
+          if (compareWeatherData) {
+            this.compareWeatherData = compareWeatherData
+          }
+
+          if (!this.points || this.points.length === 0) {
+            this.showEmptyState()
+            return
+          }
+
+          this.initializeRange()
+          this.updateView()
+          this.initDesignatedLane()
+          this.computeBestWindows()
         }
-        this.initializeRange()
-        this.updateView()
-        this.initDesignatedLane()
-        this.computeBestWindows()
-      }
-    )
+      )
+      .catch(error => {
+        console.error('Failed to initialize skydive performance view', error)
+        this.showEmptyState()
+      })
+  }
+
+  showEmptyState() {
+    if (this.hasEmptyStateTarget) {
+      this.emptyStateTarget.classList.remove('hidden')
+    }
   }
 
   computeBestWindows() {
@@ -271,6 +296,19 @@ export default class extends Controller {
       .catch(() => [])
   }
 
+  fetchCompareWeather() {
+    if (!this.hasCompareWeatherUrlValue) return Promise.resolve([])
+
+    return fetch(this.compareWeatherUrlValue, {
+      headers: { Accept: 'application/json' }
+    })
+      .then(response => {
+        if (!response.ok) return []
+        return response.json()
+      })
+      .catch(() => [])
+  }
+
   fetchReferencePoint() {
     if (!this.hasReferencePointUrlValue) return Promise.resolve(null)
 
@@ -304,6 +342,17 @@ export default class extends Controller {
 
   get hasWeatherData() {
     return this.weatherData && this.weatherData.length > 0
+  }
+
+  get hasCompareWeatherData() {
+    return this.compareWeatherData && this.compareWeatherData.length > 0
+  }
+
+  get compareWeather() {
+    if (!this._compareWeather && this.hasCompareWeatherData) {
+      this._compareWeather = new WeatherData(this.compareWeatherData)
+    }
+    return this._compareWeather
   }
 
   initializeRange() {
@@ -519,6 +568,41 @@ export default class extends Controller {
     })
   }
 
+  buildCompareProcessedPoints(primaryEntryDistance) {
+    const primaryStartTime = this.chartPoints[0].gpsTime.getTime()
+
+    let distance = 0
+    const points = this.comparePoints.map((point, index) => {
+      if (index > 0) {
+        distance += this.calculateDistance(point, this.comparePoints[index - 1])
+      }
+      const srcGpsTime = point.gpsTime.getTime()
+      const gpsTime = srcGpsTime + this.compareTimeOffset
+
+      return {
+        playerTime: (gpsTime - primaryStartTime) / 1000,
+        altitude: point.altitude,
+        distance,
+        latitude: point.latitude,
+        longitude: point.longitude,
+        hSpeed: point.hSpeed,
+        vSpeed: point.vSpeed,
+        fullSpeed: point.fullSpeed,
+        glideRatio: point.glideRatio,
+        gpsTime,
+        srcGpsTime
+      }
+    })
+
+    const compareEntryDistance = this.findDistanceAtWindowEntry(points, this.fromValue)
+    const distanceOffset = primaryEntryDistance - compareEntryDistance
+    points.forEach(point => {
+      point.distance += distanceOffset
+    })
+
+    return points
+  }
+
   calculateDistance(point, startPoint) {
     const R = 6371000
     const lat1 = (startPoint.latitude * Math.PI) / 180
@@ -621,48 +705,7 @@ export default class extends Controller {
       this.fromValue
     )
 
-    let compareCumulative = 0
-    const compareDistances = compareChartPoints.map((point, idx) => {
-      if (idx > 0) {
-        compareCumulative += this.calculateDistance(point, compareChartPoints[idx - 1])
-      }
-      return compareCumulative
-    })
-
-    const compareEntryIndexInfo = this.findWindowEntryIndex(
-      compareChartPoints,
-      this.fromValue
-    )
-    let compareEntryDistance = 0
-    if (compareEntryIndexInfo) {
-      const { index, fraction } = compareEntryIndexInfo
-      const d1 = compareDistances[index]
-      const d2 = compareDistances[Math.min(index + 1, compareDistances.length - 1)]
-      compareEntryDistance = d1 + (d2 - d1) * fraction
-    }
-
-    const distanceOffset = primaryEntryDistance - compareEntryDistance
-
-    const primaryStartTime = this.chartPoints[0].gpsTime.getTime()
-
-    this.compareProcessedPoints = compareChartPoints.map((point, idx) => {
-      const adjustedGpsTime = point.gpsTime.getTime() + this.compareTimeOffset
-      const playerTime = (adjustedGpsTime - primaryStartTime) / 1000
-      const distance = compareDistances[idx] + distanceOffset
-
-      return {
-        playerTime,
-        altitude: point.altitude,
-        distance,
-        latitude: point.latitude,
-        longitude: point.longitude,
-        hSpeed: point.hSpeed,
-        vSpeed: point.vSpeed,
-        fullSpeed: point.fullSpeed,
-        glideRatio: point.glideRatio,
-        gpsTime: adjustedGpsTime
-      }
-    })
+    this.compareProcessedPoints = this.buildCompareProcessedPoints(primaryEntryDistance)
 
     let compareWindowPoints = cropPoints(this.comparePoints, this.fromValue, this.toValue)
     if (compareWindowPoints.length > 0) {
@@ -758,14 +801,39 @@ export default class extends Controller {
     if (!this.hasWeatherData || this.processedPoints.length === 0) return
 
     const { width } = this.chartDimensions
-    const ns = 'http://www.w3.org/2000/svg'
-    const fontSize = this.viewBoxFontSize(12)
     const radius = 42
     const margin = 10
-
     const cx = width - margin - radius
-    const cy = margin + radius
-    this.windIndicatorCenter = { cx, cy, radius }
+
+    this.windIndicators = []
+
+    this.windIndicators.push(
+      this.buildWindIndicator(cx, margin + radius, radius, 'wind-indicator-pilot', {
+        points: this.processedPoints,
+        weather: this.weather,
+        referenceTime: this.processedPoints[0].gpsTime
+      })
+    )
+
+    if (this.hasCompareWeatherData && this.compareProcessedPoints?.length) {
+      const fontSize = this.viewBoxFontSize(12)
+      const secondCy = margin + radius + (radius * 2 + margin + fontSize * 1.4)
+      this.windIndicators.push(
+        this.buildWindIndicator(cx, secondCy, radius, 'wind-indicator-pilot--compare', {
+          points: this.compareProcessedPoints,
+          weather: this.compareWeather,
+          referenceTime: this.comparePoints[0].gpsTime,
+          byPlayerTime: true
+        })
+      )
+    }
+
+    this.updateWindIndicators(this.currentIndex || 0)
+  }
+
+  buildWindIndicator(cx, cy, radius, pilotClass, source) {
+    const ns = 'http://www.w3.org/2000/svg'
+    const fontSize = this.viewBoxFontSize(12)
 
     const group = document.createElementNS(ns, 'g')
     group.setAttribute('class', 'wind-indicator')
@@ -795,58 +863,77 @@ export default class extends Controller {
     const scale = iconSize / 640
     const pilot = document.createElementNS(ns, 'path')
     pilot.setAttribute('d', LOCATION_ARROW_PATH)
-    pilot.setAttribute('class', 'wind-indicator-pilot')
+    pilot.setAttribute('class', pilotClass)
     pilot.setAttribute(
       'transform',
       `translate(${cx} ${cy}) rotate(45) scale(${scale}) translate(-320 -320)`
     )
     group.appendChild(pilot)
 
-    this.windArrow = document.createElementNS(ns, 'path')
-    this.windArrow.setAttribute('d', 'M -10 -7 L 5 0 L -10 7 Z')
-    this.windArrow.setAttribute('class', 'wind-indicator-arrow')
-    group.appendChild(this.windArrow)
+    const arrow = document.createElementNS(ns, 'path')
+    arrow.setAttribute('d', 'M -10 -7 L 5 0 L -10 7 Z')
+    arrow.setAttribute('class', 'wind-indicator-arrow')
+    group.appendChild(arrow)
 
-    const makeLabel = (x, y, rotation, baseline) => {
+    const makeLabel = (x, y) => {
       const text = document.createElementNS(ns, 'text')
       text.setAttribute('x', x)
       text.setAttribute('y', y)
       text.setAttribute('text-anchor', 'middle')
-      text.setAttribute('dominant-baseline', baseline)
+      text.setAttribute('dominant-baseline', 'central')
       text.setAttribute('font-size', fontSize)
       text.setAttribute('class', 'wind-indicator-component')
-      if (rotation) text.setAttribute('transform', `rotate(${rotation} ${x} ${y})`)
       group.appendChild(text)
       return text
     }
 
     const labelRadius = radius * 0.62
-    this.windHeadText = makeLabel(cx + labelRadius, cy, 0, 'central')
-    this.windTailText = makeLabel(cx - labelRadius, cy, 0, 'central')
-    this.windLeftText = makeLabel(cx, cy - labelRadius, 0, 'central')
-    this.windRightText = makeLabel(cx, cy + labelRadius, 0, 'central')
-
-    this.windTotalText = makeLabel(cx, cy + radius + fontSize * 0.55, 0, 'central')
-    this.windTotalText.classList.add('wind-indicator-total')
+    const headText = makeLabel(cx + labelRadius, cy)
+    const tailText = makeLabel(cx - labelRadius, cy)
+    const leftText = makeLabel(cx, cy - labelRadius)
+    const rightText = makeLabel(cx, cy + labelRadius)
+    const totalText = makeLabel(cx, cy + radius + fontSize * 0.55)
+    totalText.classList.add('wind-indicator-total')
 
     this.trajectoryTarget.appendChild(group)
 
-    this.updateWindIndicator(this.currentIndex || 0)
+    return {
+      center: { cx, cy, radius },
+      arrow,
+      headText,
+      tailText,
+      leftText,
+      rightText,
+      totalText,
+      ...source
+    }
   }
 
-  updateWindIndicator(index) {
-    if (!this.windArrow || !this.windIndicatorCenter || !this.weather) return
+  updateWindIndicators(index) {
+    if (!this.windIndicators) return
 
-    const point = this.processedPoints[index]
+    this.windIndicators.forEach(indicator => {
+      let pointIndex = index
+      if (indicator.byPlayerTime) {
+        const playerTime = this.processedPoints[index]?.playerTime
+        if (playerTime === undefined) return
+        pointIndex = this.closestIndexByPlayerTime(indicator.points, playerTime)
+      }
+      this.updateWindIndicator(indicator, pointIndex)
+    })
+  }
+
+  updateWindIndicator(indicator, index) {
+    const { points, weather, referenceTime } = indicator
+    if (!weather) return
+
+    const point = points[index]
     if (!point) return
 
-    const targetIndex = this.findTargetIndexFrom(index)
-    const heading = this.calculateBearing(point, this.processedPoints[targetIndex])
+    const targetIndex = this.targetIndexFrom(points, index)
+    const heading = this.calculateBearing(point, points[targetIndex])
 
-    const { windSpeed, windDirection } = this.weather.weatherOn(
-      this.processedPoints[0].gpsTime,
-      point.altitude
-    )
+    const { windSpeed, windDirection } = weather.weatherOn(referenceTime, point.altitude)
 
     const relativeFrom = (((windDirection - heading) % 360) + 360) % 360
     const angle = (relativeFrom * Math.PI) / 180
@@ -854,23 +941,53 @@ export default class extends Controller {
     const dx = Math.cos(angle)
     const dy = Math.sin(angle)
 
-    const { cx, cy, radius } = this.windIndicatorCenter
+    const { cx, cy, radius } = indicator.center
     const px = cx + radius * dx
     const py = cy + radius * dy
     const rotation = (Math.atan2(-dy, -dx) * 180) / Math.PI
 
-    this.windArrow.setAttribute('transform', `translate(${px} ${py}) rotate(${rotation})`)
+    indicator.arrow.setAttribute(
+      'transform',
+      `translate(${px} ${py}) rotate(${rotation})`
+    )
 
     const speedKmh = windSpeed * 3.6
     const head = Math.round(speedKmh * Math.cos(angle))
     const side = Math.round(speedKmh * Math.sin(angle))
     const total = Math.round(speedKmh)
 
-    this.windHeadText.textContent = head > 0 ? `${head}` : ''
-    this.windTailText.textContent = head < 0 ? `${-head}` : ''
-    this.windLeftText.textContent = side < 0 ? `${-side}` : ''
-    this.windRightText.textContent = side > 0 ? `${side}` : ''
-    this.windTotalText.textContent = total > 0 ? `${total} km/h` : ''
+    indicator.headText.textContent = head > 0 ? `${head}` : ''
+    indicator.tailText.textContent = head < 0 ? `${-head}` : ''
+    indicator.leftText.textContent = side < 0 ? `${-side}` : ''
+    indicator.rightText.textContent = side > 0 ? `${side}` : ''
+    indicator.totalText.textContent = total > 0 ? `${total} km/h` : ''
+  }
+
+  closestIndexByPlayerTime(points, playerTime) {
+    let closestIndex = 0
+    let minDiff = Infinity
+
+    points.forEach((point, index) => {
+      const diff = Math.abs(point.playerTime - playerTime)
+      if (diff < minDiff) {
+        minDiff = diff
+        closestIndex = index
+      }
+    })
+
+    return closestIndex
+  }
+
+  targetIndexFrom(points, fromIndex) {
+    const targetTime = points[fromIndex].gpsTime + 3000
+
+    for (let i = fromIndex + 1; i < points.length; i++) {
+      if (points[i].gpsTime >= targetTime) {
+        return i
+      }
+    }
+
+    return points.length - 1
   }
 
   renderMaxSpeedMarker() {
@@ -1461,6 +1578,7 @@ export default class extends Controller {
     this.playbackSliderTarget.value = 0
     this.currentIndex = 0
     this.createMapMarker()
+    this.createCompareMapMarker()
     this.createCrosshair()
   }
 
@@ -1486,6 +1604,34 @@ export default class extends Controller {
     })
 
     this.markerElement = img
+  }
+
+  createCompareMapMarker() {
+    if (!this.compareMap || !this.compareProcessedPoints?.length) return
+
+    if (this.compareMapMarker) {
+      this.compareMapMarker.map = null
+    }
+
+    const firstPoint = this.compareProcessedPoints[0]
+
+    const marker = document.createElement('div')
+    marker.style.width = '24px'
+    marker.style.height = '24px'
+    marker.style.transform = 'translateY(50%) rotate(-45deg)'
+    marker.innerHTML =
+      '<svg viewBox="0 0 640 640" width="24" height="24">' +
+      `<path fill="#9C27B0" d="${LOCATION_ARROW_PATH}"/></svg>`
+
+    this.compareMapMarker = new google.maps.marker.AdvancedMarkerElement({
+      map: this.compareMap,
+      position: { lat: firstPoint.latitude, lng: firstPoint.longitude },
+      content: marker
+    })
+
+    this.compareMarkerElement = marker
+
+    this.updateCompareMapMarker(this.processedPoints[0].playerTime)
   }
 
   createCrosshair() {
@@ -1637,7 +1783,7 @@ export default class extends Controller {
     this.updateHighchartsCrosshair(this.currentIndex)
     this.updatePlaybackIndicators(this.currentIndex, 0)
     this.updateMapMarkerAtIndex(this.currentIndex)
-    this.updateWindIndicator(this.currentIndex)
+    this.updateWindIndicators(this.currentIndex)
   }
 
   updatePlaybackPositionInterpolated() {
@@ -1649,7 +1795,7 @@ export default class extends Controller {
     this.updateHighchartsCrosshair(this.currentIndex)
     this.updatePlaybackIndicators(this.currentIndex, this.currentFraction)
     this.updateMapMarkerInterpolated()
-    this.updateWindIndicator(this.currentIndex)
+    this.updateWindIndicators(this.currentIndex)
   }
 
   showCrosshair(index) {
@@ -2063,6 +2209,8 @@ export default class extends Controller {
     const rotation = this.calculateBearing(point, targetPoint)
 
     this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
+
+    this.updateCompareMapMarker(point.playerTime)
   }
 
   updateMapMarkerInterpolated() {
@@ -2085,19 +2233,35 @@ export default class extends Controller {
     const rotation = this.calculateBearing({ latitude: lat, longitude: lng }, targetPoint)
 
     this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
+
+    const playerTime = curr.playerTime + (next.playerTime - curr.playerTime) * fraction
+    this.updateCompareMapMarker(playerTime)
+  }
+
+  updateCompareMapMarker(playerTime) {
+    if (
+      !this.compareMapMarker ||
+      !this.compareMarkerElement ||
+      !this.compareProcessedPoints?.length
+    ) {
+      return
+    }
+
+    const index = this.closestIndexByPlayerTime(this.compareProcessedPoints, playerTime)
+    const point = this.compareProcessedPoints[index]
+    if (!point) return
+
+    this.compareMapMarker.position = { lat: point.latitude, lng: point.longitude }
+
+    const targetIndex = this.targetIndexFrom(this.compareProcessedPoints, index)
+    const targetPoint = this.compareProcessedPoints[targetIndex]
+    const rotation = this.calculateBearing(point, targetPoint)
+
+    this.compareMarkerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
   }
 
   findTargetIndexFrom(fromIndex) {
-    const currentTime = this.processedPoints[fromIndex].gpsTime
-    const targetTime = currentTime + 3000
-
-    for (let i = fromIndex + 1; i < this.processedPoints.length; i++) {
-      if (this.processedPoints[i].gpsTime >= targetTime) {
-        return i
-      }
-    }
-
-    return this.processedPoints.length - 1
+    return this.targetIndexFrom(this.processedPoints, fromIndex)
   }
 
   calculateBearing(from, to) {
@@ -2363,10 +2527,6 @@ export default class extends Controller {
 
     this.compareModalTarget.showModal()
     document.body.classList.add('overflow-hidden')
-
-    if (this.hasCompareSearchInputTarget) {
-      this.compareSearchInputTarget.focus()
-    }
   }
 
   closeCompareModal() {
@@ -2376,83 +2536,15 @@ export default class extends Controller {
     document.body.classList.remove('overflow-hidden')
   }
 
-  searchCompareTracks(event) {
-    const term = event.target.value.trim()
-
-    if (term.length < 2) {
-      this.compareResultsTarget.innerHTML = `
-        <div class="comparison-results-placeholder">
-          Enter at least 2 characters to search
-        </div>
-      `
-      return
-    }
-
-    this.compareResultsTarget.innerHTML = `
-      <div class="comparison-loading">
-        <span>Searching...</span>
-      </div>
-    `
-
-    const url = new URL(this.searchUrlValue, window.location.origin)
-    url.searchParams.set('term', term)
-
-    fetch(url, {
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.renderCompareResults(data)
-      })
-      .catch(() => {
-        this.compareResultsTarget.innerHTML = `
-          <div class="comparison-results-placeholder">
-            Error searching tracks
-          </div>
-        `
-      })
-  }
-
-  renderCompareResults(tracks) {
-    if (!tracks || tracks.length === 0) {
-      this.compareResultsTarget.innerHTML = `
-        <div class="comparison-results-placeholder">
-          No tracks found
-        </div>
-      `
-      return
-    }
-
-    const filteredTracks = tracks.filter(track => track.id !== this.trackIdValue)
-
-    const html = filteredTracks
-      .map(
-        track => `
-        <div class="comparison-result-item"
-             data-action="click->tracks--skydive-performance-track#selectCompareTrack"
-             data-track-id="${track.id}">
-          ${
-            track.pilot?.userpic_url
-              ? `<img src="${track.pilot.userpic_url}" class="comparison-result-item-photo loading-bg" alt="">`
-              : ''
-          }
-          <div class="comparison-result-item-info">
-            <div class="comparison-result-item-name">${track.pilot?.name || track.name || `Track #${track.id}`}</div>
-            <div class="comparison-result-item-details">
-              ${track.suit?.name || ''}
-              ${track.place?.name ? `• ${track.place.name}` : ''}
-            </div>
-          </div>
-        </div>
-      `
-      )
-      .join('')
-
-    this.compareResultsTarget.innerHTML = html
-  }
-
   selectCompareTrack(event) {
-    const trackId = event.currentTarget.dataset.trackId
+    const item = event.target.closest('a.tracks-item')
+    if (!item) return
+
+    event.preventDefault()
+
+    const trackId = item.dataset.id
+    if (!trackId || Number(trackId) === this.trackIdValue) return
+
     const url = new URL(window.location)
     url.searchParams.set('compare_id', trackId)
     window.location.href = url.toString()

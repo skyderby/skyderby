@@ -132,6 +132,7 @@ class TracksController < ApplicationController
       :place_id,
       :year,
       :infinite,
+      :exclude_id,
       profile_id: [],
       suit_id: [],
       place_id: [],

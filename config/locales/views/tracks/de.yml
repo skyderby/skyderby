@@ -36,6 +36,7 @@ de:
       window: Messfenster
       loading: Trackdaten werden geladen
       full_jump: Gesamter Sprung
+      no_data: Keine Trackdaten für diesen Sprung verfügbar
       no_speed_skydiving_result: Für diesen Track konnte kein Speed-Skydiving-Ergebnis berechnet werden
     choose:
       title: 'Track aussuchen zum hochladen'
