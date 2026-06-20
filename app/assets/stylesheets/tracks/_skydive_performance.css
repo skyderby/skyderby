@@ -106,6 +106,35 @@
   text-anchor: middle;
 }
 
+.skydive-performance-chart .wind-indicator-circle {
+  fill: white;
+  fill-opacity: 0.85;
+  stroke: var(--gray-40);
+  stroke-width: 1.5;
+}
+
+.skydive-performance-chart .wind-indicator-pilot {
+  fill: var(--blue-80);
+}
+
+.skydive-performance-chart .wind-indicator-sector {
+  stroke: var(--gray-60);
+  stroke-width: 1;
+}
+
+.skydive-performance-chart .wind-indicator-arrow {
+  fill: var(--red-60);
+}
+
+.skydive-performance-chart .wind-indicator-component {
+  fill: var(--gray-70);
+}
+
+.skydive-performance-chart .wind-indicator-total {
+  fill: var(--gray-60);
+  font-weight: 600;
+}
+
 .skydive-performance-chart .max-speed-marker circle {
   fill: var(--blue-80);
   stroke: white;

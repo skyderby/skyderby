@@ -5,7 +5,7 @@ import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 import cropPoints from 'utils/cropPoints'
 import downsamplePoints from 'utils/downsamplePoints'
-import calculateWindCancellation from 'utils/windCancellation'
+import calculateWindCancellation, { WeatherData } from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
 import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
 import { interpolatePointByTime } from 'utils/laneValidation/utils'
@@ -14,6 +14,12 @@ import { computeBestWindows } from 'utils/tracks/bestWindows'
 import debounce from 'lodash.debounce'
 
 const CHART_PADDING = { left: 100, right: 20, top: 10, bottom: 45 }
+
+const LOCATION_ARROW_PATH =
+  'M541.9 139.5C546.4 127.7 543.6 114.3 534.7 105.4C525.8 96.5 512.4 93.6 ' +
+  '500.6 98.2L84.6 258.2C71.9 263 63.7 275.2 64 288.7C64.3 302.2 73.1 314.1 ' +
+  '85.9 318.3L262.7 377.2L321.6 554C325.9 566.8 337.7 575.6 351.2 575.9C364.7 ' +
+  '576.2 376.9 568 381.8 555.4L541.8 139.4z'
 
 export default class extends Controller {
   static targets = [
@@ -737,7 +743,134 @@ export default class extends Controller {
     this.renderGrid()
     this.renderTrajectoryContent()
     this.renderMaxSpeedMarker()
+    this.renderWindIndicator()
     this.setupInteraction()
+  }
+
+  get weather() {
+    if (!this._weather && this.hasWeatherData) {
+      this._weather = new WeatherData(this.weatherData)
+    }
+    return this._weather
+  }
+
+  renderWindIndicator() {
+    if (!this.hasWeatherData || this.processedPoints.length === 0) return
+
+    const { width } = this.chartDimensions
+    const ns = 'http://www.w3.org/2000/svg'
+    const fontSize = this.viewBoxFontSize(12)
+    const radius = 42
+    const margin = 10
+
+    const cx = width - margin - radius
+    const cy = margin + radius
+    this.windIndicatorCenter = { cx, cy, radius }
+
+    const group = document.createElementNS(ns, 'g')
+    group.setAttribute('class', 'wind-indicator')
+
+    const circle = document.createElementNS(ns, 'circle')
+    circle.setAttribute('cx', cx)
+    circle.setAttribute('cy', cy)
+    circle.setAttribute('r', radius)
+    circle.setAttribute('class', 'wind-indicator-circle')
+    group.appendChild(circle)
+
+    const diagonal = radius * Math.SQRT1_2
+    ;[
+      [cx - diagonal, cy - diagonal, cx + diagonal, cy + diagonal],
+      [cx - diagonal, cy + diagonal, cx + diagonal, cy - diagonal]
+    ].forEach(([x1, y1, x2, y2]) => {
+      const line = document.createElementNS(ns, 'line')
+      line.setAttribute('x1', x1)
+      line.setAttribute('y1', y1)
+      line.setAttribute('x2', x2)
+      line.setAttribute('y2', y2)
+      line.setAttribute('class', 'wind-indicator-sector')
+      group.appendChild(line)
+    })
+
+    const iconSize = 30
+    const scale = iconSize / 640
+    const pilot = document.createElementNS(ns, 'path')
+    pilot.setAttribute('d', LOCATION_ARROW_PATH)
+    pilot.setAttribute('class', 'wind-indicator-pilot')
+    pilot.setAttribute(
+      'transform',
+      `translate(${cx} ${cy}) rotate(45) scale(${scale}) translate(-320 -320)`
+    )
+    group.appendChild(pilot)
+
+    this.windArrow = document.createElementNS(ns, 'path')
+    this.windArrow.setAttribute('d', 'M -10 -7 L 5 0 L -10 7 Z')
+    this.windArrow.setAttribute('class', 'wind-indicator-arrow')
+    group.appendChild(this.windArrow)
+
+    const makeLabel = (x, y, rotation, baseline) => {
+      const text = document.createElementNS(ns, 'text')
+      text.setAttribute('x', x)
+      text.setAttribute('y', y)
+      text.setAttribute('text-anchor', 'middle')
+      text.setAttribute('dominant-baseline', baseline)
+      text.setAttribute('font-size', fontSize)
+      text.setAttribute('class', 'wind-indicator-component')
+      if (rotation) text.setAttribute('transform', `rotate(${rotation} ${x} ${y})`)
+      group.appendChild(text)
+      return text
+    }
+
+    const labelRadius = radius * 0.62
+    this.windHeadText = makeLabel(cx + labelRadius, cy, 0, 'central')
+    this.windTailText = makeLabel(cx - labelRadius, cy, 0, 'central')
+    this.windLeftText = makeLabel(cx, cy - labelRadius, 0, 'central')
+    this.windRightText = makeLabel(cx, cy + labelRadius, 0, 'central')
+
+    this.windTotalText = makeLabel(cx, cy + radius + fontSize * 0.55, 0, 'central')
+    this.windTotalText.classList.add('wind-indicator-total')
+
+    this.trajectoryTarget.appendChild(group)
+
+    this.updateWindIndicator(this.currentIndex || 0)
+  }
+
+  updateWindIndicator(index) {
+    if (!this.windArrow || !this.windIndicatorCenter || !this.weather) return
+
+    const point = this.processedPoints[index]
+    if (!point) return
+
+    const targetIndex = this.findTargetIndexFrom(index)
+    const heading = this.calculateBearing(point, this.processedPoints[targetIndex])
+
+    const { windSpeed, windDirection } = this.weather.weatherOn(
+      this.processedPoints[0].gpsTime,
+      point.altitude
+    )
+
+    const relativeFrom = (((windDirection - heading) % 360) + 360) % 360
+    const angle = (relativeFrom * Math.PI) / 180
+
+    const dx = Math.cos(angle)
+    const dy = Math.sin(angle)
+
+    const { cx, cy, radius } = this.windIndicatorCenter
+    const px = cx + radius * dx
+    const py = cy + radius * dy
+    const rotation = (Math.atan2(-dy, -dx) * 180) / Math.PI
+
+    this.windArrow.setAttribute('transform', `translate(${px} ${py}) rotate(${rotation})`)
+
+    const speedKmh = windSpeed * 3.6
+    const head = Math.round(speedKmh * Math.cos(angle))
+    const side = Math.round(speedKmh * Math.sin(angle))
+    const total = Math.round(speedKmh)
+
+    this.windHeadText.textContent = head > 0 ? `${head}` : ''
+    this.windTailText.textContent = head < 0 ? `${-head}` : ''
+    this.windLeftText.textContent = side < 0 ? `${-side}` : ''
+    this.windRightText.textContent = side > 0 ? `${side}` : ''
+    this.windTotalText.textContent = total > 0 ? `${total} km/h` : ''
   }
 
   renderMaxSpeedMarker() {
@@ -1051,6 +1184,50 @@ export default class extends Controller {
 
     this.processedPoints.forEach((point, index) => {
       const diff = Math.abs(point.distance - targetDistance)
+      if (diff < minDiff) {
+        minDiff = diff
+        closestIndex = index
+      }
+    })
+
+    return closestIndex
+  }
+
+  onChartHover(event) {
+    if (!this.processedPoints || this.processedPoints.length === 0) return
+
+    const chart = this.chartForHover()
+    if (!chart?.pointer) return
+
+    const normalized = chart.pointer.normalize(event)
+    const series = chart.series.find(item => item.visible && item.points?.length)
+    if (!series) return
+
+    const point = series.searchPoint(normalized, true)
+    if (!point) return
+
+    const index = this.findClosestPointByPlayerTime(point.x)
+    if (index < 0) return
+
+    this.currentIndex = index
+    this.currentFraction = 0
+    this.updatePlaybackPosition()
+  }
+
+  chartForHover() {
+    return (
+      (this.hasGlideChartTarget && this.glideChartTarget.chart) ||
+      (this.hasSpeedChartTarget && this.speedChartTarget.chart) ||
+      (this.hasSepChartTarget && this.sepChartTarget.chart)
+    )
+  }
+
+  findClosestPointByPlayerTime(playerTime) {
+    let closestIndex = -1
+    let minDiff = Infinity
+
+    this.processedPoints.forEach((point, index) => {
+      const diff = Math.abs(point.playerTime - playerTime)
       if (diff < minDiff) {
         minDiff = diff
         closestIndex = index
@@ -1460,6 +1637,7 @@ export default class extends Controller {
     this.updateHighchartsCrosshair(this.currentIndex)
     this.updatePlaybackIndicators(this.currentIndex, 0)
     this.updateMapMarkerAtIndex(this.currentIndex)
+    this.updateWindIndicator(this.currentIndex)
   }
 
   updatePlaybackPositionInterpolated() {
@@ -1471,6 +1649,7 @@ export default class extends Controller {
     this.updateHighchartsCrosshair(this.currentIndex)
     this.updatePlaybackIndicators(this.currentIndex, this.currentFraction)
     this.updateMapMarkerInterpolated()
+    this.updateWindIndicator(this.currentIndex)
   }
 
   showCrosshair(index) {

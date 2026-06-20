@@ -35,7 +35,7 @@ const shiftPosition = (origLatDeg, origLonDeg, distance, bearing) => {
   }
 }
 
-class WeatherData {
+export class WeatherData {
   constructor(weatherData) {
     this.weatherData = weatherData.map(record => ({
       ...record,
