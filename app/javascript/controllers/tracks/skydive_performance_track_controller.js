@@ -1,8 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 import { initGlideChart, initSpeedsChart, initAccuracyChart } from 'charts'
 import initMapsApi from 'utils/google_maps_api'
-import Trajectory from 'utils/tracks/map/trajectory'
-import Bounds from 'utils/maps/bounds'
 import cropPoints from 'utils/cropPoints'
 import downsamplePoints from 'utils/downsamplePoints'
 import calculateWindCancellation, { WeatherData } from 'utils/windCancellation'
@@ -10,9 +8,8 @@ import RangeSummary from 'charts/RangeSummary'
 import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
 import { interpolatePointByTime } from 'utils/laneValidation/utils'
 import { computeBestWindows } from 'utils/tracks/bestWindows'
-import SkydivePerformanceSideView, {
-  LOCATION_ARROW_PATH
-} from 'utils/tracks/SkydivePerformanceSideView'
+import SkydivePerformanceSideView from 'utils/tracks/SkydivePerformanceSideView'
+import TrackMap from 'utils/tracks/map/TrackMap'
 import {
   calculateBearing,
   targetIndexFrom,
@@ -302,6 +299,10 @@ export default class extends Controller {
       this._compareWeather = new WeatherData(this.compareWeatherData)
     }
     return this._compareWeather
+  }
+
+  get map() {
+    return this.trackMap?.map
   }
 
   initializeRange() {
@@ -827,162 +828,31 @@ export default class extends Controller {
   renderMap() {
     if (!this.hasMapTarget) return
 
-    if (!this.map) {
-      this.initMap()
-    }
-
-    this.clearMapPolylines()
-    this.drawTrajectory()
-    this.fitBounds()
-  }
-
-  initMap() {
-    this.map = new google.maps.Map(this.mapTarget, {
-      zoom: 2,
-      center: new google.maps.LatLng(20, 20),
-      mapTypeId: 'terrain',
-      mapId: 'SKYDIVE_PERFORMANCE_MAP',
-      cameraControl: false,
-      streetViewControl: false,
-      zoomControl: true
-    })
-    this.mapPolylines = []
-  }
-
-  clearMapPolylines() {
-    if (this.mapPolylines) {
-      this.mapPolylines.forEach(p => p.setMap(null))
-      this.mapPolylines = []
-    }
-  }
-
-  drawTrajectory() {
-    const fullTrackPoints = this.points.map(p => ({
-      latitude: p.latitude,
-      longitude: p.longitude,
-      hSpeed: p.hSpeed
-    }))
-    this.drawTrajectorySegment(fullTrackPoints, 3, 0.7)
-
-    const windowPoints = this.windowPoints.map(p => ({
-      latitude: p.latitude,
-      longitude: p.longitude,
-      hSpeed: p.hSpeed
-    }))
-    this.drawTrajectorySegment(windowPoints, 5, 1)
-  }
-
-  drawTrajectorySegment(points, strokeWeight, strokeOpacity) {
-    if (points.length < 2) return
-
-    const trajectory = new Trajectory(points)
-
-    for (let { path, color } of trajectory.polylines) {
-      const polyline = new google.maps.Polyline({
-        path,
-        strokeColor: color,
-        strokeOpacity,
-        strokeWeight
+    if (!this.trackMap) {
+      this.trackMap = new TrackMap({
+        element: this.mapTarget,
+        mapId: 'SKYDIVE_PERFORMANCE_MAP',
+        markerImageUrl: this.locationArrowUrlValue
       })
-      polyline.setMap(this.map)
-      this.mapPolylines.push(polyline)
     }
-  }
 
-  fitBounds() {
-    const mapPoints = this.points.map(p => ({
-      latitude: p.latitude,
-      longitude: p.longitude
-    }))
-
-    if (mapPoints.length === 0) return
-
-    const bounds = new Bounds(mapPoints)
-    const mapBounds = new google.maps.LatLngBounds()
-
-    mapBounds.extend(new google.maps.LatLng(bounds.minLatitude, bounds.minLongitude))
-    mapBounds.extend(new google.maps.LatLng(bounds.maxLatitude, bounds.maxLongitude))
-
-    this.map.fitBounds(mapBounds)
-    this.map.setCenter(mapBounds.getCenter())
+    this.trackMap.render(this.points, this.windowPoints)
   }
 
   renderCompareMap() {
     if (!this.hasCompareMapTarget || !this.comparePoints) return
 
-    if (!this.compareMap) {
-      this.compareMap = new google.maps.Map(this.compareMapTarget, {
-        zoom: 2,
-        center: new google.maps.LatLng(20, 20),
-        mapTypeId: 'terrain',
+    if (!this.compareMapView) {
+      this.compareMapView = new TrackMap({
+        element: this.compareMapTarget,
         mapId: 'SKYDIVE_PERFORMANCE_COMPARE_MAP',
-        cameraControl: false,
-        streetViewControl: false,
-        zoomControl: true
+        markerColor: '#9C27B0'
       })
-      this.compareMapPolylines = []
     }
 
-    if (this.compareMapPolylines) {
-      this.compareMapPolylines.forEach(p => p.setMap(null))
-      this.compareMapPolylines = []
-    }
-
-    const fullTrackPoints = this.comparePoints.map(p => ({
-      latitude: p.latitude,
-      longitude: p.longitude,
-      hSpeed: p.hSpeed
-    }))
-    this.drawCompareTrajectorySegment(fullTrackPoints, 3, 0.7)
-
-    const compareWindowPoints = cropPoints(
-      this.comparePoints,
-      this.fromValue,
-      this.toValue
-    )
-    const windowPoints = compareWindowPoints.map(p => ({
-      latitude: p.latitude,
-      longitude: p.longitude,
-      hSpeed: p.hSpeed
-    }))
-    this.drawCompareTrajectorySegment(windowPoints, 5, 1)
-
-    this.fitCompareBounds()
-  }
-
-  drawCompareTrajectorySegment(points, strokeWeight, strokeOpacity) {
-    if (points.length < 2) return
-
-    const trajectory = new Trajectory(points)
-
-    for (let { path, color } of trajectory.polylines) {
-      const polyline = new google.maps.Polyline({
-        path,
-        strokeColor: color,
-        strokeOpacity,
-        strokeWeight
-      })
-      polyline.setMap(this.compareMap)
-      this.compareMapPolylines.push(polyline)
-    }
-  }
-
-  fitCompareBounds() {
-    const mapPoints = this.comparePoints.map(p => ({
-      latitude: p.latitude,
-      longitude: p.longitude
-    }))
-
-    if (mapPoints.length === 0) return
-
-    const bounds = new Bounds(mapPoints)
-    const mapBounds = new google.maps.LatLngBounds()
-
-    mapBounds.extend(new google.maps.LatLng(bounds.minLatitude, bounds.minLongitude))
-    mapBounds.extend(new google.maps.LatLng(bounds.maxLatitude, bounds.maxLongitude))
-
-    this.compareMap.fitBounds(mapBounds)
-    this.compareMap.setCenter(mapBounds.getCenter())
+    const windowPoints = cropPoints(this.comparePoints, this.fromValue, this.toValue)
+    this.compareMapView.render(this.comparePoints, windowPoints)
+    this.updateCompareMapMarker(this.processedPoints[0].playerTime)
   }
 
   initPlayback() {
@@ -991,60 +861,6 @@ export default class extends Controller {
     this.playbackSliderTarget.max = this.processedPoints.length - 1
     this.playbackSliderTarget.value = 0
     this.currentIndex = 0
-    this.createMapMarker()
-    this.createCompareMapMarker()
-  }
-
-  createMapMarker() {
-    if (!this.map || this.processedPoints.length === 0) return
-
-    if (this.mapMarker) {
-      this.mapMarker.map = null
-    }
-
-    const firstPoint = this.processedPoints[0]
-
-    const img = document.createElement('img')
-    img.src = this.locationArrowUrlValue
-    img.style.width = '24px'
-    img.style.height = '24px'
-    img.style.transform = 'translateY(50%) rotate(-45deg)'
-
-    this.mapMarker = new google.maps.marker.AdvancedMarkerElement({
-      map: this.map,
-      position: { lat: firstPoint.latitude, lng: firstPoint.longitude },
-      content: img
-    })
-
-    this.markerElement = img
-  }
-
-  createCompareMapMarker() {
-    if (!this.compareMap || !this.compareProcessedPoints?.length) return
-
-    if (this.compareMapMarker) {
-      this.compareMapMarker.map = null
-    }
-
-    const firstPoint = this.compareProcessedPoints[0]
-
-    const marker = document.createElement('div')
-    marker.style.width = '24px'
-    marker.style.height = '24px'
-    marker.style.transform = 'translateY(50%) rotate(-45deg)'
-    marker.innerHTML =
-      '<svg viewBox="0 0 640 640" width="24" height="24">' +
-      `<path fill="#9C27B0" d="${LOCATION_ARROW_PATH}"/></svg>`
-
-    this.compareMapMarker = new google.maps.marker.AdvancedMarkerElement({
-      map: this.compareMap,
-      position: { lat: firstPoint.latitude, lng: firstPoint.longitude },
-      content: marker
-    })
-
-    this.compareMarkerElement = marker
-
-    this.updateCompareMapMarker(this.processedPoints[0].playerTime)
   }
 
   togglePlay() {
@@ -1297,24 +1113,20 @@ export default class extends Controller {
   }
 
   updateMapMarkerAtIndex(index) {
-    if (!this.mapMarker || !this.markerElement) return
+    if (!this.trackMap) return
 
     const point = this.processedPoints[index]
     if (!point) return
 
-    this.mapMarker.position = { lat: point.latitude, lng: point.longitude }
-
     const targetIndex = targetIndexFrom(this.processedPoints, index)
-    const targetPoint = this.processedPoints[targetIndex]
-    const rotation = calculateBearing(point, targetPoint)
+    const heading = calculateBearing(point, this.processedPoints[targetIndex])
 
-    this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
-
+    this.trackMap.setPosition(point, heading)
     this.updateCompareMapMarker(point.playerTime)
   }
 
   updateMapMarkerInterpolated() {
-    if (!this.mapMarker || !this.markerElement) return
+    if (!this.trackMap) return
 
     const curr = this.processedPoints[this.currentIndex]
     const next =
@@ -1323,41 +1135,31 @@ export default class extends Controller {
       ]
     const fraction = this.currentFraction
 
-    const lat = curr.latitude + (next.latitude - curr.latitude) * fraction
-    const lng = curr.longitude + (next.longitude - curr.longitude) * fraction
-
-    this.mapMarker.position = { lat, lng }
+    const point = {
+      latitude: curr.latitude + (next.latitude - curr.latitude) * fraction,
+      longitude: curr.longitude + (next.longitude - curr.longitude) * fraction
+    }
 
     const targetIndex = targetIndexFrom(this.processedPoints, this.currentIndex)
-    const targetPoint = this.processedPoints[targetIndex]
-    const rotation = calculateBearing({ latitude: lat, longitude: lng }, targetPoint)
+    const heading = calculateBearing(point, this.processedPoints[targetIndex])
 
-    this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
+    this.trackMap.setPosition(point, heading)
 
     const playerTime = curr.playerTime + (next.playerTime - curr.playerTime) * fraction
     this.updateCompareMapMarker(playerTime)
   }
 
   updateCompareMapMarker(playerTime) {
-    if (
-      !this.compareMapMarker ||
-      !this.compareMarkerElement ||
-      !this.compareProcessedPoints?.length
-    ) {
-      return
-    }
+    if (!this.compareMapView || !this.compareProcessedPoints?.length) return
 
     const index = closestIndexByPlayerTime(this.compareProcessedPoints, playerTime)
     const point = this.compareProcessedPoints[index]
     if (!point) return
 
-    this.compareMapMarker.position = { lat: point.latitude, lng: point.longitude }
-
     const targetIndex = targetIndexFrom(this.compareProcessedPoints, index)
-    const targetPoint = this.compareProcessedPoints[targetIndex]
-    const rotation = calculateBearing(point, targetPoint)
+    const heading = calculateBearing(point, this.compareProcessedPoints[targetIndex])
 
-    this.compareMarkerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
+    this.compareMapView.setPosition(point, heading)
   }
 
   toggleDesignatedLane() {
