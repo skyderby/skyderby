@@ -21,8 +21,18 @@
   </div>
 
   <div class="show-page-content">
+    <% if @ranking.jump_kind_options.any? %>
+      <div class="tab-bar">
+        <% @ranking.jump_kind_options.each do |kind| %>
+          <%= link_to t(".jump_kinds.#{kind || 'all'}"),
+                      url_for(request.path_parameters.merge(jump_kind: kind, page: nil)),
+                      class: class_names('tab-bar-item', 'active' => @ranking.jump_kind == kind) %>
+        <% end %>
+      </div>
+    <% end %>
+
     <div class="card">
-      <%= render 'scoreboard' %>
+      <%= render 'scoreboard', ranking: @ranking %>
     </div>
 
     <%= render 'sponsors/list', sponsorable: @competition, editable: %>

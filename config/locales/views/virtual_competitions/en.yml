@@ -1,5 +1,10 @@
 en:
   virtual_competitions:
+    show:
+      jump_kinds:
+        all: All
+        skydive: Skydive
+        base: BASE
     index:
       show_archived: Show archived
     person_details:

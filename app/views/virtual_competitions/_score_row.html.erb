@@ -1,10 +1,11 @@
-<%# locals: (score:, competition:, current_user_row: false) %>
+<%# locals: (score:, ranking:, current_user_row: false) %>
 
-<% rank_change = competition.rank_change_for(score) %>
+<% competition = ranking.competition %>
+<% rank_change = ranking.rank_change_for(score) %>
 
 <div class="<%= class_names('vc-scoreboard__row', score.rank <= 3 && 'vc-scoreboard__row--top', current_user_row && 'vc-scoreboard__row--current') %>" data-rank="<%= score.rank %>">
   <div class="vc-scoreboard__rank"><%= score.rank %></div>
-  <% if competition.show_rank_changes? %>
+  <% if ranking.show_rank_changes? %>
     <div class="vc-scoreboard__rank-change">
       <% if rank_change.nil? %>
         <span class="rank-new" data-controller="tooltip">•<span class="for-screen-reader"><%= t('virtual_competitions.scoreboard.rank_new') %></span></span>

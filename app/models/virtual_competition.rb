@@ -62,9 +62,17 @@ class VirtualCompetition < ApplicationRecord
     end
   end
 
+  def title = [group&.name, name].compact.join(' - ')
+
   def worldwide?
     !place
   end
+
+  def overall_ranking(scores, **) = Ranking.new(self, scores, **)
+
+  def annual_ranking(scores, year:, **) = Ranking::Annual.new(self, scores, year:, **)
+
+  def period_ranking(scores, **) = Ranking.new(self, scores, **)
 
   def finished?
     period_to.present? && period_to < Date.current

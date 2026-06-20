@@ -60,7 +60,7 @@
     <div class="track-online-result">
       <% competition = result.virtual_competition %>
       <a href="<%= virtual_competition_path(competition) %>">
-        <%= VirtualCompetitions::TitlePresenter.call(competition) %>
+        <%= competition.title %>
       </a>
       <span>
         : <%= format_result(result.result, competition) %> <%= competition_unit(competition) %>

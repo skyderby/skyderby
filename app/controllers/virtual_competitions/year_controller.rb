@@ -1,27 +1,23 @@
 module VirtualCompetitions
   class YearController < ApplicationController
+    ASSOCIATIONS = [
+      { suit: :manufacturer },
+      { track: [{ place: :country }, :video] },
+      { profile: :owner }
+    ].freeze
+
     def show
-      when_valid_params do
-        @competition = YearPresenter.new(params)
-      end
+      @competition = VirtualCompetition.find(params[:virtual_competition_id])
+      return redirect_to virtual_competition_path(@competition) unless @competition.annual?
+
+      year = params[:year].to_i
+      scores = VirtualCompetition::AnnualTopScore
+               .for_competition(@competition)
+               .for_year(year)
+               .includes(ASSOCIATIONS)
+      @ranking = @competition.annual_ranking(scores, year:, page: params[:page], jump_kind: params[:jump_kind])
     end
 
-    def self.controller_path
-      'virtual_competitions'
-    end
-
-    private
-
-    def when_valid_params
-      competition = VirtualCompetition.find(params[:virtual_competition_id])
-
-      return redirect_to_parent_controller unless competition.annual?
-
-      yield
-    end
-
-    def redirect_to_parent_controller
-      redirect_to virtual_competition_path(params[:virtual_competition_id])
-    end
+    def self.controller_path = 'virtual_competitions'
   end
 end

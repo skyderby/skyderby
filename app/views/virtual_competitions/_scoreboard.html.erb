@@ -1,32 +1,34 @@
+<%# locals: (ranking:) %>
+
 <%
   current_profile = current_user.profile if current_user.registered?
-  current_user_score = current_profile && @competition.all_scores.find { |s| s.profile_id == current_profile.id }
-  current_user_on_page = current_user_score && @competition.scores.any? { |s| s.profile_id == current_profile.id }
+  current_user_score = current_profile && ranking.all_scores.find { |s| s.profile_id == current_profile.id }
+  current_user_on_page = current_user_score && ranking.scores.any? { |s| s.profile_id == current_profile.id }
 %>
 
 <div class="vc-scoreboard">
-  <% if @competition.all_scores.size > 2 %>
+  <% if ranking.all_scores.size > 2 %>
     <div class="vc-scoreboard__leaderboard">
-      <%= render 'leaderboard', leaders: @competition.all_scores.take(3) %>
+      <%= render 'leaderboard', leaders: ranking.all_scores.take(3) %>
     </div>
   <% end %>
 
   <div class="vc-scoreboard__list">
-    <% @competition.scores.each do |score| %>
-      <%= render 'score_row', score: score, competition: @competition, current_user_row: current_profile && score.profile_id == current_profile.id %>
+    <% ranking.scores.each do |score| %>
+      <%= render 'score_row', score: score, ranking: ranking, current_user_row: current_profile && score.profile_id == current_profile.id %>
     <% end %>
 
     <% if current_user_score && !current_user_on_page %>
       <div class="vc-scoreboard__separator">
         <span class="vc-scoreboard__ellipsis"></span>
       </div>
-      <%= render 'score_row', score: current_user_score, competition: @competition, current_user_row: true %>
+      <%= render 'score_row', score: current_user_score, ranking: ranking, current_user_row: true %>
     <% end %>
   </div>
 
   <div class="vc-scoreboard__pagination">
     <div class="pagination">
-      <%= paginate @competition.scores %>
+      <%= paginate ranking.scores %>
     </div>
   </div>
 </div>
