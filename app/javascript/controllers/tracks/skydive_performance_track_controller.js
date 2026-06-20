@@ -32,71 +32,19 @@ export default class extends Controller {
     'playbackSlider',
     'playbackIndicators',
     'comparePlaybackIndicators',
-    'distance',
-    'groundSpeed',
-    'groundSpeedMax',
-    'groundSpeedMin',
-    'summaryGlideRatio',
-    'glideRatioMax',
-    'glideRatioMin',
-    'elevation',
-    'verticalSpeed',
-    'verticalSpeedMax',
-    'verticalSpeedMin',
-    'duration',
+    'summaryIndicators',
+    'compareSummaryIndicators',
     'range3000to2000',
     'range2500to1500',
     'bestSpeed',
     'bestDistance',
     'bestTime',
-    'windEffectContainerDistance',
-    'windEffectDistancePercent',
-    'windEffectDistanceWindPercent',
-    'windEffectDistance',
-    'windEffectDistanceWind',
-    'windEffectContainerSpeed',
-    'windEffectSpeedPercent',
-    'windEffectSpeedWindPercent',
-    'windEffectSpeed',
-    'windEffectSpeedWind',
-    'windEffectContainerGlideRatio',
-    'windEffectGlideRatioPercent',
-    'windEffectGlideRatioWindPercent',
-    'windEffectGlideRatio',
-    'windEffectGlideRatioWind',
     'designatedLaneToggle',
     'straightLineToggle',
     'emptyState',
     'sepChart',
     'compareModal',
-    'compareMap',
-    'compareDistance',
-    'compareGroundSpeed',
-    'compareGroundSpeedMax',
-    'compareGroundSpeedMin',
-    'compareSummaryGlideRatio',
-    'compareGlideRatioMax',
-    'compareGlideRatioMin',
-    'compareElevation',
-    'compareVerticalSpeed',
-    'compareVerticalSpeedMax',
-    'compareVerticalSpeedMin',
-    'compareDuration',
-    'compareWindEffectContainerDistance',
-    'compareWindEffectDistancePercent',
-    'compareWindEffectDistanceWindPercent',
-    'compareWindEffectDistance',
-    'compareWindEffectDistanceWind',
-    'compareWindEffectContainerSpeed',
-    'compareWindEffectSpeedPercent',
-    'compareWindEffectSpeedWindPercent',
-    'compareWindEffectSpeed',
-    'compareWindEffectSpeedWind',
-    'compareWindEffectContainerGlideRatio',
-    'compareWindEffectGlideRatioPercent',
-    'compareWindEffectGlideRatioWindPercent',
-    'compareWindEffectGlideRatio',
-    'compareWindEffectGlideRatioWind'
+    'compareMap'
   ]
 
   static outlets = ['tracks--range-selector']
@@ -1188,120 +1136,18 @@ export default class extends Controller {
   }
 
   updateSummaryIndicators() {
-    if (!this.rangeSummary) return
+    if (!this.hasSummaryIndicatorsTarget) return
 
-    if (this.hasDistanceTarget) {
-      this.distanceTarget.innerText = Math.floor(this.rangeSummary.distance)
-    }
-    if (this.hasSummaryGlideRatioTarget) {
-      this.summaryGlideRatioTarget.innerText = this.formatGlideRatio(
-        this.rangeSummary.glideRatio.avg
-      )
-    }
-    if (this.hasGlideRatioMinTarget) {
-      this.glideRatioMinTarget.innerText = this.formatGlideRatio(
-        this.rangeSummary.glideRatio.min
-      )
-    }
-    if (this.hasGlideRatioMaxTarget) {
-      this.glideRatioMaxTarget.innerText = this.formatGlideRatio(
-        this.rangeSummary.glideRatio.max
-      )
-    }
-    if (this.hasGroundSpeedTarget) {
-      this.groundSpeedTarget.innerText = this.rangeSummary.horizontalSpeed.avg.toFixed(0)
-    }
-    if (this.hasGroundSpeedMinTarget) {
-      this.groundSpeedMinTarget.innerText =
-        this.rangeSummary.horizontalSpeed.min.toFixed(0)
-    }
-    if (this.hasGroundSpeedMaxTarget) {
-      this.groundSpeedMaxTarget.innerText =
-        this.rangeSummary.horizontalSpeed.max.toFixed(0)
-    }
-    if (this.hasElevationTarget) {
-      this.elevationTarget.innerText = this.rangeSummary.elevation.toFixed(0)
-    }
-    if (this.hasVerticalSpeedTarget) {
-      this.verticalSpeedTarget.innerText = this.rangeSummary.verticalSpeed.avg.toFixed(0)
-    }
-    if (this.hasVerticalSpeedMinTarget) {
-      this.verticalSpeedMinTarget.innerText =
-        this.rangeSummary.verticalSpeed.min.toFixed(0)
-    }
-    if (this.hasVerticalSpeedMaxTarget) {
-      this.verticalSpeedMaxTarget.innerText =
-        this.rangeSummary.verticalSpeed.max.toFixed(0)
-    }
-    if (this.hasDurationTarget) {
-      this.durationTarget.innerText = this.rangeSummary.time.toFixed(1)
-    }
-
-    if (this.hasWeatherData) this.updateWindEffectIndicators()
+    this.summaryIndicatorsController(this.summaryIndicatorsTarget)?.update(
+      this.rangeSummary
+    )
   }
 
-  updateWindEffectIndicators() {
-    const distanceEffect = this.rangeSummary.distanceWindEffect
-    if (distanceEffect?.value !== null) {
-      this.windEffectContainerDistanceTarget.style.display = ''
-      this.updateWindEffectValues(
-        distanceEffect,
-        this.windEffectDistanceTarget,
-        this.windEffectDistanceWindTarget,
-        this.windEffectDistancePercentTarget,
-        this.windEffectDistanceWindPercentTarget,
-        0
-      )
-    }
-
-    const speedEffect = this.rangeSummary.horizontalSpeedWindEffect
-    if (speedEffect?.value !== null) {
-      this.windEffectContainerSpeedTarget.style.display = ''
-      this.updateWindEffectValues(
-        speedEffect,
-        this.windEffectSpeedTarget,
-        this.windEffectSpeedWindTarget,
-        this.windEffectSpeedPercentTarget,
-        this.windEffectSpeedWindPercentTarget,
-        0
-      )
-    }
-
-    const glideEffect = this.rangeSummary.glideRatioWindEffect
-    if (glideEffect?.value !== null) {
-      this.windEffectContainerGlideRatioTarget.style.display = ''
-      this.updateWindEffectValues(
-        glideEffect,
-        this.windEffectGlideRatioTarget,
-        this.windEffectGlideRatioWindTarget,
-        this.windEffectGlideRatioPercentTarget,
-        this.windEffectGlideRatioWindPercentTarget,
-        2
-      )
-    }
-  }
-
-  updateWindEffectValues(effect, valueEl, windEl, percentEl, windPercentEl, decimals) {
-    valueEl.innerText = effect.value.toFixed(decimals)
-    windEl.innerText =
-      effect.windEffect > 0
-        ? `+${effect.windEffect.toFixed(decimals)}`
-        : effect.windEffect.toFixed(decimals)
-
-    const absPercent = Math.abs(effect.windEffectPercent)
-    const valuePercent = 100 - absPercent
-
-    const clampedValuePercent = Math.max(0, Math.min(100, valuePercent))
-    const clampedWindPercent = Math.max(0, Math.min(100, absPercent))
-
-    percentEl.style.width = `${clampedValuePercent}%`
-    windPercentEl.style.width = `${clampedWindPercent}%`
-  }
-
-  formatGlideRatio(value) {
-    if (value === null || value === undefined || !isFinite(value)) return '--'
-    if (value >= 10) return '≥ 10'
-    return value.toFixed(2)
+  summaryIndicatorsController(element) {
+    return this.application.getControllerForElementAndIdentifier(
+      element,
+      'summary-indicators'
+    )
   }
 
   updatePlaybackIndicators(index, fraction) {
@@ -1657,106 +1503,11 @@ export default class extends Controller {
   }
 
   updateCompareSummaryIndicators() {
-    if (!this.compareRangeSummary) return
+    if (!this.hasCompareSummaryIndicatorsTarget) return
 
-    if (this.hasCompareDistanceTarget) {
-      this.compareDistanceTarget.innerText = Math.floor(this.compareRangeSummary.distance)
-    }
-    if (this.hasCompareSummaryGlideRatioTarget) {
-      this.compareSummaryGlideRatioTarget.innerText = this.formatGlideRatio(
-        this.compareRangeSummary.glideRatio.avg
-      )
-    }
-    if (this.hasCompareGlideRatioMinTarget) {
-      this.compareGlideRatioMinTarget.innerText = this.formatGlideRatio(
-        this.compareRangeSummary.glideRatio.min
-      )
-    }
-    if (this.hasCompareGlideRatioMaxTarget) {
-      this.compareGlideRatioMaxTarget.innerText = this.formatGlideRatio(
-        this.compareRangeSummary.glideRatio.max
-      )
-    }
-    if (this.hasCompareGroundSpeedTarget) {
-      this.compareGroundSpeedTarget.innerText =
-        this.compareRangeSummary.horizontalSpeed.avg.toFixed(0)
-    }
-    if (this.hasCompareGroundSpeedMinTarget) {
-      this.compareGroundSpeedMinTarget.innerText =
-        this.compareRangeSummary.horizontalSpeed.min.toFixed(0)
-    }
-    if (this.hasCompareGroundSpeedMaxTarget) {
-      this.compareGroundSpeedMaxTarget.innerText =
-        this.compareRangeSummary.horizontalSpeed.max.toFixed(0)
-    }
-    if (this.hasCompareElevationTarget) {
-      this.compareElevationTarget.innerText =
-        this.compareRangeSummary.elevation.toFixed(0)
-    }
-    if (this.hasCompareVerticalSpeedTarget) {
-      this.compareVerticalSpeedTarget.innerText =
-        this.compareRangeSummary.verticalSpeed.avg.toFixed(0)
-    }
-    if (this.hasCompareVerticalSpeedMinTarget) {
-      this.compareVerticalSpeedMinTarget.innerText =
-        this.compareRangeSummary.verticalSpeed.min.toFixed(0)
-    }
-    if (this.hasCompareVerticalSpeedMaxTarget) {
-      this.compareVerticalSpeedMaxTarget.innerText =
-        this.compareRangeSummary.verticalSpeed.max.toFixed(0)
-    }
-    if (this.hasCompareDurationTarget) {
-      this.compareDurationTarget.innerText = this.compareRangeSummary.time.toFixed(1)
-    }
-
-    if (this.hasWeatherData) this.updateCompareWindEffectIndicators()
-  }
-
-  updateCompareWindEffectIndicators() {
-    const distanceEffect = this.compareRangeSummary.distanceWindEffect
-    if (
-      distanceEffect?.value !== null &&
-      this.hasCompareWindEffectContainerDistanceTarget
-    ) {
-      this.compareWindEffectContainerDistanceTarget.style.display = ''
-      this.updateWindEffectValues(
-        distanceEffect,
-        this.compareWindEffectDistanceTarget,
-        this.compareWindEffectDistanceWindTarget,
-        this.compareWindEffectDistancePercentTarget,
-        this.compareWindEffectDistanceWindPercentTarget,
-        0
-      )
-    }
-
-    const speedEffect = this.compareRangeSummary.horizontalSpeedWindEffect
-    if (speedEffect?.value !== null && this.hasCompareWindEffectContainerSpeedTarget) {
-      this.compareWindEffectContainerSpeedTarget.style.display = ''
-      this.updateWindEffectValues(
-        speedEffect,
-        this.compareWindEffectSpeedTarget,
-        this.compareWindEffectSpeedWindTarget,
-        this.compareWindEffectSpeedPercentTarget,
-        this.compareWindEffectSpeedWindPercentTarget,
-        0
-      )
-    }
-
-    const glideEffect = this.compareRangeSummary.glideRatioWindEffect
-    if (
-      glideEffect?.value !== null &&
-      this.hasCompareWindEffectContainerGlideRatioTarget
-    ) {
-      this.compareWindEffectContainerGlideRatioTarget.style.display = ''
-      this.updateWindEffectValues(
-        glideEffect,
-        this.compareWindEffectGlideRatioTarget,
-        this.compareWindEffectGlideRatioWindTarget,
-        this.compareWindEffectGlideRatioPercentTarget,
-        this.compareWindEffectGlideRatioWindPercentTarget,
-        2
-      )
-    }
+    this.summaryIndicatorsController(this.compareSummaryIndicatorsTarget)?.update(
+      this.compareRangeSummary
+    )
   }
 
   openCompareModal() {

@@ -1,32 +1,32 @@
-<%# locals: (compare: false) %>
-<% target_prefix = compare ? 'compare' : '' %>
-<% target_suffix = compare ? 'Compare' : '' %>
-<div class="track-indicators<%= ' track-indicators--compare' if compare %>">
+<%# locals: (compare: false, **attributes) %>
+<div class="track-indicators<%= ' track-indicators--compare' if compare %>"
+     data-controller="summary-indicators"
+     <%= tag.attributes(attributes) %>>
   <div class="track-indicator" data-value="distance">
     <div class="track-indicator-title"><%= t('tracks.indicators.distance') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
            aria-label="distance"
-           data-tracks--skydive-performance-track-target="<%= compare ? 'compareDistance' : 'distance' %>"></div>
+           data-summary-indicators-target="distance"></div>
       <div class="track-indicator-units"><%= t('units.m') %></div>
     </div>
 
     <div class="wind-effect-container"
          style="display: none;"
-         data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectContainerDistance' : 'windEffectContainerDistance' %>">
+         data-summary-indicators-target="windEffectContainerDistance">
       <div class="wind-effect-rail">
         <div class="wind-effect-result-percent"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectDistancePercent' : 'windEffectDistancePercent' %>"></div>
+             data-summary-indicators-target="windEffectDistancePercent"></div>
         <div class="wind-effect-wind-percent"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectDistanceWindPercent' : 'windEffectDistanceWindPercent' %>"></div>
+             data-summary-indicators-target="windEffectDistanceWindPercent"></div>
       </div>
 
       <div class="wind-effect-values">
         <div class="wind-effect-result"
              aria-label="wind cancelled value"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectDistance' : 'windEffectDistance' %>"></div>
+             data-summary-indicators-target="windEffectDistance"></div>
         <div class="wind-effect-wind"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectDistanceWind' : 'windEffectDistanceWind' %>"
+             data-summary-indicators-target="windEffectDistanceWind"
              aria-label="wind effect"></div>
       </div>
     </div>
@@ -37,18 +37,18 @@
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
            aria-label="average horizontal speed"
-           data-tracks--skydive-performance-track-target="<%= compare ? 'compareGroundSpeed' : 'groundSpeed' %>">
+           data-summary-indicators-target="groundSpeed">
       </div>
       <div class="track-indicator-minmax-value">
         <div class="track-indicator-max">
           <span aria-label="maximum horizontal speed"
-                data-tracks--skydive-performance-track-target="<%= compare ? 'compareGroundSpeedMax' : 'groundSpeedMax' %>">
+                data-summary-indicators-target="groundSpeedMax">
           </span>
           <%= icon_tag 'angle-up-solid' %>
         </div>
         <div class="track-indicator-min">
           <span aria-label="minimum horizontal speed"
-                data-tracks--skydive-performance-track-target="<%= compare ? 'compareGroundSpeedMin' : 'groundSpeedMin' %>">
+                data-summary-indicators-target="groundSpeedMin">
           </span>
           <%= icon_tag 'angle-down-solid' %>
         </div>
@@ -58,20 +58,20 @@
 
     <div class="wind-effect-container"
          style="display: none;"
-         data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectContainerSpeed' : 'windEffectContainerSpeed' %>">
+         data-summary-indicators-target="windEffectContainerSpeed">
       <div class="wind-effect-rail">
         <div class="wind-effect-result-percent"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectSpeedPercent' : 'windEffectSpeedPercent' %>"></div>
+             data-summary-indicators-target="windEffectSpeedPercent"></div>
         <div class="wind-effect-wind-percent"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectSpeedWindPercent' : 'windEffectSpeedWindPercent' %>"></div>
+             data-summary-indicators-target="windEffectSpeedWindPercent"></div>
       </div>
 
       <div class="wind-effect-values">
         <div class="wind-effect-result"
              aria-label="wind cancelled value"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectSpeed' : 'windEffectSpeed' %>"></div>
+             data-summary-indicators-target="windEffectSpeed"></div>
         <div class="wind-effect-wind"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectSpeedWind' : 'windEffectSpeedWind' %>"
+             data-summary-indicators-target="windEffectSpeedWind"
              aria-label="wind effect"></div>
       </div>
     </div>
@@ -82,17 +82,17 @@
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
            aria-label="average glide ratio"
-           data-tracks--skydive-performance-track-target="<%= compare ? 'compareSummaryGlideRatio' : 'summaryGlideRatio' %>">
+           data-summary-indicators-target="glideRatio">
       </div>
       <div class="track-indicator-minmax-value">
         <div class="track-indicator-max">
           <span aria-label="maximum glide ratio"
-                data-tracks--skydive-performance-track-target="<%= compare ? 'compareGlideRatioMax' : 'glideRatioMax' %>"></span>
+                data-summary-indicators-target="glideRatioMax"></span>
           <%= icon_tag 'angle-up-solid' %>
         </div>
         <div class="track-indicator-min">
           <span aria-label="minimum glide ratio"
-                data-tracks--skydive-performance-track-target="<%= compare ? 'compareGlideRatioMin' : 'glideRatioMin' %>"></span>
+                data-summary-indicators-target="glideRatioMin"></span>
           <%= icon_tag 'angle-down-solid' %>
         </div>
       </div>
@@ -100,20 +100,20 @@
 
     <div class="wind-effect-container"
          style="display: none;"
-         data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectContainerGlideRatio' : 'windEffectContainerGlideRatio' %>">
+         data-summary-indicators-target="windEffectContainerGlideRatio">
       <div class="wind-effect-rail">
         <div class="wind-effect-result-percent"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectGlideRatioPercent' : 'windEffectGlideRatioPercent' %>"></div>
+             data-summary-indicators-target="windEffectGlideRatioPercent"></div>
         <div class="wind-effect-wind-percent"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectGlideRatioWindPercent' : 'windEffectGlideRatioWindPercent' %>"></div>
+             data-summary-indicators-target="windEffectGlideRatioWindPercent"></div>
       </div>
 
       <div class="wind-effect-values">
         <div class="wind-effect-result"
              aria-label="wind cancelled value"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectGlideRatio' : 'windEffectGlideRatio' %>"></div>
+             data-summary-indicators-target="windEffectGlideRatio"></div>
         <div class="wind-effect-wind"
-             data-tracks--skydive-performance-track-target="<%= compare ? 'compareWindEffectGlideRatioWind' : 'windEffectGlideRatioWind' %>"
+             data-summary-indicators-target="windEffectGlideRatioWind"
              aria-label="wind effect"></div>
       </div>
     </div>
@@ -124,7 +124,7 @@
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
            aria-label="elevation"
-           data-tracks--skydive-performance-track-target="<%= compare ? 'compareElevation' : 'elevation' %>"></div>
+           data-summary-indicators-target="elevation"></div>
       <div class="track-indicator-units"><%= t('units.m') %></div>
     </div>
   </div>
@@ -134,19 +134,19 @@
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
            aria-label="average vertical speed"
-           data-tracks--skydive-performance-track-target="<%= compare ? 'compareVerticalSpeed' : 'verticalSpeed' %>">
+           data-summary-indicators-target="verticalSpeed">
       </div>
 
       <div class="track-indicator-minmax-value">
         <div class="track-indicator-min">
           <span aria-label="maximum vertical speed"
-                data-tracks--skydive-performance-track-target="<%= compare ? 'compareVerticalSpeedMax' : 'verticalSpeedMax' %>">
+                data-summary-indicators-target="verticalSpeedMax">
           </span>
           <%= icon_tag 'angle-up-solid' %>
         </div>
         <div class="track-indicator-max">
           <span aria-label="minimum vertical speed"
-                data-tracks--skydive-performance-track-target="<%= compare ? 'compareVerticalSpeedMin' : 'verticalSpeedMin' %>"></span>
+                data-summary-indicators-target="verticalSpeedMin"></span>
           <%= icon_tag 'angle-down-solid' %>
         </div>
       </div>
@@ -160,7 +160,7 @@
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
            aria-label="duration"
-           data-tracks--skydive-performance-track-target="<%= compare ? 'compareDuration' : 'duration' %>"></div>
+           data-summary-indicators-target="duration"></div>
       <div class="track-indicator-units"><%= t('units.sec') %></div>
     </div>
   </div>
