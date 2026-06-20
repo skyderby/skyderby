@@ -12,4 +12,11 @@ class VirtualCompetitionTest < ActiveSupport::TestCase
 
     assert_equal 'distance', competition.task
   end
+
+  test '#title - prefixes with group name' do
+    group = create :virtual_competition_group, name: 'WTF'
+    competition = create :virtual_competition, name: 'Gridset race', group: group
+
+    assert_equal 'WTF - Gridset race', competition.title
+  end
 end

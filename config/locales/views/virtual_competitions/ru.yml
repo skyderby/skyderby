@@ -1,5 +1,10 @@
 ru:
   virtual_competitions:
+    show:
+      jump_kinds:
+        all: Все
+        skydive: Skydive
+        base: BASE
     person_details:
       modal_title: Лучшие результаты в соревновании
     scoreboard:

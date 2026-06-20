@@ -1,5 +1,10 @@
 es:
   virtual_competitions:
+    show:
+      jump_kinds:
+        all: Todos
+        skydive: Skydive
+        base: BASE
     scoreboard:
       result: Result
       show_details: Haz click para ver el seguimiento

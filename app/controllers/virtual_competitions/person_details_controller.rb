@@ -1,7 +1,7 @@
 module VirtualCompetitions
   class PersonDetailsController < ApplicationController
     def show
-      @details = PersonDetails.new(
+      @details = VirtualCompetition::PersonDetails.new(
         virtual_competition_id: details_params[:virtual_competition_id],
         profile_id: details_params[:profile_id]
       )
