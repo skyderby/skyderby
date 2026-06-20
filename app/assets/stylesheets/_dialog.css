@@ -43,6 +43,10 @@
   }
 }
 
+html:has(> body.overflow-hidden) {
+  overflow: hidden;
+}
+
 @media (min-width: 576px) {
   .dialog {
     border-radius: var(--border-radius-md);

@@ -1313,18 +1313,22 @@ export default class extends Controller {
     )
   }
 
+  compareModalTargetConnected(element) {
+    this.compareModalObserver = new MutationObserver(() => {
+      document.body.classList.toggle('overflow-hidden', element.open)
+    })
+    this.compareModalObserver.observe(element, { attributeFilter: ['open'] })
+  }
+
+  compareModalTargetDisconnected() {
+    this.compareModalObserver?.disconnect()
+    document.body.classList.remove('overflow-hidden')
+  }
+
   openCompareModal() {
     if (!this.hasCompareModalTarget) return
 
     this.compareModalTarget.showModal()
-    document.body.classList.add('overflow-hidden')
-  }
-
-  closeCompareModal() {
-    if (!this.hasCompareModalTarget) return
-
-    this.compareModalTarget.close()
-    document.body.classList.remove('overflow-hidden')
   }
 
   selectCompareTrack(event) {
@@ -1338,7 +1342,13 @@ export default class extends Controller {
 
     const url = new URL(window.location)
     url.searchParams.set('compare_id', trackId)
-    window.location.href = url.toString()
+
+    if (!url.searchParams.has('f') && !url.searchParams.has('t')) {
+      url.searchParams.set('f', 2500)
+      url.searchParams.set('t', 1500)
+    }
+
+    Turbo.visit(url.toString())
   }
 
   disconnect() {

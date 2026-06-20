@@ -38,6 +38,7 @@ es:
     previous_page: Página anterior
     next_page: Página siguiente
     cancel: "Anular"
+    close: "Cerrar"
     create: "Agregar"
     save: "Guardar"
     # saving: Saving…

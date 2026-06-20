@@ -395,8 +395,84 @@
   justify-content: flex-end;
 }
 
-.dialog:has(.comparison-explorer) {
+.comparison-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
   overflow: hidden;
+}
+
+.comparison-dialog[open] {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+@media (min-width: 576px) {
+  .comparison-dialog[open] {
+    align-items: center;
+  }
+}
+
+.comparison-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.comparison-dialog-backdrop {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.comparison-dialog-backdrop button {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: default;
+}
+
+.comparison-dialog-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100dvh - 2rem);
+  background-color: var(--white);
+  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+@media (min-width: 576px) {
+  .comparison-dialog-card {
+    width: 500px;
+    max-width: calc(100vw - 2rem);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media (max-width: 575px) {
+  .comparison-dialog-card {
+    max-height: 90dvh;
+  }
+}
+
+.comparison-dialog-card .dialog-header form {
+  display: contents;
 }
 
 .dialog-body.comparison-explorer {

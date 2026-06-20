@@ -1,32 +1,38 @@
-<dialog class="dialog dialog-size-md"
+<dialog class="comparison-dialog"
         data-tracks--skydive-performance-track-target="compareModal">
-  <div class="dialog-header">
-    <h2 class="dialog-title"><%= t('tracks.comparison.modal_title') %></h2>
-    <button class="dialog-close"
-            aria-label="Close"
-            data-action="tracks--skydive-performance-track#closeCompareModal">
-      <%= icon_tag 'xmark' %>
-    </button>
-  </div>
+  <form method="dialog" class="comparison-dialog-backdrop">
+    <button type="submit" tabindex="-1" aria-label="<%= t('general.close') %>"></button>
+  </form>
 
-  <div class="dialog-body comparison-explorer">
-    <turbo-frame id="hot-select-search" class="comparison-explorer-search">
-      <%= form_with url: tracks_path, method: :get, data: { controller: 'tracks-search', turbo_frame: 'tracks-list' } do |f| %>
-        <%= f.hidden_field :kind, value: :skydive %>
-        <%= f.hidden_field :infinite, value: true %>
-        <%= f.hidden_field :exclude_id, value: @track.id %>
+  <div class="comparison-dialog-card">
+    <div class="dialog-header">
+      <h2 class="dialog-title"><%= t('tracks.comparison.modal_title') %></h2>
+      <form method="dialog">
+        <button class="dialog-close" aria-label="<%= t('general.close') %>">
+          <%= icon_tag 'xmark' %>
+        </button>
+      </form>
+    </div>
 
-        <%= render 'flight_profiles/search_bar', options: [], 'data-action': [
-            'filter:added->tracks-search#handleFilterAdd',
-            'filter:removed->tracks-search#handleFilterRemove',
-            'filter:clear->tracks-search#handleFilterClear',
-          ].join(' ') %>
-      <% end %>
-    </turbo-frame>
+    <div class="dialog-body comparison-explorer">
+      <turbo-frame id="hot-select-search" class="comparison-explorer-search">
+        <%= form_with url: tracks_path, method: :get, data: { controller: 'tracks-search', tracks_search_storage_key_value: 'compare-track-filters', turbo_frame: 'tracks-list' } do |f| %>
+          <%= f.hidden_field :kind, value: :skydive %>
+          <%= f.hidden_field :infinite, value: true %>
+          <%= f.hidden_field :exclude_id, value: @track.id %>
 
-    <div class="comparison-explorer-list"
-         data-action="click->tracks--skydive-performance-track#selectCompareTrack">
-      <turbo-frame id="tracks-list" loading="lazy"></turbo-frame>
+          <%= render 'flight_profiles/search_bar', options: [], 'data-action': [
+              'filter:added->tracks-search#handleFilterAdd',
+              'filter:removed->tracks-search#handleFilterRemove',
+              'filter:clear->tracks-search#handleFilterClear',
+            ].join(' ') %>
+        <% end %>
+      </turbo-frame>
+
+      <div class="comparison-explorer-list"
+           data-action="click->tracks--skydive-performance-track#selectCompareTrack">
+        <turbo-frame id="tracks-list" loading="lazy"></turbo-frame>
+      </div>
     </div>
   </div>
 </dialog>
