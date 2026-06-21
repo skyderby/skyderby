@@ -216,20 +216,37 @@
   flex-direction: column;
 }
 
-.skydive-performance-charts > div {
+.skydive-performance-separate-charts {
+  display: flex;
+  flex-direction: column;
+}
+
+.skydive-performance-separate-charts.hidden {
+  display: none;
+}
+
+.skydive-performance-separate-charts > div {
   min-height: 200px;
 }
 
-.skydive-performance-charts > div:first-child {
+.skydive-performance-separate-charts > div:nth-child(1) {
   min-height: 170px;
 }
 
-.skydive-performance-charts > div:nth-child(2) {
+.skydive-performance-separate-charts > div:nth-child(2) {
   min-height: 350px;
 }
 
-.skydive-performance-charts > div:last-child {
+.skydive-performance-separate-charts > div:nth-child(3) {
+  min-height: 300px;
+}
+
+.skydive-performance-separate-charts > div:last-child {
   min-height: 70px;
+}
+
+.skydive-performance-combined-chart {
+  min-height: 600px;
 }
 
 .skydive-performance-maps-container {

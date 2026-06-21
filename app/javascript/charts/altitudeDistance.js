@@ -1,6 +1,13 @@
 import I18n from 'i18n'
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
-import { restoreSeriesVisibility, saveSeriesVisibility, tooltipFormatter } from './utils'
+import {
+  restoreSeriesVisibility,
+  saveSeriesVisibility,
+  tooltipFormatter,
+  offsetSeriesX,
+  offsetPlotBands,
+  offsetPlotLines
+} from './utils'
 import { convertLength, lengthUnitLabel } from 'utils/units'
 
 export const calculateCumulativeDistance = (
@@ -113,7 +120,8 @@ export const initAltitudeDistanceChart = (
     plotBands = [],
     straightLine = false,
     rangeStartPosition = 0,
-    units = 'metric'
+    units = 'metric',
+    xOffset = 0
   } = {}
 ) => {
   const chartName = 'AltitudeDistance'
@@ -159,8 +167,8 @@ export const initAltitudeDistanceChart = (
       }
     },
     xAxis: {
-      plotLines,
-      plotBands
+      plotLines: offsetPlotLines(plotLines, xOffset),
+      plotBands: offsetPlotBands(plotBands, xOffset)
     },
     yAxis: [
       {
@@ -189,11 +197,14 @@ export const initAltitudeDistanceChart = (
       formatter: tooltipFormatter
     },
     credits: { enabled: false },
-    series: [
-      altitudeSeries(pointsWithDistance, { units }),
-      elevationSeries(pointsWithDistance, { units }),
-      distanceSeries(pointsWithDistance, { units })
-    ]
+    series: offsetSeriesX(
+      [
+        altitudeSeries(pointsWithDistance, { units }),
+        elevationSeries(pointsWithDistance, { units }),
+        distanceSeries(pointsWithDistance, { units })
+      ],
+      xOffset
+    )
   }
 
   return Highcharts.chart(container, chartOptions)

@@ -1,5 +1,12 @@
 import I18n from 'i18n'
-import { restoreSeriesVisibility, saveSeriesVisibility, tooltipFormatter } from './utils'
+import {
+  restoreSeriesVisibility,
+  saveSeriesVisibility,
+  tooltipFormatter,
+  offsetSeriesX,
+  offsetPlotBands,
+  offsetPlotLines
+} from './utils'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 
 export const horizontalSpeedSeries = (points, { units = 'metric', ...options } = {}) => ({
@@ -179,7 +186,8 @@ export const initSpeedsChart = (
     comparePoints = null,
     compareTimeOffset = 0,
     compareTrackName = null,
-    units = 'metric'
+    units = 'metric',
+    xOffset = 0
   } = {}
 ) => {
   const chartName = 'SpeedsChart'
@@ -218,8 +226,8 @@ export const initSpeedsChart = (
       }
     },
     xAxis: {
-      plotLines,
-      plotBands
+      plotLines: offsetPlotLines(plotLines, xOffset),
+      plotBands: offsetPlotBands(plotBands, xOffset)
     },
     yAxis: [
       {
@@ -247,31 +255,39 @@ export const initSpeedsChart = (
       formatter: tooltipFormatter
     },
     credits: { enabled: false },
-    series: [
-      horizontalSpeedSeries(points, { units }),
-      verticalSpeedSeries(points, { units }),
-      fullSpeedSeries(points, { units }),
-      windCancellation && zeroWindSpeedSeries(points, { units }),
-      comparePoints &&
-        comparePoints.length > 0 &&
-        compareHorizontalSpeedSeries(
-          comparePoints,
-          points,
-          compareTimeOffset,
-          compareTrackName
-        ),
-      comparePoints &&
-        comparePoints.length > 0 &&
-        compareVerticalSpeedSeries(
-          comparePoints,
-          points,
-          compareTimeOffset,
-          compareTrackName
-        ),
-      comparePoints &&
-        comparePoints.length > 0 &&
-        compareFullSpeedSeries(comparePoints, points, compareTimeOffset, compareTrackName)
-    ].filter(Boolean)
+    series: offsetSeriesX(
+      [
+        horizontalSpeedSeries(points, { units }),
+        verticalSpeedSeries(points, { units }),
+        fullSpeedSeries(points, { units }),
+        windCancellation && zeroWindSpeedSeries(points, { units }),
+        comparePoints &&
+          comparePoints.length > 0 &&
+          compareHorizontalSpeedSeries(
+            comparePoints,
+            points,
+            compareTimeOffset,
+            compareTrackName
+          ),
+        comparePoints &&
+          comparePoints.length > 0 &&
+          compareVerticalSpeedSeries(
+            comparePoints,
+            points,
+            compareTimeOffset,
+            compareTrackName
+          ),
+        comparePoints &&
+          comparePoints.length > 0 &&
+          compareFullSpeedSeries(
+            comparePoints,
+            points,
+            compareTimeOffset,
+            compareTrackName
+          )
+      ].filter(Boolean),
+      xOffset
+    )
   }
 
   return Highcharts.chart(container, chartOptions)

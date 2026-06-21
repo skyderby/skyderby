@@ -16,6 +16,32 @@ export const tooltipFormatter = function () {
   `
 }
 
+export const offsetSeriesX = (series, xOffset = 0) => {
+  if (!xOffset) return series
+
+  series.forEach(seriesItem => {
+    if (!Array.isArray(seriesItem.data)) return
+
+    seriesItem.data.forEach(point => {
+      if (point && typeof point.x === 'number') point.x -= xOffset
+    })
+  })
+
+  return series
+}
+
+export const offsetPlotBands = (plotBands = [], xOffset = 0) =>
+  xOffset
+    ? plotBands.map(band => ({
+        ...band,
+        from: band.from - xOffset,
+        to: band.to - xOffset
+      }))
+    : plotBands
+
+export const offsetPlotLines = (plotLines = [], xOffset = 0) =>
+  xOffset ? plotLines.map(line => ({ ...line, value: line.value - xOffset })) : plotLines
+
 export const findPositionForAltitude = (points, altitude) => {
   const idx = points.findIndex(point => point.altitude <= altitude)
   if (idx === -1) return null

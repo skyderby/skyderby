@@ -1,4 +1,9 @@
-import { tooltipFormatter } from './utils'
+import {
+  tooltipFormatter,
+  offsetSeriesX,
+  offsetPlotBands,
+  offsetPlotLines
+} from './utils'
 import { convertLength, lengthUnitLabel } from 'utils/units'
 
 export const sep50Series = (points, { units = 'metric', ...options } = {}) => {
@@ -32,7 +37,7 @@ export const sep50Series = (points, { units = 'metric', ...options } = {}) => {
 export const initAccuracyChart = (
   container,
   points,
-  { plotLines = [], plotBands = [], units = 'metric' } = {}
+  { plotLines = [], plotBands = [], units = 'metric', xOffset = 0 } = {}
 ) => {
   const chartOptions = {
     chart: {
@@ -54,8 +59,8 @@ export const initAccuracyChart = (
       }
     },
     xAxis: {
-      plotLines,
-      plotBands,
+      plotLines: offsetPlotLines(plotLines, xOffset),
+      plotBands: offsetPlotBands(plotBands, xOffset),
       labels: { enabled: false },
       tickLength: 0
     },
@@ -85,7 +90,7 @@ export const initAccuracyChart = (
       useHTML: true,
       formatter: tooltipFormatter
     },
-    series: [sep50Series(points, { units })]
+    series: offsetSeriesX([sep50Series(points, { units })], xOffset)
   }
 
   return Highcharts.chart(container, chartOptions)

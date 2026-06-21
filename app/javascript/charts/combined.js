@@ -13,7 +13,14 @@ import {
   zeroWindSpeedSeries
 } from './speed'
 import { sep50Series } from './sepChart'
-import { restoreSeriesVisibility, saveSeriesVisibility, tooltipFormatter } from './utils'
+import {
+  restoreSeriesVisibility,
+  saveSeriesVisibility,
+  tooltipFormatter,
+  offsetSeriesX,
+  offsetPlotBands,
+  offsetPlotLines
+} from './utils'
 
 export const initCombinedChart = (
   container,
@@ -25,7 +32,8 @@ export const initCombinedChart = (
     straightLine = false,
     rangeStartPosition = 0,
     chartName = 'CombinedChart',
-    units = 'metric'
+    units = 'metric',
+    xOffset = 0
   } = {}
 ) => {
   const pointsWithDistance = calculateCumulativeDistance(points, {
@@ -66,8 +74,8 @@ export const initCombinedChart = (
     },
     xAxis: {
       crosshair: true,
-      plotLines,
-      plotBands
+      plotLines: offsetPlotLines(plotLines, xOffset),
+      plotBands: offsetPlotBands(plotBands, xOffset)
     },
     yAxis: [
       {
@@ -116,23 +124,26 @@ export const initCombinedChart = (
     credits: {
       enabled: false
     },
-    series: [
-      altitudeSeries(pointsWithDistance, {
-        units,
-        yAxis: 0,
-        color: '#aaa',
-        type: 'spline'
-      }),
-      elevationSeries(pointsWithDistance, { units, yAxis: 0, visible: false }),
-      distanceSeries(pointsWithDistance, { units, yAxis: 0, visible: false }),
-      horizontalSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
-      verticalSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
-      fullSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
-      windCancellation && zeroWindSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
-      glideRatioSeries(pointsWithDistance, { units, yAxis: 2 }),
-      windCancellation && zeroWindGlideRatioSeries(pointsWithDistance, { yAxis: 2 }),
-      sep50Series(pointsWithDistance, { units, yAxis: 3 })
-    ].filter(Boolean)
+    series: offsetSeriesX(
+      [
+        altitudeSeries(pointsWithDistance, {
+          units,
+          yAxis: 0,
+          color: '#aaa',
+          type: 'spline'
+        }),
+        elevationSeries(pointsWithDistance, { units, yAxis: 0, visible: false }),
+        distanceSeries(pointsWithDistance, { units, yAxis: 0, visible: false }),
+        horizontalSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
+        verticalSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
+        fullSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
+        windCancellation && zeroWindSpeedSeries(pointsWithDistance, { units, yAxis: 1 }),
+        glideRatioSeries(pointsWithDistance, { units, yAxis: 2 }),
+        windCancellation && zeroWindGlideRatioSeries(pointsWithDistance, { yAxis: 2 }),
+        sep50Series(pointsWithDistance, { units, yAxis: 3 })
+      ].filter(Boolean),
+      xOffset
+    )
   }
 
   return Highcharts.chart(container, chartOptions)

@@ -1,5 +1,13 @@
 import { Controller } from '@hotwired/stimulus'
-import { initGlideChart, initSpeedsChart, initAccuracyChart } from 'charts'
+import {
+  initGlideChart,
+  initSpeedsChart,
+  initAccuracyChart,
+  initAltitudeDistanceChart,
+  initCombinedChart,
+  findPositionForAltitude
+} from 'charts'
+import { lengthUnitLabel } from 'utils/units'
 import initMapsApi from 'utils/google_maps_api'
 import cropPoints from 'utils/cropPoints'
 import downsamplePoints from 'utils/downsamplePoints'
@@ -40,6 +48,10 @@ export default class extends Controller {
     'straightLineToggle',
     'emptyState',
     'sepChart',
+    'altitudeDistanceChart',
+    'combinedChart',
+    'separateCharts',
+    'chartsModeItem',
     'compareModal',
     'compareMap'
   ]
@@ -63,6 +75,7 @@ export default class extends Controller {
     this.referencePointData = null
     this.comparePoints = null
     this.initializeStraightLine()
+    this.initializeChartsMode()
     this.initSideView()
 
     const fetches = [
@@ -170,6 +183,50 @@ export default class extends Controller {
     this.straightLine = url.searchParams.get('straight-line') === 'true'
     if (this.hasStraightLineToggleTarget) {
       this.straightLineToggleTarget.checked = this.straightLine
+    }
+  }
+
+  initializeChartsMode() {
+    const stored = localStorage.getItem('SkydivePerformanceChartsMode')
+    this.chartsMode = stored === 'single' ? 'single' : 'separate'
+    this.updateChartsModeUI()
+  }
+
+  setChartsMode(event) {
+    const mode = event.currentTarget.dataset.mode === 'single' ? 'single' : 'separate'
+    if (mode === this.chartsMode) return
+
+    this.chartsMode = mode
+    localStorage.setItem('SkydivePerformanceChartsMode', mode)
+    event.currentTarget.closest('[popover]')?.hidePopover()
+    this.updateChartsModeUI()
+
+    if (!this.points || this.points.length === 0) return
+
+    this.destroyCharts()
+    this.renderCharts()
+  }
+
+  updateChartsModeUI() {
+    if (this.hasSeparateChartsTarget) {
+      this.separateChartsTarget.classList.toggle('hidden', this.chartsMode === 'single')
+    }
+    if (this.hasCombinedChartTarget) {
+      this.combinedChartTarget.classList.toggle('hidden', this.chartsMode !== 'single')
+    }
+    this.chartsModeItemTargets.forEach(item => {
+      item.classList.toggle('active', item.dataset.mode === this.chartsMode)
+    })
+  }
+
+  renderCharts() {
+    if (this.chartsMode === 'single') {
+      this.initCombinedChart()
+    } else {
+      this.initGlideChart()
+      this.initSpeedsChart()
+      this.initAltitudeDistanceChart()
+      this.initSepChart()
     }
   }
 
@@ -418,9 +475,8 @@ export default class extends Controller {
 
     this.destroyCharts()
     this.renderSideView()
-    this.initGlideChart()
-    this.initSpeedsChart()
-    this.initSepChart()
+    this.updateChartsModeUI()
+    this.renderCharts()
     this.renderMap()
     if (this.comparePoints) {
       this.renderCompareMap()
@@ -765,8 +821,14 @@ export default class extends Controller {
     return (
       (this.hasGlideChartTarget && this.glideChartTarget.chart) ||
       (this.hasSpeedChartTarget && this.speedChartTarget.chart) ||
-      (this.hasSepChartTarget && this.sepChartTarget.chart)
+      (this.hasAltitudeDistanceChartTarget && this.altitudeDistanceChartTarget.chart) ||
+      (this.hasSepChartTarget && this.sepChartTarget.chart) ||
+      (this.hasCombinedChartTarget && this.combinedChartTarget.chart)
     )
+  }
+
+  get chartXOffset() {
+    return this.bufferStartPosition / 1000
   }
 
   initGlideChart() {
@@ -776,13 +838,15 @@ export default class extends Controller {
       this.glideChartTarget,
       this.downsampledChartPoints,
       {
+        plotLines: this.altitudePlotLines({ includeLabels: true }),
         plotBands: this.bufferPlotBands(),
         windCancellation: this.hasWeatherData,
         showTitle: false,
         showLegend: false,
         comparePoints: downsamplePoints(this.compareChartPoints),
         compareTimeOffset: this.chartTimeOffset,
-        compareTrackName: this.compareTrackNameValue
+        compareTrackName: this.compareTrackNameValue,
+        xOffset: this.chartXOffset
       }
     )
   }
@@ -794,11 +858,29 @@ export default class extends Controller {
       this.speedChartTarget,
       this.downsampledChartPoints,
       {
+        plotLines: this.altitudePlotLines(),
         plotBands: this.bufferPlotBands(),
         windCancellation: this.hasWeatherData,
         comparePoints: downsamplePoints(this.compareChartPoints),
         compareTimeOffset: this.chartTimeOffset,
-        compareTrackName: this.compareTrackNameValue
+        compareTrackName: this.compareTrackNameValue,
+        xOffset: this.chartXOffset
+      }
+    )
+  }
+
+  initAltitudeDistanceChart() {
+    if (!this.hasAltitudeDistanceChartTarget) return
+
+    this.altitudeDistanceChartTarget.chart = initAltitudeDistanceChart(
+      this.altitudeDistanceChartTarget,
+      this.downsampledChartPoints,
+      {
+        plotLines: this.altitudePlotLines(),
+        plotBands: this.bufferPlotBands(),
+        straightLine: this.straightLine,
+        rangeStartPosition: this.bufferStartPosition / 1000,
+        xOffset: this.chartXOffset
       }
     )
   }
@@ -810,19 +892,75 @@ export default class extends Controller {
       this.sepChartTarget,
       this.downsampledChartPoints,
       {
-        plotBands: this.bufferPlotBands()
+        plotBands: this.bufferPlotBands(),
+        xOffset: this.chartXOffset
       }
     )
   }
 
-  destroyCharts() {
-    const charts = [
-      this.hasGlideChartTarget && this.glideChartTarget.chart,
-      this.hasSpeedChartTarget && this.speedChartTarget.chart,
-      this.hasSepChartTarget && this.sepChartTarget.chart
-    ]
+  initCombinedChart() {
+    if (!this.hasCombinedChartTarget) return
 
-    charts.filter(Boolean).forEach(chart => chart.destroy())
+    this.combinedChartTarget.chart = initCombinedChart(
+      this.combinedChartTarget,
+      this.downsampledChartPoints,
+      {
+        plotLines: this.altitudePlotLines({ includeLabels: true }),
+        plotBands: this.bufferPlotBands(),
+        windCancellation: this.hasWeatherData,
+        straightLine: this.straightLine,
+        rangeStartPosition: this.bufferStartPosition / 1000,
+        chartName: 'SkydivePerformanceCombinedChart',
+        xOffset: this.chartXOffset
+      }
+    )
+  }
+
+  altitudePlotLines({ includeLabels } = {}) {
+    const minAltitude = this.chartPoints.at(-1).altitude
+    const maxAltitude = this.chartPoints[0].altitude
+
+    const startMark = Math.ceil(minAltitude / 500) * 500
+    const endMark = Math.floor(maxAltitude / 500) * 500
+
+    const positions = []
+    for (let altitude = startMark; altitude <= endMark; altitude += 500) {
+      const position = findPositionForAltitude(this.chartPoints, altitude)
+      if (position != null) positions.push([altitude, position])
+    }
+
+    return positions.map(([altitude, position], idx) => ({
+      id: `altitude-plot-line-${idx}`,
+      value: position,
+      width: 1,
+      color: '#999',
+      ...(includeLabels
+        ? {
+            label: {
+              text: `${altitude} ${lengthUnitLabel('metric')}`,
+              style: { color: '#999' },
+              y: 10
+            }
+          }
+        : {})
+    }))
+  }
+
+  destroyCharts() {
+    const targets = [
+      this.hasGlideChartTarget && this.glideChartTarget,
+      this.hasSpeedChartTarget && this.speedChartTarget,
+      this.hasAltitudeDistanceChartTarget && this.altitudeDistanceChartTarget,
+      this.hasSepChartTarget && this.sepChartTarget,
+      this.hasCombinedChartTarget && this.combinedChartTarget
+    ].filter(Boolean)
+
+    targets.forEach(target => {
+      if (!target.chart) return
+
+      target.chart.destroy()
+      target.chart = null
+    })
   }
 
   renderMap() {

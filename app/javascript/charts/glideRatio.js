@@ -1,5 +1,12 @@
 import I18n from 'i18n'
-import { restoreSeriesVisibility, saveSeriesVisibility, tooltipFormatter } from './utils'
+import {
+  restoreSeriesVisibility,
+  saveSeriesVisibility,
+  tooltipFormatter,
+  offsetSeriesX,
+  offsetPlotBands,
+  offsetPlotLines
+} from './utils'
 import { convertLength, lengthUnitLabel } from 'utils/units'
 
 const clampGlideValue = val => Math.round(Math.min(Math.max(val, 0), 7) * 100) / 100
@@ -90,18 +97,27 @@ export const initGlideChart = (
     comparePoints = null,
     compareTimeOffset = 0,
     compareTrackName = null,
-    units = 'metric'
+    units = 'metric',
+    xOffset = 0
   } = {}
 ) => {
   const chartName = 'GlideChart'
 
-  const series = [
-    glideRatioSeries(points, { units }),
-    windCancellation && zeroWindGlideRatioSeries(points),
-    comparePoints &&
-      comparePoints.length > 0 &&
-      compareGlideRatioSeries(comparePoints, points, compareTimeOffset, compareTrackName)
-  ].filter(Boolean)
+  const series = offsetSeriesX(
+    [
+      glideRatioSeries(points, { units }),
+      windCancellation && zeroWindGlideRatioSeries(points),
+      comparePoints &&
+        comparePoints.length > 0 &&
+        compareGlideRatioSeries(
+          comparePoints,
+          points,
+          compareTimeOffset,
+          compareTrackName
+        )
+    ].filter(Boolean),
+    xOffset
+  )
 
   const chartOptions = {
     chart: {
@@ -145,8 +161,8 @@ export const initGlideChart = (
       formatter: tooltipFormatter
     },
     xAxis: {
-      plotLines,
-      plotBands
+      plotLines: offsetPlotLines(plotLines, xOffset),
+      plotBands: offsetPlotBands(plotBands, xOffset)
     },
     yAxis: {
       min: 0,
