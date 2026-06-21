@@ -1,5 +1,13 @@
 de:
   charts:
+    polar:
+      title: Widerstandspolare
+      subtitle: Rekonstruiert aus Beschleunigung · Auftriebs- vs. Widerstandsbeiwert
+      max_ld: 'Max. Gleitzahl %{value}'
+      current_ld: 'L/D %{value}'
+      axis:
+        lift: Auftriebsbeiwert
+        drag: Widerstandsbeiwert
     all_data:
       title: 'Fluginformation'
       axis:

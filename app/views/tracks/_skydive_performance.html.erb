@@ -132,31 +132,57 @@
     </div>
 
     <div class="skydive-performance-layout">
-      <div class="skydive-performance-stage">
-        <div class="skydive-performance-maps-container">
-          <div class="skydive-performance-map-container">
-            <div class="skydive-performance-map"
-                 data-tracks--skydive-performance-track-target="map">
-            </div>
-          </div>
-          <% if @compare_track %>
-            <div class="skydive-performance-map-container">
-              <div class="skydive-performance-map"
-                   data-tracks--skydive-performance-track-target="compareMap">
-              </div>
-            </div>
-          <% end %>
+      <div class="skydive-performance-stage-switch-row">
+        <div class="switch-container skydive-performance-stage-switch"
+             <% if @compare_track %>title="<%= t('tracks.show.map_unavailable_compare') %>"<% end %>>
+          <input type="checkbox"
+                 id="stage-panel-toggle"
+                 class="switch-input"
+                 <%= 'disabled' if @compare_track %>
+                 data-tracks--skydive-performance-track-target="stageToggle"
+                 data-action="tracks--skydive-performance-track#toggleStagePanel">
+          <label for="stage-panel-toggle" class="switch-label">
+            <span class="switch-text"><%= t('tracks.show.tab_drag_polar') %></span>
+            <span class="switch-slider"></span>
+            <span class="switch-text"><%= t('tracks.show.tab_map') %></span>
+          </label>
+        </div>
+      </div>
 
-          <div class="switch-container">
-            <input type="checkbox"
-                   id="designated-lane-toggle"
-                   class="switch-input"
-                   data-tracks--skydive-performance-track-target="designatedLaneToggle"
-                   data-action="tracks--skydive-performance-track#toggleDesignatedLane">
-            <label for="designated-lane-toggle" class="switch-label">
-              <span class="switch-slider"></span>
-              <span class="switch-text"><%= t('tracks.show.designated_lane') %></span>
-            </label>
+      <div class="skydive-performance-stage">
+        <div class="skydive-performance-side-panel">
+          <div class="skydive-performance-panel-content">
+            <div class="skydive-performance-polar-panel"
+                 data-tracks--skydive-performance-track-target="polarPanel">
+              <svg class="skydive-performance-polar"
+                   data-tracks--skydive-performance-track-target="polarChart"
+                   viewBox="0 0 1000 600"
+                   preserveAspectRatio="xMidYMid meet">
+              </svg>
+            </div>
+
+            <% unless @compare_track %>
+              <div class="skydive-performance-map-panel hidden"
+                   data-tracks--skydive-performance-track-target="mapPanel">
+                <div class="skydive-performance-map-container">
+                  <div class="skydive-performance-map"
+                       data-tracks--skydive-performance-track-target="map">
+                  </div>
+                </div>
+
+                <div class="switch-container">
+                  <input type="checkbox"
+                         id="designated-lane-toggle"
+                         class="switch-input"
+                         data-tracks--skydive-performance-track-target="designatedLaneToggle"
+                         data-action="tracks--skydive-performance-track#toggleDesignatedLane">
+                  <label for="designated-lane-toggle" class="switch-label">
+                    <span class="switch-slider"></span>
+                    <span class="switch-text"><%= t('tracks.show.designated_lane') %></span>
+                  </label>
+                </div>
+              </div>
+            <% end %>
           </div>
         </div>
 

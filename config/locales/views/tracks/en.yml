@@ -41,6 +41,9 @@ en:
       no_data: 'No track data available for this jump'
       no_speed_skydiving_result: 'No speed skydiving result could be calculated for this track'
       designated_lane: 'Designated Lane'
+      tab_drag_polar: 'Drag polar'
+      tab_map: 'Map'
+      map_unavailable_compare: 'Map is not available in compare mode'
       straight_line_distance: 'Straight-line distance'
     choose:
       title: 'Select a track to upload'

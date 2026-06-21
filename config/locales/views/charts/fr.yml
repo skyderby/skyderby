@@ -1,5 +1,13 @@
 fr:
   charts:
+    polar:
+      title: Polaire de traînée
+      subtitle: Reconstruite à partir de l'accélération · coefficient de portance vs traînée
+      max_ld: 'Finesse max %{value}'
+      current_ld: 'L/D %{value}'
+      axis:
+        lift: Coefficient de portance
+        drag: Coefficient de traînée
     all_data:
       title: Détails du saut
       axis:

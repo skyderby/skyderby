@@ -1,5 +1,13 @@
 it:
   charts:
+    polar:
+      title: Polare di resistenza
+      subtitle: Ricostruita dall'accelerazione · coefficiente di portanza vs resistenza
+      max_ld: 'Efficienza max %{value}'
+      current_ld: 'L/D %{value}'
+      axis:
+        lift: Coefficiente di portanza
+        drag: Coefficiente di resistenza
     all_data:
       title: 'Dettagli del volo'
       axis:

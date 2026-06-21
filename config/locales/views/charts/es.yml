@@ -1,5 +1,13 @@
 es:
   charts:
+    polar:
+      title: Polar de resistencia
+      subtitle: Reconstruida de la aceleración · coeficiente de sustentación vs resistencia
+      max_ld: 'Eficiencia máx %{value}'
+      current_ld: 'L/D %{value}'
+      axis:
+        lift: Coeficiente de sustentación
+        drag: Coeficiente de resistencia
     all_data:
       title: 'Información sobre el vuelo'
       axis:

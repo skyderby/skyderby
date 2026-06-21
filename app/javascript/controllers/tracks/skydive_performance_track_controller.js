@@ -17,6 +17,7 @@ import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
 import { interpolatePointByTime } from 'utils/laneValidation/utils'
 import { computeBestWindows } from 'utils/tracks/bestWindows'
 import SkydivePerformanceSideView from 'utils/tracks/SkydivePerformanceSideView'
+import SkydivePerformancePolar from 'utils/tracks/SkydivePerformancePolar'
 import TrackMap from 'utils/tracks/map/TrackMap'
 import {
   calculateBearing,
@@ -32,6 +33,10 @@ export default class extends Controller {
     'trajectory',
     'glideChart',
     'speedChart',
+    'polarChart',
+    'stageToggle',
+    'polarPanel',
+    'mapPanel',
     'map',
     'playButton',
     'playbackSlider',
@@ -52,8 +57,7 @@ export default class extends Controller {
     'combinedChart',
     'separateCharts',
     'chartsModeItem',
-    'compareModal',
-    'compareMap'
+    'compareModal'
   ]
 
   static outlets = ['tracks--range-selector']
@@ -77,13 +81,9 @@ export default class extends Controller {
     this.initializeStraightLine()
     this.initializeChartsMode()
     this.initSideView()
+    this.initPolarView()
 
-    const fetches = [
-      this.fetchPoints(),
-      this.fetchWeather(),
-      this.fetchReferencePoint(),
-      initMapsApi()
-    ]
+    const fetches = [this.fetchPoints(), this.fetchWeather(), this.fetchReferencePoint()]
 
     if (this.hasComparePointsUrlValue) {
       fetches.push(this.fetchComparePoints())
@@ -96,7 +96,6 @@ export default class extends Controller {
           pointsData,
           weatherData,
           referencePointData,
-          _,
           compareData,
           compareWeatherData
         ]) => {
@@ -136,9 +135,24 @@ export default class extends Controller {
   computeBestWindows() {
     computeBestWindows(this.points)
       .then(result => {
-        if (result) this.renderBestWindowShortcuts(result)
+        if (result) {
+          this.bestWindows = result
+          this.renderBestWindowShortcuts(result)
+          this.renderPolarChart()
+        }
       })
       .catch(() => {})
+
+    if (this.comparePoints) {
+      computeBestWindows(this.comparePoints)
+        .then(result => {
+          if (result) {
+            this.compareBestWindows = result
+            this.renderPolarChart()
+          }
+        })
+        .catch(() => {})
+    }
   }
 
   renderBestWindowShortcuts(result) {
@@ -475,12 +489,10 @@ export default class extends Controller {
 
     this.destroyCharts()
     this.renderSideView()
+    this.renderPolarChart()
     this.updateChartsModeUI()
     this.renderCharts()
-    this.renderMap()
-    if (this.comparePoints) {
-      this.renderCompareMap()
-    }
+    if (this.mapReady) this.renderMap()
     this.initPlayback()
     this.updateSummaryIndicators()
     if (this.comparePoints) {
@@ -946,6 +958,59 @@ export default class extends Controller {
     }))
   }
 
+  initPolarView() {
+    if (!this.hasPolarChartTarget) return
+
+    this.polarView = new SkydivePerformancePolar({ svg: this.polarChartTarget })
+  }
+
+  renderPolarChart() {
+    if (!this.polarView || !this.points) return
+
+    this.polarView.render({
+      points: this.points,
+      fitRange: this.bestWindows?.distance,
+      comparePoints: this.comparePoints,
+      compareFitRange: this.compareBestWindows?.distance
+    })
+  }
+
+  toggleStagePanel(event) {
+    const showMap = event.currentTarget.checked
+
+    if (this.hasPolarPanelTarget) {
+      this.polarPanelTarget.classList.toggle('hidden', showMap)
+    }
+    if (this.hasMapPanelTarget) {
+      this.mapPanelTarget.classList.toggle('hidden', !showMap)
+    }
+
+    if (showMap) this.showMap()
+  }
+
+  showMap() {
+    if (!this.hasMapTarget) return
+
+    if (this.mapReady) {
+      this.updateMapMarkerAtIndex(this.currentIndex)
+      return
+    }
+    if (this.mapLoading) return
+
+    this.mapLoading = true
+    initMapsApi()
+      .then(() => {
+        this.mapReady = true
+        this.mapLoading = false
+        this.renderMap()
+        this.initDesignatedLane()
+        this.updateMapMarkerAtIndex(this.currentIndex)
+      })
+      .catch(() => {
+        this.mapLoading = false
+      })
+  }
+
   destroyCharts() {
     const targets = [
       this.hasGlideChartTarget && this.glideChartTarget,
@@ -975,22 +1040,6 @@ export default class extends Controller {
     }
 
     this.trackMap.render(this.points, this.windowPoints)
-  }
-
-  renderCompareMap() {
-    if (!this.hasCompareMapTarget || !this.comparePoints) return
-
-    if (!this.compareMapView) {
-      this.compareMapView = new TrackMap({
-        element: this.compareMapTarget,
-        mapId: 'SKYDIVE_PERFORMANCE_COMPARE_MAP',
-        markerColor: '#9C27B0'
-      })
-    }
-
-    const windowPoints = cropPoints(this.comparePoints, this.fromValue, this.toValue)
-    this.compareMapView.render(this.comparePoints, windowPoints)
-    this.updateCompareMapMarker(this.processedPoints[0].playerTime)
   }
 
   initPlayback() {
@@ -1076,6 +1125,7 @@ export default class extends Controller {
     this.updateHighchartsCrosshair(this.currentIndex)
     this.updatePlaybackIndicators(this.currentIndex, 0)
     this.updateMapMarkerAtIndex(this.currentIndex)
+    this.updatePolarMarker()
   }
 
   updatePlaybackPositionInterpolated() {
@@ -1087,6 +1137,12 @@ export default class extends Controller {
     this.updateHighchartsCrosshair(this.currentIndex)
     this.updatePlaybackIndicators(this.currentIndex, this.currentFraction)
     this.updateMapMarkerInterpolated()
+    this.updatePolarMarker()
+  }
+
+  updatePolarMarker() {
+    const point = this.processedPoints?.[this.currentIndex]
+    this.polarView?.setMarker(point ? point.gpsTime : null)
   }
 
   updateSummaryIndicators() {
@@ -1260,7 +1316,6 @@ export default class extends Controller {
     const heading = calculateBearing(point, this.processedPoints[targetIndex])
 
     this.trackMap.setPosition(point, heading)
-    this.updateCompareMapMarker(point.playerTime)
   }
 
   updateMapMarkerInterpolated() {
@@ -1282,22 +1337,6 @@ export default class extends Controller {
     const heading = calculateBearing(point, this.processedPoints[targetIndex])
 
     this.trackMap.setPosition(point, heading)
-
-    const playerTime = curr.playerTime + (next.playerTime - curr.playerTime) * fraction
-    this.updateCompareMapMarker(playerTime)
-  }
-
-  updateCompareMapMarker(playerTime) {
-    if (!this.compareMapView || !this.compareProcessedPoints?.length) return
-
-    const index = closestIndexByPlayerTime(this.compareProcessedPoints, playerTime)
-    const point = this.compareProcessedPoints[index]
-    if (!point) return
-
-    const targetIndex = targetIndexFrom(this.compareProcessedPoints, index)
-    const heading = calculateBearing(point, this.compareProcessedPoints[targetIndex])
-
-    this.compareMapView.setPosition(point, heading)
   }
 
   toggleDesignatedLane() {
@@ -1515,6 +1554,7 @@ export default class extends Controller {
       cancelAnimationFrame(this.animationFrame)
     }
     this.sideView?.destroy()
+    this.polarView?.destroy()
     this.destroyCharts()
   }
 }

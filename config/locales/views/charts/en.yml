@@ -1,5 +1,13 @@
 en:
   charts:
+    polar:
+      title: Drag polar
+      subtitle: Reconstructed from acceleration · lift vs drag coefficient
+      max_ld: 'Max L/D %{value}'
+      current_ld: 'L/D %{value}'
+      axis:
+        lift: Lift coefficient
+        drag: Drag coefficient
     all_data:
       title: 'Flight details'
       axis:

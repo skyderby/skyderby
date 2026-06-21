@@ -44,15 +44,185 @@
   position: relative;
 }
 
+.skydive-performance-side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.skydive-performance-stage-switch-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -1rem;
+}
+
+.skydive-performance-stage-switch .switch-text {
+  color: var(--gray-50);
+  transition: color 0.2s ease;
+}
+
+.skydive-performance-stage-switch
+  .switch-input:not(:checked)
+  + .switch-label
+  .switch-text:first-child,
+.skydive-performance-stage-switch
+  .switch-input:checked
+  + .switch-label
+  .switch-text:last-child {
+  color: var(--gray-90);
+}
+
+.skydive-performance-panel-content {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.skydive-performance-polar-panel,
+.skydive-performance-map-panel {
+  width: 100%;
+  height: 100%;
+}
+
+.skydive-performance-polar-panel.hidden,
+.skydive-performance-map-panel.hidden {
+  display: none;
+}
+
+.skydive-performance-map-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skydive-performance-polar {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+.skydive-performance-polar .polar-title {
+  fill: var(--gray-80);
+  font-weight: 600;
+}
+
+.skydive-performance-polar .polar-subtitle {
+  fill: var(--gray-50);
+}
+
+.skydive-performance-polar .polar-grid-line {
+  stroke: var(--gray-20);
+  stroke-width: 1;
+}
+
+.skydive-performance-polar .polar-axis-line {
+  stroke: var(--gray-40);
+  stroke-width: 1.5;
+}
+
+.skydive-performance-polar .polar-tick {
+  fill: var(--gray-60);
+}
+
+.skydive-performance-polar .polar-axis-title {
+  fill: var(--gray-70);
+}
+
+.skydive-performance-polar .polar-ray {
+  stroke: var(--gray-50);
+  stroke-width: 1.75;
+  stroke-dasharray: 8 5;
+}
+
+.skydive-performance-polar .polar-ray-label {
+  fill: var(--gray-70);
+  font-weight: 600;
+}
+
+.skydive-performance-polar .polar-sample {
+  fill: #2196F3;
+  fill-opacity: 0.28;
+}
+
+.skydive-performance-polar .polar-curve {
+  fill: none;
+  stroke: #e3353f;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.skydive-performance-polar .polar-tangent {
+  stroke: #37889B;
+  stroke-width: 1.75;
+  stroke-dasharray: 8 5;
+}
+
+.skydive-performance-polar .polar-ld-dot {
+  fill: #e3353f;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.skydive-performance-polar .polar-stat {
+  fill: var(--gray-80);
+  font-weight: 600;
+}
+
+.skydive-performance-polar .polar-marker {
+  fill: #FF9800;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.skydive-performance-polar .polar-marker-label {
+  fill: #c77700;
+  font-weight: 600;
+}
+
+.skydive-performance-polar .polar-sample-compare {
+  fill: #9C27B0;
+  fill-opacity: 0.26;
+}
+
+.skydive-performance-polar .polar-curve-compare {
+  fill: none;
+  stroke: #9C27B0;
+  stroke-width: 2.5;
+  stroke-dasharray: 9 6;
+  stroke-linecap: round;
+}
+
+.skydive-performance-polar .polar-stat-compare {
+  fill: #9C27B0;
+  font-weight: 600;
+}
+
 @media (min-width: 768px) {
   .skydive-performance-stage {
     flex-direction: row-reverse;
     align-items: stretch;
   }
 
-  .skydive-performance-stage .skydive-performance-maps-container {
-    width: 30%;
+  .skydive-performance-stage .skydive-performance-side-panel {
+    width: 40%;
     flex-shrink: 0;
+  }
+
+  .skydive-performance-stage-switch-row {
+    justify-content: flex-end;
+  }
+
+  .skydive-performance-stage-switch-row .skydive-performance-stage-switch {
+    width: 40%;
+    justify-content: center;
+  }
+
+  .skydive-performance-stage .skydive-performance-panel-content {
+    flex: 1;
+    height: auto;
   }
 
   .skydive-performance-stage .skydive-performance-chart-container {
@@ -249,17 +419,10 @@
   min-height: 600px;
 }
 
-.skydive-performance-maps-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-@media (min-width: 768px) {
-  .skydive-performance-maps-container .skydive-performance-map-container {
-    flex: 1;
-    height: auto;
-  }
+.skydive-performance-map-panel .skydive-performance-map-container {
+  flex: 1;
+  height: auto;
+  min-height: 0;
 }
 
 .skydive-performance-map-container {
