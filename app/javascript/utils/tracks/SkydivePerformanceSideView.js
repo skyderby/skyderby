@@ -304,10 +304,18 @@ export default class SkydivePerformanceSideView {
   }
 
   renderMaxSpeedMarker() {
-    const beforeWindow = this.processedPoints.filter(p => p.altitude >= this.fromValue)
-    if (beforeWindow.length === 0) return
+    this.renderMaxSpeedFor(this.processedPoints, 'max-speed-marker')
 
-    const maxPoint = beforeWindow.reduce((max, p) =>
+    if (this.compareProcessedPoints && this.compareProcessedPoints.length > 0) {
+      this.renderMaxSpeedFor(this.compareProcessedPoints, 'max-speed-marker--compare')
+    }
+  }
+
+  renderMaxSpeedFor(points, className) {
+    const candidates = points.filter(p => p.altitude >= this.toValue)
+    if (candidates.length === 0) return
+
+    const maxPoint = candidates.reduce((max, p) =>
       p.fullSpeed > max.fullSpeed ? p : max
     )
 
@@ -315,7 +323,7 @@ export default class SkydivePerformanceSideView {
     const fontSize = this.viewBoxFontSize(14)
 
     const group = document.createElementNS(SVG_NS, 'g')
-    group.setAttribute('class', 'max-speed-marker')
+    group.setAttribute('class', className)
 
     const marker = document.createElementNS(SVG_NS, 'circle')
     marker.setAttribute('cx', x)

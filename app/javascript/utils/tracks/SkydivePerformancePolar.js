@@ -425,7 +425,7 @@ export default class SkydivePerformancePolar {
   }
 
   renderCompareCurve(fit) {
-    const { a, c } = fit
+    const { a, c, clOpt } = fit
     const coords = []
     for (let i = 0; i <= 64; i++) {
       const cl = (this.domain.y * i) / 64
@@ -439,6 +439,16 @@ export default class SkydivePerformancePolar {
     path.setAttribute('d', `M ${coords.join(' L ')}`)
     path.setAttribute('class', 'polar-curve-compare')
     this.svg.appendChild(path)
+
+    // Best glide (max L/D) point of the compare polar
+    if (clOpt <= this.domain.y) {
+      const dot = document.createElementNS(SVG_NS, 'circle')
+      dot.setAttribute('cx', this.scaleX(2 * c))
+      dot.setAttribute('cy', this.scaleY(clOpt))
+      dot.setAttribute('r', 5.5)
+      dot.setAttribute('class', 'polar-ld-dot-compare')
+      this.svg.appendChild(dot)
+    }
   }
 
   renderStats() {
@@ -475,6 +485,20 @@ export default class SkydivePerformancePolar {
       anchor: 'end',
       size: 22
     })
+
+    if (this.compareFit) {
+      y -= lineHeight
+      this.compareMarkerLabel = this.appendText(
+        this.svg,
+        right,
+        y,
+        '',
+        'polar-marker-label-compare',
+        { anchor: 'end', size: 22 }
+      )
+    } else {
+      this.compareMarkerLabel = null
+    }
   }
 
   renderCurve() {
@@ -528,15 +552,55 @@ export default class SkydivePerformancePolar {
   }
 
   createMarker() {
-    this.marker = document.createElementNS(SVG_NS, 'circle')
-    this.marker.setAttribute('r', 6)
-    this.marker.setAttribute('class', 'polar-marker')
-    this.marker.style.display = 'none'
-    this.svg.appendChild(this.marker)
+    this.primaryCrosshair = this.buildCrosshair('polar-crosshair', 'polar-marker')
+    this.compareCrosshair = this.buildCrosshair(
+      'polar-crosshair-compare',
+      'polar-marker-compare'
+    )
   }
 
-  nearestSample(gpsTime) {
-    const samples = this.samples
+  buildCrosshair(lineClass, dotClass) {
+    const top = PADDING.top
+    const bottom = PADDING.top + this.plot.height
+    const left = PADDING.left
+    const right = PADDING.left + this.plot.width
+
+    const group = document.createElementNS(SVG_NS, 'g')
+    group.style.display = 'none'
+
+    const vLine = document.createElementNS(SVG_NS, 'line')
+    vLine.setAttribute('y1', top)
+    vLine.setAttribute('y2', bottom)
+    vLine.setAttribute('class', lineClass)
+    group.appendChild(vLine)
+
+    const hLine = document.createElementNS(SVG_NS, 'line')
+    hLine.setAttribute('x1', left)
+    hLine.setAttribute('x2', right)
+    hLine.setAttribute('class', lineClass)
+    group.appendChild(hLine)
+
+    const dot = document.createElementNS(SVG_NS, 'circle')
+    dot.setAttribute('r', 6)
+    dot.setAttribute('class', dotClass)
+    group.appendChild(dot)
+
+    this.svg.appendChild(group)
+    return { group, vLine, hLine, dot }
+  }
+
+  positionCrosshair(crosshair, sample) {
+    const { cx, cy } = this.markerPosition(sample)
+    crosshair.vLine.setAttribute('x1', cx)
+    crosshair.vLine.setAttribute('x2', cx)
+    crosshair.hLine.setAttribute('y1', cy)
+    crosshair.hLine.setAttribute('y2', cy)
+    crosshair.dot.setAttribute('cx', cx)
+    crosshair.dot.setAttribute('cy', cy)
+    crosshair.group.style.display = ''
+  }
+
+  nearestSample(samples, gpsTime) {
     let lo = 0
     let hi = samples.length - 1
     while (lo < hi) {
@@ -555,30 +619,52 @@ export default class SkydivePerformancePolar {
     return candidate
   }
 
+  markerPosition(sample) {
+    return {
+      cx: Math.min(this.scaleX(sample.cd), this.scaleX(this.domain.x)),
+      cy: Math.max(this.scaleY(sample.cl), this.scaleY(this.domain.y))
+    }
+  }
+
   setMarker(gpsTime) {
-    if (!this.marker || !this.samples || this.samples.length === 0 || !this.domain) return
+    if (!this.primaryCrosshair || !this.samples || this.samples.length === 0) return
 
     if (!Number.isFinite(gpsTime)) {
-      this.marker.style.display = 'none'
-      this.markerLabel.textContent = ''
+      this.primaryCrosshair.group.style.display = 'none'
+      if (this.markerLabel) this.markerLabel.textContent = ''
       return
     }
 
-    const sample = this.nearestSample(gpsTime)
-    if (!sample) {
-      this.marker.style.display = 'none'
-      this.markerLabel.textContent = ''
+    const sample = this.nearestSample(this.samples, gpsTime)
+    this.positionCrosshair(this.primaryCrosshair, sample)
+
+    if (this.markerLabel) {
+      this.markerLabel.textContent = I18n.t('charts.polar.current_ld', {
+        value: sample.ld.toFixed(1)
+      })
+    }
+  }
+
+  setCompareMarker(gpsTime) {
+    if (!this.compareCrosshair) return
+
+    if (
+      !Number.isFinite(gpsTime) ||
+      !this.compareSamples ||
+      !this.compareSamples.length
+    ) {
+      this.compareCrosshair.group.style.display = 'none'
+      if (this.compareMarkerLabel) this.compareMarkerLabel.textContent = ''
       return
     }
 
-    const cx = Math.min(this.scaleX(sample.cd), this.scaleX(this.domain.x))
-    const cy = Math.max(this.scaleY(sample.cl), this.scaleY(this.domain.y))
-    this.marker.setAttribute('cx', cx)
-    this.marker.setAttribute('cy', cy)
-    this.marker.style.display = ''
+    const sample = this.nearestSample(this.compareSamples, gpsTime)
+    this.positionCrosshair(this.compareCrosshair, sample)
 
-    this.markerLabel.textContent = I18n.t('charts.polar.current_ld', {
-      value: sample.ld.toFixed(1)
-    })
+    if (this.compareMarkerLabel) {
+      this.compareMarkerLabel.textContent = I18n.t('charts.polar.current_ld', {
+        value: sample.ld.toFixed(1)
+      })
+    }
   }
 }

@@ -177,9 +177,39 @@
   stroke-width: 2;
 }
 
+.skydive-performance-polar .polar-crosshair {
+  stroke: var(--gray-50);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
 .skydive-performance-polar .polar-marker-label {
   fill: #c77700;
   font-weight: 600;
+}
+
+.skydive-performance-polar .polar-marker-compare {
+  fill: #9C27B0;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.skydive-performance-polar .polar-crosshair-compare {
+  stroke: #9C27B0;
+  stroke-opacity: 0.7;
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.skydive-performance-polar .polar-marker-label-compare {
+  fill: #9C27B0;
+  font-weight: 600;
+}
+
+.skydive-performance-polar .polar-ld-dot-compare {
+  fill: none;
+  stroke: #9C27B0;
+  stroke-width: 2.5;
 }
 
 .skydive-performance-polar .polar-sample-compare {
@@ -331,6 +361,17 @@
 
 .skydive-performance-chart .max-speed-marker text {
   fill: var(--blue-80);
+  font-weight: 600;
+}
+
+.skydive-performance-chart .max-speed-marker--compare circle {
+  fill: #9C27B0;
+  stroke: white;
+  stroke-width: 1.5;
+}
+
+.skydive-performance-chart .max-speed-marker--compare text {
+  fill: #9C27B0;
   font-weight: 600;
 }
 

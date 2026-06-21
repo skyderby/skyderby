@@ -1141,8 +1141,21 @@ export default class extends Controller {
   }
 
   updatePolarMarker() {
+    if (!this.polarView) return
+
     const point = this.processedPoints?.[this.currentIndex]
-    this.polarView?.setMarker(point ? point.gpsTime : null)
+    this.polarView.setMarker(point ? point.gpsTime : null)
+
+    if (point && this.compareProcessedPoints?.length) {
+      const index = closestIndexByPlayerTime(
+        this.compareProcessedPoints,
+        point.playerTime
+      )
+      const comparePoint = this.compareProcessedPoints[index]
+      this.polarView.setCompareMarker(comparePoint ? comparePoint.srcGpsTime : null)
+    } else {
+      this.polarView.setCompareMarker(null)
+    }
   }
 
   updateSummaryIndicators() {
