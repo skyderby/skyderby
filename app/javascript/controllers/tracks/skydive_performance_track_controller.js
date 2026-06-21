@@ -1202,13 +1202,15 @@ export default class extends Controller {
 
     const isEditable = this.referencePointData?.editable ?? false
 
+    const windowEndPoint = this.points.at(-1)
+
     this.designatedLane = createDesignatedLane(
       this.map,
       dlStartPoint,
-      dlStartPoint,
-      null,
+      windowEndPoint,
+      windowEndPoint,
       referencePoint,
-      [],
+      this.points,
       'window_end'
     )
 
@@ -1245,11 +1247,30 @@ export default class extends Controller {
       scale: 0.7
     })
 
+    const content = document.createElement('div')
+    content.style.position = 'relative'
+    if (isEditable) content.style.cursor = 'grab'
+
+    if (isEditable) {
+      const hitArea = document.createElement('div')
+      hitArea.style.position = 'absolute'
+      hitArea.style.left = '50%'
+      hitArea.style.top = '50%'
+      hitArea.style.width = '48px'
+      hitArea.style.height = '48px'
+      hitArea.style.borderRadius = '50%'
+      hitArea.style.transform = 'translate(-50%, -50%)'
+      content.appendChild(hitArea)
+    }
+
+    content.appendChild(pin.element)
+
     const marker = new google.maps.marker.AdvancedMarkerElement({
       map: this.map,
       position: new google.maps.LatLng(referencePoint.latitude, referencePoint.longitude),
-      content: pin.element,
-      gmpDraggable: isEditable
+      content,
+      gmpDraggable: isEditable,
+      zIndex: 1000
     })
     marker.pin = pin
 

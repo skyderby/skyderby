@@ -126,14 +126,16 @@ function createMarkers(map, startPoint, endPoint) {
     map: map,
     position: new google.maps.LatLng(startPoint.latitude, startPoint.longitude),
     icon: MARKER_ICON,
-    draggable: false
+    draggable: false,
+    clickable: false
   })
 
   const endMarker = new google.maps.Marker({
     map: map,
     position: new google.maps.LatLng(endPoint.latitude, endPoint.longitude),
     icon: MARKER_ICON,
-    draggable: false
+    draggable: false,
+    clickable: false
   })
 
   return [startMarker, endMarker]
