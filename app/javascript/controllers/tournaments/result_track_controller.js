@@ -4,7 +4,6 @@ import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
 
 export default class extends Controller {
   static targets = [
@@ -171,34 +170,14 @@ export default class extends Controller {
     this.sideProjectionChart.setFlightProfile(this.points)
 
     if (this.finishCrossingIndex !== undefined) {
-      const crossingDistance =
-        this.calculateDistanceToIndex(this.finishCrossingIndex - 1) +
-        this.finishCrossingFraction *
-          this.calculateSegmentDistance(
-            this.points[this.finishCrossingIndex - 1],
-            this.points[this.finishCrossingIndex]
-          )
       this.sideProjectionChart.setFinishLineCrossing(
-        crossingDistance,
+        this.finishCrossingIndex,
+        this.finishCrossingFraction,
         this.resultTimeValue
       )
     }
 
     this.sideProjectionChart.render()
-  }
-
-  calculateDistanceToIndex(index) {
-    let distance = 0
-    for (let i = 1; i <= index; i++) {
-      distance += this.calculateSegmentDistance(this.points[i - 1], this.points[i])
-    }
-    return distance
-  }
-
-  calculateSegmentDistance(p1, p2) {
-    const pos1 = new LatLon(p1.latitude, p1.longitude)
-    const pos2 = new LatLon(p2.latitude, p2.longitude)
-    return pos1.distanceTo(pos2)
   }
 
   onSideProjectionHover(index) {

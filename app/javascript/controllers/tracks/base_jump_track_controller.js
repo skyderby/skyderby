@@ -6,6 +6,8 @@ import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 
 const SYNC_VERTICAL_SPEED = 10
+const FINISH_LINE_COLOR = '#8b0000'
+const FINISH_LINE_STORAGE_KEY = 'baseJumpFinishLineVisible'
 
 export default class extends Controller {
   static targets = [
@@ -20,7 +22,8 @@ export default class extends Controller {
     'playbackIndicators',
     'comparePlaybackIndicators',
     'compareModal',
-    'expandMapToggle'
+    'expandMapToggle',
+    'finishLineToggle'
   ]
 
   static values = {
@@ -30,7 +33,12 @@ export default class extends Controller {
     trackId: Number,
     comparePointsUrl: String,
     compareTrackName: String,
-    compareSamePlace: Boolean
+    compareSamePlace: Boolean,
+    finishLineStartLat: Number,
+    finishLineStartLon: Number,
+    finishLineEndLat: Number,
+    finishLineEndLon: Number,
+    raceResultTime: Number
   }
 
   connect() {
@@ -55,11 +63,133 @@ export default class extends Controller {
         this.prepareCompare()
       }
 
+      this.findFinishLineCrossings()
       this.initCharts()
       this.renderMap()
       this.initPlayback()
       this.loadDefaultTerrainProfile()
+      this.initFinishLineToggle()
     })
+  }
+
+  get hasFinishLine() {
+    return (
+      this.hasFinishLineStartLatValue &&
+      this.hasFinishLineStartLonValue &&
+      this.hasFinishLineEndLatValue &&
+      this.hasFinishLineEndLonValue
+    )
+  }
+
+  findFinishLineCrossings() {
+    if (!this.hasFinishLine) return
+
+    this.primaryCrossing = this.findCrossing(this.points)
+    if (this.hasCompare) {
+      this.compareCrossing = this.findCrossing(this.comparePoints)
+    }
+  }
+
+  findCrossing(points) {
+    for (let i = 1; i < points.length; i++) {
+      const prev = points[i - 1]
+      const curr = points[i]
+
+      const intersection = this.lineIntersection(
+        prev.latitude,
+        prev.longitude,
+        curr.latitude,
+        curr.longitude,
+        this.finishLineStartLatValue,
+        this.finishLineStartLonValue,
+        this.finishLineEndLatValue,
+        this.finishLineEndLonValue
+      )
+
+      if (intersection) {
+        return {
+          index: i,
+          fraction: this.calculateFraction(prev, curr, intersection.lat, intersection.lon)
+        }
+      }
+    }
+    return null
+  }
+
+  lineIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
+    const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+    if (Math.abs(denom) < 1e-10) return null
+
+    const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom
+    const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom
+
+    if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
+      return { lat: x1 + t * (x2 - x1), lon: y1 + t * (y2 - y1) }
+    }
+    return null
+  }
+
+  calculateFraction(prev, curr, lat, lon) {
+    const totalDist = Math.hypot(
+      curr.latitude - prev.latitude,
+      curr.longitude - prev.longitude
+    )
+    const partDist = Math.hypot(lat - prev.latitude, lon - prev.longitude)
+    return totalDist === 0 ? 0 : partDist / totalDist
+  }
+
+  initFinishLineToggle() {
+    if (!this.hasFinishLine) return
+
+    const stored = localStorage.getItem(FINISH_LINE_STORAGE_KEY)
+    this.finishLineVisible = stored === null ? true : stored === '1'
+
+    if (this.hasFinishLineToggleTarget) {
+      this.finishLineToggleTarget.checked = this.finishLineVisible
+    }
+
+    this.applyFinishLineVisibility()
+  }
+
+  toggleFinishLine(event) {
+    this.finishLineVisible = event.target.checked
+    localStorage.setItem(FINISH_LINE_STORAGE_KEY, this.finishLineVisible ? '1' : '0')
+    this.applyFinishLineVisibility()
+  }
+
+  applyFinishLineVisibility() {
+    if (this.finishLinePolyline) {
+      this.finishLinePolyline.setMap(this.finishLineVisible ? this.map : null)
+    }
+
+    this.sideProjectionChart?.setFinishLineVisible(this.finishLineVisible)
+
+    const charts = [this.speedChartTarget?.chart, this.glideChartTarget?.chart]
+    charts.forEach(chart => {
+      if (!chart) return
+
+      chart.xAxis[0].removePlotLine('finish-line')
+      if (this.finishLineVisible && this.hasRaceResultTimeValue) {
+        chart.xAxis[0].addPlotLine({
+          id: 'finish-line',
+          value: this.raceResultTimeValue,
+          color: FINISH_LINE_COLOR,
+          width: 1.5,
+          dashStyle: 'Dash',
+          zIndex: 5
+        })
+      }
+    })
+  }
+
+  compareFinishTime() {
+    if (this.compareSyncFlTime == null || !this.compareCrossing) return null
+
+    const { index, fraction } = this.compareCrossing
+    const prev = this.comparePoints[index - 1]
+    const curr = this.comparePoints[index]
+    const crossingFlTime = prev.flTime + (curr.flTime - prev.flTime) * fraction
+    return crossingFlTime - this.compareSyncFlTime
   }
 
   fetchPoints(url) {
@@ -87,6 +217,7 @@ export default class extends Controller {
       return
     }
 
+    this.compareSyncFlTime = compareSync
     const primaryRel = primarySync - this.points[0].flTime
     const compareRel = compareSync - this.comparePoints[0].flTime
     this.compareTimeOffset = primaryRel - compareRel
@@ -133,6 +264,22 @@ export default class extends Controller {
 
     if (this.hasCompare) {
       this.sideProjectionChart.setCompareProfile(this.comparePoints)
+    }
+
+    if (this.primaryCrossing) {
+      this.sideProjectionChart.setFinishLineCrossing(
+        this.primaryCrossing.index,
+        this.primaryCrossing.fraction,
+        this.hasRaceResultTimeValue ? this.raceResultTimeValue : null
+      )
+    }
+
+    if (this.compareCrossing && this.hasCompare) {
+      this.sideProjectionChart.setCompareFinishLineCrossing(
+        this.compareCrossing.index,
+        this.compareCrossing.fraction,
+        this.compareFinishTime()
+      )
     }
 
     this.sideProjectionChart.render()
@@ -234,7 +381,22 @@ export default class extends Controller {
     if (this.showCompareOnMap) {
       this.drawTrajectory(this.comparePoints, { dashed: true, weight: 5 })
     }
+    this.drawFinishLine()
     this.fitBounds()
+  }
+
+  drawFinishLine() {
+    if (!this.hasFinishLine) return
+
+    this.finishLinePolyline = new google.maps.Polyline({
+      path: [
+        { lat: this.finishLineStartLatValue, lng: this.finishLineStartLonValue },
+        { lat: this.finishLineEndLatValue, lng: this.finishLineEndLonValue }
+      ],
+      strokeColor: FINISH_LINE_COLOR,
+      strokeOpacity: 1,
+      strokeWeight: 2
+    })
   }
 
   get showCompareOnMap() {
@@ -307,6 +469,16 @@ export default class extends Controller {
       latitude: p.latitude,
       longitude: p.longitude
     }))
+
+    if (this.hasFinishLine) {
+      mapPoints.push(
+        {
+          latitude: this.finishLineStartLatValue,
+          longitude: this.finishLineStartLonValue
+        },
+        { latitude: this.finishLineEndLatValue, longitude: this.finishLineEndLonValue }
+      )
+    }
 
     const bounds = new Bounds(mapPoints)
     const mapBounds = new google.maps.LatLngBounds()

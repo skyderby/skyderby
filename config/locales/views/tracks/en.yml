@@ -60,6 +60,7 @@ en:
       terrain_profile: Terrain Profile
       select_terrain_profile: Select terrain profile
       expand_map: Expand Map
+      finish_line: Finish line
     form:
       suit_text_placeholder: Enter suit name
       suit_select_placeholder: Select suit from list

@@ -8,6 +8,8 @@
 
   <% default_jump_line = @track.place&.jump_lines&.first %>
   <% compare_same_place = @compare_track && @track.place_id.present? && @track.place_id == @compare_track.place_id %>
+  <% race = @track.race_finish_line %>
+  <% finish_line_coords = race && race[:finish_line]&.to_coordinates %>
   <div class="track-show-content"
        data-controller="tracks--base-jump-track"
        data-tracks--base-jump-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
@@ -18,9 +20,30 @@
        data-tracks--base-jump-track-compare-track-name-value="<%= @compare_track.pilot&.name || @compare_track.name %>"
        data-tracks--base-jump-track-compare-same-place-value="<%= compare_same_place %>"
        <% end %>
+       <% if finish_line_coords.present? %>
+       data-tracks--base-jump-track-finish-line-start-lat-value="<%= finish_line_coords.first[:latitude] %>"
+       data-tracks--base-jump-track-finish-line-start-lon-value="<%= finish_line_coords.first[:longitude] %>"
+       data-tracks--base-jump-track-finish-line-end-lat-value="<%= finish_line_coords.last[:latitude] %>"
+       data-tracks--base-jump-track-finish-line-end-lon-value="<%= finish_line_coords.last[:longitude] %>"
+       data-tracks--base-jump-track-race-result-time-value="<%= race[:result] %>"
+       <% end %>
        data-tracks--base-jump-track-default-terrain-profile-id-value="<%= default_jump_line&.id %>">
 
     <div class="base-jump-toolbar">
+      <% if finish_line_coords.present? %>
+        <div class="switch-container">
+          <input type="checkbox"
+                 id="finish-line-toggle"
+                 class="switch-input"
+                 data-tracks--base-jump-track-target="finishLineToggle"
+                 data-action="tracks--base-jump-track#toggleFinishLine">
+          <label for="finish-line-toggle" class="switch-label">
+            <span class="switch-slider"></span>
+            <span class="switch-text"><%= t('tracks.base_jump.finish_line') %></span>
+          </label>
+        </div>
+      <% end %>
+
       <div class="switch-container">
         <input type="checkbox"
                id="expand-map-toggle"

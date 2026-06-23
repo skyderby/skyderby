@@ -17,7 +17,9 @@ export default class SideProjectionChart {
     this.compareRawPoints = null
     this.compareFlightProfile = []
     this.terrainProfile = null
-    this.finishLineCrossing = null
+    this.finishCrossing = null
+    this.compareFinishCrossing = null
+    this.finishLineVisible = true
   }
 
   setFlightProfile(points) {
@@ -36,8 +38,26 @@ export default class SideProjectionChart {
     return this
   }
 
-  setFinishLineCrossing(distance, resultTime) {
-    this.finishLineCrossing = { distance, resultTime }
+  setFinishLineCrossing(index, fraction, resultTime) {
+    this.finishCrossing = { index, fraction, resultTime }
+    return this
+  }
+
+  setCompareFinishLineCrossing(index, fraction, resultTime) {
+    this.compareFinishCrossing = { index, fraction, resultTime }
+    return this
+  }
+
+  setFinishLineVisible(visible) {
+    this.finishLineVisible = visible
+
+    if (this.svg) {
+      this.svg
+        .querySelectorAll('.finish-line-crossing, .finish-line-crossing--compare')
+        .forEach(el => {
+          el.style.display = visible ? '' : 'none'
+        })
+    }
     return this
   }
 
@@ -563,59 +583,79 @@ export default class SideProjectionChart {
   }
 
   drawFinishLineCrossing() {
-    if (!this.finishLineCrossing) return
+    const items = []
+    if (this.finishCrossing) {
+      items.push({
+        crossing: this.finishCrossing,
+        profile: this.flightProfile,
+        className: 'finish-line-crossing'
+      })
+    }
+    if (this.compareFinishCrossing && this.compareFlightProfile.length) {
+      items.push({
+        crossing: this.compareFinishCrossing,
+        profile: this.compareFlightProfile,
+        className: 'finish-line-crossing--compare'
+      })
+    }
 
-    const { distance, resultTime } = this.finishLineCrossing
-    const crossingPoint =
-      this.flightProfile.find(p => p.x >= distance) ||
-      this.flightProfile[this.flightProfile.length - 1]
-    if (!crossingPoint) return
+    const positioned = items
+      .map(item => ({ ...item, y: this.crossingY(item.crossing, item.profile) }))
+      .filter(item => item.y != null)
 
-    const x = this.scaleX(distance)
-    const y = this.scaleY(crossingPoint.y)
-    const { padding } = this.options
+    if (positioned.length === 2) {
+      // Upper track (smaller y) labels above, lower track labels below.
+      positioned.sort((a, b) => a.y - b.y)
+      this.drawCrossing(positioned[0], { labelAbove: true, up: 40, down: 25 })
+      this.drawCrossing(positioned[1], { labelAbove: false, up: 25, down: 40 })
+    } else {
+      positioned.forEach(item =>
+        this.drawCrossing(item, { labelAbove: true, up: 40, down: 25 })
+      )
+    }
+  }
+
+  crossingY(crossing, profile) {
+    const prev = profile[crossing.index - 1]
+    const curr = profile[crossing.index]
+    if (!prev || !curr) return null
+
+    return this.scaleY(prev.y + (curr.y - prev.y) * crossing.fraction)
+  }
+
+  drawCrossing({ crossing, profile, className }, { labelAbove, up, down }) {
+    const { index, fraction, resultTime } = crossing
+    const prev = profile[index - 1]
+    const curr = profile[index]
+    if (!prev || !curr) return
+
+    const profileX = prev.x + (curr.x - prev.x) * fraction
+    const profileY = prev.y + (curr.y - prev.y) * fraction
+    const x = this.scaleX(profileX)
+    const y = this.scaleY(profileY)
+
+    const group = document.createElementNS(SVG_NS, 'g')
+    group.setAttribute('class', className)
+    if (!this.finishLineVisible) group.style.display = 'none'
 
     const line = document.createElementNS(SVG_NS, 'line')
-    line.setAttribute('class', 'finish-line-crossing')
     line.setAttribute('x1', x)
-    line.setAttribute('y1', padding.top)
+    line.setAttribute('y1', y - up)
     line.setAttribute('x2', x)
-    line.setAttribute('y2', this.height - padding.bottom)
-    line.setAttribute('stroke', '#f44336')
-    line.setAttribute('stroke-width', '2')
+    line.setAttribute('y2', y + down)
     line.setAttribute('stroke-dasharray', '6,3')
-    this.svg.appendChild(line)
-
-    const circle = document.createElementNS(SVG_NS, 'circle')
-    circle.setAttribute('class', 'finish-crossing-marker')
-    circle.setAttribute('cx', x)
-    circle.setAttribute('cy', y)
-    circle.setAttribute('r', '6')
-    circle.setAttribute('fill', '#f44336')
-    circle.setAttribute('stroke', '#fff')
-    circle.setAttribute('stroke-width', '2')
-    this.svg.appendChild(circle)
-
-    const labelBg = document.createElementNS(SVG_NS, 'rect')
-    const labelText = resultTime ? `${resultTime.toFixed(1)}s` : 'FINISH'
-    const labelWidth = labelText.length * 7 + 8
-    labelBg.setAttribute('x', x - labelWidth / 2)
-    labelBg.setAttribute('y', padding.top + 5)
-    labelBg.setAttribute('width', labelWidth)
-    labelBg.setAttribute('height', 18)
-    labelBg.setAttribute('rx', '3')
-    labelBg.setAttribute('fill', '#f44336')
-    this.svg.appendChild(labelBg)
+    group.appendChild(line)
 
     const label = document.createElementNS(SVG_NS, 'text')
     label.setAttribute('x', x)
-    label.setAttribute('y', padding.top + 17)
+    label.setAttribute('y', labelAbove ? y - up - 6 : y + down + 12)
     label.setAttribute('text-anchor', 'middle')
     label.setAttribute('font-size', '11')
-    label.setAttribute('font-weight', 'bold')
-    label.setAttribute('fill', '#fff')
-    label.textContent = labelText
-    this.svg.appendChild(label)
+    label.setAttribute('font-weight', '600')
+    label.textContent = resultTime != null ? `${resultTime.toFixed(1)}s` : 'FINISH'
+    group.appendChild(label)
+
+    this.svg.appendChild(group)
   }
 
   drawFlares() {

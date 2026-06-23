@@ -142,6 +142,29 @@ class Track < ApplicationRecord
 
   def delete_online_competitions_results = all_virtual_competition_results.delete_all
 
+  def race_finish_line
+    vc_result =
+      virtual_competition_results
+      .joins(:virtual_competition)
+      .where(virtual_competitions: { discipline: VirtualCompetition.disciplines[:base_race] })
+      .where.not(virtual_competitions: { finish_line_id: nil })
+      .order(result: :asc)
+      .first
+
+    if vc_result
+      return { finish_line: vc_result.virtual_competition.finish_line,
+               result: vc_result.result }
+    end
+
+    qualification_jump = QualificationJump.find_by(track_id: id)
+    if qualification_jump&.finish_line && qualification_jump.result.to_f.positive?
+      return { finish_line: qualification_jump.finish_line,
+               result: qualification_jump.result }
+    end
+
+    nil
+  end
+
   def altitude_bounds
     @altitude_bounds ||= begin
       points_altitude =
