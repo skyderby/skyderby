@@ -186,6 +186,14 @@
   stroke-width: 1.5;
 }
 
+.side-projection-chart .max-speed-marker text,
+.side-projection-chart .max-speed-marker--compare text {
+  stroke: #fff;
+  stroke-width: 3;
+  paint-order: stroke;
+  stroke-linejoin: round;
+}
+
 .side-projection-chart .max-speed-marker text {
   fill: #2196F3;
 }

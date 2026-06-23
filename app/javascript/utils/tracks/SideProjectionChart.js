@@ -771,14 +771,13 @@ export default class SideProjectionChart {
     const tooltipWidth = tooltipRect.width || 150
     const tooltipHeight = tooltipRect.height || 100
 
-    const offsetX = 10
-    const offsetY = 10
+    const offset = this.compareFlightProfile.length ? 32 : 10
 
-    let left = pointScreenX + offsetX
-    let top = pointScreenY - tooltipHeight - offsetY
+    let left = pointScreenX + offset
+    let top = pointScreenY - tooltipHeight - offset
 
     if (left + tooltipWidth > containerRect.width) {
-      left = pointScreenX - tooltipWidth - offsetX
+      left = pointScreenX - tooltipWidth - offset
     }
 
     if (top < 0) {
