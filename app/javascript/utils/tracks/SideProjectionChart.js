@@ -9,10 +9,13 @@ export default class SideProjectionChart {
     this.options = {
       padding: { top: 0, right: 20, bottom: 40, left: 50 },
       onPointHover: null,
+      syncVerticalSpeed: 10,
       ...options
     }
     this.points = []
     this.flightProfile = []
+    this.compareRawPoints = null
+    this.compareFlightProfile = []
     this.terrainProfile = null
     this.finishLineCrossing = null
   }
@@ -20,6 +23,11 @@ export default class SideProjectionChart {
   setFlightProfile(points) {
     this.points = points
     this.flightProfile = this.calculateFlightProfile(points)
+    return this
+  }
+
+  setCompareProfile(points) {
+    this.compareRawPoints = points
     return this
   }
 
@@ -53,9 +61,81 @@ export default class SideProjectionChart {
         fullSpeed: point.fullSpeed,
         glideRatio: point.glideRatio,
         gpsTime: point.gpsTime,
-        flTime: point.flTime
+        flTime: point.flTime,
+        playerTime: point.flTime - firstPoint.flTime
       }
     })
+  }
+
+  findSyncIndex(profile) {
+    const threshold = this.options.syncVerticalSpeed
+
+    for (let i = 0; i < profile.length; i++) {
+      if (profile[i].vSpeed >= threshold) {
+        return i
+      }
+    }
+    return null
+  }
+
+  buildCompareProfile() {
+    this.compareFlightProfile = []
+    if (!this.compareRawPoints?.length || !this.flightProfile.length) return
+
+    const compareProfile = this.calculateFlightProfile(this.compareRawPoints)
+    const primaryIndex = this.findSyncIndex(this.flightProfile)
+    const compareIndex = this.findSyncIndex(compareProfile)
+    if (primaryIndex === null || compareIndex === null) return
+
+    const primarySync = this.flightProfile[primaryIndex]
+    const compareSync = compareProfile[compareIndex]
+    const offsetX = primarySync.x - compareSync.x
+    const offsetY = primarySync.y - compareSync.y
+    const primaryStartFlTime = this.flightProfile[0].flTime
+    const compareStartFlTime = compareProfile[0].flTime
+    const syncPlayerTime = primarySync.flTime - primaryStartFlTime
+
+    compareProfile.forEach(point => {
+      point.x += offsetX
+      point.y += offsetY
+      point.exitTime = point.flTime - compareStartFlTime
+      point.playerTime = point.flTime - compareSync.flTime + syncPlayerTime
+    })
+
+    this.flightProfile.forEach(point => {
+      point.exitTime = point.flTime - primaryStartFlTime
+    })
+
+    this.compareFlightProfile = compareProfile
+  }
+
+  interpolateCompareProfile(playerTime) {
+    const profile = this.compareFlightProfile
+    if (!profile.length) return null
+
+    const lerp = (a, b, f) => a + (b - a) * f
+
+    for (let i = 0; i < profile.length - 1; i++) {
+      const curr = profile[i]
+      const next = profile[i + 1]
+
+      if (playerTime >= curr.playerTime && playerTime < next.playerTime) {
+        const f = (playerTime - curr.playerTime) / (next.playerTime - curr.playerTime)
+        return {
+          x: lerp(curr.x, next.x, f),
+          y: lerp(curr.y, next.y, f),
+          altitude: lerp(curr.altitude, next.altitude, f),
+          hSpeed: lerp(curr.hSpeed, next.hSpeed, f),
+          vSpeed: lerp(curr.vSpeed, next.vSpeed, f),
+          fullSpeed: lerp(curr.fullSpeed, next.fullSpeed, f),
+          glideRatio: lerp(curr.glideRatio ?? 0, next.glideRatio ?? 0, f),
+          exitTime: lerp(curr.exitTime, next.exitTime, f)
+        }
+      }
+    }
+
+    if (playerTime < profile[0].playerTime) return profile[0]
+    return profile[profile.length - 1]
   }
 
   calculateDistance(first, second) {
@@ -90,6 +170,7 @@ export default class SideProjectionChart {
     if (!this.flightProfile.length) return this
 
     this.clear()
+    this.buildCompareProfile()
     this.calculateDimensions()
     this.createSvg()
     this.drawGrid()
@@ -97,9 +178,11 @@ export default class SideProjectionChart {
     this.drawTerrainProfile()
     this.drawTerrainClearance()
     this.drawTrajectory()
+    this.drawCompareTrajectory()
     this.drawIntersectionPoint()
     this.drawFinishLineCrossing()
     this.drawFlares()
+    this.renderMaxSpeedMarker()
     this.createCrosshair()
     this.setupInteraction()
 
@@ -119,8 +202,11 @@ export default class SideProjectionChart {
     this.chartWidth = this.width - padding.left - padding.right
     this.chartHeight = this.height - padding.top - padding.bottom
 
-    const maxX = Math.max(...this.flightProfile.map(p => p.x))
-    const maxY = Math.max(...this.flightProfile.map(p => p.y))
+    const profiles = this.compareFlightProfile.length
+      ? this.flightProfile.concat(this.compareFlightProfile)
+      : this.flightProfile
+    const maxX = Math.max(...profiles.map(p => p.x))
+    const maxY = Math.max(...profiles.map(p => p.y))
     const maxValue = Math.max(maxX, maxY)
 
     const roundTo = maxValue > 500 ? 100 : 50
@@ -145,11 +231,19 @@ export default class SideProjectionChart {
 
     const gridInterval = this.maxScale > 500 ? 100 : 50
 
+    const stepPxX = (gridInterval / this.maxScale) * this.chartWidth
+    const stepPxY = (gridInterval / this.maxScale) * this.chartHeight
+    const minLabelGapX = 36
+    const minLabelGapY = 22
+    const labelStepX = stepPxX > 0 ? Math.max(1, Math.ceil(minLabelGapX / stepPxX)) : 1
+    const labelStepY = stepPxY > 0 ? Math.max(1, Math.ceil(minLabelGapY / stepPxY)) : 1
+
     let labelIndex = 0
     for (let value = 0; value <= this.maxScale; value += gridInterval) {
       const x = this.scaleX(value)
       const y = this.scaleY(value)
-      const isOddLabel = labelIndex % 2 === 1
+      const showXLabel = labelIndex % labelStepX === 0
+      const showYLabel = labelIndex % labelStepY === 0
 
       const vLine = document.createElementNS(SVG_NS, 'line')
       vLine.setAttribute('x1', x)
@@ -169,25 +263,27 @@ export default class SideProjectionChart {
       hLine.setAttribute('stroke-width', '1')
       gridGroup.appendChild(hLine)
 
-      const xLabel = document.createElementNS(SVG_NS, 'text')
-      xLabel.setAttribute('x', x)
-      xLabel.setAttribute('y', this.height - this.options.padding.bottom + 15)
-      xLabel.setAttribute('text-anchor', 'middle')
-      xLabel.setAttribute('font-size', '11')
-      xLabel.setAttribute('fill', '#666')
-      if (isOddLabel) xLabel.setAttribute('class', 'grid-label-odd')
-      xLabel.textContent = value
-      gridGroup.appendChild(xLabel)
+      if (showXLabel) {
+        const xLabel = document.createElementNS(SVG_NS, 'text')
+        xLabel.setAttribute('x', x)
+        xLabel.setAttribute('y', this.height - this.options.padding.bottom + 15)
+        xLabel.setAttribute('text-anchor', 'middle')
+        xLabel.setAttribute('font-size', '11')
+        xLabel.setAttribute('fill', '#666')
+        xLabel.textContent = value
+        gridGroup.appendChild(xLabel)
+      }
 
-      const yLabel = document.createElementNS(SVG_NS, 'text')
-      yLabel.setAttribute('x', this.options.padding.left - 8)
-      yLabel.setAttribute('y', y + 4)
-      yLabel.setAttribute('text-anchor', 'end')
-      yLabel.setAttribute('font-size', '11')
-      yLabel.setAttribute('fill', '#666')
-      if (isOddLabel) yLabel.setAttribute('class', 'grid-label-odd')
-      yLabel.textContent = value
-      gridGroup.appendChild(yLabel)
+      if (showYLabel) {
+        const yLabel = document.createElementNS(SVG_NS, 'text')
+        yLabel.setAttribute('x', this.options.padding.left - 8)
+        yLabel.setAttribute('y', y + 4)
+        yLabel.setAttribute('text-anchor', 'end')
+        yLabel.setAttribute('font-size', '11')
+        yLabel.setAttribute('fill', '#666')
+        yLabel.textContent = value
+        gridGroup.appendChild(yLabel)
+      }
 
       labelIndex++
     }
@@ -371,6 +467,61 @@ export default class SideProjectionChart {
     this.svg.appendChild(path)
 
     this.trajectoryPath = path
+  }
+
+  drawCompareTrajectory() {
+    if (!this.compareFlightProfile.length) return
+
+    const pathData = this.compareFlightProfile
+      .map((p, i) => `${i === 0 ? 'M' : 'L'} ${this.scaleX(p.x)} ${this.scaleY(p.y)}`)
+      .join(' ')
+
+    const path = document.createElementNS(SVG_NS, 'path')
+    path.setAttribute('class', 'trajectory--compare')
+    path.setAttribute('d', pathData)
+    path.setAttribute('fill', 'none')
+    path.setAttribute('stroke', '#9C27B0')
+    path.setAttribute('stroke-width', '2')
+    path.setAttribute('stroke-dasharray', '8 4')
+    path.setAttribute('stroke-linecap', 'round')
+    path.setAttribute('stroke-linejoin', 'round')
+    this.svg.appendChild(path)
+  }
+
+  renderMaxSpeedMarker() {
+    this.renderMaxSpeedFor(this.flightProfile, 'max-speed-marker')
+
+    if (this.compareFlightProfile.length) {
+      this.renderMaxSpeedFor(this.compareFlightProfile, 'max-speed-marker--compare')
+    }
+  }
+
+  renderMaxSpeedFor(profile, className) {
+    if (!profile.length) return
+
+    const maxPoint = profile.reduce((max, p) => (p.fullSpeed > max.fullSpeed ? p : max))
+    const x = this.scaleX(maxPoint.x)
+    const y = this.scaleY(maxPoint.y)
+
+    const group = document.createElementNS(SVG_NS, 'g')
+    group.setAttribute('class', `max-speed-marker-group ${className}`)
+
+    const circle = document.createElementNS(SVG_NS, 'circle')
+    circle.setAttribute('cx', x)
+    circle.setAttribute('cy', y)
+    circle.setAttribute('r', '4')
+    group.appendChild(circle)
+
+    const label = document.createElementNS(SVG_NS, 'text')
+    label.setAttribute('x', x)
+    label.setAttribute('y', y - 10)
+    label.setAttribute('text-anchor', 'middle')
+    label.setAttribute('font-size', '11')
+    label.setAttribute('font-weight', '600')
+    label.textContent = `${Math.round(maxPoint.fullSpeed)} km/h`
+    group.appendChild(label)
+
+    this.svg.appendChild(group)
   }
 
   drawIntersectionPoint() {
@@ -581,27 +732,31 @@ export default class SideProjectionChart {
     const terrainAlt = this.getTerrainAltitudeAt(point.x)
     const clearance = terrainAlt !== null ? Math.round(terrainAlt - point.y) : null
 
-    let clearanceHtml = ''
-    if (clearance !== null) {
-      let color = '#4CAF50'
-      if (clearance <= 25) color = '#f44336'
-      else if (clearance <= 100) color = '#FFC107'
+    if (this.compareFlightProfile.length) {
+      this.tooltip.innerHTML = this.comparisonTooltipHtml(point, clearance)
+    } else {
+      let clearanceHtml = ''
+      if (clearance !== null) {
+        let color = '#4CAF50'
+        if (clearance <= 25) color = '#f44336'
+        else if (clearance <= 100) color = '#FFC107'
 
-      clearanceHtml = `<div><b>Clearance:</b> <span style="color: ${color}; font-weight: bold;">${clearance} m</span></div>`
+        clearanceHtml = `<div><b>Clearance:</b> <span style="color: ${color}; font-weight: bold;">${clearance} m</span></div>`
+      }
+
+      const timeFromExit = Math.round(point.flTime - this.flightProfile[0].flTime)
+
+      this.tooltip.innerHTML = `
+        <div><b>Time:</b> ${timeFromExit} s</div>
+        <div><b>Distance:</b> ${Math.round(point.x)} m</div>
+        <div><b>Alt drop:</b> ${Math.round(point.y)} m</div>
+        <div><b>Altitude:</b> ${Math.round(point.altitude)} m</div>
+        <div><b>H speed:</b> ${Math.round(point.hSpeed)} km/h</div>
+        <div><b>V speed:</b> ${Math.round(point.vSpeed)} km/h</div>
+        <div><b>Glide:</b> ${point.glideRatio?.toFixed(2) ?? 'N/A'}</div>
+        ${clearanceHtml}
+      `
     }
-
-    const timeFromExit = Math.round(point.flTime - this.flightProfile[0].flTime)
-
-    this.tooltip.innerHTML = `
-      <div><b>Time:</b> ${timeFromExit} s</div>
-      <div><b>Distance:</b> ${Math.round(point.x)} m</div>
-      <div><b>Alt drop:</b> ${Math.round(point.y)} m</div>
-      <div><b>Altitude:</b> ${Math.round(point.altitude)} m</div>
-      <div><b>H speed:</b> ${Math.round(point.hSpeed)} km/h</div>
-      <div><b>V speed:</b> ${Math.round(point.vSpeed)} km/h</div>
-      <div><b>Glide:</b> ${point.glideRatio?.toFixed(2) ?? 'N/A'}</div>
-      ${clearanceHtml}
-    `
 
     const svgRect = this.svg.getBoundingClientRect()
     const containerRect = this.container.getBoundingClientRect()
@@ -635,6 +790,74 @@ export default class SideProjectionChart {
     this.tooltip.style.display = 'block'
   }
 
+  comparisonTooltipHtml(point, primaryClearance) {
+    const comparePoint = this.interpolateCompareProfile(point.playerTime)
+
+    const fmt = value => (value == null || Number.isNaN(value) ? '—' : value)
+    const num = (value, digits = 0) =>
+      value == null || Number.isNaN(value) ? '—' : value.toFixed(digits)
+
+    const primaryExit = Math.round(point.flTime - this.flightProfile[0].flTime)
+    const compareExit = comparePoint ? Math.round(comparePoint.exitTime) : null
+    const compareClearance =
+      comparePoint && this.terrainProfile?.length
+        ? this.getTerrainAltitudeAt(comparePoint.x)
+        : null
+    const compareClearanceValue =
+      compareClearance == null ? null : Math.round(compareClearance - comparePoint.y)
+
+    const rows = [
+      ['Time, s', primaryExit, fmt(compareExit)],
+      [
+        'Distance, m',
+        Math.round(point.x),
+        comparePoint ? Math.round(comparePoint.x) : '—'
+      ],
+      [
+        'Alt drop, m',
+        Math.round(point.y),
+        comparePoint ? Math.round(comparePoint.y) : '—'
+      ],
+      [
+        'Altitude, m',
+        Math.round(point.altitude),
+        comparePoint ? Math.round(comparePoint.altitude) : '—'
+      ],
+      [
+        'H speed, km/h',
+        Math.round(point.hSpeed),
+        comparePoint ? Math.round(comparePoint.hSpeed) : '—'
+      ],
+      [
+        'V speed, km/h',
+        Math.round(point.vSpeed),
+        comparePoint ? Math.round(comparePoint.vSpeed) : '—'
+      ],
+      [
+        'Glide',
+        num(point.glideRatio, 2),
+        comparePoint ? num(comparePoint.glideRatio, 2) : '—'
+      ]
+    ]
+
+    if (primaryClearance !== null || compareClearanceValue !== null) {
+      rows.push([
+        'Clearance, m',
+        primaryClearance == null ? '—' : primaryClearance,
+        compareClearanceValue == null ? '—' : compareClearanceValue
+      ])
+    }
+
+    const body = rows
+      .map(
+        ([label, a, b]) =>
+          `<tr><th>${label}</th><td>${a}</td><td class="is-compare">${b}</td></tr>`
+      )
+      .join('')
+
+    return `<table class="side-projection-tooltip-table">${body}</table>`
+  }
+
   hideTooltip() {
     if (this.tooltip) {
       this.tooltip.style.display = 'none'
@@ -659,6 +882,13 @@ export default class SideProjectionChart {
     this.crosshairMarker.setAttribute('r', '5')
     this.crosshairGroup.appendChild(this.crosshairMarker)
 
+    if (this.compareFlightProfile.length) {
+      this.compareCrosshairMarker = document.createElementNS(SVG_NS, 'circle')
+      this.compareCrosshairMarker.setAttribute('class', 'crosshair-marker--compare')
+      this.compareCrosshairMarker.setAttribute('r', '5')
+      this.crosshairGroup.appendChild(this.compareCrosshairMarker)
+    }
+
     this.svg.appendChild(this.crosshairGroup)
   }
 
@@ -666,7 +896,7 @@ export default class SideProjectionChart {
     if (!this.crosshairGroup || index < 0 || index >= this.flightProfile.length) return
 
     const point = this.flightProfile[index]
-    this.showCrosshairAtPosition(point.x, point.y)
+    this.showCrosshairAtPosition(point.x, point.y, point.playerTime)
   }
 
   showCrosshairInterpolated(index, fraction) {
@@ -677,11 +907,12 @@ export default class SideProjectionChart {
 
     const posX = curr.x + (next.x - curr.x) * fraction
     const posY = curr.y + (next.y - curr.y) * fraction
+    const playerTime = curr.playerTime + (next.playerTime - curr.playerTime) * fraction
 
-    this.showCrosshairAtPosition(posX, posY)
+    this.showCrosshairAtPosition(posX, posY, playerTime)
   }
 
-  showCrosshairAtPosition(posX, posY) {
+  showCrosshairAtPosition(posX, posY, playerTime) {
     const x = this.scaleX(posX)
     const y = this.scaleY(posY)
     const { padding } = this.options
@@ -700,6 +931,23 @@ export default class SideProjectionChart {
     this.crosshairMarker.setAttribute('cy', y)
 
     this.crosshairGroup.style.display = ''
+
+    this.updateCompareCrosshairMarker(playerTime)
+  }
+
+  updateCompareCrosshairMarker(playerTime) {
+    if (!this.compareCrosshairMarker) return
+
+    const comparePoint =
+      playerTime == null ? null : this.interpolateCompareProfile(playerTime)
+    if (!comparePoint) {
+      this.compareCrosshairMarker.style.display = 'none'
+      return
+    }
+
+    this.compareCrosshairMarker.setAttribute('cx', this.scaleX(comparePoint.x))
+    this.compareCrosshairMarker.setAttribute('cy', this.scaleY(comparePoint.y))
+    this.compareCrosshairMarker.style.display = ''
   }
 
   hideCrosshair() {
@@ -712,5 +960,7 @@ export default class SideProjectionChart {
     this.clear()
     this.points = []
     this.flightProfile = []
+    this.compareRawPoints = null
+    this.compareFlightProfile = []
   }
 }

@@ -5,6 +5,8 @@ import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 
+const SYNC_VERTICAL_SPEED = 10
+
 export default class extends Controller {
   static targets = [
     'sideProjection',
@@ -15,21 +17,42 @@ export default class extends Controller {
     'map',
     'playButton',
     'playbackSlider',
-    'playbackIndicators'
+    'playbackIndicators',
+    'comparePlaybackIndicators',
+    'compareModal'
   ]
 
   static values = {
     pointsUrl: String,
     locationArrowUrl: String,
-    defaultTerrainProfileId: Number
+    defaultTerrainProfileId: Number,
+    trackId: Number,
+    comparePointsUrl: String,
+    compareTrackName: String,
+    compareSamePlace: Boolean
   }
 
   connect() {
     this.playing = false
     this.currentIndex = 0
+    this.comparePoints = null
 
-    Promise.all([this.fetchPoints(), initMapsApi()]).then(([pointsData]) => {
+    const fetches = [this.fetchPoints(this.pointsUrlValue), initMapsApi()]
+    if (this.hasComparePointsUrlValue) {
+      fetches.push(this.fetchPoints(this.comparePointsUrlValue))
+    }
+
+    Promise.all(fetches).then(([pointsData, , compareData]) => {
       this.points = pointsData.points
+      this.points.forEach(point => {
+        point.playerTime = point.flTime - this.points[0].flTime
+      })
+
+      if (compareData && compareData.points.length > 0) {
+        this.comparePoints = compareData.points
+        this.prepareCompare()
+      }
+
       this.initCharts()
       this.renderMap()
       this.initPlayback()
@@ -37,8 +60,8 @@ export default class extends Controller {
     })
   }
 
-  fetchPoints() {
-    return fetch(this.pointsUrlValue, {
+  fetchPoints(url) {
+    return fetch(url, {
       headers: { Accept: 'application/json' }
     })
       .then(response => response.json())
@@ -53,6 +76,43 @@ export default class extends Controller {
       })
   }
 
+  prepareCompare() {
+    const primarySync = this.syncFlTime(this.points)
+    const compareSync = this.syncFlTime(this.comparePoints)
+
+    if (primarySync === null || compareSync === null) {
+      this.comparePoints = null
+      return
+    }
+
+    const primaryRel = primarySync - this.points[0].flTime
+    const compareRel = compareSync - this.comparePoints[0].flTime
+    this.compareTimeOffset = primaryRel - compareRel
+
+    this.comparePoints.forEach(point => {
+      point.playerTime =
+        point.flTime - this.comparePoints[0].flTime + this.compareTimeOffset
+    })
+  }
+
+  syncFlTime(points) {
+    for (let i = 0; i < points.length; i++) {
+      if (points[i].vSpeed < SYNC_VERTICAL_SPEED) continue
+
+      if (i === 0) return points[0].flTime
+
+      const curr = points[i - 1]
+      const next = points[i]
+      const fraction = (SYNC_VERTICAL_SPEED - curr.vSpeed) / (next.vSpeed - curr.vSpeed)
+      return curr.flTime + (next.flTime - curr.flTime) * fraction
+    }
+    return null
+  }
+
+  get hasCompare() {
+    return Boolean(this.comparePoints && this.comparePoints.length > 0)
+  }
+
   initCharts() {
     this.initSideProjection()
     this.initGlideChart()
@@ -64,9 +124,16 @@ export default class extends Controller {
     if (!this.hasSideProjectionTarget) return
 
     this.sideProjectionChart = new SideProjectionChart(this.sideProjectionTarget, {
-      onPointHover: index => this.onSideProjectionHover(index)
+      onPointHover: index => this.onSideProjectionHover(index),
+      syncVerticalSpeed: SYNC_VERTICAL_SPEED
     })
-    this.sideProjectionChart.setFlightProfile(this.points).render()
+    this.sideProjectionChart.setFlightProfile(this.points)
+
+    if (this.hasCompare) {
+      this.sideProjectionChart.setCompareProfile(this.comparePoints)
+    }
+
+    this.sideProjectionChart.render()
   }
 
   onSideProjectionHover(index) {
@@ -88,7 +155,8 @@ export default class extends Controller {
     this.glideChartTarget.chart = initGlideChart(this.glideChartTarget, this.points, {
       windCancellation: false,
       showTitle: false,
-      showLegend: false
+      showLegend: false,
+      ...this.compareChartOptions
     })
   }
 
@@ -97,8 +165,19 @@ export default class extends Controller {
 
     this.speedChartTarget.chart = initSpeedsChart(this.speedChartTarget, this.points, {
       windCancellation: false,
-      showTitle: false
+      showTitle: false,
+      ...this.compareChartOptions
     })
+  }
+
+  get compareChartOptions() {
+    if (!this.hasCompare) return {}
+
+    return {
+      comparePoints: this.comparePoints,
+      compareTimeOffset: this.compareTimeOffset,
+      compareTrackName: this.compareTrackNameValue
+    }
   }
 
   initSepChart() {
@@ -139,8 +218,15 @@ export default class extends Controller {
     if (!this.hasMapTarget) return
 
     this.initMap()
-    this.drawTrajectory()
+    this.drawTrajectory(this.points)
+    if (this.showCompareOnMap) {
+      this.drawTrajectory(this.comparePoints, { dashed: true, weight: 5 })
+    }
     this.fitBounds()
+  }
+
+  get showCompareOnMap() {
+    return this.hasCompare && this.compareSamePlaceValue
   }
 
   initMap() {
@@ -148,12 +234,15 @@ export default class extends Controller {
       zoom: 2,
       center: new google.maps.LatLng(20, 20),
       mapTypeId: 'terrain',
-      mapId: 'BASE_TRACK_MAP'
+      mapId: 'BASE_TRACK_MAP',
+      cameraControl: false,
+      streetViewControl: false,
+      zoomControl: true
     })
   }
 
-  drawTrajectory() {
-    const mapPoints = this.points.map(p => ({
+  drawTrajectory(points, { dashed = false, weight = 6 } = {}) {
+    const mapPoints = points.map(p => ({
       latitude: p.latitude,
       longitude: p.longitude,
       hSpeed: p.hSpeed
@@ -162,18 +251,39 @@ export default class extends Controller {
     const trajectory = new Trajectory(mapPoints)
 
     for (let { path, color } of trajectory.polylines) {
-      const polyline = new google.maps.Polyline({
+      const options = {
         path,
         strokeColor: color,
-        strokeOpacity: 1,
-        strokeWeight: 6
-      })
+        strokeOpacity: dashed ? 0 : 1,
+        strokeWeight: weight
+      }
+
+      if (dashed) {
+        options.icons = [
+          {
+            icon: {
+              path: 'M 0,-1 0,1',
+              strokeColor: color,
+              strokeOpacity: 1,
+              strokeWeight: weight,
+              scale: 2
+            },
+            offset: '0',
+            repeat: '12px'
+          }
+        ]
+      }
+
+      const polyline = new google.maps.Polyline(options)
       polyline.setMap(this.map)
     }
   }
 
   fitBounds() {
-    const mapPoints = this.points.map(p => ({
+    const boundsPoints = this.showCompareOnMap
+      ? this.points.concat(this.comparePoints)
+      : this.points
+    const mapPoints = boundsPoints.map(p => ({
       latitude: p.latitude,
       longitude: p.longitude
     }))
@@ -194,6 +304,9 @@ export default class extends Controller {
     this.startAltitude = this.points[0].altitude
     this.playbackSliderTarget.max = this.points.length - 1
     this.createMapMarker()
+    if (this.showCompareOnMap) {
+      this.createCompareMapMarker()
+    }
   }
 
   createMapMarker() {
@@ -212,6 +325,95 @@ export default class extends Controller {
     })
 
     this.markerElement = img
+  }
+
+  createCompareMapMarker() {
+    if (!this.map) return
+
+    const arrow = document.createElement('div')
+    arrow.className = 'base-jump-map-marker--compare'
+    arrow.style.maskImage = `url(${this.locationArrowUrlValue})`
+    arrow.style.webkitMaskImage = `url(${this.locationArrowUrlValue})`
+    arrow.style.transform = 'translateY(50%) rotate(-45deg)'
+
+    this.compareMapMarker = new google.maps.marker.AdvancedMarkerElement({
+      map: this.map,
+      position: {
+        lat: this.comparePoints[0].latitude,
+        lng: this.comparePoints[0].longitude
+      },
+      content: arrow
+    })
+
+    this.compareMarkerElement = arrow
+  }
+
+  updateCompareMapMarker(playerTime) {
+    if (!this.compareMapMarker || !this.compareMarkerElement) return
+
+    const position = this.interpolateCompareLatLng(playerTime)
+    if (!position) return
+
+    this.compareMapMarker.position = position
+
+    const rotation = this.compareBearingAt(playerTime)
+    this.compareMarkerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
+  }
+
+  compareBearingAt(playerTime) {
+    const points = this.comparePoints
+    let index = points.length - 1
+    for (let i = 0; i < points.length - 1; i++) {
+      if (playerTime >= points[i].playerTime && playerTime < points[i + 1].playerTime) {
+        index = i
+        break
+      }
+    }
+
+    const targetTime = points[index].playerTime + 3
+    let targetIndex = points.length - 1
+    for (let i = index + 1; i < points.length; i++) {
+      if (points[i].playerTime >= targetTime) {
+        targetIndex = i
+        break
+      }
+    }
+
+    return this.calculateBearing(points[index], points[targetIndex])
+  }
+
+  interpolateCompareLatLng(playerTime) {
+    const points = this.comparePoints
+    if (!points || points.length === 0) return null
+
+    for (let i = 0; i < points.length - 1; i++) {
+      const curr = points[i]
+      const next = points[i + 1]
+
+      if (playerTime >= curr.playerTime && playerTime < next.playerTime) {
+        const fraction =
+          (playerTime - curr.playerTime) / (next.playerTime - curr.playerTime)
+        return {
+          lat: curr.latitude + (next.latitude - curr.latitude) * fraction,
+          lng: curr.longitude + (next.longitude - curr.longitude) * fraction
+        }
+      }
+    }
+
+    if (playerTime < points[0].playerTime) {
+      return { lat: points[0].latitude, lng: points[0].longitude }
+    }
+
+    const last = points[points.length - 1]
+    return { lat: last.latitude, lng: last.longitude }
+  }
+
+  currentPlayerTime() {
+    const curr = this.points[this.currentIndex]
+    const next = this.points[Math.min(this.currentIndex + 1, this.points.length - 1)]
+    return (
+      curr.playerTime + (next.playerTime - curr.playerTime) * (this.currentFraction || 0)
+    )
   }
 
   togglePlay() {
@@ -337,6 +539,55 @@ export default class extends Controller {
     }
 
     this.updateAccelerationIndicators(index, fraction)
+    this.updateCompareIndicators(this.currentPlayerTime())
+  }
+
+  updateCompareIndicators(playerTime) {
+    if (!this.hasCompare || !this.hasComparePlaybackIndicatorsTarget) return
+
+    const controller = this.application.getControllerForElementAndIdentifier(
+      this.comparePlaybackIndicatorsTarget,
+      'playback-indicators'
+    )
+    if (!controller) return
+
+    const point = this.interpolateCompareByPlayerTime(playerTime)
+    if (!point) return
+
+    controller.update({
+      altitude: point.altitude,
+      altitudeSpent: this.comparePoints[0].altitude - point.altitude,
+      fullSpeed: point.fullSpeed,
+      hSpeed: point.hSpeed,
+      vSpeed: point.vSpeed,
+      glideRatio: point.glideRatio ?? 0
+    })
+  }
+
+  interpolateCompareByPlayerTime(playerTime) {
+    const points = this.comparePoints
+    if (!points || points.length === 0) return null
+
+    const lerp = (a, b, f) => a + (b - a) * f
+
+    for (let i = 0; i < points.length - 1; i++) {
+      const curr = points[i]
+      const next = points[i + 1]
+
+      if (playerTime >= curr.playerTime && playerTime < next.playerTime) {
+        const f = (playerTime - curr.playerTime) / (next.playerTime - curr.playerTime)
+        return {
+          altitude: lerp(curr.altitude, next.altitude, f),
+          fullSpeed: lerp(curr.fullSpeed, next.fullSpeed, f),
+          hSpeed: lerp(curr.hSpeed, next.hSpeed, f),
+          vSpeed: lerp(curr.vSpeed, next.vSpeed, f),
+          glideRatio: lerp(curr.glideRatio ?? 0, next.glideRatio ?? 0, f)
+        }
+      }
+    }
+
+    if (playerTime < points[0].playerTime) return points[0]
+    return points[points.length - 1]
   }
 
   updateAccelerationIndicators(index, fraction) {
@@ -419,6 +670,8 @@ export default class extends Controller {
     const rotation = this.calculateBearing(point, targetPoint)
 
     this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
+
+    this.updateCompareMapMarker(this.currentPlayerTime())
   }
 
   updateMapMarkerInterpolated() {
@@ -438,6 +691,8 @@ export default class extends Controller {
     const rotation = this.calculateBearing({ latitude: lat, longitude: lng }, targetPoint)
 
     this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
+
+    this.updateCompareMapMarker(this.currentPlayerTime())
   }
 
   findTargetIndexFrom(fromIndex) {
@@ -464,6 +719,39 @@ export default class extends Controller {
 
     const bearing = (Math.atan2(y, x) * 180) / Math.PI
     return (bearing + 360) % 360
+  }
+
+  compareModalTargetConnected(element) {
+    this.compareModalObserver = new MutationObserver(() => {
+      document.body.classList.toggle('overflow-hidden', element.open)
+    })
+    this.compareModalObserver.observe(element, { attributeFilter: ['open'] })
+  }
+
+  compareModalTargetDisconnected() {
+    this.compareModalObserver?.disconnect()
+    document.body.classList.remove('overflow-hidden')
+  }
+
+  openCompareModal() {
+    if (!this.hasCompareModalTarget) return
+
+    this.compareModalTarget.showModal()
+  }
+
+  selectCompareTrack(event) {
+    const item = event.target.closest('a.tracks-item')
+    if (!item) return
+
+    event.preventDefault()
+
+    const trackId = item.dataset.id
+    if (!trackId || Number(trackId) === this.trackIdValue) return
+
+    const url = new URL(window.location)
+    url.searchParams.set('compare_id', trackId)
+
+    Turbo.visit(url.toString())
   }
 
   disconnect() {

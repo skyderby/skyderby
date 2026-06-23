@@ -7,11 +7,36 @@
   <%= render partial: 'header', locals: { track: @track } %>
 
   <% default_jump_line = @track.place&.jump_lines&.first %>
+  <% compare_same_place = @compare_track && @track.place_id.present? && @track.place_id == @compare_track.place_id %>
   <div class="track-show-content"
        data-controller="tracks--base-jump-track"
        data-tracks--base-jump-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
        data-tracks--base-jump-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
+       data-tracks--base-jump-track-track-id-value="<%= @track.id %>"
+       <% if @compare_track %>
+       data-tracks--base-jump-track-compare-points-url-value="<%= track_points_path(@compare_track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
+       data-tracks--base-jump-track-compare-track-name-value="<%= @compare_track.pilot&.name || @compare_track.name %>"
+       data-tracks--base-jump-track-compare-same-place-value="<%= compare_same_place %>"
+       <% end %>
        data-tracks--base-jump-track-default-terrain-profile-id-value="<%= default_jump_line&.id %>">
+
+    <div class="base-jump-toolbar">
+      <div class="comparison-actions">
+        <% if @compare_track %>
+          <a href="<%= track_path(@track) %>" class="button button--sm button--outline button--danger">
+            <%= t('tracks.comparison.remove') %>
+          </a>
+        <% else %>
+          <button type="button"
+                  class="button button--sm button--outline button--primary"
+                  data-action="tracks--base-jump-track#openCompareModal">
+            <%= t('tracks.comparison.compare_button') %>
+          </button>
+        <% end %>
+      </div>
+    </div>
+
+    <%= render 'tracks/comparison_modal', controller: 'tracks--base-jump-track', kind: :base %>
 
     <div class="base-jump-layout">
       <div class="base-jump-left">
@@ -31,7 +56,12 @@
       </div>
 
       <div class="base-jump-controls">
-        <%= render 'tracks/playback_indicators', data: { 'tracks--base-jump-track-target': 'playbackIndicators' } %>
+        <div class="base-jump-indicators-row">
+          <%= render 'tracks/playback_indicators', data: { 'tracks--base-jump-track-target': 'playbackIndicators' } %>
+          <% if @compare_track %>
+            <%= render 'tracks/playback_indicators', compare: true, data: { 'tracks--base-jump-track-target': 'comparePlaybackIndicators' } %>
+          <% end %>
+        </div>
 
         <div class="base-jump-playback">
           <button class="base-jump-playback-button"

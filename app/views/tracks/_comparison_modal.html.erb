@@ -1,5 +1,6 @@
+<%# locals: (controller: 'tracks--skydive-performance-track', kind: :skydive) %>
 <dialog class="comparison-dialog"
-        data-tracks--skydive-performance-track-target="compareModal">
+        data-<%= controller %>-target="compareModal">
   <form method="dialog" class="comparison-dialog-backdrop">
     <button type="submit" tabindex="-1" aria-label="<%= t('general.close') %>"></button>
   </form>
@@ -17,7 +18,7 @@
     <div class="dialog-body comparison-explorer">
       <turbo-frame id="hot-select-search" class="comparison-explorer-search">
         <%= form_with url: tracks_path, method: :get, data: { controller: 'tracks-search', tracks_search_storage_key_value: 'compare-track-filters', turbo_frame: 'tracks-list' } do |f| %>
-          <%= f.hidden_field :kind, value: :skydive %>
+          <%= f.hidden_field :kind, value: kind %>
           <%= f.hidden_field :infinite, value: true %>
           <%= f.hidden_field :exclude_id, value: @track.id %>
 
@@ -30,7 +31,7 @@
       </turbo-frame>
 
       <div class="comparison-explorer-list"
-           data-action="click->tracks--skydive-performance-track#selectCompareTrack">
+           data-action="click-><%= controller %>#selectCompareTrack">
         <turbo-frame id="tracks-list" loading="lazy"></turbo-frame>
       </div>
     </div>
