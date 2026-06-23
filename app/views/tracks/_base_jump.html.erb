@@ -21,6 +21,18 @@
        data-tracks--base-jump-track-default-terrain-profile-id-value="<%= default_jump_line&.id %>">
 
     <div class="base-jump-toolbar">
+      <div class="switch-container">
+        <input type="checkbox"
+               id="expand-map-toggle"
+               class="switch-input"
+               data-tracks--base-jump-track-target="expandMapToggle"
+               data-action="tracks--base-jump-track#toggleExpandMap">
+        <label for="expand-map-toggle" class="switch-label">
+          <span class="switch-slider"></span>
+          <span class="switch-text"><%= t('tracks.base_jump.expand_map') %></span>
+        </label>
+      </div>
+
       <div class="comparison-actions">
         <% if @compare_track %>
           <a href="<%= track_path(@track) %>" class="button button--sm button--outline button--danger">

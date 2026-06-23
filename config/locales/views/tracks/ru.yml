@@ -59,6 +59,7 @@ ru:
     base_jump:
       terrain_profile: Профиль рельефа
       select_terrain_profile: Выберите профиль рельефа
+      expand_map: Развернуть карту
     form:
       suit_text_placeholder: 'Введите название костюма'
       suit_select_placeholder: 'Выберите костюм из списка'

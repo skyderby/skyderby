@@ -92,21 +92,24 @@ export default class SideProjectionChart {
     const offsetX = primarySync.x - compareSync.x
     const offsetY = primarySync.y - compareSync.y
     const primaryStartFlTime = this.flightProfile[0].flTime
-    const compareStartFlTime = compareProfile[0].flTime
     const syncPlayerTime = primarySync.flTime - primaryStartFlTime
 
     compareProfile.forEach(point => {
       point.x += offsetX
       point.y += offsetY
-      point.exitTime = point.flTime - compareStartFlTime
+      point.exitTime = point.flTime - compareSync.flTime
       point.playerTime = point.flTime - compareSync.flTime + syncPlayerTime
     })
 
-    this.flightProfile.forEach(point => {
-      point.exitTime = point.flTime - primaryStartFlTime
-    })
-
     this.compareFlightProfile = compareProfile
+  }
+
+  primarySyncFlTime() {
+    if (!this.flightProfile.length) return null
+
+    const index = this.findSyncIndex(this.flightProfile)
+    const point = index === null ? this.flightProfile[0] : this.flightProfile[index]
+    return point.flTime
   }
 
   interpolateCompareProfile(playerTime) {
@@ -744,7 +747,7 @@ export default class SideProjectionChart {
         clearanceHtml = `<div><b>Clearance:</b> <span style="color: ${color}; font-weight: bold;">${clearance} m</span></div>`
       }
 
-      const timeFromExit = Math.round(point.flTime - this.flightProfile[0].flTime)
+      const timeFromExit = Math.round(point.flTime - this.primarySyncFlTime())
 
       this.tooltip.innerHTML = `
         <div><b>Time:</b> ${timeFromExit} s</div>
@@ -796,7 +799,7 @@ export default class SideProjectionChart {
     const num = (value, digits = 0) =>
       value == null || Number.isNaN(value) ? '—' : value.toFixed(digits)
 
-    const primaryExit = Math.round(point.flTime - this.flightProfile[0].flTime)
+    const primaryExit = Math.round(point.flTime - this.primarySyncFlTime())
     const compareExit = comparePoint ? Math.round(comparePoint.exitTime) : null
     const compareClearance =
       comparePoint && this.terrainProfile?.length

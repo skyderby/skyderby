@@ -19,7 +19,8 @@ export default class extends Controller {
     'playbackSlider',
     'playbackIndicators',
     'comparePlaybackIndicators',
-    'compareModal'
+    'compareModal',
+    'expandMapToggle'
   ]
 
   static values = {
@@ -47,6 +48,7 @@ export default class extends Controller {
       this.points.forEach(point => {
         point.playerTime = point.flTime - this.points[0].flTime
       })
+      this.primarySyncFlTime = this.syncFlTime(this.points)
 
       if (compareData && compareData.points.length > 0) {
         this.comparePoints = compareData.points
@@ -77,7 +79,7 @@ export default class extends Controller {
   }
 
   prepareCompare() {
-    const primarySync = this.syncFlTime(this.points)
+    const primarySync = this.primarySyncFlTime
     const compareSync = this.syncFlTime(this.comparePoints)
 
     if (primarySync === null || compareSync === null) {
@@ -156,6 +158,7 @@ export default class extends Controller {
       windCancellation: false,
       showTitle: false,
       showLegend: false,
+      xOffset: this.chartXOffset,
       ...this.compareChartOptions
     })
   }
@@ -166,8 +169,15 @@ export default class extends Controller {
     this.speedChartTarget.chart = initSpeedsChart(this.speedChartTarget, this.points, {
       windCancellation: false,
       showTitle: false,
+      xOffset: this.chartXOffset,
       ...this.compareChartOptions
     })
+  }
+
+  get chartXOffset() {
+    if (this.primarySyncFlTime == null) return 0
+
+    return this.primarySyncFlTime - this.points[0].flTime
   }
 
   get compareChartOptions() {
@@ -183,7 +193,9 @@ export default class extends Controller {
   initSepChart() {
     if (!this.hasSepChartTarget) return
 
-    this.sepChartTarget.chart = initAccuracyChart(this.sepChartTarget, this.points)
+    this.sepChartTarget.chart = initAccuracyChart(this.sepChartTarget, this.points, {
+      xOffset: this.chartXOffset
+    })
   }
 
   loadDefaultTerrainProfile() {
@@ -227,6 +239,14 @@ export default class extends Controller {
 
   get showCompareOnMap() {
     return this.hasCompare && this.compareSamePlaceValue
+  }
+
+  toggleExpandMap(event) {
+    this.element.classList.toggle('base-jump--map-expanded', event.target.checked)
+
+    if (this.map) {
+      requestAnimationFrame(() => this.fitBounds())
+    }
   }
 
   initMap() {

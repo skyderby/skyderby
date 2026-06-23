@@ -90,6 +90,22 @@
   height: 100%;
 }
 
+.base-jump--map-expanded .base-jump-map-container {
+  height: 480px;
+}
+
+@media (min-width: 768px) {
+  .base-jump--map-expanded .base-jump-map-container {
+    height: 70%;
+    min-height: 480px;
+  }
+}
+
+.base-jump--map-expanded .base-jump-glide-chart,
+.base-jump--map-expanded .base-jump-speed-chart {
+  display: none;
+}
+
 .base-jump-charts {
   flex: 1;
   display: flex;
