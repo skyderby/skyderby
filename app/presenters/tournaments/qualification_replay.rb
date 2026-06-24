@@ -16,7 +16,8 @@ module Tournaments
     end
 
     def present?
-      @competitors.all? { |competitor| competitor&.best_jump&.track }
+      @competitors.all? { |competitor| competitor&.best_jump&.track } &&
+        sides.all? { |side| side.path.present? }
     end
 
     def sides

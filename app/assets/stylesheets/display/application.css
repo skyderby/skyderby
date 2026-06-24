@@ -1045,6 +1045,7 @@ body {
   flex: 1;
   min-height: 0;
   width: 100%;
+  pointer-events: none;
 }
 
 .display-replay-pilot {

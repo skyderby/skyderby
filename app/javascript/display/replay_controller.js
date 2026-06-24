@@ -53,12 +53,51 @@ export default class extends Controller {
       return { ...side, points }
     })
 
+    // A track with no usable points would crash the timeline math below; bail
+    // out gracefully (the slide then shows the cards without a live replay).
+    if (this.sides.some(s => s.points.length === 0)) return
+
+    this.sides.forEach(side => {
+      side.crossT = this.crossingTime(side.points)
+    })
     this.startT = Math.min(...this.sides.map(s => s.points[0].t))
     this.endT = Math.max(...this.sides.map(s => s.points[s.points.length - 1].t))
     this.rate = Math.max(1, (this.endT - this.startT) / RACE_WINDOW)
     this.finishCenter = this.lineCenter(this.payload.finishLine)
     this.minRemaining = Infinity
     this.ready = true
+  }
+
+  // Player time at which the trajectory crosses the finish line, used to
+  // trigger the finish exactly when the pilot reaches the line regardless of
+  // which sync reference (start time vs 10 km/h) was used.
+  crossingTime(points) {
+    const line = this.payload.finishLine
+    if (!line || line.length < 2) return null
+
+    for (let i = 0; i < points.length - 1; i++) {
+      const a = points[i]
+      const b = points[i + 1]
+      if (a.t < 0) continue
+
+      const frac = this.segmentIntersection(a, b, line[0], line[1])
+      if (frac != null) return a.t + (b.t - a.t) * frac
+    }
+    return null
+  }
+
+  segmentIntersection(p1, p2, p3, p4) {
+    const denom =
+      (p2.lng - p1.lng) * (p4.lat - p3.lat) - (p2.lat - p1.lat) * (p4.lng - p3.lng)
+    if (Math.abs(denom) < 1e-12) return null
+
+    const t =
+      ((p3.lng - p1.lng) * (p4.lat - p3.lat) - (p3.lat - p1.lat) * (p4.lng - p3.lng)) /
+      denom
+    const u =
+      ((p3.lng - p1.lng) * (p2.lat - p1.lat) - (p3.lat - p1.lat) * (p2.lng - p1.lng)) /
+      denom
+    return t >= 0 && t <= 1 && u >= 0 && u <= 1 ? t : null
   }
 
   syncTime(points) {
@@ -272,9 +311,12 @@ export default class extends Controller {
       }
 
       const speed = Math.round(Math.sqrt(at.hSpeed ** 2 + at.vSpeed ** 2))
-      const finished = side.result != null && shown >= side.result
+      const finished =
+        side.crossT != null
+          ? shown >= side.crossT
+          : side.result != null && shown >= side.result
       const meters = finished ? 0 : Math.max(0, Math.round(this.distanceToFinish(at)))
-      const raceTime = finished ? side.result : shown
+      const raceTime = this.raceTimeFor(side, shown, finished)
 
       if (!finished) minRemaining = Math.min(minRemaining, meters)
       if (finished && !side.flashed) {
@@ -291,6 +333,17 @@ export default class extends Controller {
 
     this.minRemaining = minRemaining
     this.clockTarget.textContent = Math.max(0, maxTime).toFixed(2)
+  }
+
+  // Displayed race time: counts up to the official result and reaches it
+  // exactly when the pilot crosses the finish line, then holds.
+  raceTimeFor(side, shown, finished) {
+    if (side.result == null) return Math.max(0, shown)
+    if (finished) return side.result
+    if (side.crossT != null && side.crossT > 0) {
+      return Math.min(side.result, (Math.max(0, shown) / side.crossT) * side.result)
+    }
+    return Math.max(0, Math.min(shown, side.result))
   }
 
   followCamera() {
@@ -347,6 +400,8 @@ export default class extends Controller {
   }
 
   bearing(points, t) {
+    if (points.length < 2) return 0
+
     let index = 0
     for (let i = 0; i < points.length - 1; i++) {
       if (t >= points[i].t && t < points[i + 1].t) {
@@ -354,6 +409,10 @@ export default class extends Controller {
         break
       }
     }
+    // Past the last segment the loop never matches; keep the final heading
+    // instead of snapping back to the exit heading (index 0).
+    if (t >= points[points.length - 1].t) index = points.length - 2
+
     const from = points[index]
     const to = points[Math.min(index + 4, points.length - 1)]
     const lat1 = (from.lat * Math.PI) / 180

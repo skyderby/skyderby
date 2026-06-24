@@ -1,6 +1,6 @@
 <%# locals: (tournament:, competitor:, leader:, field_size:) %>
 <% best_jump = competitor.best_jump %>
-<% gap = leader&.best_result ? competitor.best_result.to_f - leader.best_result.to_f : nil %>
+<% gap = leader&.best_result && competitor.best_result ? competitor.best_result.to_f - leader.best_result.to_f : nil %>
 
 <div class="display-slide" data-slideshow-target="slide" data-slideshow-duration="11">
   <%= render 'statusbar', tournament: tournament %>
