@@ -8,6 +8,7 @@ const COUNTDOWN = 3 // seconds
 const HOLD = 3.5 // seconds to hold the result before the slide advances
 const SLOWMO = 4 // playback divisor near the finish line
 const SLOWMO_DISTANCE = 160 // metres before the finish to start slow motion
+const LINE_WEIGHT = 3
 const MAP_ID = 'BASE_TRACK_MAP'
 
 export default class extends Controller {
@@ -39,9 +40,13 @@ export default class extends Controller {
   }
 
   prepare() {
+    // Sync by recorded race start time when both tracks have it, otherwise
+    // fall back to the 10 km/h point (same point BASE Pro View zeroes time at).
+    const useStartTime = this.payload.sides.every(s => s.syncFlTime != null)
+
     this.sides = this.payload.sides.map(side => {
       const points = side.path
-      const sync = this.syncTime(points)
+      const sync = useStartTime ? side.syncFlTime : this.syncTime(points)
       points.forEach(p => {
         p.t = p.flTime - sync
       })
@@ -90,11 +95,20 @@ export default class extends Controller {
     this.drawFinishLine()
 
     this.sides.forEach(side => {
+      side.shadow = new google.maps.Polyline({
+        path: [],
+        strokeColor: '#000000',
+        strokeOpacity: 0.35,
+        strokeWeight: LINE_WEIGHT + 5,
+        zIndex: 1,
+        map: this.map
+      })
       side.polyline = new google.maps.Polyline({
         path: [],
         strokeColor: side.color,
         strokeOpacity: 1,
-        strokeWeight: 5,
+        strokeWeight: LINE_WEIGHT,
+        zIndex: 2,
         map: this.map
       })
       side.marker = this.createMarker(side)
@@ -194,6 +208,7 @@ export default class extends Controller {
       side.flashed = false
       try {
         if (side.polyline) side.polyline.setPath([])
+        if (side.shadow) side.shadow.setPath([])
         if (side.marker)
           side.marker.position = { lat: side.points[0].lat, lng: side.points[0].lng }
       } catch {
@@ -243,7 +258,11 @@ export default class extends Controller {
       this.positions.push(at)
 
       try {
-        if (side.polyline) side.polyline.setPath(this.visiblePath(side.points, shown, at))
+        if (side.polyline) {
+          const path = this.visiblePath(side.points, shown, at)
+          side.polyline.setPath(path)
+          if (side.shadow) side.shadow.setPath(path)
+        }
         if (side.marker) {
           side.marker.position = { lat: at.lat, lng: at.lng }
           side.arrow.style.transform = `rotate(${this.bearing(side.points, shown) - 45}deg)`
