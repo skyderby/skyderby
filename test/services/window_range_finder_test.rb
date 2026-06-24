@@ -159,4 +159,34 @@ class WindowRangeFinderTest < ActiveSupport::TestCase
       @range_finder.execute(from_some_column: 0.0)
     end
   end
+
+  test 'until_cross_finish_line keeps every point up to the crossing when points follow it' do
+    points = [
+      { gps_time: 0, latitude: 0.0, longitude: 0.0, altitude: 1000, v_speed: 100 },
+      { gps_time: 1, latitude: 0.0, longitude: 1.0, altitude: 950, v_speed: 110 },
+      { gps_time: 2, latitude: 0.0, longitude: 2.0, altitude: 900, v_speed: 120 },
+      { gps_time: 3, latitude: 0.0, longitude: 3.0, altitude: 850, v_speed: 130 },
+      { gps_time: 4, latitude: 0.0, longitude: 4.0, altitude: 800, v_speed: 140 },
+      { gps_time: 5, latitude: 0.0, longitude: 5.0, altitude: 750, v_speed: 150 },
+      { gps_time: 6, latitude: 0.0, longitude: 6.0, altitude: 700, v_speed: 160 },
+      { gps_time: 7, latitude: 0.0, longitude: 7.0, altitude: 650, v_speed: 170 }
+    ]
+
+    finish_line = Place::FinishLine.new(
+      start_latitude: -1.0,
+      start_longitude: 5.5,
+      end_latitude: 1.0,
+      end_longitude: 5.5
+    )
+
+    track_segment = WindowRangeFinder.new(points).execute(until_cross_finish_line: finish_line)
+
+    # The path crosses the finish line between gps_time 5 and 6, and two more
+    # points (6 and 7) were recorded after the crossing. The segment must contain
+    # every point up to the crossing plus the interpolated crossing point — not
+    # just the first few points.
+    assert_equal 7, track_segment.size
+    assert_in_delta 5.5, track_segment.end_point[:gps_time], 0.001
+    assert_in_delta 5, track_segment.points[-2][:gps_time], 0.001
+  end
 end

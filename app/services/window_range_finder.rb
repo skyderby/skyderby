@@ -138,7 +138,7 @@ class WindowRangeFinder
       finish_line
     ).execute
 
-    index = points.reverse.index { |x| x[:gps_time] < intersection_point[:gps_time] }
+    index = points.rindex { |x| x[:gps_time] < intersection_point[:gps_time] }
 
     @points = points[0..index] + [intersection_point]
   end
