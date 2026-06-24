@@ -25,7 +25,9 @@
        data-tracks--base-jump-track-finish-line-start-lon-value="<%= finish_line_coords.first[:longitude] %>"
        data-tracks--base-jump-track-finish-line-end-lat-value="<%= finish_line_coords.last[:latitude] %>"
        data-tracks--base-jump-track-finish-line-end-lon-value="<%= finish_line_coords.last[:longitude] %>"
+       <% if race[:result] %>
        data-tracks--base-jump-track-race-result-time-value="<%= race[:result] %>"
+       <% end %>
        <% end %>
        data-tracks--base-jump-track-default-terrain-profile-id-value="<%= default_jump_line&.id %>">
 

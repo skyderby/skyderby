@@ -19,6 +19,18 @@ class VirtualCompetition < ApplicationRecord
       def suitable_for(track)
         return none unless available_for_scoring(track)
 
+        matching(track)
+      end
+
+      def suitable_for_display(track)
+        return none unless eligible_for_competition(track)
+
+        matching(track)
+      end
+
+      private
+
+      def matching(track)
         VirtualCompetition.order(:name)
                           .by_activity(track.kind)
                           .by_suit_type(track.suit_kind)
@@ -26,11 +38,12 @@ class VirtualCompetition < ApplicationRecord
                           .for_date(track.recorded_at)
       end
 
-      private
-
       def available_for_scoring(track)
-        track.public_track? &&
-          (track.suit || track.speed_skydiving?) &&
+        track.public_track? && eligible_for_competition(track)
+      end
+
+      def eligible_for_competition(track)
+        (track.suit || track.speed_skydiving?) &&
           track.pilot &&
           !track.disqualified_from_online_competitions
       end

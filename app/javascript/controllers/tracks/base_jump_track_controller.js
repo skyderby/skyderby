@@ -164,15 +164,16 @@ export default class extends Controller {
 
     this.sideProjectionChart?.setFinishLineVisible(this.finishLineVisible)
 
+    const finishTime = this.primaryFinishTime()
     const charts = [this.speedChartTarget?.chart, this.glideChartTarget?.chart]
     charts.forEach(chart => {
       if (!chart) return
 
       chart.xAxis[0].removePlotLine('finish-line')
-      if (this.finishLineVisible && this.hasRaceResultTimeValue) {
+      if (this.finishLineVisible && finishTime != null) {
         chart.xAxis[0].addPlotLine({
           id: 'finish-line',
-          value: this.raceResultTimeValue,
+          value: finishTime,
           color: FINISH_LINE_COLOR,
           width: 1.5,
           dashStyle: 'Dash',
@@ -180,6 +181,17 @@ export default class extends Controller {
         })
       }
     })
+  }
+
+  primaryFinishTime() {
+    if (this.hasRaceResultTimeValue) return this.raceResultTimeValue
+    if (!this.primaryCrossing || this.primarySyncFlTime == null) return null
+
+    const { index, fraction } = this.primaryCrossing
+    const prev = this.points[index - 1]
+    const curr = this.points[index]
+    const crossingFlTime = prev.flTime + (curr.flTime - prev.flTime) * fraction
+    return crossingFlTime - this.primarySyncFlTime
   }
 
   compareFinishTime() {
@@ -270,7 +282,7 @@ export default class extends Controller {
       this.sideProjectionChart.setFinishLineCrossing(
         this.primaryCrossing.index,
         this.primaryCrossing.fraction,
-        this.hasRaceResultTimeValue ? this.raceResultTimeValue : null
+        this.primaryFinishTime()
       )
     }
 
