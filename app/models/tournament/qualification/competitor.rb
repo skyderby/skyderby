@@ -26,6 +26,26 @@ class Tournament::Qualification::Competitor < SimpleDelegator
     scored_results.min
   end
 
+  def top_speed
+    results.filter_map(&:top_speed).max
+  end
+
+  def follow_up_results
+    scored_results.sort.drop(1)
+  end
+
+  def counted_jumps
+    results.select { |result| counts?(result.result) }
+  end
+
+  def best_jump
+    counted_jumps.min_by(&:result)
+  end
+
+  def attempt_jumps
+    counted_jumps.sort_by { |jump| -(jump.round_order || 0) }
+  end
+
   def ranking_key
     if scoreboard.show_best_result?
       [best_result || NO_RESULT]

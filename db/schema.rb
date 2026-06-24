@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_24_073151) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_24_090001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -501,6 +501,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_24_073151) do
     t.integer "qualification_round_id"
     t.decimal "result", precision: 10, scale: 3
     t.decimal "start_time_in_seconds", precision: 17, scale: 3
+    t.decimal "top_speed", precision: 6, scale: 2
     t.integer "track_id"
     t.timestamptz "updated_at", null: false
     t.index ["qualification_round_id", "competitor_id"], name: "index_qualification_jumps_on_round_and_competitor", unique: true
@@ -655,7 +656,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_24_073151) do
     t.timestamptz "created_at", null: false
     t.string "disqualification_reason"
     t.boolean "is_disqualified"
+    t.jsonb "photo_data"
     t.integer "profile_id"
+    t.jsonb "sponsor_logo_data"
     t.integer "suit_id"
     t.integer "tournament_id"
     t.timestamptz "updated_at", null: false

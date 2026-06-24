@@ -1,0 +1,103 @@
+<%# locals: (tournament:, competitor:, leader:, field_size:) %>
+<% best_jump = competitor.best_jump %>
+<% gap = leader&.best_result && competitor.best_result ? competitor.best_result.to_f - leader.best_result.to_f : nil %>
+
+<div class="display-slide" data-slideshow-target="slide" data-slideshow-duration="11">
+  <%= render 'statusbar', tournament: tournament %>
+
+  <div class="display-participant-photo <%= 'is-empty' unless competitor.photo %>">
+    <% if competitor.photo %>
+      <%= image_tag competitor.photo_url(:medium), alt: competitor.name %>
+    <% end %>
+  </div>
+  <div class="display-participant-edge"></div>
+
+  <div class="display-pcontent">
+    <div class="display-phead">
+      <div class="display-pname-block">
+        <h1 class="display-pname"><%= competitor.name %></h1>
+        <div class="display-pmeta">
+          <span class="display-pcountry">
+            <span class="display-pcountry-code"><%= competitor.country_code %></span>
+            <span class="display-pcountry-name"><%= competitor.country_name %></span>
+          </span>
+          <span class="display-psuit">
+            <%= t('tournaments.qualifications.display.flying') %>
+            <strong><%= competitor.suit.manufacturer_code %> <%= competitor.suit_name %></strong>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="display-phero">
+      <div class="display-besttime">
+        <div class="display-besttime-bar"></div>
+        <div class="display-besttime-body">
+          <span class="display-label"><%= t('tournaments.qualifications.display.best_time') %></span>
+          <div class="display-besttime-value">
+            <span class="num"><%= number_with_precision(competitor.best_result, precision: 2) %></span>
+            <span class="unit"><%= t('tournaments.qualifications.display.seconds_long') %></span>
+          </div>
+          <div class="display-besttime-sub">
+            <span class="run">
+              <%= t('tournaments.qualifications.display.round', number: best_jump&.round_order) %> · <%= t('tournaments.qualifications.display.fastest') %>
+            </span>
+            <% if best_jump&.top_speed %>
+              <span class="divider"></span>
+              <div>
+                <span class="ts-label"><%= t('tournaments.qualifications.display.top_speed') %></span>
+                <div class="ts-value"><%= t('tournaments.qualifications.display.kmh', speed: number_with_precision(best_jump.top_speed, precision: 1)) %></div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="display-rankcard">
+        <span class="display-label"><%= t('tournaments.qualifications.display.rank') %></span>
+        <div class="display-rankcard-value">
+          <span class="num"><%= competitor.rank %></span>
+          <span class="total">/ <%= field_size %></span>
+        </div>
+        <span class="display-rankcard-gap">
+          <% if gap.nil? || gap <= 0 %>
+            <%= t('tournaments.qualifications.display.leader') %>
+          <% else %>
+            +<%= number_with_precision(gap, precision: 2) %> <%= t('tournaments.qualifications.display.to_leader') %>
+          <% end %>
+        </span>
+      </div>
+    </div>
+
+    <div class="display-attempts">
+      <div class="display-attempts-title">
+        <span><%= t('tournaments.qualifications.display.attempts') %></span>
+        <span class="rule"></span>
+      </div>
+      <div class="display-attempts-head">
+        <span><%= t('tournaments.qualifications.display.round_short') %></span>
+        <span class="text-right"><%= t('tournaments.qualifications.display.time') %></span>
+        <span class="text-right"><%= t('tournaments.qualifications.display.top_speed') %></span>
+        <span class="text-right"><%= t('tournaments.qualifications.display.vs_best') %></span>
+      </div>
+      <% competitor.attempt_jumps.first(4).each do |jump| %>
+        <% delta = jump.result.to_f - competitor.best_result.to_f %>
+        <div class="display-attempts-row <%= 'is-best' if delta <= 0 %>">
+          <span class="run"><%= t('tournaments.qualifications.display.round', number: jump.round_order) %></span>
+          <span class="time"><%= number_with_precision(jump.result, precision: 2) %> <%= t('tournaments.qualifications.display.seconds_short') %></span>
+          <span class="ts"><%= jump.top_speed ? t('tournaments.qualifications.display.kmh', speed: number_with_precision(jump.top_speed, precision: 1)) : '—' %></span>
+          <span class="delta"><%= delta <= 0 ? t('tournaments.qualifications.display.best_short') : "+#{number_with_precision(delta, precision: 2)}" %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <% if competitor.sponsor_logo %>
+      <div class="display-psponsors">
+        <span class="display-psponsors-label"><%= t('tournaments.qualifications.display.sponsors') %></span>
+        <div class="display-psponsors-list">
+          <%= image_tag competitor.sponsor_logo_url(:medium), alt: '' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

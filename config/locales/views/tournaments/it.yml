@@ -2,3 +2,36 @@ it:
   tournaments:
     show:
       show_details: Clicca per vedere il dettaglio della traccia
+    qualifications:
+      actions_bar:
+        display: 'Show'
+      display:
+        live: 'In diretta'
+        standings: 'Classifica generale'
+        athletes:
+          one: '%{count} atleta'
+          other: '%{count} atleti'
+        rank: 'Posizione'
+        competitor: 'Concorrente'
+        best_time: 'Miglior tempo'
+        top_speed: 'Velocità max'
+        seconds_short: 's'
+        seconds_long: 'SEC'
+        kmh: '%{speed} km/h'
+        sponsors: 'Sponsor del concorrente'
+        flying: 'Tuta'
+        fastest: 'Migliore'
+        leader: 'Leader'
+        to_leader: 'dal leader'
+        attempts: 'Tentativi'
+        round: 'Round %{number}'
+        round_short: 'Round'
+        time: 'Tempo'
+        vs_best: '+/- migliore'
+        best_short: 'Migliore'
+        speed: 'Velocità'
+        kmh_short: 'KM/H'
+        to_finish: 'Al traguardo'
+        meters_short: 'M'
+        live_course: 'Percorso live'
+        heat_starts: 'Partenza tra'

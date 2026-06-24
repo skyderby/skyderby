@@ -29,6 +29,8 @@ class QualificationJump < ApplicationRecord
   alias round qualification_round
   alias event tournament
 
+  before_save :assign_top_speed, if: -> { track && (track_id_changed? || top_speed.nil?) }
+
   def start_time
     return unless start_time_in_seconds
 
@@ -49,7 +51,21 @@ class QualificationJump < ApplicationRecord
 
   def track_comment = "#{tournament.name} - Qualification #{qualification_round.order}"
 
+  # Maximum developed full (3D) speed over the track, in km/h.
+  def calculate_top_speed
+    return unless track
+
+    PointsQuery
+      .execute(track, trimmed: true)
+      .map { |point| Math.sqrt(point[:h_speed].to_f**2 + point[:v_speed].to_f**2) }
+      .max
+  end
+
   private
+
+  def assign_top_speed
+    self.top_speed = calculate_top_speed
+  end
 
   def finish_line
     qualification_round.tournament.finish_line

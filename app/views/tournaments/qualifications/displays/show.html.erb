@@ -1,0 +1,30 @@
+<% provide :title, @tournament.name %>
+
+<div class="display-wrap" data-controller="slideshow">
+  <div class="display-stage">
+    <div class="display-backdrop"></div>
+
+    <% leader = @competitors.first %>
+    <% groups = @competitors.each_slice(8).to_a %>
+    <% groups = [[]] if groups.empty? %>
+    <% groups.each_with_index do |group, group_index| %>
+      <%= render 'leaderboard', tournament: @tournament, competitors: @competitors, active: group_index.zero? %>
+
+      <% group.each do |competitor| %>
+        <%= render 'participant',
+                   tournament: @tournament,
+                   competitor: competitor,
+                   leader: leader,
+                   field_size: @competitors.size %>
+      <% end %>
+
+      <% group.each_slice(2).first(2).each do |pair| %>
+        <% next unless pair.size == 2 %>
+        <% replay = Tournaments::QualificationReplay.new(@tournament, pair.first, pair.last) %>
+        <% if replay.present? %>
+          <%= render 'replay', tournament: @tournament, replay: replay %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

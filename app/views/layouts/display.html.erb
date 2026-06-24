@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <title><%= page_title(yield(:title)) %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="maps-api-key" content="<%= maps_api_key %>">
+    <%= csrf_meta_tags %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <%= stylesheet_link_tag 'display/application', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= javascript_pack_tag 'display', defer: true %>
+  </head>
+  <body class="display-body">
+    <%= yield %>
+  </body>
+</html>

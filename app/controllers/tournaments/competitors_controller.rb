@@ -77,6 +77,8 @@ module Tournaments
         :profile_mode,
         :is_disqualified,
         :disqualification_reason,
+        :photo,
+        :sponsor_logo,
         profile_attributes: [:name, :country_id]
       )
     end

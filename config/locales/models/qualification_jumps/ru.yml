@@ -2,3 +2,7 @@ ru:
   activerecord:
     models:
       qualification_jump: Квалификация - Результат
+    attributes:
+      qualification_jump:
+        top_speed: Макс. скорость
+        canopy_time: Время под куполом

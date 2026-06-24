@@ -2,3 +2,7 @@ en:
   activerecord:
     models:
       tournament_competitor: Competitor
+    attributes:
+      tournament_competitor:
+        photo: Photo
+        sponsor_logo: Sponsor logo
