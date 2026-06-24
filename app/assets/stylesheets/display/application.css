@@ -1048,16 +1048,48 @@ body {
 }
 
 .display-replay-pilot {
-  width: calc(30 * var(--px));
-  height: calc(30 * var(--px));
+  position: relative;
+  width: calc(32 * var(--px));
+  height: calc(32 * var(--px));
+  transform: translateY(50%);
+}
+
+.display-replay-pilot-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--pilot-color);
+  animation: display-pilot-pulse 1.2s ease-out infinite;
+}
+
+@keyframes display-pilot-pulse {
+  0% { transform: scale(0.55); opacity: 0.55; }
+  100% { transform: scale(2.3); opacity: 0; }
+}
+
+.display-replay-pilot-arrow {
+  position: absolute;
+  inset: 0;
+  background: var(--pilot-color);
   mask-size: contain;
   mask-repeat: no-repeat;
   mask-position: center;
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  filter: drop-shadow(0 0 calc(6 * var(--px)) rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 0 calc(6 * var(--px)) rgba(0, 0, 0, 0.65));
   transform-origin: center;
+}
+
+@keyframes display-time-flash {
+  0% { transform: scale(1); text-shadow: none; }
+  18% { transform: scale(1.22); text-shadow: 0 0 calc(40 * var(--px)) currentColor; color: #fff; }
+  100% { transform: scale(1); text-shadow: none; }
+}
+
+.display-replay-stat-value .num.is-flash,
+.display-replay-clock .num.is-flash {
+  animation: display-time-flash 0.7s ease-out;
 }
 
 .display-replay-countdown {

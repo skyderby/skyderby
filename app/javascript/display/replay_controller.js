@@ -5,7 +5,9 @@ const SYNC_VSPEED = 10 // km/h — race start, same point BASE Pro View zeroes t
 const FINISH_COLOR = '#e84855'
 const RACE_WINDOW = 26 // seconds of wall-clock the race is compressed into
 const COUNTDOWN = 3 // seconds
-const HOLD = 3 // seconds to hold the result before the slide advances
+const HOLD = 3.5 // seconds to hold the result before the slide advances
+const SLOWMO = 4 // playback divisor near the finish line
+const SLOWMO_DISTANCE = 160 // metres before the finish to start slow motion
 const MAP_ID = 'BASE_TRACK_MAP'
 
 export default class extends Controller {
@@ -48,9 +50,9 @@ export default class extends Controller {
 
     this.startT = Math.min(...this.sides.map(s => s.points[0].t))
     this.endT = Math.max(...this.sides.map(s => s.points[s.points.length - 1].t))
-    this.span = this.endT - this.startT
-    this.rate = Math.max(1, this.span / RACE_WINDOW)
+    this.rate = Math.max(1, (this.endT - this.startT) / RACE_WINDOW)
     this.finishCenter = this.lineCenter(this.payload.finishLine)
+    this.minRemaining = Infinity
     this.ready = true
   }
 
@@ -99,19 +101,31 @@ export default class extends Controller {
     })
 
     this.fitBounds()
+    google.maps.event.addListenerOnce(this.map, 'idle', () => {
+      this.followZoom = Math.min(18, (this.map.getZoom() || 15) + 1)
+    })
   }
 
   createMarker(side) {
+    const wrap = document.createElement('div')
+    wrap.className = 'display-replay-pilot'
+    wrap.style.setProperty('--pilot-color', side.color)
+
+    const pulse = document.createElement('div')
+    pulse.className = 'display-replay-pilot-pulse'
+
     const arrow = document.createElement('div')
-    arrow.className = 'display-replay-pilot'
+    arrow.className = 'display-replay-pilot-arrow'
     arrow.style.maskImage = `url(${this.locationArrowUrlValue})`
     arrow.style.webkitMaskImage = `url(${this.locationArrowUrlValue})`
-    arrow.style.backgroundColor = side.color
+
+    wrap.append(pulse, arrow)
+    side.arrow = arrow
 
     return new google.maps.marker.AdvancedMarkerElement({
       map: this.map,
       position: { lat: side.points[0].lat, lng: side.points[0].lng },
-      content: arrow
+      content: wrap
     })
   }
 
@@ -162,7 +176,11 @@ export default class extends Controller {
     this.stop()
     this.reset()
     this.phase = 'countdown'
-    this.t0 = performance.now()
+    this.countdownLeft = COUNTDOWN
+    this.playerT = this.startT
+    this.minRemaining = Infinity
+    this.doneAt = null
+    this.lastFrame = performance.now()
     this.raf = requestAnimationFrame(t => this.frame(t))
   }
 
@@ -173,6 +191,7 @@ export default class extends Controller {
 
   reset() {
     this.sides.forEach(side => {
+      side.flashed = false
       try {
         if (side.polyline) side.polyline.setPath([])
         if (side.marker)
@@ -181,64 +200,100 @@ export default class extends Controller {
         // ignore map errors
       }
     })
+    this.timeTargets.forEach(el => el.classList.remove('is-flash'))
+    this.clockTarget.classList.remove('is-flash')
     this.renderStats(this.startT)
     this.clockTarget.textContent = '0.00'
   }
 
   frame(now) {
     this.raf = requestAnimationFrame(t => this.frame(t))
-    const elapsed = (now - this.t0) / 1000
+    const dt = Math.min(0.05, (now - this.lastFrame) / 1000)
+    this.lastFrame = now
 
     if (this.phase === 'countdown') {
-      const remaining = COUNTDOWN - elapsed
-      this.showCountdown(remaining)
-      if (remaining <= 0) {
+      this.countdownLeft -= dt
+      this.showCountdown(this.countdownLeft)
+      if (this.countdownLeft <= 0) {
         this.hideCountdown()
         this.phase = 'running'
-        this.t0 = now
       }
       return
     }
 
-    const playerT = this.startT + elapsed * this.rate
-    this.renderStats(playerT)
+    const slow = this.minRemaining < SLOWMO_DISTANCE
+    this.playerT += dt * (slow ? this.rate / SLOWMO : this.rate)
+    this.renderStats(this.playerT)
+    this.followCamera()
 
-    if (playerT >= this.endT + HOLD * this.rate) {
-      this.stop()
+    if (this.playerT >= this.endT) {
+      if (this.doneAt == null) this.doneAt = now
+      else if (now - this.doneAt > HOLD * 1000) this.stop()
     }
   }
 
   renderStats(playerT) {
     const shown = Math.min(playerT, this.endT)
     let maxTime = 0
+    let minRemaining = Infinity
+    this.positions = []
 
     this.sides.forEach((side, index) => {
       const at = this.interpolate(side.points, shown)
+      this.positions.push(at)
 
       try {
         if (side.polyline) side.polyline.setPath(this.visiblePath(side.points, shown, at))
         if (side.marker) {
           side.marker.position = { lat: at.lat, lng: at.lng }
-          side.marker.content.style.transform = `rotate(${this.bearing(side.points, shown) - 45}deg)`
+          side.arrow.style.transform = `rotate(${this.bearing(side.points, shown) - 45}deg)`
         }
       } catch {
         // map may be unavailable (e.g. quota) — keep updating the stat cards
       }
 
       const speed = Math.round(Math.sqrt(at.hSpeed ** 2 + at.vSpeed ** 2))
-      const meters = Math.max(0, Math.round(this.distanceToFinish(at)))
-      const raceTime = Math.max(
-        0,
-        Math.min(shown, side.result != null ? side.result : shown)
-      )
+      const finished = side.result != null && shown >= side.result
+      const meters = finished ? 0 : Math.max(0, Math.round(this.distanceToFinish(at)))
+      const raceTime = finished ? side.result : shown
+
+      if (!finished) minRemaining = Math.min(minRemaining, meters)
+      if (finished && !side.flashed) {
+        side.flashed = true
+        this.flash(this.timeTargets[index])
+        this.flash(this.clockTarget)
+      }
 
       this.speedTargets[index].textContent = String(speed)
       this.metersTargets[index].textContent = String(meters)
-      this.timeTargets[index].textContent = raceTime.toFixed(2)
+      this.timeTargets[index].textContent = Math.max(0, raceTime).toFixed(2)
       maxTime = Math.max(maxTime, raceTime)
     })
 
+    this.minRemaining = minRemaining
     this.clockTarget.textContent = Math.max(0, maxTime).toFixed(2)
+  }
+
+  followCamera() {
+    if (!this.map || !this.positions || this.positions.length === 0) return
+
+    const lat = this.positions.reduce((s, p) => s + p.lat, 0) / this.positions.length
+    const lng = this.positions.reduce((s, p) => s + p.lng, 0) / this.positions.length
+
+    try {
+      this.map.moveCamera({
+        center: { lat, lng },
+        zoom: this.followZoom || this.map.getZoom()
+      })
+    } catch {
+      // ignore map errors
+    }
+  }
+
+  flash(el) {
+    el.classList.remove('is-flash')
+    void el.offsetWidth
+    el.classList.add('is-flash')
   }
 
   visiblePath(points, t, head) {
@@ -282,13 +337,12 @@ export default class extends Controller {
     }
     const from = points[index]
     const to = points[Math.min(index + 4, points.length - 1)]
-    const y =
-      Math.sin(((to.lng - from.lng) * Math.PI) / 180) * Math.cos((to.lat * Math.PI) / 180)
+    const lat1 = (from.lat * Math.PI) / 180
+    const lat2 = (to.lat * Math.PI) / 180
+    const dLng = ((to.lng - from.lng) * Math.PI) / 180
+    const y = Math.sin(dLng) * Math.cos(lat2)
     const x =
-      Math.cos((from.lat * Math.PI) / 180) * Math.sin((to.lat * Math.PI) / 180) -
-      Math.sin((from.lat * Math.PI) / 180) *
-        Math.cos((to.lat * Math.PI) / 180) *
-        Math.cos(((to.lng - from.lng) * Math.PI) / 180)
+      Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng)
     return (Math.atan2(y, x) * 180) / Math.PI
   }
 
