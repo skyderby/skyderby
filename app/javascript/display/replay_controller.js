@@ -6,8 +6,6 @@ const FINISH_COLOR = '#e84855'
 const RACE_WINDOW = 26 // seconds of wall-clock the race is compressed into
 const COUNTDOWN = 3 // seconds
 const HOLD = 3.5 // seconds to hold the result before the slide advances
-const SLOWMO = 4 // playback divisor near the finish line
-const SLOWMO_DISTANCE = 160 // metres before the finish to start slow motion
 const LINE_WEIGHT = 3
 const MAP_ID = 'BASE_TRACK_MAP'
 
@@ -64,7 +62,6 @@ export default class extends Controller {
     this.endT = Math.max(...this.sides.map(s => s.points[s.points.length - 1].t))
     this.rate = Math.max(1, (this.endT - this.startT) / RACE_WINDOW)
     this.finishCenter = this.lineCenter(this.payload.finishLine)
-    this.minRemaining = Infinity
     this.ready = true
   }
 
@@ -231,7 +228,6 @@ export default class extends Controller {
     this.phase = 'countdown'
     this.countdownLeft = COUNTDOWN
     this.playerT = this.startT
-    this.minRemaining = Infinity
     this.doneAt = null
     this.lastFrame = performance.now()
     this.raf = requestAnimationFrame(t => this.frame(t))
@@ -275,8 +271,7 @@ export default class extends Controller {
       return
     }
 
-    const slow = this.minRemaining < SLOWMO_DISTANCE
-    this.playerT += dt * (slow ? this.rate / SLOWMO : this.rate)
+    this.playerT += dt * this.rate
     this.renderStats(this.playerT)
     this.followCamera()
 
@@ -289,7 +284,6 @@ export default class extends Controller {
   renderStats(playerT) {
     const shown = Math.min(playerT, this.endT)
     let maxTime = 0
-    let minRemaining = Infinity
     this.positions = []
 
     this.sides.forEach((side, index) => {
@@ -318,7 +312,6 @@ export default class extends Controller {
       const meters = finished ? 0 : Math.max(0, Math.round(this.distanceToFinish(at)))
       const raceTime = this.raceTimeFor(side, shown, finished)
 
-      if (!finished) minRemaining = Math.min(minRemaining, meters)
       if (finished && !side.flashed) {
         side.flashed = true
         this.flash(this.timeTargets[index])
@@ -331,7 +324,6 @@ export default class extends Controller {
       maxTime = Math.max(maxTime, raceTime)
     })
 
-    this.minRemaining = minRemaining
     this.clockTarget.textContent = Math.max(0, maxTime).toFixed(2)
   }
 
