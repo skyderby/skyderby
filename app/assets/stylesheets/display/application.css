@@ -1021,26 +1021,6 @@ body {
   color: var(--text);
 }
 
-.display-replay-clock {
-  display: flex;
-  align-items: baseline;
-  gap: calc(7 * var(--px));
-}
-
-.display-replay-clock .num {
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
-  font-size: calc(30 * var(--px));
-  color: var(--text);
-}
-
-.display-replay-clock .unit {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: calc(15 * var(--px));
-  color: var(--dim);
-}
-
 .display-replay-map {
   flex: 1;
   min-height: 0;
@@ -1088,8 +1068,7 @@ body {
   100% { transform: scale(1); text-shadow: none; }
 }
 
-.display-replay-stat-value .num.is-flash,
-.display-replay-clock .num.is-flash {
+.display-replay-stat-value .num.is-flash {
   animation: display-time-flash 0.7s ease-out;
 }
 

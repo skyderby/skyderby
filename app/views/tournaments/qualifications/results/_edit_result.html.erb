@@ -41,13 +41,6 @@
         </div>
       </div>
 
-      <div class="grid">
-        <%= f.label :top_speed, class: 'form-label col-4' %>
-        <div class="col-8">
-          <%= f.text_field :top_speed, class: 'form-input' %>
-        </div>
-      </div>
-
       <% show_actions = policy(@tournament).update? || show_cancel %>
       <% if show_actions %>
         <div class="form-actions justify-between">

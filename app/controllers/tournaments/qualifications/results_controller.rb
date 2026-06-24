@@ -95,8 +95,7 @@ module Tournaments
         params.require(:result).permit \
           :start_time,
           :result,
-          :canopy_time,
-          :top_speed
+          :canopy_time
       end
     end
   end

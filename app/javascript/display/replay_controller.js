@@ -10,16 +10,7 @@ const LINE_WEIGHT = 3
 const MAP_ID = 'BASE_TRACK_MAP'
 
 export default class extends Controller {
-  static targets = [
-    'map',
-    'data',
-    'clock',
-    'speed',
-    'meters',
-    'time',
-    'countdown',
-    'countText'
-  ]
+  static targets = ['map', 'data', 'speed', 'meters', 'time', 'countdown', 'countText']
   static values = { locationArrowUrl: String }
 
   connect() {
@@ -251,9 +242,7 @@ export default class extends Controller {
       }
     })
     this.timeTargets.forEach(el => el.classList.remove('is-flash'))
-    this.clockTarget.classList.remove('is-flash')
     this.renderStats(this.startT)
-    this.clockTarget.textContent = '0.00'
   }
 
   frame(now) {
@@ -283,7 +272,6 @@ export default class extends Controller {
 
   renderStats(playerT) {
     const shown = Math.min(playerT, this.endT)
-    let maxTime = 0
     this.positions = []
 
     this.sides.forEach((side, index) => {
@@ -315,16 +303,12 @@ export default class extends Controller {
       if (finished && !side.flashed) {
         side.flashed = true
         this.flash(this.timeTargets[index])
-        this.flash(this.clockTarget)
       }
 
       this.speedTargets[index].textContent = String(speed)
       this.metersTargets[index].textContent = String(meters)
       this.timeTargets[index].textContent = Math.max(0, raceTime).toFixed(2)
-      maxTime = Math.max(maxTime, raceTime)
     })
-
-    this.clockTarget.textContent = Math.max(0, maxTime).toFixed(2)
   }
 
   // Displayed race time: counts up to the official result and reaches it
