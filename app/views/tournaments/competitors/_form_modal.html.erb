@@ -1,45 +1,40 @@
 <% form_path = @competitor.new_record? ? tournament_competitors_path(@tournament) : tournament_competitor_path(@tournament, @competitor) %>
+<% existing_profile = @competitor.profile_mode.to_s != 'create' %>
+
 <%= form_with model: @competitor, url: form_path, data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
   <div class="sd-form">
-    <div class="grid">
-      <div class="col-12">
-        <label class="form-radio">
-          <%= f.radio_button :profile_mode, :select, checked: true %>
-          <%= t('competitors.form.select_profile') %>
-        </label>
-      </div>
-    </div>
+    <h3 class="form-section-title">
+      <%= t('competitors.form.profile') %>
+    </h3>
+
+    <label class="radio-label">
+      <%= f.radio_button :profile_mode, :select, checked: existing_profile %>
+      <%= t('competitors.form.select_profile') %>
+    </label>
 
     <div class="grid">
-      <%= f.label :profile, class: 'form-label col-4' %>
-      <div class="col-8">
-        <%= render 'hot_select/select',
-                   form: f,
-                   name: :profile_id,
-                   src: profiles_select_options_path,
-                   placeholder: t('tracks.form.profile_select_placeholder'),
-                   options: options_for_select([[@competitor.name, @competitor.profile_id]]) %>
-      </div>
+      <%= render 'hot_select/select',
+                 form: f,
+                 name: :profile_id,
+                 src: profiles_select_options_path,
+                 placeholder: t('tracks.form.profile_select_placeholder'),
+                 options: options_for_select([[@competitor.name, @competitor.profile_id]], @competitor.profile_id),
+                 class: 'col-12' %>
     </div>
 
-    <div class="grid">
-      <div class="col-12">
-        <label class="form-radio">
-          <%= f.radio_button :profile_mode, :create %>
-          <%= t('competitors.form.create_profile') %>
-        </label>
-      </div>
-    </div>
+    <label class="radio-label">
+      <%= f.radio_button :profile_mode, :create, checked: !existing_profile %>
+      <%= t('competitors.form.create_profile') %>
+    </label>
 
     <%= f.fields_for :profile_attributes do |builder| %>
       <div class="grid">
-        <%= builder.label :name, t('activerecord.attributes.profile.name'), class: 'form-label col-4' %>
-        <%= builder.text_field :name, class: 'form-input col-8' %>
-      </div>
-
-      <div class="grid">
-        <%= builder.label :country, t('activerecord.attributes.profile.country'), class: 'form-label col-4' %>
-        <div class="col-8">
+        <div class="col-7">
+          <%= builder.label :name, t('activerecord.attributes.profile.name') %>
+          <%= builder.text_field :name, class: 'form-input' %>
+        </div>
+        <div class="col-5">
+          <%= builder.label :country, t('activerecord.attributes.profile.country') %>
           <%= render 'hot_select/select',
                      form: builder,
                      name: :country_id,
@@ -50,22 +45,25 @@
       </div>
     <% end %>
 
-    <hr>
+    <div class="form-divider"></div>
+
+    <h3 class="form-section-title">
+      <%= Tournament::Competitor.human_attribute_name(:suit) %>
+    </h3>
 
     <div class="grid">
       <%= f.label :suit, class: 'form-label col-4' %>
-      <div class="col-8">
-        <%= render 'hot_select/select',
-                   form: f,
-                   name: :suit_id,
-                   src: suits_select_options_path,
-                   placeholder: 'Choose suit',
-                   options: options_for_select([[@competitor.suit_name, @competitor.suit_id]]) %>
-      </div>
+      <%= render 'hot_select/select',
+                 form: f,
+                 name: :suit_id,
+                 src: suits_select_options_path,
+                 placeholder: 'Choose suit',
+                 options: options_for_select([[@competitor.suit_name, @competitor.suit_id]], @competitor.suit_id),
+                 class: 'col-8' %>
     </div>
 
     <% unless @competitor.new_record? %>
-      <hr>
+      <div class="form-divider"></div>
 
       <div class="grid">
         <%= f.label :is_disqualified, class: 'form-label col-4' %>

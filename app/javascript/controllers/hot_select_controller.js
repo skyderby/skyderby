@@ -24,12 +24,13 @@ export default class HotSelect extends Controller {
     this.dropdownTarget.addEventListener('toggle', this.onToggle)
     document.addEventListener('turbo:before-render', this.close)
 
-    if (this.hasInitialOptionsTarget) {
-      const selected = this.initialOptionsTarget.querySelector('[aria-selected="true"]')
-      if (selected) {
-        this.displayValueTarget.innerHTML = selected.innerHTML
-        this.placeholderTarget.classList.add('hide')
-      }
+    const initialSelected =
+      this.hasInitialOptionsTarget &&
+      this.initialOptionsTarget.querySelector('[aria-selected="true"]')
+
+    if (initialSelected) {
+      this.displayValueTarget.innerHTML = initialSelected.innerHTML
+      this.placeholderTarget.classList.add('hide')
     } else if (
       this.selectInputTarget.selectedOptions.length > 0 &&
       this.selectInputTarget.selectedOptions[0].value

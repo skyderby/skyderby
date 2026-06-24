@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_04_182323) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_24_073151) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -507,6 +507,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_182323) do
   end
 
   create_table "qualification_rounds", id: :serial, force: :cascade do |t|
+    t.boolean "completed", default: false, null: false
     t.timestamptz "created_at", null: false
     t.integer "order"
     t.integer "tournament_id"
@@ -702,6 +703,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_182323) do
     t.string "name", limit: 510
     t.integer "place_id"
     t.integer "profile_id"
+    t.integer "qualification_scoring", default: 0, null: false
     t.integer "responsible_id"
     t.date "starts_at"
     t.integer "status", default: 0, null: false

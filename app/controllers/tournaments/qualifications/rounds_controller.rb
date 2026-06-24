@@ -16,6 +16,16 @@ module Tournaments
         end
       end
 
+      def update
+        @round = @tournament.qualification_rounds.find(params[:id])
+
+        if @round.update(round_params)
+          respond_with_scoreboard
+        else
+          respond_with_errors(@round.errors)
+        end
+      end
+
       def destroy
         @round = @tournament.qualification_rounds.find(params[:id])
 
@@ -27,6 +37,10 @@ module Tournaments
       end
 
       private
+
+      def round_params
+        params.require(:qualification_round).permit(:completed)
+      end
 
       def authorize_tournament
         authorize @tournament, :update?

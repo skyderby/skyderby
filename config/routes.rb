@@ -385,7 +385,7 @@ Skyderby::Application.routes.draw do
     scope module: :tournaments do
       resource :qualification, only: :show do
         scope module: :qualifications do
-          resources :rounds, only: %i[create destroy]
+          resources :rounds, only: %i[create update destroy]
 
           resources :results, except: :index do
             scope module: :results do
@@ -399,6 +399,7 @@ Skyderby::Application.routes.draw do
         resources :matches, only: :create
       end
       resources :competitors
+      resources :competitors_copies, only: %i[new create]
       resources :matches do
         scope module: :matches do
           resource :map, only: :show

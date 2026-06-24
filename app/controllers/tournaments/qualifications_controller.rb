@@ -6,8 +6,6 @@ module Tournaments
       @tournament = Tournament.find(params[:tournament_id])
 
       authorize @tournament
-
-      @scoreboard = Qualifications::Scoreboard.new(@tournament)
     end
   end
 end

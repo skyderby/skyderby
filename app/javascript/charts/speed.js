@@ -183,6 +183,8 @@ export const initSpeedsChart = (
     plotBands = [],
     windCancellation = false,
     showTitle = true,
+    showLegend = true,
+    legend = null,
     comparePoints = null,
     compareTimeOffset = 0,
     compareTrackName = null,
@@ -208,6 +210,7 @@ export const initSpeedsChart = (
           style: { color: 'var(--gray-80)', fontSize: '16px' }
         }
       : undefined,
+    legend: legend ?? { enabled: showLegend },
     plotOptions: {
       spline: {
         marker: {

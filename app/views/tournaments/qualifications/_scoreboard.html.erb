@@ -1,0 +1,14 @@
+<%# locals: (tournament:, editable:) %>
+
+<% if tournament.surprise? && !editable %>
+  <h1 class="text-muted text-center" id="qualification_scoreboard">🙅 Let it be a Surprise</h1>
+<% else %>
+  <% scoreboard = Tournament::Qualification::Scoreboard.new(tournament) %>
+
+  <div class="<%= class_names 'scoreboard-container', (scoreboard.rounds.size > 6 && 'scoreboard-container-fluid') %>"
+       data-controller="events--sticky-header" id="qualification_scoreboard">
+    <div class="scoreboard-scroll" data-events--sticky-header-target="container" data-action="scroll->events--sticky-header#on_horizontal_scroll">
+      <%= render 'tournaments/qualifications/qualification_table', tournament:, scoreboard:, editable: %>
+    </div>
+  </div>
+<% end %>

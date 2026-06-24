@@ -202,6 +202,8 @@ export default class extends Controller {
 
     this.glideChartTarget.chart = initGlideChart(this.glideChartTarget, this.points, {
       windCancellation: false,
+      showTitle: false,
+      legend: this.floatingLegend,
       plotLines
     })
   }
@@ -215,8 +217,23 @@ export default class extends Controller {
 
     this.speedChartTarget.chart = initSpeedsChart(this.speedChartTarget, this.points, {
       windCancellation: false,
+      showTitle: false,
+      legend: this.floatingLegend,
       plotLines
     })
+  }
+
+  get floatingLegend() {
+    return {
+      enabled: true,
+      floating: true,
+      align: 'right',
+      verticalAlign: 'top',
+      layout: 'horizontal',
+      x: -10,
+      y: -6,
+      padding: 4
+    }
   }
 
   initSepChart() {

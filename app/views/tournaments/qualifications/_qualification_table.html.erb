@@ -1,46 +1,76 @@
-<% editable = policy(@tournament).update? %>
+<%# locals: (tournament:, scoreboard:, editable:) %>
+<% show_best = scoreboard.show_best_result? %>
 
-<table class="scoreboard-table" id="qualifications-scoreboard">
+<table class="scoreboard-table scoreboard-table--compact" data-events--sticky-header-target="table">
   <thead>
     <tr>
-      <td class="text-center" rowspan="2">Rank</td>
-      <td class="text-center" rowspan="2">Competitor</td>
-      <td class="text-center scoreboard-table-separate-border" rowspan="2">Best result</td>
-      <% @scoreboard.rounds.each do |round| %>
-        <td class="scoreboard-round" colspan="2">
-          <div class="scoreboard-round-content">
-            <%= "Round #{round.order}" %>
-            <% if editable %>
-              <div class="scoreboard-round-actions" data-controller="dropdown">
-                <button class="button button--ghost" popovertarget="qual-round-menu-<%= round.id %>">
-                  <%= icon_tag 'ellipsis-vertical-solid' %>
-                </button>
+      <td class="text-center" rowspan="2"><%= t('tournaments.qualifications.scoreboard.rank') %></td>
+      <td class="<%= class_names 'text-center', (!show_best && 'scoreboard-table-separate-border') %>" colspan="2" rowspan="2"><%= t('tournaments.qualifications.scoreboard.competitor') %></td>
+      <% if show_best %>
+        <td class="text-center scoreboard-table-separate-border" rowspan="2"><%= t('tournaments.qualifications.scoreboard.best_result') %></td>
+      <% end %>
+      <% scoreboard.rounds.each do |round| %>
+        <th class="round" colspan="2">
+          <% unless show_best %>
+            <div class="round-status" data-controller="tooltip">
+              <% if round.completed? %>
+                <%= icon_tag 'circle-check-regular', class: 'round-completed' %>
+                <span class="for-screen-reader"><%= t('events.rounds.completed_tooltip') %></span>
+              <% elsif editable %>
+                <%= icon_tag 'circle-regular', class: 'round-not-completed-icon' %>
+                <span class="for-screen-reader"><%= t('events.rounds.mark_completed_tooltip') %></span>
+              <% end %>
+            </div>
+          <% end %>
 
-                <div id="qual-round-menu-<%= round.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
-                  <%= button_to tournament_qualification_round_path(@tournament, round), method: :delete, data: { turbo_stream: true }, class: 'dropdown-item' do %>
-                    <%= icon_tag 'xmark', class: 'text-muted' %>
-                    <%= t('general.delete') %>
+          <%= t('tournaments.qualifications.scoreboard.round', number: round.order) %>
+
+          <% if editable %>
+            <div class="cell-actions" data-controller="dropdown">
+              <button class="dropdown-toggle button button--ghost button--sm" popovertarget="qual-round-menu-<%= round.id %>">
+                <%= icon_tag 'ellipsis-vertical-solid' %>
+              </button>
+
+              <div id="qual-round-menu-<%= round.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+                <% unless show_best %>
+                  <% if round.completed? %>
+                    <%= button_to t('events.rounds.mark_not_completed'),
+                                  tournament_qualification_round_path(tournament, round),
+                                  method: :patch, params: { qualification_round: { completed: false } },
+                                  form: { data: { turbo_stream: true } }, class: 'dropdown-item' %>
+                  <% else %>
+                    <%= button_to t('events.rounds.mark_completed'),
+                                  tournament_qualification_round_path(tournament, round),
+                                  method: :patch, params: { qualification_round: { completed: true } },
+                                  form: { data: { turbo_stream: true } }, class: 'dropdown-item' %>
                   <% end %>
-                </div>
+
+                  <div class="dropdown-divider"></div>
+                <% end %>
+
+                <%= button_to tournament_qualification_round_path(tournament, round), method: :delete, data: { turbo_stream: true }, class: 'dropdown-item' do %>
+                  <%= icon_tag 'xmark', class: 'text-muted' %>
+                  <%= t('general.delete') %>
+                <% end %>
               </div>
-            <% end %>
-          </div>
-        </td>
+            </div>
+          <% end %>
+        </th>
       <% end %>
     </tr>
     <tr>
-      <% @scoreboard.rounds.each do |round| %>
-        <td class="text-center">Result</td>
-        <td class="text-center">Canopy</td>
+      <% scoreboard.rounds.each do |round| %>
+        <td class="text-center"><%= t('tournaments.qualifications.scoreboard.result') %></td>
+        <td class="text-center"><%= t('tournaments.qualifications.scoreboard.canopy') %></td>
       <% end %>
     </tr>
   </thead>
   <tbody>
-    <% @scoreboard.competitors.each_with_index do |competitor, index| %>
+    <% scoreboard.competitors.each do |competitor| %>
       <tr class="scoreboard-competitor">
-        <td><%= index + 1 %></td>
-        <td>
-          <%= link_to competitor.name, profile_path(competitor.profile_id), class: 'competitor-name' %>
+        <td class="text-center"><%= competitor.ranked? ? competitor.rank : '–' %></td>
+        <td class="competitor">
+          <%= link_to competitor.name, profile_path(competitor.profile_id), class: 'competitor-profile' %>
           <% if competitor.is_disqualified %>
             <span class="text-danger" data-controller="tooltip">(DQ)<span class="for-screen-reader"><%= competitor.disqualification_reason %></span></span>
           <% end %>
@@ -48,31 +78,55 @@
             <%= competitor.suit.manufacturer_code %>
             <%= competitor.suit_name %>
           </div>
+
+          <% if editable %>
+            <div class="cell-actions" data-controller="dropdown">
+              <button class="dropdown-toggle button button--ghost button--sm" popovertarget="qual-competitor-menu-<%= competitor.id %>">
+                <%= icon_tag 'ellipsis-vertical-solid' %>
+              </button>
+
+              <div id="qual-competitor-menu-<%= competitor.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+                <%= button_to edit_tournament_competitor_path(tournament, competitor), method: :get, form: { data: { turbo_stream: true } }, class: 'dropdown-item' do %>
+                  <%= icon_tag 'pencil-solid', class: 'text-muted' %>
+                  <%= t('general.edit') %>
+                <% end %>
+
+                <%= button_to tournament_competitor_path(tournament, competitor), method: :delete, form: { data: { turbo_stream: true, confirm: t('general.confirm_delete') } }, class: 'dropdown-item' do %>
+                  <%= icon_tag 'xmark', class: 'text-muted' %>
+                  <%= t('general.delete') %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
         </td>
-        <td class="scoreboard-table-separate-border text-right"><%= competitor.best_result %></td>
-        <% @scoreboard.rounds.each do |round| %>
+        <td class="<%= class_names 'text-center', 'competitor-country', (!show_best && 'scoreboard-table-separate-border') %>">
+          <span data-controller="tooltip"><%= competitor.country_code %><span class="for-screen-reader"><%= competitor.country_name %></span></span>
+        </td>
+        <% if show_best %>
+          <td class="scoreboard-table-separate-border text-right result-value"><%= number_with_precision(competitor.best_result, precision: 3) %></td>
+        <% end %>
+        <% scoreboard.rounds.each do |round| %>
           <% result = competitor.result_in_round(round) %>
-          <% if result %>
-            <% if result.track_id %>
-              <td class="scoreboard-result">
-                <%= result.result %>
-                <span><%= show_qualification_track_link(@tournament, result, editable) %></span>
-              </td>
-              <td class="text-right">
-                <span data-controller="tooltip"><%= result.canopy_time %><span class="for-screen-reader">Canopy time</span></span>
-              </td>
-            <% elsif result.result || !editable %>
-              <td class="text-right"><%= result.result %></td>
-              <td class="text-right">
-                <span data-controller="tooltip"><%= result.canopy_time %><span class="for-screen-reader">Canopy time</span></span>
-              </td>
-            <% end %>
-          <% else %>
-            <td class="scoreboard-result text-center">
-              <% if editable %>
-                <span><%= new_qualification_track_link(@tournament, competitor, round) %></span>
+          <% if result&.result.present? %>
+            <td class="<%= class_names 'result-cell', ('text-green' if competitor.best_result_in?(result)) %>">
+              <%= link_to tournament_qualification_result_path(tournament, result),
+                          **(mobile? ? { target: '_blank' } : { data: { turbo_stream: true } }),
+                          class: 'result-show-cell', rel: 'nofollow' do %>
+                <%= number_with_precision(result.result, precision: 3) %>
               <% end %>
             </td>
+            <td class="text-right result-value">
+              <span data-controller="tooltip"><%= number_with_precision(result.canopy_time, precision: 3) %><span class="for-screen-reader"><%= t('tournaments.qualifications.scoreboard.canopy_time') %></span></span>
+            </td>
+          <% elsif editable %>
+            <td class="result-cell">
+              <%= button_to icon_tag('upload-solid'),
+                            new_tournament_qualification_result_path(tournament, result: { competitor_id: competitor.id, qualification_round_id: round.id }),
+                            method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } %>
+            </td>
+            <td></td>
+          <% else %>
+            <td></td>
             <td></td>
           <% end %>
         <% end %>

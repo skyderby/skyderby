@@ -1,0 +1,21 @@
+<%= form_with model: :competitor_copy,
+              url: tournament_competitors_copies_path(@tournament),
+              scope: :competitor_copy,
+              data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
+  <div class="sd-form">
+    <div class="grid">
+      <%= f.label :source_tournament, class: 'form-label col-3' %>
+      <%= render 'hot_select/select',
+                 form: f,
+                 name: :source_tournament_id,
+                 src: tournaments_select_options_path,
+                 placeholder: t('tournaments.competitors_copies.form_modal.source_tournament_placeholder'),
+                 class: 'col-9' %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit t('general.save'), class: 'button button--primary' %>
+      <button type="button" class="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
+    </div>
+  </div>
+<% end %>

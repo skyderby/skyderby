@@ -6,6 +6,26 @@
 <%= form_with scope: :jump_range, url: tournament_qualification_result_jump_range_path(@tournament, @result), method: :put, data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
   <%= render 'concerns/jump_range_form', track: @result.track, form: f %>
 
+  <div class="sd-form">
+    <div class="grid">
+      <label class="form-label col-4">
+        <%= t('tournaments.results.apx_start_time') %>
+      </label>
+      <div class="col-8">
+        <p class="form-static">
+          <%= @result.track_start_time&.strftime('%Y-%m-%d %T.%L') %>
+        </p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :start_time, class: 'form-label col-4' %>
+      <div class="col-8">
+        <%= f.text_field :start_time, class: 'form-input', value: @result.start_time&.strftime('%Y-%m-%d %T.%L') %>
+      </div>
+    </div>
+  </div>
+
   <div class="form-actions justify-between">
     <div>
       <%= delete_qualification_track_link(@tournament, @result) %>

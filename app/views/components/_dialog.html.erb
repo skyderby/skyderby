@@ -1,12 +1,15 @@
-<%# locals: (title:, dialog_size: 'md', **) %>
+<%# locals: (title:, dialog_size: 'md', header_actions: nil, **) %>
 
 <div data-controller="dialog">
   <dialog class="dialog dialog-size-<%= dialog_size %>" data-dialog-target="dialog">
     <div class="dialog-header">
       <h2 class="dialog-title"><%= title %></h2>
-      <button class="dialog-close" aria-label="Close" data-action="dialog#close">
-        <%= icon_tag 'xmark' %>
-      </button>
+      <div class="dialog-header-actions">
+        <%= header_actions %>
+        <button class="dialog-close" aria-label="Close" data-action="dialog#close">
+          <%= icon_tag 'xmark' %>
+        </button>
+      </div>
     </div>
 
     <div class="dialog-body">

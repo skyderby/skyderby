@@ -94,6 +94,7 @@ export const initGlideChart = (
     windCancellation = false,
     showTitle = true,
     showLegend = true,
+    legend = null,
     comparePoints = null,
     compareTimeOffset = 0,
     compareTrackName = null,
@@ -135,7 +136,7 @@ export const initGlideChart = (
           style: { color: 'var(--gray-80)', fontSize: '16px' }
         }
       : undefined,
-    legend: { enabled: showLegend },
+    legend: legend ?? { enabled: showLegend },
     plotOptions: {
       spline: {
         marker: {

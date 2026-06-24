@@ -72,3 +72,9 @@
   display: flex;
   gap: 0.5rem;
 }
+
+[data-controller~="tournaments--result-track"] .highcharts-legend-box {
+  fill: var(--white);
+  fill-opacity: 0.8;
+  stroke: var(--gray-30);
+}

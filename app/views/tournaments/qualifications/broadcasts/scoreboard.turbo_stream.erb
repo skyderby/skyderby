@@ -1,0 +1,5 @@
+<%# locals: (tournament:, editable:) %>
+
+<%= turbo_stream.replace 'qualification_scoreboard', method: :morph do %>
+  <%= render 'tournaments/qualifications/scoreboard', tournament:, editable: %>
+<% end %>

@@ -12,7 +12,9 @@ export default class extends Controller {
   }
 
   disconnect() {
-    this.menuTarget.removeEventListener('turbo:submit-end', this.close)
+    if (this.hasMenuTarget) {
+      this.menuTarget.removeEventListener('turbo:submit-end', this.close)
+    }
   }
 
   close() {

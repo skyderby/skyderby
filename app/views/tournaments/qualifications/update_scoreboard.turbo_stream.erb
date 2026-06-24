@@ -1,4 +1,4 @@
 <%= turbo_stream.update 'modal-root', '' %>
-<%= turbo_stream.update 'qualifications-scoreboard' do %>
-  <%= render 'tournaments/qualifications/qualification_table' %>
+<%= turbo_stream.replace 'qualification_scoreboard' do %>
+  <%= render 'tournaments/qualifications/scoreboard', tournament: @tournament, editable: true %>
 <% end %>

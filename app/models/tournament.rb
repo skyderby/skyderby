@@ -23,8 +23,10 @@
 
 class Tournament < ApplicationRecord
   include EventPayable
+  include CompetitorsCopy
 
   enum :status, { draft: 0, published: 1, finished: 2, surprise: 3 }
+  enum :qualification_scoring, { best_result: 0, last_completed_round: 1 }, prefix: :scoring
   enum :discipline, {
     time: 0,
     distance: 1,

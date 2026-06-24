@@ -374,6 +374,23 @@ td.scoreboard-result .show-result:hover::before {
   background-color: var(--blue-70);
 }
 
+.result-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.scoreboard-table--compact tbody td,
+.scoreboard-table--compact thead td,
+.scoreboard-table--compact thead th {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+.scoreboard-table--compact tbody td.scoreboard-result,
+.scoreboard-table--compact tbody td.result-cell {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 td.scoreboard-total-result {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: right;
@@ -381,28 +398,6 @@ td.scoreboard-total-result {
 
 .scoreboard-round {
   text-align: center;
-}
-
-.scoreboard-round-content {
-  position: relative;
-}
-
-.scoreboard-round-actions {
-  position: absolute;
-  right: 0;
-  text-align: right;
-  top: 0;
-  width: 100%;
-}
-
-.scoreboard-round-actions button[data-toggle=dropdown] {
-  color: rgb(51, 51, 51);
-  text-align: right;
-  width: 100%;
-}
-
-.scoreboard-round-actions button[data-toggle=dropdown]:focus {
-  outline: none;
 }
 
 .competitor-country {

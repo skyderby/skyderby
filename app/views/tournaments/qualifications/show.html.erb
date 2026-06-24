@@ -1,37 +1,22 @@
 <% provide :title, @tournament.name %>
 <% editable = policy(@tournament).update? %>
+<%= turbo_stream_from @tournament, :qualification, editable ? :editable : :read_only %>
 
-<div class="container">
-  <%= render 'tournaments/header' %>
-</div>
+<div class="show-page">
+  <%= render partial: 'tournaments/header', variants: [], locals: { editable: } %>
 
-<div class="container-fluid">
-  <div class="content-block">
-    <% if editable %>
-      <div class="scoreboard-actions">
-        <%= button_to tournament_qualification_rounds_path(tournament_id: @tournament.id), method: :post, data: { turbo_stream: true }, class: 'button' do %>
-          <%= icon_tag 'plus-solid' %>
-          Round
-        <% end %>
-      </div>
-    <% end %>
+  <% if editable %>
+    <div class="show-page-content">
+      <%= render 'actions_bar', tournament: @tournament %>
+    </div>
+  <% end %>
 
-    <% if @tournament.surprise? && !editable %>
-      <h1 class="text-muted text-center">
-        🙅 Let it be a Surprise
-      </h1>
-    <% else %>
-      <div class="scoreboard">
-        <div class="scoreboard-scroll">
-          <%= render 'qualification_table' %>
-        </div>
-      </div>
-    <% end %>
+  <div class="show-page-content">
+    <%= render 'scoreboard', tournament: @tournament, editable: %>
 
-    <div class="container">
-      <div class="row top-buffer">
-        <%= render 'sponsors/list', sponsorable: @tournament, editable: editable %>
-      </div>
+    <div class="show-page-content">
+      <%= render 'organizers/organizers', organizable: @tournament, editable: (editable && !@tournament.finished?) %>
+      <%= render 'sponsors/list', sponsorable: @tournament, editable: editable %>
     </div>
   </div>
 </div>

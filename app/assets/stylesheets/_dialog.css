@@ -105,6 +105,12 @@ html:has(> body.overflow-hidden) {
   margin: 0;
 }
 
+.dialog-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .dialog-close {
   display: flex;
   align-items: center;
@@ -132,7 +138,8 @@ html:has(> body.overflow-hidden) {
 .dialog-body {
   padding: 1rem;
   overflow-y: auto;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 @media (max-width: 575px) {

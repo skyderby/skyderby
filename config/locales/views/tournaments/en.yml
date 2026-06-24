@@ -3,8 +3,27 @@ en:
     show:
       show_details: 'Click to view track details'
       edit_link: 'Start time, result, canopy time'
+    qualification_scoring:
+      label: 'Qualification scoring'
+      best_result: 'Best result across all rounds'
+      last_completed_round: 'Result of the last completed round'
     qualifications:
       round: 'Qualification'
+      scoreboard:
+        rank: 'Rank'
+        competitor: 'Competitor'
+        best_result: 'Best result'
+        round: 'Round %{number}'
+        result: 'Result'
+        canopy: 'Canopy'
+        canopy_time: 'Canopy time'
+      actions_bar:
+        more_actions: 'More actions'
+        copy_competitors: 'Copy competitors'
+    competitors_copies:
+      form_modal:
+        title: 'Copy competitors from another tournament'
+        source_tournament_placeholder: 'Tournament to copy from'
     matches:
       round: 'Round'
       winner: 'Winner'
@@ -14,3 +33,4 @@ en:
       result_time: 'Result'
       canopy_time: 'Canopy time'
       max_horizontal_speed: 'Max ground speed'
+      apx_start_time: 'Apx. start time'

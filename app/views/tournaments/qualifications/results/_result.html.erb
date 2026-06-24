@@ -4,7 +4,13 @@
 <% finish_line_coords = finish_line&.to_coordinates %>
 
 <div class="sd-container">
-  <%= render 'navbar', result:, modal: %>
+  <% unless modal %>
+    <%= render 'navbar', result:, modal: %>
+  <% end %>
+
+  <% if editable %>
+    <%= render 'header', local: !modal %>
+  <% end %>
 
   <% if result.track.present? %>
     <div data-controller="tournaments--result-track"

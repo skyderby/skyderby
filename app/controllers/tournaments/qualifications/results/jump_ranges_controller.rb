@@ -14,9 +14,8 @@ module Tournaments
 
         def update
           @result.transaction do
-            @result.track.update!(jump_range_params)
-            @result.calculate_result
-            @result.save!
+            @result.track.update!(track_params)
+            @result.update!(result_params)
           end
 
           respond_with_scoreboard
@@ -26,8 +25,12 @@ module Tournaments
 
         private
 
-        def jump_range_params
+        def track_params
           params.require(:jump_range).permit(:jump_range)
+        end
+
+        def result_params
+          params.require(:jump_range).permit(:start_time)
         end
       end
     end

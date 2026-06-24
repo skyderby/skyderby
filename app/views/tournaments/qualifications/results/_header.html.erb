@@ -1,5 +1,6 @@
 <% local ||= false %>
+<% return unless policy(@tournament).update? && @result.track.present? %>
 
-<ul class="nav nav-pills event-result__navigation">
+<div class="tab-bar">
   <%= render 'tournaments/qualifications/results/header_items', local: local %>
-</ul>
+</div>

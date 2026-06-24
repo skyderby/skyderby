@@ -3,3 +3,25 @@ ru:
     show:
       show_details: 'Нажмите для просмотра деталей трека'
       edit_link: 'Время старта, результат, время под куполом'
+    qualification_scoring:
+      label: 'Подсчёт квалификации'
+      best_result: 'Лучший результат во всех раундах'
+      last_completed_round: 'Результат последнего завершённого раунда'
+    qualifications:
+      scoreboard:
+        rank: 'Место'
+        competitor: 'Участник'
+        best_result: 'Лучший результат'
+        round: 'Раунд %{number}'
+        result: 'Результат'
+        canopy: 'Купол'
+        canopy_time: 'Время под куполом'
+      actions_bar:
+        more_actions: 'Действия'
+        copy_competitors: 'Скопировать участников'
+    competitors_copies:
+      form_modal:
+        title: 'Скопировать участников из другого турнира'
+        source_tournament_placeholder: 'Турнир для копирования'
+    results:
+      apx_start_time: 'Прибл. время старта'

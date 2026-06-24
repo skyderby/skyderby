@@ -36,7 +36,9 @@ class QualificationJump < ApplicationRecord
   end
 
   def start_time=(val)
-    self.start_time_in_seconds = Time.zone.parse(val).to_f
+    self.start_time_in_seconds = val.blank? ? nil : Time.zone.parse(val.to_s)&.to_f
+  rescue ArgumentError
+    self.start_time_in_seconds = nil
   end
 
   def track_owner = tournament

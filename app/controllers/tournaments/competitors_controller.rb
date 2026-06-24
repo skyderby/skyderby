@@ -1,5 +1,7 @@
 module Tournaments
   class CompetitorsController < ApplicationController
+    include Qualifications::RespondWithScoreboard
+
     before_action :authorize_tournament
     before_action :set_tournament_competitor, only: [:edit, :update, :destroy]
 
@@ -25,7 +27,7 @@ module Tournaments
       @competitor = tournament.competitors.new(tournament_competitor_params)
 
       if @competitor.save
-        respond_with_index
+        respond_with_change
       else
         respond_with_errors @competitor
       end
@@ -33,7 +35,7 @@ module Tournaments
 
     def update
       if @competitor.update(tournament_competitor_params)
-        respond_with_index
+        respond_with_change
       else
         respond_with_errors @competitor
       end
@@ -41,13 +43,18 @@ module Tournaments
 
     def destroy
       if @competitor.destroy
-        respond_with_index
+        respond_with_change
       else
         respond_with_errors @competitor
       end
     end
 
     private
+
+    def respond_with_change
+      broadcast_qualification_scoreboard if tournament.has_qualification
+      respond_with_index
+    end
 
     def respond_with_index
       @competitors = tournament.competitors.includes(:profile, suit: :manufacturer).order('profiles.name')

@@ -60,7 +60,8 @@ class TournamentsController < ApplicationController
       :finish_line_id,
       :starts_at,
       :bracket_size,
-      :has_qualification
+      :has_qualification,
+      :qualification_scoring
     )
   end
 end
