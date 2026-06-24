@@ -656,9 +656,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_24_090001) do
     t.timestamptz "created_at", null: false
     t.string "disqualification_reason"
     t.boolean "is_disqualified"
-    t.text "photo_data"
+    t.jsonb "photo_data"
     t.integer "profile_id"
-    t.text "sponsor_logo_data"
+    t.jsonb "sponsor_logo_data"
     t.integer "suit_id"
     t.integer "tournament_id"
     t.timestamptz "updated_at", null: false
