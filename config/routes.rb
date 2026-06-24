@@ -385,6 +385,8 @@ Skyderby::Application.routes.draw do
     scope module: :tournaments do
       resource :qualification, only: :show do
         scope module: :qualifications do
+          resource :display, controller: 'displays', only: :show
+
           resources :rounds, only: %i[create update destroy]
 
           resources :results, except: :index do

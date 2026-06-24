@@ -49,6 +49,16 @@ class QualificationJump < ApplicationRecord
 
   def track_comment = "#{tournament.name} - Qualification #{qualification_round.order}"
 
+  # Maximum developed full (3D) speed over the track, in km/h.
+  def calculate_top_speed
+    return unless track
+
+    PointsQuery
+      .execute(track, trimmed: true)
+      .map { |point| Math.sqrt(point[:h_speed]**2 + point[:v_speed]**2) }
+      .max
+  end
+
   private
 
   def finish_line

@@ -18,7 +18,7 @@ class Tournament::Qualification::Scoreboard
   def competitors
     @competitors ||=
       Tournament::Qualification::CompetitorsCollection.new(
-        tournament.competitors.includes(:profile, suit: :manufacturer), self
+        tournament.competitors.includes(profile: :country, suit: :manufacturer), self
       )
   end
 

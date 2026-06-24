@@ -2,3 +2,36 @@ fr:
   tournaments:
     show:
       show_details: Cliquer pour voir les détails de l'enregistrement
+    qualifications:
+      actions_bar:
+        display: 'Show'
+      display:
+        live: 'En direct'
+        standings: 'Classement général'
+        athletes:
+          one: '%{count} athlète'
+          other: '%{count} athlètes'
+        rank: 'Rang'
+        competitor: 'Concurrent'
+        best_time: 'Meilleur temps'
+        top_speed: 'Vitesse max'
+        seconds_short: 's'
+        seconds_long: 'SEC'
+        kmh: '%{speed} km/h'
+        sponsors: 'Sponsors du concurrent'
+        flying: 'Combinaison'
+        fastest: 'Meilleur'
+        leader: 'Leader'
+        to_leader: 'sur le leader'
+        attempts: 'Tentatives'
+        round: 'Manche %{number}'
+        round_short: 'Manche'
+        time: 'Temps'
+        vs_best: '+/- meilleur'
+        best_short: 'Meilleur'
+        speed: 'Vitesse'
+        kmh_short: 'KM/H'
+        to_finish: 'Avant arrivée'
+        meters_short: 'M'
+        live_course: 'Parcours live'
+        heat_starts: 'Départ dans'

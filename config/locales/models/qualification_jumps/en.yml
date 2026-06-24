@@ -2,3 +2,7 @@ en:
   activerecord:
     models:
       qualification_jump: Qualification - Result
+    attributes:
+      qualification_jump:
+        top_speed: Top speed
+        canopy_time: Canopy time

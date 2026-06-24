@@ -1,0 +1,77 @@
+<%# locals: (tournament:, replay:) %>
+<% a, b = replay.sides %>
+
+<div class="display-slide display-replay"
+     data-slideshow-target="slide"
+     data-slideshow-duration="40"
+     data-controller="replay"
+     data-replay-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>">
+  <%= render 'statusbar', tournament: tournament %>
+
+  <script type="application/json" data-replay-target="data"><%= raw replay.to_json %></script>
+
+  <div class="display-replay-body">
+    <% [a, b].each_with_index do |side, index| %>
+      <div class="display-replay-card <%= index.zero? ? 'is-a' : 'is-b' %>" style="--side: <%= side.color %>;">
+        <div class="display-replay-head">
+          <div class="display-replay-bib"><%= side.bib %></div>
+          <div class="display-replay-id">
+            <h2 class="display-replay-name"><%= side.name %></h2>
+            <div class="display-replay-meta">
+              <span class="display-pcountry">
+                <span class="display-pcountry-code" style="color: <%= side.color %>;"><%= side.country_code %></span>
+                <span class="display-pcountry-name"><%= side.country_name %></span>
+              </span>
+              <span class="display-psuit"><%= side.suit %></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="display-replay-photo <%= 'is-empty' unless side.photo_url %>">
+          <% if side.photo_url %><%= image_tag side.photo_url, alt: side.name %><% end %>
+        </div>
+
+        <div class="display-replay-stats">
+          <div class="display-replay-stat">
+            <span class="display-replay-stat-label"><%= t('tournaments.qualifications.display.speed') %></span>
+            <div class="display-replay-stat-value">
+              <span class="num" data-replay-target="speed" style="color: <%= side.color %>;">0</span>
+              <span class="unit"><%= t('tournaments.qualifications.display.kmh_short') %></span>
+            </div>
+          </div>
+          <div class="display-replay-stat">
+            <span class="display-replay-stat-label"><%= t('tournaments.qualifications.display.to_finish') %></span>
+            <div class="display-replay-stat-value">
+              <span class="num" data-replay-target="meters">0</span>
+              <span class="unit"><%= t('tournaments.qualifications.display.meters_short') %></span>
+            </div>
+          </div>
+          <div class="display-replay-stat">
+            <span class="display-replay-stat-label"><%= t('tournaments.qualifications.display.time') %></span>
+            <div class="display-replay-stat-value">
+              <span class="num" data-replay-target="time">0.00</span>
+              <span class="unit"><%= t('tournaments.qualifications.display.seconds_long') %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% if index.zero? %>
+        <div class="display-replay-center">
+          <div class="display-replay-maphead">
+            <span class="display-replay-maptitle"><%= t('tournaments.qualifications.display.live_course') %></span>
+            <div class="display-replay-clock">
+              <span class="num" data-replay-target="clock">0.00</span>
+              <span class="unit"><%= t('tournaments.qualifications.display.seconds_long') %></span>
+            </div>
+          </div>
+          <div class="display-replay-map" data-replay-target="map"></div>
+          <div class="display-replay-countdown" data-replay-target="countdown" hidden>
+            <span class="label"><%= t('tournaments.qualifications.display.heat_starts') %></span>
+            <span class="count" data-replay-target="countText">3</span>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

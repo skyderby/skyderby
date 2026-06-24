@@ -1,4 +1,37 @@
-en:
+de:
   tournaments:
     show:
       show_details: 'Hier klicken für Trackdetails'
+    qualifications:
+      actions_bar:
+        display: 'Show'
+      display:
+        live: 'Live'
+        standings: 'Gesamtwertung'
+        athletes:
+          one: '%{count} Athlet'
+          other: '%{count} Athleten'
+        rank: 'Platz'
+        competitor: 'Teilnehmer'
+        best_time: 'Bestzeit'
+        top_speed: 'Höchstgeschw.'
+        seconds_short: 's'
+        seconds_long: 'SEK'
+        kmh: '%{speed} km/h'
+        sponsors: 'Sponsoren des Teilnehmers'
+        flying: 'Anzug'
+        fastest: 'Schnellste'
+        leader: 'Führender'
+        to_leader: 'zum Führenden'
+        attempts: 'Versuche'
+        round: 'Runde %{number}'
+        round_short: 'Runde'
+        time: 'Zeit'
+        vs_best: '+/- Beste'
+        best_short: 'Beste'
+        speed: 'Tempo'
+        kmh_short: 'KM/H'
+        to_finish: 'Bis Ziel'
+        meters_short: 'M'
+        live_course: 'Live-Strecke'
+        heat_starts: 'Lauf startet in'

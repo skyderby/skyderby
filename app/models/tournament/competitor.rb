@@ -13,6 +13,9 @@
 #
 
 class Tournament::Competitor < ApplicationRecord
+  include PhotoUploader::Attachment(:photo)
+  include SponsorLogoUploader::Attachment(:sponsor_logo)
+
   attr_accessor :profile_attributes, :profile_mode
 
   belongs_to :tournament
@@ -29,6 +32,8 @@ class Tournament::Competitor < ApplicationRecord
   delegate :name, to: :suit, prefix: true, allow_nil: true
 
   before_validation :create_profile
+  after_validation { photo_derivatives! if photo_changed? }
+  after_validation { sponsor_logo_derivatives! if sponsor_logo_changed? }
 
   private
 

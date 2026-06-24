@@ -12,6 +12,11 @@
   <% end %>
 
   <div class="actions-bar-right">
+    <%= link_to tournament_qualification_display_path(tournament), target: '_blank', rel: 'noopener', class: 'actions-bar-button' do %>
+      <%= icon_tag 'circle-play' %>
+      <%= t('tournaments.qualifications.actions_bar.display') %>
+    <% end %>
+
     <div data-controller="dropdown">
       <button class="actions-bar-button" popovertarget="qualification-actions-menu-<%= tournament.id %>" title="<%= t('tournaments.qualifications.actions_bar.more_actions') %>">
         <%= icon_tag 'gear-solid' %>

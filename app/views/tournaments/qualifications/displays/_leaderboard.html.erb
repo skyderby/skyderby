@@ -1,0 +1,63 @@
+<%# locals: (tournament:, competitors:, active: false) %>
+
+<div class="display-slide <%= 'is-active' if active %>" data-slideshow-target="slide" data-slideshow-duration="32">
+  <%= render 'statusbar', tournament: tournament %>
+
+  <div class="display-content">
+    <div class="display-title-row">
+      <h1 class="display-title"><%= t('tournaments.qualifications.display.standings') %></h1>
+      <div class="display-title-aside">
+        <span class="display-title-count"><%= t('tournaments.qualifications.display.athletes', count: competitors.size) %></span>
+      </div>
+    </div>
+
+    <div class="display-lb-head">
+      <span><%= t('tournaments.qualifications.display.rank') %></span>
+      <span><%= t('tournaments.qualifications.display.competitor') %></span>
+      <span class="text-right"><%= t('tournaments.qualifications.display.best_time') %></span>
+      <span class="text-right"><%= t('tournaments.qualifications.display.top_speed') %></span>
+      <span class="text-right"><%= t('tournaments.qualifications.display.attempts') %></span>
+    </div>
+
+    <div class="display-lb-window">
+      <div class="display-lb-scroller" data-slideshow-scroll>
+        <% competitors.each do |competitor| %>
+          <div class="display-lb-row <%= class_names('is-leader' => competitor.rank == 1, 'is-podium' => competitor.rank <= 3) %>">
+            <div class="display-rank">
+              <span class="display-rank-number"><%= competitor.rank %></span>
+            </div>
+
+            <div class="display-competitor">
+              <span class="display-competitor-name"><%= competitor.name %></span>
+              <div class="display-competitor-meta">
+                <span class="display-country">
+                  <span class="display-country-code"><%= competitor.country_code %></span>
+                  <span class="display-country-name"><%= competitor.country_name %></span>
+                </span>
+                <span class="display-suit"><%= competitor.suit.manufacturer_code %> <%= competitor.suit_name %></span>
+              </div>
+            </div>
+
+            <div class="display-best">
+              <span class="display-best-value"><%= number_with_precision(competitor.best_result, precision: 2) %></span>
+              <span class="display-best-unit"><%= t('tournaments.qualifications.display.seconds_short') %></span>
+            </div>
+
+            <span class="display-topspeed">
+              <%= competitor.top_speed ? t('tournaments.qualifications.display.kmh', speed: number_with_precision(competitor.top_speed, precision: 1)) : '—' %>
+            </span>
+
+            <div class="display-followup">
+              <% competitor.follow_up_results.first(3).each do |result| %>
+                <span class="display-followup-chip"><%= number_with_precision(result, precision: 2) %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="display-fade-top"></div>
+      <div class="display-fade-bottom"></div>
+    </div>
+  </div>
+</div>

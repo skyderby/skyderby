@@ -1,7 +1,7 @@
 <% form_path = @competitor.new_record? ? tournament_competitors_path(@tournament) : tournament_competitor_path(@tournament, @competitor) %>
 <% existing_profile = @competitor.profile_mode.to_s != 'create' %>
 
-<%= form_with model: @competitor, url: form_path, data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
+<%= form_with model: @competitor, url: form_path, multipart: true, data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
   <div class="sd-form">
     <h3 class="form-section-title">
       <%= t('competitors.form.profile') %>
@@ -60,6 +60,42 @@
                  placeholder: 'Choose suit',
                  options: options_for_select([[@competitor.suit_name, @competitor.suit_id]], @competitor.suit_id),
                  class: 'col-8' %>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <h3 class="form-section-title">
+      <%= t('competitors.form.show_images') %>
+    </h3>
+
+    <div class="grid">
+      <%= f.label :photo, Tournament::Competitor.human_attribute_name(:photo), class: 'form-label col-4' %>
+      <div class="col-8">
+        <% if @competitor.photo %>
+          <div class="form-static"><%= image_tag @competitor.photo_url(:medium), class: 'competitor-image-preview' %></div>
+        <% end %>
+        <div data-controller="filefield">
+          <%= f.hidden_field :photo, value: @competitor.cached_photo_data %>
+          <%= f.file_field :photo, class: 'form-input',
+                           data: { filefield_target: 'file_field', action: 'change->filefield#change' } %>
+          <div class="file-name" data-filefield-target="text_field"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :sponsor_logo, Tournament::Competitor.human_attribute_name(:sponsor_logo), class: 'form-label col-4' %>
+      <div class="col-8">
+        <% if @competitor.sponsor_logo %>
+          <div class="form-static"><%= image_tag @competitor.sponsor_logo_url(:medium), class: 'competitor-image-preview' %></div>
+        <% end %>
+        <div data-controller="filefield">
+          <%= f.hidden_field :sponsor_logo, value: @competitor.cached_sponsor_logo_data %>
+          <%= f.file_field :sponsor_logo, class: 'form-input',
+                           data: { filefield_target: 'file_field', action: 'change->filefield#change' } %>
+          <div class="file-name" data-filefield-target="text_field"></div>
+        </div>
+      </div>
     </div>
 
     <% unless @competitor.new_record? %>
