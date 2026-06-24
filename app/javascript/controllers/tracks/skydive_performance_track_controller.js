@@ -1204,7 +1204,21 @@ export default class extends Controller {
         const compareController = this.getPlaybackIndicatorsController(
           this.comparePlaybackIndicatorsTarget
         )
-        if (compareController) compareController.update(compareData)
+        if (compareController) {
+          compareController.update(compareData)
+
+          const futureCompare = interpolateByPlayerTime(
+            this.compareProcessedPoints,
+            targetTime + 1
+          )
+          if (futureCompare) {
+            compareController.updateAcceleration({
+              fullSpeedAccel: (futureCompare.fullSpeed - compareData.fullSpeed) / 3.6,
+              hSpeedAccel: (futureCompare.hSpeed - compareData.hSpeed) / 3.6,
+              vSpeedAccel: (futureCompare.vSpeed - compareData.vSpeed) / 3.6
+            })
+          }
+        }
       }
     }
   }

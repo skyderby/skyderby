@@ -766,6 +766,15 @@ export default class extends Controller {
       vSpeed: point.vSpeed,
       glideRatio: point.glideRatio ?? 0
     })
+
+    const futurePoint = this.interpolateCompareByPlayerTime(playerTime + 1)
+    if (futurePoint) {
+      controller.updateAcceleration({
+        fullSpeedAccel: (futurePoint.fullSpeed - point.fullSpeed) / 3.6,
+        hSpeedAccel: (futurePoint.hSpeed - point.hSpeed) / 3.6,
+        vSpeedAccel: (futurePoint.vSpeed - point.vSpeed) / 3.6
+      })
+    }
   }
 
   interpolateCompareByPlayerTime(playerTime) {
