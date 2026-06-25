@@ -7,7 +7,8 @@ module Profiles
     BASE_RACES_LIMIT = 3
     RANKINGS_LIMIT = 4
 
-    Ranking = Struct.new(:competition, :result, :rank, :total, :rank_delta, keyword_init: true)
+    Ranking = Struct.new(:competition, :result, :rank, :total, :rank_delta, :result_ahead, :result_behind,
+                         keyword_init: true)
     PersonalBest = Struct.new(:discipline, :result, :competition, :delta, keyword_init: true)
     CompetitionEntry = Struct.new(:event, :place, :live, :hidden_place, keyword_init: true)
 
@@ -108,7 +109,7 @@ module Profiles
     end
 
     def visible_competition?(event)
-      event.respond_to?(:starts_at) && !event.draft?
+      event.respond_to?(:starts_at) && !event.draft? && event.public_event?
     end
 
     def mode_available?(mode)
@@ -157,22 +158,26 @@ module Profiles
 
     def rankings_from(current, competition_ids)
       competitions = VirtualCompetition.where(id: competition_ids).index_by(&:id)
-      totals = current.group_by(&:virtual_competition_id).transform_values(&:size)
+      by_competition = current.group_by(&:virtual_competition_id)
       previous = previous_week_scores(competition_ids)
 
       current.select { |score| score.profile_id == id }.map do |score|
         competition_id = score.virtual_competition_id
-        ranking_for(competitions[competition_id], score, previous[competition_id], totals[competition_id].to_i)
+        ranking_for(competitions[competition_id], score, previous[competition_id], by_competition[competition_id])
       end
     end
 
-    def ranking_for(competition, score, prior, total)
+    def ranking_for(competition, score, prior, siblings)
+      rank = score.rank.to_i
+      by_rank = siblings.index_by { |sibling| sibling.rank.to_i }
       Ranking.new(
         competition: competition,
         result: score.result,
-        rank: score.rank.to_i,
-        total: total,
-        rank_delta: prior && (prior.rank.to_i - score.rank.to_i)
+        rank: rank,
+        total: siblings.size,
+        rank_delta: prior && (prior.rank.to_i - rank),
+        result_ahead: by_rank[rank - 1]&.result,
+        result_behind: by_rank[rank + 1]&.result
       )
     end
 
