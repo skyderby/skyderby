@@ -176,58 +176,61 @@ module Profiles
     end
 
     def build_rankings
-      competition_ids = ranked_competition_ids
+      competition_ids = activity_scores.map(&:virtual_competition_id).uniq
       return [] if competition_ids.empty?
 
-      current = current_year_scores(competition_ids)
-      rankings_from(current, competition_ids).sort_by(&:rank)
+      current = competition_scores(VirtualCompetition::AnnualTopScore.for_year(current_year), competition_ids)
+      previous = competition_scores(VirtualCompetition::AnnualTopScore.at_snapshot(1.week.ago).for_year(current_year),
+                                    competition_ids)
+      rankings_from(competition_ids, current, previous).sort_by(&:rank)
     end
 
-    def ranked_competition_ids
-      activity_scores
-        .reject { |score| score.virtual_competition.jumps_kind.nil? }
-        .map(&:virtual_competition_id)
-        .uniq
+    def competition_scores(relation, competition_ids)
+      relation.where(virtual_competition_id: competition_ids).includes(:track).to_a.group_by(&:virtual_competition_id)
     end
 
-    def rankings_from(current, competition_ids)
+    def rankings_from(competition_ids, current, previous)
       competitions = VirtualCompetition.where(id: competition_ids).index_by(&:id)
-      by_competition = current.group_by(&:virtual_competition_id)
-      previous = previous_week_scores(competition_ids)
 
-      current.select { |score| score.profile_id == id }.map do |score|
-        competition_id = score.virtual_competition_id
-        ranking_for(competitions[competition_id], score, previous[competition_id], by_competition[competition_id])
+      competition_ids.filter_map do |competition_id|
+        ranking_in(competitions[competition_id], current[competition_id] || [], previous[competition_id] || [])
       end
     end
 
-    def ranking_for(competition, score, prior, siblings)
-      rank = score.rank.to_i
-      by_rank = siblings.index_by { |sibling| sibling.rank.to_i }
+    def ranking_in(competition, current_siblings, previous_siblings)
+      ranked = rank_candidates(competition, current_siblings)
+      position = ranked.index { |score| score.profile_id == id }
+      return unless position
+
       Ranking.new(
         competition: competition,
-        result: score.result,
-        rank: rank,
-        total: siblings.size,
-        rank_delta: prior && (prior.rank.to_i - rank),
-        result_ahead: by_rank[rank - 1]&.result,
-        result_behind: by_rank[rank + 1]&.result
+        result: ranked[position].result,
+        rank: position + 1,
+        total: ranked.size,
+        rank_delta: previous_rank_delta(competition, previous_siblings, position + 1),
+        result_ahead: position.zero? ? nil : ranked[position - 1].result,
+        result_behind: ranked[position + 1]&.result
       )
     end
 
-    def previous_week_scores(competition_ids)
-      VirtualCompetition::AnnualTopScore
-        .at_snapshot(1.week.ago)
-        .for_year(current_year)
-        .where(profile_id: id, virtual_competition_id: competition_ids)
-        .index_by(&:virtual_competition_id)
+    def previous_rank_delta(competition, previous_siblings, rank)
+      position = rank_candidates(competition, previous_siblings).index { |score| score.profile_id == id }
+      position && (position + 1 - rank)
     end
 
-    def current_year_scores(competition_ids)
-      VirtualCompetition::AnnualTopScore
-        .for_year(current_year)
-        .where(virtual_competition_id: competition_ids)
-        .to_a
+    def rank_candidates(competition, siblings)
+      candidates = jump_kind_filtered?(competition) ? same_kind(siblings) : siblings
+      candidates = candidates.sort_by(&:result)
+      candidates.reverse! if competition.results_sort_order == 'descending'
+      candidates
+    end
+
+    def same_kind(siblings)
+      siblings.select { |score| score.track&.kind == current_activity.to_s }
+    end
+
+    def jump_kind_filtered?(competition)
+      competition.flare? && competition.jumps_kind.nil?
     end
 
     def previous_pb_delta(competition)
