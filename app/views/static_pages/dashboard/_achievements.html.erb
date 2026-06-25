@@ -1,0 +1,17 @@
+<%# locals: (dashboard:) %>
+
+<% if dashboard.badges.any? %>
+  <div class="dashboard-section panel" data-controller="reveal">
+    <div class="dashboard-section__header"><%= t('dashboard.achievements.title') %></div>
+
+    <div class="dashboard-badges dashboard-collapsible is-collapsed" data-reveal-target="container">
+      <%= render partial: 'static_pages/dashboard/achievement', collection: dashboard.badges, as: :badge %>
+    </div>
+
+    <% if dashboard.badges.size > 3 %>
+      <button type="button" class="dashboard-show-all" data-action="reveal#toggle" data-reveal-target="button">
+        <%= t('dashboard.show_all') %>
+      </button>
+    <% end %>
+  </div>
+<% end %>

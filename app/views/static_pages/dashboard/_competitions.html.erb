@@ -1,0 +1,37 @@
+<%# locals: (dashboard:, show_place: true) %>
+
+<% competitions = dashboard.competitions %>
+<% if competitions.any? %>
+  <div class="dashboard-section panel" data-controller="reveal">
+    <div class="dashboard-section__header"><%= t('dashboard.competitions.title') %></div>
+
+    <div class="dashboard-list dashboard-collapsible is-collapsed" data-reveal-target="container">
+      <% competitions.each do |entry| %>
+        <%= link_to polymorphic_path(entry.event), class: 'dashboard-list__row' do %>
+          <% if show_place %>
+            <% if entry.hidden_place %>
+              <span class="dashboard-place dashboard-place--hidden">?</span>
+            <% elsif entry.place %>
+              <span class="dashboard-place <%= { 1 => 'medal--gold', 2 => 'medal--silver', 3 => 'medal--bronze' }[entry.place] %>"><%= entry.place %></span>
+            <% end %>
+          <% end %>
+          <span class="dashboard-list__main">
+            <span class="dashboard-list__title"><%= entry.event.name %></span>
+            <span class="dashboard-list__meta">
+              <%= l(entry.event.starts_at, format: :short) if entry.event.starts_at %>
+            </span>
+          </span>
+          <% if entry.live %>
+            <span class="live-indicator"><%= t('dashboard.competitions.live') %></span>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if competitions.size > 3 %>
+      <button type="button" class="dashboard-show-all" data-action="reveal#toggle" data-reveal-target="button">
+        <%= t('dashboard.show_all') %>
+      </button>
+    <% end %>
+  </div>
+<% end %>

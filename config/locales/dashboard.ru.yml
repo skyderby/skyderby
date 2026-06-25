@@ -1,0 +1,56 @@
+ru:
+  dashboard:
+    coming_soon: Скоро
+    no_data: Нет данных
+    jumps: Прыжки
+    locations: Локации
+    base_flare: BASE флер
+    p95: P95
+    see_all: Все
+    show_all: Показать все
+    plan:
+      pro: PRO
+      free: FREE
+    hero:
+      season: Сезон %{year}
+    modes:
+      performance: Performance Flying
+      base: BASE
+      speed: Speed
+      organizer: Организатор
+    suit_types:
+      wingsuit: Вингсьют
+      tracksuit: Трекинговый костюм
+      monotrack: Монотрек
+      slick: Слик
+    personal_bests:
+      title: Личные рекорды
+      prefix: PB
+    disciplines:
+      speed: Скорость
+      distance: Дистанция
+      time: Время
+      flare: Skydive flare
+      base_race: BASE гонка
+      distance_in_time: "Дистанция за %{seconds}с"
+      distance_in_altitude: "Дистанция за %{meters}м"
+    rankings:
+      title: Онлайн-рейтинг · %{year}
+      empty: Пока нет рейтингов
+    recent_tracks:
+      title: Последние треки
+      unknown_place: Неизвестное место
+      empty: Пока нет skydive треков
+    competitions:
+      title: Соревнования
+      live: Live
+    achievements:
+      title: Достижения
+    pro:
+      label: SKYDERBY PRO
+      text: Полная аналитика полётов и сравнение бок о бок.
+      per_year: / год
+      lifetime: навсегда
+      cta: Перейти на Pro
+    empty:
+      text: Загрузите первый трек, чтобы увидеть здесь свою статистику.

@@ -1,0 +1,9 @@
+<%# locals: (value:, unit: nil) %>
+
+<% up = value.positive? %>
+<% magnitude = value.abs %>
+<% precision = magnitude < 10 && magnitude != magnitude.round ? 1 : 0 %>
+<span class="trend trend--<%= up ? 'up' : 'down' %>">
+  <%= up ? '▲' : '▼' %>
+  <%= number_with_precision(magnitude, precision: precision, strip_insignificant_zeros: true) %><%= " #{unit}" if unit.present? %>
+</span>

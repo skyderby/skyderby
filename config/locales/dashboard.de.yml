@@ -1,0 +1,56 @@
+de:
+  dashboard:
+    coming_soon: Demnächst
+    no_data: Keine Daten
+    jumps: Sprünge
+    locations: Locations
+    base_flare: BASE Flare
+    p95: P95
+    see_all: Alle ansehen
+    show_all: Alle anzeigen
+    plan:
+      pro: PRO
+      free: FREE
+    hero:
+      season: Saison %{year}
+    modes:
+      performance: Performance Flying
+      base: BASE
+      speed: Speed
+      organizer: Veranstalter
+    suit_types:
+      wingsuit: Wingsuit
+      tracksuit: Trackinganzug
+      monotrack: Monotrack
+      slick: Slick
+    personal_bests:
+      title: Persönliche Bestleistungen
+      prefix: PB
+    disciplines:
+      speed: Speed
+      distance: Distanz
+      time: Zeit
+      flare: Skydive Flare
+      base_race: BASE Race
+      distance_in_time: "%{seconds}s Distanz"
+      distance_in_altitude: "%{meters}m Distanz"
+    rankings:
+      title: Online-Ranking · %{year}
+      empty: Noch keine Ranglisten
+    recent_tracks:
+      title: Letzte Tracks
+      unknown_place: Unbekannter Ort
+      empty: Noch keine Skydive-Tracks
+    competitions:
+      title: Wettkämpfe
+      live: Live
+    achievements:
+      title: Erfolge
+    pro:
+      label: SKYDERBY PRO
+      text: Vollständige Fluganalyse und Vergleich nebeneinander.
+      per_year: / Jahr
+      lifetime: einmalig
+      cta: Pro holen
+    empty:
+      text: Lade deinen ersten Track hoch, um hier deine Statistiken zu sehen.

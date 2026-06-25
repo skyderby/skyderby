@@ -1,0 +1,13 @@
+<%# locals: (dashboard:) %>
+
+<div class="dashboard-modes tab-bar">
+  <% dashboard.available_modes.each do |mode| %>
+    <%= button_to dashboard_path,
+                  method: :patch,
+                  params: { mode: mode },
+                  form: { class: 'dashboard-modes__form' },
+                  class: ['tab-bar-item', ('active' if mode == dashboard.current_mode)] do %>
+      <%= t("dashboard.modes.#{mode}") %>
+    <% end %>
+  <% end %>
+</div>

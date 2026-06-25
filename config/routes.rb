@@ -426,5 +426,7 @@ Skyderby::Application.routes.draw do
   resources :donations
   resources :weather_fetching_logs, only: :index
 
+  resource :dashboard, only: :update
+
   root 'static_pages#index'
 end

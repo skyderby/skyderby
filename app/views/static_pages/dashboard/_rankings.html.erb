@@ -1,0 +1,39 @@
+<%# locals: (dashboard:) %>
+
+<div class="dashboard-section panel" data-controller="reveal">
+  <div class="dashboard-section__header"><%= t('dashboard.rankings.title', year: Time.zone.now.year) %></div>
+
+  <% if dashboard.rankings.any? %>
+    <div class="dashboard-rankings is-collapsed" data-reveal-target="container">
+      <% dashboard.rankings.each do |ranking| %>
+        <% fill = ranking.total.positive? ? ((ranking.total - ranking.rank + 1).to_f / ranking.total * 100).round : 0 %>
+        <% podium = ranking.rank <= 3 && ranking.total > 10 %>
+        <div class="dashboard-ranking <%= 'dashboard-ranking--podium' if podium %>">
+          <div class="dashboard-ranking__top">
+            <span class="dashboard-ranking__name truncate">
+              <% if podium %><span class="dashboard-ranking__medal"><%= icon_tag 'trophy-solid' %></span><% end %>
+              <%= ranking.competition.name %>
+            </span>
+            <span class="dashboard-ranking__position">
+              <b>#<%= ranking.rank %></b><span class="dashboard-ranking__total">/<%= ranking.total %></span>
+              <% if ranking.rank_delta && !ranking.rank_delta.zero? %>
+                <%= render 'static_pages/dashboard/delta', value: ranking.rank_delta %>
+              <% end %>
+            </span>
+          </div>
+          <div class="dashboard-ranking__bar">
+            <div class="dashboard-ranking__bar-fill" style="width: <%= fill %>%"></div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <% if dashboard.rankings.size > Profiles::Dashboard::RANKINGS_LIMIT %>
+      <button type="button" class="dashboard-show-all" data-action="reveal#toggle" data-reveal-target="button">
+        <%= t('dashboard.see_all') %>
+      </button>
+    <% end %>
+  <% else %>
+    <div class="dashboard-no-data"><%= t('dashboard.no_data') %></div>
+  <% end %>
+</div>

@@ -52,6 +52,21 @@ class PerformanceCompetition < ApplicationRecord
 
   def task_standings(task, wind_cancellation: false) = TaskScoreboard.new(self, task, wind_cancellation:)
 
+  # rubocop:disable Rails/SkipsModelValidations
+  def assign_competitor_places!
+    scoreboard = standings
+
+    if scoreboard.completed_rounds.empty?
+      competitors.where.not(rank: nil).update_all(rank: nil)
+      return
+    end
+
+    scoreboard.categories.each_value do |category_standings|
+      category_standings.rows.each { |row| row.competitor.update_column(:rank, row.rank) }
+    end
+  end
+  # rubocop:enable Rails/SkipsModelValidations
+
   def permanently_delete(including_tracks: false)
     transaction do
       tracks_to_delete = tracks.to_a

@@ -1,0 +1,19 @@
+@layer components {
+  .avatar {
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .avatar--sm {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .avatar--lg {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+}

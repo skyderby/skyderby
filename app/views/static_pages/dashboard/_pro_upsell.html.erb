@@ -1,0 +1,13 @@
+<div class="dashboard-pro">
+  <div class="dashboard-pro__label">★ <%= t('dashboard.pro.label') %></div>
+  <p class="dashboard-pro__text"><%= t('dashboard.pro.text') %></p>
+  <div class="dashboard-pro__prices">
+    <span class="dashboard-pro__price">
+      <b><%= number_to_currency(30, precision: 0) %></b> <%= t('dashboard.pro.per_year') %>
+    </span>
+    <span class="dashboard-pro__price">
+      <b><%= number_to_currency(59, precision: 0) %></b> <%= t('dashboard.pro.lifetime') %>
+    </span>
+  </div>
+  <%= link_to t('dashboard.pro.cta'), subscriptions_path, class: 'dashboard-pro__cta' %>
+</div>

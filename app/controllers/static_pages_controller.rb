@@ -1,13 +1,14 @@
 class StaticPagesController < ApplicationController
   def index
-    @track_file = Track::File.new
-    @page = LandingPage.new
-
-    if Current.user.admin?
-      @dashboard = Current.user.dashboard
-      # render :dashboard
+    if user_signed_in? && Current.profile
+      @dashboard = Profiles::Dashboard.new(
+        Current.profile,
+        user: Current.user,
+        mode: params[:mode]
+      )
     else
-      render
+      @track_file = Track::File.new
+      @page = LandingPage.new
     end
   end
 

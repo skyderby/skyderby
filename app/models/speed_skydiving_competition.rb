@@ -32,6 +32,21 @@ class SpeedSkydivingCompetition < ApplicationRecord
 
   def open_standings = OpenScoreboard.new(self)
 
+  # rubocop:disable Rails/SkipsModelValidations
+  def assign_competitor_places!
+    scoreboard = standings
+
+    if scoreboard.completed_rounds.empty?
+      competitors.where.not(rank: nil).update_all(rank: nil)
+      return
+    end
+
+    scoreboard.categories.each do |category|
+      category[:standings].each { |row| row[:competitor].update_column(:rank, row[:rank]) }
+    end
+  end
+  # rubocop:enable Rails/SkipsModelValidations
+
   def team_standings = TeamStandings.new(self)
 
   def team_standings_code = "skyderby-speed-skydiving-#{id}-teams"

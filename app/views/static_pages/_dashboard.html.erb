@@ -1,0 +1,26 @@
+<%# locals: (dashboard:) %>
+
+<div class="home-dashboard stack">
+  <%= render 'static_pages/dashboard/hero', dashboard: dashboard %>
+
+  <% if dashboard.any_modes? %>
+    <% if dashboard.available_modes.size > 1 %>
+      <%= render 'static_pages/dashboard/modes', dashboard: dashboard %>
+    <% end %>
+
+    <% case dashboard.current_mode %>
+    <% when :performance %>
+      <%= render 'static_pages/dashboard/performance', dashboard: dashboard %>
+    <% when :base %>
+      <%= render 'static_pages/dashboard/base', dashboard: dashboard %>
+    <% when :speed %>
+      <%= render 'static_pages/dashboard/speed', dashboard: dashboard %>
+    <% else %>
+      <div class="panel dashboard-blankslate">
+        <%= t('dashboard.coming_soon') %>
+      </div>
+    <% end %>
+  <% else %>
+    <%= render 'static_pages/dashboard/empty', dashboard: dashboard %>
+  <% end %>
+</div>

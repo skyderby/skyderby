@@ -27,6 +27,7 @@ class PerformanceCompetition::Round < ApplicationRecord
 
   after_update :set_tracks_visibility, if: :saved_change_to_completed_at?
   after_update :queue_gps_recordings_archive, if: :saved_change_to_completed_at?
+  after_commit :enqueue_competitor_places_recalculation, if: :saved_change_to_completed_at?
 
   def completed = completed_at.present?
 
@@ -58,6 +59,10 @@ class PerformanceCompetition::Round < ApplicationRecord
     return if completed_at.blank?
 
     CreateGpsRecordingsArchiveJob.perform_later(event)
+  end
+
+  def enqueue_competitor_places_recalculation
+    AssignCompetitorPlacesJob.perform_later(event)
   end
 
   class << self

@@ -1,3 +1,6 @@
+<% if @dashboard %>
+  <%= render 'static_pages/dashboard', dashboard: @dashboard %>
+<% else %>
 <div class="landing">
   <section class="index-header">
     <div class="index-header-caption">
@@ -57,3 +60,4 @@
     <p class="landing__section-subheader"><%= t('static_pages.index.mobile.free_section.subheader') %></p>
   </section>
 </div>
+<% end %>

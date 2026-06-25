@@ -1,3 +1,6 @@
+<% if @dashboard %>
+  <%= render 'static_pages/dashboard', dashboard: @dashboard %>
+<% else %>
 <div class="index-header">
   <div class="index-header__dark-layer"></div>
   <div class="index-header__text">
@@ -101,3 +104,4 @@
     </div>
   </div>
 </div>
+<% end %>

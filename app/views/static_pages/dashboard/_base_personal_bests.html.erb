@@ -1,0 +1,45 @@
+<%# locals: (dashboard:) %>
+
+<div class="dashboard-pbs">
+  <% flare = dashboard.base_flare %>
+  <% if flare %>
+    <div class="dashboard-pb panel">
+      <div class="dashboard-pb__label">
+        <span class="dashboard-pb__prefix"><%= t('dashboard.personal_bests.prefix') %></span>
+        <span class="dashboard-pb__dot">·</span>
+        <span><%= t('dashboard.base_flare') %></span>
+      </div>
+      <div class="dashboard-pb__value">
+        <%= format_result(flare.result, flare.competition) %><span class="dashboard-pb__unit"><%= competition_unit(flare.competition) %></span>
+      </div>
+      <% if flare.delta %>
+        <div class="dashboard-pb__delta">
+          <%= render 'static_pages/dashboard/delta', value: flare.delta, unit: competition_unit(flare.competition) %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="dashboard-pb panel">
+      <div class="dashboard-pb__label"><%= t('dashboard.locations') %></div>
+      <div class="dashboard-pb__value"><%= dashboard.locations_count %></div>
+    </div>
+  <% end %>
+
+  <% dashboard.base_race_bests.each do |pb| %>
+    <div class="dashboard-pb panel">
+      <div class="dashboard-pb__label">
+        <span class="dashboard-pb__prefix"><%= t('dashboard.personal_bests.prefix') %></span>
+        <span class="dashboard-pb__dot">·</span>
+        <span class="truncate"><%= dashboard_discipline_label(pb.competition) %></span>
+      </div>
+      <div class="dashboard-pb__value">
+        <%= format_result(pb.result, pb.competition) %><span class="dashboard-pb__unit"><%= competition_unit(pb.competition) %></span>
+      </div>
+      <% if pb.delta %>
+        <div class="dashboard-pb__delta">
+          <%= render 'static_pages/dashboard/delta', value: pb.delta, unit: competition_unit(pb.competition) %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

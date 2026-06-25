@@ -1,0 +1,12 @@
+<%# locals: (dashboard:) %>
+
+<div class="panel dashboard-empty">
+  <p class="dashboard-empty__text"><%= t('dashboard.empty.text') %></p>
+  <%= button_to new_track_file_path,
+                method: :get,
+                form: { data: { turbo_stream: true } },
+                class: 'button button--success' do %>
+    <%= icon_tag 'upload-solid' %>
+    <%= t('application.header.upload_track') %>
+  <% end %>
+</div>

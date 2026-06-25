@@ -1,0 +1,24 @@
+<%# locals: (badge:) %>
+
+<div class="dashboard-achievement">
+  <div class="dashboard-achievement__icon dashboard-achievement--<%= badge.category %> <%= "medal--#{badge.kind}" if badge.kind %>">
+    <% case badge.category %>
+    <% when 'sponsor' %>
+      <%= icon_tag 'dollar-sign-solid' %>
+    <% when 'special' %>
+      <%= icon_tag 'fire-solid' %>
+    <% when 'competition' %>
+      <%= icon_tag 'trophy-solid' %>
+    <% when 'online' %>
+      <%= icon_tag 'star-solid' %>
+    <% when 'skyderby' %>
+      <%= icon_tag 'rocket-outline' %>
+    <% end %>
+  </div>
+  <div class="dashboard-achievement__text">
+    <span class="dashboard-achievement__title"><%= badge.name %></span>
+    <% if badge.comment.present? %>
+      <span class="dashboard-achievement__subtitle truncate"><%= badge.comment %></span>
+    <% end %>
+  </div>
+</div>

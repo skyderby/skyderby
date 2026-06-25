@@ -1,0 +1,34 @@
+<%# locals: (dashboard:) %>
+
+<div class="dashboard-pbs">
+  <% Profiles::Dashboard::DISCIPLINES.zip(dashboard.personal_bests).each do |discipline, pb| %>
+    <% if discipline == :flare && pb.nil? %>
+      <div class="dashboard-pb panel">
+        <div class="dashboard-pb__label"><%= t('dashboard.jumps') %></div>
+        <div class="dashboard-pb__value">
+          <%= dashboard.jumps_count %>
+        </div>
+      </div>
+    <% else %>
+      <div class="dashboard-pb panel">
+        <div class="dashboard-pb__label">
+          <span class="dashboard-pb__prefix"><%= t('dashboard.personal_bests.prefix') %></span>
+          <span class="dashboard-pb__dot">·</span>
+          <span><%= t("dashboard.disciplines.#{discipline}") %></span>
+        </div>
+        <% if pb %>
+          <div class="dashboard-pb__value">
+            <%= format_result(pb.result, pb.competition) %><span class="dashboard-pb__unit"><%= competition_unit(pb.competition) %></span>
+          </div>
+          <% if pb.delta %>
+            <div class="dashboard-pb__delta">
+              <%= render 'static_pages/dashboard/delta', value: pb.delta, unit: competition_unit(pb.competition) %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="dashboard-pb__value dashboard-pb__value--empty">—</div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,22 @@
+@layer components {
+  .trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.125rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    padding: 0.125rem 0.4375rem;
+    border-radius: 1rem;
+    white-space: nowrap;
+  }
+
+  .trend--up {
+    color: var(--green-90);
+    background-color: var(--green-10);
+  }
+
+  .trend--down {
+    color: var(--red-70);
+    background-color: var(--red-10);
+  }
+}

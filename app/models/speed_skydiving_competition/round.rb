@@ -8,6 +8,7 @@ class SpeedSkydivingCompetition::Round < ApplicationRecord
   before_create :set_number
   after_update :queue_gps_recordings_archive, if: :saved_change_to_completed_at?
   after_destroy :renumber_subsequent
+  after_commit :enqueue_competitor_places_recalculation, if: :saved_change_to_completed_at?
 
   scope :ordered, -> { order(:number, :created_at) }
 
@@ -31,5 +32,9 @@ class SpeedSkydivingCompetition::Round < ApplicationRecord
     return if completed_at.blank?
 
     CreateGpsRecordingsArchiveJob.perform_later(event)
+  end
+
+  def enqueue_competitor_places_recalculation
+    AssignCompetitorPlacesJob.perform_later(event)
   end
 end

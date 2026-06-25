@@ -1,5 +1,3 @@
-@layer reset, base, components, modules, utilities, native, platform;
-
 :root {
   --gray-90: #333;
   --gray-80: #565656;
@@ -72,6 +70,13 @@
   --green-10: #d9faf1;
 
   --white: #fff;
+
+  --primary-color: var(--red-60);
+  --primary-color-strong: var(--red-70);
+  --primary-bg-soft: var(--red-10);
+
+  --surface: var(--white);
+  --surface-border: var(--gray-30);
 
   --border-color: var(--gray-40);
   --default-border: solid 1px var(--gray-40);

@@ -1,0 +1,32 @@
+<%# locals: (dashboard:) %>
+
+<div class="dashboard-pbs">
+  <% if dashboard.speed_pb %>
+    <div class="dashboard-pb panel">
+      <div class="dashboard-pb__label">
+        <span class="dashboard-pb__prefix"><%= t('dashboard.personal_bests.prefix') %></span>
+        <span class="dashboard-pb__dot">·</span>
+        <span><%= t('dashboard.disciplines.speed') %></span>
+      </div>
+      <div class="dashboard-pb__value">
+        <%= dashboard.speed_pb.round(1) %><span class="dashboard-pb__unit"><%= t('units.kmh') %></span>
+      </div>
+    </div>
+
+    <div class="dashboard-pb panel">
+      <div class="dashboard-pb__label">
+        <span class="dashboard-pb__prefix"><%= t('dashboard.p95') %></span>
+        <span class="dashboard-pb__dot">·</span>
+        <span><%= t('dashboard.disciplines.speed') %></span>
+      </div>
+      <div class="dashboard-pb__value">
+        <%= dashboard.speed_p95.round(1) %><span class="dashboard-pb__unit"><%= t('units.kmh') %></span>
+      </div>
+    </div>
+  <% else %>
+    <div class="dashboard-pb panel">
+      <div class="dashboard-pb__label"><%= t('dashboard.jumps') %></div>
+      <div class="dashboard-pb__value"><%= dashboard.jumps_count %></div>
+    </div>
+  <% end %>
+</div>

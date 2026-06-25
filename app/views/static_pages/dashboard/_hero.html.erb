@@ -1,0 +1,23 @@
+<%# locals: (dashboard:) %>
+
+<div class="dashboard-hero">
+  <div class="dashboard-hero__avatar">
+    <%= image_tag dashboard.userpic_url(:medium), alt: dashboard.name, class: 'avatar avatar--lg' %>
+  </div>
+  <div class="dashboard-hero__body">
+    <div class="dashboard-hero__title">
+      <span class="dashboard-hero__name"><%= dashboard.name %></span>
+      <span class="dashboard-hero__plan dashboard-hero__plan--<%= dashboard.pro? ? 'pro' : 'free' %>">
+        <%= dashboard.pro? ? t('dashboard.plan.pro') : t('dashboard.plan.free') %>
+      </span>
+    </div>
+    <% if dashboard.country %>
+      <div class="dashboard-hero__subtitle">
+        <%= dashboard.country.code.upcase %> · <%= dashboard.country_name %>
+      </div>
+    <% end %>
+    <div class="dashboard-hero__meta">
+      <%= t('dashboard.hero.season', year: Time.zone.now.year) %>
+    </div>
+  </div>
+</div>
