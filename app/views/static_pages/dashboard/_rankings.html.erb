@@ -8,7 +8,8 @@
       <% dashboard.rankings.each do |ranking| %>
         <% fill = ranking.total.positive? ? ((ranking.total - ranking.rank + 1).to_f / ranking.total * 100).round : 0 %>
         <% podium = ranking.rank <= 3 && ranking.total > 10 %>
-        <div class="dashboard-ranking <%= 'dashboard-ranking--podium' if podium %>">
+        <%= link_to virtual_competition_path(ranking.competition),
+                    class: ['dashboard-ranking', ('dashboard-ranking--podium' if podium)] do %>
           <div class="dashboard-ranking__top">
             <span class="dashboard-ranking__name truncate">
               <% if podium %><span class="dashboard-ranking__medal"><%= icon_tag 'trophy-solid' %></span><% end %>
@@ -21,10 +22,13 @@
               <% end %>
             </span>
           </div>
+          <div class="dashboard-ranking__result">
+            <%= format_result(ranking.result, ranking.competition) %> <%= competition_unit(ranking.competition) %>
+          </div>
           <div class="dashboard-ranking__bar">
             <div class="dashboard-ranking__bar-fill" style="width: <%= fill %>%"></div>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
 
