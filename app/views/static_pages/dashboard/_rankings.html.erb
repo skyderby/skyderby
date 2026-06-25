@@ -24,11 +24,13 @@
           </div>
           <div class="dashboard-ranking__results">
             <% if ranking.result_ahead %>
-              <span class="dashboard-ranking__neighbor"><%= format_result(ranking.result_ahead, ranking.competition) %> <%= competition_unit(ranking.competition) %></span>
+              <span class="dashboard-ranking__neighbor"><%= format_result(ranking.result_ahead, ranking.competition) %></span>
+              <span class="dashboard-ranking__sep"><%= icon_tag 'angle-left-solid' %></span>
             <% end %>
             <span class="dashboard-ranking__result"><%= format_result(ranking.result, ranking.competition) %> <%= competition_unit(ranking.competition) %></span>
             <% if ranking.result_behind %>
-              <span class="dashboard-ranking__neighbor"><%= format_result(ranking.result_behind, ranking.competition) %> <%= competition_unit(ranking.competition) %></span>
+              <span class="dashboard-ranking__sep"><%= icon_tag 'angle-left-solid' %></span>
+              <span class="dashboard-ranking__neighbor"><%= format_result(ranking.result_behind, ranking.competition) %></span>
             <% end %>
           </div>
           <div class="dashboard-ranking__bar">
