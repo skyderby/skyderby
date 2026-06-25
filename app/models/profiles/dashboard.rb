@@ -38,10 +38,10 @@ module Profiles
     def current_activity = ACTIVITY_BY_MODE.fetch(current_mode, :skydive)
 
     def personal_bests
-      DISCIPLINES.map { |discipline| personal_best(discipline) }
+      DISCIPLINES.map { |discipline| discipline == :flare ? flare_pb : personal_best(discipline) }
     end
 
-    def base_flare = personal_best(:flare)
+    def base_flare = flare_pb
 
     def base_race_bests(limit = BASE_RACES_LIMIT)
       activity_scores
@@ -135,6 +135,33 @@ module Profiles
         competition: best.virtual_competition,
         delta: previous_pb_delta(best.virtual_competition)
       )
+    end
+
+    def flare_pb
+      flare_scores = activity_scores.select { |score| score.virtual_competition.discipline == 'flare' }
+      return if flare_scores.empty?
+
+      competition = flare_scores.first.virtual_competition
+      ranked = flare_results(flare_scores.map(&:virtual_competition_id)).sort_by do |result|
+        sort_value(competition, result)
+      end
+      return if ranked.empty?
+
+      PersonalBest.new(
+        discipline: :flare,
+        result: ranked.last,
+        competition: competition,
+        delta: ranked.size < 2 ? nil : signed_improvement(competition, ranked.last - ranked[-2])
+      )
+    end
+
+    def flare_results(competition_ids)
+      VirtualCompetition::Result
+        .wind_cancellation(false)
+        .where(virtual_competition_id: competition_ids)
+        .joins(:track)
+        .where(tracks: { profile_id: id, kind: Track.kinds[current_activity] })
+        .pluck(:result)
     end
 
     def activity_scores
