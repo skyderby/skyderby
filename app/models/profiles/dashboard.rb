@@ -176,11 +176,18 @@ module Profiles
     end
 
     def build_rankings
-      competition_ids = activity_scores.map(&:virtual_competition_id).uniq
+      competition_ids = ranked_competition_ids
       return [] if competition_ids.empty?
 
       current = current_year_scores(competition_ids)
       rankings_from(current, competition_ids).sort_by(&:rank)
+    end
+
+    def ranked_competition_ids
+      activity_scores
+        .reject { |score| score.virtual_competition.jumps_kind.nil? }
+        .map(&:virtual_competition_id)
+        .uniq
     end
 
     def rankings_from(current, competition_ids)
