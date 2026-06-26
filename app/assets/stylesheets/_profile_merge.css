@@ -1,0 +1,21 @@
+.merge-direction__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0.25rem 0;
+}
+
+.merge-direction__arrow {
+  --icon-size: 1.25rem;
+  color: var(--gray-70);
+  transition: transform 0.15s ease-out;
+}
+
+.merge-direction__arrow--flipped {
+  transform: rotate(180deg);
+}
+
+.merge-direction__swap {
+  --icon-size: 1.4rem;
+}

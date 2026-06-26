@@ -7,7 +7,10 @@ ru:
       form_modal:
         title: Объединение профилей
         source_profile_placeholder: Выберите профиль-источник
-        description: Выбранный профиль будет объединен в текущий
+        destination: Назначение
+        source: Источник
+        flip: Поменять местами
+        description: Данные профиля-источника объединяются в профиль назначения
     show:
       achievements: Достижения
       online_competitions: Онлайн соревнования

@@ -1,9 +1,30 @@
-<%= form_with model: nil, scope: :profiles_merge, url: profile_merge_path(@destination_profile),
-              data: { controller: 'profiles--merges-form modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
-  <div class="sd-form">
+<%= form_with model: false, scope: :profiles_merge, url: profile_merge_path(@profile),
+              data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
+  <div class="sd-form"
+       data-controller="profiles--merge-direction"
+       data-profiles--merge-direction-destination-value="<%= t('.destination') %>"
+       data-profiles--merge-direction-source-value="<%= t('.source') %>">
+    <%= f.hidden_field :flip, data: { 'profiles--merge-direction-target': 'flip' } %>
+
     <div class="grid">
-      <%= f.label :source_profile_id, class: 'form-label col-4' %>
-      <%= render 'hot_select/select', form: f, name: :source_profile_id, src: profiles_select_options_path(include_ids: true), options: [], class: 'col-8' %>
+      <span class="form-label col-4" data-profiles--merge-direction-target="currentLabel"></span>
+      <div class="form-input col-8"><%= @profile.name %></div>
+    </div>
+
+    <div class="merge-direction__actions">
+      <%= icon_tag 'arrow-up-long', class: 'merge-direction__arrow',
+                   data: { 'profiles--merge-direction-target': 'arrow' } %>
+      <button type="button" class="button button--ghost button--sm"
+              data-action="profiles--merge-direction#flip"
+              title="<%= t('.flip') %>" aria-label="<%= t('.flip') %>">
+        <%= icon_tag 'arrow-up-down', class: 'merge-direction__swap' %>
+      </button>
+    </div>
+
+    <div class="grid">
+      <span class="form-label col-4" data-profiles--merge-direction-target="otherLabel"></span>
+      <%= render 'hot_select/select', form: f, name: :other_profile_id,
+                 src: profiles_select_options_path(include_ids: true), options: [], class: 'col-8' %>
     </div>
 
     <div class="help-text">

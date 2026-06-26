@@ -7,7 +7,10 @@ it:
       form_modal:
         title: Unione dei profili
         source_profile_placeholder: Seleziona il profilo di origine
-        description: Il profilo selezionato verrà unito a quello corrente
+        destination: Destinazione
+        source: Origine
+        flip: Inverti
+        description: I dati del profilo di origine vengono uniti nel profilo di destinazione
     show:
       achievements: Successi e Risultati
       online_competitions: Competizione Online

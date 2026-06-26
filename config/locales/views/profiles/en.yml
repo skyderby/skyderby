@@ -7,7 +7,10 @@ en:
       form_modal:
         title: Merging profiles
         source_profile_placeholder: Select source profile
-        description: Choosen profile will be merged into current profile
+        destination: Destination
+        source: Source
+        flip: Swap
+        description: Source profile's data is merged into the destination profile
     show:
       achievements: Achievements
       online_competitions: Online competitions
