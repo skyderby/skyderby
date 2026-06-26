@@ -1,0 +1,66 @@
+<%# locals: (f:, competitor:, event:) %>
+<% event_owned = competitor.persisted? && competitor.profile&.owner == event %>
+
+<% if event_owned %>
+  <div class="grid">
+    <%= f.fields_for :profile, competitor.profile do |pf| %>
+      <div class="col-7">
+        <%= pf.label :name, class: 'form-label' %>
+        <%= pf.text_field :name, class: 'form-input' %>
+      </div>
+      <div class="col-5">
+        <%= pf.label :country, class: 'form-label' %>
+        <% country_options = options_for_select([[pf.object.country_name, pf.object.country_id]], pf.object.country_id) %>
+        <%= render 'hot_select/select', form: pf, name: :country_id,
+                   options: country_options, src: countries_select_options_path %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <% linked = competitor.persisted? && competitor.profile.present? %>
+  <% selected_name = linked ? competitor.name : '' %>
+  <% selected_country = linked ? competitor.profile.country_name : nil %>
+
+  <div class="profile-picker grid"
+       data-controller="profile-picker"
+       data-profile-picker-src-value="<%= profiles_name_options_path %>">
+    <%= f.fields_for :profile, Profile.new do |pf| %>
+      <div class="col-7 profile-picker__field">
+        <%= pf.label :name, class: 'form-label' %>
+        <%= pf.text_field :name, value: selected_name,
+                          class: 'form-input',
+                          autocomplete: 'off',
+                          placeholder: t('competitors.form.name_placeholder'),
+                          data: {
+                            'profile-picker-target': 'nameInput',
+                            action: 'input->profile-picker#input'
+                          } %>
+
+        <div class="hot-select-dropdown profile-picker__dropdown" popover="manual"
+             data-profile-picker-target="dropdown">
+          <turbo-frame id="profile-picker-suggestions"
+                       class="hot-select-scrollable hot-select-selectable"
+                       data-profile-picker-target="frame"></turbo-frame>
+        </div>
+      </div>
+
+      <div class="col-5">
+        <%= pf.label :country, class: 'form-label' %>
+
+        <div data-profile-picker-target="countryEditable" <%= 'hidden' if linked %>>
+          <%= render 'hot_select/select', form: pf, name: :country_id,
+                     options: [], src: countries_select_options_path %>
+        </div>
+
+        <div class="form-input" data-profile-picker-target="countryReadonly" <%= 'hidden' unless linked %>>
+          <span data-profile-picker-target="countryReadonlyValue"><%= selected_country %></span>
+        </div>
+      </div>
+    <% end %>
+
+    <%= f.hidden_field :profile_id, value: competitor.profile_id,
+                       data: { 'profile-picker-target': 'profileId' } %>
+    <%= f.hidden_field :alias_id, value: competitor.alias_id,
+                       data: { 'profile-picker-target': 'aliasId' } %>
+  </div>
+<% end %>

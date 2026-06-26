@@ -187,7 +187,7 @@ if @event.use_teams
         team_cells = [
           index + 1,
           team.name,
-          first_row.competitor.profile.name,
+          first_row.competitor.name,
           first_row.total_points.to_f,
           row.total_points.round(1)
         ]
@@ -198,7 +198,7 @@ if @event.use_teams
           competitor_cells = [
             '',
             '',
-            individual_row.competitor.profile.name,
+            individual_row.competitor.name,
             individual_row.total_points.to_f,
             ''
           ]

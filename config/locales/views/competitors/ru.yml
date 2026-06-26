@@ -4,5 +4,6 @@ ru:
       select_profile: Существующий профиля
       create_profile: Новый профиль
       profile: Профиль
+      name_placeholder: Начните вводить имя…
       suit_and_category: Костюм и категория
       show_images: Изображения для Шоу

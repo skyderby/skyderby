@@ -2,7 +2,7 @@
 <% competitor = individual_standings.competitor %>
 <% if individual_standings %>
   <td class="competitor">
-    <%= link_to competitor.profile.name, profile_path(competitor.profile), class: 'competitor-profile' %>
+    <%= link_to competitor.name, profile_path(competitor.profile), class: 'competitor-profile' %>
     <% if editable %>
       <div class="cell-actions" data-controller="dropdown">
         <button class="dropdown-toggle button button--ghost button--sm" popovertarget="perf-team-competitor-menu-<%= competitor.id %>">

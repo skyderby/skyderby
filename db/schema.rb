@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_25_000002) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_26_000002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -57,6 +57,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_25_000002) do
   end
 
   create_table "event_competitors", id: :serial, force: :cascade do |t|
+    t.bigint "alias_id"
     t.string "assigned_number"
     t.timestamptz "created_at"
     t.integer "event_id"
@@ -68,6 +69,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_25_000002) do
     t.bigint "team_id"
     t.timestamptz "updated_at"
     t.integer "user_id"
+    t.index ["alias_id"], name: "index_event_competitors_on_alias_id"
     t.index ["event_id"], name: "index_event_competitors_on_event_id"
     t.index ["team_id"], name: "index_event_competitors_on_team_id"
   end
@@ -477,6 +479,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_25_000002) do
     t.index ["track_id"], name: "index_points_on_track_id"
   end
 
+  create_table "profile_aliases", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", limit: 510, null: false
+    t.bigint "profile_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_profile_aliases_on_profile_id"
+  end
+
   create_table "profiles", id: :serial, force: :cascade do |t|
     t.integer "country_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -528,6 +538,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_25_000002) do
   end
 
   create_table "speed_skydiving_competition_competitors", force: :cascade do |t|
+    t.bigint "alias_id"
     t.string "assigned_number"
     t.bigint "category_id"
     t.datetime "created_at", null: false
@@ -536,6 +547,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_25_000002) do
     t.integer "rank"
     t.bigint "team_id"
     t.datetime "updated_at", null: false
+    t.index ["alias_id"], name: "index_speed_skydiving_competition_competitors_on_alias_id"
     t.index ["category_id"], name: "index_speed_skydiving_competition_competitors_on_category_id"
     t.index ["event_id"], name: "index_speed_skydiving_competition_competitors_on_event_id"
     t.index ["profile_id"], name: "index_speed_skydiving_competition_competitors_on_profile_id"
@@ -896,6 +908,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_25_000002) do
   add_foreign_key "contribution_details", "contributions"
   add_foreign_key "contribution_details", "profiles"
   add_foreign_key "event_competitors", "event_teams", column: "team_id"
+  add_foreign_key "event_competitors", "profile_aliases", column: "alias_id"
   add_foreign_key "event_competitors", "profiles"
   add_foreign_key "event_entry_payments", "pay_charges"
   add_foreign_key "event_results", "tracks"
@@ -916,10 +929,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_25_000002) do
   add_foreign_key "performance_competition_series_rounds", "performance_competition_series"
   add_foreign_key "place_finish_lines", "places"
   add_foreign_key "place_weather_data", "places"
+  add_foreign_key "profile_aliases", "profiles"
   add_foreign_key "profiles", "countries", deferrable: :deferred
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
   add_foreign_key "speed_skydiving_competition_categories", "speed_skydiving_competitions", column: "event_id"
+  add_foreign_key "speed_skydiving_competition_competitors", "profile_aliases", column: "alias_id"
   add_foreign_key "speed_skydiving_competition_competitors", "profiles"
   add_foreign_key "speed_skydiving_competition_competitors", "speed_skydiving_competition_categories", column: "category_id"
   add_foreign_key "speed_skydiving_competition_competitors", "speed_skydiving_competition_teams", column: "team_id"

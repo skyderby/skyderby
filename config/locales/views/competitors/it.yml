@@ -4,5 +4,6 @@ it:
       select_profile: Seleziona un profilo esistente
       create_profile: Crea un nuovo profilo
       profile: Profilo
+      name_placeholder: Inizia a digitare un nome…
       suit_and_category: Tuta e categoria
       show_images: Immagini Show

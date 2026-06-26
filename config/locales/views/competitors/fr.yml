@@ -4,5 +4,6 @@ fr:
       select_profile: Sélectionner le profil
       create_profile: Création d'un nouveau profil
       profile: Profil
+      name_placeholder: Commencez à saisir un nom…
       suit_and_category: Combinaison et Catégorie
       show_images: Images du Show

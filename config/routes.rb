@@ -313,6 +313,7 @@ Skyderby::Application.routes.draw do
       end
       collection do
         resources :select_options, only: :index, as: :profiles_select_options
+        resources :name_options, only: :index, as: :profiles_name_options
       end
     end
   end

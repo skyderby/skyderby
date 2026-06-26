@@ -94,7 +94,9 @@ class PerformanceCompetition::Result::Submission
   end
 
   def competitor_by_name
-    event.competitors.joins(:profile).find_by('LOWER(profiles.name) = ?', competitor_name)
+    event.competitors
+         .left_joins(:profile, :competitor_alias)
+         .find_by('LOWER(profiles.name) = :name OR LOWER(profile_aliases.name) = :name', name: competitor_name)
   end
 
   def competitor_name

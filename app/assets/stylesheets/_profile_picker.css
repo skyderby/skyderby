@@ -1,0 +1,19 @@
+.profile-picker__field {
+  position: relative;
+  anchor-name: --profile-picker;
+}
+
+.profile-picker__dropdown {
+  position-anchor: --profile-picker;
+}
+
+.profile-suggestion {
+  justify-content: space-between;
+}
+
+.profile-suggestion__country {
+  margin-left: 0.5rem;
+  color: var(--gray-70);
+  font-size: 0.85em;
+  white-space: nowrap;
+}

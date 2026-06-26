@@ -68,13 +68,11 @@ class EventsTest < ApplicationSystemTestCase
     if new_profile
       country = create :country
 
-      find('label', text: I18n.t('competitors.form.create_profile')).click
-
       fill_in 'competitor[profile_attributes][name]', with: name
       hot_select country.name, from: 'country_id'
     else
-      profile = create :profile, name: name
-      hot_select profile.name, from: 'profile_id'
+      create :profile, name: name
+      fill_in 'competitor[profile_attributes][name]', with: name
     end
 
     click_button I18n.t('general.save')

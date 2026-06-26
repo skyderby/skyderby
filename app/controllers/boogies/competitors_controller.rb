@@ -1,5 +1,5 @@
 class Boogies::CompetitorsController < ApplicationController
-  include BoogieContext
+  include BoogieContext, CompetitorProfileParams
 
   before_action :set_event, :authorize_event_update!
   before_action :set_competitor, except: %i[new create]
@@ -42,16 +42,12 @@ class Boogies::CompetitorsController < ApplicationController
   private
 
   def competitor_params
-    new_profile = ActiveModel::Type::Boolean.new.cast(params.delete(:new_profile))
+    permitted = params.require(:competitor).permit(
+      :assigned_number, :section_id, :suit_id, :profile_id, :alias_id,
+      profile_attributes: %i[name country_id]
+    )
 
-    if new_profile
-      params[:competitor].delete(:profile_id)
-    else
-      params[:competitor].delete(:profile_attributes)
-    end
-
-    params.require(:competitor)
-          .permit(:assigned_number, :section_id, :suit_id, :profile_id, profile_attributes: %i[name country_id])
+    resolve_profile(permitted)
   end
 
   def set_competitor

@@ -21,13 +21,18 @@ class Profile < ApplicationRecord
   include Ownerable, Mergeable
   include AvatarUploader::Attachment(:userpic)
 
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :require_country
+
+  NameOption = Data.define(:profile_id, :alias_id, :name, :country_id, :country_name, :country_code)
+
+  MIN_NAME_QUERY_LENGTH = 3
 
   enum :default_units, { metric: 0, imperial: 1 }
   enum :default_chart_view, { multi: 0, single: 1 }
 
   belongs_to :country, optional: true
 
+  has_many :aliases, class_name: 'Profile::Alias', inverse_of: :profile, dependent: :delete_all
   has_many :tracks, inverse_of: :pilot, dependent: :nullify
   has_many :public_tracks,
            -> { where(visibility: 0).order(created_at: :desc) },
@@ -40,6 +45,10 @@ class Profile < ApplicationRecord
            dependent: :restrict_with_error
   has_many :speed_skydiving_competition_participations,
            class_name: 'SpeedSkydivingCompetition::Competitor',
+           inverse_of: :profile,
+           dependent: :restrict_with_error
+  has_many :boogie_participations,
+           class_name: 'Boogie::Competitor',
            inverse_of: :profile,
            dependent: :restrict_with_error
   has_many :events, through: :performance_competition_participation
@@ -61,6 +70,7 @@ class Profile < ApplicationRecord
   delegate :code, to: :country, prefix: true, allow_nil: true
 
   validates :name, presence: true
+  validates :country, presence: true, if: :require_country
 
   def cropping? = %w[crop_x crop_y crop_h crop_w].all? { |attr| public_send(attr).present? }
 
@@ -79,6 +89,67 @@ class Profile < ApplicationRecord
   end
 
   class << self
-    def search(query) = where('unaccent(profiles.name) ILIKE unaccent(?)', "%#{query}%")
+    def search(query)
+      pattern = "%#{sanitize_sql_like(query.to_s)}%"
+
+      left_joins(:aliases)
+        .where(
+          'unaccent(profiles.name) ILIKE unaccent(:q) ' \
+          'OR unaccent(profile_aliases.name) ILIKE unaccent(:q)',
+          q: pattern
+        )
+        .distinct
+    end
+
+    def name_options(query, limit: 20)
+      term = query.to_s.strip
+      return [] if term.length < MIN_NAME_QUERY_LENGTH
+
+      pattern = "%#{sanitize_sql_like(term)}%"
+
+      options =
+        canonical_name_options(pattern, limit) + alias_name_options(pattern, limit)
+
+      options.sort_by { |option| option.name.to_s.downcase }.first(limit)
+    end
+
+    def resolve_name(query)
+      term = query.to_s.strip
+      return if term.blank?
+
+      exact = sanitize_sql_like(term)
+      candidates =
+        where('unaccent(profiles.name) ILIKE unaccent(?)', exact).limit(2).pluck(:id).map { |id| [id, nil] } +
+        Profile::Alias.where('unaccent(profile_aliases.name) ILIKE unaccent(?)', exact)
+                      .limit(2).pluck(:profile_id, :id)
+
+      return unless candidates.map(&:first).uniq.one?
+
+      candidates.find { |_profile_id, alias_id| alias_id.nil? } || candidates.first
+    end
+
+    private
+
+    def canonical_name_options(pattern, limit)
+      includes(:country)
+        .where('unaccent(profiles.name) ILIKE unaccent(?)', pattern)
+        .order(:name).limit(limit)
+        .map do |profile|
+          NameOption.new(profile.id, nil, profile.name, profile.country_id,
+                         profile.country_name, profile.country_code)
+        end
+    end
+
+    def alias_name_options(pattern, limit)
+      matches = Profile::Alias.includes(profile: :country)
+                              .where('unaccent(profile_aliases.name) ILIKE unaccent(?)', pattern)
+                              .order(:name).limit(limit)
+
+      matches.map do |profile_alias|
+        profile = profile_alias.profile
+        NameOption.new(profile.id, profile_alias.id, profile_alias.name, profile.country_id,
+                       profile.country_name, profile.country_code)
+      end
+    end
   end
 end

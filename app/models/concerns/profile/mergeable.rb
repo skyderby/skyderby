@@ -16,12 +16,37 @@ class Profile < ApplicationRecord
 
       transaction do
         merge_attributes_from(another)
+        preserve_name_in_competitors(another)
         replace_reference_in_associations(another)
         save!
       end
     end
 
     private
+
+    def preserve_name_in_competitors(another)
+      preserved_alias = preserved_alias_for(another)
+      return unless preserved_alias
+
+      [
+        another.performance_competition_participation,
+        another.speed_skydiving_competition_participations,
+        another.boogie_participations
+      ].each do |collection|
+        collection.where(alias_id: nil).find_each do |competitor|
+          next if competitor.readonly?
+
+          competitor.update_columns(alias_id: preserved_alias.id) # rubocop:disable Rails/SkipsModelValidations
+        end
+      end
+    end
+
+    def preserved_alias_for(another)
+      preserved_name = another.name
+      return if preserved_name.blank? || preserved_name == name
+
+      aliases.find_or_create_by!(name: preserved_name)
+    end
 
     def merge_attributes_from(another)
       change_owner = owner.blank? && another.owner && another.belongs_to_user?

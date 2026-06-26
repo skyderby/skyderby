@@ -1,7 +1,7 @@
 class PerformanceCompetition::Competitor < ApplicationRecord
   self.table_name = :event_competitors
 
-  include EventOngoingValidation, CompetitorCountry
+  include EventOngoingValidation, CompetitorCountry, CompetitorAlias
 
   belongs_to :event, class_name: 'PerformanceCompetition', touch: true
   belongs_to :category, foreign_key: :section_id, inverse_of: :competitors
@@ -12,17 +12,18 @@ class PerformanceCompetition::Competitor < ApplicationRecord
   has_many :results, dependent: :restrict_with_error
   has_many :reference_point_assignments, dependent: :delete_all
 
-  scope :ordered, -> { left_joins(:profile).order('profiles.name') }
+  scope :ordered,
+        -> { left_joins(:profile, :competitor_alias).order(Arel.sql('COALESCE(profile_aliases.name, profiles.name)')) }
 
   accepts_nested_attributes_for :profile
 
-  delegate :name, to: :profile, allow_nil: true
   delegate :name, to: :suit, prefix: true, allow_nil: true
   delegate :place, to: :event
 
   def profile_attributes=(attrs)
     attrs[:id] = profile_id if profile && profile.owner == event
     attrs[:owner] = event
+    attrs[:require_country] = attrs[:id].blank? && attrs.key?(:country_id)
 
     super(attrs)
   end

@@ -4,5 +4,6 @@ en:
       select_profile: Existing profile
       create_profile: New profile
       profile: Profile
+      name_placeholder: Start typing a name…
       suit_and_category: Suit and category
       show_images: Show images

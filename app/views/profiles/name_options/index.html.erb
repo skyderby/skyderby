@@ -1,0 +1,19 @@
+<turbo-frame id="<%= sanitize params[:frame_id] %>">
+  <div class="hot-select-options">
+    <% @options.each do |option| %>
+      <div class="hot-select-option profile-suggestion"
+           role="option"
+           data-action="click->profile-picker#select"
+           data-profile-id="<%= option.profile_id %>"
+           data-alias-id="<%= option.alias_id %>"
+           data-country-id="<%= option.country_id %>"
+           data-country-name="<%= option.country_name %>"
+           data-name="<%= option.name %>">
+        <span class="profile-suggestion__name"><%= option.name %></span>
+        <% if option.country_code.present? %>
+          <span class="profile-suggestion__country"><%= option.country_name %></span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</turbo-frame>

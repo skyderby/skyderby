@@ -16,7 +16,8 @@ class EventsCompetitorsTest < ApplicationSystemTestCase
     visit performance_competition_path(event)
     click_button I18n.t('activerecord.models.event/competitor')
     assert_selector('.dialog-title', text: I18n.t('events.add_competitor'))
-    hot_select profile.name, from: :profile_id
+    fill_in 'competitor[profile_attributes][name]', with: profile.name
+    find('.profile-suggestion', text: profile.name).click
     hot_select suit.name, from: :suit_id
 
     click_button I18n.t('general.save')
@@ -37,8 +38,6 @@ class EventsCompetitorsTest < ApplicationSystemTestCase
     visit performance_competition_path(event)
     click_button I18n.t('activerecord.models.event/competitor')
     assert_selector('.dialog-title', text: I18n.t('events.add_competitor'))
-
-    find('label', text: I18n.t('competitors.form.create_profile')).click
 
     fill_in 'competitor[profile_attributes][name]', with: profile_name
     hot_select country.name, from: 'country_id'

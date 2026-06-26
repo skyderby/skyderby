@@ -1,5 +1,5 @@
 class SpeedSkydivingCompetitions::CompetitorsController < ApplicationController
-  include SpeedSkydivingCompetitionScoped
+  include SpeedSkydivingCompetitionScoped, CompetitorProfileParams
 
   before_action :set_event
   before_action :authorize_event_update!
@@ -41,15 +41,12 @@ class SpeedSkydivingCompetitions::CompetitorsController < ApplicationController
   private
 
   def competitor_params
-    new_profile = ActiveModel::Type::Boolean.new.cast(params.delete(:new_profile))
-    if new_profile
-      params[:competitor].delete(:profile_id)
-    else
-      params[:competitor].delete(:profile_attributes)
-    end
+    permitted = params.require(:competitor).permit(
+      :assigned_number, :category_id, :profile_id, :alias_id,
+      profile_attributes: %i[name country_id]
+    )
 
-    params.require(:competitor)
-          .permit(:assigned_number, :category_id, :profile_id, profile_attributes: %i[name country_id])
+    resolve_profile(permitted)
   end
 
   def set_competitor

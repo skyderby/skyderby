@@ -23,6 +23,47 @@ class Profile::MergeableTest < ActiveSupport::TestCase
     assert_equal 5, merged_profile.badges.count
   end
 
+  test 'preserves source name as alias on competitors' do
+    competitor = create(:event_competitor, profile: @source)
+
+    destination = Profile.create!(name: 'Peter', owner: events(:nationals))
+    destination.merge_with(@source)
+
+    assert_includes destination.aliases.map(&:name), 'Ivan'
+
+    competitor.reload
+    assert_equal destination, competitor.profile
+    assert_equal 'Ivan', competitor.name
+  end
+
+  test 'preserves source name as alias on boogie competitors' do
+    boogie = Boogie.create!(name: 'Boogie', starts_at: Time.zone.today, responsible: users(:regular_user))
+    category = Boogie::Category.create!(event: boogie, name: 'Open', order: 1)
+    competitor = Boogie::Competitor.create!(
+      event: boogie, profile: @source, section_id: category.id, suit: suits(:apache)
+    )
+
+    destination = Profile.create!(name: 'Peter', owner: events(:nationals))
+    destination.merge_with(@source)
+
+    assert_includes destination.aliases.map(&:name), 'Ivan'
+
+    competitor.reload
+    assert_equal destination, competitor.profile
+    assert_equal 'Ivan', competitor.name
+  end
+
+  test 'does not create alias when names match' do
+    competitor = create(:event_competitor, profile: @source)
+
+    destination = Profile.create!(name: 'Ivan', owner: events(:nationals))
+    destination.merge_with(@source)
+
+    assert_empty destination.aliases
+    assert_nil competitor.reload.alias_id
+    assert_equal 'Ivan', competitor.name
+  end
+
   test 'merge userpic from source' do
     source = Profile.create(name: 'Ivan', userpic: fixture_file_upload('profile_userpic.png'))
     destination = Profile.create(name: 'Peter')

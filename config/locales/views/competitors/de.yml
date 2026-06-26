@@ -4,5 +4,6 @@ de:
       select_profile: Wähle ein existierendes Profil
       create_profile: Erstelle ein neues Profil
       profile: Profil
+      name_placeholder: Namen eingeben…
       suit_and_category: Suit, Kategorie
       show_images: Show-Bilder
