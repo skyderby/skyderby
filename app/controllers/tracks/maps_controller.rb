@@ -3,7 +3,7 @@ module Tracks
     before_action :set_track
 
     def show
-      authorize @track
+      return respond_not_authorized unless @track.viewable?
 
       @map_data = Track::MapData.new(@track)
     end

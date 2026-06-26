@@ -2,7 +2,7 @@ class Tracks::PointsController < ApplicationController
   before_action :set_track
 
   def show
-    authorize @track
+    return respond_not_authorized unless @track.viewable?
 
     @points =
       PointsQuery

@@ -9,8 +9,6 @@ class TrackFilesController < ApplicationController
   end
 
   def create
-    authorize Track
-
     @track_file = Track::File.new(track_file_params)
 
     unless @track_file.save

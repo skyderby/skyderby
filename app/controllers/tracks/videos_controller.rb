@@ -15,7 +15,7 @@ module Tracks
     end
 
     def show
-      authorize @track
+      return respond_not_authorized unless @track.viewable?
 
       @video = @track.video
       return redirect_to @track unless @video
@@ -73,7 +73,7 @@ module Tracks
     end
 
     def authorize_edit
-      authorize @track, :edit?
+      respond_not_authorized unless @track.editable?
     end
 
     def video_params

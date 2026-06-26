@@ -17,7 +17,7 @@
   </small>
 <% end %>
 
-<% if policy(@track).download? && @track.track_file %>
+<% if @track.downloadable? && @track.track_file %>
   <small>
     Download file:
     <%= link_to @track.track_file.file.original_filename, track_download_path(@track), 'data-turbo': false %>

@@ -91,7 +91,7 @@ class PerformanceCompetition < ApplicationRecord
   private
 
   def track_amplitude_event
-    Amplitude.track(
+    Amplitude.track_later(
       user_id: responsible_id,
       event: 'competition_created',
       properties: {

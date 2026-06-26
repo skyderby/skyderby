@@ -13,7 +13,7 @@
                        formats: [:json] %>
       </script>
 
-      <% if policy(@track).edit? %>
+      <% if @track.editable? %>
         <div class="card-action">
           <div class="position-right">
             <%= link_to edit_track_video_path(@track), class: 'button button--ghost' do %>

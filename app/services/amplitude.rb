@@ -1,4 +1,8 @@
 module Amplitude
+  def self.track_later(user_id:, event:, properties: {})
+    AmplitudeTrackingJob.perform_later(user_id:, event:, properties:)
+  end
+
   def self.track(user_id:, event:, properties: {})
     return if AmplitudeAPI.config.api_key.blank?
 

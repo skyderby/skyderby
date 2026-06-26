@@ -34,6 +34,7 @@
 
 class Track < ApplicationRecord
   include Ownerable, WeatherData
+  include Track::Permissions
 
   enum :kind, { skydive: 0, base: 1, speed_skydiving: 2 }
   enum :visibility, { public_track: 0, unlisted_track: 1, private_track: 2 }
@@ -208,7 +209,7 @@ class Track < ApplicationRecord
   def track_amplitude_event
     return unless belongs_to_user?
 
-    Amplitude.track(
+    Amplitude.track_later(
       user_id: owner_id,
       event: 'track_uploaded',
       properties: {
@@ -222,16 +223,6 @@ class Track < ApplicationRecord
       return all if query.blank?
 
       where('unaccent(comment) ILIKE unaccent(?)', "%#{query}%")
-    end
-
-    def accessible(user: Current.user)
-      return public_track unless user&.profile
-
-      if user.admin?
-        all
-      else
-        where('profile_id = :profile OR visibility = 0', profile: user.profile)
-      end
     end
 
     def sorted(attribute, direction)

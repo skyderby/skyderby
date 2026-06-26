@@ -2,7 +2,7 @@ module Tracks
   module Videos
     class ChartDataController < ApplicationController
       def show
-        authorize track, :edit?
+        return respond_not_authorized unless track.editable?
 
         fresh_when track
 

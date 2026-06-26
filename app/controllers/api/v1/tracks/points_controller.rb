@@ -3,7 +3,7 @@ module Api
     module Tracks
       class PointsController < ApplicationController
         def show
-          authorize track
+          return respond_not_authorized unless track.viewable?
 
           @points =
             PointsQuery

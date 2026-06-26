@@ -2,7 +2,7 @@
   <div class="track-header">
     <% if track.pilot %>
       <a href="<%= profile_path(track.pilot) %>">
-        <span class="<%= ['track-header-profile', ('contributor' if track.pilot.contributions.any?)].join(' ') %>">
+        <span class="<%= ['track-header-profile', ('contributor' if track.pilot.contributor?)].join(' ') %>">
           <%= image_tag track.pilot.userpic_url(:thumb), class: 'track-header__photo loading-bg' %>
           <%= track.pilot.name %>
         </span>
@@ -60,7 +60,7 @@
         <%= icon_tag 'circle-play' %>
         Video
       <% end %>
-    <% elsif policy(track).edit? %>
+    <% elsif track.editable? %>
       <%= link_to new_track_video_path(track), class: ['page-tab', ('page-tab-active' if controller_path == 'tracks/videos')] do %>
         <%= icon_tag 'circle-play' %>
         Video
@@ -94,7 +94,7 @@
         <%= link_to t('events.show.weather_data'), track_weather_data_path(@track), data: { turbo_stream: true }, class: 'page-tab', rel: 'nofollow' %>
       <% end %>
 
-      <% if policy(track).edit? %>
+      <% if track.editable? %>
         <a class="button button--ghost btn-tab" href="<%= edit_track_path(track) %>">
           <%= icon_tag 'pencil-solid' %>
         </a>

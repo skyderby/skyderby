@@ -1,7 +1,7 @@
 module Tracks
   class AltitudeDataController < ApplicationController
     def show
-      authorize track
+      return respond_not_authorized unless track.viewable?
 
       @points = points
 

@@ -6,9 +6,7 @@ class TracksController < ApplicationController
   before_action :set_compare_track, only: [:show]
 
   def index
-    authorize Track
-
-    @tracks = policy_scope(Track.all)
+    @tracks = Track.accessible
 
     @tracks = TrackFilter.new(index_params).apply(@tracks)
 
@@ -33,7 +31,7 @@ class TracksController < ApplicationController
   end
 
   def show
-    authorize @track
+    return redirect_to_track_not_found unless @track.viewable?
 
     respond_to do |format|
       format.html
@@ -42,17 +40,15 @@ class TracksController < ApplicationController
   end
 
   def edit
-    authorize @track
+    return redirect_to @track unless @track.editable?
 
     respond_to do |format|
       format.html
     end
-  rescue Pundit::NotAuthorizedError
-    redirect_to @track
   end
 
   def update
-    authorize @track
+    return redirect_to_track_not_found unless @track.editable?
 
     if @track.update(track_params)
       [ResultsJob, OnlineCompetitionJob, MissingWeatherFetchingJob].each do |job|
@@ -66,7 +62,7 @@ class TracksController < ApplicationController
   end
 
   def destroy
-    authorize @track
+    return redirect_to_track_not_found unless @track.editable?
 
     if @track.destroy
       redirect_to tracks_url(format: :html), status: :see_other
@@ -75,12 +71,15 @@ class TracksController < ApplicationController
     end
   end
 
-  rescue_from ActiveRecord::RecordNotFound, Pundit::NotAuthorizedError do |_ex|
-    redirect_to tracks_url, notice: t('tracks.index.track_not_found',
-                                      id: params[:id])
+  rescue_from ActiveRecord::RecordNotFound do |_ex|
+    redirect_to_track_not_found
   end
 
   private
+
+  def redirect_to_track_not_found
+    redirect_to tracks_url, notice: t('tracks.index.track_not_found', id: params[:id])
+  end
 
   def set_track
     @track = Track.includes(
@@ -93,9 +92,26 @@ class TracksController < ApplicationController
 
   def set_compare_track
     return if params[:compare_id].blank?
+    return unless @track.pro_view_available?
 
-    @compare_track = Track.find_by(id: params[:compare_id])
-    @compare_track = nil unless @compare_track && policy(@compare_track).show?
+    @compare_track = Track.viewable.find_by(id: params[:compare_id])
+
+    track_compare_event
+  end
+
+  def track_compare_event
+    return if @compare_track.blank?
+
+    Amplitude.track_later(
+      user_id: Current.user.id,
+      event: "#{@track.kind}_track_compare_activated",
+      properties: {
+        track_id: @track.id,
+        compare_track_id: @compare_track.id,
+        subscription_plan: Current.user.subscription_plan,
+        is_own_track: @track.recorded_by? && @compare_track.recorded_by?
+      }
+    )
   end
 
   def track_params

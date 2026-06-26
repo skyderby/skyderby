@@ -3,7 +3,7 @@ module Tracks
     before_action :set_track
 
     def update
-      authorize @track, :show?
+      return respond_not_authorized unless @track.viewable?
 
       if ChartsPreferences::AVAILABLE_UNITS.include?(params[:charts_units])
         session[:preferred_charts_units] = params[:charts_units]

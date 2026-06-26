@@ -85,7 +85,7 @@ class User < ApplicationRecord
   private
 
   def track_sign_up
-    Amplitude.track(user_id: id, event: 'sign_up')
+    Amplitude.track_later(user_id: id, event: 'sign_up')
   end
 
   class << self
