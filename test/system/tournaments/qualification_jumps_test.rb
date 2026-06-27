@@ -7,7 +7,7 @@ class QualificationJumpsTest < ApplicationSystemTestCase
     tournament = tournaments(:qualification_loen)
 
     visit tournament_qualification_path(tournament)
-    find('.scoreboard-result .create-result-cell__link').click
+    find('td.result-cell button').click
 
     assert_selector 'dialog'
 

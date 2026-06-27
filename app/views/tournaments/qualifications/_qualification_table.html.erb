@@ -121,7 +121,11 @@
           <% elsif editable %>
             <td class="result-cell">
               <%= button_to icon_tag('upload-solid'),
-                            new_tournament_qualification_result_path(tournament, result: { competitor_id: competitor.id, qualification_round_id: round.id }),
+                            new_tournament_qualification_result_path(tournament),
+                            params: {
+                              'result[competitor_id]' => competitor.id,
+                              'result[qualification_round_id]' => round.id
+                            },
                             method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } %>
             </td>
             <td></td>
