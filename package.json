@@ -48,7 +48,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
-    "vitest": "^3.0.7",
+    "vitest": "^3.2.6",
     "webpack-dev-server": "^4.15.2"
   },
   "resolutions": {
