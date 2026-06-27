@@ -187,7 +187,8 @@ export const initAltitudeDistanceChart = (
           text: ''
         },
         gridLineWidth: 0,
-        opposite: true
+        opposite: true,
+        visible: false
       }
     ],
     tooltip: {
