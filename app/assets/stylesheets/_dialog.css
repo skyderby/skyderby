@@ -12,7 +12,7 @@
 
 .dialog {
   position: fixed;
-  inset: 0;
+  inset: auto 0 0 0;
   z-index: 250;
   border: 0;
   border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
@@ -22,7 +22,7 @@
   width: 100%;
   max-width: 100%;
   max-height: calc(100dvh - 2rem);
-  margin: auto 0 0 0;
+  margin: 0;
   height: fit-content;
   opacity: 0;
   transform: translateY(100%);
@@ -49,6 +49,7 @@ html:has(> body.overflow-hidden) {
 
 @media (min-width: 576px) {
   .dialog {
+    inset: 0;
     border-radius: var(--border-radius-md);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     max-width: calc(100vw - 2rem);
@@ -137,6 +138,7 @@ html:has(> body.overflow-hidden) {
 
 .dialog-body {
   padding: 1rem;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
   overflow-y: auto;
   flex: 1 1 auto;
   min-height: 0;
