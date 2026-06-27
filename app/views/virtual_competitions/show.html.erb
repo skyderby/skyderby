@@ -21,15 +21,25 @@
   </div>
 
   <div class="show-page-content">
-    <% if @ranking.jump_kind_options.any? %>
+    <div class="ranking-filters">
+      <% if @ranking.jump_kind_options.any? %>
+        <div class="tab-bar">
+          <% @ranking.jump_kind_options.each do |kind| %>
+            <%= link_to t(".jump_kinds.#{kind || 'all'}"),
+                        url_for(request.path_parameters.merge(jump_kind: kind, page: nil)),
+                        class: class_names('tab-bar-item', 'active' => @ranking.jump_kind == kind) %>
+          <% end %>
+        </div>
+      <% end %>
+
       <div class="tab-bar">
-        <% @ranking.jump_kind_options.each do |kind| %>
-          <%= link_to t(".jump_kinds.#{kind || 'all'}"),
-                      url_for(request.path_parameters.merge(jump_kind: kind, page: nil)),
-                      class: class_names('tab-bar-item', 'active' => @ranking.jump_kind == kind) %>
+        <% @ranking.gender_options.each do |gender| %>
+          <%= link_to t(".genders.#{gender || 'open'}"),
+                      url_for(request.path_parameters.merge(gender: gender, page: nil)),
+                      class: class_names('tab-bar-item', 'active' => @ranking.gender == gender) %>
         <% end %>
       </div>
-    <% end %>
+    </div>
 
     <div class="card">
       <%= render 'scoreboard', ranking: @ranking %>

@@ -49,11 +49,40 @@ class VirtualCompetition::RankingTest < ActiveSupport::TestCase
     assert_nil overall(jump_kind: 'speed_skydiving').jump_kind
   end
 
+  test 'gender options always offer open and female' do
+    assert_equal [nil, 'female'], overall.gender_options
+  end
+
+  test 'female filter keeps only female profiles and re-ranks from 1' do
+    profiles(:john).update!(gender: :female)
+    profiles(:maynard).update!(gender: :female)
+
+    ranking = overall(gender: 'female')
+
+    assert_equal 'female', ranking.gender
+    assert_equal [100, 90], ranking.all_scores.map(&:result)
+    assert_equal [1, 2], ranking.all_scores.map(&:rank)
+  end
+
+  test 'unsupported gender is ignored' do
+    assert_nil overall(gender: 'male').gender
+  end
+
+  test 'gender and jump_kind filters combine' do
+    profiles(:john).update!(gender: :female)
+    profiles(:maynard).update!(gender: :female)
+
+    ranking = overall(jump_kind: 'skydive', gender: 'female')
+
+    assert_equal [100], ranking.all_scores.map(&:result)
+    assert_equal [1], ranking.all_scores.map(&:rank)
+  end
+
   private
 
-  def overall(jump_kind: nil)
-    scores = @competition.personal_top_scores.wind_cancellation(false).includes(:track)
-    @competition.overall_ranking(scores, jump_kind:)
+  def overall(jump_kind: nil, gender: nil)
+    scores = @competition.personal_top_scores.wind_cancellation(false).includes(:track, :profile)
+    @competition.overall_ranking(scores, jump_kind:, gender:)
   end
 
   def add_score(profile, kind, result)

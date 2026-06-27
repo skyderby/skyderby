@@ -7,3 +7,8 @@ en:
         name: Name
         country: Country
         userpic: Photo
+        gender: Gender
+        genders:
+          male: Male
+          female: Female
+          other: Other

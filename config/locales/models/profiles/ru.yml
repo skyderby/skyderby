@@ -7,3 +7,8 @@ ru:
         name: Имя Фамилия
         country: Страна
         userpic: Фото
+        gender: Пол
+        genders:
+          male: Мужской
+          female: Женский
+          other: Другой

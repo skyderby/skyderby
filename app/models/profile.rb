@@ -15,6 +15,7 @@
 #  country_id           :integer
 #  owner_type           :string
 #  owner_id             :integer
+#  gender               :integer
 #
 
 class Profile < ApplicationRecord
@@ -29,6 +30,7 @@ class Profile < ApplicationRecord
 
   enum :default_units, { metric: 0, imperial: 1 }
   enum :default_chart_view, { multi: 0, single: 1 }
+  enum :gender, { male: 0, female: 1, other: 2 }
 
   belongs_to :country, optional: true
 

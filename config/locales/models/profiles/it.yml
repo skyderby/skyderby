@@ -7,3 +7,8 @@ it:
         name: Nome
         country: Nazione
         userpic: Foto
+        gender: Genere
+        genders:
+          male: Uomo
+          female: Donna
+          other: Altro

@@ -54,3 +54,13 @@ es:
         title: 'Perfil'
         edit_email_pass: "Editar correo electrónico y contraseña"
         edit_reg_data: "Correo electrónico y contraseña"
+        public_profile: "Perfil público"
+        public_profile_hint: "Cómo apareces en Skyderby."
+        account: "Cuenta"
+        account_hint: "Tu correo electrónico y contraseña de acceso."
+        change_photo: "Cambiar foto"
+        photo_hint: "JPG o PNG. Una imagen cuadrada se ve mejor."
+        gender_unspecified: "Prefiero no decirlo"
+        current_password_hint: "Necesaria para confirmar los cambios siguientes."
+        password_hint: "Déjalo en blanco para mantener tu contraseña actual."
+        connect_google_hint: "Inicia sesión más rápido vinculando tu cuenta de Google."

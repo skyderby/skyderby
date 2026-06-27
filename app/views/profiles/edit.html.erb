@@ -1,127 +1,130 @@
-<div class="container top-buffer">
-  <div class="page-header">
-    <h2>
-      <%= t('users.profile.edit.title') %>
-      <%= @profile.name %>
-    </h2>
+<div class="profile-edit stack" data-controller="avatar-preview">
+  <div class="profile-edit__hero">
+    <%= image_tag @profile.userpic_url(:medium),
+                  alt: @profile.name,
+                  class: 'profile-edit__hero-avatar',
+                  data: { 'avatar-preview-target': 'image' } %>
+    <div class="profile-edit__hero-body">
+      <div class="profile-edit__eyebrow"><%= t('users.profile.edit.title') %></div>
+      <div class="profile-edit__hero-name"><%= @profile.name %></div>
+      <% if @profile.country %>
+        <div class="profile-edit__hero-meta">
+          <%= @profile.country.code.upcase %> · <%= @profile.country_name %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
-  <div class="content-block">
-    <%= form_for @profile, html: { class: 'edit-user-profile' } do |f| %>
-      <div class="form-row">
-        <%= f.label :name, class: 'col-sm-2 form-label' %>
-        <div class="col-sm-5">
-          <%= f.text_field :name, autofocus: true, class: 'form-input' %>
+  <%= form_for @profile, html: { class: 'panel profile-edit__panel' } do |f| %>
+    <div class="profile-edit__panel-head">
+      <h2 class="profile-edit__panel-title"><%= t('users.profile.edit.public_profile') %></h2>
+      <p class="profile-edit__panel-hint"><%= t('users.profile.edit.public_profile_hint') %></p>
+    </div>
+
+    <div class="profile-edit__fields">
+      <div class="profile-edit__field">
+        <%= f.label t('activerecord.attributes.profile.userpic'), class: 'profile-edit__label', for: :userpic %>
+        <div class="profile-edit__avatar-field">
+          <%= image_tag @profile.userpic_url(:medium),
+                        alt: @profile.name,
+                        class: 'profile-edit__avatar-preview',
+                        data: { 'avatar-preview-target': 'image' } %>
+          <div class="profile-edit__avatar-body">
+            <span class="button button--outline button--primary profile-edit__file-button">
+              <%= icon_tag 'pencil-solid' %>
+              <%= t('users.profile.edit.change_photo') %>
+              <%= f.file_field :userpic,
+                               accept: 'image/*',
+                               data: {
+                                 'avatar-preview-target': 'input',
+                                 action: 'avatar-preview#preview'
+                               } %>
+            </span>
+            <span class="profile-edit__hint"><%= t('users.profile.edit.photo_hint') %></span>
+          </div>
         </div>
       </div>
 
-      <div class="form-row">
-        <%= f.label :country, class: 'col-sm-2 form-label' %>
-        <div class="col-sm-5">
-          <% options = options_for_select([[@profile.country_name, @profile.country_id]]) %>
-          <%= render 'hot_select/select',
-                     form: f,
-                     name: :country_id,
-                     options: options,
-                     src: countries_select_options_path,
-                     placeholder: 'Select country' %>
-        </div>
+      <div class="profile-edit__field">
+        <%= f.label :name, class: 'profile-edit__label' %>
+        <%= f.text_field :name, autofocus: true, required: true, class: 'form-input' %>
       </div>
 
-      <div class="form-row">
-        <%= f.label t('activerecord.attributes.profile.userpic'), class: 'col-sm-2 form-label', for: :userpic %>
-        <div class="col-sm-4">
-          <%= f.file_field :userpic %>
-        </div>
+      <div class="profile-edit__field">
+        <%= f.label :gender, class: 'profile-edit__label' %>
+        <%= f.select :gender,
+                     Profile.genders.keys.map { |gender| [t("activerecord.attributes.profile.genders.#{gender}"), gender] },
+                     { include_blank: t('users.profile.edit.gender_unspecified') },
+                     class: 'form-input' %>
       </div>
 
-      <div class="form-row">
-        <div class="col-sm-offset-2 col-sm-8">
-          <%= f.submit t('general.save'), class: 'button button--primary' %>
-        </div>
+      <div class="profile-edit__field">
+        <%= f.label :country, class: 'profile-edit__label' %>
+        <% options = options_for_select([[@profile.country_name, @profile.country_id]]) %>
+        <%= render 'hot_select/select',
+                   form: f,
+                   name: :country_id,
+                   options: options,
+                   src: countries_select_options_path,
+                   placeholder: 'Select country' %>
       </div>
-    <% end %>
-  </div>
+    </div>
 
-  <% if @profile.owner && @profile.belongs_to_user? %>
-    <a class="col-sm-offset-2" data-toggle="modal" data-target="#CredentialsModal">
-      <%= t('users.profile.edit.edit_email_pass') %>
-    </a>
-    <% if @profile.owner.uid.nil? %>
-      <br>
-      <%= button_to t('devise.shared.links.connect_provider', provider: 'Google'), user_google_oauth2_omniauth_authorize_path, data: { turbo: false }, class: 'col-sm-offset-2' %>
-    <% end %>
+    <div class="profile-edit__divider"></div>
+
+    <div class="profile-edit__actions top-buffer">
+      <%= link_to t('general.cancel'), @profile, class: 'button' %>
+      <%= f.submit t('general.save'), class: 'button button--primary' %>
+    </div>
   <% end %>
 
-  <div class="modal fade" id="CredentialsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-          </button>
-          <h4 class="modal-title" id="myModalLabel">
-            <%= t('users.profile.edit.edit_reg_data') %>
-          </h4>
+  <% if @profile.owner && @profile.belongs_to_user? %>
+    <%= form_for(:user, url: registration_path(:user), html: { method: :put, class: 'panel profile-edit__panel' }) do |f| %>
+      <div class="profile-edit__panel-head">
+        <h2 class="profile-edit__panel-title"><%= t('users.profile.edit.account') %></h2>
+        <p class="profile-edit__panel-hint"><%= t('users.profile.edit.account_hint') %></p>
+      </div>
+
+      <div class="profile-edit__fields">
+        <div class="profile-edit__field">
+          <%= f.label t('activerecord.attributes.user.email'), class: 'profile-edit__label', for: :email %>
+          <%= f.email_field :email, class: 'form-input' %>
         </div>
 
-        <br>
+        <div class="profile-edit__field">
+          <%= f.label t('activerecord.attributes.user.current_password'), class: 'profile-edit__label', for: :current_password %>
+          <%= f.password_field :current_password, autocomplete: 'off', class: 'form-input' %>
+          <span class="profile-edit__hint"><%= t('users.profile.edit.current_password_hint') %></span>
+        </div>
 
-        <%= form_for(:user, url: registration_path(:user), html: { method: :put }) do |f| %>
-          <div class="form-row">
-            <%= f.label t('activerecord.attributes.user.email'), class: 'col-sm-4 form-label', for: :email %>
-            <div class="col-sm-7">
-              <%= f.email_field :email, class: 'form-input' %>
-            </div>
-          </div>
+        <div class="profile-edit__field">
+          <%= f.label t('activerecord.attributes.user.password'), class: 'profile-edit__label', for: :password %>
+          <%= f.password_field :password, autocomplete: 'off', class: 'form-input' %>
+          <span class="profile-edit__hint"><%= t('users.profile.edit.password_hint') %></span>
+        </div>
 
-          <div class="form-row">
-            <%= f.label t('activerecord.attributes.user.current_password'), class: 'col-sm-4 form-label', for: :current_password %>
-            <div class="col-sm-7">
-              <%= f.password_field :current_password, autocomplete: 'off', class: 'form-input', placeholder: 'Необходимо ввести текущий пароль для подтверждения изменений' %>
-            </div>
-          </div>
+        <div class="profile-edit__field">
+          <%= f.label t('activerecord.attributes.user.password_confirmation'), class: 'profile-edit__label', for: :password_confirmation %>
+          <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-input' %>
+        </div>
 
-          <div class="form-row">
-            <%= f.label t('activerecord.attributes.user.password'), class: 'col-sm-4 form-label', for: :password %>
-            <div class="col-sm-7">
-              <%= f.password_field :password, autocomplete: 'off', class: 'form-input', placeholder: 'Оставьте пустым если не планируете менять пароль' %>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <%= f.label t('activerecord.attributes.user.password_confirmation'), class: 'col-sm-4 form-label', for: :password_confirmation %>
-            <div class="col-sm-7">
-              <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-input', placeholder: 'Оставьте пустым если не планируете менять пароль' %>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="col-sm-offset-4 col-sm-7">
-              <%= f.submit t('general.update'), class: 'button button--primary' %>
-            </div>
+        <% if @profile.owner.uid.nil? %>
+          <div class="profile-edit__provider">
+            <%= icon_tag 'google-icon' %>
+            <span class="profile-edit__provider-text"><%= t('users.profile.edit.connect_google_hint') %></span>
+            <%= button_to t('devise.shared.links.connect_provider', provider: 'Google'),
+                          user_google_oauth2_omniauth_authorize_path,
+                          data: { turbo: false },
+                          class: 'button button--outline' %>
           </div>
         <% end %>
       </div>
-    </div>
-  </div>
-</div>
 
-<% content_for :page_js do %>
-  <script>
-    $('.edit-user-profile').validate({
-      rules: {
-        'profile[name]': {
-          required: true
-        }
-      },
-      highlight: function(element) {
-        $(element).closest('.form-row').addClass('has-error');
-      },
-      unhighlight: function(element) {
-        $(element).closest('.form-row').removeClass('has-error');
-      }
-    });
-  </script>
-<% end %>
+      <div class="profile-edit__divider"></div>
+
+      <div class="profile-edit__actions top-buffer">
+        <%= f.submit t('general.update'), class: 'button button--primary' %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

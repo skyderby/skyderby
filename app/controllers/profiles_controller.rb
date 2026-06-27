@@ -82,7 +82,7 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:name, :userpic, :country_id)
+    params.require(:profile).permit(:name, :userpic, :country_id, :gender)
   end
 
   def index_params = params.permit(:query)

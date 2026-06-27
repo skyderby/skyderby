@@ -28,3 +28,19 @@ fr:
     jump_range: Durée du saut
     or: Ou
     add_more: Ajouter plus
+  users:
+    profile:
+      edit:
+        title: Profil
+        edit_email_pass: Modifier l'e-mail ou le mot de passe
+        edit_reg_data: E-mail et mot de passe
+        public_profile: Profil public
+        public_profile_hint: Comment vous apparaissez sur Skyderby.
+        account: Compte
+        account_hint: Votre e-mail et mot de passe de connexion.
+        change_photo: Changer la photo
+        photo_hint: JPG ou PNG. Une image carrée est idéale.
+        gender_unspecified: Préfère ne pas préciser
+        current_password_hint: Requis pour confirmer les modifications ci-dessous.
+        password_hint: Laissez vide pour conserver votre mot de passe actuel.
+        connect_google_hint: Connectez-vous plus vite en liant votre compte Google.

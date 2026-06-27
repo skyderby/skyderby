@@ -75,3 +75,13 @@ ru:
         title: 'Редактирование профиля'
         edit_email_pass: "Изменение адреса эл. почты или пароля"
         edit_reg_data: "Изменение регистрационных данных"
+        public_profile: "Публичный профиль"
+        public_profile_hint: "Как вас видят в Skyderby."
+        account: "Учётная запись"
+        account_hint: "Эл. почта и пароль для входа."
+        change_photo: "Изменить фото"
+        photo_hint: "JPG или PNG. Лучше всего квадратное изображение."
+        gender_unspecified: "Не указывать"
+        current_password_hint: "Необходим для подтверждения изменений ниже."
+        password_hint: "Оставьте пустым, чтобы сохранить текущий пароль."
+        connect_google_hint: "Входите быстрее, привязав аккаунт Google."

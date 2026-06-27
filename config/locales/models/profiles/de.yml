@@ -7,3 +7,8 @@ de:
         name: Name
         country: Land
         userpic: Foto
+        gender: Geschlecht
+        genders:
+          male: Männlich
+          female: Weiblich
+          other: Divers

@@ -5,6 +5,9 @@ es:
         all: Todos
         skydive: Skydive
         base: BASE
+      genders:
+        open: Abierta
+        female: Femenina
     scoreboard:
       result: Result
       show_details: Haz click para ver el seguimiento

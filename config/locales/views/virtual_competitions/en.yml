@@ -5,6 +5,9 @@ en:
         all: All
         skydive: Skydive
         base: BASE
+      genders:
+        open: Open
+        female: Female
     index:
       show_archived: Show archived
     person_details:

@@ -27,12 +27,14 @@ class VirtualCompetition
             .for_competition(competition)
             .for_year(year)
 
-          snapshot = filter_and_rank(snapshot.includes(:track)) if jump_kind
+          snapshot = filter_and_rank(snapshot.includes(:track, :profile)) if filtered?
           snapshot.index_by(&:profile_id)
         end
       end
 
-      def cache_key = "vc/#{competition.id}/annual/#{year}/previous_week_scores/#{jump_kind || 'all'}"
+      def cache_key
+        "vc/#{competition.id}/annual/#{year}/previous_week_scores/#{jump_kind || 'all'}/#{gender || 'open'}"
+      end
     end
   end
 end

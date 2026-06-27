@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_26_000002) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_27_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -495,6 +495,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_26_000002) do
     t.integer "default_units", default: 0
     t.boolean "donor", default: false, null: false
     t.string "first_name", limit: 510
+    t.integer "gender"
     t.string "last_name", limit: 510
     t.string "name", limit: 510
     t.integer "owner_id"

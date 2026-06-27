@@ -45,6 +45,16 @@ en:
         title: Profile
         edit_email_pass: Edit email or password
         edit_reg_data: Email and password
+        public_profile: Public profile
+        public_profile_hint: How you appear across Skyderby.
+        account: Account
+        account_hint: Your sign-in email and password.
+        change_photo: Change photo
+        photo_hint: JPG or PNG. A square image looks best.
+        gender_unspecified: Prefer not to say
+        current_password_hint: Required to confirm any changes below.
+        password_hint: Leave blank to keep your current password.
+        connect_google_hint: Sign in faster by linking your Google account.
   maps:
     auth_wall:
       message: Sign in to view maps

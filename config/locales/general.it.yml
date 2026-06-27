@@ -32,3 +32,13 @@ it:
         title: Profile
         edit_email_pass: Edit email or password
         edit_reg_data: Email and password
+        public_profile: Profilo pubblico
+        public_profile_hint: Come appari su Skyderby.
+        account: Account
+        account_hint: La tua email e password di accesso.
+        change_photo: Cambia foto
+        photo_hint: JPG o PNG. Un'immagine quadrata è l'ideale.
+        gender_unspecified: Preferisco non dirlo
+        current_password_hint: Necessaria per confermare le modifiche qui sotto.
+        password_hint: Lascia vuoto per mantenere la password attuale.
+        connect_google_hint: Accedi più velocemente collegando il tuo account Google.

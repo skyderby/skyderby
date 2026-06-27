@@ -1,19 +1,22 @@
+<% filters = { jump_kind: @ranking.jump_kind, gender: @ranking.gender }.compact_blank %>
+
 <div class="page-nav">
-  <%= link_to virtual_competition_overall_path(@competition), class: ['page-tab', ('page-tab-active' if current_page?(virtual_competition_overall_path(@competition)))] do %>
+  <% overall_path = virtual_competition_overall_path(@competition) %>
+  <%= link_to virtual_competition_overall_path(@competition, **filters), class: ['page-tab', ('page-tab-active' if current_page?(overall_path))] do %>
     <%= t('.overall') %>
   <% end %>
 
   <% if @competition.annual? %>
     <% @competition.years.each do |year| %>
       <% path = virtual_competition_year_path(@competition, year: year) %>
-      <%= link_to path, class: ['page-tab', ('page-tab-active' if current_page?(path))] do %>
+      <%= link_to virtual_competition_year_path(@competition, year: year, **filters), class: ['page-tab', ('page-tab-active' if current_page?(path))] do %>
         <%= year %>
       <% end %>
     <% end %>
   <% elsif @competition.custom_intervals? %>
     <% @competition.intervals.each do |interval| %>
       <% path = virtual_competition_period_path(@competition, interval) %>
-      <%= link_to path, class: ['page-tab', ('page-tab-active' if current_page?(path))] do %>
+      <%= link_to virtual_competition_period_path(@competition, interval, **filters), class: ['page-tab', ('page-tab-active' if current_page?(path))] do %>
         <%= interval.name %>
       <% end %>
     <% end %>

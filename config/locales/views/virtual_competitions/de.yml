@@ -5,6 +5,9 @@ de:
         all: Alle
         skydive: Skydive
         base: BASE
+      genders:
+        open: Offen
+        female: Frauen
     scoreboard:
       result: Ergebnis
       show_details: 'Klicke hier für Trackdetails'

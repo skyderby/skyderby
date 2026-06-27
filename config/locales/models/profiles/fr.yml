@@ -7,3 +7,8 @@ fr:
         name: Nom
         country: Pays
         userpic: Photo
+        gender: Genre
+        genders:
+          male: Homme
+          female: Femme
+          other: Autre

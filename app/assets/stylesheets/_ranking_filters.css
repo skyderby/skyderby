@@ -1,0 +1,30 @@
+@layer components {
+  .ranking-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: $bp-large;
+    margin: 0 auto 1rem;
+  }
+
+  .ranking-filters .tab-bar {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  @media (min-width: $bp-medium) {
+    .ranking-filters {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .ranking-filters .tab-bar {
+      width: auto;
+    }
+  }
+}

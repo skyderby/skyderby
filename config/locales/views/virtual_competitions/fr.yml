@@ -5,6 +5,9 @@ fr:
         all: Tous
         skydive: Skydive
         base: BASE
+      genders:
+        open: Open
+        female: Femmes
     person_details:
       modal_title: Meilleurs résultats en compétition
     scoreboard:
