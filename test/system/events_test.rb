@@ -89,6 +89,8 @@ class EventsTest < ApplicationSystemTestCase
     row = competitor_row(competitor)
     row.find('.result-cell button').click
 
+    assert_selector 'dialog[open]'
+
     file = file_fixture("tracks/#{filename}")
     attach_file 'result[track_attributes][file]', file, make_visible: true
 
