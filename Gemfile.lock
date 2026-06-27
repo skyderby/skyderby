@@ -135,7 +135,7 @@ GEM
       logger (~> 1.5)
     codeclimate-test-reporter (1.0.7)
       simplecov
-    concurrent-ruby (1.3.6)
+    concurrent-ruby (1.3.7)
     connection_pool (3.0.2)
     content_disposition (1.0.0)
     crack (1.0.1)
