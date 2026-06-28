@@ -89,18 +89,11 @@ module Profiles
     def competitions
       @competitions ||=
         competition_participations
-        .select { |competitor| visible_competition?(competitor.event) }
-        .sort_by { |competitor| competitor.event.starts_at || Date.new(0) }
+        .map { |competitor| [competitor, competition_event(competitor)] }
+        .select { |_competitor, event| visible_competition?(event) }
+        .sort_by { |_competitor, event| event.starts_at || Date.new(0) }
         .reverse
-        .map do |competitor|
-          event = competitor.event
-          CompetitionEntry.new(
-            event: event,
-            place: competitor.rank,
-            live: !event.finished? && !event.surprise?,
-            hidden_place: event.surprise?
-          )
-        end
+        .map { |competitor, event| competition_entry(competitor, event) }
     end
 
     def recent_badges(limit = 3) = badges.first(limit)
@@ -111,11 +104,28 @@ module Profiles
 
     def competition_participations
       performance_competition_participation.includes(:event).to_a +
-        speed_skydiving_competition_participations.includes(:event).to_a
+        speed_skydiving_competition_participations.includes(:event).to_a +
+        tournament_participations.includes(:tournament).to_a
+    end
+
+    def competition_event(competitor)
+      competitor.respond_to?(:event) ? competitor.event : competitor.tournament
+    end
+
+    def competition_entry(competitor, event)
+      CompetitionEntry.new(
+        event: event,
+        place: competitor.try(:rank),
+        live: event.status != 'finished' && !event.surprise?,
+        hidden_place: event.surprise?
+      )
     end
 
     def visible_competition?(event)
-      event.respond_to?(:starts_at) && !event.draft? && event.public_event?
+      return false unless event.respond_to?(:starts_at)
+      return false if event.draft?
+
+      event.respond_to?(:public_event?) ? event.public_event? : true
     end
 
     def mode_available?(mode)
@@ -243,7 +253,7 @@ module Profiles
     end
 
     def jump_kind_filtered?(competition)
-      competition.jumps_kind.nil?
+      competition.flare? && competition.jumps_kind.nil?
     end
 
     def previous_pb_delta(competition)

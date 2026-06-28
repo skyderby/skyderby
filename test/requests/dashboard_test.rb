@@ -105,4 +105,16 @@ class DashboardTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select '.dashboard-rankings-scope', false
   end
+
+  test 'the competitions block includes BASE tournaments' do
+    tournament = tournaments(:world_base_race)
+    tournament.update_column(:status, Tournament.statuses[:published])
+    Tournament::Competitor.create!(tournament:, profile: profiles(:regular_user), suit: suits(:apache))
+
+    sign_in users(:regular_user)
+    get root_path
+
+    assert_response :success
+    assert_select '.dashboard-list__title', text: tournament.name
+  end
 end

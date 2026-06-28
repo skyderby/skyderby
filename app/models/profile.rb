@@ -53,6 +53,10 @@ class Profile < ApplicationRecord
            class_name: 'Boogie::Competitor',
            inverse_of: :profile,
            dependent: :restrict_with_error
+  has_many :tournament_participations,
+           class_name: 'Tournament::Competitor',
+           inverse_of: :profile,
+           dependent: :restrict_with_error
   has_many :events, through: :performance_competition_participation
   has_many :speed_skydiving_competitions,
            through: :speed_skydiving_competition_participations,
