@@ -1,17 +1,36 @@
 <%# locals: (tournament:) %>
 
 <div class="card actions-bar" id="qualification-actions-bar">
-  <%= button_to tournament_qualification_rounds_path(tournament_id: tournament.id), method: :post, data: { turbo_stream: true }, class: 'actions-bar-button' do %>
-    <%= icon_tag 'plus-solid' %>
-    <%= t('activerecord.models.tournament_round') %>
-  <% end %>
+  <% unless tournament.finished? %>
+    <%= button_to tournament_qualification_rounds_path(tournament_id: tournament.id), method: :post, data: { turbo_stream: true }, class: 'actions-bar-button' do %>
+      <%= icon_tag 'plus-solid' %>
+      <%= t('activerecord.models.tournament_round') %>
+    <% end %>
 
-  <%= button_to new_tournament_competitor_path(tournament), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
-    <%= icon_tag 'plus-solid' %>
-    <%= t('activerecord.models.tournament_competitor') %>
+    <%= button_to new_tournament_competitor_path(tournament), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+      <%= icon_tag 'plus-solid' %>
+      <%= t('activerecord.models.tournament_competitor') %>
+    <% end %>
   <% end %>
 
   <div class="actions-bar-right">
+    <div data-controller="dropdown">
+      <button class="actions-bar-button" popovertarget="qualification-status-menu-<%= tournament.id %>">
+        <%= t('activerecord.attributes.event.status') %>: <%= t("event_status.#{tournament.status}") %>
+        <%= icon_tag 'angle-down-solid' %>
+      </button>
+
+      <div id="qualification-status-menu-<%= tournament.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+        <% Tournament.statuses.each_key do |status| %>
+          <%= button_to(t("event_status.#{status}"),
+                        tournament_status_path(tournament),
+                        method: :patch,
+                        params: { 'tournament[status]' => status },
+                        class: "dropdown-item #{'active' if tournament.status == status}") %>
+        <% end %>
+      </div>
+    </div>
+
     <%= link_to tournament_qualification_display_path(tournament), target: '_blank', rel: 'noopener', class: 'actions-bar-button' do %>
       <%= icon_tag 'circle-play' %>
       <%= t('tournaments.qualifications.actions_bar.display') %>

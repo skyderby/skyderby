@@ -19,7 +19,7 @@
         <div id="tournament-status-menu-<%= tournament.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
           <% Tournament.statuses.each_key do |status| %>
             <%= button_to(t("event_status.#{status}"),
-                          tournament_path(tournament),
+                          tournament_status_path(tournament),
                           method: :patch,
                           params: { 'tournament[status]' => status },
                           class: "dropdown-item #{'active' if tournament.status == status}") %>

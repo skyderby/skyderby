@@ -403,6 +403,7 @@ Skyderby::Application.routes.draw do
       end
       resources :competitors
       resources :competitors_copies, only: %i[new create]
+      resource :status, only: :update
       resources :matches do
         scope module: :matches do
           resource :map, only: :show
