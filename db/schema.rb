@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_27_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_28_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -490,6 +490,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_27_000000) do
   create_table "profiles", id: :serial, force: :cascade do |t|
     t.integer "country_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "dashboard_female_rankings", default: false, null: false
     t.string "dashboard_mode"
     t.integer "default_chart_view", default: 0
     t.integer "default_units", default: 0

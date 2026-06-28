@@ -130,6 +130,18 @@
     margin-bottom: 0.875rem;
   }
 
+  .dashboard-rankings-scope {
+    margin-bottom: 0.875rem;
+  }
+
+  .dashboard-rankings-scope__form {
+    display: contents;
+  }
+
+  .dashboard-rankings-scope .tab-bar-item {
+    flex: 1 1 0;
+  }
+
   .dashboard-section__header--linked {
     display: flex;
     align-items: center;

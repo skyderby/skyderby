@@ -3,6 +3,20 @@
 <div class="dashboard-section panel" data-controller="reveal">
   <div class="dashboard-section__header"><%= t('dashboard.rankings.title', year: Time.zone.now.year) %></div>
 
+  <% if dashboard.rankings_gender_toggle? %>
+    <div class="dashboard-rankings-scope tab-bar">
+      <% %i[open female].each do |scope| %>
+        <%= button_to dashboard_path,
+                      method: :patch,
+                      params: { rankings_gender: scope },
+                      form: { class: 'dashboard-rankings-scope__form' },
+                      class: ['tab-bar-item', ('active' if dashboard.rankings_gender == scope)] do %>
+          <%= t("dashboard.rankings.scopes.#{scope}") %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
   <% if dashboard.rankings.any? %>
     <div class="dashboard-rankings is-collapsed" data-reveal-target="container">
       <% dashboard.rankings.each do |ranking| %>

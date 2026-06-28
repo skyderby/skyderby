@@ -37,6 +37,9 @@ fr:
     rankings:
       title: Classements en ligne · %{year}
       empty: Pas encore de classements
+      scopes:
+        open: Open
+        female: Femmes
     recent_tracks:
       title: Tracks récents
       unknown_place: Lieu inconnu

@@ -37,6 +37,9 @@ it:
     rankings:
       title: Classifiche online · %{year}
       empty: Ancora nessuna classifica
+      scopes:
+        open: Open
+        female: Donne
     recent_tracks:
       title: Track recenti
       unknown_place: Luogo sconosciuto

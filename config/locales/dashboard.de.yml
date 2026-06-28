@@ -37,6 +37,9 @@ de:
     rankings:
       title: Online-Ranking · %{year}
       empty: Noch keine Ranglisten
+      scopes:
+        open: Offen
+        female: Frauen
     recent_tracks:
       title: Letzte Tracks
       unknown_place: Unbekannter Ort

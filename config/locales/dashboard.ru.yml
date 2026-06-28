@@ -37,6 +37,9 @@ ru:
     rankings:
       title: Онлайн-рейтинг · %{year}
       empty: Пока нет рейтингов
+      scopes:
+        open: Общий
+        female: Женщины
     recent_tracks:
       title: Последние треки
       unknown_place: Неизвестное место

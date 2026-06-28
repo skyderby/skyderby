@@ -37,6 +37,12 @@ module Profiles
 
     def current_activity = ACTIVITY_BY_MODE.fetch(current_mode, :skydive)
 
+    def rankings_gender_toggle? = female?
+
+    def female_rankings? = female? && dashboard_female_rankings
+
+    def rankings_gender = female_rankings? ? :female : :open
+
     def personal_bests
       DISCIPLINES.map { |discipline| discipline == :flare ? flare_pb : personal_best(discipline) }
     end
@@ -186,7 +192,9 @@ module Profiles
     end
 
     def competition_scores(relation, competition_ids)
-      relation.where(virtual_competition_id: competition_ids).includes(:track).to_a.group_by(&:virtual_competition_id)
+      associations = female_rankings? ? %i[track profile] : %i[track]
+      relation.where(virtual_competition_id: competition_ids)
+              .includes(associations).to_a.group_by(&:virtual_competition_id)
     end
 
     def rankings_from(competition_ids, current, previous)
@@ -220,6 +228,7 @@ module Profiles
 
     def rank_candidates(competition, siblings)
       candidates = jump_kind_filtered?(competition) ? same_kind(siblings) : siblings
+      candidates = only_female(candidates) if female_rankings?
       candidates = candidates.sort_by(&:result)
       candidates.reverse! if competition.results_sort_order == 'descending'
       candidates
@@ -229,8 +238,12 @@ module Profiles
       siblings.select { |score| score.track&.kind == current_activity.to_s }
     end
 
+    def only_female(siblings)
+      siblings.select { |score| score.profile&.female? }
+    end
+
     def jump_kind_filtered?(competition)
-      competition.flare? && competition.jumps_kind.nil?
+      competition.jumps_kind.nil?
     end
 
     def previous_pb_delta(competition)

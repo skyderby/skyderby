@@ -66,4 +66,43 @@ class DashboardTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     assert_nil profiles(:regular_user).reload.dashboard_mode
   end
+
+  test 'update persists the female rankings preference for a female profile' do
+    profiles(:regular_user).update!(gender: :female)
+    sign_in users(:regular_user)
+
+    patch dashboard_path, params: { rankings_gender: 'female' }
+
+    assert_redirected_to root_path
+    assert profiles(:regular_user).reload.dashboard_female_rankings
+  end
+
+  test 'update ignores the rankings gender for a non-female profile' do
+    profiles(:regular_user).update!(gender: :male)
+    sign_in users(:regular_user)
+
+    patch dashboard_path, params: { rankings_gender: 'female' }
+
+    assert_redirected_to root_path
+    assert_not profiles(:regular_user).reload.dashboard_female_rankings
+  end
+
+  test 'a female pilot sees the Open/Female rankings toggle' do
+    profiles(:regular_user).update!(gender: :female)
+    sign_in users(:regular_user)
+
+    get root_path
+
+    assert_response :success
+    assert_select '.dashboard-rankings-scope'
+  end
+
+  test 'a pilot without a female profile does not see the rankings toggle' do
+    sign_in users(:regular_user)
+
+    get root_path
+
+    assert_response :success
+    assert_select '.dashboard-rankings-scope', false
+  end
 end

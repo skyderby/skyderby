@@ -37,6 +37,9 @@ es:
     rankings:
       title: Rankings online · %{year}
       empty: Aún no hay rankings
+      scopes:
+        open: Abierta
+        female: Femenina
     recent_tracks:
       title: Tracks recientes
       unknown_place: Lugar desconocido
