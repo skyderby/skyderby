@@ -1,0 +1,31 @@
+<%# locals: (tournament:, editable:) %>
+
+<div class="card actions-bar" id="actions-bar">
+  <% if editable && !tournament.finished? %>
+    <%= button_to tournament_rounds_path(tournament), method: :post, data: { turbo_stream: true }, class: 'actions-bar-button' do %>
+      <%= icon_tag 'plus-solid' %>
+      <%= t('activerecord.models.tournament_round') %>
+    <% end %>
+  <% end %>
+
+  <div class="actions-bar-right">
+    <% if editable %>
+      <div data-controller="dropdown">
+        <button class="actions-bar-button" popovertarget="tournament-status-menu-<%= tournament.id %>">
+          <%= t('activerecord.attributes.event.status') %>: <%= t("event_status.#{tournament.status}") %>
+          <%= icon_tag 'angle-down-solid' %>
+        </button>
+
+        <div id="tournament-status-menu-<%= tournament.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+          <% Tournament.statuses.each_key do |status| %>
+            <%= button_to(t("event_status.#{status}"),
+                          tournament_path(tournament),
+                          method: :patch,
+                          params: { 'tournament[status]' => status },
+                          class: "dropdown-item #{'active' if tournament.status == status}") %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

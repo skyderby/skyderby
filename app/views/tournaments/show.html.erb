@@ -5,14 +5,11 @@
   <%= render 'tournaments/header', editable: %>
 
   <div class="container">
-    <div class="content-block">
-      <% if editable %>
-        <%= button_to(tournament_rounds_path(@tournament), method: :post, data: { turbo_stream: true }, class: 'button') do %>
-          <%= icon_tag 'plus-solid' %>
-          <%= t('activerecord.models.tournament_round') %>
-        <% end %>
-      <% end %>
+    <% if editable %>
+      <%= render 'actions_bar', tournament: @tournament, editable: %>
+    <% end %>
 
+    <div class="content-block">
       <% if @tournament.surprise? && !editable %>
         <h1 class="text-muted text-center">
           🙅 Let it be a Surprise

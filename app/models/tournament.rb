@@ -64,9 +64,6 @@ class Tournament < ApplicationRecord
     user.admin? || user == responsible || organizers.exists?(user:)
   end
 
-  # For compatibility with Event
-  def finished? = false
-
   def is_official = false
 
   private
