@@ -19,7 +19,7 @@
 #
 
 class Profile < ApplicationRecord
-  include Ownerable, Mergeable
+  include Ownerable, Mergeable, Permissions
   include AvatarUploader::Attachment(:userpic)
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :require_country

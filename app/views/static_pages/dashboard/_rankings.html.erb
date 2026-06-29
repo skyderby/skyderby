@@ -1,4 +1,4 @@
-<%# locals: (dashboard:) %>
+<%# locals: (dashboard:, toggle_url: nil, toggle_method: :patch) %>
 
 <div class="dashboard-section panel" data-controller="reveal">
   <div class="dashboard-section__header"><%= t('dashboard.rankings.title', year: Time.zone.now.year) %></div>
@@ -6,8 +6,8 @@
   <% if dashboard.rankings_gender_toggle? %>
     <div class="dashboard-rankings-scope tab-bar">
       <% %i[open female].each do |scope| %>
-        <%= button_to dashboard_path,
-                      method: :patch,
+        <%= button_to (toggle_url || dashboard_path),
+                      method: toggle_method,
                       params: { rankings_gender: scope },
                       form: { class: 'dashboard-rankings-scope__form' },
                       class: ['tab-bar-item', ('active' if dashboard.rankings_gender == scope)] do %>

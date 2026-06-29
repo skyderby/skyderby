@@ -4,7 +4,7 @@
       <div class="col-sm-6">
         <h1><%= t('badges.index.title') %></h1>
       </div>
-      <% if policy(Badge).create? %>
+      <% if Badge.creatable? %>
         <div class="col-sm-6 text-right">
           <%= link_to t('general.create'), new_badge_path, class: 'button button--primary', data: { turbo_stream: true } %>
         </div>

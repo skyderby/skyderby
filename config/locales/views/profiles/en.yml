@@ -3,6 +3,8 @@ en:
     header:
       tracks: Tracks
       flight_profiles: Flight profiles
+    overview:
+      empty: "%{name} hasn't uploaded any tracks yet."
     merges:
       form_modal:
         title: Merging profiles
@@ -11,11 +13,6 @@ en:
         source: Source
         flip: Swap
         description: Source profile's data is merged into the destination profile
-    show:
-      achievements: Achievements
-      online_competitions: Online competitions
-      no_badges: "%{name} do not have badges yet."
-      no_rankings: "%{name} didn't participate online competitions this year."
     avatars:
       form_modal:
         title: Edit your photo

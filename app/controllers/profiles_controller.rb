@@ -2,8 +2,6 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[edit update destroy]
 
   def index
-    authorize Profile
-
     display_profiles =
       if index_params[:query].present?
         Profile.search(params[:query]).order(:name).limit(6)
@@ -28,9 +26,13 @@ class ProfilesController < ApplicationController
 
   def show
     profile = Profile.includes(:badges, :country).find(params[:id])
-    authorize profile
 
-    @profile = Profiles::Overview.new(profile)
+    @profile = Profiles::Dashboard.new(
+      profile,
+      user: Current.user,
+      mode: params[:mode],
+      rankings_gender: params[:rankings_gender]
+    )
 
     respond_to do |format|
       format.html
@@ -38,7 +40,7 @@ class ProfilesController < ApplicationController
   end
 
   def edit
-    authorize @profile
+    return respond_not_authorized unless @profile.editable?
 
     respond_to do |format|
       format.html
@@ -46,7 +48,7 @@ class ProfilesController < ApplicationController
   end
 
   def update
-    authorize @profile
+    return respond_not_authorized unless @profile.editable?
 
     if @profile.update profile_params
       respond_to do |format|
@@ -62,7 +64,7 @@ class ProfilesController < ApplicationController
   end
 
   def destroy
-    authorize @profile
+    return respond_not_authorized unless @profile.deletable?
 
     respond_to do |format|
       if @profile.destroy

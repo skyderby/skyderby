@@ -3,6 +3,8 @@ it:
     header:
       tracks: Tracce
       flight_profiles: Profili di volo
+    overview:
+      empty: "%{name} non ha ancora caricato tracce."
     merges:
       form_modal:
         title: Unione dei profili
@@ -11,11 +13,6 @@ it:
         source: Origine
         flip: Inverti
         description: I dati del profilo di origine vengono uniti nel profilo di destinazione
-    show:
-      achievements: Successi e Risultati
-      online_competitions: Competizione Online
-      no_badges: "%{name} al momento non hai medaglie."
-      no_rankings: "%{name} quest'anno non hai partecipato a competizione online ancora."
     avatars:
       form_modal:
         title: Modifica la tua foto

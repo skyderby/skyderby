@@ -3,6 +3,8 @@ ru:
     header:
       tracks: Треки
       flight_profiles: Профили полетов
+    overview:
+      empty: "%{name} ещё не загрузил треки."
     merges:
       form_modal:
         title: Объединение профилей
@@ -11,11 +13,6 @@ ru:
         source: Источник
         flip: Поменять местами
         description: Данные профиля-источника объединяются в профиль назначения
-    show:
-      achievements: Достижения
-      online_competitions: Онлайн соревнования
-      no_badges: "О наградах нам пока не известно."
-      no_rankings: "%{name} не участвовал в онлайн соревнованиях в этом году."
     avatars:
       form_modal:
         title: Редактирование фотографии

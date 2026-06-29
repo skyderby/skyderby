@@ -1,15 +1,12 @@
 class Profiles::GiftedSubscriptionsController < ApplicationController
   before_action :set_profile
+  before_action :ensure_manageable_subscription
 
   def new
-    authorize @profile, :grant_subscription?
-
     @gifted_subscription = GiftedSubscription.new
   end
 
   def create
-    authorize @profile, :grant_subscription?
-
     @gifted_subscription = @profile.owner.gifted_subscriptions.build(gifted_subscription_params)
     @gifted_subscription.granted_by = current_user
 
@@ -21,8 +18,6 @@ class Profiles::GiftedSubscriptionsController < ApplicationController
   end
 
   def destroy
-    authorize @profile, :grant_subscription?
-
     @gifted_subscription = GiftedSubscription.find(params[:id])
     @gifted_subscription.destroy
 
@@ -33,6 +28,10 @@ class Profiles::GiftedSubscriptionsController < ApplicationController
 
   def set_profile
     @profile = Profile.find(params[:profile_id])
+  end
+
+  def ensure_manageable_subscription
+    respond_not_authorized unless @profile.manageable_subscription?
   end
 
   def gifted_subscription_params

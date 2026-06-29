@@ -3,6 +3,8 @@ fr:
     header:
       tracks: Enregistrement
       flight_profiles: Profils de vol
+    overview:
+      empty: "%{name} n'a pas encore importé de tracks."
     merges:
       form_modal:
         title: Fusion de profils
@@ -11,11 +13,6 @@ fr:
         source: Origine
         flip: Inverser
         description: Les données du profil d'origine sont fusionnées dans le profil de destination
-    show:
-      achievements: Résultats
-      online_competitions: Compétitons en ligne
-      no_badges: "%{name} n'a aucun badge pour le moment."
-      no_rankings: "%{name} n'a participé à aucune compétition cette année."
     avatars:
       form_modal:
         title: Éditer votre photo

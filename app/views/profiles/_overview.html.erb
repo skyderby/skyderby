@@ -1,0 +1,40 @@
+<%# locals: (dashboard:) %>
+
+<%= turbo_frame_tag 'profile_overview', data: { turbo_action: 'advance' } do %>
+  <div class="profile-overview stack">
+    <% if dashboard.any_modes? %>
+      <% if dashboard.available_modes.size > 1 %>
+        <%= render 'static_pages/dashboard/modes',
+                   dashboard: dashboard,
+                   toggle_url: profile_path(dashboard),
+                   toggle_method: :get %>
+      <% end %>
+
+      <% case dashboard.current_mode %>
+      <% when :base %>
+        <%= render 'static_pages/dashboard/base_personal_bests', dashboard: dashboard %>
+      <% when :speed %>
+        <%= render 'static_pages/dashboard/speed_personal_bests', dashboard: dashboard %>
+      <% else %>
+        <%= render 'static_pages/dashboard/personal_bests', dashboard: dashboard %>
+      <% end %>
+
+      <%= render 'static_pages/dashboard/rankings',
+                 dashboard: dashboard,
+                 toggle_url: profile_path(dashboard),
+                 toggle_method: :get %>
+    <% end %>
+
+    <%= render 'static_pages/dashboard/competitions',
+               dashboard: dashboard,
+               show_place: dashboard.current_mode != :base %>
+
+    <%= render 'static_pages/dashboard/achievements', dashboard: dashboard %>
+
+    <% unless dashboard.any_modes? || dashboard.competitions.any? || dashboard.badges.any? %>
+      <div class="blankslate">
+        <h3><%= t('.empty', name: dashboard.name) %></h3>
+      </div>
+    <% end %>
+  </div>
+<% end %>

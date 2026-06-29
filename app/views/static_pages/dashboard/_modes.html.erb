@@ -1,9 +1,9 @@
-<%# locals: (dashboard:) %>
+<%# locals: (dashboard:, toggle_url: nil, toggle_method: :patch) %>
 
 <div class="dashboard-modes tab-bar">
   <% dashboard.available_modes.each do |mode| %>
-    <%= button_to dashboard_path,
-                  method: :patch,
+    <%= button_to (toggle_url || dashboard_path),
+                  method: toggle_method,
                   params: { mode: mode },
                   form: { class: 'dashboard-modes__form' },
                   class: ['tab-bar-item', ('active' if mode == dashboard.current_mode)] do %>

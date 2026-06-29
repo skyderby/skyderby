@@ -12,10 +12,11 @@ module Profiles
     PersonalBest = Struct.new(:discipline, :result, :competition, :delta, keyword_init: true)
     CompetitionEntry = Struct.new(:event, :place, :live, :hidden_place, keyword_init: true)
 
-    def initialize(profile, user: nil, mode: nil)
+    def initialize(profile, user: nil, mode: nil, rankings_gender: nil)
       super(profile)
       @user = user
       @requested_mode = mode.presence&.to_sym
+      @requested_gender = rankings_gender.presence&.to_sym
     end
 
     def profile = __getobj__
@@ -39,7 +40,12 @@ module Profiles
 
     def rankings_gender_toggle? = female?
 
-    def female_rankings? = female? && dashboard_female_rankings
+    def female_rankings?
+      return false unless female?
+      return @requested_gender == :female unless @requested_gender.nil?
+
+      dashboard_female_rankings
+    end
 
     def rankings_gender = female_rankings? ? :female : :open
 

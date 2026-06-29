@@ -1,5 +1,7 @@
 es:
   profiles:
+    overview:
+      empty: "%{name} aún no ha subido tracks."
     avatars:
       form_modal:
         title: Edita tu foto

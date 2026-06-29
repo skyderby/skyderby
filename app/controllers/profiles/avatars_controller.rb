@@ -9,7 +9,7 @@ module Profiles
     end
 
     def create
-      authorize @profile, :update?
+      return respond_not_authorized unless @profile.editable?
 
       @profile.update(avatar_params)
 

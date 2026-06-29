@@ -1,16 +1,13 @@
 module Profiles
   class BadgesController < ApplicationController
     before_action :set_profile
+    before_action :ensure_can_manage_badges
 
     def new
-      authorize :badge, :new?
-
       @badge = @profile.badges.new
     end
 
     def create
-      authorize :badge, :create?
-
       @badge = @profile.badges.new(badge_params)
 
       if @badge.save
@@ -24,6 +21,10 @@ module Profiles
 
     def set_profile
       @profile = Profile.find(params[:profile_id])
+    end
+
+    def ensure_can_manage_badges
+      respond_not_authorized unless Badge.creatable?
     end
 
     def badge_params

@@ -31,7 +31,7 @@ class BadgesController < ApplicationController
   end
 
   def edit
-    authorize @badge
+    return respond_not_authorized unless @badge.editable?
 
     respond_to do |format|
       format.turbo_stream
