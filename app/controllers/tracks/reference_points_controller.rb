@@ -85,7 +85,7 @@ module Tracks
       return false unless Current.user&.registered?
       return true if Current.user.admin?
 
-      track.pilot&.user == Current.user
+      track.recorded_by?(Current.user)
     end
 
     def authorize_edit
