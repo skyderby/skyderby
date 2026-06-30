@@ -6,13 +6,13 @@
                layout: 'components/dialog',
                locals: {
                  title: event_result_presentation(@result),
-                 modal_size: 'lg',
+                 dialog_size: 'lg',
                  modal: true,
                  result: @result,
                  editable:
                } %>
   <% else %>
-    <%= render layout: 'components/dialog', locals: { title: event_result_presentation(@result), modal_size: 'lg' } do %>
+    <%= render layout: 'components/dialog', locals: { title: event_result_presentation(@result), dialog_size: 'lg' } do %>
       <div class="sd-container">
         <%= render 'performance_competitions/results/navbar', result: @result, modal: true %>
         <%= render 'components/maps_auth_wall' %>
