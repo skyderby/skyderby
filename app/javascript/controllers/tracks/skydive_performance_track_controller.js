@@ -434,6 +434,7 @@ export default class extends Controller {
 
   updateView() {
     this.windowPoints = cropPoints(this.points, this.fromValue, this.toValue)
+    if (this.windowPoints.length === 0) return
 
     if (this.hasWeatherData) {
       this.windowPoints = calculateWindCancellation(this.windowPoints, this.weatherData)
