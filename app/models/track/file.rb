@@ -21,6 +21,8 @@ class Track::File < ApplicationRecord
           dependent: :restrict_with_error,
           inverse_of: :track_file
 
+  validates :file, presence: true
+
   delegate :empty?, to: :segments, prefix: true
 
   def track_file_data(index = 0)
