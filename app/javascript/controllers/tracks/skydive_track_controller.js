@@ -66,6 +66,8 @@ export default class extends Controller {
 
     Promise.all([this.fetchPoints(), this.fetchWeather()]).then(
       ([pointsData, weatherData]) => {
+        if (!pointsData) return
+
         this.points = pointsData.points
         this.weatherData = weatherData
         this.initializeRange()
@@ -140,9 +142,6 @@ export default class extends Controller {
         }
 
         this.showError(error)
-
-        if (error.status === 403) return
-        throw error
       })
   }
 

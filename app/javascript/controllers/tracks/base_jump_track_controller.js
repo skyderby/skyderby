@@ -52,6 +52,8 @@ export default class extends Controller {
     }
 
     Promise.all(fetches).then(([pointsData, , compareData]) => {
+      if (!pointsData) return
+
       this.points = pointsData.points
       this.points.forEach(point => {
         point.playerTime = point.flTime - this.points[0].flTime
@@ -218,6 +220,7 @@ export default class extends Controller {
         })
         return data
       })
+      .catch(() => undefined)
   }
 
   prepareCompare() {
