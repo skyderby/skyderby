@@ -73,4 +73,8 @@ module VirtualCompetitionsHelper
   def competition_badge(competition)
     t("virtual_competitions.badges.#{competition.discipline}", parameter: competition.discipline_parameter)
   end
+
+  def competition_location(competition)
+    competition.place_name || t('virtual_competitions.worldwide')
+  end
 end

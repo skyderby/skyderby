@@ -250,6 +250,7 @@
   font-weight: 600;
 }
 
+.vc-card__place,
 .vc-card__athletes {
   display: inline-flex;
   align-items: center;

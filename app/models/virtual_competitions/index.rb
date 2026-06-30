@@ -27,7 +27,9 @@ module VirtualCompetitions
     private
 
     def grouped(scope)
-      scope.includes(:group).group_by(&:group_name)
+      scope.includes(:group, :place).group_by(&:group_name).transform_values do |competitions|
+        competitions.sort_by { |competition| [-athlete_count(competition), competition.name.to_s] }
+      end
     end
 
     def athlete_counts
