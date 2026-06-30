@@ -126,7 +126,7 @@
 
         <div class="base-jump-charts"
              data-controller="synchronized-charts"
-             data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip">
+             data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip mousemove->tracks--base-jump-track#onChartHover touchmove->tracks--base-jump-track#onChartHover">
           <div class="base-jump-glide-chart"
                data-tracks--base-jump-track-target="glideChart"
                data-synchronized-charts-target="chart"></div>

@@ -310,6 +310,32 @@ export default class extends Controller {
     this.updateMapMarkerAtIndex(index)
   }
 
+  onChartHover(event) {
+    if (!this.points || this.points.length === 0) return
+
+    const chart = this.chartForHover()
+    if (!chart?.pointer) return
+
+    const normalized = chart.pointer.normalize(event)
+    const series = chart.series.find(item => item.visible && item.points?.length)
+    if (!series) return
+
+    const point = series.searchPoint(normalized, true)
+    if (point == null || point.index == null) return
+
+    this.currentIndex = point.index
+    this.currentFraction = 0
+    this.updatePlaybackPosition()
+  }
+
+  chartForHover() {
+    return (
+      (this.hasGlideChartTarget && this.glideChartTarget.chart) ||
+      (this.hasSpeedChartTarget && this.speedChartTarget.chart) ||
+      (this.hasSepChartTarget && this.sepChartTarget.chart)
+    )
+  }
+
   initGlideChart() {
     if (!this.hasGlideChartTarget) return
 
@@ -865,10 +891,16 @@ export default class extends Controller {
     ].filter(Boolean)
 
     charts.forEach(chart => {
-      if (!chart.series?.[0]?.points?.[index]) return
+      const points = chart.series
+        .filter(series => series.visible && series.enableMouseTracking !== false)
+        .map(series => series.points?.[index])
+        .filter(Boolean)
 
-      const point = chart.series[0].points[index]
-      chart.xAxis[0].drawCrosshair(null, point)
+      if (points.length === 0) return
+
+      points[0].onMouseOver()
+      chart.tooltip.refresh(points)
+      chart.xAxis[0].drawCrosshair(null, points[0])
     })
   }
 
