@@ -45,7 +45,10 @@ export default class extends Controller {
   }
 
   handleKeydown(event) {
-    if (event.key === 'Escape') this.close()
+    if (event.key !== 'Escape') return
+    if (this.element.querySelector(':popover-open')) return
+
+    this.close()
   }
 
   close() {

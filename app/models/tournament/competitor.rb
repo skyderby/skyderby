@@ -15,8 +15,7 @@
 class Tournament::Competitor < ApplicationRecord
   include PhotoUploader::Attachment(:photo)
   include SponsorLogoUploader::Attachment(:sponsor_logo)
-
-  attr_accessor :profile_attributes, :profile_mode
+  include CompetitorAlias
 
   belongs_to :tournament
   belongs_to :profile
@@ -25,21 +24,19 @@ class Tournament::Competitor < ApplicationRecord
   has_many :match_slots, dependent: :restrict_with_error, class_name: 'Tournament::Match::Slot'
   has_many :qualification_jumps, dependent: :restrict_with_error
 
-  delegate :name, to: :profile, allow_nil: true
+  accepts_nested_attributes_for :profile
+
   delegate :country_id, to: :profile, allow_nil: true
   delegate :country_name, to: :profile, allow_nil: true
   delegate :country_code, to: :profile, allow_nil: true
   delegate :name, to: :suit, prefix: true, allow_nil: true
 
-  before_validation :create_profile
   after_validation { photo_derivatives! if photo_changed? }
   after_validation { sponsor_logo_derivatives! if sponsor_logo_changed? }
 
-  private
+  def profile_attributes=(attrs)
+    attrs[:require_country] = attrs.key?(:country_id)
 
-  def create_profile
-    return if profile || profile_mode.to_sym == :select
-
-    self.profile = Profile.create profile_attributes
+    super(attrs)
   end
 end

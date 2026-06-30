@@ -1,5 +1,7 @@
 fr:
   tournaments:
+    form:
+      finish_line_placeholder: "Sélectionner la ligne d'arrivée"
     show:
       show_details: Cliquer pour voir les détails de l'enregistrement
     qualifications:

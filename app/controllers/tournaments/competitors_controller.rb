@@ -1,8 +1,10 @@
 module Tournaments
   class CompetitorsController < ApplicationController
     include Qualifications::RespondWithScoreboard
+    include CompetitorProfileParams
 
     before_action :authorize_tournament
+    before_action :set_event
     before_action :set_tournament_competitor, only: [:edit, :update, :destroy]
 
     def index
@@ -65,22 +67,27 @@ module Tournaments
       @tournament ||= Tournament.find(params[:tournament_id])
     end
 
+    def set_event
+      @event = tournament
+    end
+
     def set_tournament_competitor
       @competitor = tournament.competitors.find(params[:id])
     end
 
     def tournament_competitor_params
-      params.require(:tournament_competitor).permit(
-        :tournament_id,
+      permitted = params.require(:tournament_competitor).permit(
         :profile_id,
+        :alias_id,
         :suit_id,
-        :profile_mode,
         :is_disqualified,
         :disqualification_reason,
         :photo,
         :sponsor_logo,
         profile_attributes: [:name, :country_id]
       )
+
+      resolve_profile(permitted)
     end
 
     def authorize_tournament

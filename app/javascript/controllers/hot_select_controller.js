@@ -17,11 +17,13 @@ export default class HotSelect extends Controller {
     this.close = this.close.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
     this.onToggle = this.onToggle.bind(this)
+    this.syncDisplay = this.syncDisplay.bind(this)
     this.search = debounce(this.search.bind(this), 300)
 
     this.focusedOptionIndex = -1
 
     this.dropdownTarget.addEventListener('toggle', this.onToggle)
+    this.selectInputTarget.addEventListener('change', this.syncDisplay)
     document.addEventListener('turbo:before-render', this.close)
 
     const initialSelected =
@@ -44,6 +46,7 @@ export default class HotSelect extends Controller {
 
   disconnect() {
     this.dropdownTarget.removeEventListener('toggle', this.onToggle)
+    this.selectInputTarget.removeEventListener('change', this.syncDisplay)
     document.removeEventListener('turbo:before-render', this.close)
     document.removeEventListener('keydown', this.onKeyDown)
 
@@ -55,6 +58,28 @@ export default class HotSelect extends Controller {
       this.dropdownTarget.hidePopover()
     } else {
       this.dropdownTarget.showPopover()
+    }
+  }
+
+  onControlKeyDown(event) {
+    if (this.isOpen) return
+
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown') {
+      event.preventDefault()
+      this.dropdownTarget.showPopover()
+    }
+  }
+
+  syncDisplay() {
+    const selected = this.selectInputTarget.selectedOptions[0]
+
+    if (selected && selected.value) {
+      this.displayValueTarget.innerHTML = selected.text
+      this.displayValueTarget.classList.remove('hide')
+      this.placeholderTarget.classList.add('hide')
+    } else {
+      this.displayValueTarget.classList.add('hide')
+      this.placeholderTarget.classList.remove('hide')
     }
   }
 

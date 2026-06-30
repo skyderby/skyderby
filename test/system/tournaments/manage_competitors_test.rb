@@ -13,7 +13,8 @@ class ManageTournamentCompetitorsTest < ApplicationSystemTestCase
     click_link 'Add competitor'
     sleep 0.1 # wait for modal
 
-    hot_select profile.name, from: :profile_id
+    fill_in 'tournament_competitor[profile_attributes][name]', with: profile.name
+    find('.profile-suggestion', text: profile.name).click
     hot_select suit.name, from: :suit_id
 
     click_button I18n.t('general.save')
@@ -34,7 +35,6 @@ class ManageTournamentCompetitorsTest < ApplicationSystemTestCase
     click_link 'Add competitor'
     sleep 0.3 # wait for modal
 
-    find('#tournament_competitor_profile_mode_create').click
     fill_in 'tournament_competitor[profile_attributes][name]', with: 'Petr Zh'
 
     # Select country

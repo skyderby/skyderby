@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_30_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_30_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -670,6 +670,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_30_000000) do
   end
 
   create_table "tournament_competitors", id: :serial, force: :cascade do |t|
+    t.bigint "alias_id"
     t.timestamptz "created_at", null: false
     t.string "disqualification_reason"
     t.boolean "is_disqualified"
@@ -679,6 +680,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_30_000000) do
     t.integer "suit_id"
     t.integer "tournament_id"
     t.timestamptz "updated_at", null: false
+    t.index ["alias_id"], name: "index_tournament_competitors_on_alias_id"
     t.index ["tournament_id"], name: "index_tournament_competitors_on_tournament_id"
   end
 
@@ -951,6 +953,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_30_000000) do
   add_foreign_key "speed_skydiving_competition_teams", "speed_skydiving_competitions", column: "event_id"
   add_foreign_key "speed_skydiving_competitions", "places"
   add_foreign_key "speed_skydiving_competitions", "users", column: "responsible_id"
+  add_foreign_key "tournament_competitors", "profile_aliases", column: "alias_id"
   add_foreign_key "tournament_competitors", "profiles"
   add_foreign_key "tournaments", "place_finish_lines", column: "finish_line_id"
   add_foreign_key "tournaments", "profiles"

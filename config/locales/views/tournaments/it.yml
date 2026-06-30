@@ -1,5 +1,7 @@
 it:
   tournaments:
+    form:
+      finish_line_placeholder: 'Seleziona linea di arrivo'
     show:
       show_details: Clicca per vedere il dettaglio della traccia
     qualifications:

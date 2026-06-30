@@ -1,5 +1,7 @@
 ru:
   tournaments:
+    form:
+      finish_line_placeholder: 'Выберите финишную линию'
     show:
       show_details: 'Нажмите для просмотра деталей трека'
       edit_link: 'Время старта, результат, время под куполом'

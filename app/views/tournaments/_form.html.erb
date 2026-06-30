@@ -25,12 +25,14 @@
       <div class="form-row">
         <%= f.label :finish_line, class: 'col-sm-2 form-label' %>
         <div class="col-sm-5">
-          <% finish_line_options = Place::FinishLine.order(:name).map { |fl| [fl.name, fl.id] } %>
-          <%= render 'hot_select/local_select',
+          <% finish_line_options = @tournament.finish_line ? options_for_select([[@tournament.finish_line.name, @tournament.finish_line_id]], @tournament.finish_line_id) : [] %>
+          <%= render 'hot_select/select',
                      form: f,
                      name: :finish_line_id,
+                     src: places_finish_lines_select_options_path(place_id: @tournament.place_id),
                      options: finish_line_options,
-                     placeholder: 'Select finish line' %>
+                     placeholder: t('tournaments.form.finish_line_placeholder'),
+                     select: { data: { 'tournaments--form-target': 'finishLineSelect' } } %>
         </div>
       </div>
 

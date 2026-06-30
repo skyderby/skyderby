@@ -1,5 +1,4 @@
 <% form_path = @competitor.new_record? ? tournament_competitors_path(@tournament) : tournament_competitor_path(@tournament, @competitor) %>
-<% existing_profile = @competitor.profile_mode.to_s != 'create' %>
 
 <%= form_with model: @competitor, url: form_path, multipart: true, data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
   <div class="sd-form">
@@ -7,43 +6,7 @@
       <%= t('competitors.form.profile') %>
     </h3>
 
-    <label class="radio-label">
-      <%= f.radio_button :profile_mode, :select, checked: existing_profile %>
-      <%= t('competitors.form.select_profile') %>
-    </label>
-
-    <div class="grid">
-      <%= render 'hot_select/select',
-                 form: f,
-                 name: :profile_id,
-                 src: profiles_select_options_path,
-                 placeholder: t('tracks.form.profile_select_placeholder'),
-                 options: options_for_select([[@competitor.name, @competitor.profile_id]], @competitor.profile_id),
-                 class: 'col-12' %>
-    </div>
-
-    <label class="radio-label">
-      <%= f.radio_button :profile_mode, :create, checked: !existing_profile %>
-      <%= t('competitors.form.create_profile') %>
-    </label>
-
-    <%= f.fields_for :profile_attributes do |builder| %>
-      <div class="grid">
-        <div class="col-7">
-          <%= builder.label :name, t('activerecord.attributes.profile.name') %>
-          <%= builder.text_field :name, class: 'form-input' %>
-        </div>
-        <div class="col-5">
-          <%= builder.label :country, t('activerecord.attributes.profile.country') %>
-          <%= render 'hot_select/select',
-                     form: builder,
-                     name: :country_id,
-                     src: countries_select_options_path,
-                     placeholder: 'Choose country',
-                     options: options_for_select([[@competitor.country_name, @competitor.country_id]]) %>
-        </div>
-      </div>
-    <% end %>
+    <%= render 'competitors/profile_fields', f:, competitor: @competitor, event: @tournament %>
 
     <div class="form-divider"></div>
 

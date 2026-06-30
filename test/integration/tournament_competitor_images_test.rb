@@ -22,7 +22,6 @@ class TournamentCompetitorImagesTest < ActionDispatch::IntegrationTest
     assert_difference -> { @tournament.competitors.count }, 1 do
       post tournament_competitors_path(@tournament), params: {
         tournament_competitor: {
-          profile_mode: 'create',
           suit_id: @suit.id,
           photo: photo,
           sponsor_logo: logo,

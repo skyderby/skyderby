@@ -1,5 +1,7 @@
 de:
   tournaments:
+    form:
+      finish_line_placeholder: 'Ziellinie auswählen'
     show:
       show_details: 'Hier klicken für Trackdetails'
     qualifications:

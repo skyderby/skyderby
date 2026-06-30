@@ -21,7 +21,8 @@
     <%= select_tag name, options_for_select(options), select_html_options %>
   <% end %>
 
-  <div class="hot-select-control" tabindex="0">
+  <div class="hot-select-control" tabindex="0"
+       data-action="keydown->hot-select#onControlKeyDown">
     <div class="hot-select-placeholder"
          data-action="click->hot-select#toggle"
          data-hot-select-target="placeholder">

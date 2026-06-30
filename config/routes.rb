@@ -358,6 +358,9 @@ Skyderby::Application.routes.draw do
         resources :select_options,
                   only: :index, path: 'jump_profiles/select_options',
                   module: :jump_profiles, as: :places_jump_profiles_select_options
+        resources :select_options,
+                  only: :index, path: 'finish_lines/select_options',
+                  module: :finish_lines, as: :places_finish_lines_select_options
         resources :select_options, only: :index, as: :places_select_options
       end
     end
