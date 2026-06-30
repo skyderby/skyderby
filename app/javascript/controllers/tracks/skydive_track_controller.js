@@ -12,6 +12,8 @@ import downsamplePoints from 'utils/downsamplePoints'
 import calculateWindCancellation from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
 import { convertSpeed, convertLength, lengthUnitLabel } from 'utils/units'
+import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
+import I18n from 'i18n'
 
 export default class extends Controller {
   static targets = [
@@ -49,10 +51,11 @@ export default class extends Controller {
     'windEffectGlideRatioWind',
     'range3000to2000',
     'range2500to1500',
-    'straightLineButton'
+    'straightLineButton',
+    'emptyState'
   ]
 
-  static outlets = ['tracks--range-selector', 'toasts']
+  static outlets = ['tracks--range-selector']
 
   static values = {
     pointsUrl: String,
@@ -64,16 +67,31 @@ export default class extends Controller {
   connect() {
     this.initializeStraightLine()
 
-    Promise.all([this.fetchPoints(), this.fetchWeather()]).then(
-      ([pointsData, weatherData]) => {
-        if (!pointsData) return
+    Promise.all([
+      fetchTrackPoints(this.pointsUrlValue, { convertSpeeds: true }),
+      this.hasWeatherUrlValue
+        ? fetchTrackWeather(this.weatherUrlValue)
+        : Promise.resolve([])
+    ])
+      .then(([pointsData, weatherData]) => {
+        if (!pointsData.points || pointsData.points.length === 0) {
+          this.showEmptyState('no_data')
+          return
+        }
 
         this.points = pointsData.points
         this.weatherData = weatherData
         this.initializeRange()
         this.updateCharts()
-      }
-    )
+      })
+      .catch(() => this.showEmptyState('load_error'))
+  }
+
+  showEmptyState(messageKey) {
+    if (!this.hasEmptyStateTarget) return
+
+    this.emptyStateTarget.textContent = I18n.t(`tracks.show.${messageKey}`)
+    this.emptyStateTarget.classList.remove('hidden')
   }
 
   initializeStraightLine() {
@@ -105,74 +123,6 @@ export default class extends Controller {
       url.searchParams.delete('straight-line')
     }
     history.replaceState({}, '', url)
-  }
-
-  fetchPoints(attempt = 1) {
-    const maxAttempts = 3
-    const retryDelay = attempt * 1000
-
-    return fetch(this.pointsUrlValue, {
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => {
-        if (!response.ok) {
-          const error = new Error(`HTTP ${response.status}`)
-          error.status = response.status
-          throw error
-        }
-        return response.json()
-      })
-      .then(data => {
-        data.points.forEach(point => {
-          point.gpsTime = new Date(point.gpsTime)
-          point.hSpeed = point.hSpeed * 3.6
-          point.vSpeed = point.vSpeed * 3.6
-          point.fullSpeed = point.fullSpeed * 3.6
-        })
-
-        return data
-      })
-      .catch(error => {
-        const isRetryable = this.isRetryableError(error)
-
-        if (isRetryable && attempt < maxAttempts) {
-          return new Promise(resolve => setTimeout(resolve, retryDelay)).then(() =>
-            this.fetchPoints(attempt + 1)
-          )
-        }
-
-        this.showError(error)
-      })
-  }
-
-  isRetryableError(error) {
-    if (error.name === 'TypeError') return true
-    if (error.status >= 500) return true
-    return false
-  }
-
-  showError(error) {
-    if (!this.hasToastsOutlet) return
-
-    const message =
-      error.status >= 400
-        ? `Failed to load track data: ${error.message}`
-        : 'Failed to load track data. Please check your connection.'
-
-    this.toastsOutlet.show(message, 'error')
-  }
-
-  fetchWeather() {
-    if (!this.hasWeatherUrlValue) return Promise.resolve([])
-
-    return fetch(this.weatherUrlValue, {
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => {
-        if (!response.ok) return []
-        return response.json()
-      })
-      .catch(() => [])
   }
 
   initializeRange() {

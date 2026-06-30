@@ -13,7 +13,6 @@
        data-tracks--skydive-track-chart-type-value="<%= Current.charts_mode %>"
        data-tracks--skydive-track-charts-units-value="<%= Current.charts_units %>"
        data-tracks--skydive-track-tracks--range-selector-outlet="#range-selector"
-       data-tracks--skydive-track-toasts-outlet="#toasts"
        data-action="tracks--range-selector:change->tracks--skydive-track#updateRange">
     <%= render 'tracks/pro_view_notice' %>
 
@@ -75,6 +74,9 @@
         <div data-tracks--skydive-track-target="combinedChart"></div>
       </div>
     <% end %>
+
+    <div class="track-empty-state hidden"
+         data-tracks--skydive-track-target="emptyState"></div>
 
     <blockquote class="flex flex-column">
       <%= render 'track_metadata' %>

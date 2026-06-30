@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 import { differenceInMilliseconds } from 'utils/date'
 import I18n from 'i18n'
+import { fetchTrackPoints } from 'utils/tracks/trackData'
 import {
   saveSeriesVisibility,
   restoreSeriesVisibility,
@@ -54,25 +55,16 @@ export default class SpeedSkydivingChart extends Controller {
     this.windowStartTime = new Date(this.element.getAttribute('data-window-start'))
     this.windowEndTime = new Date(this.element.getAttribute('data-window-end'))
 
-    this.fetchPoints(this.trackId).then(this.initChart.bind(this))
+    this.fetchPoints(this.trackId)
+      .then(this.initChart.bind(this))
+      .catch(error => console.error('Failed to load speed skydiving chart', error))
   }
 
   fetchPoints(trackId) {
-    return fetch(`/tracks/${trackId}/points?original_frequency=true`, {
-      headers: { Accept: 'application/json' }
+    return fetchTrackPoints(`/tracks/${trackId}/points`, {
+      params: { original_frequency: true },
+      convertSpeeds: true
     })
-      .then(response => response.json())
-      .then(data => {
-        data.points.forEach(point => {
-          point.gpsTime = new Date(point.gpsTime)
-          point.hSpeed = point.hSpeed * 3.6
-          point.vSpeed = point.vSpeed * 3.6
-          point.fullSpeed = point.fullSpeed * 3.6
-          if (point.zerowindHSpeed) point.zerowindHSpeed = point.zerowindHSpeed * 3.6
-        })
-
-        return data
-      })
   }
 
   initChart({ points, windCancellation }) {

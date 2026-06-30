@@ -38,6 +38,7 @@ es:
       loading: 'Loading track data'
       full_jump: 'Salto completo'
       no_data: 'No hay datos de la pista disponibles para este salto'
+      load_error: 'No se pudieron cargar los datos de la pista. Inténtalo de nuevo más tarde.'
       no_speed_skydiving_result: 'No se pudo calcular el resultado de speed skydiving para esta pista'
     choose:
       title: 'Elige la pista para descargar'

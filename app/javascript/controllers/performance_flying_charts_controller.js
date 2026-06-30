@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
-import { get } from '@rails/request.js'
 import I18n from 'i18n'
+import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
 import {
   findPositionForAltitude,
   initAccuracyChart,
@@ -64,8 +64,8 @@ export default class PerformanceFlyingChartsController extends Controller {
         ? this.initSeparateCharts.bind(this)
         : this.initCombinedCharts.bind(this)
 
-    Promise.all([this.fetchPoints(), this.fetchWeather()]).then(
-      ([pointsData, weatherData]) => {
+    Promise.all([this.fetchPoints(), this.fetchWeather()])
+      .then(([pointsData, weatherData]) => {
         this.points = pointsData.points
         this.weatherData = weatherData
 
@@ -82,38 +82,22 @@ export default class PerformanceFlyingChartsController extends Controller {
 
         initCharts()
         this.updateTrackIndicators()
-      }
-    )
+      })
+      .catch(error => console.error('Failed to load performance flying charts', error))
   }
 
   get hasWeatherData() {
     return this.weatherData && this.weatherData.length > 0
   }
 
-  async fetchPoints() {
-    const response = await get(this.pointsUrl, { responseKind: 'json' })
-
-    const data = await response.json
-    data.points.forEach(point => {
-      point.gpsTime = new Date(point.gpsTime)
-      point.hSpeed = point.hSpeed * 3.6
-      point.vSpeed = point.vSpeed * 3.6
-      point.fullSpeed = point.fullSpeed * 3.6
-    })
-
-    return data
+  fetchPoints() {
+    return fetchTrackPoints(this.pointsUrl, { convertSpeeds: true })
   }
 
-  async fetchWeather() {
-    if (!this.weatherUrl) return []
+  fetchWeather() {
+    if (!this.weatherUrl) return Promise.resolve([])
 
-    try {
-      const response = await get(this.weatherUrl, { responseKind: 'json' })
-      if (!response.ok) return []
-      return await response.json
-    } catch {
-      return []
-    }
+    return fetchTrackWeather(this.weatherUrl)
   }
 
   updateTrackIndicators() {

@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import fetchTrackPoints from 'utils/fetchTrackPoints'
+import { fetchTrackPoints } from 'utils/tracks/trackData'
 import {
   createTrackGraphics,
   createWindowMarkers
@@ -103,9 +103,11 @@ export default class extends Controller {
     }
 
     const data = await fetchTrackPoints(url, {
-      original_frequency: true,
-      'trimmed[seconds_before_start]': 15,
-      'trimmed[seconds_after_end]': 120
+      params: {
+        original_frequency: true,
+        'trimmed[seconds_before_start]': 15,
+        'trimmed[seconds_after_end]': 120
+      }
     })
     this.pointsCache.set(url, data)
     return data

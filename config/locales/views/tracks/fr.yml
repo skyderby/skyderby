@@ -38,6 +38,7 @@ fr:
       loading: Chargmenet des données de l'enregistrement
       full_jump: Saut complet
       no_data: Aucune donnée d'enregistrement disponible pour ce saut
+      load_error: Impossible de charger les données d'enregistrement. Veuillez réessayer plus tard.
       no_speed_skydiving_result: Impossible de calculer le résultat de speed skydiving pour cet enregistrement
     choose:
       title: Sélectionner l'enregistrement à télécharger

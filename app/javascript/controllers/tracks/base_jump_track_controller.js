@@ -4,6 +4,8 @@ import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
+import { fetchTrackPoints } from 'utils/tracks/trackData'
+import I18n from 'i18n'
 
 const SYNC_VERTICAL_SPEED = 10
 const FINISH_LINE_COLOR = '#8b0000'
@@ -23,7 +25,8 @@ export default class extends Controller {
     'comparePlaybackIndicators',
     'compareModal',
     'expandMapToggle',
-    'finishLineToggle'
+    'finishLineToggle',
+    'emptyState'
   ]
 
   static values = {
@@ -46,32 +49,51 @@ export default class extends Controller {
     this.currentIndex = 0
     this.comparePoints = null
 
-    const fetches = [this.fetchPoints(this.pointsUrlValue), initMapsApi()]
+    const fetches = [
+      fetchTrackPoints(this.pointsUrlValue, { convertSpeeds: true }),
+      initMapsApi()
+    ]
     if (this.hasComparePointsUrlValue) {
-      fetches.push(this.fetchPoints(this.comparePointsUrlValue))
+      fetches.push(
+        fetchTrackPoints(this.comparePointsUrlValue, { convertSpeeds: true }).catch(
+          () => null
+        )
+      )
     }
 
-    Promise.all(fetches).then(([pointsData, , compareData]) => {
-      if (!pointsData) return
+    Promise.all(fetches)
+      .then(([pointsData, , compareData]) => {
+        if (!pointsData.points || pointsData.points.length === 0) {
+          this.showEmptyState('no_data')
+          return
+        }
 
-      this.points = pointsData.points
-      this.points.forEach(point => {
-        point.playerTime = point.flTime - this.points[0].flTime
+        this.points = pointsData.points
+        this.points.forEach(point => {
+          point.playerTime = point.flTime - this.points[0].flTime
+        })
+        this.primarySyncFlTime = this.syncFlTime(this.points)
+
+        if (compareData && compareData.points.length > 0) {
+          this.comparePoints = compareData.points
+          this.prepareCompare()
+        }
+
+        this.findFinishLineCrossings()
+        this.initCharts()
+        this.renderMap()
+        this.initPlayback()
+        this.loadDefaultTerrainProfile()
+        this.initFinishLineToggle()
       })
-      this.primarySyncFlTime = this.syncFlTime(this.points)
+      .catch(() => this.showEmptyState('load_error'))
+  }
 
-      if (compareData && compareData.points.length > 0) {
-        this.comparePoints = compareData.points
-        this.prepareCompare()
-      }
+  showEmptyState(messageKey) {
+    if (!this.hasEmptyStateTarget) return
 
-      this.findFinishLineCrossings()
-      this.initCharts()
-      this.renderMap()
-      this.initPlayback()
-      this.loadDefaultTerrainProfile()
-      this.initFinishLineToggle()
-    })
+    this.emptyStateTarget.textContent = I18n.t(`tracks.show.${messageKey}`)
+    this.emptyStateTarget.classList.remove('hidden')
   }
 
   get hasFinishLine() {
@@ -204,23 +226,6 @@ export default class extends Controller {
     const curr = this.comparePoints[index]
     const crossingFlTime = prev.flTime + (curr.flTime - prev.flTime) * fraction
     return crossingFlTime - this.compareSyncFlTime
-  }
-
-  fetchPoints(url) {
-    return fetch(url, {
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => response.json())
-      .then(data => {
-        data.points.forEach(point => {
-          point.gpsTime = new Date(point.gpsTime)
-          point.hSpeed = point.hSpeed * 3.6
-          point.vSpeed = point.vSpeed * 3.6
-          point.fullSpeed = point.fullSpeed * 3.6
-        })
-        return data
-      })
-      .catch(() => undefined)
   }
 
   prepareCompare() {

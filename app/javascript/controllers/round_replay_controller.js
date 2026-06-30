@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { get } from '@rails/request.js'
+import { fetchTrackPoints } from 'utils/tracks/trackData'
 import amplitude from 'utils/amplitude'
 
 const COLORS = ['#470FF4', '#F24C00', '#AA3E98', '#247BA0']
@@ -210,21 +210,16 @@ export default class extends Controller {
       return this.pointsCache.get(pointsUrl)
     }
 
-    const params = new URLSearchParams({
-      original_frequency: true,
-      'trimmed[seconds_before_start]': 5,
-      'trimmed[seconds_after_end]': 10
+    const data = await fetchTrackPoints(pointsUrl, {
+      params: {
+        original_frequency: true,
+        'trimmed[seconds_before_start]': 5,
+        'trimmed[seconds_after_end]': 10
+      }
     })
 
-    const response = await get(`${pointsUrl}?${params}`, {
-      responseKind: 'json'
-    })
-    const data = await response.json
-
-    const points = data.points.map(p => ({ ...p, gpsTime: new Date(p.gpsTime) }))
-
-    this.pointsCache.set(pointsUrl, points)
-    return points
+    this.pointsCache.set(pointsUrl, data.points)
+    return data.points
   }
 
   findWindowPoints(points) {

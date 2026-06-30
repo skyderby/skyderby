@@ -39,6 +39,7 @@ en:
       loading: 'Loading track data'
       full_jump: 'Full jump'
       no_data: 'No track data available for this jump'
+      load_error: 'Could not load track data. Please try again later.'
       no_speed_skydiving_result: 'No speed skydiving result could be calculated for this track'
       designated_lane: 'Designated Lane'
       tab_drag_polar: 'Drag polar'

@@ -1,0 +1,9 @@
+.track-empty-state {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--gray-60);
+}
+
+.track-empty-state:not(.hidden) {
+  display: block;
+}

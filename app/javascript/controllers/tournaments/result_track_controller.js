@@ -4,6 +4,7 @@ import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
+import { fetchTrackPoints } from 'utils/tracks/trackData'
 
 export default class extends Controller {
   static targets = [
@@ -33,31 +34,22 @@ export default class extends Controller {
     this.playing = false
     this.currentIndex = 0
 
-    Promise.all([this.fetchPoints(), initMapsApi()]).then(([pointsData]) => {
-      this.points = pointsData.points
-      this.findFinishLineCrossing()
-      this.initCharts()
-      this.renderMap()
-      this.initPlayback()
-      this.displayMaxHSpeed()
-      this.displayResultTime()
-    })
-  }
+    Promise.all([
+      fetchTrackPoints(this.pointsUrlValue, { convertSpeeds: true }),
+      initMapsApi()
+    ])
+      .then(([pointsData]) => {
+        if (!pointsData.points || pointsData.points.length === 0) return
 
-  fetchPoints() {
-    return fetch(this.pointsUrlValue, {
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => response.json())
-      .then(data => {
-        data.points.forEach(point => {
-          point.gpsTime = new Date(point.gpsTime)
-          point.hSpeed = point.hSpeed * 3.6
-          point.vSpeed = point.vSpeed * 3.6
-          point.fullSpeed = point.fullSpeed * 3.6
-        })
-        return data
+        this.points = pointsData.points
+        this.findFinishLineCrossing()
+        this.initCharts()
+        this.renderMap()
+        this.initPlayback()
+        this.displayMaxHSpeed()
+        this.displayResultTime()
       })
+      .catch(error => console.error('Failed to load result track', error))
   }
 
   findFinishLineCrossing() {

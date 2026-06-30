@@ -25,6 +25,9 @@ import {
   closestIndexByPlayerTime,
   interpolateByPlayerTime
 } from 'utils/tracks/pointHelpers'
+import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
+import { get } from '@rails/request.js'
+import I18n from 'i18n'
 
 export default class extends Controller {
   static targets = [
@@ -110,7 +113,7 @@ export default class extends Controller {
           }
 
           if (!this.points || this.points.length === 0) {
-            this.showEmptyState()
+            this.showEmptyState('no_data')
             return
           }
 
@@ -122,14 +125,15 @@ export default class extends Controller {
       )
       .catch(error => {
         console.error('Failed to initialize skydive performance view', error)
-        this.showEmptyState()
+        this.showEmptyState('load_error')
       })
   }
 
-  showEmptyState() {
-    if (this.hasEmptyStateTarget) {
-      this.emptyStateTarget.classList.remove('hidden')
-    }
+  showEmptyState(messageKey = 'no_data') {
+    if (!this.hasEmptyStateTarget) return
+
+    this.emptyStateTarget.textContent = I18n.t(`tracks.show.${messageKey}`)
+    this.emptyStateTarget.classList.remove('hidden')
   }
 
   computeBestWindows() {
@@ -285,76 +289,35 @@ export default class extends Controller {
   }
 
   fetchPoints() {
-    return fetch(this.pointsUrlValue, {
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => response.json())
-      .then(data => {
-        data.points.forEach(point => {
-          point.gpsTime = new Date(point.gpsTime)
-          point.hSpeed = point.hSpeed * 3.6
-          point.vSpeed = point.vSpeed * 3.6
-          point.fullSpeed = point.fullSpeed * 3.6
-        })
-        return data
-      })
+    return fetchTrackPoints(this.pointsUrlValue, { convertSpeeds: true })
   }
 
   fetchWeather() {
     if (!this.hasWeatherUrlValue) return Promise.resolve([])
 
-    return fetch(this.weatherUrlValue, {
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => {
-        if (!response.ok) return []
-        return response.json()
-      })
-      .catch(() => [])
+    return fetchTrackWeather(this.weatherUrlValue)
   }
 
   fetchCompareWeather() {
     if (!this.hasCompareWeatherUrlValue) return Promise.resolve([])
 
-    return fetch(this.compareWeatherUrlValue, {
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => {
-        if (!response.ok) return []
-        return response.json()
-      })
-      .catch(() => [])
+    return fetchTrackWeather(this.compareWeatherUrlValue)
   }
 
   fetchReferencePoint() {
     if (!this.hasReferencePointUrlValue) return Promise.resolve(null)
 
-    return fetch(this.referencePointUrlValue, {
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => {
-        if (!response.ok) return null
-        return response.json()
-      })
+    return get(this.referencePointUrlValue, { responseKind: 'json' })
+      .then(response => (response.ok ? response.json : null))
       .catch(() => null)
   }
 
   fetchComparePoints() {
     if (!this.hasComparePointsUrlValue) return Promise.resolve(null)
 
-    return fetch(this.comparePointsUrlValue, {
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => response.json())
-      .then(data => {
-        data.points.forEach(point => {
-          point.gpsTime = new Date(point.gpsTime)
-          point.hSpeed = point.hSpeed * 3.6
-          point.vSpeed = point.vSpeed * 3.6
-          point.fullSpeed = point.fullSpeed * 3.6
-        })
-        return data
-      })
+    return fetchTrackPoints(this.comparePointsUrlValue, { convertSpeeds: true }).catch(
+      () => null
+    )
   }
 
   get hasWeatherData() {

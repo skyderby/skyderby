@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 import { calculateFlightProfile, calculateTerrainClearance } from 'utils/flightProfiles'
 import I18n from 'i18n'
+import { fetchTrackPoints } from 'utils/tracks/trackData'
 
 const headerFormat = '<span style="font-size: 14px">{series.name}</span><br/>'
 
@@ -219,12 +220,10 @@ export default class FlightProfilesController extends Controller {
       return this.pointsCache.get(trackId)
     }
 
-    return fetch(`/tracks/${trackId}/points`, { headers: { Accept: 'application/json' } })
-      .then(res => res.json())
-      .then(data => {
-        this.pointsCache.set(trackId, data)
-        return data
-      })
+    return fetchTrackPoints(`/tracks/${trackId}/points`).then(data => {
+      this.pointsCache.set(trackId, data)
+      return data
+    })
   }
 
   displayTerrainClearance(track, points, color) {
