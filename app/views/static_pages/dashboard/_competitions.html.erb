@@ -7,7 +7,7 @@
 
     <div class="dashboard-list dashboard-collapsible is-collapsed" data-reveal-target="container">
       <% competitions.each do |entry| %>
-        <%= link_to polymorphic_path(entry.event), class: 'dashboard-list__row' do %>
+        <%= link_to polymorphic_path(entry.event), class: 'dashboard-list__row', data: { turbo_frame: '_top' } do %>
           <% if show_place %>
             <% if entry.hidden_place %>
               <span class="dashboard-place dashboard-place--hidden">?</span>
