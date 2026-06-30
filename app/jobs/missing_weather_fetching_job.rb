@@ -7,6 +7,7 @@ class MissingWeatherFetchingJob < ApplicationJob
     @track = Track.find_by(id: track_id)
     place = @track&.place
     return if !@track || @track.base? || !place
+    return if forecast_hour.blank?
 
     return if place.weather_data.for_time(forecast_hour).exists?
 
@@ -38,7 +39,7 @@ class MissingWeatherFetchingJob < ApplicationJob
 
     return if result.success
 
-    WeatherFetchingLog.create!(time:, error_description: result.errors)
+    WeatherFetchingLog.create!(time: forecast_hour, error_description: result.errors)
     raise DownloadError, result.errors.join("\n")
   end
 end
