@@ -16,7 +16,7 @@
           <% end %>
         </div>
 
-        <% if @gifted_subscriptions.any? %>
+        <% if @profile.gifted_subscriptions.any? %>
           <table class="table">
             <thead>
               <tr>
@@ -29,7 +29,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @gifted_subscriptions.each do |subscription| %>
+              <% @profile.gifted_subscriptions.each do |subscription| %>
                 <tr>
                   <td><%= subscription_status_badge(subscription) %></td>
                   <td><%= subscription.expires_at ? l(subscription.expires_at.to_date) : 'Never (Lifetime)' %></td>
@@ -59,7 +59,7 @@
           <h3 class="subscription-admin__title">Stripe Subscriptions</h3>
         </div>
 
-        <% if @subscriptions.any? %>
+        <% if @profile.stripe_subscriptions.any? %>
           <table class="table">
             <thead>
               <tr>
@@ -71,7 +71,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @subscriptions.each do |subscription| %>
+              <% @profile.stripe_subscriptions.each do |subscription| %>
                 <tr>
                   <td><%= subscription.name %></td>
                   <td><%= subscription_status_badge(subscription) %></td>
@@ -99,7 +99,7 @@
           <h3 class="subscription-admin__title">Stripe Charges</h3>
         </div>
 
-        <% if @charges.any? %>
+        <% if @profile.charges.any? %>
           <table class="table">
             <thead>
               <tr>
@@ -110,7 +110,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @charges.each do |charge| %>
+              <% @profile.charges.each do |charge| %>
                 <tr>
                   <td><%= number_to_currency(charge.amount / 100.0, unit: charge.currency&.upcase || '$') %></td>
                   <td><%= charge.metadata&.dig('type') || '-' %></td>
@@ -130,15 +130,15 @@
       <div class="subscription-admin__section">
         <div class="subscription-admin__header">
           <h3 class="subscription-admin__title">Donations</h3>
-          <% if @contributions.any? %>
+          <% if @profile.donations.any? %>
             <div class="subscription-admin__summary">
-              <%= number_to_currency(@contributions.sum(&:amount)) %>
-              <span><%= pluralize(@contributions.size, 'donation') %></span>
+              <%= number_to_currency(@profile.donations.sum(&:amount)) %>
+              <span><%= pluralize(@profile.donations.size, 'donation') %></span>
             </div>
           <% end %>
         </div>
 
-        <% if @contributions.any? %>
+        <% if @profile.donations.any? %>
           <table class="data-table">
             <thead>
               <tr>
@@ -147,7 +147,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @contributions.each do |contribution| %>
+              <% @profile.donations.each do |contribution| %>
                 <tr>
                   <td><%= contribution.received_at ? l(contribution.received_at) : '-' %></td>
                   <td class="data-table__amount"><%= number_to_currency(contribution.amount) %></td>

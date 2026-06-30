@@ -3,12 +3,7 @@ class Profiles::SubscriptionsController < ApplicationController
   before_action :ensure_manageable_subscription
 
   def show
-    @user = @profile.owner
-    @gifted_subscriptions = @user.gifted_subscriptions.order(created_at: :desc)
-    @pay_customer = @user.stripe_processor
-    @charges = @pay_customer&.charges&.order(created_at: :desc) || []
-    @subscriptions = @pay_customer&.subscriptions&.order(created_at: :desc) || []
-    @contributions = @profile.contributions.order(received_at: :desc)
+    @profile = Profiles::SubscriptionAdmin.new(@profile)
   end
 
   private
