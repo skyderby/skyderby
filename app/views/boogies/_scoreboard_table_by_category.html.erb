@@ -6,7 +6,7 @@
       <%= render 'boogies/scoreboard_header', event:, scoreboard:, editable: %>
       <% scoreboard.categories.each do |category, standings| %>
         <tbody>
-          <%= render 'boogies/categories/category_row', event: @event, category:, columns_count: scoreboard.rounds.count + 4, editable: %>
+          <%= render 'boogies/categories/category_row', event:, category:, columns_count: scoreboard.rounds.count + 4, editable: %>
           <%= render 'boogies/scoreboard_standings', event:, rounds: scoreboard.rounds, standings: , editable: %>
         </tbody>
       <% end %>
