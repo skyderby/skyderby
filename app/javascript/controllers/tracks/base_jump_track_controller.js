@@ -1011,17 +1011,20 @@ export default class extends Controller {
     if (this.animationFrame) {
       cancelAnimationFrame(this.animationFrame)
     }
-    if (this.sideProjectionChart) {
-      this.sideProjectionChart.destroy()
-    }
-    if (this.glideChartTarget?.chart) {
-      this.glideChartTarget.chart.destroy()
-    }
-    if (this.speedChartTarget?.chart) {
-      this.speedChartTarget.chart.destroy()
-    }
-    if (this.sepChartTarget?.chart) {
-      this.sepChartTarget.chart.destroy()
+
+    this.destroyChart(this.sideProjectionChart)
+    this.destroyChart(this.glideChartTarget?.chart)
+    this.destroyChart(this.speedChartTarget?.chart)
+    this.destroyChart(this.sepChartTarget?.chart)
+  }
+
+  destroyChart(chart) {
+    if (!chart) return
+
+    try {
+      chart.destroy()
+    } catch {
+      // chart may already be torn down during fast navigation
     }
   }
 }
