@@ -27,11 +27,19 @@ module Profiles
 
     def any_modes? = available_modes.any?
 
+    RECENT_TRACKS_FOR_MODE = 20
+
     def current_mode
       @current_mode ||=
         [@requested_mode, stored_mode]
         .compact
-        .find { |mode| available_modes.include?(mode) } || available_modes.first
+        .find { |mode| available_modes.include?(mode) } || default_mode
+    end
+
+    def default_mode
+      recent_kinds = tracks.order(recorded_at: :desc).limit(RECENT_TRACKS_FOR_MODE).pluck(:kind).tally
+      available_modes.max_by { |mode| recent_kinds[ACTIVITY_BY_MODE.fetch(mode).to_s] || 0 } ||
+        available_modes.first
     end
 
     def stored_mode = dashboard_mode&.to_sym

@@ -1,16 +1,19 @@
 require 'test_helper'
 
 class DashboardTest < ActionDispatch::IntegrationTest
-  test 'signed-in user with a skydive track sees the performance dashboard' do
+  test 'signed-in user whose recent jumps are mostly skydive sees the performance dashboard' do
+    # regular_user has 3 BASE tracks in the fixtures -> skydive must dominate the recent jumps
     profile = profiles(:regular_user)
-    Track.create!(
-      pilot: profile,
-      place: places(:hellesylt),
-      suit: suits(:apache),
-      kind: :skydive,
-      visibility: :public_track,
-      recorded_at: Time.current
-    )
+    4.times do |index|
+      Track.create!(
+        pilot: profile,
+        place: places(:hellesylt),
+        suit: suits(:apache),
+        kind: :skydive,
+        visibility: :public_track,
+        recorded_at: Time.current + index.minutes
+      )
+    end
 
     sign_in users(:regular_user)
     get root_path
