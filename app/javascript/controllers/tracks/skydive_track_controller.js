@@ -106,6 +106,8 @@ export default class extends Controller {
   }
 
   toggleStraightLine() {
+    if (!this.points) return
+
     this.straightLine = !this.straightLine
     this.updateStraightLineButton()
     this.updateStraightLineUrl()
@@ -219,6 +221,8 @@ export default class extends Controller {
   }
 
   updateCharts() {
+    if (!this.points) return
+
     this.windowPoints = cropPoints(this.points, this.fromValue, this.toValue)
 
     if (this.weatherData && this.weatherData.length > 0) {
