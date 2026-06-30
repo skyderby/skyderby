@@ -1,10 +1,20 @@
 <%# locals: (dashboard:) %>
 
-<% if dashboard.badges.any? %>
-  <div class="dashboard-section panel" data-controller="reveal">
-    <div class="dashboard-section__header"><%= t('dashboard.achievements.title') %></div>
+<% if dashboard.badges.any? || Badge.creatable? %>
+  <div class="dashboard-section panel profile-achievements" data-controller="reveal">
+    <div class="dashboard-section__header dashboard-section__header--linked">
+      <%= t('dashboard.achievements.title') %>
+      <% if Badge.creatable? %>
+        <%= link_to new_profile_badge_path(dashboard.profile),
+                    class: 'dashboard-section__link',
+                    data: { turbo_stream: true } do %>
+          <%= icon_tag 'plus-solid' %>
+          <%= t('general.add') %>
+        <% end %>
+      <% end %>
+    </div>
 
-    <div class="dashboard-badges dashboard-collapsible is-collapsed" data-reveal-target="container">
+    <div id="profile-badges" class="dashboard-badges dashboard-collapsible is-collapsed" data-reveal-target="container">
       <%= render partial: 'static_pages/dashboard/achievement', collection: dashboard.badges, as: :badge %>
     </div>
 

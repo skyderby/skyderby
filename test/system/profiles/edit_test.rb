@@ -12,7 +12,7 @@ class EditProfileTest < ApplicationSystemTestCase
     fill_in I18n.t('activerecord.attributes.profile.name'), with: new_profile_name
     click_button I18n.t('general.save')
 
-    assert_text new_profile_name
+    assert_text(/#{new_profile_name}/i)
   end
 
   test 'guest user attempts to open edit page' do

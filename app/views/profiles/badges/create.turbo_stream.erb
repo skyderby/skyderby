@@ -1,5 +1,3 @@
 <%= turbo_stream.append 'profile-badges' do %>
-  <%= render @badge %>
+  <%= render partial: 'static_pages/dashboard/achievement', locals: { badge: @badge } %>
 <% end %>
-
-<%= turbo_stream.remove '.blankslate' if @profile.badges.count == 1 %>

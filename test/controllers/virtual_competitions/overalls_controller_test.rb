@@ -19,8 +19,8 @@ class VirtualCompetitions::OverallsControllerTest < ActionDispatch::IntegrationT
     get virtual_competition_overall_path(virtual_competition_id: @competition.id)
 
     assert_response :success
-    assert_select '.tab-bar .tab-bar-item', 3
-    assert_select '.tab-bar .tab-bar-item.active', text: 'All'
+    assert_select '.tab-bar--jump-kind .tab-bar-item', 3
+    assert_select '.tab-bar--jump-kind .tab-bar-item.active', text: 'All'
   end
 
   test 'filters scoreboard by selected jump kind' do

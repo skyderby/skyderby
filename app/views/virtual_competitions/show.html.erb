@@ -24,7 +24,7 @@
     <% current_params = request.path_parameters.merge(request.query_parameters.symbolize_keys) %>
     <div class="ranking-filters">
       <% if @ranking.jump_kind_options.any? %>
-        <div class="tab-bar">
+        <div class="tab-bar tab-bar--jump-kind">
           <% @ranking.jump_kind_options.each do |kind| %>
             <%= link_to t(".jump_kinds.#{kind || 'all'}"),
                         url_for(current_params.merge(jump_kind: kind, page: nil)),
@@ -33,7 +33,7 @@
         </div>
       <% end %>
 
-      <div class="tab-bar">
+      <div class="tab-bar tab-bar--gender">
         <% @ranking.gender_options.each do |gender| %>
           <%= link_to t(".genders.#{gender || 'open'}"),
                       url_for(current_params.merge(gender: gender, page: nil)),
