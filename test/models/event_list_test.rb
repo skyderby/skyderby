@@ -50,6 +50,21 @@ class EventListTest < ActiveSupport::TestCase
     assert_equal [profiles(:john).country_id], series.country_ids
   end
 
+  test 'resolves events with legacy fai rules' do
+    event = PerformanceCompetition.create!(
+      name: 'Legacy FAI',
+      responsible: @responsible,
+      starts_at: '2022-04-15'
+    )
+    Event.where(id: event.id).update_all(rules: Event.rules[:fai])
+
+    record = EventList.find_by(event_type: 'PerformanceCompetition', event_id: event.id)
+
+    assert_not_nil record
+    assert_not_nil record.event
+    assert_equal 'Legacy FAI', record.event.name
+  end
+
   test 'listable filters events correctly for non-participants' do
     user = create :user
 
