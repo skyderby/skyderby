@@ -54,6 +54,10 @@ class Tournament::Qualification::Competitor < SimpleDelegator
     end
   end
 
+  def scored?
+    ranking_key.any? { |value| value != NO_RESULT }
+  end
+
   def best_result_in?(result)
     return false unless multiple_results?
 

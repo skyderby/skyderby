@@ -31,7 +31,7 @@ class Tournament::Qualification::CompetitorsCollection
       position += 1
       key = competitor.ranking_key
 
-      if key == previous_key
+      if key == previous_key && competitor.scored?
         competitor.rank = previous_rank
       else
         competitor.rank = position

@@ -14,7 +14,7 @@ class SponsorsController < ApplicationController
     if @sponsor.save
       broadcast_sponsors_update
     else
-      respond_with_error @sponsor
+      respond_with_errors @sponsor
     end
   end
 
@@ -24,7 +24,7 @@ class SponsorsController < ApplicationController
     if @sponsor.destroy
       broadcast_sponsors_update
     else
-      respond_with_error @sponsor
+      respond_with_errors @sponsor
     end
   end
 

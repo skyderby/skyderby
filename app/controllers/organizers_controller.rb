@@ -12,7 +12,7 @@ class OrganizersController < ApplicationController
     if @organizer.save
       broadcast_organizers_update
     else
-      respond_with_error @organizer
+      respond_with_errors @organizer
     end
   end
 
@@ -22,7 +22,7 @@ class OrganizersController < ApplicationController
     if @organizer.destroy
       broadcast_organizers_update
     else
-      respond_with_error @organizer
+      respond_with_errors @organizer
     end
   end
 
