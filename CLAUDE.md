@@ -14,6 +14,7 @@ for skydivers and base jumpers.
 - Do not create service objects unless explicitly requested, either use a model method, concern or place the code in the controller
 - Check with rubocop for style issues
 - Prefer RESTful/resourceful routes (standard CRUD actions on a resource) over custom member/collection actions. For sub-features, use a nested resource with its own controller (e.g. `Tracks::ChartSettingsController#update`) instead of adding a custom action to the parent controller.
+- Avoid passing 3+ instance variables to a view; bundle them into a namespaced PORO wrapper in `app/models/<owner>/` (e.g. `Profiles::Dashboard`, `Profiles::SubscriptionAdmin`), usually a `SimpleDelegator` around the main record, and assign one ivar. Expose the data through memoized reader methods instead of computing it in the controller.
 
 ### Frontend
 - For new styles use CSS, if you need to touch SCSS - rewrite it to CSS
