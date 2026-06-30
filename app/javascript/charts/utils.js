@@ -49,6 +49,8 @@ export const findPositionForAltitude = (points, altitude) => {
   const firstPoint = points[idx]
   const secondPoint = points[idx + 1]
 
+  if (!secondPoint) return firstPoint.flTime - points[0].flTime
+
   const flTime =
     firstPoint.flTime +
     ((secondPoint.flTime - firstPoint.flTime) /
