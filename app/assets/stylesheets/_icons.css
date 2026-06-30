@@ -71,6 +71,8 @@
 .icon--eye-solid-full { --svg: url("icons/eye-solid-full.svg"); }
 .icon--filter-solid { --svg: url("icons/filter-solid.svg"); }
 .icon--fire-solid { --svg: url("icons/fire-solid.svg"); }
+.icon--flag { --svg: url("icons/flag.svg"); }
+.icon--gauge-high { --svg: url("icons/gauge-high.svg"); }
 .icon--gear-solid { --svg: url("icons/gear-solid.svg"); }
 .icon--gift-solid { --svg: url("icons/gift-solid.svg"); }
 .icon--google-icon { --svg: url("icons/google-icon.svg"); }
@@ -87,15 +89,18 @@
 .icon--plus-solid { --svg: url("icons/plus-solid.svg"); }
 .icon--right-from-bracket-solid { --svg: url("icons/right-from-bracket-solid.svg"); }
 .icon--rocket-outline { --svg: url("icons/rocket-outline.svg"); }
+.icon--ruler-horizontal { --svg: url("icons/ruler-horizontal.svg"); }
 .icon--skyderby { --svg: url("icons/skyderby.svg"); }
 .icon--star-solid { --svg: url("icons/star-solid.svg"); }
 .icon--stop-solid { --svg: url("icons/stop-solid.svg"); }
+.icon--stopwatch { --svg: url("icons/stopwatch.svg"); }
 .icon--trash-solid { --svg: url("icons/trash-solid.svg"); }
 .icon--triangle-exclamation-solid { --svg: url("icons/triangle-exclamation-solid.svg"); }
 .icon--trophy-solid { --svg: url("icons/trophy-solid.svg"); }
 .icon--up-right-from-square { --svg: url("icons/up-right-from-square.svg"); }
 .icon--upload-solid { --svg: url("icons/upload-solid.svg"); }
 .icon--user-solid { --svg: url("icons/user-solid.svg"); }
+.icon--users-solid { --svg: url("icons/users-solid.svg"); }
 .icon--video-solid { --svg: url("icons/video-solid.svg"); }
 .icon--wand-magic-sparkles-solid { --svg: url("icons/wand-magic-sparkles-solid.svg"); }
 .icon--wingsuit { --svg: url("icons/wingsuit.svg"); }

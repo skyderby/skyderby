@@ -1,5 +1,21 @@
 fr:
   virtual_competitions:
+    index:
+      show_archived: Afficher les archives
+      archived: Archives
+      athletes:
+        zero: Aucun athlète
+        one: "%{count} athlète"
+        other: "%{count} athlètes"
+    badges:
+      speed: Vitesse
+      vertical_speed: Vitesse
+      distance: Distance
+      distance_in_time: "Distance · %{parameter} sec"
+      distance_in_altitude: "Distance · %{parameter} m"
+      time: Temps
+      flare: Flare
+      base_race: Base Race
     show:
       jump_kinds:
         all: Tous

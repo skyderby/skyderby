@@ -10,6 +10,20 @@ en:
         female: Female
     index:
       show_archived: Show archived
+      archived: Archived
+      athletes:
+        zero: No athletes
+        one: "%{count} athlete"
+        other: "%{count} athletes"
+    badges:
+      speed: Speed
+      vertical_speed: Speed
+      distance: Distance
+      distance_in_time: "Distance · %{parameter} sec"
+      distance_in_altitude: "Distance · %{parameter} m"
+      time: Time
+      flare: Flare
+      base_race: Base Race
     person_details:
       modal_title: Best results in competition
     scoreboard:
@@ -31,15 +45,6 @@ en:
       flare: Task is to gain as much altitude as possible
       base_race: Task is to cross finish line as fast as possible
       vertical_speed: Task is to reach the highest vertical speed averaged over the fastest 3 seconds within the scoring window
-    tasks_short:
-      speed: Speed
-      distance: Distance
-      distance_in_time: Distance in %{parameter} sec
-      distance_in_altitude: Distance in %{parameter}m
-      time: Time
-      flare: Flare
-      base_race: Base Race
-      vertical_speed: Speed skydiving
     place: 'Location:'
     worldwide: Worldwide
     suit: 'Suit type: %{suit}'

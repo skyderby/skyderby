@@ -91,6 +91,9 @@
 }
 
 .vc-group__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--font-serif);
   font-size: 1.5rem;
   font-weight: 600;
@@ -98,112 +101,174 @@
   margin-bottom: 16px;
 }
 
+.vc-group__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--gray-20);
+  color: var(--gray-60);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
 .vc-cards {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 12px;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 16px;
   }
 }
 
 .vc-card {
-  position: relative;
+  --accent: var(--blue-70);
+  --accent-bg: var(--blue-10);
+
   display: flex;
-  align-items: stretch;
-  background: linear-gradient(135deg, var(--green-90) 0%, var(--blue-80) 100%);
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid var(--gray-20);
   border-radius: var(--border-radius-lg);
-  padding: 3px;
+  padding: 16px 18px;
   text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(12, 161, 122, 0.3);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08), 0 2px 4px rgba(15, 23, 42, 0.06);
+    border-color: var(--gray-30);
     text-decoration: none;
   }
 
   @media (min-width: 768px) {
-    min-height: 100px;
+    padding: 18px 20px;
   }
 }
 
-.vc-card--skydive {
-  background: linear-gradient(135deg, var(--blue-70) 0%, var(--blue-gray-60) 100%);
-
-  &:hover {
-    box-shadow: 0 8px 25px rgba(25, 147, 224, 0.3);
-  }
+.vc-card--distance {
+  --accent: var(--blue-70);
+  --accent-bg: var(--blue-10);
 }
 
-.vc-card--base {
-  background: linear-gradient(135deg, var(--red-70) 0%, var(--orange-70) 100%);
+.vc-card--distance-in-time {
+  --accent: var(--cyan-70);
+  --accent-bg: var(--cyan-10);
+}
 
-  &:hover {
-    box-shadow: 0 8px 25px rgba(201, 26, 37, 0.3);
-  }
+.vc-card--distance-in-altitude {
+  --accent: var(--indigo-70);
+  --accent-bg: var(--indigo-10);
+}
+
+.vc-card--flare {
+  --accent: var(--pink-70);
+  --accent-bg: var(--pink-10);
+}
+
+.vc-card--time {
+  --accent: var(--purple-70);
+  --accent-bg: var(--purple-10);
+}
+
+.vc-card--speed {
+  --accent: var(--green-80);
+  --accent-bg: var(--green-10);
+}
+
+.vc-card--vertical-speed {
+  --accent: var(--red-70);
+  --accent-bg: var(--red-10);
+}
+
+.vc-card--base-race {
+  --accent: var(--orange-60);
+  --accent-bg: var(--orange-10);
 }
 
 .vc-card--finished {
-  background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-60) 100%);
-
-  &:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  }
+  --accent: var(--gray-50);
+  --accent-bg: var(--gray-10);
 }
 
-.vc-card__inner {
+.vc-card__icon {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex: 1;
-  background: #fafaff;
-  border-radius: calc(var(--border-radius-lg) - 3px);
-  padding: 16px 20px;
-
-  @media (min-width: 768px) {
-    padding: 20px 24px;
-  }
-}
-
-.vc-card--finished .vc-card__inner {
-  background: var(--gray-10);
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: var(--border-radius-md);
+  background: var(--accent-bg);
+  color: var(--accent);
+  --icon-size: 22px;
 }
 
 .vc-card__content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
   flex: 1;
   min-width: 0;
 }
 
 .vc-card__title {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.0625rem;
+  font-weight: 700;
   color: var(--gray-90);
   margin: 0;
-  line-height: 1.3;
-
-  @media (min-width: 768px) {
-    font-size: 1.25rem;
-  }
+  line-height: 1.25;
 }
 
 .vc-card--finished .vc-card__title {
-  color: var(--gray-70);
+  color: var(--gray-60);
 }
 
-.vc-card__task {
-  font-size: 0.8125rem;
-  color: var(--gray-60);
-  margin: 0;
+.vc-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
 
-  @media (min-width: 768px) {
-    font-size: 0.875rem;
-  }
+.vc-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.vc-card__athletes {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gray-60);
+  font-size: 0.8125rem;
+  --icon-size: 14px;
+}
+
+.vc-card__chevron {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--gray-40);
+  --icon-size: 18px;
+}
+
+.vc-card:hover .vc-card__chevron {
+  color: var(--gray-60);
 }
 
 .vc-finished-section {

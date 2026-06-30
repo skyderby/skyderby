@@ -8,6 +8,24 @@ ru:
       genders:
         open: Общий
         female: Женщины
+    index:
+      show_archived: Показать архив
+      archived: Архив
+      athletes:
+        zero: Нет участников
+        one: "%{count} участник"
+        few: "%{count} участника"
+        many: "%{count} участников"
+        other: "%{count} участников"
+    badges:
+      speed: Скорость
+      vertical_speed: Скорость
+      distance: Дистанция
+      distance_in_time: "Дистанция · %{parameter} сек"
+      distance_in_altitude: "Дистанция · %{parameter} м"
+      time: Время
+      flare: Флэр
+      base_race: Бэйс-рейс
     person_details:
       modal_title: Лучшие результаты в соревновании
     scoreboard:

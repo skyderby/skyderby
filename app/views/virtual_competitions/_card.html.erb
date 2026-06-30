@@ -1,0 +1,17 @@
+<%= link_to virtual_competition_path(competition),
+            class: class_names('vc-card', "vc-card--#{competition.discipline.dasherize}", finished && 'vc-card--finished') do %>
+  <span class="vc-card__icon">
+    <%= icon_tag competition_icon(competition) %>
+  </span>
+  <div class="vc-card__content">
+    <h4 class="vc-card__title"><%= competition.name %></h4>
+    <div class="vc-card__meta">
+      <span class="vc-badge"><%= competition_badge(competition) %></span>
+      <span class="vc-card__athletes">
+        <%= icon_tag 'users-solid' %>
+        <%= t('virtual_competitions.index.athletes', count: count) %>
+      </span>
+    </div>
+  </div>
+  <span class="vc-card__chevron"><%= icon_tag 'angle-right-solid' %></span>
+<% end %>

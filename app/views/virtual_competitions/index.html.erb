@@ -15,7 +15,7 @@
     <%= form_with url: virtual_competitions_path, method: :get, data: { controller: 'auto-submit', delay: 0 } do %>
       <%= render 'components/switch',
                  name: 'include_archived',
-                 checked: @include_archived,
+                 checked: @index.include_archived?,
                  checked_value: 'true',
                  include_hidden: false,
                  label_text: t('virtual_competitions.index.show_archived'),
@@ -23,43 +23,15 @@
     <% end %>
   </div>
 
-  <% @active_competitions.each do |group, competitions| %>
-    <div class="vc-group">
-      <h3 class="vc-group__title"><%= group %></h3>
-      <div class="vc-cards">
-        <% competitions.each do |competition| %>
-          <%= link_to virtual_competition_path(competition), class: class_names('vc-card', competition.jumps_kind.present? && "vc-card--#{competition.jumps_kind}") do %>
-            <div class="vc-card__inner">
-              <div class="vc-card__content">
-                <h4 class="vc-card__title"><%= competition.name %></h4>
-                <p class="vc-card__task"><%= t("virtual_competitions.tasks_short.#{competition.discipline}", parameter: competition.discipline_parameter) %></p>
-              </div>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
+  <% @index.active_groups.each do |title, competitions| %>
+    <%= render 'group', title: title, competitions: competitions, index: @index, finished: false %>
   <% end %>
 
-  <% if @include_archived && @finished_competitions.present? %>
+  <% if @index.finished? %>
     <div class="vc-finished-section">
-      <h3 class="vc-finished-section__title">Archived</h3>
-      <% @finished_competitions.each do |group, competitions| %>
-        <div class="vc-group">
-          <h3 class="vc-group__title"><%= group %></h3>
-          <div class="vc-cards">
-            <% competitions.each do |competition| %>
-              <%= link_to virtual_competition_path(competition), class: class_names('vc-card', competition.jumps_kind.present? && "vc-card--#{competition.jumps_kind}", 'vc-card--finished') do %>
-                <div class="vc-card__inner">
-                  <div class="vc-card__content">
-                    <h4 class="vc-card__title"><%= competition.name %></h4>
-                    <p class="vc-card__task"><%= t("virtual_competitions.tasks_short.#{competition.discipline}", parameter: competition.discipline_parameter) %></p>
-                  </div>
-                </div>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
+      <h3 class="vc-finished-section__title"><%= t('virtual_competitions.index.archived') %></h3>
+      <% @index.finished_groups.each do |title, competitions| %>
+        <%= render 'group', title: title, competitions: competitions, index: @index, finished: true %>
       <% end %>
     </div>
   <% end %>

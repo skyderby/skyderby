@@ -4,14 +4,7 @@ class VirtualCompetitionsController < ApplicationController
   def index
     authorize VirtualCompetition
 
-    @active_competitions = VirtualCompetition.active.includes(:group, place: :country).group_by(&:group_name)
-    @include_archived = params[:include_archived] == 'true'
-    @finished_competitions = if @include_archived
-                               VirtualCompetition.finished.includes(:group,
-                                                                    place: :country).group_by(&:group_name)
-                             else
-                               {}
-                             end
+    @index = VirtualCompetitions::Index.new(include_archived: params[:include_archived] == 'true')
   end
 
   def new

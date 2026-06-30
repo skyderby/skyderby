@@ -69,6 +69,19 @@
   --green-20: #aef6e2;
   --green-10: #d9faf1;
 
+  --purple-80: #6d28d9;
+  --purple-70: #7c3aed;
+  --purple-10: #f1ecfe;
+
+  --indigo-70: #4f46e5;
+  --indigo-10: #ecebfd;
+
+  --cyan-70: #0891b2;
+  --cyan-10: #e0f6fb;
+
+  --pink-70: #db2777;
+  --pink-10: #fce7f1;
+
   --white: #fff;
 
   --primary-color: var(--red-60);

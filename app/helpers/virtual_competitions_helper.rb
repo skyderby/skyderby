@@ -54,4 +54,23 @@ module VirtualCompetitionsHelper
       result.round(1)
     end
   end
+
+  DISCIPLINE_ICONS = {
+    'distance' => 'ruler-horizontal',
+    'distance_in_time' => 'ruler-horizontal',
+    'distance_in_altitude' => 'ruler-horizontal',
+    'flare' => 'arrow-up-long',
+    'time' => 'stopwatch',
+    'base_race' => 'flag',
+    'speed' => 'gauge-high',
+    'vertical_speed' => 'gauge-high'
+  }.freeze
+
+  def competition_icon(competition)
+    DISCIPLINE_ICONS.fetch(competition.discipline, 'ruler-horizontal')
+  end
+
+  def competition_badge(competition)
+    t("virtual_competitions.badges.#{competition.discipline}", parameter: competition.discipline_parameter)
+  end
 end

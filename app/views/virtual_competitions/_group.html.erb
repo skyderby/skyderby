@@ -1,0 +1,11 @@
+<div class="vc-group">
+  <h3 class="vc-group__title">
+    <%= title %>
+    <span class="vc-group__count"><%= competitions.size %></span>
+  </h3>
+  <div class="vc-cards">
+    <% competitions.each do |competition| %>
+      <%= render 'card', competition: competition, count: index.athlete_count(competition), finished: finished %>
+    <% end %>
+  </div>
+</div>
