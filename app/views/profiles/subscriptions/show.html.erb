@@ -126,6 +126,41 @@
           </div>
         <% end %>
       </div>
+
+      <div class="subscription-admin__section">
+        <div class="subscription-admin__header">
+          <h3 class="subscription-admin__title">Donations</h3>
+          <% if @contributions.any? %>
+            <div class="subscription-admin__summary">
+              <%= number_to_currency(@contributions.sum(&:amount)) %>
+              <span><%= pluralize(@contributions.size, 'donation') %></span>
+            </div>
+          <% end %>
+        </div>
+
+        <% if @contributions.any? %>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Received At</th>
+                <th class="data-table__amount">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @contributions.each do |contribution| %>
+                <tr>
+                  <td><%= contribution.received_at ? l(contribution.received_at) : '-' %></td>
+                  <td class="data-table__amount"><%= number_to_currency(contribution.amount) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <div class="subscription-admin__empty">
+            <p>No donations</p>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

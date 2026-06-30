@@ -91,7 +91,7 @@ class Profile < ApplicationRecord
   def participant_of_events = organizer_of_events + competitor_of_events
 
   def contributor?
-    donor? || (belongs_to_user? && owner.subscribed?)
+    donor? || (belongs_to_user? && owner&.subscribed?)
   end
 
   class << self

@@ -8,6 +8,7 @@ class Profiles::SubscriptionsController < ApplicationController
     @pay_customer = @user.stripe_processor
     @charges = @pay_customer&.charges&.order(created_at: :desc) || []
     @subscriptions = @pay_customer&.subscriptions&.order(created_at: :desc) || []
+    @contributions = @profile.contributions.order(received_at: :desc)
   end
 
   private

@@ -553,6 +553,73 @@
   font-size: 0.875rem;
 }
 
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+}
+
+.data-table thead th {
+  text-align: left;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray-50);
+  background: var(--gray-10);
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--gray-20);
+}
+
+.data-table tbody td {
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  color: var(--gray-90);
+  border-bottom: 1px solid var(--gray-20);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.data-table tbody tr {
+  transition: background-color 0.12s ease;
+}
+
+.data-table tbody tr:hover {
+  background: var(--gray-10);
+}
+
+.data-table__amount {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table tbody .data-table__amount {
+  font-weight: 600;
+}
+
+.subscription-admin__summary {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--green-90);
+  background: var(--green-10);
+  padding: 0.25rem 0.75rem;
+  border-radius: 2rem;
+}
+
+.subscription-admin__summary span {
+  font-weight: 400;
+  color: var(--gray-60);
+}
+
 /* Gift Subscription */
 .gift-subscription-tab {
   display: inline-flex;

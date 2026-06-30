@@ -16,7 +16,7 @@ module Profile::Permissions
   end
 
   def giftable_subscription?(user = Current.user)
-    belongs_to_user? && owner != user && !owner.subscription_active?
+    belongs_to_user? && owner != user && !owner&.subscription_active?
   end
 
   private
