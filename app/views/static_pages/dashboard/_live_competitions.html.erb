@@ -1,0 +1,21 @@
+<%# locals: (dashboard:) %>
+
+<% competitions = dashboard.live_competitions %>
+<% if competitions.any? %>
+  <div class="live-competitions stack">
+    <% competitions.each do |entry| %>
+      <%= link_to polymorphic_path(entry.event), class: 'live-competition', data: { turbo_frame: '_top' } do %>
+        <span class="live-competition__body">
+          <span class="live-indicator"><%= t('dashboard.live_competitions.live') %></span>
+          <span class="live-competition__name"><%= entry.event.name %></span>
+          <span class="live-competition__meta">
+            <%= [entry.location,
+                 (t('dashboard.live_competitions.athletes', count: entry.athletes_count) if entry.athletes_count.positive?)]
+                  .compact_blank.join(' · ') %>
+          </span>
+        </span>
+        <span class="live-competition__chevron"><%= icon_tag 'angle-right-solid' %></span>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

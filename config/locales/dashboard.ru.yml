@@ -47,6 +47,14 @@ ru:
     competitions:
       title: Соревнования
       live: Live
+    live_competitions:
+      live: Live
+      athletes:
+        zero: Нет участников
+        one: "%{count} участник"
+        few: "%{count} участника"
+        many: "%{count} участников"
+        other: "%{count} участников"
     achievements:
       title: Достижения
     pro:

@@ -47,6 +47,12 @@ it:
     competitions:
       title: Competizioni
       live: Live
+    live_competitions:
+      live: Live
+      athletes:
+        zero: Nessun atleta
+        one: "%{count} atleta"
+        other: "%{count} atleti"
     achievements:
       title: Riconoscimenti
     pro:

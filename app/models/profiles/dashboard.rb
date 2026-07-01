@@ -11,6 +11,9 @@ module Profiles
                          keyword_init: true)
     PersonalBest = Struct.new(:discipline, :result, :competition, :delta, keyword_init: true)
     CompetitionEntry = Struct.new(:event, :place, :live, :hidden_place, keyword_init: true)
+    LiveCompetition = Struct.new(:event, :location, :athletes_count, keyword_init: true)
+
+    LIVE_COMPETITIONS_PERIOD = 2.weeks
 
     def initialize(profile, user: nil, mode: nil, rankings_gender: nil)
       super(profile)
@@ -110,11 +113,31 @@ module Profiles
         .map { |competitor, event| competition_entry(competitor, event) }
     end
 
+    def live_competitions
+      @live_competitions ||= build_live_competitions
+    end
+
     def recent_badges(limit = 3) = badges.first(limit)
 
     def pro? = @user&.subscription_active? || false
 
     private
+
+    def build_live_competitions
+      period = LIVE_COMPETITIONS_PERIOD.ago.to_date..Time.zone.today
+      scopes = [PerformanceCompetition.public_event, Boogie.public_event,
+                SpeedSkydivingCompetition.public_event, Tournament.all]
+
+      scopes
+        .flat_map { |scope| scope.where(status: %i[published surprise], starts_at: period).includes(:place).to_a }
+        .sort_by(&:starts_at)
+        .reverse
+        .map { |event| live_competition_entry(event) }
+    end
+
+    def live_competition_entry(event)
+      LiveCompetition.new(event:, location: event.place&.name, athletes_count: event.competitors.count)
+    end
 
     def competition_participations
       performance_competition_participation.includes(:event).to_a +

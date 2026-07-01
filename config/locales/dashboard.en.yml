@@ -47,6 +47,12 @@ en:
     competitions:
       title: Competitions
       live: Live
+    live_competitions:
+      live: Live
+      athletes:
+        zero: No athletes
+        one: "%{count} athlete"
+        other: "%{count} athletes"
     achievements:
       title: Achievements
     pro:

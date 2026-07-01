@@ -47,6 +47,12 @@ de:
     competitions:
       title: Wettkämpfe
       live: Live
+    live_competitions:
+      live: Live
+      athletes:
+        zero: Keine Teilnehmer
+        one: "%{count} Teilnehmer"
+        other: "%{count} Teilnehmer"
     achievements:
       title: Erfolge
     pro:
