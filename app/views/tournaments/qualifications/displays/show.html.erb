@@ -1,6 +1,8 @@
 <% provide :title, @tournament.name %>
 
-<div class="display-wrap" data-controller="slideshow">
+<div class="display-wrap"
+     data-controller="slideshow refresh"
+     data-refresh-interval-seconds-value="300">
   <div class="display-stage">
     <div class="display-backdrop"></div>
 

@@ -51,17 +51,25 @@ class QualificationJump < ApplicationRecord
 
   def track_comment = "#{tournament.name} - Qualification #{qualification_round.order}"
 
-  # Maximum developed full (3D) speed over the track, in km/h.
+  # Maximum developed full (3D) speed between exit and the finish line, in km/h.
   def calculate_top_speed
-    return unless track
-
-    PointsQuery
-      .execute(track, trimmed: true)
-      .map { |point| Math.sqrt(point[:h_speed].to_f**2 + point[:v_speed].to_f**2) }
-      .max
+    jump_range_points
+      &.map { |point| Math.sqrt(point[:h_speed].to_f**2 + point[:v_speed].to_f**2) }
+      &.max
   end
 
   private
+
+  def jump_range_points
+    return unless track
+    return unless start_time && result&.positive?
+
+    finish_time = start_time.to_f + result.to_f
+
+    PointsQuery
+      .execute(track, only: %i[gps_time h_speed v_speed])
+      .select { |point| point[:gps_time].to_f.between?(start_time.to_f, finish_time) }
+  end
 
   def assign_top_speed
     self.top_speed = calculate_top_speed

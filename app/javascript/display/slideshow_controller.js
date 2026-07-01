@@ -6,11 +6,13 @@ export default class extends Controller {
   static targets = ['slide']
   static values = {
     slideSeconds: { type: Number, default: 12 },
-    scrollSeconds: { type: Number, default: 11 }
+    rowsPerSecond: { type: Number, default: 0.5 },
+    minScrollSeconds: { type: Number, default: 4 }
   }
 
   connect() {
     this.index = 0
+    this.currentScrollMs = 0
     this.tickScroll = this.tickScroll.bind(this)
     this.onKeydown = this.onKeydown.bind(this)
 
@@ -46,45 +48,68 @@ export default class extends Controller {
     })
     this.index = index
     this.scrollT0 = null
+    this.currentScrollMs = this.scrollDurationMs(this.currentScroller())
   }
 
   scheduleNext() {
     if (this.slideTargets.length <= 1) return
 
     const slide = this.slideTargets[this.index]
-    const seconds = Number(slide.dataset.slideshowDuration) || this.slideSecondsValue
+    let ms
+    if (this.currentScrollMs > 0) {
+      ms = PAUSE + this.currentScrollMs + PAUSE
+    } else {
+      ms = (Number(slide.dataset.slideshowDuration) || this.slideSecondsValue) * 1000
+    }
 
     this.timer = setTimeout(() => {
       this.showSlide((this.index + 1) % this.slideTargets.length)
       this.scheduleNext()
-    }, seconds * 1000)
+    }, ms)
+  }
+
+  currentScroller() {
+    const slide = this.slideTargets[this.index]
+    return slide && slide.querySelector('[data-slideshow-scroll]')
+  }
+
+  // Scroll duration proportional to how many rows are off-screen, so the
+  // reading pace stays constant no matter how many athletes are listed.
+  scrollDurationMs(el) {
+    if (!el) return 0
+
+    const max = el.scrollHeight - el.clientHeight
+    if (max <= 1) return 0
+
+    const row = el.querySelector('.display-lb-row')
+    const rowHeight = (row && row.offsetHeight) || 90
+    const rows = max / rowHeight
+
+    return Math.max(this.minScrollSecondsValue, rows / this.rowsPerSecondValue) * 1000
   }
 
   tickScroll(now) {
     this.scrollRaf = requestAnimationFrame(this.tickScroll)
 
-    const slide = this.slideTargets[this.index]
-    const el = slide && slide.querySelector('[data-slideshow-scroll]')
+    const el = this.currentScroller()
     if (!el) return
 
     const max = el.scrollHeight - el.clientHeight
-    if (max <= 1) {
+    if (max <= 1 || this.currentScrollMs <= 0) {
       el.scrollTop = 0
       return
     }
 
     const ease = t => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2)
-    const scroll = Math.max(1500, this.scrollSecondsValue * 1000)
+    const scroll = this.currentScrollMs
     if (this.scrollT0 == null) this.scrollT0 = now
 
-    const cycle = PAUSE + scroll + PAUSE + scroll
-    const p = (now - this.scrollT0) % cycle
+    const p = now - this.scrollT0
 
     let pos
-    if (p < PAUSE) pos = max
-    else if (p < PAUSE + scroll) pos = max * (1 - ease((p - PAUSE) / scroll))
-    else if (p < PAUSE + scroll + PAUSE) pos = 0
-    else pos = max * ease((p - PAUSE - scroll - PAUSE) / scroll)
+    if (p < PAUSE) pos = 0
+    else if (p < PAUSE + scroll) pos = max * ease((p - PAUSE) / scroll)
+    else pos = max
 
     el.scrollTop = pos
   }
