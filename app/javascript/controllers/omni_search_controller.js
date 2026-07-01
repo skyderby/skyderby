@@ -246,7 +246,7 @@ export default class OmniSearchController extends Controller {
     if (!frame) return
 
     const term = event.target.value
-    const url = new URL(frame.src)
+    const url = new URL(frame.src, window.location.origin)
     url.searchParams.set('term', term)
     url.searchParams.set('page', '1')
     frame.src = url.toString()

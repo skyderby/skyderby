@@ -236,7 +236,7 @@ export default class HotSelect extends Controller {
     if (!this.hasFrameTarget) return
 
     const term = this.searchInputTarget.value
-    const url = new URL(this.frameTarget.src)
+    const url = new URL(this.frameTarget.src, window.location.origin)
     url.searchParams.set('term', term)
     url.searchParams.set('page', '1')
     this.frameTarget.src = url.toString()

@@ -1,0 +1,14 @@
+<turbo-frame id="<%= sanitize params[:frame_id] %>">
+  <div class="hot-select-options">
+    <% @tournaments.each do |tournament| %>
+      <div class="hot-select-option" data-value="<%= tournament.id %>">
+        <%= tournament.name %>
+      </div>
+    <% end %>
+
+    <% if @tournaments.next_page %>
+      <% frame_id = "#{sanitize params[:frame_id]}-#{@tournaments.next_page}" %>
+      <%= render 'hot_select/load_more', page: @tournaments.next_page, frame_id: %>
+    <% end %>
+  </div>
+</turbo-frame>
