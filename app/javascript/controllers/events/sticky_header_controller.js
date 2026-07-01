@@ -47,6 +47,8 @@ export default class extends Controller {
   }
 
   refreshContent() {
+    if (!this._popover || !this.hasTableTarget) return
+
     const clone = this.tableTarget.cloneNode(true)
     clone.removeAttribute('data-events--sticky-header-target')
     clone.querySelectorAll('tbody').forEach(el => el.remove())
@@ -60,7 +62,7 @@ export default class extends Controller {
   }
 
   onResize() {
-    if (!this._popover) return
+    if (!this._popover || !this.hasTableTarget) return
 
     const clone = this._popover.querySelector('table')
     if (!clone) return
@@ -87,11 +89,14 @@ export default class extends Controller {
   }
 
   onScroll() {
-    if (!this._popover) return
+    if (!this._popover || !this.hasTableTarget) return
+
+    const thead = this.tableTarget.querySelector('thead')
+    if (!thead) return
 
     const scrollTop = document.scrollingElement.scrollTop
     const tableTop = this.element.getBoundingClientRect().top + pageYOffset
-    const headerHeight = this.tableTarget.querySelector('thead').offsetHeight
+    const headerHeight = thead.offsetHeight
     const tableBottom =
       this.element.getBoundingClientRect().bottom + pageYOffset - headerHeight
 
