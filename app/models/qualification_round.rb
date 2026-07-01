@@ -15,6 +15,8 @@ class QualificationRound < ApplicationRecord
 
   before_create :set_order
 
+  def presentation = "Qualification #{order}"
+
   def set_order
     self.order = max_order_within_event + 1
   end
