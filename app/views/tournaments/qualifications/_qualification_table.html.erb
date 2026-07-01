@@ -118,6 +118,14 @@
             <td class="text-right result-value">
               <span data-controller="tooltip"><%= number_with_precision(result.canopy_time, precision: 3) %><span class="for-screen-reader"><%= t('tournaments.qualifications.scoreboard.canopy_time') %></span></span>
             </td>
+          <% elsif result.present? && editable %>
+            <td class="result-cell">
+              <%= link_to icon_tag('circle-question', class: 'text-danger'),
+                          tournament_qualification_result_path(tournament, result),
+                          **(mobile? ? { target: '_blank' } : { data: { turbo_stream: true } }),
+                          class: 'result-show-cell', rel: 'nofollow' %>
+            </td>
+            <td></td>
           <% elsif editable %>
             <td class="result-cell">
               <%= button_to icon_tag('upload-solid'),
