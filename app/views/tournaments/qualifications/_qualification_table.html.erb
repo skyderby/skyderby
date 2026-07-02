@@ -116,7 +116,7 @@
           <td class="scoreboard-table-separate-border text-center result-value best-result-value">
             <%= number_with_precision(competitor.best_result, precision: 3) %>
             <% if competitor.best_result.present? %>
-              <%= render 'result_gap', gap: competitor.best_result.to_f - scoreboard.best_result_leader.to_f %>
+              <%= render 'tournaments/qualifications/result_gap', gap: competitor.best_result.to_f - scoreboard.best_result_leader.to_f %>
             <% end %>
           </td>
         <% end %>
@@ -130,7 +130,7 @@
                 <%= number_with_precision(result.result, precision: 3) %>
               <% end %>
               <% if !show_best && result.result.positive? && (leader = scoreboard.round_leader_result(round)) %>
-                <%= render 'result_gap', gap: result.result.to_f - leader.to_f %>
+                <%= render 'tournaments/qualifications/result_gap', gap: result.result.to_f - leader.to_f %>
               <% end %>
             </td>
             <td class="<%= class_names('text-left result-value round-canopy', 'canopy-low' => result.canopy_time.present? && result.canopy_time < 40) %>">
