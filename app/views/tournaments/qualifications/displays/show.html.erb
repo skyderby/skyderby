@@ -9,8 +9,15 @@
     <% leader = @competitors.first %>
     <% groups = @competitors.each_slice(8).to_a %>
     <% groups = [[]] if groups.empty? %>
+    <% replays = @scoreboard.head_to_head_replays %>
+    <% per_group = replays.empty? ? 0 : (replays.size / groups.size.to_f).ceil %>
     <% groups.each_with_index do |group, group_index| %>
       <%= render 'leaderboard', tournament: @tournament, competitors: @competitors, active: group_index.zero? %>
+
+      <% group_replays = per_group.positive? ? Array(replays[group_index * per_group, per_group]) : [] %>
+      <% group_replays.each do |replay| %>
+        <%= render 'replay', tournament: @tournament, replay: replay %>
+      <% end %>
 
       <% group.each do |competitor| %>
         <%= render 'participant',
@@ -19,10 +26,6 @@
                    leader: leader,
                    field_size: @competitors.size %>
       <% end %>
-    <% end %>
-
-    <% @scoreboard.head_to_head_replays.each do |replay| %>
-      <%= render 'replay', tournament: @tournament, replay: replay %>
     <% end %>
   </div>
 </div>
