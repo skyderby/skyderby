@@ -15,6 +15,24 @@ class Tournament::Qualification::Scoreboard
     @completed_rounds_desc ||= rounds.select(&:completed?).reverse
   end
 
+  def round_leader_result(round)
+    return unless round.completed?
+
+    round_leader_results[round.id]
+  end
+
+  def best_result_leader
+    return @best_result_leader if defined?(@best_result_leader)
+
+    @best_result_leader = ranked_competitors.filter_map(&:best_result).min
+  end
+
+  def podium?
+    return @podium if defined?(@podium)
+
+    @podium = ranked_competitors.count(&:scored?) >= 3
+  end
+
   def competitors
     @competitors ||=
       Tournament::Qualification::CompetitorsCollection.new(
@@ -43,6 +61,18 @@ class Tournament::Qualification::Scoreboard
 
   def ranked_competitors
     @ranked_competitors ||= competitors.select(&:ranked?)
+  end
+
+  def round_leader_results
+    @round_leader_results ||=
+      rounds.to_h do |round|
+        leader =
+          ranked_competitors
+          .filter_map { |competitor| competitor.result_in_round(round)&.result }
+          .select(&:positive?)
+          .min
+        [round.id, leader]
+      end
   end
 
   # Pools of competitors to compare head-to-head, covering everyone once.

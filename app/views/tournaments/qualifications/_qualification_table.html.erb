@@ -1,7 +1,8 @@
 <%# locals: (tournament:, scoreboard:, editable:) %>
 <% show_best = scoreboard.show_best_result? %>
+<% podium = scoreboard.podium? %>
 
-<table class="scoreboard-table scoreboard-table--compact" data-events--sticky-header-target="table">
+<table class="scoreboard-table scoreboard-table--compact qualification-scoreboard-table" data-events--sticky-header-target="table">
   <thead>
     <tr>
       <td class="text-center" rowspan="2"><%= t('tournaments.qualifications.scoreboard.rank') %></td>
@@ -60,15 +61,24 @@
     </tr>
     <tr>
       <% scoreboard.rounds.each do |round| %>
-        <td class="text-center"><%= t('tournaments.qualifications.scoreboard.result') %></td>
-        <td class="text-center"><%= t('tournaments.qualifications.scoreboard.canopy') %></td>
+        <td class="text-center round-result"><%= t('tournaments.qualifications.scoreboard.result') %></td>
+        <td class="text-center round-canopy"><%= t('tournaments.qualifications.scoreboard.canopy') %></td>
       <% end %>
     </tr>
   </thead>
   <tbody>
     <% scoreboard.competitors.each do |competitor| %>
-      <tr class="scoreboard-competitor">
-        <td class="text-center"><%= competitor.ranked? ? competitor.rank : '–' %></td>
+      <% on_podium = podium && competitor.ranked? && competitor.rank <= 3 %>
+      <tr class="<%= class_names('scoreboard-competitor', ("podium-row--#{competitor.rank}" if on_podium)) %>">
+        <td class="text-center rank-cell">
+          <% if !competitor.ranked? %>
+            –
+          <% elsif on_podium %>
+            <span class="rank-badge rank-badge--<%= competitor.rank %>"><%= competitor.rank %></span>
+          <% else %>
+            <%= competitor.rank %>
+          <% end %>
+        </td>
         <td class="competitor">
           <%= link_to competitor.name, profile_path(competitor.profile_id), class: 'competitor-profile' %>
           <% if competitor.is_disqualified %>
@@ -103,31 +113,39 @@
           <span data-controller="tooltip"><%= competitor.country_code %><span class="for-screen-reader"><%= competitor.country_name %></span></span>
         </td>
         <% if show_best %>
-          <td class="scoreboard-table-separate-border text-right result-value"><%= number_with_precision(competitor.best_result, precision: 3) %></td>
+          <td class="scoreboard-table-separate-border text-center result-value best-result-value">
+            <%= number_with_precision(competitor.best_result, precision: 3) %>
+            <% if competitor.best_result.present? %>
+              <%= render 'result_gap', gap: competitor.best_result.to_f - scoreboard.best_result_leader.to_f %>
+            <% end %>
+          </td>
         <% end %>
         <% scoreboard.rounds.each do |round| %>
           <% result = competitor.result_in_round(round) %>
           <% if result&.result.present? %>
-            <td class="<%= class_names 'result-cell', ('text-green' if competitor.best_result_in?(result)) %>">
+            <td class="<%= class_names 'result-cell', 'round-result', ('text-green' if competitor.best_result_in?(result)) %>">
               <%= link_to tournament_qualification_result_path(tournament, result),
                           **(mobile? ? { target: '_blank' } : { data: { turbo_stream: true } }),
                           class: 'result-show-cell', rel: 'nofollow' do %>
                 <%= number_with_precision(result.result, precision: 3) %>
               <% end %>
+              <% if !show_best && result.result.positive? && (leader = scoreboard.round_leader_result(round)) %>
+                <%= render 'result_gap', gap: result.result.to_f - leader.to_f %>
+              <% end %>
             </td>
-            <td class="text-right result-value">
-              <span data-controller="tooltip"><%= number_with_precision(result.canopy_time, precision: 3) %><span class="for-screen-reader"><%= t('tournaments.qualifications.scoreboard.canopy_time') %></span></span>
+            <td class="<%= class_names('text-left result-value round-canopy', 'canopy-low' => result.canopy_time.present? && result.canopy_time < 40) %>">
+              <span data-controller="tooltip"><%= number_with_precision(result.canopy_time, precision: 1) %><span class="for-screen-reader"><%= t('tournaments.qualifications.scoreboard.canopy_time') %></span></span>
             </td>
           <% elsif result.present? && editable %>
-            <td class="result-cell">
+            <td class="result-cell round-result">
               <%= link_to icon_tag('circle-question', class: 'text-danger'),
                           tournament_qualification_result_path(tournament, result),
                           **(mobile? ? { target: '_blank' } : { data: { turbo_stream: true } }),
                           class: 'result-show-cell', rel: 'nofollow' %>
             </td>
-            <td></td>
+            <td class="round-canopy"></td>
           <% elsif editable %>
-            <td class="result-cell">
+            <td class="result-cell round-result">
               <%= button_to icon_tag('upload-solid'),
                             new_tournament_qualification_result_path(tournament),
                             params: {
@@ -136,10 +154,10 @@
                             },
                             method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } %>
             </td>
-            <td></td>
+            <td class="round-canopy"></td>
           <% else %>
-            <td></td>
-            <td></td>
+            <td class="round-result"></td>
+            <td class="round-canopy"></td>
           <% end %>
         <% end %>
       </tr>

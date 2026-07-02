@@ -19,6 +19,7 @@ en:
         result: 'Result'
         canopy: 'Canopy'
         canopy_time: 'Canopy time'
+        leader: 'Leader'
       actions_bar:
         more_actions: 'More actions'
         copy_competitors: 'Copy competitors'

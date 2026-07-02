@@ -18,6 +18,7 @@ ru:
         result: 'Результат'
         canopy: 'Купол'
         canopy_time: 'Время под куполом'
+        leader: 'Лидер'
       actions_bar:
         more_actions: 'Действия'
         copy_competitors: 'Скопировать участников'

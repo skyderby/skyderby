@@ -1,0 +1,6 @@
+<%# locals: (gap:) %>
+<% if gap.positive? %>
+  <div class="result-gap text-gray">+<%= number_with_precision(gap, precision: 3) %></div>
+<% else %>
+  <div class="result-gap result-gap--leader"><%= t('tournaments.qualifications.scoreboard.leader') %></div>
+<% end %>
