@@ -19,14 +19,10 @@
                    leader: leader,
                    field_size: @competitors.size %>
       <% end %>
+    <% end %>
 
-      <% group.each_slice(2).first(2).each do |pair| %>
-        <% next unless pair.size == 2 %>
-        <% replay = Tournaments::QualificationReplay.new(@tournament, pair.first, pair.last) %>
-        <% if replay.present? %>
-          <%= render 'replay', tournament: @tournament, replay: replay %>
-        <% end %>
-      <% end %>
+    <% @scoreboard.head_to_head_replays.each do |replay| %>
+      <%= render 'replay', tournament: @tournament, replay: replay %>
     <% end %>
   </div>
 </div>

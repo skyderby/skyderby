@@ -1,3 +1,4 @@
+import '@hotwired/turbo-rails'
 import { Application } from '@hotwired/stimulus'
 import SlideshowController from '../display/slideshow_controller'
 import ReplayController from '../display/replay_controller'

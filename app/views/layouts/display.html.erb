@@ -3,6 +3,8 @@
   <head>
     <title><%= page_title(yield(:title)) %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">
     <meta name="maps-api-key" content="<%= maps_api_key %>">
     <%= csrf_meta_tags %>
 

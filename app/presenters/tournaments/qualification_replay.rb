@@ -10,18 +10,25 @@ module Tournaments
       keyword_init: true
     )
 
-    def initialize(tournament, competitor_a, competitor_b)
+    def initialize(tournament, entry_a, entry_b)
       @tournament = tournament
-      @competitors = [competitor_a, competitor_b]
+      @entries = [entry_a, entry_b]
+    end
+
+    # Stable id keyed on the compared tracks so a Turbo morph refresh preserves
+    # the slide (and its permanent map) instead of tearing it down and paying
+    # Google Cloud for another map initialisation.
+    def dom_id
+      @dom_id ||= "replay-#{@entries.map { |(_competitor, jump)| jump&.track_id }.join('-')}"
     end
 
     def present?
-      @competitors.all? { |competitor| competitor&.best_jump&.track } &&
+      @entries.all? { |(_competitor, jump)| jump&.track } &&
         sides.all? { |side| side.path.present? }
     end
 
     def sides
-      @sides ||= @competitors.each_with_index.map do |competitor, index|
+      @sides ||= @entries.each_with_index.map do |(competitor, jump), index|
         Side.new(
           name: competitor.name,
           bib: competitor.rank,
@@ -30,9 +37,9 @@ module Tournaments
           suit: [competitor.suit&.manufacturer_code, competitor.suit_name].compact.join(' '),
           photo_url: (competitor.photo_url(:medium) if competitor.photo),
           color: COLORS[index],
-          result: competitor.best_jump.result&.to_f,
-          sync_fl_time: race_start_fl_time(competitor.best_jump),
-          path: track_path(competitor.best_jump.track)
+          result: jump.result&.to_f,
+          sync_fl_time: race_start_fl_time(jump),
+          path: track_path(jump.track)
         )
       end
     end

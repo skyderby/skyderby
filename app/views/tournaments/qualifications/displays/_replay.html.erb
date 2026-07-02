@@ -2,6 +2,7 @@
 <% a, b = replay.sides %>
 
 <div class="display-slide display-replay"
+     id="<%= replay.dom_id %>"
      data-slideshow-target="slide"
      data-slideshow-duration="40"
      data-controller="replay"
@@ -61,7 +62,10 @@
           <div class="display-replay-maphead">
             <span class="display-replay-maptitle"><%= t('tournaments.qualifications.display.live_course') %></span>
           </div>
-          <div class="display-replay-map" data-replay-target="map"></div>
+          <div class="display-replay-map"
+               id="<%= replay.dom_id %>-map"
+               data-turbo-permanent
+               data-replay-target="map"></div>
           <div class="display-replay-countdown" data-replay-target="countdown" hidden>
             <span class="label"><%= t('tournaments.qualifications.display.heat_starts') %></span>
             <span class="count" data-replay-target="countText">3</span>

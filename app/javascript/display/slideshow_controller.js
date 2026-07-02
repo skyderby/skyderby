@@ -15,17 +15,34 @@ export default class extends Controller {
     this.currentScrollMs = 0
     this.tickScroll = this.tickScroll.bind(this)
     this.onKeydown = this.onKeydown.bind(this)
+    this.onBeforeMorphAttribute = this.onBeforeMorphAttribute.bind(this)
 
     this.showSlide(0)
     this.scheduleNext()
     this.scrollRaf = requestAnimationFrame(this.tickScroll)
     window.addEventListener('keydown', this.onKeydown)
+    document.addEventListener('turbo:before-morph-attribute', this.onBeforeMorphAttribute)
   }
 
   disconnect() {
     if (this.timer) clearTimeout(this.timer)
     if (this.scrollRaf) cancelAnimationFrame(this.scrollRaf)
     window.removeEventListener('keydown', this.onKeydown)
+    document.removeEventListener(
+      'turbo:before-morph-attribute',
+      this.onBeforeMorphAttribute
+    )
+  }
+
+  // The refreshed markup never carries is-active, so let the running slideshow
+  // keep ownership of it through a morph — otherwise the active slide would
+  // blank out and any live replay on it would restart on every refresh.
+  onBeforeMorphAttribute(event) {
+    const { attributeName } = event.detail
+    const target = event.target
+    if (attributeName === 'class' && target?.classList?.contains('display-slide')) {
+      event.preventDefault()
+    }
   }
 
   onKeydown(event) {
@@ -63,9 +80,20 @@ export default class extends Controller {
     }
 
     this.timer = setTimeout(() => {
+      this.maybeRefresh()
       this.showSlide((this.index + 1) % this.slideTargets.length)
       this.scheduleNext()
     }, ms)
+  }
+
+  // Run a due page refresh here, at the boundary between two slides, so a morph
+  // never lands mid-replay and resets the animation.
+  maybeRefresh() {
+    const refresh = this.application.getControllerForElementAndIdentifier(
+      this.element,
+      'refresh'
+    )
+    if (refresh) refresh.refreshIfDue()
   }
 
   currentScroller() {
