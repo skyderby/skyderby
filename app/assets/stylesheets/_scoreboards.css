@@ -535,6 +535,11 @@ td.scoreboard-total-result {
 
 .qualification-scoreboard-table .result-upload-cell button {
   background-color: transparent;
+  color: var(--gray-40);
+}
+
+.qualification-scoreboard-table .result-upload-cell button:hover {
+  color: var(--white);
 }
 
 .qualification-scoreboard-table td.round-result {
