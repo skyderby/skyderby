@@ -17,6 +17,8 @@ class Tournament::Match < ApplicationRecord
 
   belongs_to :round
 
+  before_create :set_position
+
   delegate :tournament, to: :round
 
   composed_of :start_time,
@@ -24,6 +26,21 @@ class Tournament::Match < ApplicationRecord
               mapping: %w[start_time_in_seconds to_f],
               constructor: proc { |t| Time.zone.at(t) if t },
               converter: proc { |t| convert_to_time(t) }
+
+  def final? = gold_finals? || bronze_finals?
+
+  def move(direction)
+    siblings = round.matches.to_a
+    index = siblings.index(self)
+    neighbor = direction == 'up' ? siblings[index - 1] : siblings[index + 1]
+    return if neighbor.nil? || (direction == 'up' && index.zero?)
+
+    self.class.transaction do
+      own_position = position
+      update!(position: neighbor.position)
+      neighbor.update!(position: own_position)
+    end
+  end
 
   def self.convert_to_time(time)
     case time
@@ -34,5 +51,11 @@ class Tournament::Match < ApplicationRecord
     else
       Time.zone.at(time / 1000.0)
     end
+  end
+
+  private
+
+  def set_position
+    self.position ||= (round.matches.maximum(:position) || 0) + 1
   end
 end

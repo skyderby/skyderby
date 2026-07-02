@@ -9,7 +9,7 @@
       <%= render 'actions_bar', tournament: @tournament, editable: %>
     <% end %>
 
-    <div class="content-block">
+    <div class="bracket-block" data-controller="tournaments--bracket">
       <% if @tournament.surprise? && !editable %>
         <h1 class="text-muted text-center">
           🙅 Let it be a Surprise

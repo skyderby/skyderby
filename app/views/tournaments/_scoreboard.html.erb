@@ -1,9 +1,16 @@
-<div class="row tournament-scoreboard" id="tournament-scoreboard">
-  <% rounds = @tournament.rounds.order(:order) %>
-  <% if rounds.size < 4 %>
-    <div class="col-lg-1"></div>
-  <% end %>
-  <% rounds.each do |round| %>
-    <%= render partial: 'tournaments/rounds/round', locals: { round: round } %>
+<div class="bracket" id="tournament-scoreboard">
+  <% editable = policy(@tournament).update? %>
+  <% rounds = @tournament.rounds.order(:order).includes(matches: { slots: [{ competitor: :profile }, :track] }) %>
+  <% rounds.each_with_index do |round, i| %>
+    <% next_round = rounds[i + 1] %>
+    <% connector = if next_round.nil?
+                     :none
+                   elsif next_round.final? || next_round.matches.size < round.matches.size
+                     :reduce
+                   else
+                     :straight
+                   end %>
+    <%= render partial: 'tournaments/rounds/round',
+               locals: { round: round, rounds_count: rounds.size, connector: connector, final: round.final?, editable: editable } %>
   <% end %>
 </div>

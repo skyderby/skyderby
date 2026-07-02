@@ -1,97 +1,96 @@
-<% editable = policy(@tournament).update? %>
-<% spacers ||= 0 %>
+<% type_modifier = match.gold_finals? ? 'gold' : (match.bronze_finals? ? 'bronze' : nil) %>
 
-<% unless match.bronze_finals? %>
-  <% spacers.times do %>
-    <div class="tournament-spacer"></div>
-  <% end %>
-<% end %>
+<div class="bracket-cell <%= "bracket-cell--#{type_modifier}" if type_modifier %>">
+  <div class="bracket-match <%= "bracket-match--#{type_modifier}" if type_modifier %>">
+    <header class="bracket-match__head">
+      <span class="bracket-match__title">
+        <%= tournament_match_label(match, index, order, rounds_count) %>
+      </span>
 
-<div class="tournament-match">
-  <% if !mobile? %>
-    <div class="tournament-match-links">
-      <%= link_to tournament_match_map_path(@tournament, match), data: { turbo_stream: true }, class: 'tournament-match-map text-muted' do %>
-        <%= icon_tag 'compass-regular' %>
-        Map
-      <% end %>
-      <%= link_to tournament_match_globe_path(@tournament, match), data: { turbo_stream: true }, class: 'tournament-match-map text-muted' do %>
-        <%= icon_tag 'compass-regular' %>
-        3D map
-      <% end %>
-      <% if editable %>
-        <%= link_to edit_tournament_match_path(@tournament, match), data: { turbo_stream: true }, class: 'tournament-match-map text-muted' do %>
-          <%= icon_tag 'pencil-solid' %>
-          <%= t('general.edit') %>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
+      <div class="bracket-match__links">
+        <% if editable %>
+          <div class="cell-actions" data-controller="dropdown">
+            <button class="dropdown-toggle button button--ghost button--sm" popovertarget="match-menu-<%= match.id %>">
+              <%= icon_tag 'ellipsis-vertical-solid' %>
+            </button>
 
-  <div class="match-slots">
-    <% match.slots.each do |slot| %>
-      <div class="tournament-competitor">
-        <% if slot.competitor.present? %>
-          <div class="tournament-competitor-profile">
-            <% if match.gold_finals? || match.bronze_finals? %>
-              <% if slot.earn_medal %>
-                <%= icon_tag 'certificate', class: "icon--fw #{slot.earn_medal}" %>
-              <% else %>
-                <span class="icon--fw"></span>
+            <div id="match-menu-<%= match.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+              <%= button_to edit_tournament_match_path(@tournament, match), method: :get, form: { data: { turbo_stream: true } }, class: 'dropdown-item' do %>
+                <%= icon_tag 'pencil-solid', class: 'text-muted' %>
+                <%= t('general.edit') %>
               <% end %>
-            <% end %>
-            <a href="<%= profile_path(slot.competitor.profile_id) %>">
-              <%= image_tag slot.competitor.profile.userpic_url(:thumb) %>
-              <%= slot.competitor.name %>
-            </a>
+
+              <% unless round_final %>
+                <% if index > 1 %>
+                  <%= button_to tournament_match_position_path(@tournament, match), method: :patch, params: { direction: 'up' }, form: { data: { turbo_stream: true } }, class: 'dropdown-item' do %>
+                    <%= icon_tag 'angle-up-solid', class: 'text-muted' %>
+                    <%= t('tournaments.bracket.move_up') %>
+                  <% end %>
+                <% end %>
+
+                <% if index < total %>
+                  <%= button_to tournament_match_position_path(@tournament, match), method: :patch, params: { direction: 'down' }, form: { data: { turbo_stream: true } }, class: 'dropdown-item' do %>
+                    <%= icon_tag 'angle-down-solid', class: 'text-muted' %>
+                    <%= t('tournaments.bracket.move_down') %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
           </div>
-        <% else %>
-          <div class="tournament-competitor-profile">?</div>
         <% end %>
+      </div>
+    </header>
 
-        <div class="tournament-competitor-result">
-          <% has_result = slot.result.present? || slot.track.present? %>
-
-          <% result_html = capture do %>
-            <% if slot.is_disqualified %>
-              <s><%= slot.result %></s>
-            <% else %>
-              <%= slot.result %>
-            <% end %>
+    <ul class="bracket-match__slots">
+      <% match.slots.each do |slot| %>
+        <li class="bracket-slot <%= "bracket-slot--#{slot.earn_medal}" if slot.earn_medal %> <%= 'bracket-slot--winner' if slot.is_winner %>"
+            <% if slot.competitor.present? %>data-competitor-id="<%= slot.competitor_id %>" data-action="mouseenter->tournaments--bracket#highlight mouseleave->tournaments--bracket#reset"<% end %>>
+          <% if slot.competitor.present? %>
+            <a class="bracket-slot__profile" href="<%= profile_path(slot.competitor.profile_id) %>">
+              <%= tournament_competitor_avatar(slot.competitor) %>
+              <span class="bracket-slot__name"><%= slot.competitor.name %></span>
+            </a>
+          <% else %>
+            <span class="bracket-slot__profile bracket-slot__profile--empty">
+              <span class="bracket-avatar bracket-avatar--empty">?</span>
+            </span>
           <% end %>
 
-          <% if editable %>
-            <% if has_result %>
-              <%= link_to tournament_match_slot_result_path(@tournament, match, slot), data: { turbo_stream: true, toggle: 'tooltip' }, title: slot.notes do %>
-                <%= result_html %>
+          <span class="bracket-slot__result">
+            <% has_result = slot.result.present? || slot.track.present? %>
+
+            <% result_html = capture do %>
+              <% if slot.is_winner %>
+                <%= icon_tag 'check-solid', class: 'bracket-slot__check' %>
               <% end %>
-            <% else %>
+              <% if slot.result.present? %>
+                <% formatted = number_with_precision(slot.result, precision: 3) %>
+                <%= slot.is_disqualified ? content_tag(:s, formatted) : formatted %>
+              <% end %>
+            <% end %>
+
+            <% if editable && !has_result %>
               <%= link_to new_tournament_match_slot_result_path(@tournament, match, slot), data: { turbo_stream: true }, class: 'button button--ghost button--sm' do %>
                 <%= icon_tag 'upload-solid', class: 'icon--fw text-muted' %>
               <% end %>
-            <% end %>
-          <% else %>
-            <% if slot.track_id %>
+            <% elsif editable || slot.track_id %>
               <%= link_to tournament_match_slot_result_path(@tournament, match, slot), data: { turbo_stream: true, toggle: 'tooltip' }, title: slot.notes do %>
                 <%= result_html %>
               <% end %>
             <% else %>
               <%= result_html %>
             <% end %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
+          </span>
+        </li>
+      <% end %>
 
-    <% match.free_slots.times do %>
-      <div class="tournament-competitor">
-        <div class="tournament-competitor-profile">?</div>
-      </div>
-    <% end %>
+      <% match.free_slots.times do %>
+        <li class="bracket-slot">
+          <span class="bracket-slot__profile bracket-slot__profile--empty">
+            <span class="bracket-avatar bracket-avatar--empty">?</span>
+          </span>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>
-
-<% unless match.gold_finals? || match.bronze_finals? %>
-  <% spacers.times do %>
-    <div class="tournament-spacer"></div>
-  <% end %>
-<% end %>

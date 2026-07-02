@@ -409,8 +409,7 @@ Skyderby::Application.routes.draw do
       resource :status, only: :update
       resources :matches do
         scope module: :matches do
-          resource :map, only: :show
-          resource :globe, controller: 'globe', only: :show
+          resource :position, only: :update
           resources :slots do
             scope module: :slots do
               resource :result, only: %i[new create show update destroy]

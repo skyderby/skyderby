@@ -1,0 +1,66 @@
+<%# locals: (match:, slots:, **) %>
+
+<% main = slots[0] %>
+<% compare = slots[1] %>
+<% finish_line_coords = match.tournament.finish_line&.to_coordinates %>
+
+<% if main.nil? %>
+  <p class="text-muted"><%= t('tournaments.results.no_track_data') %></p>
+<% else %>
+  <div data-controller="tracks--base-jump-track"
+       data-tracks--base-jump-track-points-url-value="<%= track_points_path(main.track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
+       data-tracks--base-jump-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
+       data-tracks--base-jump-track-track-id-value="<%= main.track_id %>"
+       <% if compare %>
+       data-tracks--base-jump-track-compare-points-url-value="<%= track_points_path(compare.track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
+       data-tracks--base-jump-track-compare-track-name-value="<%= compare.competitor_name %>"
+       data-tracks--base-jump-track-compare-same-place-value="true"
+       <% end %>
+       <% if finish_line_coords.present? %>
+       data-tracks--base-jump-track-finish-line-start-lat-value="<%= finish_line_coords.first[:latitude] %>"
+       data-tracks--base-jump-track-finish-line-start-lon-value="<%= finish_line_coords.first[:longitude] %>"
+       data-tracks--base-jump-track-finish-line-end-lat-value="<%= finish_line_coords.last[:latitude] %>"
+       data-tracks--base-jump-track-finish-line-end-lon-value="<%= finish_line_coords.last[:longitude] %>"
+       <% end %>>
+
+    <div class="base-jump-toolbar">
+      <% if finish_line_coords.present? %>
+        <div class="switch-container">
+          <input type="checkbox" id="cmp-finish-line-toggle" class="switch-input"
+                 data-tracks--base-jump-track-target="finishLineToggle"
+                 data-action="tracks--base-jump-track#toggleFinishLine">
+          <label for="cmp-finish-line-toggle" class="switch-label">
+            <span class="switch-slider"></span>
+            <span class="switch-text"><%= t('tracks.base_jump.finish_line') %></span>
+          </label>
+        </div>
+      <% end %>
+
+      <div class="switch-container">
+        <input type="checkbox" id="cmp-expand-map-toggle" class="switch-input"
+               data-tracks--base-jump-track-target="expandMapToggle"
+               data-action="tracks--base-jump-track#toggleExpandMap">
+        <label for="cmp-expand-map-toggle" class="switch-label">
+          <span class="switch-slider"></span>
+          <span class="switch-text"><%= t('tracks.base_jump.expand_map') %></span>
+        </label>
+      </div>
+    </div>
+
+    <% indicators = capture do %>
+      <div class="comparison-competitor">
+        <div class="comparison-competitor__name"><%= main.competitor_name %></div>
+        <%= render 'tracks/playback_indicators', data: { 'tracks--base-jump-track-target': 'playbackIndicators' } %>
+      </div>
+
+      <% if compare %>
+        <div class="comparison-competitor comparison-competitor--compare">
+          <div class="comparison-competitor__name"><%= compare.competitor_name %></div>
+          <%= render 'tracks/playback_indicators', compare: true, data: { 'tracks--base-jump-track-target': 'comparePlaybackIndicators' } %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <%= render 'tracks/base_jump_body', indicators: indicators %>
+  </div>
+<% end %>

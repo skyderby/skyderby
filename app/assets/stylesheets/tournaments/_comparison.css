@@ -1,0 +1,24 @@
+@layer components {
+  .dialog .tab-bar {
+    margin-bottom: 0.75rem;
+  }
+
+  .comparison-competitor {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .comparison-competitor__name {
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .comparison-competitor--compare .comparison-competitor__name {
+    color: #9c27b0;
+  }
+}

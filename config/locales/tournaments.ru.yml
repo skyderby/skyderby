@@ -1,0 +1,20 @@
+ru:
+  tournaments:
+    bracket:
+      round: "Раунд %{number}"
+      move_up: Выше
+      move_down: Ниже
+      add_bracket: Добавить брэкет
+      delete_round: Удалить раунд
+      stages:
+        quarterfinals: Четвертьфиналы
+        semifinals: Полуфиналы
+        finals: Финалы
+        round: "Раунд %{number}"
+      match:
+        heat: "Заезд %{number}"
+        semifinal: "Полуфинал %{number}"
+        gold_final: Финал за золото
+        bronze_final: Финал за бронзу
+    comparison:
+      title: Сравнение результатов

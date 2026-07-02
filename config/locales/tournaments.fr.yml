@@ -1,0 +1,20 @@
+fr:
+  tournaments:
+    bracket:
+      round: "Tour %{number}"
+      move_up: Monter
+      move_down: Descendre
+      add_bracket: Ajouter un bracket
+      delete_round: Supprimer le tour
+      stages:
+        quarterfinals: Quarts de finale
+        semifinals: Demi-finales
+        finals: Finales
+        round: "Tour %{number}"
+      match:
+        heat: "Manche %{number}"
+        semifinal: "Demi-finale %{number}"
+        gold_final: Finale pour l'or
+        bronze_final: Finale pour le bronze
+    comparison:
+      title: Comparaison des résultats

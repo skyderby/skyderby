@@ -10,7 +10,7 @@ class Tournament < ApplicationRecord
       end
 
       def free_slots
-        tournament.bracket_size - slots.count
+        tournament.bracket_size - slots.size
       end
 
       private

@@ -1,22 +1,42 @@
-<div class="col-sm-4 col-md-4 col-lg-3 text-center">
-  <div class="tournament-round text-muted">
-    Round <%= round.order %>
+<% stage_key = tournament_stage_key(round.order, rounds_count) %>
+<% matches = final ? round.matches.sort_by(&:match_type_before_type_cast) : round.matches.to_a %>
+
+<section class="bracket-round bracket-round--<%= connector %> <%= 'bracket-round--final' if final %>">
+  <header class="bracket-round__head">
+    <span class="bracket-round__number"><%= tournament_round_label(round.order) %></span>
+    <span class="bracket-stage bracket-stage--<%= stage_key %>">
+      <%= tournament_stage_name(round.order, rounds_count) %>
+    </span>
+
+    <% if editable %>
+      <div class="cell-actions bracket-round__menu" data-controller="dropdown">
+        <button class="dropdown-toggle button button--ghost button--sm" popovertarget="round-menu-<%= round.id %>">
+          <%= icon_tag 'ellipsis-vertical-solid' %>
+        </button>
+
+        <div id="round-menu-<%= round.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+          <%= button_to tournament_round_matches_path(tournament_id: @tournament.id, round_id: round.id),
+                        method: :post, form: { data: { turbo_stream: true } }, class: 'dropdown-item' do %>
+            <%= icon_tag 'plus-solid', class: 'text-muted' %>
+            <%= t('tournaments.bracket.add_bracket') %>
+          <% end %>
+
+          <div class="dropdown-divider"></div>
+
+          <%= button_to tournament_round_path(@tournament, round),
+                        method: :delete, form: { data: { turbo_stream: true, turbo_confirm: t('general.confirm_delete') } }, class: 'dropdown-item' do %>
+            <%= icon_tag 'xmark', class: 'text-muted' %>
+            <%= t('tournaments.bracket.delete_round') %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </header>
+
+  <div class="bracket-round__body">
+    <% matches.each_with_index do |match, index| %>
+      <%= render partial: 'tournaments/matches/match',
+                 locals: { match: match, index: index + 1, total: matches.size, order: round.order, rounds_count: rounds_count, editable: editable, round_final: final } %>
+    <% end %>
   </div>
-
-  <% spacers = 2 ** (round.order - 1) - 1 %>
-  <% round.matches.each do |match| %>
-    <%= render partial: 'tournaments/matches/match', locals: { match: match, spacers: spacers } %>
-  <% end %>
-
-  <% if policy(@tournament).update? %>
-    <div class="text-muted">
-      <%= button_to tournament_round_matches_path(tournament_id: @tournament.id, round_id: round.id),
-                    method: :post,
-                    data: { turbo_stream: true },
-                    class: 'button button--ghost' do %>
-        <%= icon_tag 'plus-solid' %>
-        <%= t('activerecord.models.tournament_match') %>
-      <% end %>
-    </div>
-  <% end %>
-</div>
+</section>

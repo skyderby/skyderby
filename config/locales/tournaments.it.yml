@@ -1,0 +1,20 @@
+it:
+  tournaments:
+    bracket:
+      round: "Round %{number}"
+      move_up: Sposta su
+      move_down: Sposta giù
+      add_bracket: Aggiungi bracket
+      delete_round: Elimina round
+      stages:
+        quarterfinals: Quarti di finale
+        semifinals: Semifinali
+        finals: Finali
+        round: "Round %{number}"
+      match:
+        heat: "Batteria %{number}"
+        semifinal: "Semifinale %{number}"
+        gold_final: Finale per l'oro
+        bronze_final: Finale per il bronzo
+    comparison:
+      title: Confronto risultati

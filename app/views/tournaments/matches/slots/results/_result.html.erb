@@ -1,105 +1,27 @@
 <%# locals: (slot:, editable: false, modal: false, **) %>
 
-<% finish_line = slot.tournament.finish_line %>
-<% finish_line_coords = finish_line&.to_coordinates %>
+<% match = slot.match %>
+<% ordered = match.slots.select(&:track_id).sort_by { |candidate| candidate == slot ? 0 : 1 } %>
 
-<div class="sd-container">
-  <%= render 'navbar', slot:, modal: %>
+<div class="sd-container comparison-view">
+  <%= render 'tournaments/matches/slots/header' %>
 
-  <% if slot.is_winner || slot.is_disqualified %>
-    <div class="tournament-result-badges">
-      <% if slot.is_winner %>
-        <span class="tournament-result-badge tournament-result-badge--winner"><%= t('tournaments.matches.winner') %></span>
-      <% end %>
-      <% if slot.is_disqualified %>
-        <span class="tournament-result-badge tournament-result-badge--disqualified"><%= t('tournaments.matches.disqualified') %></span>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render 'tournaments/matches/comparisons/comparison', match: match, slots: ordered %>
 
-  <% if slot.track.present? %>
-    <div data-controller="tournaments--result-track"
-         data-tournaments--result-track-points-url-value="<%= track_points_path(slot.track, original_frequency: true, trimmed: { seconds_before_start: 5 }) %>"
-         data-tournaments--result-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
-         <% if finish_line_coords.present? %>
-         data-tournaments--result-track-finish-line-start-lat-value="<%= finish_line_coords.first[:latitude] %>"
-         data-tournaments--result-track-finish-line-start-lon-value="<%= finish_line_coords.first[:longitude] %>"
-         data-tournaments--result-track-finish-line-end-lat-value="<%= finish_line_coords.last[:latitude] %>"
-         data-tournaments--result-track-finish-line-end-lon-value="<%= finish_line_coords.last[:longitude] %>"
-         <% end %>
-         data-tournaments--result-track-result-time-value="<%= slot.result %>">
-
-      <%= render 'tournaments/results/indicators', result: slot.result %>
-      <hr />
-
-      <div class="base-jump-layout">
-        <div class="base-jump-left">
-          <div class="base-jump-chart-square"
-               data-tournaments--result-track-target="sideProjection">
-          </div>
-        </div>
-
-        <div class="base-jump-controls">
-          <%= render 'tracks/playback_indicators', data: { 'tournaments--result-track-target': 'playbackIndicators' } %>
-
-          <div class="base-jump-playback">
-            <button class="base-jump-playback-button"
-                    data-tournaments--result-track-target="playButton"
-                    data-action="tournaments--result-track#togglePlay">
-              <span class="icon-play"><%= icon_tag 'play-solid' %></span>
-              <span class="icon-pause"><%= icon_tag 'pause-solid' %></span>
-            </button>
-            <input type="range"
-                   class="base-jump-playback-slider"
-                   min="0"
-                   max="100"
-                   value="0"
-                   data-tournaments--result-track-target="playbackSlider"
-                   data-action="input->tournaments--result-track#onSliderInput">
-          </div>
-        </div>
-
-        <div class="base-jump-right">
-          <div class="base-jump-map-container">
-            <div class="base-jump-map"
-                 data-tournaments--result-track-target="map">
-            </div>
-          </div>
-
-          <div class="base-jump-charts"
-               data-controller="synchronized-charts"
-               data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip mousemove->tournaments--result-track#onChartHover touchmove->tournaments--result-track#onChartHover">
-            <div data-tournaments--result-track-target="glideChart"
-                 data-synchronized-charts-target="chart"></div>
-            <div data-tournaments--result-track-target="speedChart"
-                 data-synchronized-charts-target="chart"></div>
-            <div class="base-jump-sep-chart"
-                 data-tournaments--result-track-target="sepChart"
-                 data-synchronized-charts-target="chart"></div>
-          </div>
-        </div>
+  <% if editable %>
+    <hr />
+    <div class="form-actions justify-between">
+      <div>
+        <%= link_to t('general.delete'),
+                    tournament_match_slot_result_path(slot.tournament, match, slot),
+                    data: { turbo_method: :delete, turbo_stream: true, turbo_confirm: t('general.confirm_delete') },
+                    class: 'button button--ghost button--danger' %>
+      </div>
+      <div>
+        <% if modal %>
+          <button class="button" type="button" data-action="dialog#close"><%= t('general.cancel') %></button>
+        <% end %>
       </div>
     </div>
-  <% else %>
-    <%= render 'tournaments/results/indicators', result: slot.result %>
-    <hr />
-    <p class="text-muted"><%= t('tournaments.results.no_track_data') %></p>
   <% end %>
-
-  <div class="form-actions justify-between">
-    <div>
-      <% if editable %>
-        <%= link_to t('general.delete'),
-                    tournament_match_slot_result_path(slot.tournament, slot.match, slot),
-                    data: { turbo_method: :delete, turbo_confirm: t('general.confirm') },
-                    class: 'button button--ghost button--danger' %>
-      <% end %>
-    </div>
-
-    <div>
-      <% if modal %>
-        <button class="button" type="button" data-action="dialog#close"><%= t('general.cancel') %></button>
-      <% end %>
-    </div>
-  </div>
 </div>

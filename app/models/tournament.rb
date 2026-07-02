@@ -42,7 +42,7 @@ class Tournament < ApplicationRecord
 
   has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :competitors, dependent: :restrict_with_error
-  has_many :rounds, dependent: :restrict_with_error
+  has_many :rounds, dependent: :restrict_with_error, inverse_of: :tournament
   has_many :matches, through: :rounds
 
   has_many :qualification_rounds, dependent: :restrict_with_error

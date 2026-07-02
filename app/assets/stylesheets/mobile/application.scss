@@ -3,6 +3,7 @@
 
 @import '../mixins/**/*';
 @import '../variables';
+@import '../global';
 @import '../common/**/*';
 @import '../blocks/**/*';
 @import '../events/**/*';
@@ -40,6 +41,7 @@
 @import '../inputs';
 @import '../tabs';
 @import '../profiles/*';
+@import '../tournaments/**/*';
 
 @import 'variables';
 @import '**/*';
