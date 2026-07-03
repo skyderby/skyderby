@@ -533,6 +533,12 @@ td.scoreboard-total-result {
   text-align: center;
 }
 
+.qualification-scoreboard-table .result-upload-cell button,
+.qualification-scoreboard-table .result-upload-cell button:hover {
+  background-color: transparent;
+  color: transparent;
+}
+
 .qualification-scoreboard-table td.round-result {
   border-right-color: transparent;
 }
