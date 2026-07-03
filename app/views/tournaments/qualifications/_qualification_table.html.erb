@@ -2,14 +2,10 @@
 <% show_best = scoreboard.show_best_result? %>
 <% podium = scoreboard.podium? %>
 
-<table class="scoreboard-table scoreboard-table--compact qualification-scoreboard-table" data-events--sticky-header-target="table">
+<table class="scoreboard-table scoreboard-table--compact scoreboard-table--pinned-competitor qualification-scoreboard-table" data-events--sticky-header-target="table">
   <thead>
     <tr>
-      <td class="competitor-badge-col" rowspan="2" aria-hidden="true">
-        <span class="competitor-badge__panel competitor-badge__panel--head">
-          <span class="competitor-badge__name"><%= t('tournaments.qualifications.scoreboard.competitor') %></span>
-        </span>
-      </td>
+      <%= render 'scoreboards/pinned_competitor_header', label: t('tournaments.qualifications.scoreboard.competitor'), rowspan: 2 %>
       <td class="text-center" rowspan="2"><%= t('tournaments.qualifications.scoreboard.rank') %></td>
       <td class="<%= class_names 'text-center', (!show_best && 'scoreboard-table-separate-border') %>" colspan="2" rowspan="2"><%= t('tournaments.qualifications.scoreboard.competitor') %></td>
       <% if show_best %>
@@ -75,11 +71,7 @@
     <% scoreboard.competitors.each do |competitor| %>
       <% on_podium = podium && competitor.ranked? && competitor.rank <= 3 %>
       <tr class="<%= class_names('scoreboard-competitor', ("podium-row--#{competitor.rank}" if on_podium)) %>">
-        <td class="competitor-badge-col">
-          <span class="competitor-badge__panel">
-            <span class="competitor-badge__name"><%= competitor.name %></span>
-          </span>
-        </td>
+        <%= render 'scoreboards/pinned_competitor_cell', name: competitor.name %>
         <td class="text-center rank-cell">
           <% if !competitor.ranked? %>
             –

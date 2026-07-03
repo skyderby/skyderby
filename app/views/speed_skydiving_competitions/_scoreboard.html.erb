@@ -8,7 +8,7 @@
   <div class="scoreboard-scroll"
        data-events--sticky-header-target="container"
        data-action="scroll->events--sticky-header#on_horizontal_scroll">
-    <table class="scoreboard-table speed-skydiving-scoreboard-table"
+    <table class="scoreboard-table scoreboard-table--pinned-competitor speed-skydiving-scoreboard-table"
            data-events--sticky-header-target="table"
            <% if standings.until_round %>
              data-replay-scoreboard-target="scoreboard"
@@ -17,6 +17,7 @@
     >
     <thead>
       <tr>
+        <%= render 'scoreboards/pinned_competitor_header', label: t('events.competitor') %>
         <th>#</th>
         <th colspan="2"><%= t('events.competitor') %></th>
         <%= render partial: 'speed_skydiving_competitions/round_cell',
@@ -40,6 +41,7 @@
 
       <tbody id="<%= dom_id category %>">
         <tr>
+          <td class="pinned-competitor-cell"></td>
           <%= render 'speed_skydiving_competitions/category_cell', category:, event:, editable:, standings:, position: %>
         </tr>
 
@@ -48,6 +50,7 @@
           <% competitor_results = editable ? row[:all_results] : row[:accountable_results] %>
           <% on_podium = at_least_one_round_completed && row[:total].positive? && row[:rank] <= 3 %>
           <tr data-competitor-id="<%= competitor.id %>" class="<%= class_names('competitor-row', ("podium-row--#{row[:rank]}" if on_podium)) %>">
+            <%= render 'scoreboards/pinned_competitor_cell', name: competitor.name %>
             <td data-rank class="text-center rank-cell">
               <% if on_podium %>
                 <span class="rank-badge rank-badge--<%= row[:rank] %>"><%= row[:rank] %></span>

@@ -581,8 +581,11 @@ td.scoreboard-total-result {
   background-image: linear-gradient(160deg, #e8a262 0%, #b9701f 100%);
 }
 
-.qualification-scoreboard-table thead tr td.competitor-badge-col:first-child,
-.qualification-scoreboard-table tbody tr td.competitor-badge-col:first-child {
+/* Pinned competitor column: a sticky, zero-width overlay cell that reveals a
+   bordered name column once the real competitor cell scrolls off the left edge
+   on narrow screens. Shared across scoreboards via .scoreboard-table--pinned-competitor. */
+.scoreboard-table--pinned-competitor thead tr td.pinned-competitor-cell:first-child,
+.scoreboard-table--pinned-competitor tbody tr td.pinned-competitor-cell:first-child {
   position: sticky;
   left: 0;
   z-index: 2;
@@ -593,7 +596,7 @@ td.scoreboard-total-result {
   overflow: visible;
 }
 
-.competitor-badge__panel {
+.pinned-competitor {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -606,7 +609,7 @@ td.scoreboard-total-result {
   transition: opacity 0.15s ease;
 }
 
-.competitor-badge__name {
+.pinned-competitor__text {
   position: absolute;
   top: 50%;
   left: 0.5rem;
@@ -624,21 +627,21 @@ td.scoreboard-total-result {
   color: var(--gray-90);
 }
 
-.competitor-badge__panel--head {
+.pinned-competitor--head {
   border-bottom: var(--default-border);
 }
 
-.competitor-badge__panel--head .competitor-badge__name {
+.pinned-competitor--head .pinned-competitor__text {
   font-weight: 500;
   color: var(--gray-70);
 }
 
 @media (max-width: 768px) {
-  .qualification-scoreboard-table {
+  .scoreboard-table--pinned-competitor {
     overflow: visible;
   }
 
-  .scoreboard-scroll.show-competitor-badge .competitor-badge__panel {
+  .scoreboard-scroll.show-pinned-competitor .pinned-competitor {
     opacity: 1;
     pointer-events: auto;
   }

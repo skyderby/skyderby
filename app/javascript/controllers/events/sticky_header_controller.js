@@ -89,18 +89,19 @@ export default class extends Controller {
     this._popover.style.left = `${this.containerLeft}px`
     this._popover.style.right = `${this.containerRight}px`
 
-    this.updateBadgeVisibility()
+    this.updatePinnedCompetitor()
   }
 
-  updateBadgeVisibility() {
+  updatePinnedCompetitor() {
     if (!this.hasContainerTarget || !this.hasTableTarget) return
+    if (!this.tableTarget.querySelector('.pinned-competitor-cell')) return
 
     const nameCell = this.tableTarget.querySelector('tbody td.competitor')
     if (!nameCell) return
 
     const containerLeft = this.containerTarget.getBoundingClientRect().left
     const nameHidden = nameCell.getBoundingClientRect().right <= containerLeft + 8
-    this.containerTarget.classList.toggle('show-competitor-badge', nameHidden)
+    this.containerTarget.classList.toggle('show-pinned-competitor', nameHidden)
   }
 
   onScroll() {
@@ -131,7 +132,7 @@ export default class extends Controller {
     const clone = this._popover?.querySelector('table')
     if (clone) clone.style.marginLeft = `-${this.containerTarget.scrollLeft}px`
 
-    this.updateBadgeVisibility()
+    this.updatePinnedCompetitor()
   }
 
   get containerLeft() {
