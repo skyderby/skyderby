@@ -1,0 +1,78 @@
+<%# locals: (event:, category:) %>
+<% fallers = category.fallers %>
+
+<div class="display-slide display-fall"
+     data-slideshow-target="slide"
+     data-slideshow-duration="23"
+     data-controller="speed-fall"
+     data-finish-label="<%= t('speed_skydiving_competitions.display.window_end') %>">
+  <%= render 'statusbar', event: event %>
+
+  <script type="application/json" data-speed-fall-target="data"><%= raw fallers.to_json %></script>
+
+  <div class="display-content">
+    <div class="display-title-row">
+      <h1 class="display-title"><%= t('speed_skydiving_competitions.display.freefall_race') %></h1>
+      <div class="display-title-aside">
+        <span class="display-title-count"><%= category.name %></span>
+      </div>
+    </div>
+
+    <div class="display-fall-body">
+      <div class="display-fall-stage">
+        <svg class="display-fall-svg" data-speed-fall-target="svg"
+             viewBox="0 0 1200 620" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+
+        <div class="display-fall-countdown" data-speed-fall-target="countdown" hidden>
+          <span class="label"><%= t('speed_skydiving_competitions.display.window_opens') %></span>
+          <span class="count" data-speed-fall-target="countText">3</span>
+        </div>
+      </div>
+
+      <div class="display-fall-cards" style="--lanes: <%= fallers.size %>;">
+        <% fallers.each do |faller| %>
+          <div class="display-fall-card" style="--side: <%= faller.color %>;" data-speed-fall-target="card">
+            <div class="display-fall-card-head">
+              <span class="display-fall-bib"><%= faller.bib %></span>
+              <div class="display-fall-id">
+                <span class="display-fall-name"><%= faller.name %></span>
+                <span class="display-fall-country"><%= faller.country_code %></span>
+              </div>
+            </div>
+
+            <div class="display-fall-stats">
+              <div class="display-fall-stat is-primary">
+                <span class="display-fall-stat-label"><%= t('speed_skydiving_competitions.display.speed') %></span>
+                <span class="display-fall-stat-value">
+                  <span class="num" data-speed-fall-target="speed">0</span>
+                  <span class="unit"><%= t('speed_skydiving_competitions.display.kmh_short') %></span>
+                </span>
+              </div>
+              <div class="display-fall-stat">
+                <span class="display-fall-stat-label"><%= t('speed_skydiving_competitions.display.acceleration') %></span>
+                <span class="display-fall-stat-value">
+                  <span class="num" data-speed-fall-target="accel">0.0</span>
+                  <span class="unit"><%= t('speed_skydiving_competitions.display.mps2_short') %></span>
+                </span>
+              </div>
+              <div class="display-fall-stat">
+                <span class="display-fall-stat-label"><%= t('speed_skydiving_competitions.display.altitude') %></span>
+                <span class="display-fall-stat-value">
+                  <span class="num" data-speed-fall-target="altitude">0</span>
+                  <span class="unit"><%= t('speed_skydiving_competitions.display.meters_short') %></span>
+                </span>
+              </div>
+              <div class="display-fall-stat">
+                <span class="display-fall-stat-label"><%= t('speed_skydiving_competitions.display.to_window_end') %></span>
+                <span class="display-fall-stat-value">
+                  <span class="num" data-speed-fall-target="remaining">0</span>
+                  <span class="unit"><%= t('speed_skydiving_competitions.display.meters_short') %></span>
+                </span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

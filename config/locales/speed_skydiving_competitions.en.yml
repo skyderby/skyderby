@@ -1,4 +1,27 @@
 en:
   speed_skydiving_competitions:
+    actions_bar:
+      display: 'Display'
     meta:
       description: "Official results from %{event_name} speed skydiving event at %{place}. View competitor rankings, round scores, and standings for %{categories} categories."
+    display:
+      live: 'Live'
+      athletes:
+        one: '%{count} Athlete'
+        other: '%{count} Athletes'
+      rank: 'Rank'
+      competitor: 'Competitor'
+      best_speed: 'Best speed'
+      average: 'Average'
+      jumps: 'Jumps'
+      kmh: '%{speed} km/h'
+      freefall_race: 'Freefall Race'
+      window_opens: 'Window opens in'
+      speed: 'Speed'
+      kmh_short: 'KM/H'
+      acceleration: 'Acceleration'
+      mps2_short: 'M/S²'
+      altitude: 'Altitude'
+      meters_short: 'M'
+      to_window_end: 'To window end'
+      window_end: 'Window end'

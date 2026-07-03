@@ -14,6 +14,8 @@ class SpeedSkydivingCompetition::ResultScore
 
   def exit_altitude = exit_point&.dig(:altitude)
 
+  def window_trajectory = window_points
+
   def points
     @points ||= PointsQuery.execute(track, trimmed: { seconds_before_start: 15 })
   end

@@ -252,6 +252,7 @@ Skyderby::Application.routes.draw do
       resources :team_competitors, only: %i[new create destroy]
       resource :status, only: :update
       resource :open_scoreboard, only: :show
+      resource :display, controller: 'displays', only: :show
       resource :downloads, only: :show do
         scope module: :downloads do
           resource :scoreboard, only: :show

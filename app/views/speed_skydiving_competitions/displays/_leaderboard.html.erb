@@ -1,0 +1,59 @@
+<%# locals: (event:, category:, active: false) %>
+
+<div class="display-slide <%= 'is-active' if active %>" data-slideshow-target="slide" data-slideshow-duration="30">
+  <%= render 'statusbar', event: event %>
+
+  <div class="display-content">
+    <div class="display-title-row">
+      <h1 class="display-title"><%= category.name %></h1>
+      <div class="display-title-aside">
+        <span class="display-title-count"><%= t('speed_skydiving_competitions.display.athletes', count: category.size) %></span>
+      </div>
+    </div>
+
+    <div class="display-lb-head">
+      <span><%= t('speed_skydiving_competitions.display.rank') %></span>
+      <span><%= t('speed_skydiving_competitions.display.competitor') %></span>
+      <span class="text-right"><%= t('speed_skydiving_competitions.display.best_speed') %></span>
+      <span class="text-right"><%= t('speed_skydiving_competitions.display.average') %></span>
+      <span class="text-right"><%= t('speed_skydiving_competitions.display.jumps') %></span>
+    </div>
+
+    <div class="display-lb-window">
+      <div class="display-lb-scroller" data-slideshow-scroll>
+        <% category.leaderboard.each do |row| %>
+          <div class="display-lb-row <%= class_names('is-leader' => row.rank == 1, 'is-podium' => row.rank <= 3) %>">
+            <div class="display-rank">
+              <span class="display-rank-number"><%= row.rank %></span>
+            </div>
+
+            <div class="display-competitor">
+              <span class="display-competitor-name"><%= row.name %></span>
+              <div class="display-competitor-meta">
+                <span class="display-country">
+                  <span class="display-country-code"><%= row.country_code %></span>
+                  <span class="display-country-name"><%= row.country_name %></span>
+                </span>
+              </div>
+            </div>
+
+            <div class="display-metric">
+              <span class="display-metric-value"><%= t('speed_skydiving_competitions.display.kmh', speed: number_with_precision(row.best, precision: 2)) %></span>
+            </div>
+
+            <div class="display-metric">
+              <span class="display-metric-value is-dim"><%= number_with_precision(row.average, precision: 2) %></span>
+            </div>
+
+            <div class="display-metric">
+              <span class="display-metric-value is-dim"><%= row.jumps %></span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="display-fade-top"></div>
+      <div class="display-fade-bottom"></div>
+    </div>
+  </div>
+</div>

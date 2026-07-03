@@ -18,6 +18,11 @@
   <% end %>
 
   <div class="actions-bar-right">
+    <%= link_to speed_skydiving_competition_display_path(event), target: '_blank', rel: 'noopener', class: 'actions-bar-button' do %>
+      <%= icon_tag 'circle-play' %>
+      <%= t('speed_skydiving_competitions.actions_bar.display') %>
+    <% end %>
+
     <%= link_to 'Time Machine', speed_skydiving_competition_path(event, until_round: standings.completed_rounds.last&.number), class: 'actions-bar-button' %>
 
     <% if editable %>

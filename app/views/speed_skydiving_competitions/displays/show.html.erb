@@ -1,0 +1,16 @@
+<% provide :title, @event.name %>
+
+<div class="display-wrap display-speed"
+     data-controller="slideshow refresh"
+     data-refresh-interval-seconds-value="300">
+  <div class="display-stage">
+    <div class="display-backdrop"></div>
+
+    <% @display.categories.each_with_index do |category, index| %>
+      <%= render 'leaderboard', event: @event, category: category, active: index.zero? %>
+      <% if category.fallers.any? %>
+        <%= render 'fall', event: @event, category: category %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
