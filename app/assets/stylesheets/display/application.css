@@ -1113,6 +1113,16 @@ body {
   grid-template-columns: calc(140 * var(--px)) 1fr calc(280 * var(--px)) calc(220 * var(--px)) calc(150 * var(--px));
 }
 
+/* ---- Speed skydiving participant slide ---- */
+.display-speed .display-besttime-value .num {
+  font-size: calc(108 * var(--px));
+}
+
+.display-speed .display-attempts-head,
+.display-speed .display-attempts-row {
+  grid-template-columns: calc(180 * var(--px)) 1fr calc(200 * var(--px));
+}
+
 .display-metric {
   text-align: right;
 }

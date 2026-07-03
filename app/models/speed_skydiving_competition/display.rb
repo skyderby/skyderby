@@ -1,6 +1,7 @@
 class SpeedSkydivingCompetition::Display < SimpleDelegator
   PALETTE = %w[#38d2ff #ff7a1a #36e07a #a855f7 #ffd23f #ff5a8a #23c4b8 #6c8cff].freeze
   MAX_FALLERS = 8
+  EARTH_RADIUS = 6_371_000 # metres
 
   def initialize(event)
     @event = event
@@ -50,18 +51,30 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
 
     def average = @row[:average]
 
-    def best = scored_results.map(&:final_result).max&.round(2)
+    def best = best_record&.final_result&.round(2)
+
+    def best_round = best_record&.round_number
 
     def jumps = scored_results.size
+
+    def attempts
+      scored_results.sort_by(&:round_number).map do |result|
+        Attempt.new(result.round_number, result.final_result.round(2), result == best_record)
+      end
+    end
 
     private
 
     def competitor = @row[:competitor]
 
+    def best_record = scored_results.max_by(&:final_result)
+
     def scored_results
       @scored_results ||= @row[:accountable_results].select { |result| result.final_result&.positive? }
     end
   end
+
+  Attempt = Struct.new(:round, :speed, :best)
 
   Faller = Struct.new(:name, :bib, :country_code, :color, :result, :points, keyword_init: true) do
     def self.build(row, color)
@@ -92,9 +105,16 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
       return [] if window.size < 2
 
       start_time = window.first[:fl_time]
+      distance = 0.0
+      previous = nil
+
       raw = window.map do |point|
+        distance += horizontal_step(previous, point) if previous
+        previous = point
+
         {
           t: point[:fl_time] - start_time,
+          x: distance,
           alt: point[:altitude],
           speed: point[:full_speed] || Math.sqrt(point[:h_speed]**2 + point[:v_speed]**2)
         }
@@ -103,10 +123,23 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
       with_acceleration(raw)
     end
 
+    def self.horizontal_step(from, to)
+      return 0.0 unless coordinates?(from) && coordinates?(to)
+
+      rad = Math::PI / 180
+      mean_lat = (from[:latitude] + to[:latitude]) / 2 * rad
+      dx = (to[:longitude] - from[:longitude]) * rad * Math.cos(mean_lat) * EARTH_RADIUS
+      dy = (to[:latitude] - from[:latitude]) * rad * EARTH_RADIUS
+      Math.sqrt(dx**2 + dy**2)
+    end
+
+    def self.coordinates?(point) = point[:latitude] && point[:longitude]
+
     def self.with_acceleration(points)
       points.each_with_index.map do |point, index|
         point.merge(
           t: point[:t].round(3),
+          x: point[:x].round(1),
           alt: point[:alt].round(1),
           speed: point[:speed].round(1),
           accel: acceleration(points, index).round(2)

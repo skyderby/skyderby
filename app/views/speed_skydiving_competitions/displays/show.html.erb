@@ -8,6 +8,9 @@
 
     <% @display.categories.each_with_index do |category, index| %>
       <%= render 'leaderboard', event: @event, category: category, active: index.zero? %>
+      <% category.leaderboard.each do |row| %>
+        <%= render 'participant', event: @event, row: row, field_size: category.size %>
+      <% end %>
       <% if category.fallers.any? %>
         <%= render 'fall', event: @event, category: category %>
       <% end %>

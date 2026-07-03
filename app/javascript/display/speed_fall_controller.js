@@ -6,13 +6,14 @@ const COUNTDOWN = 3 // seconds
 const RACE_WINDOW = 16 // seconds of wall-clock the descent is compressed into
 const HOLD = 4 // seconds to hold the result before the slide advances
 
-const VIEW_W = 1200
-const PLOT_X = 118
-const PLOT_TOP = 44
-const PLOT_BOTTOM = 584
-const PLOT_W = VIEW_W - PLOT_X - 24
+const PLOT_LEFT = 88
+const PLOT_RIGHT = 1176
+const PLOT_TOP = 40
+const PLOT_BOTTOM = 556
+const PLOT_W = PLOT_RIGHT - PLOT_LEFT
 const PLOT_H = PLOT_BOTTOM - PLOT_TOP
-const GRID_STEP = 500 // metres between altitude gridlines
+const ALT_STEP = 500 // metres between altitude gridlines
+const STEPS = [50, 100, 200, 250, 500, 1000, 2000]
 
 export default class extends Controller {
   static targets = [
@@ -40,28 +41,28 @@ export default class extends Controller {
   }
 
   // Sync every faller by window start (t = 0 is their window entry) and work out
-  // the shared altitude scale and how fast to compress the descent.
+  // the shared altitude/distance scales the side-view profiles are drawn on.
   prepare() {
     this.fallers = this.fallers.filter(f => f.points && f.points.length >= 2)
     if (this.fallers.length === 0) return
 
     this.topAlt = Math.max(...this.fallers.map(f => f.points[0].alt))
     this.bottomAlt = Math.min(...this.fallers.map(f => f.windowEnd))
-    if (this.topAlt <= this.bottomAlt) this.topAlt = this.bottomAlt + GRID_STEP
+    if (this.topAlt <= this.bottomAlt) this.topAlt = this.bottomAlt + ALT_STEP
 
+    this.maxX = Math.max(...this.fallers.map(f => f.points[f.points.length - 1].x), 1)
     this.maxT = Math.max(...this.fallers.map(f => f.points[f.points.length - 1].t))
     this.rate = Math.max(1, this.maxT / RACE_WINDOW)
-    this.laneWidth = PLOT_W / this.fallers.length
     this.ready = true
+  }
+
+  x(metres) {
+    return PLOT_LEFT + (metres / this.maxX) * PLOT_W
   }
 
   y(alt) {
     const clamped = Math.max(this.bottomAlt, Math.min(this.topAlt, alt))
     return PLOT_TOP + ((this.topAlt - clamped) / (this.topAlt - this.bottomAlt)) * PLOT_H
-  }
-
-  laneX(index) {
-    return PLOT_X + this.laneWidth * (index + 0.5)
   }
 
   buildScene() {
@@ -73,24 +74,16 @@ export default class extends Controller {
     this.drawGrid(svg)
     this.drawFinish(svg)
 
-    this.fallers.forEach((faller, index) => {
-      const x = this.laneX(index)
-
-      this.line(svg, x, PLOT_TOP, x, PLOT_BOTTOM, {
-        stroke: 'rgba(255,255,255,0.08)',
-        'stroke-width': 2
-      })
-
+    this.fallers.forEach(faller => {
       faller.trail = this.el('polyline', {
         fill: 'none',
         stroke: faller.color,
-        'stroke-width': 3,
+        'stroke-width': 4,
         'stroke-linecap': 'round',
         'stroke-linejoin': 'round',
-        opacity: 0.55
+        opacity: 0.9
       })
       svg.appendChild(faller.trail)
-
       faller.marker = this.buildMarker(svg, faller)
     })
 
@@ -98,54 +91,66 @@ export default class extends Controller {
   }
 
   drawGrid(svg) {
-    const start = Math.ceil(this.bottomAlt / GRID_STEP) * GRID_STEP
-    for (let alt = start; alt < this.topAlt; alt += GRID_STEP) {
+    const startAlt = Math.ceil(this.bottomAlt / ALT_STEP) * ALT_STEP
+    for (let alt = startAlt; alt < this.topAlt; alt += ALT_STEP) {
       const y = this.y(alt)
-      this.line(svg, PLOT_X, y, PLOT_X + PLOT_W, y, {
+      this.line(svg, PLOT_LEFT, y, PLOT_RIGHT, y, {
         stroke: 'rgba(255,255,255,0.06)',
         'stroke-width': 1
       })
-      const label = this.el('text', {
-        x: PLOT_X - 14,
-        y: y + 5,
-        'text-anchor': 'end',
-        class: 'display-fall-axis'
-      })
-      label.textContent = `${Math.round(alt)}`
-      svg.appendChild(label)
+      this.text(
+        svg,
+        PLOT_LEFT - 12,
+        y + 5,
+        `${Math.round(alt)}`,
+        'display-fall-axis',
+        'end'
+      )
     }
+
+    const xStep = STEPS.find(step => this.maxX / step <= 6) || 2000
+    for (let dist = 0; dist <= this.maxX; dist += xStep) {
+      const x = this.x(dist)
+      this.line(svg, x, PLOT_TOP, x, PLOT_BOTTOM, {
+        stroke: 'rgba(255,255,255,0.05)',
+        'stroke-width': 1
+      })
+      this.text(svg, x, PLOT_BOTTOM + 24, `${dist}`, 'display-fall-axis', 'middle')
+    }
+
+    this.text(svg, PLOT_LEFT - 12, PLOT_TOP - 14, 'm', 'display-fall-axis', 'end')
+    this.text(svg, PLOT_RIGHT, PLOT_BOTTOM + 24, 'm', 'display-fall-axis', 'end')
   }
 
   drawFinish(svg) {
     const y = this.y(this.bottomAlt)
-    this.line(svg, PLOT_X, y, PLOT_X + PLOT_W, y, {
+    this.line(svg, PLOT_LEFT, y, PLOT_RIGHT, y, {
       stroke: '#ff5a52',
       'stroke-width': 3,
       'stroke-dasharray': '10 8'
     })
-    const label = this.el('text', {
-      x: PLOT_X + PLOT_W,
-      y: y - 12,
-      'text-anchor': 'end',
-      class: 'display-fall-finish-label'
-    })
-    label.textContent = this.element.dataset.finishLabel || 'WINDOW END'
-    svg.appendChild(label)
+    this.text(
+      svg,
+      PLOT_RIGHT,
+      y - 12,
+      this.element.dataset.finishLabel || 'WINDOW END',
+      'display-fall-finish-label',
+      'end'
+    )
   }
 
   buildMarker(svg, faller) {
     const group = this.el('g', { class: 'display-fall-marker' })
-
-    const glow = this.el('circle', { r: 20, fill: faller.color, opacity: 0.18 })
+    const glow = this.el('circle', { r: 24, fill: faller.color, opacity: 0.16 })
     const dot = this.el('circle', {
-      r: 14,
+      r: 16,
       fill: faller.color,
       stroke: '#06080d',
       'stroke-width': 2
     })
     const bib = this.el('text', {
       'text-anchor': 'middle',
-      y: 5,
+      y: 6,
       class: 'display-fall-bib-text'
     })
     bib.textContent = faller.bib
@@ -190,8 +195,13 @@ export default class extends Controller {
     this.cardTargets.forEach(card => card.classList.remove('is-finished'))
     this.fallers.forEach((faller, index) => {
       faller.finished = false
-      this.place(faller, faller.points[0])
-      this.renderCard(index, faller.points[0], faller)
+      const first = faller.points[0]
+      faller.marker.setAttribute(
+        'transform',
+        `translate(${this.x(first.x)}, ${this.y(first.alt)})`
+      )
+      faller.trail.setAttribute('points', `${this.x(first.x)},${this.y(first.alt)}`)
+      this.renderCard(index, first, faller)
     })
     this.hideCountdown()
   }
@@ -224,10 +234,14 @@ export default class extends Controller {
     this.fallers.forEach((faller, index) => {
       const last = faller.points[faller.points.length - 1]
       const finished = this.playerT >= last.t
-      const at = finished ? last : this.interpolate(faller.points, this.playerT)
+      const tt = Math.min(this.playerT, last.t)
+      const at = finished ? last : this.interpolate(faller.points, tt)
 
-      this.place(faller, at)
-      this.updateTrail(faller, at)
+      faller.marker.setAttribute(
+        'transform',
+        `translate(${this.x(at.x)}, ${this.y(at.alt)})`
+      )
+      this.updateTrail(faller, tt, at)
       this.renderCard(index, at, faller)
 
       if (finished && !faller.finished) {
@@ -237,20 +251,13 @@ export default class extends Controller {
     })
   }
 
-  place(faller, at) {
-    if (!faller.marker) return
-    const x = this.laneX(this.fallers.indexOf(faller))
-    faller.marker.setAttribute('transform', `translate(${x}, ${this.y(at.alt)})`)
-  }
-
-  updateTrail(faller, at) {
-    const x = this.laneX(this.fallers.indexOf(faller))
+  updateTrail(faller, tt, head) {
     let points = ''
     for (const p of faller.points) {
-      if (p.t > this.playerT) break
-      points += `${x},${this.y(p.alt)} `
+      if (p.t > tt) break
+      points += `${this.x(p.x)},${this.y(p.alt)} `
     }
-    points += `${x},${this.y(at.alt)}`
+    points += `${this.x(head.x)},${this.y(head.alt)}`
     faller.trail.setAttribute('points', points)
   }
 
@@ -282,6 +289,7 @@ export default class extends Controller {
       if (t >= curr.t && t < next.t) {
         const f = (t - curr.t) / (next.t - curr.t)
         return {
+          x: curr.x + (next.x - curr.x) * f,
           alt: curr.alt + (next.alt - curr.alt) * f,
           speed: curr.speed + (next.speed - curr.speed) * f,
           accel: curr.accel + (next.accel - curr.accel) * f
@@ -303,6 +311,12 @@ export default class extends Controller {
 
   line(svg, x1, y1, x2, y2, attrs) {
     svg.appendChild(this.el('line', { x1, y1, x2, y2, ...attrs }))
+  }
+
+  text(svg, x, y, content, className, anchor) {
+    const node = this.el('text', { x, y, 'text-anchor': anchor, class: className })
+    node.textContent = content
+    svg.appendChild(node)
   }
 
   el(tag, attrs = {}) {

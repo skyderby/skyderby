@@ -1,0 +1,74 @@
+<%# locals: (event:, row:, field_size:) %>
+
+<div class="display-slide display-participant" data-slideshow-target="slide" data-slideshow-duration="11">
+  <%= render 'statusbar', event: event %>
+
+  <div class="display-participant-photo is-empty"></div>
+  <div class="display-participant-edge"></div>
+
+  <div class="display-pcontent">
+    <div class="display-phead">
+      <div class="display-pname-block">
+        <h1 class="display-pname"><%= row.name %></h1>
+        <div class="display-pmeta">
+          <span class="display-pcountry">
+            <span class="display-pcountry-code"><%= row.country_code %></span>
+            <span class="display-pcountry-name"><%= row.country_name %></span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="display-phero">
+      <div class="display-besttime">
+        <div class="display-besttime-bar"></div>
+        <div class="display-besttime-body">
+          <span class="display-label"><%= t('speed_skydiving_competitions.display.best_speed') %></span>
+          <div class="display-besttime-value">
+            <span class="num"><%= number_with_precision(row.best, precision: 2) %></span>
+            <span class="unit"><%= t('speed_skydiving_competitions.display.kmh_short') %></span>
+          </div>
+          <div class="display-besttime-sub">
+            <span class="run">
+              <%= t('speed_skydiving_competitions.display.round', number: row.best_round) %> · <%= t('speed_skydiving_competitions.display.fastest') %>
+            </span>
+            <span class="divider"></span>
+            <div>
+              <span class="ts-label"><%= t('speed_skydiving_competitions.display.average') %></span>
+              <div class="ts-value"><%= t('speed_skydiving_competitions.display.kmh', speed: number_with_precision(row.average, precision: 2)) %></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="display-rankcard">
+        <span class="display-label"><%= t('speed_skydiving_competitions.display.rank') %></span>
+        <div class="display-rankcard-value">
+          <span class="num"><%= row.rank %></span>
+          <span class="total">/ <%= field_size %></span>
+        </div>
+        <span class="display-rankcard-gap"><%= t('speed_skydiving_competitions.display.jumps') %>: <%= row.jumps %></span>
+      </div>
+    </div>
+
+    <div class="display-attempts">
+      <div class="display-attempts-title">
+        <span><%= t('speed_skydiving_competitions.display.rounds') %></span>
+        <span class="rule"></span>
+      </div>
+      <div class="display-attempts-head">
+        <span><%= t('speed_skydiving_competitions.display.round_short') %></span>
+        <span class="text-right"><%= t('speed_skydiving_competitions.display.speed') %></span>
+        <span class="text-right"><%= t('speed_skydiving_competitions.display.vs_best') %></span>
+      </div>
+      <% row.attempts.first(6).each do |attempt| %>
+        <% delta = attempt.speed - row.best %>
+        <div class="display-attempts-row <%= 'is-best' if attempt.best %>">
+          <span class="run"><%= t('speed_skydiving_competitions.display.round', number: attempt.round) %></span>
+          <span class="time"><%= t('speed_skydiving_competitions.display.kmh', speed: number_with_precision(attempt.speed, precision: 2)) %></span>
+          <span class="delta"><%= attempt.best ? t('speed_skydiving_competitions.display.best_short') : number_with_precision(delta, precision: 2) %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
