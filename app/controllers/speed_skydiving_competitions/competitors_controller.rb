@@ -42,7 +42,7 @@ class SpeedSkydivingCompetitions::CompetitorsController < ApplicationController
 
   def competitor_params
     permitted = params.require(:competitor).permit(
-      :assigned_number, :category_id, :profile_id, :alias_id,
+      :assigned_number, :category_id, :profile_id, :alias_id, :photo,
       profile_attributes: %i[name country_id]
     )
 

@@ -1,5 +1,6 @@
 class SpeedSkydivingCompetition::Competitor < ApplicationRecord
   include EventOngoingValidation, CompetitorCountry, CompetitorAlias
+  include PhotoUploader::Attachment(:photo)
 
   belongs_to :event, class_name: 'SpeedSkydivingCompetition', inverse_of: :competitors, touch: true
   belongs_to :category
@@ -7,6 +8,8 @@ class SpeedSkydivingCompetition::Competitor < ApplicationRecord
   belongs_to :team, optional: true
 
   has_many :results, dependent: :restrict_with_error
+
+  after_validation { photo_derivatives! if photo_changed? }
 
   scope :ordered,
         -> { left_joins(:profile, :competitor_alias).order(Arel.sql('COALESCE(profile_aliases.name, profiles.name)')) }

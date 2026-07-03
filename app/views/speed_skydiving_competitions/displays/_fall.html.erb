@@ -1,8 +1,6 @@
-<%# locals: (event:, category:) %>
-<% fallers = category.fallers %>
-<% half = (fallers.size / 2.0).ceil %>
+<%# locals: (event:, category:, fallers:) %>
 
-<div class="display-slide display-fall"
+<div class="display-slide display-fall display-replay"
      data-slideshow-target="slide"
      data-slideshow-duration="23"
      data-controller="speed-fall"
@@ -11,28 +9,24 @@
 
   <script type="application/json" data-speed-fall-target="data"><%= raw fallers.to_json %></script>
 
-  <div class="display-fall-body">
-    <div class="display-fall-side">
-      <% fallers.first(half).each do |faller| %>
-        <%= render 'fall_card', faller: faller %>
-      <% end %>
-    </div>
+  <div class="display-replay-body">
+    <%= render 'fall_card', faller: fallers.first, side: 'a' %>
 
-    <div class="display-fall-center">
-      <div class="display-fall-center-head"><%= category.name %></div>
+    <div class="display-replay-center">
+      <div class="display-replay-maphead">
+        <span class="display-replay-maptitle"><%= category.name %></span>
+      </div>
       <div class="display-fall-stage">
         <svg class="display-fall-svg" data-speed-fall-target="svg"
              preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
-        <div class="display-fall-countdown" data-speed-fall-target="countdown" hidden>
-          <span class="count" data-speed-fall-target="countText">3</span>
-        </div>
+      </div>
+      <div class="display-replay-countdown" data-speed-fall-target="countdown" hidden>
+        <span class="count" data-speed-fall-target="countText">3</span>
       </div>
     </div>
 
-    <div class="display-fall-side">
-      <% fallers.drop(half).each do |faller| %>
-        <%= render 'fall_card', faller: faller %>
-      <% end %>
-    </div>
+    <% if fallers.second %>
+      <%= render 'fall_card', faller: fallers.second, side: 'b' %>
+    <% end %>
   </div>
 </div>

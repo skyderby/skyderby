@@ -1170,48 +1170,6 @@ body {
 }
 
 /* ---- Freefall race slide (side view, replay-style) ---- */
-.display-fall-body {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(62 * var(--px));
-  bottom: 0;
-  padding: calc(26 * var(--px)) calc(44 * var(--px));
-  display: flex;
-  align-items: stretch;
-  gap: calc(26 * var(--px));
-  z-index: 4;
-}
-
-.display-fall-side {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: calc(14 * var(--px));
-}
-
-.display-fall-center {
-  flex: none;
-  width: calc(340 * var(--px));
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: calc(12 * var(--px));
-}
-
-.display-fall-center-head {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800;
-  font-style: italic;
-  font-size: calc(28 * var(--px));
-  letter-spacing: 0.02em;
-  color: var(--text);
-  text-transform: uppercase;
-}
-
 .display-fall-stage {
   position: relative;
   flex: 1;
@@ -1222,6 +1180,10 @@ body {
 .display-fall-svg {
   width: 100%;
   height: 100%;
+}
+
+.display-fall-card.is-finished {
+  background: color-mix(in srgb, var(--side) 22%, transparent);
 }
 
 .display-fall-axis {
@@ -1250,155 +1212,6 @@ body {
   transition: transform 0.08s linear;
 }
 
-.display-fall-countdown[hidden] {
-  display: none;
-}
-
-.display-fall-countdown {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: color-mix(in srgb, var(--bg) 45%, transparent);
-  backdrop-filter: blur(2px);
-  z-index: 3;
-}
-
-.display-fall-countdown .count {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800;
-  font-style: italic;
-  font-size: calc(150 * var(--px));
-  line-height: 1;
-  color: var(--accent);
-  text-shadow: 0 0 calc(46 * var(--px)) color-mix(in srgb, var(--accent) 60%, transparent);
-}
-
-.display-fall-card {
-  background: color-mix(in srgb, var(--panel) 60%, transparent);
-  border-left: calc(4 * var(--px)) solid var(--side);
-  padding: calc(13 * var(--px)) calc(18 * var(--px)) calc(15 * var(--px));
-  min-width: 0;
-  transition: background 0.3s ease;
-}
-
-.display-fall-card.is-finished {
-  background: color-mix(in srgb, var(--side) 20%, transparent);
-}
-
-.display-fall-card-head {
-  display: flex;
-  align-items: center;
-  gap: calc(12 * var(--px));
-  min-width: 0;
-}
-
-.display-fall-bib {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: calc(34 * var(--px));
-  height: calc(34 * var(--px));
-  border-radius: 50%;
-  background: var(--side);
-  color: #06080d;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800;
-  font-size: calc(21 * var(--px));
-}
-
-.display-fall-id {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.display-fall-name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: calc(27 * var(--px));
-  line-height: 1.05;
-  color: var(--text);
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.display-fall-country {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: calc(13 * var(--px));
-  letter-spacing: 0.08em;
-  color: var(--dim);
-}
-
-.display-fall-speed {
-  margin-left: auto;
-  display: flex;
-  align-items: baseline;
-  gap: calc(5 * var(--px));
-  font-variant-numeric: tabular-nums;
-}
-
-.display-fall-speed .num {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800;
-  font-style: italic;
-  font-size: calc(56 * var(--px));
-  line-height: 0.9;
-  color: var(--side);
-}
-
-.display-fall-speed .unit {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: calc(16 * var(--px));
-  color: var(--dim);
-}
-
-.display-fall-stats {
-  margin-top: calc(12 * var(--px));
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: calc(10 * var(--px));
-}
-
-.display-fall-stat {
-  display: flex;
-  flex-direction: column;
-  gap: calc(3 * var(--px));
-}
-
-.display-fall-stat-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: calc(11 * var(--px));
-  letter-spacing: 0.1em;
-  color: var(--dim);
-  text-transform: uppercase;
-}
-
-.display-fall-stat-value {
-  display: flex;
-  align-items: baseline;
-  gap: calc(4 * var(--px));
-  font-variant-numeric: tabular-nums;
-}
-
-.display-fall-stat-value .num {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: calc(26 * var(--px));
-  line-height: 1;
-  color: var(--text);
-}
-
-.display-fall-stat-value .unit {
-  font-family: 'Barlow Semi Condensed', sans-serif;
-  font-weight: 600;
-  font-size: calc(12 * var(--px));
-  letter-spacing: 0.04em;
-  color: var(--dim);
-  text-transform: uppercase;
+.display-replay-card.display-fall-card {
+  justify-content: flex-start;
 }

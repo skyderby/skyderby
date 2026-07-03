@@ -35,6 +35,10 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
         end
     end
 
+    def fall_pairs
+      fallers.each_slice(2).to_a
+    end
+
     private
 
     attr_reader :record, :rows
@@ -78,7 +82,10 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
 
   Attempt = Struct.new(:round, :speed, :best)
 
-  Faller = Struct.new(:name, :bib, :country_code, :color, :result, :points, keyword_init: true) do
+  Faller = Struct.new(
+    :name, :bib, :country_code, :country_name, :photo_url, :color, :result, :points,
+    keyword_init: true
+  ) do
     def self.build(row, color)
       result = best_scored_result(row)
       return unless result&.track
@@ -86,10 +93,13 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
       points = trajectory(result.track)
       return if points.size < 2
 
+      competitor = row[:competitor]
       new(
-        name: row[:competitor].name,
+        name: competitor.name,
         bib: row[:rank],
-        country_code: row[:competitor].country_code,
+        country_code: competitor.country_code,
+        country_name: competitor.country_name,
+        photo_url: (competitor.photo_url(:medium) if competitor.photo),
         color: color,
         result: result.final_result.round(2),
         points: points

@@ -11,8 +11,8 @@
       <% category.leaderboard.each do |row| %>
         <%= render 'participant', event: @event, row: row, field_size: category.size %>
       <% end %>
-      <% if category.fallers.any? %>
-        <%= render 'fall', event: @event, category: category %>
+      <% category.fall_pairs.each do |pair| %>
+        <%= render 'fall', event: @event, category: category, fallers: pair %>
       <% end %>
     <% end %>
   </div>
