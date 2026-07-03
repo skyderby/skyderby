@@ -51,6 +51,8 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
 
     def average = @row[:average]
 
+    def total = @row[:total]
+
     def best = best_record&.final_result&.round(2)
 
     def best_round = best_record&.round_number

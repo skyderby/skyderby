@@ -13,6 +13,7 @@ en:
       competitor: 'Competitor'
       best_speed: 'Best speed'
       average: 'Average'
+      total: 'Total'
       jumps: 'Jumps'
       kmh: '%{speed} km/h'
       freefall_race: 'Freefall Race'

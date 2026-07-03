@@ -1110,7 +1110,33 @@ body {
 /* ---- Speed skydiving leaderboard columns ---- */
 .display-speed .display-lb-head,
 .display-speed .display-lb-row {
-  grid-template-columns: calc(140 * var(--px)) 1fr calc(280 * var(--px)) calc(220 * var(--px)) calc(150 * var(--px));
+  grid-template-columns: calc(100 * var(--px)) 1fr calc(190 * var(--px)) calc(150 * var(--px)) calc(160 * var(--px)) calc(392 * var(--px));
+  gap: calc(18 * var(--px));
+}
+
+.display-lb-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: calc(6 * var(--px));
+}
+
+.display-lb-tile {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: calc(15 * var(--px));
+  font-weight: 500;
+  color: var(--dim);
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  border: 1px solid var(--line);
+  padding: calc(5 * var(--px)) 0;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.display-lb-tile.is-best {
+  color: var(--accent-text);
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 700;
 }
 
 /* ---- Speed skydiving participant slide ---- */

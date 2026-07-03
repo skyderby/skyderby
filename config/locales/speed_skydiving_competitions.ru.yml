@@ -15,6 +15,7 @@ ru:
       competitor: 'Участник'
       best_speed: 'Лучшая скорость'
       average: 'Среднее'
+      total: 'Сумма'
       jumps: 'Прыжки'
       kmh: '%{speed} км/ч'
       freefall_race: 'Гонка в свободном падении'
