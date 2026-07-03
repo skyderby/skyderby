@@ -51,6 +51,8 @@ export default class extends Controller {
 
     const clone = this.tableTarget.cloneNode(true)
     clone.removeAttribute('data-events--sticky-header-target')
+    clone.removeAttribute('data-replay-scoreboard-target')
+    clone.removeAttribute('data-until-round')
     clone.querySelectorAll('tbody').forEach(el => el.remove())
     clone.querySelectorAll('[popover]').forEach(el => el.remove())
     clone.querySelectorAll('[data-controller]').forEach(el => {
