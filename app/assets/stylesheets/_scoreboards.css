@@ -603,6 +603,7 @@ td.scoreboard-total-result {
   left: 0;
   width: 5.5rem;
   background-color: var(--white);
+  background-image: linear-gradient(var(--pinned-tint, transparent), var(--pinned-tint, transparent));
   border-right: var(--default-border);
   opacity: 0;
   pointer-events: none;
@@ -648,19 +649,23 @@ td.scoreboard-total-result {
 }
 
 .qualification-scoreboard-table tbody tr:nth-child(odd) > td {
-  background-color: rgba(0, 0, 0, 0.015);
+  --pinned-tint: rgba(0, 0, 0, 0.015);
+  background-color: var(--pinned-tint);
 }
 
 .qualification-scoreboard-table tbody tr.podium-row--1 > td {
-  background-color: rgba(255, 206, 9, 0.07);
+  --pinned-tint: rgba(255, 206, 9, 0.07);
+  background-color: var(--pinned-tint);
 }
 
 .qualification-scoreboard-table tbody tr.podium-row--2 > td {
-  background-color: rgba(148, 148, 148, 0.07);
+  --pinned-tint: rgba(148, 148, 148, 0.07);
+  background-color: var(--pinned-tint);
 }
 
 .qualification-scoreboard-table tbody tr.podium-row--3 > td {
-  background-color: rgba(237, 156, 42, 0.07);
+  --pinned-tint: rgba(237, 156, 42, 0.07);
+  background-color: var(--pinned-tint);
 }
 
 .qualification-scoreboard-table tbody tr:hover > td {
@@ -725,19 +730,23 @@ td.scoreboard-total-result {
 }
 
 .speed-skydiving-scoreboard-table tbody tr:nth-child(even) > td {
-  background-color: rgba(0, 0, 0, 0.015);
+  --pinned-tint: rgba(0, 0, 0, 0.015);
+  background-color: var(--pinned-tint);
 }
 
 .speed-skydiving-scoreboard-table tbody tr.podium-row--1 > td {
-  background-color: rgba(255, 206, 9, 0.07);
+  --pinned-tint: rgba(255, 206, 9, 0.07);
+  background-color: var(--pinned-tint);
 }
 
 .speed-skydiving-scoreboard-table tbody tr.podium-row--2 > td {
-  background-color: rgba(148, 148, 148, 0.07);
+  --pinned-tint: rgba(148, 148, 148, 0.07);
+  background-color: var(--pinned-tint);
 }
 
 .speed-skydiving-scoreboard-table tbody tr.podium-row--3 > td {
-  background-color: rgba(237, 156, 42, 0.07);
+  --pinned-tint: rgba(237, 156, 42, 0.07);
+  background-color: var(--pinned-tint);
 }
 
 .speed-skydiving-scoreboard-table tbody tr.competitor-row:hover > td {

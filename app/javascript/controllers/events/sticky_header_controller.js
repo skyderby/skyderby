@@ -100,8 +100,9 @@ export default class extends Controller {
     if (!nameCell) return
 
     const containerLeft = this.containerTarget.getBoundingClientRect().left
-    const nameHidden = nameCell.getBoundingClientRect().right <= containerLeft + 8
-    this.containerTarget.classList.toggle('show-pinned-competitor', nameHidden)
+    const nameRect = nameCell.getBoundingClientRect()
+    const nameHalfHidden = nameRect.left + nameRect.width / 2 <= containerLeft
+    this.containerTarget.classList.toggle('show-pinned-competitor', nameHalfHidden)
   }
 
   onScroll() {
