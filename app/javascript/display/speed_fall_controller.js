@@ -6,14 +6,13 @@ const COUNTDOWN = 3 // seconds
 const RACE_WINDOW = 16 // seconds of wall-clock the descent is compressed into
 const HOLD = 4 // seconds to hold the result before the slide advances
 
-const PLOT_LEFT = 88
-const PLOT_RIGHT = 1176
-const PLOT_TOP = 40
-const PLOT_BOTTOM = 556
-const PLOT_W = PLOT_RIGHT - PLOT_LEFT
-const PLOT_H = PLOT_BOTTOM - PLOT_TOP
+const AXIS_LEFT = 62 // viewBox units reserved for the altitude axis
+const MARGIN_TOP = 28
+const MARGIN_BOTTOM = 42 // room for the distance axis
+const MARGIN_RIGHT = 34
+const PLOT_H = 560 // viewBox units for the vertical (altitude) span
 const ALT_STEP = 500 // metres between altitude gridlines
-const STEPS = [50, 100, 200, 250, 500, 1000, 2000]
+const STEPS = [50, 100, 200, 250, 500, 1000] // candidate distance gridline steps
 
 export default class extends Controller {
   static targets = [
@@ -40,8 +39,9 @@ export default class extends Controller {
     if (this.observer) this.observer.disconnect()
   }
 
-  // Sync every faller by window start (t = 0 is their window entry) and work out
-  // the shared altitude/distance scales the side-view profiles are drawn on.
+  // Sync every faller by window start (t = 0 is their window entry) and build a
+  // true-scale side view: the same metres-per-unit applies to both axes, so the
+  // plot is honestly narrow rather than horizontally stretched.
   prepare() {
     this.fallers = this.fallers.filter(f => f.points && f.points.length >= 2)
     if (this.fallers.length === 0) return
@@ -53,22 +53,28 @@ export default class extends Controller {
     this.maxX = Math.max(...this.fallers.map(f => f.points[f.points.length - 1].x), 1)
     this.maxT = Math.max(...this.fallers.map(f => f.points[f.points.length - 1].t))
     this.rate = Math.max(1, this.maxT / RACE_WINDOW)
+
+    this.scale = PLOT_H / (this.topAlt - this.bottomAlt)
+    this.plotW = this.maxX * this.scale
+    this.vbW = AXIS_LEFT + this.plotW + MARGIN_RIGHT
+    this.vbH = MARGIN_TOP + PLOT_H + MARGIN_BOTTOM
     this.ready = true
   }
 
   x(metres) {
-    return PLOT_LEFT + (metres / this.maxX) * PLOT_W
+    return AXIS_LEFT + metres * this.scale
   }
 
   y(alt) {
     const clamped = Math.max(this.bottomAlt, Math.min(this.topAlt, alt))
-    return PLOT_TOP + ((this.topAlt - clamped) / (this.topAlt - this.bottomAlt)) * PLOT_H
+    return MARGIN_TOP + (this.topAlt - clamped) * this.scale
   }
 
   buildScene() {
     if (!this.ready) return
 
     const svg = this.svgTarget
+    svg.setAttribute('viewBox', `0 0 ${this.vbW} ${this.vbH}`)
     svg.innerHTML = ''
 
     this.drawGrid(svg)
@@ -78,10 +84,10 @@ export default class extends Controller {
       faller.trail = this.el('polyline', {
         fill: 'none',
         stroke: faller.color,
-        'stroke-width': 4,
+        'stroke-width': 3,
         'stroke-linecap': 'round',
         'stroke-linejoin': 'round',
-        opacity: 0.9
+        opacity: 0.95
       })
       svg.appendChild(faller.trail)
       faller.marker = this.buildMarker(svg, faller)
@@ -91,48 +97,48 @@ export default class extends Controller {
   }
 
   drawGrid(svg) {
+    const right = AXIS_LEFT + this.plotW
+    const bottom = MARGIN_TOP + PLOT_H
+
     const startAlt = Math.ceil(this.bottomAlt / ALT_STEP) * ALT_STEP
     for (let alt = startAlt; alt < this.topAlt; alt += ALT_STEP) {
       const y = this.y(alt)
-      this.line(svg, PLOT_LEFT, y, PLOT_RIGHT, y, {
+      this.line(svg, AXIS_LEFT, y, right, y, {
         stroke: 'rgba(255,255,255,0.06)',
-        'stroke-width': 1
+        'stroke-width': 0.8
       })
       this.text(
         svg,
-        PLOT_LEFT - 12,
-        y + 5,
+        AXIS_LEFT - 8,
+        y + 4,
         `${Math.round(alt)}`,
         'display-fall-axis',
         'end'
       )
     }
 
-    const xStep = STEPS.find(step => this.maxX / step <= 6) || 2000
-    for (let dist = 0; dist <= this.maxX; dist += xStep) {
+    const xStep = STEPS.find(step => this.maxX / step <= 2) || 1000
+    for (let dist = 0; dist <= this.maxX + 1; dist += xStep) {
       const x = this.x(dist)
-      this.line(svg, x, PLOT_TOP, x, PLOT_BOTTOM, {
+      this.line(svg, x, MARGIN_TOP, x, bottom, {
         stroke: 'rgba(255,255,255,0.05)',
-        'stroke-width': 1
+        'stroke-width': 0.8
       })
-      this.text(svg, x, PLOT_BOTTOM + 24, `${dist}`, 'display-fall-axis', 'middle')
+      this.text(svg, x, bottom + 20, `${dist}`, 'display-fall-axis', 'middle')
     }
-
-    this.text(svg, PLOT_LEFT - 12, PLOT_TOP - 14, 'm', 'display-fall-axis', 'end')
-    this.text(svg, PLOT_RIGHT, PLOT_BOTTOM + 24, 'm', 'display-fall-axis', 'end')
   }
 
   drawFinish(svg) {
     const y = this.y(this.bottomAlt)
-    this.line(svg, PLOT_LEFT, y, PLOT_RIGHT, y, {
+    this.line(svg, AXIS_LEFT, y, AXIS_LEFT + this.plotW, y, {
       stroke: '#ff5a52',
-      'stroke-width': 3,
-      'stroke-dasharray': '10 8'
+      'stroke-width': 2,
+      'stroke-dasharray': '7 6'
     })
     this.text(
       svg,
-      PLOT_RIGHT,
-      y - 12,
+      AXIS_LEFT + this.plotW,
+      y - 8,
       this.element.dataset.finishLabel || 'WINDOW END',
       'display-fall-finish-label',
       'end'
@@ -141,16 +147,16 @@ export default class extends Controller {
 
   buildMarker(svg, faller) {
     const group = this.el('g', { class: 'display-fall-marker' })
-    const glow = this.el('circle', { r: 24, fill: faller.color, opacity: 0.16 })
+    const glow = this.el('circle', { r: 17, fill: faller.color, opacity: 0.16 })
     const dot = this.el('circle', {
-      r: 16,
+      r: 11,
       fill: faller.color,
       stroke: '#06080d',
-      'stroke-width': 2
+      'stroke-width': 1.5
     })
     const bib = this.el('text', {
       'text-anchor': 'middle',
-      y: 6,
+      y: 4,
       class: 'display-fall-bib-text'
     })
     bib.textContent = faller.bib
@@ -213,10 +219,11 @@ export default class extends Controller {
 
     if (this.phase === 'countdown') {
       this.countdownLeft -= dt
-      this.showCountdown(this.countdownLeft)
       if (this.countdownLeft <= 0) {
         this.hideCountdown()
         this.phase = 'running'
+      } else {
+        this.showCountdown(this.countdownLeft)
       }
       return
     }
@@ -301,8 +308,7 @@ export default class extends Controller {
 
   showCountdown(remaining) {
     if (this.countdownTarget.hidden) this.countdownTarget.hidden = false
-    const n = Math.ceil(remaining)
-    this.countTextTarget.textContent = n > 0 ? String(n) : 'GO'
+    this.countTextTarget.textContent = String(Math.ceil(remaining))
   }
 
   hideCountdown() {
