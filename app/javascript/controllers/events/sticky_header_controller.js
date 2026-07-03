@@ -88,6 +88,19 @@ export default class extends Controller {
 
     this._popover.style.left = `${this.containerLeft}px`
     this._popover.style.right = `${this.containerRight}px`
+
+    this.updateBadgeVisibility()
+  }
+
+  updateBadgeVisibility() {
+    if (!this.hasContainerTarget || !this.hasTableTarget) return
+
+    const nameCell = this.tableTarget.querySelector('tbody td.competitor')
+    if (!nameCell) return
+
+    const containerLeft = this.containerTarget.getBoundingClientRect().left
+    const nameHidden = nameCell.getBoundingClientRect().right <= containerLeft + 8
+    this.containerTarget.classList.toggle('show-competitor-badge', nameHidden)
   }
 
   onScroll() {
@@ -117,6 +130,8 @@ export default class extends Controller {
   on_horizontal_scroll() {
     const clone = this._popover?.querySelector('table')
     if (clone) clone.style.marginLeft = `-${this.containerTarget.scrollLeft}px`
+
+    this.updateBadgeVisibility()
   }
 
   get containerLeft() {
