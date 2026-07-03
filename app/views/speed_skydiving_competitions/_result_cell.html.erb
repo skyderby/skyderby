@@ -1,9 +1,9 @@
-<%# locals(event:, standings:, round:, competitor:, result:, editable:) %>
+<%# locals: (event:, standings:, round:, competitor:, result:, editable:, is_best: false, is_worst: false) %>
 
 <% time_machine = standings.until_round.present? %>
 <% show_result = !time_machine || standings.completed_rounds.include?(round) %>
 
-<td class="result-cell"
+<td class="<%= class_names 'result-cell', ('text-green' if is_best), ('result-worst' if is_worst) %>"
   data-round="<%= round.number %>"
   <% if show_result && result %>
     data-created-at="<%= result.created_at.iso8601 %>"
@@ -14,12 +14,12 @@
                   method: :get, form: { data: { turbo_stream: true }, class: 'result-show-cell' } do %>
       <% if result.penalized? %>
         <span data-controller="tooltip">
-          <%= result.final_result.round(1) %>
+          <%= '%.2f' % result.final_result %>
           <sup class="text-danger">-<%= result.penalty_size.round %>%</sup>
-          <span class="for-screen-reader"><%= result.result.round(1) %> - <%= result.penalty_size.round %>%. Reason: <%= result.penalty_reason %></span>
+          <span class="for-screen-reader"><%= '%.2f' % result.result %> - <%= result.penalty_size.round %>%. Reason: <%= result.penalty_reason %></span>
         </span>
       <% else %>
-        <%= result.final_result.round(2) %>
+        <%= '%.2f' % result.final_result %>
       <% end %>
     <% end %>
   <% elsif !time_machine && editable %>

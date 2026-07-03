@@ -8,23 +8,9 @@ class SpeedSkydivingCompetition::Scoreboard::Standings
     @previous_standings = previous_standings.index_by { |row| row[:competitor] }
   end
 
-  def build # rubocop:disable Metrics/AbcSize
-    standings = competitors.map do |competitor|
-      all_results = results.select { |result| result.competitor == competitor }
-      accountable_results = accountable_results_for(competitor)
-      total = accountable_results.sum { |record| record.final_result || 0.0 }
-      average = completed_rounds.empty? ? 0 : total / completed_rounds.length
-
-      {
-        competitor: competitor,
-        total: total.round(2),
-        average: average.round(2),
-        all_results:,
-        accountable_results:
-      }
-    end
-
-    standings
+  def build
+    competitors
+      .map { |competitor| build_row(competitor) }
       .sort_by { |row| -row[:total].to_f }
       .tap { |rows| assign_ranks(rows) }
       .tap { |rows| assign_previous_ranks(rows) }
@@ -33,6 +19,24 @@ class SpeedSkydivingCompetition::Scoreboard::Standings
   private
 
   attr_reader :competitors, :completed_rounds, :results, :previous_standings
+
+  def build_row(competitor)
+    all_results = results.select { |result| result.competitor == competitor }
+    accountable_results = accountable_results_for(competitor)
+    final_results = accountable_results.filter_map(&:final_result)
+    total = final_results.sum
+    average = final_results.empty? ? 0 : total / final_results.length
+
+    {
+      competitor: competitor,
+      total: total.round(2),
+      average: average.round(2),
+      best_result: (final_results.max if final_results.many?),
+      worst_result: (final_results.min if final_results.many?),
+      all_results:,
+      accountable_results:
+    }
+  end
 
   def accountable_results_for(competitor)
     results.select do |result|

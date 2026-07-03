@@ -8,7 +8,7 @@
   <div class="scoreboard-scroll"
        data-events--sticky-header-target="container"
        data-action="scroll->events--sticky-header#on_horizontal_scroll">
-    <table class="scoreboard-table"
+    <table class="scoreboard-table speed-skydiving-scoreboard-table"
            data-events--sticky-header-target="table"
            <% if standings.until_round %>
              data-replay-scoreboard-target="scoreboard"
@@ -46,9 +46,14 @@
         <% data[:standings].each do |row| %>
           <% competitor = row[:competitor] %>
           <% competitor_results = editable ? row[:all_results] : row[:accountable_results] %>
-          <tr data-competitor-id="<%= competitor.id %>" class="competitor-row">
-            <td data-rank>
-              <%= row[:rank] %>
+          <% on_podium = at_least_one_round_completed && row[:total].positive? && row[:rank] <= 3 %>
+          <tr data-competitor-id="<%= competitor.id %>" class="<%= class_names('competitor-row', ("podium-row--#{row[:rank]}" if on_podium)) %>">
+            <td data-rank class="text-center rank-cell">
+              <% if on_podium %>
+                <span class="rank-badge rank-badge--<%= row[:rank] %>"><%= row[:rank] %></span>
+              <% else %>
+                <%= row[:rank] %>
+              <% end %>
               <% if !event.finished? || standings.until_round %>
                 <% if row[:previous_rank] == row[:rank] || standings.completed_rounds.length == 1 %>
                   <span class="rank-same">—</span>
@@ -68,7 +73,9 @@
             </td>
             <% standings.rounds.each do |round| %>
               <% result = competitor_results.find { |result| result.round == round } %>
-              <%= render 'speed_skydiving_competitions/result_cell', event:, standings:, round:, competitor:, result:, editable: %>
+              <% is_best = result && row[:best_result].present? && result.final_result == row[:best_result] %>
+              <% is_worst = !is_best && result && row[:worst_result].present? && result.final_result == row[:worst_result] %>
+              <%= render 'speed_skydiving_competitions/result_cell', event:, standings:, round:, competitor:, result:, editable:, is_best:, is_worst: %>
             <% end %>
             <% if at_least_one_round_completed %>
               <td class="text-right" data-total><%= '%.2f' % row[:total] %></td>

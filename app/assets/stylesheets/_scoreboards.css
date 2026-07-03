@@ -603,3 +603,80 @@ td.scoreboard-total-result {
 .qualification-scoreboard-table tbody tr:hover > td {
   background-color: rgba(40, 169, 251, 0.06);
 }
+
+.speed-skydiving-scoreboard-table td.rank-cell {
+  text-align: center;
+}
+
+.speed-skydiving-scoreboard-table .rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--white);
+  box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.speed-skydiving-scoreboard-table .rank-badge--1 {
+  background-image: linear-gradient(160deg, #f6d365 0%, #d69a1e 100%);
+}
+
+.speed-skydiving-scoreboard-table .rank-badge--2 {
+  background-image: linear-gradient(160deg, #d7dce1 0%, #99a2ac 100%);
+}
+
+.speed-skydiving-scoreboard-table .rank-badge--3 {
+  background-image: linear-gradient(160deg, #e8a262 0%, #b9701f 100%);
+}
+
+.speed-skydiving-scoreboard-table td.result-cell,
+.speed-skydiving-scoreboard-table td[data-total],
+.speed-skydiving-scoreboard-table td[data-avg] {
+  font-variant-numeric: tabular-nums;
+}
+
+.speed-skydiving-scoreboard-table .competitor-profile {
+  font-weight: 700;
+}
+
+.speed-skydiving-scoreboard-table .result-show-cell button,
+.speed-skydiving-scoreboard-table td[data-total],
+.speed-skydiving-scoreboard-table td[data-avg] {
+  font-weight: 700;
+}
+
+.speed-skydiving-scoreboard-table td.text-green {
+  color: var(--green-90);
+}
+
+.speed-skydiving-scoreboard-table td.result-worst {
+  color: var(--gray-70);
+}
+
+.speed-skydiving-scoreboard-table .result-show-cell button {
+  background-color: transparent;
+}
+
+.speed-skydiving-scoreboard-table tbody tr:nth-child(even) > td {
+  background-color: rgba(0, 0, 0, 0.015);
+}
+
+.speed-skydiving-scoreboard-table tbody tr.podium-row--1 > td {
+  background-color: rgba(255, 206, 9, 0.07);
+}
+
+.speed-skydiving-scoreboard-table tbody tr.podium-row--2 > td {
+  background-color: rgba(148, 148, 148, 0.07);
+}
+
+.speed-skydiving-scoreboard-table tbody tr.podium-row--3 > td {
+  background-color: rgba(237, 156, 42, 0.07);
+}
+
+.speed-skydiving-scoreboard-table tbody tr.competitor-row:hover > td {
+  background-color: rgba(40, 169, 251, 0.06);
+}
