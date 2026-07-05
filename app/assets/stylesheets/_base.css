@@ -1,6 +1,11 @@
 @layer base {
-  html, body {
+  html {
     height: 100%;
+    width: 100%;
+    background-color: #fafafa;
+  }
+
+  body {
     width: 100%;
     background-color: #fafafa;
   }
