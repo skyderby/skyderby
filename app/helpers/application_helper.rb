@@ -10,6 +10,14 @@ module ApplicationHelper
 
   def maps_api_key = ENV.fetch('MAPS_API_KEY', nil)
 
+  def turnstile_enabled? = !Rails.env.test? && ENV['TURNSTILE_SITE_KEY'].present?
+
+  def turnstile_tag
+    return unless turnstile_enabled?
+
+    tag.div data: { controller: 'turnstile', 'turnstile-sitekey-value': ENV.fetch('TURNSTILE_SITE_KEY', nil) }
+  end
+
   def merge_query_params(src, params)
     uri = URI.parse(src)
     new_query = URI.decode_www_form(uri.query.to_s) + params.to_a

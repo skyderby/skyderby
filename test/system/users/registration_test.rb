@@ -10,6 +10,7 @@ class RegistrationTest < ApplicationSystemTestCase
 
     assert_difference 'User.count', 1 do
       click_button I18n.t('devise.registrations.new.sign_up')
+      assert_current_path root_path
     end
     assert_equal 'Ivan Ivanov', User.last.name
   end
