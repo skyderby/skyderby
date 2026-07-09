@@ -45,9 +45,9 @@ RUN yarn install --immutable
 
 COPY . .
 
-RUN SECRET_KEY_BASE_DUMMY=1 bundle exec i18n export && \
+RUN SECRET_KEY_BASE_DUMMY=1 HONEYBADGER_INSIGHTS_ENABLED=false bundle exec i18n export && \
     bundle exec bootsnap precompile app/ lib/ && \
-    SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile && \
+    SECRET_KEY_BASE_DUMMY=1 HONEYBADGER_INSIGHTS_ENABLED=false bundle exec rails assets:precompile && \
     rm -rf node_modules
 
 FROM base
