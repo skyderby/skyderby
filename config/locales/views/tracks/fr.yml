@@ -35,6 +35,23 @@ fr:
       online_comp_results: Résultats en compétition en ligne
       best_results: Meilleurs résultats
       window: Fenêtre
+      online_top_percent: 'Top %{percent}%'
+      online_your_record: Votre record
+      online_personal_best: Record personnel
+      online_over_jumps:
+        one: 'sur %{count} saut'
+        other: 'sur %{count} sauts'
+      online_of_jumps: 'de vos %{count}'
+      online_of_total: 'de %{count}'
+      online_from_record: '%{gap} du record'
+      online_out_of_ranking: Hors classement
+      online_no_valid_result: Aucun résultat valide
+      online_empty:
+        no_pilot: "Cette trace n'est pas associée à un pilote, elle ne participe donc pas aux compétitions en ligne."
+        no_suit: "Aucune combinaison n'est définie pour cette trace, elle ne participe donc pas aux compétitions en ligne."
+        disqualified: 'Cette trace est disqualifiée des compétitions en ligne.'
+        not_public: "Cette trace n'est pas publique, elle n'est donc pas classée dans les compétitions en ligne."
+        no_competitions: 'Aucune compétition en ligne ne correspond à ce saut.'
       loading: Chargmenet des données de l'enregistrement
       full_jump: Saut complet
       no_data: Aucune donnée d'enregistrement disponible pour ce saut

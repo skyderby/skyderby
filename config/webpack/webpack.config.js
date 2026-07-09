@@ -22,4 +22,11 @@ const options = {
   ]
 }
 
-module.exports = merge({}, webpackConfig, options)
+const config = merge({}, webpackConfig, options)
+
+if (config.devServer && 'https' in config.devServer) {
+  const { https, ...devServer } = config.devServer
+  config.devServer = { ...devServer, server: https ? 'https' : 'http' }
+}
+
+module.exports = config
