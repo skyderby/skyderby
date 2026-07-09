@@ -1,3 +1,2 @@
 web: bin/rails server -p $WEB_PORT
 webpack: bin/webpacker-dev-server
-ngrok: ngrok http $WEB_PORT --url undespotically-nongerundive-anson.ngrok-free.dev

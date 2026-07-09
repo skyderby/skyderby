@@ -3,7 +3,7 @@
   flex-direction: column;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .base-jump-layout {
     flex-direction: row;
     flex-wrap: wrap;
@@ -18,9 +18,10 @@
   gap: 0.5rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .base-jump-left {
     flex: 0 0 50%;
+    min-width: 0;
   }
 }
 
@@ -28,7 +29,7 @@
   order: 2;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .base-jump-chart-square {
     order: 1;
   }
@@ -42,7 +43,7 @@
   order: 2;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .base-jump-controls {
     order: 3;
     flex: 0 0 100%;
@@ -57,9 +58,10 @@
   order: 3;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .base-jump-right {
     flex: 0 0 50%;
+    min-width: 0;
     order: 2;
   }
 }
@@ -78,7 +80,7 @@
   overflow: hidden;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .base-jump-map-container {
     height: 30%;
     min-height: 180px;
@@ -94,7 +96,7 @@
   height: 480px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .base-jump--map-expanded .base-jump-map-container {
     height: 70%;
     min-height: 480px;
@@ -136,7 +138,7 @@
   padding-right: 1rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .base-jump-terrain-select {
     flex-direction: row;
     align-items: center;
@@ -311,7 +313,7 @@
   border-radius: 2rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .base-jump-playback {
     margin-top: 1rem;
   }
