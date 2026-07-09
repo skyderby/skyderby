@@ -34,6 +34,23 @@ de:
       online_comp_results: Ergebnisse der Online-Wettbewerbe
       best_results: Beste Ergebnisse
       window: Messfenster
+      online_top_percent: 'Top %{percent}%'
+      online_your_record: Dein Rekord
+      online_personal_best: Persönlicher Rekord
+      online_over_jumps:
+        one: 'aus %{count} Sprung'
+        other: 'aus %{count} Sprüngen'
+      online_of_jumps: 'von deinen %{count}'
+      online_of_total: 'von %{count}'
+      online_from_record: '%{gap} zum Rekord'
+      online_out_of_ranking: Außer Wertung
+      online_no_valid_result: Kein gültiges Ergebnis
+      online_empty:
+        no_pilot: Dieser Track ist keinem Piloten zugeordnet und nimmt daher nicht an Online-Wettbewerben teil.
+        no_suit: Für diesen Track ist kein Anzug festgelegt, daher nimmt er nicht an Online-Wettbewerben teil.
+        disqualified: Dieser Track ist von Online-Wettbewerben ausgeschlossen.
+        not_public: Dieser Track ist nicht öffentlich und wird daher nicht in Online-Wettbewerben gewertet.
+        no_competitions: Kein Online-Wettbewerb passt zu diesem Sprung.
       loading: Trackdaten werden geladen
       full_jump: Gesamter Sprung
       no_data: Keine Trackdaten für diesen Sprung verfügbar

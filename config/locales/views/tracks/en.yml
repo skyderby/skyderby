@@ -36,6 +36,23 @@ en:
       online_comp_results: 'Online competitions results'
       best_results: 'Best results'
       window: 'window'
+      online_top_percent: 'Top %{percent}%'
+      online_your_record: 'Your record'
+      online_personal_best: 'Personal best'
+      online_over_jumps:
+        one: 'over %{count} jump'
+        other: 'over %{count} jumps'
+      online_of_jumps: 'of your %{count}'
+      online_of_total: 'of %{count}'
+      online_from_record: '%{gap} from record'
+      online_out_of_ranking: 'Out of ranking'
+      online_no_valid_result: 'No valid result'
+      online_empty:
+        no_pilot: "This track isn't linked to a pilot, so it can't enter online competitions."
+        no_suit: "No suit is set on this track, so it can't enter online competitions."
+        disqualified: 'This track is disqualified from online competitions.'
+        not_public: "This track isn't public, so it isn't scored in online competitions."
+        no_competitions: 'No online competition matches this jump.'
       loading: 'Loading track data'
       full_jump: 'Full jump'
       no_data: 'No track data available for this jump'

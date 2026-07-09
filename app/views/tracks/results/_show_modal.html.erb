@@ -1,70 +1,115 @@
-<% if @track.competitive? %>
-  <h3><%= t('tracks.show.comp_result') %></h3>
-  <div class="track-event-result">
-    <span>
-      <%= @track.event_result.event.name %> |
-      <%= t("disciplines.#{@track.event_result.round_discipline}") %>:
-    </span>
-    <span>
-      <%= @track.event_result.result %>
-    </span>
-  </div>
+<% if @results.competitive? %>
+  <% event_result = @results.event_result %>
+  <section class="trr-section">
+    <h3 class="trr-section__title"><%= t('tracks.show.comp_result') %></h3>
+    <div class="trr-card trr-card--<%= event_result.round_discipline.dasherize %>">
+      <div class="trr-card__body">
+        <div class="trr-card__group"><%= event_result.event.name %></div>
+        <h4 class="trr-card__title"><%= t("disciplines.#{event_result.round_discipline}") %></h4>
+      </div>
+      <div class="trr-card__value">
+        <span class="trr-card__number"><%= discipline_result(event_result.round_discipline, event_result.result) %></span>
+        <span class="trr-card__unit"><%= t("units.#{discipline_unit(event_result.round_discipline)}") %></span>
+      </div>
+    </div>
+  </section>
 <% end %>
 
-<% if @track.skydive? %>
-  <h3><%= t('tracks.show.best_results') %></h3>
-  <% if @track.distance %>
-    <div class="track-result">
-      <span>
-        <%= t('disciplines.distance') %>:
-      </span>
-      <span>
-        <%= @track.distance.result.to_i %> <%= t('units.m') %>
-      </span>
-      <span>
-        (<%= t('tracks.show.window') %> <%= @track.distance.range_from %> - <%= @track.distance.range_to %>)
-      </span>
-    </div>
-  <% end %>
-  <% if @track.speed %>
-    <div class="track-result">
-      <span>
-        <%= t('disciplines.speed') %>:
-      </span>
-      <span>
-        <%= @track.speed.result.to_i %> <%= t('units.kmh') %>
-      </span>
-      <span>
-        (<%= t('tracks.show.window') %> <%= @track.speed.range_from %> - <%= @track.speed.range_to %>)
-      </span>
-    </div>
-  <% end %>
-  <% if @track.time %>
-    <div class="track-result">
-      <span>
-        <%= t('disciplines.time') %>:
-      </span>
-      <span>
-        <%= @track.time.result.round(1) %> <%= t('units.t_unit') %>
-      </span>
-      <span>
-        (<%= t('tracks.show.window') %> <%= @track.time.range_from %> - <%= @track.time.range_to %>)
-      </span>
-    </div>
-  <% end %>
-<% end %>
+<section class="trr-section">
+  <h3 class="trr-section__title"><%= t('tracks.show.online_comp_results') %></h3>
 
-<% if @track.virtual_competition_results.any? %>
-  <h3><%= t('tracks.show.online_comp_results') %></h3>
-  <% @track.virtual_competition_results.each do |result| %>
-    <div class="track-online-result">
-      <% competition = result.virtual_competition %>
-      <a href="<%= virtual_competition_path(competition) %>">
-        <%= competition.title %>
-      </a>
-      <span>
-        : <%= format_result(result.result, competition) %> <%= competition_unit(competition) %>
-      </span>
+  <% if @results.online_results? %>
+    <% viewer_is_pilot = @results.recorded_by?(Current.user) %>
+    <div class="trr-cards">
+      <% @results.online_results.each do |result| %>
+        <% competition = result.competition %>
+        <div class="trr-card trr-card--<%= competition.discipline.dasherize %> <%= 'trr-card--out' unless result.valid? %>">
+          <div class="trr-card__body">
+            <div class="trr-card__group"><%= competition.group_name %></div>
+            <h4 class="trr-card__title"><%= competition.name %></h4>
+            <div class="trr-card__tags">
+              <% if result.valid? && result.ranked? %>
+                <% if result.top_percent %>
+                  <span class="trr-badge"><%= t('tracks.show.online_top_percent', percent: result.top_percent) %></span>
+                <% end %>
+                <% if result.personal_best? %>
+                  <span class="trr-note trr-note--record">
+                    <span class="trr-note__star">&#9733;</span>
+                    <%= viewer_is_pilot ? t('tracks.show.online_your_record') : t('tracks.show.online_personal_best') %>
+                    &middot; <%= t('tracks.show.online_over_jumps', count: result.own_total) %>
+                  </span>
+                <% else %>
+                  <span class="trr-note">
+                    #<%= result.own_rank %>
+                    <%= viewer_is_pilot ? t('tracks.show.online_of_jumps', count: result.own_total) : t('tracks.show.online_of_total', count: result.own_total) %>
+                    <% if result.gap_from_record&.positive? %>
+                      &middot;
+                      <%= t('tracks.show.online_from_record',
+                            gap: "-#{format_result(result.gap_from_record, competition)} #{competition_unit(competition)}") %>
+                    <% end %>
+                  </span>
+                <% end %>
+              <% else %>
+                <span class="trr-badge trr-badge--muted"><%= t('tracks.show.online_out_of_ranking') %></span>
+                <span class="trr-note trr-note--invalid"><%= t('tracks.show.online_no_valid_result') %></span>
+              <% end %>
+            </div>
+          </div>
+          <div class="trr-card__value <%= 'trr-card__value--muted' unless result.valid? %>">
+            <span class="trr-card__number"><%= format_result(result.result, competition) %></span>
+            <span class="trr-card__unit"><%= competition_unit(competition) %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="trr-placeholder">
+      <%= icon_tag 'trophy-solid' %>
+      <p class="trr-placeholder__text"><%= t("tracks.show.online_empty.#{@results.online_placeholder_reason}") %></p>
     </div>
   <% end %>
+</section>
+
+<% if @results.skydive? && (@results.distance || @results.speed || @results.time) %>
+  <section class="trr-section">
+    <h3 class="trr-section__title"><%= t('tracks.show.best_results') %></h3>
+    <div class="trr-cards">
+      <% if @results.distance %>
+        <div class="trr-card trr-card--distance">
+          <div class="trr-card__body">
+            <h4 class="trr-card__title"><%= t('disciplines.distance') %></h4>
+            <div class="trr-card__sub"><%= t('tracks.show.window') %> <%= @results.distance.range_from %>&nbsp;&ndash;&nbsp;<%= @results.distance.range_to %></div>
+          </div>
+          <div class="trr-card__value">
+            <span class="trr-card__number"><%= @results.distance.result.to_i %></span>
+            <span class="trr-card__unit"><%= t('units.m') %></span>
+          </div>
+        </div>
+      <% end %>
+      <% if @results.speed %>
+        <div class="trr-card trr-card--speed">
+          <div class="trr-card__body">
+            <h4 class="trr-card__title"><%= t('disciplines.speed') %></h4>
+            <div class="trr-card__sub"><%= t('tracks.show.window') %> <%= @results.speed.range_from %>&nbsp;&ndash;&nbsp;<%= @results.speed.range_to %></div>
+          </div>
+          <div class="trr-card__value">
+            <span class="trr-card__number"><%= @results.speed.result.to_i %></span>
+            <span class="trr-card__unit"><%= t('units.kmh') %></span>
+          </div>
+        </div>
+      <% end %>
+      <% if @results.time %>
+        <div class="trr-card trr-card--time">
+          <div class="trr-card__body">
+            <h4 class="trr-card__title"><%= t('disciplines.time') %></h4>
+            <div class="trr-card__sub"><%= t('tracks.show.window') %> <%= @results.time.range_from %>&nbsp;&ndash;&nbsp;<%= @results.time.range_to %></div>
+          </div>
+          <div class="trr-card__value">
+            <span class="trr-card__number"><%= @results.time.result.round(1) %></span>
+            <span class="trr-card__unit"><%= t('units.t_unit') %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
 <% end %>
