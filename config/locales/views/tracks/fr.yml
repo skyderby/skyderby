@@ -51,6 +51,11 @@ fr:
       elev_chart: Hauteur
       elevation: Hauteur
       back: Retour à l'enregistrement'
+      exit: Sortie
+      deploy: Ouverture
+      landing: Atterrissage
+      add_landing: Ajouter l'atterrissage
+      remove_landing: Supprimer l'atterrissage
     form:
       suit_text_placeholder: Entrer le nom de la combinaison
       suit_select_placeholder: Sélectionner la combinaison dans la liste

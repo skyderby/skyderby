@@ -1,0 +1,385 @@
+.range-editor {
+  --exit-color: var(--green-90);
+  --deploy-color: var(--blue-80);
+  --landing-color: var(--orange-70);
+  --vspeed-color: var(--red-60);
+  --hspeed-color: var(--green-90);
+  --track-color: var(--blue-gray-30);
+  --grid-color: var(--gray-30);
+  --area-color: var(--gray-20);
+
+  margin-bottom: 1rem;
+  user-select: none;
+  touch-action: none;
+}
+
+.range-editor__plot {
+  position: relative;
+  width: 100%;
+  height: 220px;
+}
+
+.range-editor__overview {
+  position: relative;
+  width: 100%;
+  height: 47px;
+  margin-top: 2px;
+  border: 1px solid var(--grid-color);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.range-editor__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.range-editor__grid {
+  stroke: var(--grid-color);
+  stroke-width: 1;
+}
+
+.range-editor__area {
+  fill: var(--area-color);
+  opacity: 0.6;
+}
+
+.range-editor__alt {
+  fill: none;
+  stroke: var(--track-color);
+  stroke-width: 1;
+  opacity: 0.75;
+  vector-effect: non-scaling-stroke;
+}
+
+.range-editor__hspeed {
+  fill: none;
+  stroke: var(--hspeed-color);
+  stroke-width: 1.3;
+  opacity: 0.85;
+  vector-effect: non-scaling-stroke;
+}
+
+.range-editor__vspeed {
+  fill: none;
+  stroke: var(--vspeed-color);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.range-editor__axis {
+  position: absolute;
+  right: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  color: var(--gray-60);
+  background: var(--gray-10);
+  padding: 0 3px;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.range-editor__axis--top {
+  top: 3px;
+}
+
+.range-editor__axis--bottom {
+  bottom: 30px;
+}
+
+.range-editor__axis--alt {
+  left: 6px;
+  right: auto;
+}
+
+/* hover crosshair + tooltip */
+
+.range-editor__cursor {
+  position: absolute;
+  top: 0;
+  bottom: 26px;
+  width: 1px;
+  margin-left: -0.5px;
+  background: var(--gray-60);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.range-editor__tooltip {
+  position: absolute;
+  top: 6px;
+  margin-left: 10px;
+  min-width: 118px;
+  padding: 6px 8px;
+  background: var(--gray-90);
+  color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  font-size: 11px;
+  line-height: 1.5;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.range-editor__tooltip--flip {
+  transform: translateX(-100%);
+  margin-left: -10px;
+}
+
+.range-editor__tooltip-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 650;
+  margin-bottom: 3px;
+  white-space: nowrap;
+}
+
+.range-editor__tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.range-editor__tooltip-row span {
+  color: var(--gray-40);
+}
+
+.range-editor__tooltip-row b {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 600;
+}
+
+.range-editor__tooltip-row--v b {
+  color: var(--red-30);
+}
+
+.range-editor__tooltip-row--h b {
+  color: var(--green-30);
+}
+
+/* draggable handles */
+
+.range-editor__handle {
+  --handle-color: var(--gray-70);
+  position: absolute;
+  top: 0;
+  bottom: 26px;
+  width: 16px;
+  margin-left: -8px;
+  cursor: ew-resize;
+  z-index: 3;
+}
+
+.range-editor__handle--exit {
+  --handle-color: var(--exit-color);
+}
+
+.range-editor__handle--deploy {
+  --handle-color: var(--deploy-color);
+}
+
+.range-editor__handle--landing {
+  --handle-color: var(--landing-color);
+}
+
+.range-editor__handle::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--handle-color);
+}
+
+.range-editor__grip {
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  width: 12px;
+  height: 28px;
+  margin-top: -14px;
+  border-radius: 3px;
+  background: var(--handle-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.range-editor__tag {
+  position: absolute;
+  top: -2px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  font-weight: 650;
+  color: #fff;
+  background: var(--handle-color);
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.range-editor__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.range-editor__remove:hover {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.range-editor__handle--right .range-editor__tag {
+  left: auto;
+  right: 12px;
+}
+
+/* overview brush + ticks */
+
+.range-editor__tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.range-editor__tick--exit {
+  background: var(--exit-color);
+}
+
+.range-editor__tick--deploy {
+  background: var(--deploy-color);
+}
+
+.range-editor__tick--landing {
+  background: var(--landing-color);
+}
+
+.range-editor__brush {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(40, 120, 200, 0.16);
+  border-left: 1px solid var(--blue-70);
+  border-right: 1px solid var(--blue-70);
+  cursor: grab;
+  z-index: 3;
+}
+
+.range-editor__brush:active {
+  cursor: grabbing;
+}
+
+.range-editor__brush-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  cursor: ew-resize;
+}
+
+.range-editor__brush-edge::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 24px;
+  margin: -12px 0 0 -1.5px;
+  border-radius: 2px;
+  background: var(--blue-70);
+}
+
+.range-editor__brush-edge--left {
+  left: -5px;
+}
+
+.range-editor__brush-edge--right {
+  right: -5px;
+}
+
+/* footer: times + actions */
+
+.range-editor__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.range-editor__times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 0;
+}
+
+.range-editor__time {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.range-editor__time dt {
+  position: relative;
+  padding-left: 14px;
+  font-size: 13px;
+  color: var(--gray-70);
+}
+
+.range-editor__time dt::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 2px;
+}
+
+.range-editor__time--exit dt::before {
+  background: var(--exit-color);
+}
+
+.range-editor__time--deploy dt::before {
+  background: var(--deploy-color);
+}
+
+.range-editor__time--landing dt::before {
+  background: var(--landing-color);
+}
+
+.range-editor__time dd {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-90);
+}
+
+.range-editor__landing-toggle[hidden] {
+  display: none;
+}

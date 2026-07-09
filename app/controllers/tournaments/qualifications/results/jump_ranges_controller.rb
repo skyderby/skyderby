@@ -26,7 +26,7 @@ module Tournaments
         private
 
         def track_params
-          params.require(:jump_range).permit(:jump_range)
+          params.require(:jump_range).permit(:jump_range, :landing_fl_time)
         end
 
         def result_params

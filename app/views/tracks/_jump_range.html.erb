@@ -1,12 +1,32 @@
-<div class="row" data-controller="jump-range" data-track-id="<%= track.id %>">
-  <div class="col-sm-12" data-jump-range-target="chart"></div>
-  <div class="col-sm-12">
-    <div class="time-selector">
-      <%= form.text_field :jump_range,
-        'data-max-value': track.duration,
-        'data-controller': 'jump-range-select',
-        'data-action': 'change->jump-range#on_change_range',
-        'data-jump-range-target': 'select' %>
+<div class="range-editor"
+     data-controller="tracks--range-editor"
+     data-tracks--range-editor-altitude-url-value="<%= track_altitude_data_path(track) %>"
+     data-tracks--range-editor-start-epoch-value="<%= track.first_point_epoch %>"
+     data-tracks--range-editor-duration-value="<%= track.duration %>"
+     data-tracks--range-editor-exit-value="<%= track.ff_start %>"
+     data-tracks--range-editor-deploy-value="<%= track.ff_end %>"
+     data-tracks--range-editor-landing-value="<%= track.landing_fl_time %>"
+     data-tracks--range-editor-exit-label-value="<%= t('tracks.edit.exit') %>"
+     data-tracks--range-editor-deploy-label-value="<%= t('tracks.edit.deploy') %>"
+     data-tracks--range-editor-landing-label-value="<%= t('tracks.edit.landing') %>"
+     data-tracks--range-editor-remove-label-value="<%= t('tracks.edit.remove_landing') %>">
+
+  <%= form.hidden_field :jump_range, data: { 'tracks--range-editor-target': 'rangeInput' } %>
+  <%= form.hidden_field :landing_fl_time, data: { 'tracks--range-editor-target': 'landingInput' } %>
+
+  <div class="range-editor__chart" data-tracks--range-editor-target="chart"></div>
+  <div class="range-editor__minimap" data-tracks--range-editor-target="minimap"></div>
+
+  <div class="range-editor__footer">
+    <dl class="range-editor__times" data-tracks--range-editor-target="times"></dl>
+
+    <div class="range-editor__actions">
+      <button type="button"
+              class="button range-editor__landing-toggle"
+              data-tracks--range-editor-target="landingToggle"
+              data-action="tracks--range-editor#addLanding">
+        <%= t('tracks.edit.add_landing') %>
+      </button>
     </div>
   </div>
 </div>

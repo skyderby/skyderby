@@ -109,6 +109,23 @@ class Track < ApplicationRecord
     self.ff_start, self.ff_end = val.split(';')
   end
 
+  def landing_fl_time
+    return unless landed_at && first_point_epoch
+
+    (landed_at.to_i - first_point_epoch).to_i
+  end
+
+  def landing_fl_time=(seconds)
+    self.landed_at =
+      if seconds.blank? || first_point_epoch.nil?
+        nil
+      else
+        Time.zone.at(first_point_epoch + seconds.to_i)
+      end
+  end
+
+  def first_point_epoch = points.minimum(:gps_time_in_seconds)
+
   def duration = (points.last.gps_time_in_seconds - points.first.gps_time_in_seconds).to_i
 
   def speed_skydiving_result = @speed_skydiving_result ||= Tracks::SpeedSkydivingResult.new(self)
@@ -171,7 +188,7 @@ class Track < ApplicationRecord
   private
 
   def sync_activity_timestamps
-    first_gps = points.minimum(:gps_time_in_seconds)
+    first_gps = first_point_epoch
     return unless first_gps
 
     self.exited_at = ff_start && Time.zone.at(first_gps + ff_start)

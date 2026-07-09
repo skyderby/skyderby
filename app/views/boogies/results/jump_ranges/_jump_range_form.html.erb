@@ -4,7 +4,7 @@
 
 <%= form_with scope: :jump_range, url: boogie_result_jump_range_path(@result.event, @result),
               method: :put, class: 'sd-form', data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
-  <%= render 'concerns/jump_range_form', track: @result.track, form: f %>
+  <%= render 'components/jump_range_form', track: @result.track, form: f %>
 
   <div class="form-actions justify-between">
     <div>

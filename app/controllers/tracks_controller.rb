@@ -125,6 +125,7 @@ class TracksController < ApplicationController
       :track_file_id,
       :filepath,
       :jump_range,
+      :landing_fl_time,
       :missing_suit_name,
       :suit_id,
       :comment,

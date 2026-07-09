@@ -50,6 +50,11 @@ es:
       visibility: Privacidad
       elev_chart: Altitud
       elevation: Altitud
+      exit: Salida
+      deploy: Apertura
+      landing: Aterrizaje
+      add_landing: Añadir aterrizaje
+      remove_landing: Quitar aterrizaje
     form:
       suit_text_placeholder: Ingresa el nombre del traje
       suit_select_placeholder: Selecciona el traje desde una lista

@@ -51,6 +51,11 @@ it:
       elev_chart: Quota
       elevation: Quota
       back: torna alla traccia
+      exit: Uscita
+      deploy: Apertura
+      landing: Atterraggio
+      add_landing: Aggiungi atterraggio
+      remove_landing: Rimuovi atterraggio
     form:
       suit_text_placeholder: Scrivi il nome della tuta
       suit_select_placeholder: Seleziona la tuta dalla lista

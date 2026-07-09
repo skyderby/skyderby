@@ -49,6 +49,11 @@ de:
       visibility: Datenschutz
       elev_chart: Höhe
       elevation: Höhe
+      exit: Absprung
+      deploy: Öffnung
+      landing: Landung
+      add_landing: Landung hinzufügen
+      remove_landing: Landung entfernen
     form:
       suit_text_placeholder: Suitname angeben
       suit_select_placeholder: Wähle eine Suit aus der Liste

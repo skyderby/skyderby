@@ -4,7 +4,7 @@
 <hr class="condensed">
 
 <%= form_with scope: :jump_range, url: tournament_qualification_result_jump_range_path(@tournament, @result), method: :put, data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
-  <%= render 'concerns/jump_range_form', track: @result.track, form: f %>
+  <%= render 'components/jump_range_form', track: @result.track, form: f %>
 
   <div class="sd-form">
     <div class="grid">

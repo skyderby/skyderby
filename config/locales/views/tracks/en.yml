@@ -57,6 +57,11 @@ en:
       elev_chart: Elevation
       elevation: Elevation
       back: Back to track
+      exit: Exit
+      deploy: Deploy
+      landing: Landing
+      add_landing: Add landing
+      remove_landing: Remove landing
     base_jump:
       terrain_profile: Terrain Profile
       select_terrain_profile: Select terrain profile

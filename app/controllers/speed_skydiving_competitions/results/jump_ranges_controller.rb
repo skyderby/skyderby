@@ -26,6 +26,6 @@ class SpeedSkydivingCompetitions::Results::JumpRangesController < ApplicationCon
   end
 
   def jump_range_params
-    params.require(:jump_range).permit(:jump_range)
+    params.require(:jump_range).permit(:jump_range, :landing_fl_time)
   end
 end

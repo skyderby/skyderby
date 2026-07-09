@@ -1,6 +1,6 @@
 <% provide :title, title(@track) %>
 
-<div class="container top-buffer">
+<div class="container top-buffer track-edit">
   <%= link_to track_path(@track), class: 'btn-back' do %>
     <%= icon_tag 'angle-left-solid' %>
     <%= t('.back') %>
@@ -79,21 +79,19 @@
       <div class="grid">
         <label class="form-label col-4">Download file</label>
         <div class="col-8">
-          <%= link_to @track.track_file.file_file_name, track_download_path(@track), data: { turbo: false } %>
+          <%= link_to @track.track_file.file&.original_filename || @track.track_file.file_file_name,
+                      track_download_path(@track), data: { turbo: false } %>
         </div>
       </div>
     <% end %>
 
     <div class="form-actions">
-      <%= f.submit t('general.save'), class: 'button button--primary' %>
-      <%= link_to t('general.cancel'), @track, class: 'button' %>
-    </div>
-
-    <div class="form-actions">
       <%= link_to t('general.delete'),
                   @track,
                   data: { turbo_method: :delete, turbo_confirm: t('tracks.show.delete_confirmation') },
-                  class: 'button button--ghost button--danger' %>
+                  class: 'button button--ghost button--danger track-edit__delete' %>
+      <%= f.submit t('general.save'), class: 'button button--primary' %>
+      <%= link_to t('general.cancel'), @track, class: 'button' %>
     </div>
   <% end %>
 </div>

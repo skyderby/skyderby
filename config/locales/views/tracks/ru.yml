@@ -57,6 +57,11 @@ ru:
       elev_chart: График высот
       elevation: Высота
       back: Назад к треку
+      exit: Отделение
+      deploy: Раскрытие
+      landing: Приземление
+      add_landing: Добавить приземление
+      remove_landing: Убрать приземление
     base_jump:
       terrain_profile: Профиль рельефа
       select_terrain_profile: Выберите профиль рельефа

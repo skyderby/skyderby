@@ -1,0 +1,14 @@
+.track-edit__delete {
+  margin-right: auto;
+}
+
+@media (max-width: 576px) {
+  .track-edit .content-block {
+    margin-left: -15px;
+    margin-right: -15px;
+    border-radius: 0;
+    box-shadow: none;
+    border-top: var(--default-border);
+    border-bottom: var(--default-border);
+  }
+}
