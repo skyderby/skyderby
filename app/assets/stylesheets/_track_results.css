@@ -63,11 +63,11 @@
 }
 
 .trr-card__title {
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--gray-90);
   margin: 0;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 .trr-card__sub {
@@ -131,8 +131,8 @@
 }
 
 .trr-card__number {
-  font-size: 1.75rem;
-  font-weight: 800;
+  font-size: 1.5rem;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.02em;
 }
