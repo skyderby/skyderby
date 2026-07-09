@@ -66,7 +66,6 @@ jobs:
       - eslint
     env:
       DATABASE_URL: postgres://skyderby:test-password@localhost/skyderby_test
-      TRACK_SCANNER_URL: http://localhost:8000
       RAILS_ENV: test
       NODE_OPTIONS: --openssl-legacy-provider
     services:
@@ -83,10 +82,6 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 5
-      track-scanner:
-        image: skyderby/track-scanner
-        ports:
-          - 8000:80
     steps:
       - uses: actions/checkout@v4
       - name: Setup Ruby
@@ -154,7 +149,6 @@ jobs:
       - eslint
     env:
       DATABASE_URL: postgres://skyderby:test-password@localhost/skyderby_test
-      TRACK_SCANNER_URL: http://localhost:8000
       RAILS_ENV: test
       SELENIUM_HEADLESS_CHROME: 'true'
       NODE_OPTIONS: --openssl-legacy-provider
@@ -172,10 +166,6 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 5
-      track-scanner:
-        image: skyderby/track-scanner
-        ports:
-          - 8000:80
     steps:
       - uses: actions/checkout@v4
       - name: Setup Ruby

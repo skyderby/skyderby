@@ -85,6 +85,7 @@ class Track < ApplicationRecord
 
   validates :name, presence: true, unless: :pilot
 
+  before_save :sync_activity_timestamps, if: -> { ff_start_changed? || ff_end_changed? }
   before_destroy :used_in_competition?
   after_create_commit :track_amplitude_event
 
@@ -168,6 +169,14 @@ class Track < ApplicationRecord
   def recorded_at = super || created_at
 
   private
+
+  def sync_activity_timestamps
+    first_gps = points.minimum(:gps_time_in_seconds)
+    return unless first_gps
+
+    self.exited_at = ff_start && Time.zone.at(first_gps + ff_start)
+    self.deployed_at = ff_end && Time.zone.at(first_gps + ff_end)
+  end
 
   def race_finish_line_from_result
     vc_result =

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_03_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_08_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -780,7 +780,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_03_120000) do
     t.text "comment"
     t.timestamptz "created_at"
     t.decimal "data_frequency", precision: 3, scale: 1
+    t.timestamptz "deployed_at"
     t.boolean "disqualified_from_online_competitions", default: false, null: false
+    t.timestamptz "exited_at"
     t.integer "ff_end"
     t.integer "ff_start"
     t.string "file_content_type", limit: 510
@@ -792,6 +794,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_03_120000) do
     t.integer "gps_type", default: 0
     t.decimal "ground_level", precision: 5, scale: 1, default: "0.0"
     t.integer "kind", default: 0
+    t.timestamptz "landed_at"
     t.string "location", limit: 510
     t.jsonb "missing_ranges"
     t.string "missing_suit_name", limit: 510

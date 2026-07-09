@@ -6,6 +6,14 @@ class CreateTrackServiceTest < ActiveSupport::TestCase
     assert_predicate track, :persisted?
   end
 
+  test '#call - records exit and deploy timestamps' do
+    track = CreateTrackService.call(valid_params)
+
+    assert_predicate track.exited_at, :present?
+    assert_predicate track.deployed_at, :present?
+    assert_operator track.deployed_at, :>, track.exited_at
+  end
+
   test 'activity data validation - marks track as require to review' do
     track = CreateTrackService.call(with_missing_activity_data)
     assert track.require_range_review

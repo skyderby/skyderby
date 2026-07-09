@@ -32,7 +32,6 @@ module Skyderby
     config.load_defaults Rails::VERSION::STRING.to_f
     config.yjit = true
 
-    config.track_scanner = config_for(:track_scanner)
     config.stripe = config_for(:stripe)
 
     # The default locale is :en and all translations from config/locales/**/*.rb,yml are auto loaded.

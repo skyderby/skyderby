@@ -20,8 +20,6 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
       resource_owner_type: 'User',
       scopes: 'read'
     )
-
-    stub_track_scanner
   end
 
   test '#create requires authentication' do
@@ -66,13 +64,5 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
          headers: { 'Authorization' => "Bearer #{@token.token}" }
 
     assert_response :unprocessable_content
-  end
-
-  private
-
-  def stub_track_scanner
-    TrackScanner.define_method(:call) do
-      TrackScanner::NullRange.new(@points)
-    end
   end
 end

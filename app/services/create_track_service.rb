@@ -22,6 +22,7 @@ class CreateTrackService
       set_profile
       set_file_metadata
       set_jump_range
+      set_activity_timestamps
       set_place
       save_track
     end
@@ -51,9 +52,15 @@ class CreateTrackService
   end
 
   def set_jump_range
-    track.ff_start = jump_range.start_time.to_i
-    track.ff_end = jump_range.deploy_time.to_i
-    track.require_range_review = jump_range.require_review?
+    track.ff_start = segments.exit_point.fl_time.to_i
+    track.ff_end = segments.deploy_point.fl_time.to_i
+    track.require_range_review = segments.require_review?
+  end
+
+  def set_activity_timestamps
+    track.exited_at = segments.exit_point.gps_time
+    track.deployed_at = segments.deploy_point.gps_time
+    track.landed_at = segments.landing_point&.gps_time
   end
 
   def points
@@ -85,14 +92,14 @@ class CreateTrackService
     @missing_ranges ||= MissingRangesDetector.call(points, data_frequency)
   end
 
-  def jump_range
-    @jump_range ||= TrackScanner.call(points)
+  def segments
+    @segments ||= Track::Segments.new(points)
   end
 
-  # Find and set place as closest to start of jump range
+  # Find and set place as closest to exit point
   # and set ground level if place found as place msl offset
   def set_place
-    place = find_place jump_range.start_point, search_radius
+    place = find_place segments.exit_point, search_radius
     track.place = place
     track.ground_level = place.msl if place
   end
