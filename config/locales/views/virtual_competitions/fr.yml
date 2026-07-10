@@ -46,3 +46,13 @@ fr:
     place: 'Lieu:'
     worldwide: Monde entier
     suit: 'Type de combinaison: %{suit}'
+    compare:
+      start: Comparer les tracks
+      submit: Comparer
+      slot_placeholder: Choisir un track
+      swap: Permuter
+      cancel: Annuler
+      remaining:
+        zero: Aucune comparaison gratuite restante
+        one: "%{count} comparaison gratuite restante"
+        other: "%{count} comparaisons gratuites restantes"

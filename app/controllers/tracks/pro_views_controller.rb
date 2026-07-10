@@ -4,22 +4,15 @@ module Tracks
       @track = Track.find(params[:track_id])
 
       return redirect_to_sign_in unless Current.user.registered?
-      return refresh_page if can_access_pro_view?
-      return show_limit_error if limit_reached?
 
-      FreeProView.create!(user: Current.user, track: @track)
-      refresh_page
+      if FreeProView.grant(user: Current.user, track: @track) == :limit_reached
+        show_limit_error
+      else
+        refresh_page
+      end
     end
 
     private
-
-    def can_access_pro_view?
-      Current.subscription_active? || FreeProView.exists?(user: Current.user, track: @track)
-    end
-
-    def limit_reached?
-      FreeProView.remaining_for(Current.user) <= 0
-    end
 
     def redirect_to_sign_in
       redirect_to new_user_session_path,

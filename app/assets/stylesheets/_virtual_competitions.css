@@ -331,31 +331,16 @@
   }
 }
 
-.vc-scoreboard__row--top {
-  &::before {
-    content: '';
-    position: absolute;
-    left: 6px;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    width: 6px;
-    background: var(--yellow-50);
-    border-radius: var(--border-radius-sm);
-  }
-
-  @media (min-width: 768px) {
-    &::before {
-      display: none;
-    }
-  }
+.vc-scoreboard__row--place-1 {
+  background-color: rgba(255, 206, 9, 0.07);
 }
 
-.vc-scoreboard__row--top[data-rank="2"]::before {
-  background: var(--gray-40);
+.vc-scoreboard__row--place-2 {
+  background-color: rgba(148, 148, 148, 0.07);
 }
 
-.vc-scoreboard__row--top[data-rank="3"]::before {
-  background: var(--orange-50);
+.vc-scoreboard__row--place-3 {
+  background-color: rgba(237, 156, 42, 0.07);
 }
 
 .vc-scoreboard__row--current {

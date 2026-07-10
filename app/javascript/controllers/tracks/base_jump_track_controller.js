@@ -9,7 +9,10 @@ import I18n from 'i18n'
 
 const SYNC_VERTICAL_SPEED = 10
 const FINISH_LINE_COLOR = '#8b0000'
+const COMPARE_LINE_COLOR = '#9c27b0'
 const FINISH_LINE_STORAGE_KEY = 'baseJumpFinishLineVisible'
+const RESULT_PREFERENCE_KEY = 'baseJumpResultPreference'
+const RESULT_NONE = 'none'
 
 export default class extends Controller {
   static targets = [
@@ -26,6 +29,7 @@ export default class extends Controller {
     'compareModal',
     'expandMapToggle',
     'finishLineToggle',
+    'resultOption',
     'emptyState'
   ]
 
@@ -41,10 +45,20 @@ export default class extends Controller {
     finishLineStartLon: Number,
     finishLineEndLat: Number,
     finishLineEndLon: Number,
-    raceResultTime: Number
+    raceResultTime: Number,
+    resultPointLat: Number,
+    resultPointLon: Number,
+    resultPointGpsTime: Number,
+    resultLabel: String,
+    resultComparePointLat: Number,
+    resultComparePointLon: Number,
+    resultComparePointGpsTime: Number,
+    resultCompareLabel: String
   }
 
   connect() {
+    if (this.applyResultPreference()) return
+
     this.playing = false
     this.currentIndex = 0
     this.comparePoints = null
@@ -79,14 +93,107 @@ export default class extends Controller {
           this.prepareCompare()
         }
 
-        this.findFinishLineCrossings()
+        if (this.hasResultPoint) {
+          this.findResultCrossings()
+        } else {
+          this.findFinishLineCrossings()
+        }
         this.initCharts()
         this.renderMap()
         this.initPlayback()
         this.loadDefaultTerrainProfile()
         this.initFinishLineToggle()
+        this.initResultMarker()
       })
       .catch(() => this.showEmptyState('load_error'))
+  }
+
+  get hasResultPoint() {
+    return (
+      this.hasResultPointLatValue &&
+      this.hasResultPointLonValue &&
+      this.hasResultPointGpsTimeValue
+    )
+  }
+
+  findResultCrossings() {
+    if (!this.points) return
+
+    const index = this.indexByGpsTime(this.points, this.resultPointGpsTimeValue)
+    this.primaryCrossing = {
+      index: Math.max(index, 1),
+      fraction: 0,
+      label: this.resultLabelValue
+    }
+    this.primaryResultTime = this.points[index].flTime - this.primarySyncFlTime
+
+    if (this.hasCompare && this.hasResultComparePointGpsTimeValue) {
+      const compareIndex = this.indexByGpsTime(
+        this.comparePoints,
+        this.resultComparePointGpsTimeValue
+      )
+      this.compareCrossing = {
+        index: Math.max(compareIndex, 1),
+        fraction: 0,
+        label: this.resultCompareLabelValue
+      }
+      this.compareResultTime =
+        this.comparePoints[compareIndex].flTime - this.compareSyncFlTime
+    }
+  }
+
+  indexByGpsTime(points, epochSeconds) {
+    const target = epochSeconds * 1000
+    let bestIndex = 0
+    let bestDiff = Infinity
+
+    for (let i = 0; i < points.length; i++) {
+      const diff = Math.abs(points[i].gpsTime.getTime() - target)
+      if (diff < bestDiff) {
+        bestDiff = diff
+        bestIndex = i
+      }
+    }
+
+    return bestIndex
+  }
+
+  initResultMarker() {
+    if (!this.hasResultPoint) return
+
+    this.finishLineVisible = true
+    this.sideProjectionChart?.setFinishLineVisible(true)
+    this.drawResultMapMarker(this.resultPointLatValue, this.resultPointLonValue, false)
+
+    if (
+      this.hasCompare &&
+      this.showCompareOnMap &&
+      this.hasResultComparePointLatValue &&
+      this.hasResultComparePointLonValue
+    ) {
+      this.drawResultMapMarker(
+        this.resultComparePointLatValue,
+        this.resultComparePointLonValue,
+        true
+      )
+    }
+
+    this.applyFinishLineVisibility()
+  }
+
+  drawResultMapMarker(lat, lon, isCompare) {
+    if (!this.map) return
+
+    const dot = document.createElement('div')
+    dot.className = isCompare
+      ? 'base-jump-result-marker base-jump-result-marker--compare'
+      : 'base-jump-result-marker'
+
+    new google.maps.marker.AdvancedMarkerElement({
+      map: this.map,
+      position: { lat, lng: lon },
+      content: dot
+    })
   }
 
   showEmptyState(messageKey) {
@@ -165,11 +272,12 @@ export default class extends Controller {
   initFinishLineToggle() {
     if (!this.hasFinishLine) return
 
-    const stored = localStorage.getItem(FINISH_LINE_STORAGE_KEY)
-    this.finishLineVisible = stored === null ? true : stored === '1'
-
     if (this.hasFinishLineToggleTarget) {
+      const stored = localStorage.getItem(FINISH_LINE_STORAGE_KEY)
+      this.finishLineVisible = stored === null ? true : stored === '1'
       this.finishLineToggleTarget.checked = this.finishLineVisible
+    } else {
+      this.finishLineVisible = true
     }
 
     this.applyFinishLineVisibility()
@@ -188,23 +296,65 @@ export default class extends Controller {
 
     this.sideProjectionChart?.setFinishLineVisible(this.finishLineVisible)
 
-    const finishTime = this.primaryFinishTime()
+    const finishTime = this.hasResultPoint
+      ? this.primaryResultTime
+      : this.primaryFinishTime()
+    const compareTime = this.hasCompare
+      ? this.hasResultPoint
+        ? this.compareResultTime
+        : this.compareFinishTime()
+      : null
+    const primaryLabel = this.plotLineLabel(finishTime, this.resultLabelValue)
+    const compareLabel = this.plotLineLabel(compareTime, this.resultCompareLabelValue)
     const charts = [this.speedChartTarget?.chart, this.glideChartTarget?.chart]
     charts.forEach(chart => {
       if (!chart) return
 
       chart.xAxis[0].removePlotLine('finish-line')
+      chart.xAxis[0].removePlotLine('finish-line-compare')
+
       if (this.finishLineVisible && finishTime != null) {
         chart.xAxis[0].addPlotLine({
           id: 'finish-line',
           value: finishTime,
           color: FINISH_LINE_COLOR,
-          width: 1.5,
+          width: 1,
           dashStyle: 'Dash',
-          zIndex: 5
+          zIndex: 5,
+          label: this.plotLineLabelConfig(primaryLabel, FINISH_LINE_COLOR, 'top', 12)
+        })
+      }
+
+      if (this.finishLineVisible && compareTime != null) {
+        chart.xAxis[0].addPlotLine({
+          id: 'finish-line-compare',
+          value: compareTime,
+          color: COMPARE_LINE_COLOR,
+          width: 1,
+          dashStyle: 'Dot',
+          zIndex: 6,
+          label: this.plotLineLabelConfig(compareLabel, COMPARE_LINE_COLOR, 'bottom', -6)
         })
       }
     })
+  }
+
+  plotLineLabel(time, resultLabel) {
+    if (this.hasResultPoint) return resultLabel
+    return time != null ? `${time.toFixed(1)}s` : null
+  }
+
+  plotLineLabelConfig(text, color, verticalAlign, y) {
+    if (!text) return undefined
+
+    return {
+      text,
+      verticalAlign,
+      y,
+      align: 'center',
+      rotation: 0,
+      style: { color, fontSize: '10px', fontWeight: 'bold' }
+    }
   }
 
   primaryFinishTime() {
@@ -290,7 +440,8 @@ export default class extends Controller {
       this.sideProjectionChart.setFinishLineCrossing(
         this.primaryCrossing.index,
         this.primaryCrossing.fraction,
-        this.primaryFinishTime()
+        this.primaryCrossing.label != null ? null : this.primaryFinishTime(),
+        this.primaryCrossing.label
       )
     }
 
@@ -298,7 +449,8 @@ export default class extends Controller {
       this.sideProjectionChart.setCompareFinishLineCrossing(
         this.compareCrossing.index,
         this.compareCrossing.fraction,
-        this.compareFinishTime()
+        this.compareCrossing.label != null ? null : this.compareFinishTime(),
+        this.compareCrossing.label
       )
     }
 
@@ -395,6 +547,79 @@ export default class extends Controller {
     if (!this.defaultTerrainProfileIdValue) return
 
     this.fetchTerrainProfile(this.defaultTerrainProfileIdValue)
+  }
+
+  selectResult(event) {
+    const option = event.currentTarget
+    this.rememberResultOption(option)
+
+    const url = new URL(window.location)
+    url.searchParams.set('result_competition_id', option.dataset.competitionId)
+    Turbo.visit(url.toString())
+  }
+
+  applyResultPreference() {
+    if (!this.hasResultOptionTarget) return false
+
+    const params = new URLSearchParams(window.location.search)
+    if (params.has('result_competition_id')) {
+      const active = this.resultOptionTargets.find(option =>
+        option.classList.contains('active')
+      )
+      if (active) this.rememberResultOption(active)
+      return false
+    }
+
+    const preference = this.readResultPreference()
+    if (!preference || preference.discipline === RESULT_NONE) return false
+
+    const match = this.resultOptionTargets.find(
+      option =>
+        option.dataset.discipline === preference.discipline &&
+        String(option.dataset.parameter) === String(preference.parameter)
+    )
+    if (!match || match.classList.contains('active')) return false
+
+    const url = new URL(window.location)
+    url.searchParams.set('result_competition_id', match.dataset.competitionId)
+    Turbo.visit(url.toString())
+    return true
+  }
+
+  rememberResultOption(option) {
+    if (option.dataset.discipline === RESULT_NONE) {
+      this.clearResultPreference()
+    } else {
+      this.storeResultPreference(option.dataset.discipline, option.dataset.parameter)
+    }
+  }
+
+  storeResultPreference(discipline, parameter) {
+    try {
+      localStorage.setItem(
+        RESULT_PREFERENCE_KEY,
+        JSON.stringify({ discipline, parameter })
+      )
+    } catch {
+      // localStorage may be unavailable (private mode); preference is optional
+    }
+  }
+
+  clearResultPreference() {
+    try {
+      localStorage.removeItem(RESULT_PREFERENCE_KEY)
+    } catch {
+      // localStorage may be unavailable (private mode); preference is optional
+    }
+  }
+
+  readResultPreference() {
+    try {
+      const raw = localStorage.getItem(RESULT_PREFERENCE_KEY)
+      return raw ? JSON.parse(raw) : null
+    } catch {
+      return null
+    }
   }
 
   handleTerrainProfileSelection(event) {

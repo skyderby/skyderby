@@ -2,9 +2,20 @@
 
 <% competition = ranking.competition %>
 <% rank_change = ranking.rank_change_for(score) %>
+<% on_podium = score.rank <= 3 %>
 
-<div class="<%= class_names('vc-scoreboard__row', score.rank <= 3 && 'vc-scoreboard__row--top', current_user_row && 'vc-scoreboard__row--current') %>" data-rank="<%= score.rank %>">
-  <div class="vc-scoreboard__rank"><%= score.rank %></div>
+<div class="<%= class_names('vc-scoreboard__row', on_podium && "vc-scoreboard__row--place-#{score.rank}", current_user_row && 'vc-scoreboard__row--current') %>"
+     data-rank="<%= score.rank %>"
+     data-virtual-competitions--compare-target="row"
+     data-action="click->virtual-competitions--compare#selectRow"
+     data-track-id="<%= score.track.id %>"
+     data-pilot="<%= score.profile.name.titleize %>"
+     data-result="<%= "#{format_result(score.result, competition)} #{competition_unit(competition)}" %>"
+     data-kind="<%= score.track.kind %>">
+  <div class="vc-scoreboard__rank">
+    <span class="<%= class_names('vc-scoreboard__rank-number', on_podium && "rank-badge rank-badge--#{score.rank}") %>"><%= score.rank %></span>
+    <%= icon_tag 'check-solid', class: 'vc-scoreboard__rank-check' %>
+  </div>
   <% if ranking.show_rank_changes? %>
     <div class="vc-scoreboard__rank-change">
       <% if rank_change.nil? %>

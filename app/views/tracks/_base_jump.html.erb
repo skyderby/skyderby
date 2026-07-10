@@ -8,9 +8,13 @@
 
   <% default_jump_line = @track.place&.jump_lines&.first %>
   <% compare_same_place = @compare_track && @track.place_id.present? && @track.place_id == @compare_track.place_id %>
-  <% race = @track.race_finish_line %>
+  <% base_result = Tracks::BaseResult.new(@track, competition_id: params[:result_competition_id], compare_track: @compare_track) %>
+  <% show_result_point = base_result.available? && !base_result.race? %>
+  <% race = (!base_result.available? || base_result.race?) ? @track.race_finish_line : nil %>
   <% finish_line_coords = race && race[:finish_line]&.to_coordinates %>
-  <div class="track-show-content"
+  <% primary_point = show_result_point && base_result.primary_value ? base_result.primary_point : nil %>
+  <% compare_point = show_result_point && base_result.compare_value ? base_result.compare_point : nil %>
+  <div class="base-jump-page"
        data-controller="tracks--base-jump-track"
        data-tracks--base-jump-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
        data-tracks--base-jump-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
@@ -29,44 +33,91 @@
        data-tracks--base-jump-track-race-result-time-value="<%= race[:result] %>"
        <% end %>
        <% end %>
+       <% if primary_point %>
+       data-tracks--base-jump-track-result-point-lat-value="<%= primary_point[:lat] %>"
+       data-tracks--base-jump-track-result-point-lon-value="<%= primary_point[:lon] %>"
+       data-tracks--base-jump-track-result-point-gps-time-value="<%= primary_point[:gps_time] %>"
+       data-tracks--base-jump-track-result-label-value="<%= "#{format_result(base_result.primary_value, base_result.selected)} #{competition_unit(base_result.selected)}" %>"
+       <% end %>
+       <% if compare_point %>
+       data-tracks--base-jump-track-result-compare-point-lat-value="<%= compare_point[:lat] %>"
+       data-tracks--base-jump-track-result-compare-point-lon-value="<%= compare_point[:lon] %>"
+       data-tracks--base-jump-track-result-compare-point-gps-time-value="<%= compare_point[:gps_time] %>"
+       data-tracks--base-jump-track-result-compare-label-value="<%= "#{format_result(base_result.compare_value, base_result.selected)} #{competition_unit(base_result.selected)}" %>"
+       <% end %>
        data-tracks--base-jump-track-default-terrain-profile-id-value="<%= default_jump_line&.id %>">
 
-    <div class="base-jump-toolbar">
-      <% if finish_line_coords.present? %>
-        <div class="switch-container">
-          <input type="checkbox"
-                 id="finish-line-toggle"
-                 class="switch-input"
-                 data-tracks--base-jump-track-target="finishLineToggle"
-                 data-action="tracks--base-jump-track#toggleFinishLine">
-          <label for="finish-line-toggle" class="switch-label">
-            <span class="switch-slider"></span>
-            <span class="switch-text"><%= t('tracks.base_jump.finish_line') %></span>
-          </label>
+    <div class="card actions-bar base-jump-actions-bar" id="track-actions-bar">
+      <div class="actions-bar-right">
+        <% if base_result.available? %>
+          <div class="base-jump-result-dropdown">
+            <button type="button" class="actions-bar-button base-jump-result-dropdown__toggle" popovertarget="base-result-menu">
+              <% if base_result.selected %>
+                <%= icon_tag competition_icon(base_result.selected) %>
+                <span class="base-jump-result-dropdown__current"><%= competition_badge(base_result.selected) %></span>
+              <% else %>
+                <span class="base-jump-result-dropdown__current"><%= t('tracks.base_jump.result_select') %></span>
+              <% end %>
+              <%= icon_tag 'angle-down-solid' %>
+            </button>
+
+            <div id="base-result-menu" popover class="sd-dropdown-menu base-jump-result-menu">
+              <div class="dropdown-header"><%= t('tracks.base_jump.compare_result') %></div>
+              <button type="button"
+                      class="dropdown-item base-jump-result-option <%= 'active' unless base_result.selected %>"
+                      data-action="tracks--base-jump-track#selectResult"
+                      data-tracks--base-jump-track-target="resultOption"
+                      data-competition-id="<%= Tracks::BaseResult::NONE %>"
+                      data-discipline="<%= Tracks::BaseResult::NONE %>"
+                      data-parameter="">
+                <%= icon_tag 'xmark' %>
+                <span class="base-jump-result-option__text">
+                  <span class="base-jump-result-option__label"><%= t('tracks.base_jump.result_none') %></span>
+                </span>
+              </button>
+              <% base_result.competitions.each do |competition| %>
+                <button type="button"
+                        class="dropdown-item base-jump-result-option <%= 'active' if competition.id == base_result.selected&.id %>"
+                        data-action="tracks--base-jump-track#selectResult"
+                        data-tracks--base-jump-track-target="resultOption"
+                        data-competition-id="<%= competition.id %>"
+                        data-discipline="<%= competition.discipline %>"
+                        data-parameter="<%= competition.discipline_parameter %>">
+                  <%= icon_tag competition_icon(competition) %>
+                  <span class="base-jump-result-option__text">
+                    <span class="base-jump-result-option__label"><%= competition_badge(competition) %></span>
+                    <span class="base-jump-result-option__name"><%= competition.name %></span>
+                  </span>
+                </button>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="actions-bar-button base-jump-actions-bar__toggle">
+          <div class="switch-container">
+            <input type="checkbox"
+                   id="expand-map-toggle"
+                   class="switch-input"
+                   data-tracks--base-jump-track-target="expandMapToggle"
+                   data-action="tracks--base-jump-track#toggleExpandMap">
+            <label for="expand-map-toggle" class="switch-label">
+              <span class="switch-slider"></span>
+              <span class="switch-text"><%= t('tracks.base_jump.expand_map') %></span>
+            </label>
+          </div>
         </div>
-      <% end %>
 
-      <div class="switch-container">
-        <input type="checkbox"
-               id="expand-map-toggle"
-               class="switch-input"
-               data-tracks--base-jump-track-target="expandMapToggle"
-               data-action="tracks--base-jump-track#toggleExpandMap">
-        <label for="expand-map-toggle" class="switch-label">
-          <span class="switch-slider"></span>
-          <span class="switch-text"><%= t('tracks.base_jump.expand_map') %></span>
-        </label>
-      </div>
-
-      <div class="comparison-actions">
         <% if @compare_track %>
-          <a href="<%= track_path(@track) %>" class="button button--sm button--outline button--danger">
+          <a href="<%= track_path(@track) %>" class="actions-bar-button base-jump-actions-bar__remove">
+            <%= icon_tag 'xmark' %>
             <%= t('tracks.comparison.remove') %>
           </a>
         <% else %>
           <button type="button"
-                  class="button button--sm button--outline button--primary"
+                  class="actions-bar-button"
                   data-action="tracks--base-jump-track#openCompareModal">
+            <%= icon_tag 'right-left' %>
             <%= t('tracks.comparison.compare_button') %>
           </button>
         <% end %>
@@ -94,10 +145,12 @@
       <% end %>
     <% end %>
 
-    <%= render 'tracks/base_jump_body', terrain: terrain, indicators: indicators %>
+    <div class="track-show-content">
+      <%= render 'tracks/base_jump_body', terrain: terrain, indicators: indicators %>
 
-    <blockquote class="flex flex-column">
-      <%= render 'track_metadata' %>
-    </blockquote>
+      <blockquote class="flex flex-column">
+        <%= render 'track_metadata' %>
+      </blockquote>
+    </div>
   </div>
 </div>

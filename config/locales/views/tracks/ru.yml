@@ -86,6 +86,9 @@ ru:
       select_terrain_profile: Выберите профиль рельефа
       expand_map: Развернуть карту
       finish_line: Финишная линия
+      compare_result: Результат
+      result_none: Нет
+      result_select: Выберите задачу
     form:
       suit_text_placeholder: 'Введите название костюма'
       suit_select_placeholder: 'Выберите костюм из списка'

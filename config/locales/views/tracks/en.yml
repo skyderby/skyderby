@@ -84,6 +84,9 @@ en:
       select_terrain_profile: Select terrain profile
       expand_map: Expand Map
       finish_line: Finish line
+      compare_result: Result
+      result_none: None
+      result_select: Select task
     form:
       suit_text_placeholder: Enter suit name
       suit_select_placeholder: Select suit from list

@@ -20,27 +20,12 @@
     <%= render 'navbar', editable: %>
   </div>
 
-  <div class="show-page-content">
-    <% current_params = request.path_parameters.merge(request.query_parameters.symbolize_keys) %>
-    <div class="ranking-filters">
-      <% if @ranking.jump_kind_options.any? %>
-        <div class="tab-bar tab-bar--jump-kind">
-          <% @ranking.jump_kind_options.each do |kind| %>
-            <%= link_to t(".jump_kinds.#{kind || 'all'}"),
-                        url_for(current_params.merge(jump_kind: kind, page: nil)),
-                        class: class_names('tab-bar-item', 'active' => @ranking.jump_kind == kind) %>
-          <% end %>
-        </div>
-      <% end %>
-
-      <div class="tab-bar tab-bar--gender">
-        <% @ranking.gender_options.each do |gender| %>
-          <%= link_to t(".genders.#{gender || 'open'}"),
-                      url_for(current_params.merge(gender: gender, page: nil)),
-                      class: class_names('tab-bar-item', 'active' => @ranking.gender == gender) %>
-        <% end %>
-      </div>
-    </div>
+  <div class="show-page-content"
+       data-controller="virtual-competitions--compare"
+       data-virtual-competitions--compare-competition-id-value="<%= @competition.id %>"
+       data-virtual-competitions--compare-kind-value="<%= @competition.jumps_kind %>"
+       data-virtual-competitions--compare-discipline-value="<%= @competition.discipline %>">
+    <%= render 'actions_bar', ranking: @ranking %>
 
     <div class="card">
       <%= render 'scoreboard', ranking: @ranking %>

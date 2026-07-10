@@ -40,6 +40,19 @@
   border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
 }
 
+.actions-bar .tab-bar {
+  margin: 0;
+  width: auto;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0;
+  border-right: var(--default-border);
+}
+
+.actions-bar .tab-bar:first-child {
+  border-top-left-radius: var(--border-radius-md);
+  border-bottom-left-radius: var(--border-radius-md);
+}
+
 .actions-bar-right {
   display: flex;
   margin-left: auto;

@@ -172,7 +172,7 @@
 
 .side-projection-chart .finish-line-crossing line {
   stroke: #8b0000;
-  stroke-width: 2;
+  stroke-width: 1.5;
 }
 
 .side-projection-chart .finish-line-crossing text,
@@ -189,7 +189,7 @@
 
 .side-projection-chart .finish-line-crossing--compare line {
   stroke: #9c27b0;
-  stroke-width: 2;
+  stroke-width: 1.5;
 }
 
 .side-projection-chart .finish-line-crossing--compare text {
@@ -399,4 +399,102 @@
   border-radius: 50%;
   border: none;
   cursor: pointer;
+}
+
+.base-jump-page {
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 1200px) {
+  .base-jump-page {
+    width: 1200px;
+  }
+}
+
+.base-jump-page .track-show-content {
+  width: 100%;
+}
+
+.base-jump-page .base-jump-actions-bar {
+  margin-bottom: 1rem;
+}
+
+.base-jump-result-dropdown {
+  display: flex;
+}
+
+.base-jump-result-dropdown__toggle {
+  cursor: pointer;
+}
+
+.base-jump-result-dropdown__current {
+  font-weight: 600;
+}
+
+.base-jump-actions-bar__toggle {
+  cursor: default;
+}
+
+.base-jump-actions-bar__toggle:hover {
+  background-color: var(--white);
+}
+
+.base-jump-actions-bar__toggle .switch-container {
+  margin: 0;
+}
+
+.base-jump-actions-bar__remove {
+  color: var(--red-70);
+  text-decoration: none;
+}
+
+.base-jump-actions-bar__remove:hover {
+  color: var(--red-80);
+}
+
+.base-jump-result-menu {
+  min-width: 240px;
+  max-width: 320px;
+}
+
+.sd-dropdown-menu.base-jump-result-menu[popover] {
+  left: anchor(left);
+  right: unset;
+}
+
+.base-jump-result-option {
+  align-items: center;
+  white-space: normal;
+}
+
+.base-jump-result-option__text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.base-jump-result-option__label {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.base-jump-result-option__name {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--gray-60);
+}
+
+.base-jump-result-marker {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: #8b0000;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  transform: translateY(50%);
+}
+
+.base-jump-result-marker--compare {
+  background-color: #9c27b0;
 }

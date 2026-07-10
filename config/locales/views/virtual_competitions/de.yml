@@ -41,3 +41,13 @@ de:
     place: 'Ort:'
     worldwide: Weltweit
     suit: 'Suit Modell: %{suit}'
+    compare:
+      start: Tracks vergleichen
+      submit: Vergleichen
+      slot_placeholder: Track auswählen
+      swap: Tauschen
+      cancel: Abbrechen
+      remaining:
+        zero: Keine kostenlosen Vergleiche übrig
+        one: "%{count} kostenloser Vergleich übrig"
+        other: "%{count} kostenlose Vergleiche übrig"

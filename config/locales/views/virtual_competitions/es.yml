@@ -1,5 +1,15 @@
 es:
   virtual_competitions:
+    compare:
+      start: Comparar tracks
+      submit: Comparar
+      slot_placeholder: Selecciona un track
+      swap: Intercambiar
+      cancel: Cancelar
+      remaining:
+        zero: No quedan comparaciones gratuitas
+        one: "Queda %{count} comparación gratuita"
+        other: "Quedan %{count} comparaciones gratuitas"
     index:
       show_archived: Mostrar archivados
       archived: Archivados

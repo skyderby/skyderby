@@ -68,6 +68,10 @@ class VirtualCompetition < ApplicationRecord
     !place
   end
 
+  def comparable_in_pro_view?
+    !flare? && !vertical_speed?
+  end
+
   def overall_ranking(scores, **) = Ranking.new(self, scores, **)
 
   def annual_ranking(scores, year:, **) = Ranking::Annual.new(self, scores, year:, **)

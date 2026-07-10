@@ -46,3 +46,13 @@ it:
     place: 'Luogo:'
     worldwide: mondiale
     suit: 'tipo di Tuta: %{suit}'
+    compare:
+      start: Confronta tracce
+      submit: Confronta
+      slot_placeholder: Seleziona una traccia
+      swap: Scambia
+      cancel: Annulla
+      remaining:
+        zero: Nessun confronto gratuito rimasto
+        one: "%{count} confronto gratuito rimasto"
+        other: "%{count} confronti gratuiti rimasti"

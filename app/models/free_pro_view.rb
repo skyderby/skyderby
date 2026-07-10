@@ -20,6 +20,15 @@ class FreeProView < ApplicationRecord
     monthly_limit - monthly_usage_for(user)
   end
 
+  def self.grant(user:, track:)
+    return :subscriber if user.subscription_active?
+    return :already if exists?(user: user, track: track)
+    return :limit_reached if remaining_for(user) <= 0
+
+    create!(user: user, track: track)
+    :granted
+  end
+
   def track_amplitude_events
     summary = FreeProViewsSummary.new(user)
 

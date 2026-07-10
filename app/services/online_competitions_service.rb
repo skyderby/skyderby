@@ -17,6 +17,12 @@ class OnlineCompetitionsService
     @competition = competition
   end
 
+  def result_segment
+    return unless competition.comparable_in_pro_view?
+
+    best_track_segment
+  end
+
   def score
     if competition.flare?
       score_flare

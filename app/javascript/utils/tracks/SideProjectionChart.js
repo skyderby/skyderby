@@ -38,13 +38,13 @@ export default class SideProjectionChart {
     return this
   }
 
-  setFinishLineCrossing(index, fraction, resultTime) {
-    this.finishCrossing = { index, fraction, resultTime }
+  setFinishLineCrossing(index, fraction, resultTime, label = null) {
+    this.finishCrossing = { index, fraction, resultTime, label }
     return this
   }
 
-  setCompareFinishLineCrossing(index, fraction, resultTime) {
-    this.compareFinishCrossing = { index, fraction, resultTime }
+  setCompareFinishLineCrossing(index, fraction, resultTime, label = null) {
+    this.compareFinishCrossing = { index, fraction, resultTime, label }
     return this
   }
 
@@ -624,7 +624,7 @@ export default class SideProjectionChart {
   }
 
   drawCrossing({ crossing, profile, className }, { labelAbove, up, down }) {
-    const { index, fraction, resultTime } = crossing
+    const { index, fraction, resultTime, label: resultLabel } = crossing
     const prev = profile[index - 1]
     const curr = profile[index]
     if (!prev || !curr) return
@@ -652,7 +652,12 @@ export default class SideProjectionChart {
     label.setAttribute('text-anchor', 'middle')
     label.setAttribute('font-size', '11')
     label.setAttribute('font-weight', '600')
-    label.textContent = resultTime != null ? `${resultTime.toFixed(1)}s` : 'FINISH'
+    label.textContent =
+      resultLabel != null
+        ? resultLabel
+        : resultTime != null
+          ? `${resultTime.toFixed(1)}s`
+          : 'FINISH'
     group.appendChild(label)
 
     this.svg.appendChild(group)

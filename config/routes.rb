@@ -377,6 +377,7 @@ Skyderby::Application.routes.draw do
 
       resource :person_details, only: :show
       resource :overall, only: :show
+      resource :comparison, only: :create
       resources :year, only: :show, param: :year
       resources :periods, only: :show
     end
