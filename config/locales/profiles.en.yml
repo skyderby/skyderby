@@ -7,3 +7,11 @@ en:
         description: All data (tracks, competition results, etc.) will be transferred to the current profile
       create:
         success: Profiles successfully merged
+    deletions:
+      form_modal:
+        title: Delete profile
+        confirmation_html: This action cannot be undone. This will permanently delete %{name}.
+        user_email: Account email
+        delete_user: Also delete the user account
+      create:
+        failed: Could not delete the profile because it still has related data

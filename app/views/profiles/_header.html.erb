@@ -57,7 +57,7 @@
     <% end %>
 
     <% if @profile.deletable? %>
-      <%= link_to t('general.delete'), @profile, data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this profile?' }, class: 'page-tab' %>
+      <%= link_to t('general.delete'), new_profile_deletion_path(@profile), data: { turbo_stream: true }, class: 'page-tab' %>
     <% end %>
 
     <% if profile.editable? %>
