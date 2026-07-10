@@ -261,10 +261,10 @@ export default class extends Controller {
         this.toValue
       )
       if (compareWindowPoints.length > 0) {
-        if (this.hasWeatherData) {
+        if (this.hasCompareWeatherData) {
           compareWindowPoints = calculateWindCancellation(
             compareWindowPoints,
-            this.weatherData
+            this.compareWeatherData
           )
         }
         this.compareRangeSummary = new RangeSummary(compareWindowPoints, {
@@ -694,10 +694,10 @@ export default class extends Controller {
 
     let compareWindowPoints = cropPoints(this.comparePoints, this.fromValue, this.toValue)
     if (compareWindowPoints.length > 0) {
-      if (this.hasWeatherData) {
+      if (this.hasCompareWeatherData) {
         compareWindowPoints = calculateWindCancellation(
           compareWindowPoints,
-          this.weatherData
+          this.compareWeatherData
         )
       }
       this.compareRangeSummary = new RangeSummary(compareWindowPoints, {
