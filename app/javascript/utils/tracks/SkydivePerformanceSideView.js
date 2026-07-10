@@ -23,13 +23,29 @@ export default class SkydivePerformanceSideView {
     this.currentIndex = 0
 
     this.handleInteraction = this.handleInteraction.bind(this)
+    this.handleMouseLeave = this.handleMouseLeave.bind(this)
     this.svg.addEventListener('mousemove', this.handleInteraction)
     this.svg.addEventListener('click', this.handleInteraction)
+    this.svg.addEventListener('mouseleave', this.handleMouseLeave)
+
+    this.createTooltip()
   }
 
   destroy() {
     this.svg.removeEventListener('mousemove', this.handleInteraction)
     this.svg.removeEventListener('click', this.handleInteraction)
+    this.svg.removeEventListener('mouseleave', this.handleMouseLeave)
+    this.tooltip?.remove()
+  }
+
+  createTooltip() {
+    this.container = this.svg.parentElement
+    if (!this.container) return
+
+    this.tooltip = document.createElement('div')
+    this.tooltip.className = 'skydive-side-tooltip'
+    this.tooltip.style.display = 'none'
+    this.container.appendChild(this.tooltip)
   }
 
   render({
@@ -55,6 +71,7 @@ export default class SkydivePerformanceSideView {
 
     if (this.processedPoints.length === 0) return
 
+    this.windowEntryTime = this.calculateWindowEntryTime()
     this.calculateRanges()
     this.renderGrid()
     this.renderTrajectoryContent()
@@ -73,6 +90,23 @@ export default class SkydivePerformanceSideView {
     }
 
     this.updateWindIndicators(index)
+  }
+
+  calculateWindowEntryTime() {
+    const points = this.processedPoints
+
+    for (let i = 0; i < points.length - 1; i++) {
+      const curr = points[i]
+      const next = points[i + 1]
+
+      if (curr.altitude >= this.fromValue && next.altitude < this.fromValue) {
+        const fraction =
+          (curr.altitude - this.fromValue) / (curr.altitude - next.altitude)
+        return curr.playerTime + (next.playerTime - curr.playerTime) * fraction
+      }
+    }
+
+    return points[0]?.playerTime || 0
   }
 
   calculateRanges() {
@@ -557,7 +591,12 @@ export default class SkydivePerformanceSideView {
     const closestIndex = this.findClosestPointByDistance(distance)
     if (closestIndex >= 0) {
       this.onSeek(closestIndex)
+      this.showTooltip(closestIndex, e)
     }
+  }
+
+  handleMouseLeave() {
+    if (this.tooltip) this.tooltip.style.display = 'none'
   }
 
   findClosestPointByDistance(targetDistance) {
@@ -605,42 +644,9 @@ export default class SkydivePerformanceSideView {
       this.compareCrosshairMarker.setAttribute('class', 'crosshair-marker--compare')
       this.compareCrosshairMarker.setAttribute('r', '5')
       this.crosshairGroup.appendChild(this.compareCrosshairMarker)
-
-      this.createComparisonTooltip()
     }
 
     contentGroup.appendChild(this.crosshairGroup)
-  }
-
-  createComparisonTooltip() {
-    if (this.comparisonTooltip) {
-      this.comparisonTooltip.remove()
-    }
-
-    this.comparisonTooltip = document.createElementNS(SVG_NS, 'g')
-    this.comparisonTooltip.setAttribute('class', 'comparison-tooltip')
-    this.comparisonTooltip.style.display = 'none'
-
-    this.tooltipBg = document.createElementNS(SVG_NS, 'rect')
-    this.tooltipBg.setAttribute('rx', '12')
-    this.tooltipBg.setAttribute('fill', '#fff')
-    this.tooltipBg.setAttribute('stroke', 'var(--gray-70)')
-    this.tooltipBg.setAttribute('stroke-width', '2')
-    this.comparisonTooltip.appendChild(this.tooltipBg)
-
-    this.tooltipText1 = document.createElementNS(SVG_NS, 'text')
-    this.tooltipText1.setAttribute('fill', 'var(--gray-90)')
-    this.tooltipText1.setAttribute('font-size', '36')
-    this.tooltipText1.setAttribute('font-weight', '500')
-    this.comparisonTooltip.appendChild(this.tooltipText1)
-
-    this.tooltipText2 = document.createElementNS(SVG_NS, 'text')
-    this.tooltipText2.setAttribute('fill', 'var(--gray-90)')
-    this.tooltipText2.setAttribute('font-size', '36')
-    this.tooltipText2.setAttribute('font-weight', '500')
-    this.comparisonTooltip.appendChild(this.tooltipText2)
-
-    this.svg.appendChild(this.comparisonTooltip)
   }
 
   showCrosshair(index) {
@@ -686,16 +692,15 @@ export default class SkydivePerformanceSideView {
 
     this.crosshairGroup.style.display = ''
 
-    this.updateComparisonCrosshair(point, playerTime, x, y)
+    this.updateComparisonCrosshair(playerTime)
   }
 
-  updateComparisonCrosshair(primaryPoint, playerTime, primaryX, primaryY) {
+  updateComparisonCrosshair(playerTime) {
     if (!this.compareCrosshairMarker || !this.compareProcessedPoints?.length) return
 
     const comparePoint = interpolateByPlayerTime(this.compareProcessedPoints, playerTime)
     if (!comparePoint) {
       this.compareCrosshairMarker.style.display = 'none'
-      this.comparisonTooltip.style.display = 'none'
       return
     }
 
@@ -704,9 +709,69 @@ export default class SkydivePerformanceSideView {
     this.compareCrosshairMarker.setAttribute('cx', compareX)
     this.compareCrosshairMarker.setAttribute('cy', compareY)
     this.compareCrosshairMarker.style.display = ''
+  }
 
-    const altDiff = primaryPoint.altitude - comparePoint.altitude
-    const distDiff = primaryPoint.distance - comparePoint.distance
+  showTooltip(index, event) {
+    if (!this.tooltip) return
+
+    const point = this.processedPoints[index]
+    if (!point) return
+
+    const comparePoint = this.compareProcessedPoints?.length
+      ? interpolateByPlayerTime(this.compareProcessedPoints, point.playerTime)
+      : null
+
+    this.tooltip.innerHTML = this.buildTooltipHtml(point, comparePoint)
+    this.positionTooltip(event)
+    this.tooltip.style.display = 'block'
+  }
+
+  buildTooltipHtml(point, comparePoint) {
+    const num = (value, digits = 0) =>
+      value == null || Number.isNaN(value) ? '—' : value.toFixed(digits)
+    const time = Math.round(point.playerTime - (this.windowEntryTime || 0))
+
+    if (!comparePoint) {
+      return `
+        <div><b>Time:</b> ${time} s</div>
+        <div><b>Distance:</b> ${Math.round(point.distance)} m</div>
+        <div><b>Altitude:</b> ${Math.round(point.altitude)} m</div>
+        <div><b>H speed:</b> ${Math.round(point.hSpeed)} km/h</div>
+        <div><b>V speed:</b> ${Math.round(point.vSpeed)} km/h</div>
+        <div><b>Glide:</b> ${num(point.glideRatio, 2)}</div>
+      `
+    }
+
+    const rows = [
+      ['Distance, m', Math.round(point.distance), Math.round(comparePoint.distance)],
+      ['Altitude, m', Math.round(point.altitude), Math.round(comparePoint.altitude)],
+      ['H speed, km/h', Math.round(point.hSpeed), Math.round(comparePoint.hSpeed)],
+      ['V speed, km/h', Math.round(point.vSpeed), Math.round(comparePoint.vSpeed)],
+      ['Glide', num(point.glideRatio, 2), num(comparePoint.glideRatio, 2)]
+    ]
+
+    const body = rows
+      .map(
+        ([label, a, b]) =>
+          `<tr><th>${label}</th><td>${a}</td><td class="is-compare">${b}</td></tr>`
+      )
+      .join('')
+
+    return `
+      <div class="skydive-side-tooltip-time"><b>Time:</b> ${time} s</div>
+      <table class="skydive-side-tooltip-table">
+        <tr><th></th><td>Pilot</td><td class="is-compare">Compare</td></tr>
+        ${body}
+      </table>
+      <div class="skydive-side-tooltip-summary">
+        ${this.relativeSummaryHtml(point, comparePoint)}
+      </div>
+    `
+  }
+
+  relativeSummaryHtml(point, comparePoint) {
+    const altDiff = point.altitude - comparePoint.altitude
+    const distDiff = point.distance - comparePoint.distance
 
     const altText =
       Math.abs(altDiff) < 1
@@ -715,35 +780,31 @@ export default class SkydivePerformanceSideView {
     const distText =
       Math.abs(distDiff) < 1
         ? 'same distance'
-        : `${Math.abs(Math.round(distDiff))}m ${distDiff > 0 ? 'ahead' : 'behind'}`
+        : `${Math.abs(Math.round(distDiff))}m ${distDiff > 0 ? 'in front' : 'behind'}`
 
-    this.tooltipText1.textContent = altText
-    this.tooltipText2.textContent = distText
+    return `${altText} · ${distText}`
+  }
 
-    const padding = 24
-    const lineHeight = 48
-    const text1Width = this.tooltipText1.getBBox().width || 240
-    const text2Width = this.tooltipText2.getBBox().width || 240
-    const tooltipWidth = Math.max(text1Width, text2Width) + padding * 2
-    const tooltipHeight = lineHeight * 2 + padding * 2
+  positionTooltip(event) {
+    if (!event || !this.container) return
 
-    const tooltipX = Math.min(
-      primaryX + 10,
-      this.chartDimensions.width - tooltipWidth - 10
-    )
-    const tooltipY = Math.max(primaryY - tooltipHeight - 10, 10)
+    const containerRect = this.container.getBoundingClientRect()
+    const cursorX = event.clientX - containerRect.left
+    const cursorY = event.clientY - containerRect.top
 
-    this.tooltipBg.setAttribute('x', tooltipX)
-    this.tooltipBg.setAttribute('y', tooltipY)
-    this.tooltipBg.setAttribute('width', tooltipWidth)
-    this.tooltipBg.setAttribute('height', tooltipHeight)
+    const tipRect = this.tooltip.getBoundingClientRect()
+    const tipWidth = tipRect.width || 170
+    const tipHeight = tipRect.height || 130
+    const offset = 14
 
-    this.tooltipText1.setAttribute('x', tooltipX + padding)
-    this.tooltipText1.setAttribute('y', tooltipY + padding + 36)
+    let left = cursorX + offset
+    if (left + tipWidth > containerRect.width) left = cursorX - tipWidth - offset
+    if (left < 0) left = 0
 
-    this.tooltipText2.setAttribute('x', tooltipX + padding)
-    this.tooltipText2.setAttribute('y', tooltipY + padding + 36 + lineHeight)
+    let top = cursorY - tipHeight - offset
+    if (top < 0) top = cursorY + offset
 
-    this.comparisonTooltip.style.display = ''
+    this.tooltip.style.left = `${left}px`
+    this.tooltip.style.top = `${top}px`
   }
 }

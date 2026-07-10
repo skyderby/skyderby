@@ -410,6 +410,55 @@
   stroke-width: 2;
 }
 
+.skydive-side-tooltip {
+  position: absolute;
+  display: none;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.skydive-side-tooltip-time {
+  margin-bottom: 4px;
+}
+
+.skydive-side-tooltip-table {
+  border-collapse: collapse;
+  border: none;
+}
+
+.skydive-side-tooltip-table th,
+.skydive-side-tooltip-table td {
+  border: none;
+  padding: 1px 6px 1px 0;
+  text-align: right;
+  font-weight: 500;
+}
+
+.skydive-side-tooltip-table th {
+  text-align: left;
+  font-weight: 400;
+  color: #666;
+}
+
+.skydive-side-tooltip-table td.is-compare {
+  color: #9c27b0;
+}
+
+.skydive-side-tooltip-summary {
+  margin-top: 6px;
+  padding-top: 5px;
+  border-top: 1px solid var(--gray-30);
+  font-weight: 600;
+  text-align: center;
+}
+
 .skydive-performance-indicators-row {
   display: flex;
   flex-direction: column;
