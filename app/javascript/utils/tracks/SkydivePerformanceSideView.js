@@ -71,7 +71,8 @@ export default class SkydivePerformanceSideView {
 
     if (this.processedPoints.length === 0) return
 
-    this.windowEntryTime = this.calculateWindowEntryTime()
+    this.windowEntryTime = this.calculateWindowEntryValue('playerTime')
+    this.windowEntryDistance = this.calculateWindowEntryValue('distance')
     this.calculateRanges()
     this.renderGrid()
     this.renderTrajectoryContent()
@@ -92,7 +93,7 @@ export default class SkydivePerformanceSideView {
     this.updateWindIndicators(index)
   }
 
-  calculateWindowEntryTime() {
+  calculateWindowEntryValue(key) {
     const points = this.processedPoints
 
     for (let i = 0; i < points.length - 1; i++) {
@@ -102,11 +103,11 @@ export default class SkydivePerformanceSideView {
       if (curr.altitude >= this.fromValue && next.altitude < this.fromValue) {
         const fraction =
           (curr.altitude - this.fromValue) / (curr.altitude - next.altitude)
-        return curr.playerTime + (next.playerTime - curr.playerTime) * fraction
+        return curr[key] + (next[key] - curr[key]) * fraction
       }
     }
 
-    return points[0]?.playerTime || 0
+    return points[0]?.[key] || 0
   }
 
   calculateRanges() {
@@ -729,12 +730,15 @@ export default class SkydivePerformanceSideView {
   buildTooltipHtml(point, comparePoint) {
     const num = (value, digits = 0) =>
       value == null || Number.isNaN(value) ? '—' : value.toFixed(digits)
-    const time = Math.round(point.playerTime - (this.windowEntryTime || 0))
+    const entryTime = this.windowEntryTime || 0
+    const entryDistance = this.windowEntryDistance || 0
+    const time = Math.round(point.playerTime - entryTime)
+    const distance = value => Math.round(value - entryDistance)
 
     if (!comparePoint) {
       return `
         <div><b>Time:</b> ${time} s</div>
-        <div><b>Distance:</b> ${Math.round(point.distance)} m</div>
+        <div><b>Distance:</b> ${distance(point.distance)} m</div>
         <div><b>Altitude:</b> ${Math.round(point.altitude)} m</div>
         <div><b>H speed:</b> ${Math.round(point.hSpeed)} km/h</div>
         <div><b>V speed:</b> ${Math.round(point.vSpeed)} km/h</div>
@@ -743,7 +747,7 @@ export default class SkydivePerformanceSideView {
     }
 
     const rows = [
-      ['Distance, m', Math.round(point.distance), Math.round(comparePoint.distance)],
+      ['Distance, m', distance(point.distance), distance(comparePoint.distance)],
       ['Altitude, m', Math.round(point.altitude), Math.round(comparePoint.altitude)],
       ['H speed, km/h', Math.round(point.hSpeed), Math.round(comparePoint.hSpeed)],
       ['V speed, km/h', Math.round(point.vSpeed), Math.round(comparePoint.vSpeed)],
