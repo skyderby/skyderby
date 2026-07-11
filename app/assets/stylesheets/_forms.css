@@ -58,6 +58,15 @@
   margin-bottom: 0;
 }
 
+.competitor-image-preview {
+  width: 72px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  margin-bottom: 8px;
+}
+
 .form-row {
   display: flex;
   flex-wrap: wrap;

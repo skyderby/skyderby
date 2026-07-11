@@ -43,7 +43,7 @@ class PerformanceCompetitions::CompetitorsController < ApplicationController
 
   def competitor_params
     permitted = params.require(:competitor).permit(
-      :assigned_number, :section_id, :suit_id, :profile_id, :alias_id,
+      :assigned_number, :section_id, :suit_id, :profile_id, :alias_id, :photo,
       profile_attributes: %i[name country_id]
     )
 

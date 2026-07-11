@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_08_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_11_100633) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -62,6 +62,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_000000) do
     t.timestamptz "created_at"
     t.integer "event_id"
     t.string "name", limit: 510
+    t.jsonb "photo_data"
     t.integer "profile_id"
     t.integer "rank"
     t.integer "section_id"

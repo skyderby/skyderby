@@ -36,6 +36,27 @@
       <%= render 'hot_select/local_select', form: f, name: :section_id, options:, class: 'col-8', hide_clear_button: true %>
     </div>
 
+    <div class="form-divider"></div>
+
+    <h3 class="form-section-title">
+      <%= t('competitors.form.show_images') %>
+    </h3>
+
+    <div class="grid">
+      <%= f.label :photo, PerformanceCompetition::Competitor.human_attribute_name(:photo), class: 'form-label col-4' %>
+      <div class="col-8">
+        <% if @competitor.photo %>
+          <div class="form-static"><%= image_tag @competitor.photo_url(:medium), class: 'competitor-image-preview' %></div>
+        <% end %>
+        <div data-controller="filefield">
+          <%= f.hidden_field :photo, value: @competitor.cached_photo_data %>
+          <%= f.file_field :photo, class: 'form-input',
+                           data: { filefield_target: 'file_field', action: 'change->filefield#change' } %>
+          <div class="file-name" data-filefield-target="text_field"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="form-actions">
       <% if @competitor.new_record? %>
         <%= render 'components/switch',

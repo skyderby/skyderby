@@ -3,7 +3,9 @@
 <div class="display-slide display-participant" data-slideshow-target="slide" data-slideshow-duration="11">
   <%= render 'statusbar', event: event %>
 
-  <div class="display-participant-photo is-empty"></div>
+  <div class="display-participant-photo <%= 'is-empty' unless row.photo_url %>">
+    <% if row.photo_url %><%= image_tag row.photo_url, alt: row.name %><% end %>
+  </div>
   <div class="display-participant-edge"></div>
 
   <div class="display-pcontent">

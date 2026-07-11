@@ -95,6 +95,10 @@ class PerformanceCompetition::Display < SimpleDelegator
 
     def suit = [competitor.suit&.manufacturer_code, competitor.suit_name].compact.join(' ')
 
+    def photo_url
+      competitor.photo_url(:medium) if competitor.photo
+    end
+
     def discipline_scores
       @discipline_scores ||= @disciplines.map do |discipline|
         DisciplineScore.new(
@@ -197,7 +201,7 @@ class PerformanceCompetition::Display < SimpleDelegator
         suit: [competitor.suit&.manufacturer_code, competitor.suit_name].compact.join(' '),
         country_code: competitor.country_code,
         country_name: competitor.country_name,
-        photo_url: nil,
+        photo_url: (competitor.photo_url(:medium) if competitor.photo),
         color: color,
         result: result.formatted_result,
         result_value: result.result.to_f,
