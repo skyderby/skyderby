@@ -653,16 +653,48 @@
   border-bottom: 1px solid var(--gray-30);
 }
 
-.skydive-performance-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 1rem;
+.skydive-performance-page {
+  margin: 0 auto;
+  width: 100%;
 }
 
-.comparison-actions {
+@media (min-width: 1200px) {
+  .skydive-performance-page {
+    width: 1200px;
+  }
+}
+
+.skydive-performance-page .track-show-content {
+  width: 100%;
+}
+
+.skydive-performance-page .skydive-performance-actions-bar {
+  margin-bottom: 1rem;
+}
+
+.skydive-performance-settings {
   display: flex;
-  justify-content: flex-end;
+}
+
+.skydive-performance-actions-bar__toggle {
+  cursor: default;
+}
+
+.skydive-performance-actions-bar__toggle:hover {
+  background-color: var(--white);
+}
+
+.skydive-performance-actions-bar__toggle .switch-container {
+  margin: 0;
+}
+
+.skydive-performance-actions-bar__remove {
+  color: var(--red-70);
+  text-decoration: none;
+}
+
+.skydive-performance-actions-bar__remove:hover {
+  color: var(--red-80);
 }
 
 .comparison-dialog {

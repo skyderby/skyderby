@@ -112,18 +112,25 @@ export default class SkydivePerformanceSideView {
 
   calculateRanges() {
     let maxDist = 0
+    let minDist = 0
+    let maxAlt = this.maxAltitude
+    let minAlt = this.minAltitude
 
-    this.processedPoints.forEach(p => {
+    const account = p => {
       maxDist = Math.max(maxDist, p.distance)
-    })
-
-    if (this.compareProcessedPoints) {
-      this.compareProcessedPoints.forEach(p => {
-        maxDist = Math.max(maxDist, p.distance)
-      })
+      minDist = Math.min(minDist, p.distance)
+      maxAlt = Math.max(maxAlt, p.altitude)
+      minAlt = Math.min(minAlt, p.altitude)
     }
 
-    this.distanceRange = { min: -50, max: maxDist + 100 }
+    this.processedPoints.forEach(account)
+
+    if (this.compareProcessedPoints) {
+      this.compareProcessedPoints.forEach(account)
+    }
+
+    this.distanceRange = { min: minDist - 50, max: maxDist + 100 }
+    this.altitudeBounds = { max: maxAlt, min: minAlt }
   }
 
   renderGrid() {
@@ -132,10 +139,10 @@ export default class SkydivePerformanceSideView {
 
     const { left, right, top, bottom } = CHART_PADDING
 
-    const altitudeBuffer = (this.maxAltitude - this.minAltitude) * 0.05
+    const altitudeBuffer = (this.altitudeBounds.max - this.altitudeBounds.min) * 0.05
     this.altitudeRange = {
-      top: this.maxAltitude + altitudeBuffer,
-      bottom: this.minAltitude - altitudeBuffer
+      top: this.altitudeBounds.max + altitudeBuffer,
+      bottom: this.altitudeBounds.min - altitudeBuffer
     }
 
     const totalAltitudeRange = this.altitudeRange.top - this.altitudeRange.bottom
@@ -189,10 +196,10 @@ export default class SkydivePerformanceSideView {
 
     const altitudeStep = 250
     const labelGap = 30
-    const firstLine = Math.ceil(this.minAltitude / altitudeStep) * altitudeStep
+    const firstLine = Math.ceil(this.altitudeBounds.min / altitudeStep) * altitudeStep
     for (
       let altitude = firstLine;
-      altitude <= this.maxAltitude;
+      altitude <= this.altitudeBounds.max;
       altitude += altitudeStep
     ) {
       const y = altitudeToY(altitude)

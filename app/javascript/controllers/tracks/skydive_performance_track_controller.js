@@ -198,7 +198,8 @@ export default class extends Controller {
 
   initializeStraightLine() {
     const url = new URL(window.location)
-    this.straightLine = url.searchParams.get('straight-line') === 'true'
+    const param = url.searchParams.get('straight-line')
+    this.straightLine = param !== null ? param === 'true' : this.hasComparePointsUrlValue
     if (this.hasStraightLineToggleTarget) {
       this.straightLineToggleTarget.checked = this.straightLine
     }
@@ -347,8 +348,12 @@ export default class extends Controller {
     const fromParam = url.searchParams.get('f')
     const toParam = url.searchParams.get('t')
 
-    this.fromValue = fromParam ? Number(fromParam) : this.maxAltitude
-    this.toValue = toParam ? Number(toParam) : this.minAltitude
+    const compareDefaults = this.hasComparePointsUrlValue
+    const defaultFrom = compareDefaults ? 2500 : this.maxAltitude
+    const defaultTo = compareDefaults ? 1500 : this.minAltitude
+
+    this.fromValue = fromParam ? Number(fromParam) : defaultFrom
+    this.toValue = toParam ? Number(toParam) : defaultTo
 
     if (this.fromValue > this.maxAltitude) this.fromValue = this.maxAltitude
     if (this.toValue < this.minAltitude || this.toValue >= this.fromValue) {
