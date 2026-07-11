@@ -15,7 +15,7 @@ class PerformanceCompetition::OpenScoreboard
 
   def standings
     previous_standings = PerformanceCompetition::Scoreboard::Standings.new(
-      event.competitors,
+      competitors,
       completed_rounds[0...-1],
       results,
       apply_penalty_to_score:,
@@ -23,13 +23,17 @@ class PerformanceCompetition::OpenScoreboard
     )
 
     PerformanceCompetition::Scoreboard::Standings.new(
-      event.competitors,
+      competitors,
       completed_rounds,
       results,
       previous_standings,
       apply_penalty_to_score:,
       wind_cancellation:
     )
+  end
+
+  def competitors
+    @competitors ||= event.competitors.includes(profile: :country, suit: :manufacturer)
   end
 
   def rounds = event.rounds.ordered

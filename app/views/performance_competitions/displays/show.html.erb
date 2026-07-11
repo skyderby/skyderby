@@ -1,0 +1,29 @@
+<% provide :title, @event.name %>
+
+<div class="display-wrap display-performance"
+     data-controller="slideshow refresh"
+     data-refresh-interval-seconds-value="300">
+  <div class="display-stage">
+    <div class="display-backdrop"></div>
+
+    <% if @display.overall %>
+      <%= render 'leaderboard', event: @event, category: @display.overall, active: true %>
+    <% end %>
+
+    <% @display.categories.each_with_index do |category, index| %>
+      <%= render 'leaderboard', event: @event, category: category, active: @display.overall.nil? && index.zero? %>
+      <% category.leaderboard.each do |row| %>
+        <%= render 'participant', event: @event, row: row, field_size: category.size %>
+      <% end %>
+      <% category.replays.each do |replay| %>
+        <% replay.fall_pairs.each do |pair| %>
+          <%= render 'replay', event: @event, category: category, replay: replay, fallers: pair %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if @display.teams? && @display.team_ranking.any? %>
+      <%= render 'team_standings', event: @event, teams: @display.team_ranking %>
+    <% end %>
+  </div>
+</div>

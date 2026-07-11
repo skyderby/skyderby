@@ -1215,3 +1215,347 @@ body {
 .display-replay-card.display-fall-card {
   justify-content: flex-start;
 }
+
+/* ---- Performance competition leaderboard columns ---- */
+.display-performance .display-lb-head,
+.display-performance .display-lb-row {
+  grid-template-columns:
+    calc(90 * var(--px))
+    minmax(calc(240 * var(--px)), 1fr)
+    repeat(var(--disciplines), calc(170 * var(--px)))
+    calc(150 * var(--px));
+  gap: calc(16 * var(--px));
+}
+
+.display-metric-sub {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: calc(15 * var(--px));
+  font-weight: 500;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+  margin-top: calc(2 * var(--px));
+}
+
+.display-metric-value.display-metric-total {
+  color: var(--accent);
+}
+
+/* ---- Performance competition participant slide ---- */
+.display-performance .display-disciplines {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: calc(18 * var(--px));
+}
+
+.display-discipline-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(14 * var(--px));
+  padding: calc(24 * var(--px)) calc(28 * var(--px));
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+  border: 1px solid var(--line);
+  border-top: calc(4 * var(--px)) solid var(--accent);
+}
+
+.display-discipline-value .num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: calc(76 * var(--px));
+  line-height: 0.82;
+  color: var(--text);
+}
+
+.display-discipline-sub {
+  display: flex;
+  align-items: baseline;
+  gap: calc(8 * var(--px));
+}
+
+.display-discipline-sub .ts-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: calc(12 * var(--px));
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.display-discipline-sub .ts-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: calc(26 * var(--px));
+  color: var(--accent);
+}
+
+/* ---- Performance competition replay stats ---- */
+.display-replay-stat.is-primary .num {
+  font-size: calc(52 * var(--px));
+  font-variant-numeric: tabular-nums;
+}
+
+.display-performance .display-replay-stat-value .num {
+  font-size: calc(40 * var(--px));
+  font-variant-numeric: tabular-nums;
+}
+
+.display-replay-speedglide {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(20 * var(--px));
+}
+
+.display-replay-card.is-b .display-replay-speedglide {
+  flex-direction: row-reverse;
+}
+
+.display-replay-speedblock {
+  display: flex;
+  flex-direction: column;
+  gap: calc(6 * var(--px));
+}
+
+.display-replay-glideblock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(4 * var(--px));
+}
+
+.display-replay-card.is-b .display-replay-glideblock {
+  align-items: flex-start;
+}
+
+.display-replay-glide-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: calc(64 * var(--px));
+  line-height: 0.85;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.display-replay-speed-row {
+  display: flex;
+  align-items: baseline;
+  gap: calc(8 * var(--px));
+}
+
+.display-replay-card.is-b .display-replay-speed-row {
+  justify-content: flex-end;
+}
+
+.display-replay-speed-row .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: calc(30 * var(--px));
+  line-height: 1.05;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.display-replay-speed-row .unit {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: calc(14 * var(--px));
+  color: var(--dim);
+}
+
+.display-replay-speed-icon {
+  width: calc(15 * var(--px));
+  height: calc(15 * var(--px));
+  color: var(--side);
+  fill: var(--side);
+  flex: none;
+  align-self: center;
+}
+
+/* ---- Performance competition countdown: top-right corner, no blur ---- */
+.display-performance .display-replay-countdown {
+  inset: auto;
+  top: calc(66 * var(--px));
+  right: calc(26 * var(--px));
+  background: none;
+  backdrop-filter: none;
+}
+
+.display-performance .display-replay-countdown .count {
+  font-size: calc(76 * var(--px));
+}
+
+.display-performance .display-replay-countdown.is-rate .count {
+  font-size: calc(46 * var(--px));
+  color: var(--text);
+  text-shadow: none;
+}
+
+/* ---- Performance competition: discipline place badge ---- */
+.display-discipline-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(10 * var(--px));
+}
+
+.display-discipline-place {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: calc(12 * var(--px));
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  padding: calc(3 * var(--px)) calc(9 * var(--px));
+  white-space: nowrap;
+}
+
+/* ---- Performance competition: per-round results table ---- */
+.display-rounds {
+  margin-top: calc(26 * var(--px));
+  max-width: calc(1120 * var(--px));
+}
+
+.display-rounds-head,
+.display-rounds-row {
+  display: grid;
+  grid-template-columns: calc(190 * var(--px)) repeat(var(--disciplines), 1fr);
+  gap: calc(16 * var(--px));
+  align-items: center;
+}
+
+.display-rounds-head {
+  padding: 0 calc(20 * var(--px)) calc(10 * var(--px));
+}
+
+.display-rounds-head span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: calc(12 * var(--px));
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.display-rounds-head .text-right {
+  text-align: right;
+}
+
+.display-rounds-row {
+  padding: calc(12 * var(--px)) calc(20 * var(--px));
+  margin-bottom: calc(8 * var(--px));
+  background: color-mix(in srgb, var(--panel) 55%, transparent);
+  border-left: calc(4 * var(--px)) solid var(--line);
+}
+
+.display-rounds-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: calc(26 * var(--px));
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+.display-rounds-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(2 * var(--px));
+}
+
+.display-rounds-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: calc(34 * var(--px));
+  line-height: 1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.display-rounds-cell.is-best .display-rounds-value {
+  color: #4cd964;
+}
+
+.display-rounds-value.is-empty {
+  color: var(--line);
+}
+
+.display-rounds-penalty {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: calc(13 * var(--px));
+  font-weight: 700;
+  color: #ff5a52;
+  margin-left: calc(4 * var(--px));
+}
+
+.display-rounds-delta {
+  display: block;
+  min-height: calc(18 * var(--px));
+  font-family: 'JetBrains Mono', monospace;
+  font-size: calc(14 * var(--px));
+  line-height: calc(18 * var(--px));
+  font-weight: 500;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.display-rounds-delta .is-best {
+  color: #4cd964;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ---- Performance competition: team standings slide ---- */
+.display-team {
+  display: flex;
+  flex-direction: column;
+  gap: calc(6 * var(--px));
+}
+
+.display-team-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: calc(34 * var(--px));
+  line-height: 1;
+  color: var(--text);
+}
+
+.display-team-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(8 * var(--px)) calc(22 * var(--px));
+}
+
+.display-team-member {
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-size: calc(17 * var(--px));
+  color: var(--dim);
+}
+
+.display-team-member-points {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: calc(14 * var(--px));
+  color: var(--accent);
+  margin-left: calc(6 * var(--px));
+  font-variant-numeric: tabular-nums;
+}
+
+.display-team-row {
+  grid-template-columns: calc(90 * var(--px)) 1fr calc(150 * var(--px));
+  gap: calc(16 * var(--px));
+}
+
+/* ---- Performance competition: replay window start line ---- */
+.display-fall-start-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-size: 14px;
+  fill: #7dffa6;
+  text-transform: uppercase;
+}

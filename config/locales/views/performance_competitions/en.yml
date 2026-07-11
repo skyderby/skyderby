@@ -1,5 +1,38 @@
 en:
   performance_competitions:
+    actions_bar:
+      display: 'Display'
+    display:
+      live: 'Live'
+      athletes:
+        one: '%{count} Athlete'
+        other: '%{count} Athletes'
+      rank: 'Rank'
+      place: 'Place'
+      competitor: 'Competitor'
+      total: 'Total'
+      points: 'Points'
+      flying: 'Flying'
+      speed: 'Speed'
+      glide_ratio: 'Glide ratio'
+      kmh_short: 'KM/H'
+      altitude: 'Altitude'
+      meters_short: 'M'
+      round_short: 'Round'
+      round: 'Round %{number}'
+      best: 'best'
+      to_window_end: 'To window end'
+      window_start: 'Window start'
+      window_end: 'Window end'
+      open_event: 'Open Event'
+      teams: 'Teams'
+      teams_count:
+        one: '%{count} Team'
+        other: '%{count} Teams'
+      delta:
+        time: '%{value} s'
+        distance: '%{value} m'
+        speed: '%{value} km/h'
     competitors_copies:
       form_modal:
         title: Copy competitors from another event

@@ -179,6 +179,7 @@ Skyderby::Application.routes.draw do
         end
       end
       resource :open_scoreboard, only: :show
+      resource :display, controller: 'displays', only: :show
       resource :designated_lane_start, only: :update
       resources :task_scoreboards, only: %i[index show]
       resources :teams

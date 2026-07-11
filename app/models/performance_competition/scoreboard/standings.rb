@@ -18,17 +18,20 @@ class PerformanceCompetition::Scoreboard::Standings
   end
 
   def rows
-    calculate_points
+    @rows ||=
+      begin
+        calculate_points
 
-    standings =
-      competitors.map do |competitor|
-        competitor_results = results.select { |result| result.competitor == competitor }
-        Row.new(competitor, competitor_results, rounds)
+        standings =
+          competitors.map do |competitor|
+            competitor_results = results.select { |result| result.competitor == competitor }
+            Row.new(competitor, competitor_results, rounds)
+          end
+
+        standings
+          .sort_by { |row| -row.total_points }
+          .tap { |sorted| assign_ranks(sorted) }
       end
-
-    standings
-      .sort_by { |row| -row.total_points }
-      .tap { |rows| assign_ranks(rows) }
   end
 
   private

@@ -1,7 +1,7 @@
 class SpeedSkydivingCompetition::Display < SimpleDelegator
   PALETTE = %w[#38d2ff #ff7a1a #36e07a #a855f7 #ffd23f #ff5a8a #23c4b8 #6c8cff].freeze
   MAX_FALLERS = 8
-  EARTH_RADIUS = 6_371_000 # metres
+  SPEED_WINDOW = 3 # seconds — speed skydiving scores the best 3s average vertical speed
 
   def initialize(event)
     @event = event
@@ -86,6 +86,8 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
     :name, :bib, :country_code, :country_name, :photo_url, :color, :result, :points,
     keyword_init: true
   ) do
+    extend SideViewTrajectory
+
     def self.build(row, color)
       result = best_scored_result(row)
       return unless result&.track
@@ -128,34 +130,40 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
           t: point[:fl_time] - start_time,
           x: distance,
           alt: point[:altitude],
-          speed: point[:full_speed] || Math.sqrt(point[:h_speed]**2 + point[:v_speed]**2)
+          vs: point[:v_speed] || 0
         }
       end
 
-      with_acceleration(raw)
+      with_acceleration(with_sliding_speed(raw))
     end
 
-    def self.horizontal_step(from, to)
-      return 0.0 unless coordinates?(from) && coordinates?(to)
-
-      rad = Math::PI / 180
-      mean_lat = (from[:latitude] + to[:latitude]) / 2 * rad
-      dx = (to[:longitude] - from[:longitude]) * rad * Math.cos(mean_lat) * EARTH_RADIUS
-      dy = (to[:latitude] - from[:latitude]) * rad * EARTH_RADIUS
-      Math.sqrt(dx**2 + dy**2)
+    # Vertical speed averaged over a trailing 3-second window — the same measure
+    # speed skydiving scores (best 3s average altitude drop).
+    def self.with_sliding_speed(points)
+      points.each_with_index.map do |point, index|
+        start = sliding_start(points, index)
+        span = point[:t] - start[:t]
+        speed = span.positive? ? (start[:alt] - point[:alt]) / span * 3.6 : 0.0
+        point.merge(speed: speed)
+      end
     end
 
-    def self.coordinates?(point) = point[:latitude] && point[:longitude]
+    def self.sliding_start(points, index)
+      target = points[index][:t] - SPEED_WINDOW
+      start_index = index
+      start_index -= 1 while start_index.positive? && points[start_index - 1][:t] >= target
+      points[start_index]
+    end
 
     def self.with_acceleration(points)
       points.each_with_index.map do |point, index|
-        point.merge(
+        {
           t: point[:t].round(3),
           x: point[:x].round(1),
           alt: point[:alt].round(1),
           speed: point[:speed].round(1),
           accel: acceleration(points, index).round(2)
-        )
+        }
       end
     end
 
@@ -165,7 +173,7 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
       span = succ[:t] - prev[:t]
       return 0.0 if span.zero?
 
-      ((succ[:speed] - prev[:speed]) / 3.6) / span
+      ((succ[:vs] - prev[:vs]) / 3.6) / span
     end
 
     def window_start = points.first[:alt]

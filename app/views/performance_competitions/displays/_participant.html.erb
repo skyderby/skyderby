@@ -1,0 +1,95 @@
+<%# locals: (event:, row:, field_size:) %>
+
+<div class="display-slide display-participant" data-slideshow-target="slide" data-slideshow-duration="11">
+  <%= render 'statusbar', event: event %>
+
+  <div class="display-participant-photo is-empty"></div>
+  <div class="display-participant-edge"></div>
+
+  <div class="display-pcontent">
+    <div class="display-phead">
+      <div class="display-pname-block">
+        <h1 class="display-pname"><%= row.name %></h1>
+        <div class="display-pmeta">
+          <span class="display-pcountry">
+            <span class="display-pcountry-code"><%= row.country_code %></span>
+            <span class="display-pcountry-name"><%= row.country_name %></span>
+          </span>
+          <% if row.suit.present? %>
+            <span class="display-psuit">
+              <%= t('performance_competitions.display.flying') %>
+              <strong><%= row.suit %></strong>
+            </span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="display-phero">
+      <div class="display-disciplines">
+        <% row.discipline_scores.each do |score| %>
+          <div class="display-discipline-card">
+            <div class="display-discipline-head">
+              <span class="display-label"><%= t("disciplines.#{score.discipline}") %></span>
+              <% if score.rank %>
+                <span class="display-discipline-place"><%= t('performance_competitions.display.place') %> <%= score.rank %></span>
+              <% end %>
+            </div>
+            <div class="display-discipline-value">
+              <span class="num"><%= score.result || '—' %></span>
+            </div>
+            <div class="display-discipline-sub">
+              <% if score.points_text %>
+                <span class="ts-label"><%= t('performance_competitions.display.points') %></span>
+                <span class="ts-value"><%= score.points_text %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="display-rankcard">
+        <span class="display-label"><%= t('performance_competitions.display.rank') %></span>
+        <div class="display-rankcard-value">
+          <span class="num"><%= row.rank %></span>
+          <span class="total">/ <%= field_size %></span>
+        </div>
+        <span class="display-rankcard-gap">
+          <%= t('performance_competitions.display.total') %>: <%= number_with_precision(row.total_points, precision: 1) %>
+        </span>
+      </div>
+    </div>
+
+    <% round_rows = row.round_rows %>
+    <% if round_rows.any? %>
+      <div class="display-rounds">
+        <div class="display-rounds-head" style="--disciplines: <%= row.discipline_scores.size %>;">
+          <span></span>
+          <% row.discipline_scores.each do |score| %>
+            <span class="text-right"><%= t("disciplines.#{score.discipline}") %></span>
+          <% end %>
+        </div>
+        <% round_rows.each do |round_row| %>
+          <div class="display-rounds-row" style="--disciplines: <%= round_row.cells.size %>;">
+            <span class="display-rounds-num"><%= t('performance_competitions.display.round', number: round_row.number) %></span>
+            <% round_row.cells.each do |cell| %>
+              <div class="display-rounds-cell <%= 'is-best' if cell.best? %>">
+                <span class="display-rounds-value <%= 'is-empty' unless cell.formatted.present? %>">
+                  <%= cell.formatted.presence || '—' %>
+                  <% if cell.penalty %><sup class="display-rounds-penalty">-<%= cell.penalty %>%</sup><% end %>
+                </span>
+                <span class="display-rounds-delta">
+                  <% if cell.best? %>
+                    <span class="is-best"><%= t('performance_competitions.display.best') %></span>
+                  <% elsif cell.delta %>
+                    <%= t("performance_competitions.display.delta.#{cell.discipline}", value: number_with_precision(cell.delta, precision: (cell.discipline == 'distance' ? 0 : 1))) %>
+                  <% end %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

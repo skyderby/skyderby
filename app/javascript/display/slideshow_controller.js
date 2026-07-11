@@ -40,7 +40,14 @@ export default class extends Controller {
   onBeforeMorphAttribute(event) {
     const { attributeName } = event.detail
     const target = event.target
-    if (attributeName === 'class' && target?.classList?.contains('display-slide')) {
+    const isSlide = target?.classList?.contains('display-slide')
+    // Keep is-active on the running slide, and keep any slideshow-duration a
+    // replay controller computed client-side (the server markup carries the
+    // static default, which would cut a variable-length replay short).
+    if (
+      isSlide &&
+      (attributeName === 'class' || attributeName === 'data-slideshow-duration')
+    ) {
       event.preventDefault()
     }
   }

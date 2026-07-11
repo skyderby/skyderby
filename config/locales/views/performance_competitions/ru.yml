@@ -1,5 +1,42 @@
 ru:
   performance_competitions:
+    actions_bar:
+      display: 'Дисплей'
+    display:
+      live: 'В эфире'
+      athletes:
+        one: '%{count} спортсмен'
+        few: '%{count} спортсмена'
+        many: '%{count} спортсменов'
+        other: '%{count} спортсменов'
+      rank: 'Место'
+      place: 'Место'
+      competitor: 'Участник'
+      total: 'Итого'
+      points: 'Очки'
+      flying: 'Костюм'
+      speed: 'Скорость'
+      glide_ratio: 'Glide ratio'
+      kmh_short: 'КМ/Ч'
+      altitude: 'Высота'
+      meters_short: 'М'
+      round_short: 'Раунд'
+      round: 'Раунд %{number}'
+      best: 'лучший'
+      to_window_end: 'До конца окна'
+      window_start: 'Начало окна'
+      window_end: 'Конец окна'
+      open_event: 'Общий зачёт'
+      teams: 'Командный зачёт'
+      teams_count:
+        one: '%{count} команда'
+        few: '%{count} команды'
+        many: '%{count} команд'
+        other: '%{count} команд'
+      delta:
+        time: '%{value} с'
+        distance: '%{value} м'
+        speed: '%{value} км/ч'
     competitors_copies:
       form_modal:
         title: Копирование участников из другого соревнования

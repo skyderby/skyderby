@@ -1,0 +1,45 @@
+<%# locals: (event:, teams:) %>
+
+<div class="display-slide" data-slideshow-target="slide" data-slideshow-duration="30">
+  <%= render 'statusbar', event: event %>
+
+  <div class="display-content">
+    <div class="display-title-row">
+      <h1 class="display-title"><%= t('performance_competitions.display.teams') %></h1>
+      <div class="display-title-aside">
+        <span class="display-title-count"><%= t('performance_competitions.display.teams_count', count: teams.size) %></span>
+      </div>
+    </div>
+
+    <div class="display-lb-window">
+      <div class="display-lb-scroller" data-slideshow-scroll>
+        <% teams.each do |team| %>
+          <div class="display-lb-row display-team-row <%= class_names('is-leader' => team.rank == 1, 'is-podium' => team.rank <= 3) %>">
+            <div class="display-rank">
+              <span class="display-rank-number"><%= team.rank %></span>
+            </div>
+
+            <div class="display-team">
+              <span class="display-team-name"><%= team.name %></span>
+              <div class="display-team-members">
+                <% team.roster.each do |member| %>
+                  <span class="display-team-member">
+                    <%= member.name %>
+                    <span class="display-team-member-points"><%= number_with_precision(member.points, precision: 1) %></span>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="display-metric">
+              <span class="display-metric-value display-metric-total"><%= number_with_precision(team.total_points, precision: 1) %></span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="display-fade-top"></div>
+      <div class="display-fade-bottom"></div>
+    </div>
+  </div>
+</div>

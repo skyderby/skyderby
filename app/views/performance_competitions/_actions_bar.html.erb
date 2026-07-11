@@ -32,6 +32,11 @@
   <% end %>
 
   <div class="actions-bar-right">
+    <%= link_to performance_competition_display_path(event), target: '_blank', rel: 'noopener', class: 'actions-bar-button' do %>
+      <%= icon_tag 'circle-play' %>
+      <%= t('performance_competitions.actions_bar.display') %>
+    <% end %>
+
     <% if event.wind_cancellation %>
       <%= form_with url: url_for, method: :get, data: { controller: 'auto-submit' }, class: 'actions-bar-button' do |form| %>
         <%= form.switch :including_wind,
