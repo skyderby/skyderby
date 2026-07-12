@@ -2,6 +2,16 @@ en:
   performance_competitions:
     actions_bar:
       display: 'Display'
+    scoreboard:
+      best: 'Best'
+    track_upload:
+      button: 'Upload tracks'
+      title: 'Upload tracks'
+      competitor_number: 'Competitor number'
+      file: 'Track file'
+      not_found: 'No competitor with this number'
+      round_missing: 'Select a round'
+      competitor_not_found: 'No competitor with number %{number}'
     compare:
       start: Compare Tracks
       submit: Compare

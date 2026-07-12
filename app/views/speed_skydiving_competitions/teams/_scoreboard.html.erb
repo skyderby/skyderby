@@ -1,8 +1,10 @@
 <%# locals: (event:, editable:) %>
 <% standings = event.team_standings %>
+<% rows = standings.rows %>
+<% podium_enabled = rows.size >= 3 %>
 
 <div class="scoreboard-container" id="teams-scoreboard">
-  <table class="scoreboard-table">
+  <table class="scoreboard-table team-standings-table">
     <thead>
       <tr>
         <th>#</th>
@@ -13,11 +15,19 @@
       </tr>
     </thead>
     <tbody>
-      <% standings.rows.each do |row| %>
+      <% rows.each_with_index do |row, index| %>
         <% first_competitor, *other_competitors = row[:competitors] %>
         <% rowspan = [row[:competitors].size, 1].max %>
-        <tr>
-          <td rowspan="<%= rowspan %>"><%= row[:rank] %></td>
+        <% on_podium = podium_enabled && row[:total].to_f.positive? && row[:rank] && row[:rank] <= 3 %>
+        <% team_classes = class_names('team-row--striped' => index.even?, "podium-row--#{row[:rank]}" => on_podium) %>
+        <tr class="<%= team_classes %>">
+          <td rowspan="<%= rowspan %>" class="text-center">
+            <% if on_podium %>
+              <span class="rank-badge rank-badge--<%= row[:rank] %>"><%= row[:rank] %></span>
+            <% else %>
+              <%= row[:rank] %>
+            <% end %>
+          </td>
           <td rowspan="<%= rowspan %>" class="team">
             <%= row[:team].name %>
             <% if editable %>
@@ -43,7 +53,7 @@
           <td rowspan="<%= rowspan %>" class="text-right"><%= row[:total] %></td>
         </tr>
         <% other_competitors.each do |competitor| %>
-          <tr>
+          <tr class="<%= team_classes %>">
             <%= render 'speed_skydiving_competitions/teams/competitor_cells', competitor:, event:, editable:, score: row[:scores_by_competitor][competitor] %>
           </tr>
         <% end %>

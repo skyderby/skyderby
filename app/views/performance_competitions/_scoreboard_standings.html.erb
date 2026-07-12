@@ -1,8 +1,19 @@
 <%# locals: (event:, rounds_by_discipline:, standings:, editable:, comparable: false) %>
 
-<% standings.rows.each do |row| %>
-  <tr class="scoreboard-competitor">
-    <td class="text-center"><%= row.rank %></td>
+<% any_completed = rounds_by_discipline.values.flatten.any?(&:completed?) %>
+<% podium_enabled = standings.rows.size >= 3 %>
+
+<% standings.rows.each_with_index do |row, index| %>
+  <% on_podium = podium_enabled && any_completed && row.total_points.to_f.positive? && row.rank <= 3 %>
+  <tr class="<%= class_names('scoreboard-competitor', 'scoreboard-row--striped' => index.even?, "podium-row--#{row.rank}" => on_podium) %>">
+    <%= render 'scoreboards/pinned_competitor_cell', name: row.competitor.name %>
+    <td class="text-center">
+      <% if on_podium %>
+        <span class="rank-badge rank-badge--<%= row.rank %>"><%= row.rank %></span>
+      <% else %>
+        <%= row.rank %>
+      <% end %>
+    </td>
 
     <%= render 'performance_competitions/competitors/competitor_cells', event:, competitor: row.competitor, editable: %>
 
@@ -35,7 +46,7 @@
           <td></td>
         <% end %>
       <% end %>
-      <td class="text-right">
+      <td class="text-right discipline-points">
         <% points_in_discipline = row.points_in_disciplines[discipline] %>
         <%= format('%.1f', points_in_discipline.to_f) if rounds.any?(&:completed?) %>
       </td>

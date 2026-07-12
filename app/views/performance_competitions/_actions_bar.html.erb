@@ -29,6 +29,11 @@
         <% end %>
       </div>
     </div>
+
+    <%= button_to new_performance_competition_track_upload_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+      <%= icon_tag 'upload-solid' %>
+      <%= t('performance_competitions.track_upload.button') %>
+    <% end %>
   <% end %>
 
   <div class="actions-bar-right">

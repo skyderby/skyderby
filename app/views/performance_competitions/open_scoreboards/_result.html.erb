@@ -28,4 +28,7 @@
       <%= icon_tag 'circle-question', class: 'text-danger' %>
     <% end %>
   <% end %>
+  <% if result.result&.positive? %>
+    <%= render 'performance_competitions/open_scoreboards/result_gap', result: %>
+  <% end %>
 <% end %>

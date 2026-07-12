@@ -653,25 +653,6 @@ td.scoreboard-total-result {
   background-color: var(--pinned-tint);
 }
 
-.qualification-scoreboard-table tbody tr.podium-row--1 > td {
-  --pinned-tint: rgba(255, 206, 9, 0.07);
-  background-color: var(--pinned-tint);
-}
-
-.qualification-scoreboard-table tbody tr.podium-row--2 > td {
-  --pinned-tint: rgba(148, 148, 148, 0.07);
-  background-color: var(--pinned-tint);
-}
-
-.qualification-scoreboard-table tbody tr.podium-row--3 > td {
-  --pinned-tint: rgba(237, 156, 42, 0.07);
-  background-color: var(--pinned-tint);
-}
-
-.qualification-scoreboard-table tbody tr:hover > td {
-  background-color: rgba(40, 169, 251, 0.06);
-}
-
 .rank-badge {
   display: inline-flex;
   align-items: center;
@@ -768,21 +749,82 @@ td.scoreboard-total-result {
   background-color: var(--pinned-tint);
 }
 
-.speed-skydiving-scoreboard-table tbody tr.podium-row--1 > td {
+.performance-competition-scoreboard-table tbody tr.scoreboard-row--striped > td {
+  --pinned-tint: rgba(0, 0, 0, 0.015);
+  background-color: var(--pinned-tint);
+}
+
+.performance-competition-scoreboard-table .competitor-profile {
+  font-weight: 700;
+}
+
+.performance-competition-scoreboard-table a.result-show-cell,
+.performance-competition-scoreboard-table td.scoreboard-total-result {
+  font-weight: 700;
+}
+
+.performance-competition-scoreboard-table td.text-green,
+.performance-competition-scoreboard-table a.text-green {
+  color: var(--green-90);
+}
+
+.performance-competition-scoreboard-table tbody td.competitor,
+.performance-competition-scoreboard-table tbody td.result-cell,
+.performance-competition-scoreboard-table tbody td.result-cell + td,
+.performance-competition-scoreboard-table tbody td.discipline-points,
+.performance-competition-scoreboard-table tbody td.scoreboard-total-result {
+  vertical-align: top;
+}
+
+.performance-competition-scoreboard-table tbody td.result-cell {
+  height: auto;
+}
+
+.performance-competition-scoreboard-table a.result-show-cell {
+  background-color: transparent;
+  line-height: 1.2;
+  padding: 0.25rem 0.5rem 0.125rem;
+}
+
+.performance-competition-scoreboard-table tbody td.result-cell + td,
+.performance-competition-scoreboard-table tbody td.discipline-points,
+.performance-competition-scoreboard-table tbody td.scoreboard-total-result {
+  padding-top: 0.3rem;
+}
+
+.performance-competition-scoreboard-table .result-gap {
+  padding: 0 0.5rem 0.25rem;
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 400;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.performance-competition-scoreboard-table .result-gap--leader {
+  color: var(--green-90);
+  font-weight: 600;
+}
+
+.team-standings-table tbody tr.team-row--striped > td {
+  background-color: rgba(0, 0, 0, 0.015);
+}
+
+.scoreboard-table tbody tr.podium-row--1 > td {
   --pinned-tint: rgba(255, 206, 9, 0.07);
   background-color: var(--pinned-tint);
 }
 
-.speed-skydiving-scoreboard-table tbody tr.podium-row--2 > td {
+.scoreboard-table tbody tr.podium-row--2 > td {
   --pinned-tint: rgba(148, 148, 148, 0.07);
   background-color: var(--pinned-tint);
 }
 
-.speed-skydiving-scoreboard-table tbody tr.podium-row--3 > td {
+.scoreboard-table tbody tr.podium-row--3 > td {
   --pinned-tint: rgba(237, 156, 42, 0.07);
   background-color: var(--pinned-tint);
 }
 
-.speed-skydiving-scoreboard-table tbody tr.competitor-row:hover > td {
+.scoreboard-table tbody tr:hover > td {
   background-color: rgba(40, 169, 251, 0.06);
 }
