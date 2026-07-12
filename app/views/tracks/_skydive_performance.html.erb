@@ -52,11 +52,11 @@
         <% end %>
 
         <div class="skydive-performance-settings" data-controller="dropdown">
-          <button class="actions-bar-button"
+          <button class="actions-bar-button skydive-performance-settings__button"
                   popovertarget="skydive-performance-charts-menu"
                   type="button">
             <%= icon_tag 'gear-solid' %>
-            <%= t('general.settings') %>
+            <span class="skydive-performance-settings__label"><%= t('general.settings') %></span>
           </button>
 
           <div id="skydive-performance-charts-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">

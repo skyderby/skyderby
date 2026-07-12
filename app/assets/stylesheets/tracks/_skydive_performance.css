@@ -676,6 +676,12 @@
   display: flex;
 }
 
+@media (max-width: 767px) {
+  .skydive-performance-settings__label {
+    display: none;
+  }
+}
+
 .skydive-performance-actions-bar__toggle {
   cursor: default;
 }
