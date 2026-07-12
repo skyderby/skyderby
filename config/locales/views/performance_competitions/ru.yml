@@ -1,7 +1,7 @@
 ru:
   performance_competitions:
     actions_bar:
-      display: 'Дисплей'
+      display: 'Слайд-шоу'
     scoreboard:
       best: 'Лучший'
     track_upload:

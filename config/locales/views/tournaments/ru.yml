@@ -22,7 +22,7 @@ ru:
       actions_bar:
         more_actions: 'Действия'
         copy_competitors: 'Скопировать участников'
-        display: 'Шоу'
+        display: 'Слайд-шоу'
       display:
         live: 'Прямой эфир'
         standings: 'Общий зачёт'

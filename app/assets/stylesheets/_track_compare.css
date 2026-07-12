@@ -2,6 +2,11 @@
   align-items: center;
 }
 
+.actions-bar-right + .compare-bar,
+.compare-bar + .actions-bar-right {
+  margin-left: 0;
+}
+
 @media (max-width: 959px) {
   .compare-bar {
     display: none;

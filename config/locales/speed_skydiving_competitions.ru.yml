@@ -1,7 +1,19 @@
 ru:
   speed_skydiving_competitions:
     actions_bar:
-      display: 'Табло'
+      display: 'Слайд-шоу'
+    compare:
+      start: Сравнить треки
+      submit: Сравнить
+      slot_placeholder: Выберите результат
+      swap: Поменять местами
+      cancel: Отмена
+      remaining:
+        zero: Бесплатных сравнений не осталось
+        one: "Осталось %{count} бесплатное сравнение"
+        few: "Осталось %{count} бесплатных сравнения"
+        many: "Осталось %{count} бесплатных сравнений"
+        other: "Осталось %{count} бесплатных сравнений"
     track_upload:
       button: 'Загрузка треков'
       title: 'Загрузка треков'

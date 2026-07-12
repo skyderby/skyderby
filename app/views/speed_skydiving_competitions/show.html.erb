@@ -7,7 +7,12 @@
 <div class="show-page">
   <%= render 'header', editable: %>
 
-  <div class="show-page-content" data-controller="replay-scoreboard">
+  <div class="show-page-content"
+       data-controller="replay-scoreboard track-compare"
+       data-track-compare-source-value="speed_skydiving_competitions"
+       data-track-compare-competition-id-value="<%= @event.id %>"
+       data-track-compare-kind-value="speed_skydiving"
+       data-track-compare-slot-placeholder-value="<%= t('speed_skydiving_competitions.compare.slot_placeholder') %>">
     <% if params[:until_round].present? %>
       <%= render 'replay_controls', event: @event, until_round: params[:until_round].to_i %>
     <% else %>

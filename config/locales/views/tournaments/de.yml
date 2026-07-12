@@ -6,7 +6,7 @@ de:
       show_details: 'Hier klicken für Trackdetails'
     qualifications:
       actions_bar:
-        display: 'Show'
+        display: 'Slide Show'
       display:
         live: 'Live'
         standings: 'Gesamtwertung'

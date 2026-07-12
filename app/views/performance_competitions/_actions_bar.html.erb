@@ -41,7 +41,14 @@
       <%= icon_tag 'circle-play' %>
       <%= t('performance_competitions.actions_bar.display') %>
     <% end %>
+  </div>
 
+  <%= render 'application/track_compare',
+             scope: 'performance_competitions.compare',
+             form_url: performance_competition_comparison_path(event),
+             attention: !Current.subscription_active? %>
+
+  <div class="actions-bar-right">
     <% if event.wind_cancellation %>
       <%= form_with url: url_for, method: :get, data: { controller: 'auto-submit' }, class: 'actions-bar-button' do |form| %>
         <%= form.switch :including_wind,
@@ -93,9 +100,4 @@
       </div>
     <% end %>
   </div>
-
-  <%= render 'application/track_compare',
-             scope: 'performance_competitions.compare',
-             form_url: performance_competition_comparison_path(event),
-             attention: !Current.subscription_active? %>
 </div>
