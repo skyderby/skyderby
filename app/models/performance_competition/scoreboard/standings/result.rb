@@ -1,5 +1,5 @@
 class PerformanceCompetition::Scoreboard::Standings::Result < SimpleDelegator
-  attr_reader :record, :points, :best_result, :wind_cancellation
+  attr_reader :record, :points, :best_result, :wind_cancellation, :round_best_result
 
   def initialize(record, wind_cancellation: false)
     @record = record
@@ -36,9 +36,17 @@ class PerformanceCompetition::Scoreboard::Standings::Result < SimpleDelegator
   def calculate_points_from(best_result)
     return if result.zero? || best_result.zero?
 
+    @round_best_result = best_result
+
     @points = result.to_d / best_result * 100
 
     @points -= (@points / 100 * penalty_size.to_f) if record.event.apply_penalty_to_score
+  end
+
+  def gap_to_best
+    return unless round_best_result
+
+    (result - round_best_result).then { |gap| round.distance? ? gap.round : gap.round(1) }
   end
 
   def best_result! = @best_result = true

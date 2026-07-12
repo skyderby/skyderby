@@ -2,6 +2,7 @@
 
 <thead>
   <tr>
+    <%= render 'scoreboards/pinned_competitor_header', label: t('activerecord.models.event/competitor'), rowspan: 3 %>
     <th class="text-center" rowspan="3">#</th>
     <th rowspan="3" colspan="2"><%= t('activerecord.models.event/competitor') %></th>
     <% scoreboard.rounds_by_discipline.each do |discipline, rounds| %>

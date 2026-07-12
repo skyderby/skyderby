@@ -1,0 +1,9 @@
+<%# locals: (result:) %>
+<% gap = result.gap_to_best %>
+<% if result.best_result? %>
+  <div class="result-gap result-gap--leader"><%= t('performance_competitions.scoreboard.best') %></div>
+<% elsif gap %>
+  <div class="result-gap text-gray">
+    <%= result.round.distance? ? format('%d', gap) : format('%.1f', gap) %>
+  </div>
+<% end %>

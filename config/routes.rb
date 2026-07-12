@@ -191,6 +191,8 @@ Skyderby::Application.routes.draw do
 
       resource :deletion, only: [:new, :create]
 
+      resource :track_upload, only: %i[new create]
+
       resource :downloads, only: :show do
         scope module: :downloads do
           resource :scoreboard, only: :show

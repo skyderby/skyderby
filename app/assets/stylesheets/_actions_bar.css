@@ -58,6 +58,15 @@
   margin-left: auto;
 }
 
+.actions-bar-right + .actions-bar-right {
+  margin-left: 0;
+}
+
+.actions-bar-right:has(+ .actions-bar-right) > :last-child:not([popover]),
+.actions-bar-right:has(+ .actions-bar-right) > :last-child:not([popover]) .actions-bar-button {
+  border-radius: 0;
+}
+
 .actions-bar-right .actions-bar-button {
   border-left: var(--default-border);
   border-right: 0;

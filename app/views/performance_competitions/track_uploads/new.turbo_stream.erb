@@ -1,0 +1,5 @@
+<%= turbo_stream.update 'modal-root' do %>
+  <%= render partial: 'form',
+             layout: 'components/dialog',
+             locals: { title: t('performance_competitions.track_upload.title') } %>
+<% end %>

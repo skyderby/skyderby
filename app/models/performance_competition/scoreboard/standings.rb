@@ -51,10 +51,12 @@ class PerformanceCompetition::Scoreboard::Standings
       round_results = results.select { |result| result.round == round }
       next if round_results.empty?
 
-      best_result_record = round_results.max_by(&:result)
-      best_result_record.best_result!
+      best_result = round_results.max_by(&:result).result
 
-      round_results.each { |record| record.calculate_points_from(best_result_record.result) }
+      round_results.each do |record|
+        record.best_result! if record.result == best_result
+        record.calculate_points_from(best_result)
+      end
     end
   end
 

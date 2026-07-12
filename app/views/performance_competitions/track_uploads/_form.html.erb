@@ -1,0 +1,72 @@
+<% round_options = @event.rounds.order(:discipline, :number).map do |round|
+     completed = round.completed?
+     [round.presentation, round.id, {
+       disabled: completed,
+       data: {
+         icon: completed ? 'circle-check-regular' : 'circle-regular',
+         icon_class: completed ? 'hot-select-option-icon--completed' : 'hot-select-option-icon--pending'
+       }
+     }]
+   end %>
+<% competitors = @event.competitors.where.not(assigned_number: [nil, '']).ordered.includes(:category, :profile, :competitor_alias) %>
+<% competitors_data = competitors.map { |c| { number: c.assigned_number.to_s, name: c.name, category: c.category.name } } %>
+
+<%= form_with url: performance_competition_track_upload_path(@event),
+              method: :post, multipart: true, class: 'sd-form track-upload',
+              data: {
+                controller: 'track-upload',
+                action: 'form:submit-success->dialog#close',
+                'track-upload-competitors-value' => competitors_data.to_json,
+                'track-upload-not-found-text-value' => t('performance_competitions.track_upload.not_found')
+              } do |f| %>
+  <div class="track-upload-field">
+    <label class="form-label"><%= t('activerecord.models.event/round') %></label>
+    <%= render 'hot_select/local_select',
+               form: f,
+               name: :round_id,
+               options: round_options,
+               clearable: false %>
+  </div>
+
+  <div class="track-upload-competitor">
+    <div class="track-upload-field track-upload-competitor-field">
+      <label class="form-label" for="track-upload-number">
+        <%= t('performance_competitions.track_upload.competitor_number') %>
+      </label>
+      <input type="text" id="track-upload-number" name="assigned_number" class="form-input"
+             autocomplete="off"
+             data-track-upload-target="number"
+             data-action="input->track-upload#match">
+    </div>
+    <div class="track-upload-matches" data-track-upload-target="matches"></div>
+  </div>
+
+  <div class="track-upload-field">
+    <label class="form-label" for="track-upload-file">
+      <%= t('performance_competitions.track_upload.file') %>
+    </label>
+    <input type="file" id="track-upload-file" name="file" class="form-input"
+           data-track-upload-target="file">
+  </div>
+
+  <div id="track-upload-feedback" class="track-upload-feedback" data-track-upload-target="feedback"></div>
+
+  <div class="form-actions">
+    <%= render 'components/switch',
+               label_text: t('general.add_more'),
+               checked: true,
+               include_hidden: false,
+               data: { 'track-upload-target' => 'keepAdding' } %>
+    <%= f.submit t('general.save'), class: 'button button--primary' %>
+    <button type="button" class="button" data-action="dialog#close"><%= t 'general.close' %></button>
+  </div>
+
+  <div class="track-upload-overlay" data-track-upload-target="overlay" hidden>
+    <span class="track-upload-overlay-icon" data-track-upload-target="spinner">
+      <%= icon_tag 'circle-notch-solid', class: 'icon--3x icon--spin' %>
+    </span>
+    <span class="track-upload-overlay-icon track-upload-overlay-success" data-track-upload-target="success" hidden>
+      <%= icon_tag 'circle-check-regular', class: 'icon--3x' %>
+    </span>
+  </div>
+<% end %>

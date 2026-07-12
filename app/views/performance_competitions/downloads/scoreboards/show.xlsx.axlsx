@@ -178,14 +178,14 @@ if @event.use_teams
 
     sheet.add_row header_cells, style: styles[:header]
 
-    team_scoreboard.ranking.each_with_index do |row, index|
+    team_scoreboard.ranking.each do |row|
       team = row.team
       individual_standings = row.ranks
 
       if individual_standings.any?
         first_row = individual_standings.first
         team_cells = [
-          index + 1,
+          row.rank,
           team.name,
           first_row.competitor.name,
           first_row.total_points.to_f,
@@ -208,7 +208,7 @@ if @event.use_teams
         end
       else
         team_cells = [
-          index + 1,
+          row.rank,
           team.name,
           '-',
           '-',
