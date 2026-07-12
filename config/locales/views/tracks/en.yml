@@ -42,8 +42,12 @@ en:
       online_over_jumps:
         one: 'over %{count} jump'
         other: 'over %{count} jumps'
-      online_of_jumps: 'of your %{count}'
-      online_of_total: 'of %{count}'
+      online_of_jumps:
+        one: 'of your %{count} jump'
+        other: 'of your %{count} jumps'
+      online_of_total:
+        one: "of pilot's %{count} jump"
+        other: "of pilot's %{count} jumps"
       online_from_record: '%{gap} from record'
       online_out_of_ranking: 'Out of ranking'
       online_no_valid_result: 'No valid result'

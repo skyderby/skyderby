@@ -4,15 +4,21 @@ class VirtualCompetition
     JUMP_KINDS = %w[skydive base].freeze
     GENDERS = %w[female].freeze
 
-    attr_reader :competition, :page, :jump_kind, :gender
+    attr_reader :competition, :jump_kind, :gender, :highlight_profile_id
 
     def initialize(competition, scores, page: nil, jump_kind: nil, gender: nil)
       @competition = competition
       @base_scores = scores
-      @page = [page.to_i, 1].max
+      @page_param = page
       @jump_kind = jump_kind if jump_kind_selector? && JUMP_KINDS.include?(jump_kind)
       @gender = gender if GENDERS.include?(gender)
     end
+
+    def highlight_profile_id=(value)
+      @highlight_profile_id = value.presence&.to_i
+    end
+
+    def page = @page ||= resolve_page
 
     def scores = @scores ||= paginate(all_scores)
 
@@ -27,6 +33,14 @@ class VirtualCompetition
     def show_rank_changes? = false
 
     private
+
+    def resolve_page
+      return [@page_param.to_i, 1].max if @page_param.present?
+      return 1 unless highlight_profile_id
+
+      index = all_scores.find_index { |score| score.profile_id == highlight_profile_id }
+      index ? (index / PER_PAGE) + 1 : 1
+    end
 
     def filtered? = jump_kind.present? || gender.present?
 

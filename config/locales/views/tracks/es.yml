@@ -41,8 +41,12 @@ es:
       online_over_jumps:
         one: 'de %{count} salto'
         other: 'de %{count} saltos'
-      online_of_jumps: 'de tus %{count}'
-      online_of_total: 'de %{count}'
+      online_of_jumps:
+        one: 'de tu %{count} salto'
+        other: 'de tus %{count} saltos'
+      online_of_total:
+        one: 'de %{count} salto del piloto'
+        other: 'de %{count} saltos del piloto'
       online_from_record: '%{gap} del récord'
       online_out_of_ranking: 'Fuera de clasificación'
       online_no_valid_result: 'Sin resultado válido'
