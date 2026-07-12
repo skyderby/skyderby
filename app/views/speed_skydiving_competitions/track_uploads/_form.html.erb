@@ -8,7 +8,7 @@
        }
      }]
    end %>
-<% competitors = @event.competitors.ordered.includes(:category).select { |c| c.assigned_number.present? } %>
+<% competitors = @event.competitors.where.not(assigned_number: [nil, '']).ordered.includes(:category, :profile, :competitor_alias) %>
 <% competitors_data = competitors.map { |c| { number: c.assigned_number.to_s, name: c.name, category: c.category.name } } %>
 
 <%= form_with url: speed_skydiving_competition_track_upload_path(@event),

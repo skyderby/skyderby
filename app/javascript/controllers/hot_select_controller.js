@@ -119,16 +119,13 @@ export default class HotSelect extends Controller {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault()
-        this.focusedOptionIndex = Math.min(
-          this.focusedOptionIndex + 1,
-          options.length - 1
-        )
+        this.focusedOptionIndex = this.nextEnabledIndex(this.focusedOptionIndex, 1)
         this.updateFocusedOption()
         this.scrollToFocusedOption()
         break
       case 'ArrowUp':
         event.preventDefault()
-        this.focusedOptionIndex = Math.max(this.focusedOptionIndex - 1, 0)
+        this.focusedOptionIndex = this.nextEnabledIndex(this.focusedOptionIndex, -1)
         this.updateFocusedOption()
         this.scrollToFocusedOption()
         break
@@ -145,6 +142,17 @@ export default class HotSelect extends Controller {
       case 'Tab':
         this.close()
         break
+    }
+  }
+
+  nextEnabledIndex(from, direction) {
+    const options = this.getOptions()
+    let index = from
+
+    while (true) {
+      index += direction
+      if (index < 0 || index >= options.length) return from
+      if (!options[index].classList.contains('hot-select-option--disabled')) return index
     }
   }
 

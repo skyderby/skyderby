@@ -48,7 +48,7 @@ class SpeedSkydivingCompetitions::TrackUploadsController < ApplicationController
       end
 
       rest.each do |competitor|
-        result = @event.results.new(round:, competitor:, track_id: first_result.track_id)
+        result = @event.results.new(round:, competitor:, track: first_result.track)
         next if result.save
 
         failed = result

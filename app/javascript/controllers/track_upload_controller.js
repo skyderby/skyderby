@@ -22,6 +22,7 @@ export default class extends Controller {
   disconnect() {
     this.element.removeEventListener('turbo:submit-start', this.submitStart)
     this.element.removeEventListener('turbo:submit-end', this.submitEnd)
+    clearTimeout(this.successTimeout)
   }
 
   match = () => {
@@ -51,6 +52,7 @@ export default class extends Controller {
   }
 
   submitStart = () => {
+    clearTimeout(this.successTimeout)
     this.feedbackTarget.innerHTML = ''
     this.successTarget.hidden = true
     this.spinnerTarget.hidden = false
@@ -68,7 +70,7 @@ export default class extends Controller {
     this.spinnerTarget.hidden = true
     this.successTarget.hidden = false
 
-    setTimeout(() => {
+    this.successTimeout = setTimeout(() => {
       this.overlayTarget.hidden = true
 
       if (this.hasKeepAddingTarget && this.keepAddingTarget.checked) {
