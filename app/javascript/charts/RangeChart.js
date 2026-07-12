@@ -7,6 +7,8 @@ const MINI_H = 47
 const MIN_WINDOW = 30
 const SAMPLE_LIMIT = 1400
 const FLIP_THRESHOLD = 60
+const SPEED_MIN = -50
+const SPEED_MAX = 350
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value))
 const pointerX = event => (event.touches ? event.touches[0].clientX : event.clientX)
@@ -132,12 +134,11 @@ export default class RangeChart {
 
   computeBounds() {
     const alts = this.samples.map(s => s.alt)
-    const speeds = this.samples.flatMap(s => [s.v, s.h])
     this.aLo = alts.length ? Math.min(...alts) : 0
     this.aHi = alts.length ? Math.max(...alts) : 1
     if (this.aHi - this.aLo < 1) this.aHi = this.aLo + 1
-    this.sLo = Math.min(0, ...speeds)
-    this.sHi = Math.max(10, ...speeds)
+    this.sLo = SPEED_MIN
+    this.sHi = SPEED_MAX
   }
 
   seriesSvg(width, height, t0, t1, padBottom) {
@@ -145,7 +146,8 @@ export default class RangeChart {
     const span = Math.max(t1 - t0, 1e-6)
     const x = t => (width * (t - t0)) / span
     const yA = a => plot * (1 - (a - this.aLo) / (this.aHi - this.aLo))
-    const yS = v => plot * (1 - (v - this.sLo) / (this.sHi - this.sLo))
+    const yS = v =>
+      plot * (1 - (clamp(v, this.sLo, this.sHi) - this.sLo) / (this.sHi - this.sLo))
 
     const points = this.windowSamples(t0, t1)
     if (points.length < 2) return this.emptySvg(width, height)

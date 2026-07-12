@@ -19,6 +19,14 @@ class CreateTrackServiceTest < ActiveSupport::TestCase
     assert track.require_range_review
   end
 
+  test '#call - detects the real jump on a noisy flysight2 climb' do
+    track = CreateTrackService.call(noisy_flysight2_params)
+
+    assert_not track.require_range_review
+    assert_in_delta 407, track.ff_start, 5
+    assert_in_delta 542, track.ff_end, 5
+  end
+
   def valid_params
     @valid_params ||= begin
       place = create :place
@@ -40,6 +48,13 @@ class CreateTrackServiceTest < ActiveSupport::TestCase
     track_file_with_missing_activity = Track::File.create!(file: file)
 
     valid_params.merge(track_file_id: track_file_with_missing_activity.id)
+  end
+
+  def noisy_flysight2_params
+    file = fixture_file_upload('tracks/flysight2_2762_noisy_climb.csv')
+    noisy_track_file = Track::File.create!(file: file)
+
+    valid_params.merge(track_file_id: noisy_track_file.id)
   end
 
   def track_file

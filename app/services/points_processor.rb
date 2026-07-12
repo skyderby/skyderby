@@ -1,6 +1,7 @@
 module PointsProcessor
   POINT_PROCESSOR = {
-    flysight: PointsProcessor::Default
+    flysight: PointsProcessor::Default,
+    flysight2: PointsProcessor::Default
   }.with_indifferent_access.freeze
 
   def self.for(format)
