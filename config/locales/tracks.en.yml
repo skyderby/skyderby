@@ -7,6 +7,7 @@ en:
       product:
         base: BASE Pro View
         skydive: Skydive Pro View
+        speed_skydiving: Speed Pro View
       sign_in_required: "Sign in to use %{product}"
       limit_reached: Monthly limit reached. Upgrade for unlimited access.
       view_button: "View in %{product}"
@@ -21,3 +22,41 @@ en:
       modal_title: Compare with another track
       compare_button: Compare
       remove: Remove comparison
+    speed_pro:
+      axis:
+        time: Time from exit
+        altitude: Altitude MSL
+      summary:
+        peak_speed: Peak speed
+        peak_alt: Peak altitude
+        bc: BC m/CdA
+        ceiling_gap: Ceiling gap
+      tooltip:
+        peak_speed: Best 3-second average vertical speed — this is the scored result, not the max instant spike.
+        peak_alt: Altitude at which the scoring window happened. Lower air is denser, so a lower peak caps your speed.
+        bc: Ballistic coefficient (mass ÷ drag area). Your aerodynamics, independent of altitude. Higher = cleaner, more aggressive position.
+        ceiling_gap: How close you got to your own terminal ceiling in the window. Below 95% means you ran out of altitude to accelerate.
+      chart:
+        title: Speed & acceleration
+        axis_label: X axis
+        speed_axis: SPEED
+        accel_axis: "ACCELERATION  ↓ gaining  ↑ braking"
+        km_msl: km MSL
+        window_end: window end
+        sep: SEP
+      metrics:
+        vspeed: Vertical speed
+        ceiling: Ceiling
+        accel: Acceleration
+        altitude: Altitude
+        bc: BC m/CdA
+        sep: SEP
+      col_track: Track
+      col_comparison: Comparison
+      waterfall:
+        gain1: Speed gain 0–6 s
+        gain2: Speed gain 6–12 s
+        gain3: Speed gain 12–18 s
+        peak_altitude: Peak altitude
+        acceleration: Ceiling reached
+      footnote: "Air density from the International Standard Atmosphere (no weather data). BC drawn only where valid: vz > 45 m/s and g − az > 1.5. Smoothing: Savitzky–Golay, 7-sample window (≈1.4 s), order 2."

@@ -133,7 +133,7 @@ class Track < ApplicationRecord
   def competitive? = event_result.present?
 
   def pro_view_available?(user: Current.user)
-    return false unless base? || skydive?
+    return false unless base? || skydive? || speed_skydiving?
     return false unless user.registered?
     return true if Current.subscription_active?
 

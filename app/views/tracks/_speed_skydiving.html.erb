@@ -9,6 +9,8 @@
   <% result = @track.speed_skydiving_result %>
 
   <div class="track-show-content">
+    <%= render 'tracks/pro_view_notice' %>
+
     <%= render 'speed_skydiving_competitions/results/indicators', result: %>
 
     <hr class="top-buffer">

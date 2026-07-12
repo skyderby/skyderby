@@ -1,0 +1,90 @@
+<% content_for :head do %>
+  <meta name="track-kind" content="<%= @track.kind %>">
+  <meta name="track-pro-view" content="true">
+<% end %>
+
+<div class="show-page">
+  <%= render partial: 'header', locals: { track: @track } %>
+
+  <% result = @track.speed_skydiving_result %>
+  <% compare_result = @compare_track&.speed_skydiving_result %>
+  <div class="speed-pro"
+       data-controller="tracks--speed-skydiving-pro-chart"
+       data-tracks--speed-skydiving-pro-chart-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 5, seconds_after_end: 5 }) %>"
+       data-tracks--speed-skydiving-pro-chart-track-id-value="<%= @track.id %>"
+       data-tracks--speed-skydiving-pro-chart-track-name-value="<%= @track.pilot&.name || @track.name %>"
+       data-tracks--speed-skydiving-pro-chart-window-end-value="<%= result.scoring_window_end_altitude_msl %>"
+       <% if @compare_track %>
+       data-tracks--speed-skydiving-pro-chart-compare-points-url-value="<%= track_points_path(@compare_track, original_frequency: true, trimmed: { seconds_before_start: 5, seconds_after_end: 5 }) %>"
+       data-tracks--speed-skydiving-pro-chart-compare-name-value="<%= @compare_track.pilot&.name || @compare_track.name %>"
+       data-tracks--speed-skydiving-pro-chart-compare-window-end-value="<%= compare_result&.scoring_window_end_altitude_msl %>"
+       <% end %>
+  >
+    <div class="card actions-bar speed-pro__actions">
+      <div class="actions-bar-right">
+        <% if @compare_track %>
+          <a href="<%= track_path(@track) %>" class="actions-bar-button">
+            <%= icon_tag 'xmark' %>
+            <%= t('tracks.comparison.remove') %>
+          </a>
+        <% else %>
+          <button type="button"
+                  class="actions-bar-button"
+                  data-action="tracks--speed-skydiving-pro-chart#openCompareModal">
+            <%= icon_tag 'right-left' %>
+            <%= t('tracks.comparison.compare_button') %>
+          </button>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="track-show-content speed-pro__body">
+    <div class="speed-pro__overview">
+      <div class="speed-pro__summary" data-tracks--speed-skydiving-pro-chart-target="summary"></div>
+      <div class="speed-pro__compare"
+           data-tracks--speed-skydiving-pro-chart-target="compare"
+           <%= 'hidden' unless @compare_track %>></div>
+    </div>
+
+    <div class="speed-pro__panel">
+      <div class="speed-pro__panel-head">
+        <h3 class="speed-pro__panel-title"><%= t('tracks.speed_pro.chart.title') %></h3>
+        <div class="speed-pro__axis seg" role="group" aria-label="<%= t('tracks.speed_pro.chart.axis_label') %>">
+          <button type="button"
+                  class="seg__btn"
+                  data-axis="time"
+                  aria-pressed="true"
+                  data-tracks--speed-skydiving-pro-chart-target="axisButton"
+                  data-action="tracks--speed-skydiving-pro-chart#setAxis">
+            <%= t('tracks.speed_pro.axis.time') %>
+          </button>
+          <button type="button"
+                  class="seg__btn"
+                  data-axis="altitude"
+                  aria-pressed="false"
+                  data-tracks--speed-skydiving-pro-chart-target="axisButton"
+                  data-action="tracks--speed-skydiving-pro-chart#setAxis">
+            <%= t('tracks.speed_pro.axis.altitude') %>
+          </button>
+        </div>
+      </div>
+      <div class="speed-pro__chart-wrap"
+           data-action="pointermove->tracks--speed-skydiving-pro-chart#hover pointerleave->tracks--speed-skydiving-pro-chart#hoverOut">
+        <svg class="speed-pro__chart"
+             data-tracks--speed-skydiving-pro-chart-target="chart"
+             viewBox="0 0 1000 518"
+             preserveAspectRatio="none"></svg>
+        <div class="ssp-tooltip" data-tracks--speed-skydiving-pro-chart-target="tooltip" hidden></div>
+      </div>
+    </div>
+
+    <p class="speed-pro__footnote"><%= t('tracks.speed_pro.footnote') %></p>
+
+    <%= render 'tracks/comparison_modal', controller: 'tracks--speed-skydiving-pro-chart', kind: :speed_skydiving %>
+
+    <blockquote class="flex flex-column">
+      <%= render 'track_metadata' %>
+    </blockquote>
+    </div>
+  </div>
+</div>
