@@ -1,6 +1,6 @@
 <% filters = { jump_kind: @ranking.jump_kind, gender: @ranking.gender }.compact_blank %>
 
-<div class="page-nav">
+<div class="page-nav" data-controller="page-nav">
   <% overall_path = virtual_competition_overall_path(@competition) %>
   <%= link_to virtual_competition_overall_path(@competition, **filters), class: ['page-tab', ('page-tab-active' if current_page?(overall_path))] do %>
     <%= t('.overall') %>
