@@ -18,6 +18,7 @@ module VirtualCompetitions
       @ranking = @competition.annual_ranking(
         scores, year:, page: params[:page], jump_kind: params[:jump_kind], gender: params[:gender]
       )
+      @ranking.highlight_profile_id = params[:highlight]
     end
 
     def self.controller_path = 'virtual_competitions'

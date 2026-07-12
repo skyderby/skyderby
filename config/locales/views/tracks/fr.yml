@@ -41,8 +41,12 @@ fr:
       online_over_jumps:
         one: 'sur %{count} saut'
         other: 'sur %{count} sauts'
-      online_of_jumps: 'de vos %{count}'
-      online_of_total: 'de %{count}'
+      online_of_jumps:
+        one: 'de votre %{count} saut'
+        other: 'de vos %{count} sauts'
+      online_of_total:
+        one: 'de %{count} saut du pilote'
+        other: 'de %{count} sauts du pilote'
       online_from_record: '%{gap} du record'
       online_out_of_ranking: Hors classement
       online_no_valid_result: Aucun résultat valide

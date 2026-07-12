@@ -13,29 +13,32 @@
 
     <div class="track-header-info">
       <% unless track.speed_skydiving? %>
-        <span class="track-header-suit">
-          <%= icon_tag 'wingsuit' %>
-          <% if track.suit %>
-            <% manufacturer = track.suit.manufacturer %>
-            <a href="<%= suit_path(track.suit) %>">
-              <%= suit_presentation(track.suit) %>
+        <% if track.suit || track.missing_suit_name.present? %>
+          <span class="track-header-suit">
+            <%= icon_tag 'wingsuit' %>
+            <% if track.suit %>
+              <a href="<%= suit_path(track.suit) %>">
+                <%= suit_presentation(track.suit) %>
+              </a>
+            <% else %>
+              <span><%= track.missing_suit_name %></span>
+            <% end %>
+          </span>
+        <% end %>
+      <% end %>
+
+      <% if track.place || track.location.present? %>
+        <span class="track-header-place">
+          <%= icon_tag 'location-dot-solid' %>
+          <% if track.place %>
+            <a href="<%= place_path(track.place) %>">
+              <span><%= place_presentation(track.place) %></span>
             </a>
           <% else %>
-            <span><%= track.missing_suit_name %></span>
+            <span><%= track.location %></span>
           <% end %>
         </span>
       <% end %>
-
-      <span class="track-header-place">
-        <%= icon_tag 'location-dot-solid' %>
-        <% if track.place %>
-          <a href="<%= place_path(track.place) %>">
-            <span><%= place_presentation(track.place) %></span>
-          </a>
-        <% else %>
-          <span><%= track.location %></span>
-        <% end %>
-      </span>
     </div>
 
     <div class="track-header-id">

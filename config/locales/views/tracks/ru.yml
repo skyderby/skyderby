@@ -44,8 +44,16 @@ ru:
         few: 'из %{count} прыжков'
         many: 'из %{count} прыжков'
         other: 'из %{count} прыжков'
-      online_of_jumps: 'из ваших %{count}'
-      online_of_total: 'из %{count}'
+      online_of_jumps:
+        one: 'из %{count} вашего прыжка'
+        few: 'из %{count} ваших прыжков'
+        many: 'из %{count} ваших прыжков'
+        other: 'из %{count} ваших прыжков'
+      online_of_total:
+        one: 'из %{count} прыжка пилота'
+        few: 'из %{count} прыжков пилота'
+        many: 'из %{count} прыжков пилота'
+        other: 'из %{count} прыжков пилота'
       online_from_record: '%{gap} от рекорда'
       online_out_of_ranking: 'Вне зачёта'
       online_no_valid_result: 'Нет валидного результата'

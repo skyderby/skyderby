@@ -22,7 +22,7 @@
       <% dashboard.rankings.each do |ranking| %>
         <% fill = ranking.total.positive? ? ((ranking.total - ranking.rank + 1).to_f / ranking.total * 100).round : 0 %>
         <% podium = ranking.rank <= 3 && ranking.total > 10 %>
-        <%= link_to virtual_competition_path(ranking.competition),
+        <%= link_to virtual_competition_path(ranking.competition, highlight: dashboard.id),
                     class: ['dashboard-ranking', ('dashboard-ranking--podium' if podium)],
                     data: { turbo_frame: '_top' } do %>
           <div class="dashboard-ranking__top">

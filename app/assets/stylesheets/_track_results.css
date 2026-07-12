@@ -34,6 +34,20 @@
   border-top: 1px solid var(--gray-20);
 }
 
+a.trr-card {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  padding-inline: 8px;
+  margin-inline: -8px;
+  border-radius: var(--border-radius);
+  transition: background-color 0.12s ease;
+}
+
+a.trr-card:hover {
+  background-color: var(--gray-10);
+}
+
 .trr-card--distance { --accent: var(--blue-70); --accent-bg: var(--blue-10); }
 .trr-card--distance-in-time { --accent: var(--cyan-70); --accent-bg: var(--cyan-10); }
 .trr-card--distance-in-altitude { --accent: var(--indigo-70); --accent-bg: var(--indigo-10); }

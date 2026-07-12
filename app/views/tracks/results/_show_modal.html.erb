@@ -23,7 +23,10 @@
     <div class="trr-cards">
       <% @results.online_results.each do |result| %>
         <% competition = result.competition %>
-        <div class="trr-card trr-card--<%= competition.discipline.dasherize %> <%= 'trr-card--out' unless result.valid? %>">
+        <% highlight_year = @results.recorded_at&.year if competition.annual? %>
+        <%= link_to virtual_competition_path(competition, highlight: @results.profile_id, year: highlight_year),
+                    class: class_names('trr-card', "trr-card--#{competition.discipline.dasherize}", 'trr-card--out' => !result.valid?),
+                    data: { turbo_frame: '_top' } do %>
           <div class="trr-card__body">
             <div class="trr-card__group"><%= competition.group_name %></div>
             <h4 class="trr-card__title"><%= competition.name %></h4>
@@ -59,7 +62,7 @@
             <span class="trr-card__number"><%= format_result(result.result, competition) %></span>
             <span class="trr-card__unit"><%= competition_unit(competition) %></span>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   <% else %>

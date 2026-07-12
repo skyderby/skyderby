@@ -78,11 +78,57 @@ class VirtualCompetition::RankingTest < ActiveSupport::TestCase
     assert_equal [1], ranking.all_scores.map(&:rank)
   end
 
+  test 'highlight_profile_id normalizes blank and string values' do
+    ranking = overall
+    ranking.highlight_profile_id = ''
+    assert_nil ranking.highlight_profile_id
+
+    ranking = overall
+    ranking.highlight_profile_id = profiles(:john).id.to_s
+    assert_equal profiles(:john).id, ranking.highlight_profile_id
+  end
+
+  test 'page defaults to 1 without an explicit page or highlight' do
+    assert_equal 1, overall.page
+  end
+
+  test 'page jumps to the page containing the highlighted profile' do
+    with_per_page(2) do
+      ranking = overall
+      ranking.highlight_profile_id = profiles(:hinton).id
+
+      assert_equal 2, ranking.page
+      assert_includes ranking.scores.map(&:profile_id), profiles(:hinton).id
+    end
+  end
+
+  test 'explicit page wins over the highlighted profile' do
+    with_per_page(2) do
+      ranking = @competition.overall_ranking(scores_relation, page: 1)
+      ranking.highlight_profile_id = profiles(:hinton).id
+
+      assert_equal 1, ranking.page
+    end
+  end
+
   private
 
+  def with_per_page(size)
+    original = VirtualCompetition::Ranking::PER_PAGE
+    VirtualCompetition::Ranking.send(:remove_const, :PER_PAGE)
+    VirtualCompetition::Ranking.const_set(:PER_PAGE, size)
+    yield
+  ensure
+    VirtualCompetition::Ranking.send(:remove_const, :PER_PAGE)
+    VirtualCompetition::Ranking.const_set(:PER_PAGE, original)
+  end
+
+  def scores_relation
+    @competition.personal_top_scores.wind_cancellation(false).includes(:track, :profile)
+  end
+
   def overall(jump_kind: nil, gender: nil)
-    scores = @competition.personal_top_scores.wind_cancellation(false).includes(:track, :profile)
-    @competition.overall_ranking(scores, jump_kind:, gender:)
+    @competition.overall_ranking(scores_relation, jump_kind:, gender:)
   end
 
   def add_score(profile, kind, result)

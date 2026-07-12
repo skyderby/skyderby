@@ -40,8 +40,12 @@ de:
       online_over_jumps:
         one: 'aus %{count} Sprung'
         other: 'aus %{count} Sprüngen'
-      online_of_jumps: 'von deinen %{count}'
-      online_of_total: 'von %{count}'
+      online_of_jumps:
+        one: 'von deinem %{count} Sprung'
+        other: 'von deinen %{count} Sprüngen'
+      online_of_total:
+        one: 'von %{count} Sprung des Piloten'
+        other: 'von %{count} Sprüngen des Piloten'
       online_from_record: '%{gap} zum Rekord'
       online_out_of_ranking: Außer Wertung
       online_no_valid_result: Kein gültiges Ergebnis

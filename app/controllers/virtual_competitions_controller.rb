@@ -18,11 +18,11 @@ class VirtualCompetitionsController < ApplicationController
 
     competition_path =
       if params[:year].present?
-        virtual_competition_year_path(@competition, year: params[:year])
+        virtual_competition_year_path(@competition, year: params[:year], highlight: params[:highlight])
       elsif @competition.annual?
-        virtual_competition_year_path(@competition, year: @competition.last_year)
+        virtual_competition_year_path(@competition, year: @competition.last_year, highlight: params[:highlight])
       elsif @competition.custom_intervals?
-        virtual_competition_period_path(@competition, @competition.last_interval)
+        virtual_competition_period_path(@competition, @competition.last_interval, highlight: params[:highlight])
       end
 
     redirect_to competition_path

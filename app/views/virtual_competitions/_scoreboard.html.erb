@@ -1,9 +1,10 @@
 <%# locals: (ranking:) %>
 
 <%
-  current_profile = current_user.profile if current_user.registered?
-  current_user_score = current_profile && ranking.all_scores.find { |s| s.profile_id == current_profile.id }
-  current_user_on_page = current_user_score && ranking.scores.any? { |s| s.profile_id == current_profile.id }
+  current_profile_id = current_user.profile.id if current_user.registered?
+  focused_profile_id = ranking.highlight_profile_id || current_profile_id
+  focused_score = focused_profile_id && ranking.all_scores.find { |s| s.profile_id == focused_profile_id }
+  focused_on_page = focused_score && ranking.scores.any? { |s| s.profile_id == focused_profile_id }
 %>
 
 <div class="vc-scoreboard">
@@ -13,16 +14,17 @@
     </div>
   <% end %>
 
-  <div class="vc-scoreboard__list">
+  <% list_data = ranking.highlight_profile_id ? { controller: 'highlight-scroll' } : {} %>
+  <div class="vc-scoreboard__list" <%= tag.attributes(data: list_data) %>>
     <% ranking.scores.each do |score| %>
-      <%= render 'score_row', score: score, ranking: ranking, current_user_row: current_profile && score.profile_id == current_profile.id %>
+      <%= render 'score_row', score: score, ranking: ranking, current_user_row: focused_profile_id && score.profile_id == focused_profile_id %>
     <% end %>
 
-    <% if current_user_score && !current_user_on_page %>
+    <% if focused_score && !focused_on_page %>
       <div class="vc-scoreboard__separator">
         <span class="vc-scoreboard__ellipsis"></span>
       </div>
-      <%= render 'score_row', score: current_user_score, ranking: ranking, current_user_row: true %>
+      <%= render 'score_row', score: focused_score, ranking: ranking, current_user_row: true %>
     <% end %>
   </div>
 
