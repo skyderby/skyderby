@@ -2,6 +2,16 @@ en:
   performance_competitions:
     actions_bar:
       display: 'Display'
+    compare:
+      start: Compare Tracks
+      submit: Compare
+      slot_placeholder: Select a track
+      swap: Swap tracks
+      cancel: Cancel
+      remaining:
+        zero: No free comparisons left
+        one: "%{count} free comparison left"
+        other: "%{count} free comparisons left"
     display:
       live: 'Live'
       athletes:

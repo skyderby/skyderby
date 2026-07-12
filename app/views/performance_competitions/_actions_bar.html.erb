@@ -88,4 +88,9 @@
       </div>
     <% end %>
   </div>
+
+  <%= render 'application/track_compare',
+             scope: 'performance_competitions.compare',
+             form_url: performance_competition_comparison_path(event),
+             attention: !Current.subscription_active? %>
 </div>

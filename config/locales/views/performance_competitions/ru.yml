@@ -2,6 +2,18 @@ ru:
   performance_competitions:
     actions_bar:
       display: 'Дисплей'
+    compare:
+      start: Сравнить треки
+      submit: Сравнить
+      slot_placeholder: Выберите трек
+      swap: Поменять местами
+      cancel: Отмена
+      remaining:
+        zero: Бесплатных сравнений не осталось
+        one: "Осталось %{count} бесплатное сравнение"
+        few: "Осталось %{count} бесплатных сравнения"
+        many: "Осталось %{count} бесплатных сравнений"
+        other: "Осталось %{count} бесплатных сравнений"
     display:
       live: 'В эфире'
       athletes:

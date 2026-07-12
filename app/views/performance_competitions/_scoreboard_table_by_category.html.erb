@@ -1,4 +1,4 @@
-<%# locals: (event:, scoreboard:, editable:, id:) %>
+<%# locals: (event:, scoreboard:, editable:, id:, comparable: false) %>
 
 <div class="<%= class_names 'scoreboard-container', (scoreboard.rounds.size > 6 && 'scoreboard-container-fluid') %>"
      data-controller="events--sticky-header" id="<%= id %>">
@@ -8,7 +8,7 @@
       <% scoreboard.categories.each do |category, standings| %>
         <tbody>
           <%= render 'performance_competitions/categories/category_row', event:, category:, columns_count: scoreboard.columns_count, editable: %>
-          <%= render 'performance_competitions/scoreboard_standings', event:, rounds_by_discipline: scoreboard.rounds_by_discipline, standings: , editable: %>
+          <%= render 'performance_competitions/scoreboard_standings', event:, rounds_by_discipline: scoreboard.rounds_by_discipline, standings: , editable:, comparable: %>
         </tbody>
       <% end %>
     </table>

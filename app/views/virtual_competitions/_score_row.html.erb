@@ -6,8 +6,8 @@
 
 <div class="<%= class_names('vc-scoreboard__row', on_podium && "vc-scoreboard__row--place-#{score.rank}", current_user_row && 'vc-scoreboard__row--current') %>"
      data-rank="<%= score.rank %>"
-     data-virtual-competitions--compare-target="row"
-     data-action="click->virtual-competitions--compare#selectRow"
+     data-track-compare-target="row"
+     data-action="click->track-compare#selectRow"
      data-track-id="<%= score.track.id %>"
      data-pilot="<%= score.profile.name.titleize %>"
      data-result="<%= "#{format_result(score.result, competition)} #{competition_unit(competition)}" %>"

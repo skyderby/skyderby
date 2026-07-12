@@ -24,64 +24,10 @@
   </div>
 
   <% if competition.comparable_in_pro_view? %>
-    <div class="actions-bar-right vc-actions-bar__compare">
-      <button type="button"
-              class="<%= class_names('actions-bar-button', 'vc-compare-start', 'vc-compare-start--attention' => !Current.subscription_active?) %>"
-              data-virtual-competitions--compare-target="startButton"
-              data-action="virtual-competitions--compare#activate">
-        <%= icon_tag 'right-left' %>
-        <%= t('virtual_competitions.compare.start') %>
-      </button>
-
-      <div class="vc-compare-panel" data-virtual-competitions--compare-target="panel" hidden>
-        <div class="vc-compare-panel__slots">
-          <div class="vc-compare-slot" data-virtual-competitions--compare-target="slot" data-index="0">
-            <span class="vc-compare-slot__placeholder"><%= t('virtual_competitions.compare.slot_placeholder') %></span>
-          </div>
-
-          <button type="button"
-                  class="vc-compare-swap"
-                  title="<%= t('virtual_competitions.compare.swap') %>"
-                  data-action="virtual-competitions--compare#swap">
-            <%= icon_tag 'right-left' %>
-          </button>
-
-          <div class="vc-compare-slot" data-virtual-competitions--compare-target="slot" data-index="1">
-            <span class="vc-compare-slot__placeholder"><%= t('virtual_competitions.compare.slot_placeholder') %></span>
-          </div>
-        </div>
-
-        <span class="vc-compare-remaining">
-          <% unless Current.subscription_active? %>
-            <% if Current.user.registered? %>
-              <%= t('virtual_competitions.compare.remaining', count: FreeProView.remaining_for(Current.user)) %>
-            <% else %>
-              <%= t('virtual_competitions.compare.remaining', count: FreeProView.monthly_limit) %>
-            <% end %>
-          <% end %>
-        </span>
-
-        <div class="vc-compare-panel__actions">
-          <%= form_with url: virtual_competition_comparison_path(competition), method: :post, class: 'vc-compare-form' do %>
-            <%= hidden_field_tag :track_a_id, '', data: { 'virtual-competitions--compare-target': 'trackA' } %>
-            <%= hidden_field_tag :track_b_id, '', data: { 'virtual-competitions--compare-target': 'trackB' } %>
-            <%= hidden_field_tag :result_competition_id, competition.id %>
-            <button type="submit"
-                    class="button button--primary vc-compare-submit"
-                    disabled
-                    data-virtual-competitions--compare-target="submit">
-              <%= t('virtual_competitions.compare.submit') %>
-            </button>
-          <% end %>
-
-          <button type="button"
-                  class="vc-compare-cancel"
-                  title="<%= t('virtual_competitions.compare.cancel') %>"
-                  data-action="virtual-competitions--compare#cancel">
-            <%= icon_tag 'xmark' %>
-          </button>
-        </div>
-      </div>
-    </div>
+    <%= render 'application/track_compare',
+               scope: 'virtual_competitions.compare',
+               form_url: virtual_competition_comparison_path(competition),
+               attention: !Current.subscription_active?,
+               extra_hidden: { result_competition_id: competition.id } %>
   <% end %>
 </div>

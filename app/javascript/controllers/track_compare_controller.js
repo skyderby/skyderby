@@ -1,13 +1,14 @@
 import { Controller } from '@hotwired/stimulus'
 import amplitude from 'utils/amplitude'
-import I18n from 'i18n'
 
 export default class extends Controller {
   static targets = ['startButton', 'panel', 'slot', 'submit', 'trackA', 'trackB', 'row']
   static values = {
+    source: String,
     competitionId: Number,
     kind: String,
-    discipline: String
+    discipline: String,
+    slotPlaceholder: String
   }
 
   connect() {
@@ -16,16 +17,19 @@ export default class extends Controller {
 
   activate() {
     this.active = true
-    this.element.classList.add('vc-compare-active')
+    this.element.classList.add('compare-active')
     this.startButtonTarget.hidden = true
     this.panelTarget.hidden = false
 
-    amplitude.track('competition_compare_activated', {
-      source: 'virtual_competitions',
+    const properties = {
+      source: this.sourceValue,
       competition_id: this.competitionIdValue,
-      kind: this.kindValue,
-      discipline: this.disciplineValue
-    })
+      kind: this.kindValue
+    }
+    if (this.hasDisciplineValue && this.disciplineValue) {
+      properties.discipline = this.disciplineValue
+    }
+    amplitude.track('competition_compare_activated', properties)
 
     this.render()
   }
@@ -33,7 +37,7 @@ export default class extends Controller {
   cancel() {
     this.active = false
     this.selected = []
-    this.element.classList.remove('vc-compare-active')
+    this.element.classList.remove('compare-active')
     this.startButtonTarget.hidden = false
     this.panelTarget.hidden = true
     this.render()
@@ -79,19 +83,19 @@ export default class extends Controller {
     this.slotTargets.forEach((slot, index) => {
       const track = this.selected[index]
       if (track) {
-        slot.classList.add('vc-compare-slot--filled')
+        slot.classList.add('compare-slot--filled')
         slot.innerHTML = `
-          <div class="vc-compare-slot__info">
-            <span class="vc-compare-slot__pilot">${track.pilot}</span>
-            <span class="vc-compare-slot__result">${track.result}</span>
+          <div class="compare-slot__info">
+            <span class="compare-slot__pilot">${track.pilot || ''}</span>
+            <span class="compare-slot__result">${track.result || ''}</span>
           </div>
-          <button type="button" class="vc-compare-slot__remove" aria-label="remove"
+          <button type="button" class="compare-slot__remove" aria-label="remove"
                   data-index="${index}"
-                  data-action="virtual-competitions--compare#removeSlot">&times;</button>
+                  data-action="track-compare#removeSlot">&times;</button>
         `
       } else {
-        slot.classList.remove('vc-compare-slot--filled')
-        slot.innerHTML = `<span class="vc-compare-slot__placeholder">${I18n.t('virtual_competitions.compare.slot_placeholder')}</span>`
+        slot.classList.remove('compare-slot--filled')
+        slot.innerHTML = `<span class="compare-slot__placeholder">${this.slotPlaceholderValue}</span>`
       }
     })
 

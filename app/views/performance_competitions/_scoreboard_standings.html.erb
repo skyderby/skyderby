@@ -1,4 +1,4 @@
-<%# locals: (event:, rounds_by_discipline:, standings:, editable:) %>
+<%# locals: (event:, rounds_by_discipline:, standings:, editable:, comparable: false) %>
 
 <% standings.rows.each do |row| %>
   <tr class="scoreboard-competitor">
@@ -10,7 +10,7 @@
       <% rounds.each do |round| %>
         <% result = row.result_in_round(round) %>
         <% if result && (round.completed || editable) %>
-          <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable: %>
+          <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable:, comparable:, pilot: row.competitor.profile&.name %>
           <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result: %>
         <% elsif result&.validated? %>
           <td class="text-right text-muted">

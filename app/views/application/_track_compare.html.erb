@@ -1,0 +1,63 @@
+<%# locals: (scope:, form_url:, attention: false, extra_hidden: {}) %>
+
+<div class="actions-bar-right compare-bar">
+  <button type="button"
+          class="<%= class_names('actions-bar-button', 'compare-start', 'compare-start--attention' => attention) %>"
+          data-track-compare-target="startButton"
+          data-action="track-compare#activate">
+    <%= icon_tag 'right-left' %>
+    <%= t("#{scope}.start") %>
+  </button>
+
+  <div class="compare-panel" data-track-compare-target="panel" hidden>
+    <div class="compare-panel__slots">
+      <div class="compare-slot" data-track-compare-target="slot" data-index="0">
+        <span class="compare-slot__placeholder"><%= t("#{scope}.slot_placeholder") %></span>
+      </div>
+
+      <button type="button"
+              class="compare-swap"
+              title="<%= t("#{scope}.swap") %>"
+              data-action="track-compare#swap">
+        <%= icon_tag 'right-left' %>
+      </button>
+
+      <div class="compare-slot" data-track-compare-target="slot" data-index="1">
+        <span class="compare-slot__placeholder"><%= t("#{scope}.slot_placeholder") %></span>
+      </div>
+    </div>
+
+    <span class="compare-remaining">
+      <% unless Current.subscription_active? %>
+        <% if Current.user.registered? %>
+          <%= t("#{scope}.remaining", count: FreeProView.remaining_for(Current.user)) %>
+        <% else %>
+          <%= t("#{scope}.remaining", count: FreeProView.monthly_limit) %>
+        <% end %>
+      <% end %>
+    </span>
+
+    <div class="compare-panel__actions">
+      <%= form_with url: form_url, method: :post, class: 'compare-form' do %>
+        <%= hidden_field_tag :track_a_id, '', data: { 'track-compare-target': 'trackA' } %>
+        <%= hidden_field_tag :track_b_id, '', data: { 'track-compare-target': 'trackB' } %>
+        <% extra_hidden.each do |name, value| %>
+          <%= hidden_field_tag name, value %>
+        <% end %>
+        <button type="submit"
+                class="button button--primary compare-submit"
+                disabled
+                data-track-compare-target="submit">
+          <%= t("#{scope}.submit") %>
+        </button>
+      <% end %>
+
+      <button type="button"
+              class="compare-cancel"
+              title="<%= t("#{scope}.cancel") %>"
+              data-action="track-compare#cancel">
+        <%= icon_tag 'xmark' %>
+      </button>
+    </div>
+  </div>
+</div>

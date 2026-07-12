@@ -5,13 +5,14 @@
 <div class="show-page">
   <%= render 'header', editable: %>
 
-  <% if editable || @event.wind_cancellation %>
-    <div class="show-page-content">
-      <%= render 'actions_bar', event: @event, editable: %>
-    </div>
-  <% end %>
+  <div class="show-page-content"
+       data-controller="track-compare"
+       data-track-compare-source-value="performance_competitions"
+       data-track-compare-competition-id-value="<%= @event.id %>"
+       data-track-compare-kind-value="skydive"
+       data-track-compare-slot-placeholder-value="<%= t('performance_competitions.compare.slot_placeholder') %>">
+    <%= render 'actions_bar', event: @event, editable: %>
 
-  <div class="show-page-content">
     <%= render 'scoreboard', event: @event, editable:, wind_cancellation: @wind_cancellation %>
 
     <div class="show-page-content">

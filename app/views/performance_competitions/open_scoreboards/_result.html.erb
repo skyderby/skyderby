@@ -1,6 +1,20 @@
-<%# locals: (event:, result:, editable:)  %>
+<%# locals: (event:, result:, editable:, comparable: false, pilot: nil)  %>
 
-<td class="<%= class_names 'result-cell', ('text-green' if result.best_result) %>">
+<% compare_data =
+     if comparable && result.track_id.present?
+       {
+         'track-compare-target': 'row',
+         action: 'click->track-compare#selectRow',
+         track_id: result.track_id,
+         pilot: pilot,
+         result: result.formatted_result,
+         kind: 'skydive'
+       }
+     else
+       {}
+     end %>
+
+<%= tag.td class: class_names('result-cell', ('text-green' if result.best_result)), data: compare_data do %>
   <%= link_to(performance_competition_result_path(event, result),
               **(mobile? ? { target: '_blank' } : { 'data-turbo-stream' => 'true' }),
               class: 'result-show-cell',
@@ -14,4 +28,4 @@
       <%= icon_tag 'circle-question', class: 'text-danger' %>
     <% end %>
   <% end %>
-</td>
+<% end %>

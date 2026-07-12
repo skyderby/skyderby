@@ -21,10 +21,12 @@
   </div>
 
   <div class="show-page-content"
-       data-controller="virtual-competitions--compare"
-       data-virtual-competitions--compare-competition-id-value="<%= @competition.id %>"
-       data-virtual-competitions--compare-kind-value="<%= @competition.jumps_kind %>"
-       data-virtual-competitions--compare-discipline-value="<%= @competition.discipline %>">
+       data-controller="track-compare"
+       data-track-compare-source-value="virtual_competitions"
+       data-track-compare-competition-id-value="<%= @competition.id %>"
+       data-track-compare-kind-value="<%= @competition.jumps_kind %>"
+       data-track-compare-discipline-value="<%= @competition.discipline %>"
+       data-track-compare-slot-placeholder-value="<%= t('virtual_competitions.compare.slot_placeholder') %>">
     <%= render 'actions_bar', ranking: @ranking %>
 
     <div class="card">

@@ -1,0 +1,12 @@
+.compare-active .result-cell[data-track-id] {
+  cursor: pointer;
+}
+
+.compare-active .result-cell[data-track-id]:hover {
+  background-color: var(--blue-10);
+}
+
+.compare-active .result-cell.is-selected {
+  background-color: var(--blue-10);
+  box-shadow: inset 0 0 0 2px var(--blue-60);
+}

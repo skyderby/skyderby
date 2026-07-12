@@ -94,9 +94,14 @@ class TracksController < ApplicationController
     return if params[:compare_id].blank?
     return unless @track.pro_view_available?
 
-    @compare_track = Track.viewable.find_by(id: params[:compare_id])
+    @compare_track = viewable_compare_track
 
     track_compare_event
+  end
+
+  def viewable_compare_track
+    Track.viewable.find_by(id: params[:compare_id]) ||
+      Track.find_by(id: params[:compare_id])&.then { |track| track if track.viewable? }
   end
 
   def track_compare_event
