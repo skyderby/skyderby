@@ -64,7 +64,7 @@
 
 .track-upload-error {
   margin: 0;
-  color: var(--red-60, #dc2626);
+  color: var(--red-60);
   font-size: 0.875rem;
 }
 
@@ -91,5 +91,5 @@
 }
 
 .track-upload-overlay-success {
-  color: var(--green-40, #4ade80);
+  color: var(--green-40);
 }
