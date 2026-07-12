@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "rails",
-      "runtimeExecutable": "bin/dev",
+      "runtimeExecutable": "bin/dev-preview",
       "runtimeArgs": [],
       "port": 3000,
       "autoPort": true
