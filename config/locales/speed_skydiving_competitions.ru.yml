@@ -2,6 +2,14 @@ ru:
   speed_skydiving_competitions:
     actions_bar:
       display: 'Табло'
+    track_upload:
+      button: 'Загрузка треков'
+      title: 'Загрузка треков'
+      competitor_number: 'Номер участника'
+      file: 'Файл трека'
+      not_found: 'Нет участника с таким номером'
+      round_missing: 'Выберите раунд'
+      competitor_not_found: 'Нет участника с номером %{number}'
     meta:
       description: "Официальные результаты соревнования по скоростному падению %{event_name} в %{place}. Рейтинги участников, результаты раундов и итоговая таблица."
     display:

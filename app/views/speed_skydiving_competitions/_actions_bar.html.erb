@@ -15,6 +15,11 @@
       <%= icon_tag 'plus-solid' %>
       <%= t('events.round') %>
     <% end %>
+
+    <%= button_to new_speed_skydiving_competition_track_upload_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+      <%= icon_tag 'upload-solid' %>
+      <%= t('speed_skydiving_competitions.track_upload.button') %>
+    <% end %>
   <% end %>
 
   <div class="actions-bar-right">

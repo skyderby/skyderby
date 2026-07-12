@@ -750,8 +750,17 @@ td.scoreboard-total-result {
   color: var(--gray-70);
 }
 
-.speed-skydiving-scoreboard-table .result-show-cell button {
+.speed-skydiving-scoreboard-table .result-show-cell button,
+.speed-skydiving-scoreboard-table .result-upload-cell button {
   background-color: transparent;
+}
+
+.speed-skydiving-scoreboard-table .result-upload-cell button {
+  color: transparent;
+}
+
+.speed-skydiving-scoreboard-table .result-upload-cell button:hover {
+  color: var(--white);
 }
 
 .speed-skydiving-scoreboard-table tbody tr:nth-child(even) > td {
