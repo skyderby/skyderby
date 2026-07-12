@@ -183,10 +183,11 @@ export default class HotSelect extends Controller {
     const options = this.getOptions()
     if (index >= 0 && index < options.length) {
       const option = options[index]
-      const value = option.getAttribute('data-value')
-      const text = option.innerHTML
+      if (option.classList.contains('hot-select-option--disabled')) return
 
-      this.selectOption(value, text)
+      const value = option.getAttribute('data-value')
+
+      this.selectOption(value, this.optionLabel(option))
     }
   }
 
@@ -210,11 +211,16 @@ export default class HotSelect extends Controller {
   choose(event) {
     const optionElement = event.target.closest('.hot-select-option')
     if (!optionElement) return
+    if (optionElement.classList.contains('hot-select-option--disabled')) return
 
     const value = optionElement.getAttribute('data-value')
-    const text = optionElement.innerHTML
 
-    this.selectOption(value, text)
+    this.selectOption(value, this.optionLabel(optionElement))
+  }
+
+  optionLabel(optionElement) {
+    const label = optionElement.querySelector('.hot-select-option-label')
+    return label ? label.innerHTML : optionElement.innerHTML
   }
 
   clear() {
@@ -255,10 +261,27 @@ export default class HotSelect extends Controller {
   createOption(option) {
     const div = document.createElement('div')
     div.classList.add('hot-select-option')
-    div.textContent = option.text
     div.setAttribute('data-value', option.value)
     div.setAttribute('tabindex', '-1')
     div.setAttribute('role', 'option')
+
+    if (option.disabled) {
+      div.classList.add('hot-select-option--disabled')
+      div.setAttribute('aria-disabled', 'true')
+    }
+
+    if (option.dataset.icon) {
+      const icon = document.createElement('span')
+      icon.className = `icon icon--${option.dataset.icon} hot-select-option-icon`
+      if (option.dataset.iconClass) icon.classList.add(option.dataset.iconClass)
+      div.appendChild(icon)
+    }
+
+    const label = document.createElement('span')
+    label.classList.add('hot-select-option-label')
+    label.textContent = option.text
+    div.appendChild(label)
+
     this.optionsTarget.insertAdjacentHTML('beforeend', div.outerHTML)
   }
 

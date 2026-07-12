@@ -244,6 +244,7 @@ Skyderby::Application.routes.draw do
       end
       resources :competitors, except: %i[index show]
       resources :rounds, only: %i[create update destroy]
+      resource :track_upload, only: %i[new create]
       resources :results, except: :index do
         scope module: :results do
           resource :penalties, only: %i[show new update]

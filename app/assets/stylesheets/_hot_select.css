@@ -187,8 +187,29 @@
   color: var(--gray-80);
 }
 
+.hot-select-option-icon {
+  margin-right: 0.375rem;
+}
+
+.hot-select-option-icon--completed {
+  color: var(--green-90);
+}
+
+.hot-select-option-icon--pending {
+  color: var(--gray-50);
+}
+
+.hot-select-option--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .hot-select-option:hover {
   background-color: var(--gray-10);
+}
+
+.hot-select-option--disabled:hover {
+  background-color: transparent;
 }
 
 .hot-select-option.hot-select-option--focused {
