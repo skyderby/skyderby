@@ -1,4 +1,4 @@
-<% if (@track.base? || @track.skydive?) && !@track.pro_view_available? %>
+<% if (@track.base? || @track.skydive? || @track.speed_skydiving?) && !@track.pro_view_available? %>
   <% product = t("tracks.pro_view.product.#{@track.kind}") %>
   <div class="notice justify-center">
     <% if Current.user.registered? %>

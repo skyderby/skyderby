@@ -31,6 +31,17 @@ class Tracks::SpeedSkydivingResult
 
   def window_end_altitude = best_range&.dig(:end_point, :altitude)
 
+  def scoring_window_end_altitude_msl
+    return unless best_range
+
+    floor = [
+      exit_altitude - SpeedSkydivingCompetition::ResultScore::WINDOW,
+      SpeedSkydivingCompetition::ResultScore::BREAKOFF_ALTITUDE
+    ].max
+
+    floor + track.msl_offset
+  end
+
   private
 
   attr_reader :track

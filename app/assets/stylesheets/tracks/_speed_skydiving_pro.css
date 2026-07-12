@@ -1,0 +1,487 @@
+.speed-pro {
+  --ssp-a: #e22732; /* primary track — red (vertical speed / identity) */
+  --ssp-a-accel: #ec961a; /* primary acceleration — orange */
+  --ssp-b: #2196f3; /* comparison track — blue */
+  --ssp-b-accel: #9c27b0; /* comparison acceleration — purple */
+  --ssp-alt: #1a1a1a; /* altitude — black */
+  --ssp-pos: var(--ssp-a); /* summary bar: track ahead → red, fills left */
+  --ssp-neg: var(--ssp-b); /* comparison ahead → blue, fills right */
+  --ssp-sep-ok: var(--gray-40); /* accuracy within tolerance */
+  --ssp-sep-bad: var(--red-70); /* accuracy above threshold — result at risk */
+  --ssp-grid: var(--gray-30);
+  --ssp-ink: var(--gray-90);
+  --ssp-muted: var(--gray-60);
+  --ssp-band: var(--gray-20);
+  --ssp-surface: var(--surface);
+  --ssp-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.speed-pro__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.speed-pro__actions {
+  padding: 0.5rem 0.75rem;
+}
+
+/* ---- overview: summary + comparison bars ---- */
+.speed-pro__overview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.speed-pro__summary {
+  display: flex;
+  gap: 0.75rem;
+  flex: 1 1 340px;
+  flex-wrap: wrap;
+}
+
+.ssp-tile {
+  flex: 1 1 120px;
+  min-width: 120px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius-md);
+  padding: 0.6rem 0.75rem;
+}
+
+.ssp-tile__label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.ssp-tile__value {
+  margin-top: 0.35rem;
+  font-family: var(--ssp-mono);
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-color);
+}
+
+.ssp-tile__cmp {
+  display: flex;
+  align-items: center;
+  margin-top: 0.3rem;
+  font-family: var(--ssp-mono);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ssp-b);
+}
+
+.ssp-tile__cmp .ssp-dot {
+  margin-right: 0.35rem;
+}
+
+.ssp-tile__cmp .ssp-unit {
+  font-size: 0.72em;
+}
+
+.ssp-unit {
+  font-family: inherit;
+  font-size: 0.7em;
+  color: var(--text-secondary);
+  margin-left: 0.15rem;
+}
+
+/* ---- help tooltip ---- */
+.ssp-help {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: help;
+  flex: none;
+}
+
+.ssp-help__bubble {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 230px;
+  background: var(--blue-gray-90);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 0.55rem 0.7rem;
+  border-radius: var(--border-radius-sm);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.12s;
+  z-index: 20;
+  box-shadow: 0 6px 24px rgba(37, 47, 60, 0.3);
+}
+
+.ssp-help__bubble::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--blue-gray-90);
+}
+
+.ssp-help:hover .ssp-help__bubble,
+.ssp-help:focus .ssp-help__bubble {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ---- comparison rows: values flank a centered bar, category name centered ---- */
+.ssp-cmp__cols {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.7rem 0 0.4rem;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.ssp-cmp__cols .ssp-dot {
+  margin-right: 0.3rem;
+}
+
+.ssp-dot--trail {
+  margin-right: 0;
+  margin-left: 0.3rem;
+}
+
+.ssp-cmp__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.ssp-cmp__row {
+  display: grid;
+  grid-template-columns: 58px 1fr 58px;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ssp-cmp__val {
+  font-family: var(--ssp-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.ssp-cmp__val:first-child {
+  text-align: right;
+}
+
+.ssp-cmp__val:last-child {
+  text-align: left;
+}
+
+.ssp-cmp__val.is-lead {
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.ssp-cmp__unit {
+  font-size: 0.68em;
+  color: var(--text-secondary);
+  margin-left: 0.1rem;
+}
+
+.ssp-cmp__name {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.28rem;
+}
+
+.ssp-cmp__bar {
+  position: relative;
+  height: 9px;
+  background: var(--gray-20);
+  border-radius: 3px;
+}
+
+.ssp-cmp__mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: var(--gray-40);
+}
+
+.ssp-cmp__fill {
+  position: absolute;
+  top: 1.5px;
+  bottom: 1.5px;
+  border-radius: 2px;
+}
+
+/* ---- comparison waterfall ---- */
+.speed-pro__compare {
+  flex: 1 1 360px;
+  min-width: 320px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius-md);
+  padding: 0.85rem 1rem;
+}
+
+.speed-pro__compare[hidden] {
+  display: none;
+}
+
+/* ---- chart panels ---- */
+.speed-pro__panel {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius-md);
+  padding: 0.75rem 0.9rem;
+}
+
+.speed-pro__panel[hidden] {
+  display: none;
+}
+
+.speed-pro__panel-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.speed-pro__panel-title {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 620;
+}
+
+.speed-pro__axis {
+  margin-left: auto;
+}
+
+.seg {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  background: var(--gray-20);
+  border-radius: var(--border-radius-sm);
+}
+
+.seg__btn {
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 550;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--border-radius-sm) - 2px);
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.seg__btn[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--text-color);
+  box-shadow: 0 1px 2px rgba(37, 47, 60, 0.16);
+}
+
+.speed-pro__chart-wrap {
+  position: relative;
+}
+
+.speed-pro__chart {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.speed-pro__chart text {
+  font-family: var(--ssp-mono);
+}
+
+.ssp-crosshair {
+  stroke: var(--gray-60);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  pointer-events: none;
+}
+
+.ssp-marker {
+  stroke: var(--ssp-surface);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+/* ---- hover readout (metrics as rows, tracks as columns) ---- */
+.ssp-tooltip {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius-sm);
+  box-shadow: 0 6px 24px rgba(37, 47, 60, 0.18);
+  padding: 0.5rem 0.6rem;
+  min-width: 150px;
+}
+
+.ssp-tooltip[hidden] {
+  display: none;
+}
+
+.ssp-tt__x {
+  font-family: var(--ssp-mono);
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.35rem;
+}
+
+.ssp-tt__table {
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+
+.ssp-tt__table th {
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: left;
+  padding: 0.12rem 0.5rem 0.12rem 0;
+  white-space: nowrap;
+}
+
+.ssp-tt__table thead th {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.ssp-tt__table td {
+  font-family: var(--ssp-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  text-align: right;
+  padding: 0.12rem 0;
+  color: var(--text-color);
+}
+
+.ssp-tt__table th:first-child {
+  padding-right: 0.9rem;
+}
+
+/* Track value right-aligned, Comparison value left-aligned so the two numbers
+   sit next to each other in the middle instead of being pushed to the edges. */
+.ssp-tt__table thead th:nth-of-type(3),
+.ssp-tt__table td:nth-of-type(2) {
+  text-align: left;
+  padding-left: 0.4rem;
+}
+
+/* accuracy row — de-emphasized unless it lands in the red zone */
+.ssp-tt__minor th,
+.ssp-tt__minor td {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.ssp-tt__minor .ssp-tt__alert {
+  color: var(--ssp-sep-bad);
+  font-weight: 700;
+}
+
+.ssp-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 0.3rem;
+  vertical-align: baseline;
+}
+
+.ssp-dot.is-a {
+  background: var(--ssp-a);
+}
+
+.ssp-dot.is-b {
+  background: var(--ssp-b);
+}
+
+/* delta cell in the readout — same visual language as the summary bars */
+.ssp-tt__delta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-left: 0.7rem !important;
+}
+
+.ssp-tt__bar {
+  position: relative;
+  flex: none;
+  width: 46px;
+  height: 9px;
+  background: var(--gray-20);
+  border-radius: 3px;
+}
+
+.ssp-tt__mid {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: var(--gray-40);
+}
+
+.ssp-tt__fill {
+  position: absolute;
+  top: 1.5px;
+  bottom: 1.5px;
+  border-radius: 2px;
+}
+
+.ssp-tt__dval {
+  font-family: var(--ssp-mono);
+  font-variant-numeric: tabular-nums;
+  min-width: 34px;
+  text-align: right;
+}
+
+.ssp-tt__dval.is-pos {
+  color: var(--ssp-pos);
+}
+
+.ssp-tt__dval.is-neg {
+  color: var(--ssp-neg);
+}
+
+.speed-pro__footnote {
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
