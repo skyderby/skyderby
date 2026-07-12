@@ -23,7 +23,7 @@ en:
       actions_bar:
         more_actions: 'More actions'
         copy_competitors: 'Copy competitors'
-        display: 'Show'
+        display: 'Slide Show'
       display:
         live: 'Live'
         standings: 'Overall Standings'

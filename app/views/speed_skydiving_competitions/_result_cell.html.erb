@@ -8,6 +8,14 @@
   <% if show_result && result %>
     data-created-at="<%= result.created_at.iso8601 %>"
   <% end %>
+  <% if show_result && result&.track_id.present? %>
+    data-track-compare-target="row"
+    data-action="click->track-compare#selectRow"
+    data-track-id="<%= result.track_id %>"
+    data-pilot="<%= competitor.name %>"
+    data-result="<%= t('speed_skydiving_competitions.display.kmh', speed: '%.2f' % result.final_result) %>"
+    data-kind="speed_skydiving"
+  <% end %>
 >
   <% if show_result && result %>
     <%= button_to speed_skydiving_competition_result_path(event, result),

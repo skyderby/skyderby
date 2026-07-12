@@ -6,7 +6,7 @@ fr:
       show_details: Cliquer pour voir les détails de l'enregistrement
     qualifications:
       actions_bar:
-        display: 'Show'
+        display: 'Slide Show'
       display:
         live: 'En direct'
         standings: 'Classement général'

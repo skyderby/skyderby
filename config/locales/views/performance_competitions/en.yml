@@ -1,7 +1,7 @@
 en:
   performance_competitions:
     actions_bar:
-      display: 'Display'
+      display: 'Slide Show'
     compare:
       start: Compare Tracks
       submit: Compare

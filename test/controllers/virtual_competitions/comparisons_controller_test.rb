@@ -56,6 +56,27 @@ class VirtualCompetitions::ComparisonsControllerTest < ActionDispatch::Integrati
     assert_redirected_to subscriptions_path
   end
 
+  test 'allows comparison of speed skydiving tracks' do
+    sign_in @user
+    competition = VirtualCompetition.create!(
+      name: 'Speed',
+      group: virtual_competition_groups(:main),
+      discipline: :speed,
+      jumps_kind: :speed_skydiving,
+      period_from: '2015-01-01',
+      period_to: '2027-01-01'
+    )
+    track_a = create(:empty_track, :with_point, kind: Track.kinds[:speed_skydiving])
+    track_b = create(:empty_track, :with_point, kind: Track.kinds[:speed_skydiving])
+    competition.results.create!(track: track_a, result: 400)
+    competition.results.create!(track: track_b, result: 410)
+
+    post virtual_competition_comparison_path(competition),
+         params: { track_a_id: track_a.id, track_b_id: track_b.id }
+
+    assert_redirected_to track_path(track_a, compare_id: track_b.id, result_competition_id: competition.id)
+  end
+
   test 'rejects comparison of tracks with different kinds' do
     sign_in @user
     skydive_track = create(:empty_track, :with_point, kind: Track.kinds[:skydive])

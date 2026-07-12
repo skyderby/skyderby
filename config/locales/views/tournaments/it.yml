@@ -6,7 +6,7 @@ it:
       show_details: Clicca per vedere il dettaglio della traccia
     qualifications:
       actions_bar:
-        display: 'Show'
+        display: 'Slide Show'
       display:
         live: 'In diretta'
         standings: 'Classifica generale'

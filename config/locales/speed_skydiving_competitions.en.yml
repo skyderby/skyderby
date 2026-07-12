@@ -1,7 +1,17 @@
 en:
   speed_skydiving_competitions:
     actions_bar:
-      display: 'Display'
+      display: 'Slide Show'
+    compare:
+      start: Compare Tracks
+      submit: Compare
+      slot_placeholder: Select a result
+      swap: Swap tracks
+      cancel: Cancel
+      remaining:
+        zero: No free comparisons left
+        one: "%{count} free comparison left"
+        other: "%{count} free comparisons left"
     track_upload:
       button: 'Upload tracks'
       title: 'Upload tracks'
