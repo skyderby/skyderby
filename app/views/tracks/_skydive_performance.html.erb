@@ -157,26 +157,47 @@
     </div>
 
     <div class="skydive-performance-layout">
-      <div class="skydive-performance-stage-switch-row">
-        <div class="switch-container skydive-performance-stage-switch"
-             <% if @compare_track %>title="<%= t('tracks.show.map_unavailable_compare') %>"<% end %>>
-          <input type="checkbox"
-                 id="stage-panel-toggle"
-                 class="switch-input"
-                 <%= 'disabled' if @compare_track %>
-                 data-tracks--skydive-performance-track-target="stageToggle"
-                 data-action="tracks--skydive-performance-track#toggleStagePanel">
-          <label for="stage-panel-toggle" class="switch-label">
-            <span class="switch-text"><%= t('tracks.show.tab_drag_polar') %></span>
-            <span class="switch-slider"></span>
-            <span class="switch-text"><%= t('tracks.show.tab_map') %></span>
-          </label>
+      <div class="skydive-performance-stage-tabs-row">
+        <div class="seg skydive-performance-stage-tabs" role="tablist">
+          <button type="button"
+                  class="seg__btn"
+                  data-stage="segments"
+                  aria-pressed="true"
+                  data-tracks--skydive-performance-track-target="stageTab"
+                  data-action="tracks--skydive-performance-track#selectStage">
+            <%= t('tracks.show.tab_segments') %>
+          </button>
+          <button type="button"
+                  class="seg__btn"
+                  data-stage="polar"
+                  aria-pressed="false"
+                  data-tracks--skydive-performance-track-target="stageTab"
+                  data-action="tracks--skydive-performance-track#selectStage">
+            <%= t('tracks.show.tab_drag_polar') %>
+          </button>
+          <button type="button"
+                  class="seg__btn"
+                  data-stage="map"
+                  aria-pressed="false"
+                  <%= 'disabled' if @compare_track %>
+                  <% if @compare_track %>title="<%= t('tracks.show.map_unavailable_compare') %>"<% end %>
+                  data-tracks--skydive-performance-track-target="stageTab"
+                  data-action="tracks--skydive-performance-track#selectStage">
+            <%= t('tracks.show.tab_map') %>
+          </button>
         </div>
       </div>
 
       <div class="skydive-performance-stage">
         <div class="skydive-performance-side-panel">
-          <div class="skydive-performance-panel-content">
+          <div class="skydive-performance-segments-panel"
+               data-tracks--skydive-performance-track-target="segmentsPanel">
+            <div class="skydive-performance-segments"
+                 data-tracks--skydive-performance-track-target="segmentsContent"></div>
+          </div>
+
+          <div class="skydive-performance-panel-content hidden"
+               data-tracks--skydive-performance-track-target="panelContent">
             <div class="skydive-performance-polar-panel"
                  data-tracks--skydive-performance-track-target="polarPanel">
               <svg class="skydive-performance-polar"
