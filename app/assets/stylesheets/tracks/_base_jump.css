@@ -308,7 +308,6 @@ td.side-tt-delta-cell {
   position: absolute;
   top: 1px;
   bottom: 1px;
-  border-radius: 2px;
 }
 
 .side-tt-delta__val {
