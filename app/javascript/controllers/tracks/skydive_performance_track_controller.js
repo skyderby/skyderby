@@ -7,7 +7,8 @@ import {
   initCombinedChart,
   findPositionForAltitude
 } from 'charts'
-import { convertLength, lengthUnitLabel } from 'utils/units'
+import { convertLength, lengthUnitLabel, convertSpeed, speedUnitLabel } from 'utils/units'
+import { computeSegmentAnalysis } from 'utils/tracks/skydiveSegments'
 import initMapsApi from 'utils/google_maps_api'
 import cropPoints from 'utils/cropPoints'
 import downsamplePoints from 'utils/downsamplePoints'
@@ -37,7 +38,10 @@ export default class extends Controller {
     'glideChart',
     'speedChart',
     'polarChart',
-    'stageToggle',
+    'stageTab',
+    'segmentsPanel',
+    'segmentsContent',
+    'panelContent',
     'polarPanel',
     'mapPanel',
     'map',
@@ -107,6 +111,7 @@ export default class extends Controller {
   connect() {
     this.playing = false
     this.currentIndex = 0
+    this.stage = 'segments'
     this.referencePointData = null
     this.comparePoints = null
     this.initializeStraightLine()
@@ -487,6 +492,7 @@ export default class extends Controller {
     this.destroyCharts()
     this.renderSideView()
     this.renderPolarChart()
+    this.renderSegments()
     this.updateChartsModeUI()
     this.renderCharts()
     if (this.mapReady) this.renderMap()
@@ -978,17 +984,295 @@ export default class extends Controller {
     })
   }
 
-  toggleStagePanel(event) {
-    const showMap = event.currentTarget.checked
+  renderSegments() {
+    if (this.stage !== 'segments') return
+    if (!this.hasSegmentsContentTarget || !this.processedPoints?.length) return
 
+    const analysis = computeSegmentAnalysis(this.processedPoints, {
+      from: this.fromValue,
+      to: this.toValue
+    })
+
+    if (!analysis) {
+      this.segmentsContentTarget.innerHTML = ''
+      return
+    }
+
+    const compareAnalysis =
+      this.comparePoints && this.compareProcessedPoints?.length
+        ? computeSegmentAnalysis(this.compareProcessedPoints, {
+            from: this.fromValue,
+            to: this.toValue
+          })
+        : null
+
+    this.segmentsContentTarget.innerHTML = compareAnalysis
+      ? this.segmentsCompareHtml(analysis, compareAnalysis)
+      : this.segmentsSingleHtml(analysis)
+  }
+
+  segmentsT(key) {
+    return I18n.t(`tracks.show.segments.${key}`)
+  }
+
+  formatLength(meters) {
+    return Math.round(convertLength(meters, this.units))
+  }
+
+  formatSpeed(kmh) {
+    return Math.round(convertSpeed(kmh, this.units))
+  }
+
+  segmentsSingleHtml(analysis) {
+    const { entry, segments } = analysis
+
+    const maxDistance = Math.max(...segments.map(s => Math.abs(s.distance)), 0.0001)
+    const maxTime = Math.max(...segments.map(s => Math.abs(s.time)), 0.0001)
+    const maxDelta = Math.max(...segments.map(s => Math.abs(s.deltaSpeed)), 0.0001)
+
+    const cards = segments
+      .map(segment => this.segmentSingleCard(segment, { maxDistance, maxTime, maxDelta }))
+      .join('')
+
+    return this.segmentsEntryHtml(entry) + `<div class="sps-seg-list">${cards}</div>`
+  }
+
+  segmentsEntryHtml(entry) {
+    const speedUnit = speedUnitLabel(this.units)
+    const energyUnit = this.segmentsT('energy_unit')
+
+    const chip = (label, value) => `
+      <div class="sps-entry__chip">
+        <span class="sps-entry__label">${label}</span>
+        <span class="sps-entry__value">${value}</span>
+      </div>`
+
+    const loss = entry.deltaFromMax
+    const lossSign = loss >= 0 ? '+' : '−'
+    const lossCls = loss >= 0 ? 'is-gain' : 'is-loss'
+    const lossSpeed = Math.abs(this.formatSpeed(loss))
+    const lossEnergy = Math.round(Math.abs(entry.energyFromMax))
+
+    return `<div class="sps-entry">
+      ${chip(
+        this.segmentsT('top_speed'),
+        `${this.formatSpeed(entry.maxSpeedBefore)}<i class="sps-unit">${speedUnit}</i>`
+      )}
+      ${chip(
+        this.segmentsT('entry_label'),
+        `${this.formatSpeed(entry.hSpeed)}/${this.formatSpeed(entry.vSpeed)}<i class="sps-unit">${speedUnit}</i>`
+      )}
+      ${chip(
+        this.segmentsT('energy_loss'),
+        `<span class="sps-delta ${lossCls}">${lossSign}${lossSpeed}<i class="sps-unit">${speedUnit}</i> / ${lossSign}${lossEnergy}<i class="sps-unit">${energyUnit}</i></span>`
+      )}
+    </div>`
+  }
+
+  segmentsEntryCompareHtml(a, b) {
+    const speedUnit = speedUnitLabel(this.units)
+    const energyUnit = this.segmentsT('energy_unit')
+
+    const speed = value =>
+      `${this.formatSpeed(value)}<i class="sps-unit">${speedUnit}</i>`
+    const components = entry =>
+      `${this.formatSpeed(entry.hSpeed)}/${this.formatSpeed(entry.vSpeed)}<i class="sps-unit">${speedUnit}</i>`
+    const loss = entry => {
+      const sign = entry.deltaFromMax >= 0 ? '+' : '−'
+      return `${sign}${Math.abs(this.formatSpeed(entry.deltaFromMax))}<i class="sps-unit">${speedUnit}</i> / ${sign}${Math.round(Math.abs(entry.energyFromMax))}<i class="sps-unit">${energyUnit}</i>`
+    }
+
+    const chip = (label, trackValue, compareValue) => `
+      <div class="sps-entry__chip sps-entry__chip--compare">
+        <span class="sps-entry__label">${label}</span>
+        <span class="sps-entry__value sps-entry__value--a">${trackValue}</span>
+        <span class="sps-entry__value sps-entry__value--b">${compareValue}</span>
+      </div>`
+
+    return `<div class="sps-entry sps-entry--compare">
+      ${chip(this.segmentsT('top_speed'), speed(a.maxSpeedBefore), speed(b.maxSpeedBefore))}
+      ${chip(this.segmentsT('entry_label'), components(a), components(b))}
+      ${chip(this.segmentsT('energy_loss'), loss(a), loss(b))}
+    </div>`
+  }
+
+  segmentSingleCard(segment, { maxDistance, maxTime, maxDelta }) {
+    const lenUnit = lengthUnitLabel(this.units)
+    const speedUnit = speedUnitLabel(this.units)
+
+    const distanceRow = this.segmentSingleRow(
+      this.segmentsT('metric_distance'),
+      `${this.formatLength(segment.distance)}<i class="sps-unit">${lenUnit}</i>`,
+      Math.abs(segment.distance) / maxDistance
+    )
+
+    const timeRow = this.segmentSingleRow(
+      this.segmentsT('metric_time'),
+      `${segment.time.toFixed(1)}<i class="sps-unit">${I18n.t('units.sec')}</i>`,
+      Math.abs(segment.time) / maxTime
+    )
+
+    const energyRow = this.segmentEnergyRow(segment, maxDelta, speedUnit)
+
+    return `<div class="sps-seg">
+      ${this.segmentSideLabel(segment)}
+      <div class="sps-seg__rows">${distanceRow}${timeRow}${energyRow}</div>
+    </div>`
+  }
+
+  segmentSideLabel(segment) {
+    const lenUnit = lengthUnitLabel(this.units)
+    const drop = this.formatLength(segment.fromAltitude - segment.toAltitude)
+
+    return `<div class="sps-seg__side">
+      <span class="sps-seg__badge">S${segment.index + 1}</span>
+      <span class="sps-seg__drop">${drop} ${lenUnit}</span>
+    </div>`
+  }
+
+  segmentSingleRow(name, valueHtml, ratio) {
+    const width = Math.max(2, Math.min(100, ratio * 100))
+
+    return `<div class="sps-row">
+      <span class="sps-row__name">${name}</span>
+      <span class="sps-bar"><span class="sps-bar__fill" style="width:${width}%"></span></span>
+      <span class="sps-row__val">${valueHtml}</span>
+    </div>`
+  }
+
+  segmentEnergyRow(segment, maxDelta, speedUnit) {
+    const ratio = Math.abs(segment.deltaSpeed) / maxDelta
+    const width = Math.max(2, Math.min(48, ratio * 48))
+    const gain = segment.deltaSpeed >= 0
+    const side = gain ? 'left' : 'right'
+    const cls = gain ? 'is-gain' : 'is-loss'
+    const sign = gain ? '+' : '−'
+    const deltaSpeed = Math.abs(this.formatSpeed(segment.deltaSpeed))
+    const energy = Math.round(Math.abs(segment.deltaEnergy))
+    const energyUnit = this.segmentsT('energy_unit')
+
+    return `<div class="sps-row">
+      <span class="sps-row__name">${this.segmentsT('metric_energy')}</span>
+      <span class="sps-bar sps-bar--diverging">
+        <span class="sps-bar__mid"></span>
+        <span class="sps-bar__fill ${cls}" style="${side}:50%;width:${width}%"></span>
+      </span>
+      <span class="sps-row__val">
+        <span class="sps-delta ${cls}">${sign}${deltaSpeed}<i class="sps-unit">${speedUnit}</i></span>
+        <span class="sps-row__sub">${sign}${energy}<i class="sps-unit">${energyUnit}</i></span>
+      </span>
+    </div>`
+  }
+
+  segmentsCompareHtml(a, b) {
+    const segsA = a.segments
+    const segsB = b.segments
+
+    const header = `<div class="sps-cols">
+      <span><span class="sps-dot is-a"></span>${this.segmentsT('col_track')}</span>
+      <span>${this.segmentsT('col_comparison')}<span class="sps-dot is-b sps-dot--trail"></span></span>
+    </div>`
+
+    const entryRows = this.segmentsEntryCompareHtml(a.entry, b.entry)
+
+    const maxes = {
+      distance: Math.max(
+        ...segsA.map((s, i) => Math.abs(s.distance - segsB[i].distance)),
+        0.0001
+      ),
+      time: Math.max(...segsA.map((s, i) => Math.abs(s.time - segsB[i].time)), 0.0001),
+      delta: Math.max(
+        ...segsA.map((s, i) => Math.abs(s.deltaSpeed - segsB[i].deltaSpeed)),
+        0.0001
+      )
+    }
+
+    const cards = segsA
+      .map((segment, index) => this.segmentCompareCard(segment, segsB[index], maxes))
+      .join('')
+
+    return header + entryRows + `<div class="sps-seg-list">${cards}</div>`
+  }
+
+  segmentCompareCard(segA, segB, maxes) {
+    const lenUnit = lengthUnitLabel(this.units)
+    const speedUnit = speedUnitLabel(this.units)
+
+    const distanceRow = this.segmentCompareRow(
+      this.segmentsT('metric_distance'),
+      segA.distance,
+      segB.distance,
+      value => `${this.formatLength(value)}<i class="sps-unit">${lenUnit}</i>`,
+      maxes.distance
+    )
+
+    const timeRow = this.segmentCompareRow(
+      this.segmentsT('metric_time'),
+      segA.time,
+      segB.time,
+      value => `${value.toFixed(1)}<i class="sps-unit">${I18n.t('units.sec')}</i>`,
+      maxes.time
+    )
+
+    const energyRow = this.segmentCompareRow(
+      this.segmentsT('metric_energy'),
+      segA.deltaSpeed,
+      segB.deltaSpeed,
+      value =>
+        `${value >= 0 ? '+' : '−'}${Math.abs(this.formatSpeed(value))}<i class="sps-unit">${speedUnit}</i>`,
+      maxes.delta
+    )
+
+    return `<div class="sps-seg">
+      ${this.segmentSideLabel(segA)}
+      <div class="sps-seg__rows">${distanceRow}${timeRow}${energyRow}</div>
+    </div>`
+  }
+
+  segmentCompareRow(name, valA, valB, format, maxDelta) {
+    const delta = valA - valB
+    const ratio = Math.abs(delta) / maxDelta
+    const width = Math.max(2, Math.min(46, ratio * 46))
+    const trackLeads = delta >= 0
+    const fillStyle = trackLeads
+      ? `right:50%;width:${width}%;background:var(--sps-a)`
+      : `left:50%;width:${width}%;background:var(--sps-b)`
+
+    return `<div class="sps-cmp__row">
+      <span class="sps-cmp__val ${trackLeads ? 'is-lead' : ''}">${format(valA)}</span>
+      <span class="sps-cmp__mid">
+        <span class="sps-cmp__name">${name}</span>
+        <span class="sps-bar"><span class="sps-bar__mid"></span><span class="sps-bar__fill" style="${fillStyle}"></span></span>
+      </span>
+      <span class="sps-cmp__val ${trackLeads ? '' : 'is-lead'}">${format(valB)}</span>
+    </div>`
+  }
+
+  selectStage(event) {
+    const stage = event.currentTarget.dataset.stage
+    if (!stage || stage === this.stage) return
+
+    this.stage = stage
+
+    this.stageTabTargets.forEach(tab =>
+      tab.setAttribute('aria-pressed', tab.dataset.stage === stage ? 'true' : 'false')
+    )
+
+    if (this.hasSegmentsPanelTarget) {
+      this.segmentsPanelTarget.classList.toggle('hidden', stage !== 'segments')
+    }
+    if (this.hasPanelContentTarget) {
+      this.panelContentTarget.classList.toggle('hidden', stage === 'segments')
+    }
     if (this.hasPolarPanelTarget) {
-      this.polarPanelTarget.classList.toggle('hidden', showMap)
+      this.polarPanelTarget.classList.toggle('hidden', stage !== 'polar')
     }
     if (this.hasMapPanelTarget) {
-      this.mapPanelTarget.classList.toggle('hidden', !showMap)
+      this.mapPanelTarget.classList.toggle('hidden', stage !== 'map')
     }
 
-    if (showMap) this.showMap()
+    if (stage === 'segments') this.renderSegments()
+    if (stage === 'map') this.showMap()
   }
 
   showMap() {
