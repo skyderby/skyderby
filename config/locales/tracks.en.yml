@@ -42,6 +42,7 @@ en:
         speed_axis: SPEED
         accel_axis: "ACCELERATION  ↓ gaining  ↑ braking"
         km_msl: km MSL
+        kft_msl: kft MSL
         window_end: window end
         sep: SEP
       metrics:

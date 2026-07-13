@@ -29,6 +29,7 @@ class Profile < ApplicationRecord
   MIN_NAME_QUERY_LENGTH = 3
 
   enum :default_units, { metric: 0, imperial: 1 }
+  enum :speed_skydiving_units, { metric: 0, imperial: 1 }, prefix: true
   enum :default_chart_view, { multi: 0, single: 1 }
   enum :gender, { male: 0, female: 1, other: 2 }
 

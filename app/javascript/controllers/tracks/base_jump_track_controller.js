@@ -5,6 +5,7 @@ import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
+import { patch } from '@rails/request.js'
 import I18n from 'i18n'
 
 const SYNC_VERTICAL_SPEED = 10
@@ -30,7 +31,8 @@ export default class extends Controller {
     'expandMapToggle',
     'finishLineToggle',
     'resultOption',
-    'emptyState'
+    'emptyState',
+    'unitsItem'
   ]
 
   static values = {
@@ -53,7 +55,47 @@ export default class extends Controller {
     resultComparePointLat: Number,
     resultComparePointLon: Number,
     resultComparePointGpsTime: Number,
-    resultCompareLabel: String
+    resultCompareLabel: String,
+    chartsUnits: { type: String, default: 'metric' },
+    chartSettingsUrl: String
+  }
+
+  get units() {
+    return this.chartsUnitsValue
+  }
+
+  setUnits(event) {
+    const units = event.currentTarget.dataset.units
+    if (units === this.chartsUnitsValue) return
+
+    this.chartsUnitsValue = units
+    this.unitsItemTargets.forEach(item =>
+      item.classList.toggle('active', item.dataset.units === units)
+    )
+    if (this.hasChartSettingsUrlValue)
+      patch(this.chartSettingsUrlValue, {
+        body: { charts_units: units },
+        responseKind: 'json'
+      })
+  }
+
+  chartsUnitsValueChanged(value, previousValue) {
+    if (previousValue === undefined || value === previousValue || !this.points) return
+    ;[
+      this.hasGlideChartTarget && this.glideChartTarget,
+      this.hasSpeedChartTarget && this.speedChartTarget,
+      this.hasSepChartTarget && this.sepChartTarget
+    ].forEach(target => {
+      if (target && target.chart) {
+        target.chart.destroy()
+        target.chart = null
+      }
+    })
+    this.initGlideChart()
+    this.initSpeedsChart()
+    this.initSepChart()
+    this.initSideProjection()
+    this.updatePlaybackPosition()
   }
 
   connect() {
@@ -428,7 +470,8 @@ export default class extends Controller {
 
     this.sideProjectionChart = new SideProjectionChart(this.sideProjectionTarget, {
       onPointHover: index => this.onSideProjectionHover(index),
-      syncVerticalSpeed: SYNC_VERTICAL_SPEED
+      syncVerticalSpeed: SYNC_VERTICAL_SPEED,
+      units: this.units
     })
     this.sideProjectionChart.setFlightProfile(this.points)
 
@@ -504,6 +547,7 @@ export default class extends Controller {
       showTitle: false,
       showLegend: false,
       xOffset: this.chartXOffset,
+      units: this.units,
       ...this.compareChartOptions
     })
   }
@@ -515,6 +559,7 @@ export default class extends Controller {
       windCancellation: false,
       showTitle: false,
       xOffset: this.chartXOffset,
+      units: this.units,
       ...this.compareChartOptions
     })
   }
@@ -539,7 +584,8 @@ export default class extends Controller {
     if (!this.hasSepChartTarget) return
 
     this.sepChartTarget.chart = initAccuracyChart(this.sepChartTarget, this.points, {
-      xOffset: this.chartXOffset
+      xOffset: this.chartXOffset,
+      units: this.units
     })
   }
 
@@ -991,14 +1037,17 @@ export default class extends Controller {
 
     const controller = this.getPlaybackIndicatorsController()
     if (controller) {
-      controller.update({
-        altitude,
-        altitudeSpent,
-        fullSpeed,
-        hSpeed,
-        vSpeed,
-        glideRatio
-      })
+      controller.update(
+        {
+          altitude,
+          altitudeSpent,
+          fullSpeed,
+          hSpeed,
+          vSpeed,
+          glideRatio
+        },
+        this.units
+      )
     }
 
     this.updateAccelerationIndicators(index, fraction)
@@ -1017,14 +1066,17 @@ export default class extends Controller {
     const point = this.interpolateCompareByPlayerTime(playerTime)
     if (!point) return
 
-    controller.update({
-      altitude: point.altitude,
-      altitudeSpent: this.comparePoints[0].altitude - point.altitude,
-      fullSpeed: point.fullSpeed,
-      hSpeed: point.hSpeed,
-      vSpeed: point.vSpeed,
-      glideRatio: point.glideRatio ?? 0
-    })
+    controller.update(
+      {
+        altitude: point.altitude,
+        altitudeSpent: this.comparePoints[0].altitude - point.altitude,
+        fullSpeed: point.fullSpeed,
+        hSpeed: point.hSpeed,
+        vSpeed: point.vSpeed,
+        glideRatio: point.glideRatio ?? 0
+      },
+      this.units
+    )
 
     const futurePoint = this.interpolateCompareByPlayerTime(playerTime + 1)
     if (futurePoint) {

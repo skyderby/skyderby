@@ -19,6 +19,8 @@
        data-tracks--base-jump-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
        data-tracks--base-jump-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
        data-tracks--base-jump-track-track-id-value="<%= @track.id %>"
+       data-tracks--base-jump-track-charts-units-value="<%= Current.charts_units %>"
+       data-tracks--base-jump-track-chart-settings-url-value="<%= track_chart_settings_path(@track) %>"
        <% if @compare_track %>
        data-tracks--base-jump-track-compare-points-url-value="<%= track_points_path(@compare_track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
        data-tracks--base-jump-track-compare-track-name-value="<%= @compare_track.pilot&.name || @compare_track.name %>"
@@ -121,6 +123,33 @@
             <%= t('tracks.comparison.compare_button') %>
           </button>
         <% end %>
+
+        <div class="base-jump-settings" data-controller="dropdown">
+          <button class="actions-bar-button"
+                  popovertarget="base-jump-settings-menu"
+                  type="button"
+                  aria-label="<%= t('general.settings') %>">
+            <%= icon_tag 'gear-solid' %>
+          </button>
+
+          <div id="base-jump-settings-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+            <div class="dropdown-header"><%= t('tracks.show.units_header') %></div>
+            <button type="button"
+                    class="dropdown-item <%= 'active' if Current.charts_units.metric? %>"
+                    data-units="metric"
+                    data-tracks--base-jump-track-target="unitsItem"
+                    data-action="tracks--base-jump-track#setUnits">
+              <%= t('tracks.show.m_units_metric') %>
+            </button>
+            <button type="button"
+                    class="dropdown-item <%= 'active' if Current.charts_units.imperial? %>"
+                    data-units="imperial"
+                    data-tracks--base-jump-track-target="unitsItem"
+                    data-action="tracks--base-jump-track#setUnits">
+              <%= t('tracks.show.m_units_imperial') %>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 

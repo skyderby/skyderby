@@ -1,45 +1,35 @@
 <%# locals: (result:) %>
 
+<% imperial = speed_skydiving_imperial? %>
+
 <div class="track-indicators">
   <div class="track-indicator">
     <div class="track-indicator-title">
       Exit Altitude
     </div>
-    <div class="track-indicator-value">
-      <%= result.exit_altitude&.round %>
-      <%= t('units.m') %>
-    </div>
-    <div class="track-indicator-info">
-      <%= m_to_ft(result.exit_altitude.to_i).round %>
-      <%= t('units.ft') %>
-    </div>
+    <% metric_altitude = capture do %><%= result.exit_altitude&.round %> <%= t('units.m') %><% end %>
+    <% imperial_altitude = capture do %><%= m_to_ft(result.exit_altitude.to_i).round %> <%= t('units.ft') %><% end %>
+    <div class="track-indicator-value"><%= imperial ? imperial_altitude : metric_altitude %></div>
+    <div class="track-indicator-info"><%= imperial ? metric_altitude : imperial_altitude %></div>
   </div>
 
   <div class="track-indicator">
     <div class="track-indicator-title">
       Result
     </div>
-    <div class="track-indicator-value">
-      <%= result.result&.round(1) %>
-      <%= t('units.kmh') %>
-    </div>
-    <div class="track-indicator-info">
-      <%= kmh_to_mph(result.result.to_i).round(1) %>
-      <%= t('units.mph') %>
-    </div>
+    <% metric_result = capture do %><%= result.result&.round(1) %> <%= t('units.kmh') %><% end %>
+    <% imperial_result = capture do %><%= kmh_to_mph(result.result.to_i).round(1) %> <%= t('units.mph') %><% end %>
+    <div class="track-indicator-value"><%= imperial ? imperial_result : metric_result %></div>
+    <div class="track-indicator-info"><%= imperial ? metric_result : imperial_result %></div>
   </div>
 
   <div class="track-indicator">
     <div class="track-indicator-title">
       Window
     </div>
-    <div class="track-indicator-value">
-      <%= result.window_start_altitude&.round %>-<%= result.window_end_altitude&.round %>
-      <%= t('units.m') %>
-    </div>
-    <div class="track-indicator-info">
-      <%= m_to_ft(result.window_start_altitude.to_i).round %>-<%= m_to_ft(result.window_end_altitude.to_i).round %>
-      <%= t('units.ft') %>
-    </div>
+    <% metric_window = capture do %><%= result.window_start_altitude&.round %>-<%= result.window_end_altitude&.round %> <%= t('units.m') %><% end %>
+    <% imperial_window = capture do %><%= m_to_ft(result.window_start_altitude.to_i).round %>-<%= m_to_ft(result.window_end_altitude.to_i).round %> <%= t('units.ft') %><% end %>
+    <div class="track-indicator-value"><%= imperial ? imperial_window : metric_window %></div>
+    <div class="track-indicator-info"><%= imperial ? metric_window : imperial_window %></div>
   </div>
 </div>

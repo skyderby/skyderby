@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_11_100633) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_13_084825) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -502,6 +502,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_100633) do
     t.string "name", limit: 510
     t.integer "owner_id"
     t.string "owner_type"
+    t.integer "speed_skydiving_units", default: 0, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "userpic_data"
     t.index ["country_id"], name: "index_profiles_on_country_id"
@@ -1084,7 +1085,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_100633) do
             WHERE (events_1.rules = 2)
             GROUP BY events_1.id, participant_countries.country_ids
           UNION ALL
-           SELECT 'Tournament'::text,
+           SELECT 'Tournament'::text AS text,
               tournaments.id,
               tournaments.name,
               tournaments.starts_at,
@@ -1092,8 +1093,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_100633) do
               0,
               tournaments.responsible_id,
               tournaments.place_id,
-              NULL::integer,
-              NULL::integer,
+              NULL::integer AS int4,
+              NULL::integer AS int4,
               true,
               json_build_object('Open', count(competitors.id)) AS json_build_object,
               COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS "coalesce",
@@ -1104,7 +1105,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_100633) do
                LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
             GROUP BY tournaments.id
           UNION ALL
-           SELECT 'SpeedSkydivingCompetition'::text,
+           SELECT 'SpeedSkydivingCompetition'::text AS text,
               events_1.id,
               events_1.name,
               events_1.starts_at,
@@ -1112,8 +1113,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_100633) do
               events_1.visibility,
               events_1.responsible_id,
               events_1.place_id,
-              NULL::integer,
-              NULL::integer,
+              NULL::integer AS int4,
+              NULL::integer AS int4,
               events_1.is_official,
               COALESCE(json_object_agg(COALESCE(competitors_count.category_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.category_name IS NOT NULL)), '{}'::json) AS "coalesce",
               participant_countries.country_ids,
@@ -1133,16 +1134,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_100633) do
                     GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
             GROUP BY events_1.id, participant_countries.country_ids
           UNION ALL
-           SELECT 'PerformanceCompetitionSeries'::text,
+           SELECT 'PerformanceCompetitionSeries'::text AS text,
               series.id,
               series.name,
               min(events_1.starts_at) AS min,
               series.status,
               series.visibility,
               series.responsible_id,
-              NULL::bigint,
-              NULL::integer,
-              NULL::integer,
+              NULL::bigint AS int8,
+              NULL::integer AS int4,
+              NULL::integer AS int4,
               true,
               json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
               participant_countries.country_ids,
@@ -1164,16 +1165,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_100633) do
                     GROUP BY included_competitions_1.performance_competition_series_id) participant_countries ON ((series.id = participant_countries.performance_competition_series_id)))
             GROUP BY series.id, participant_countries.country_ids
           UNION ALL
-           SELECT 'SpeedSkydivingCompetitionSeries'::text,
+           SELECT 'SpeedSkydivingCompetitionSeries'::text AS text,
               series.id,
               series.name,
               min(events_1.starts_at) AS min,
               series.status,
               series.visibility,
               series.responsible_id,
-              NULL::bigint,
-              NULL::integer,
-              NULL::integer,
+              NULL::bigint AS int8,
+              NULL::integer AS int4,
+              NULL::integer AS int4,
               true,
               json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
               participant_countries.country_ids,

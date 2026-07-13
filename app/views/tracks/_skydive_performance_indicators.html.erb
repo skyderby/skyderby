@@ -8,7 +8,7 @@
       <div class="track-indicator-value"
            aria-label="distance"
            data-summary-indicators-target="distance"></div>
-      <div class="track-indicator-units"><%= t('units.m') %></div>
+      <div class="track-indicator-units" data-unit="length"><%= t("units.#{altitude_units_by_type(Current.charts_units)}") %></div>
     </div>
 
     <div class="wind-effect-container"
@@ -53,7 +53,7 @@
           <%= icon_tag 'angle-down-solid' %>
         </div>
       </div>
-      <div class="track-indicator-units"><%= t('units.kmh') %></div>
+      <div class="track-indicator-units" data-unit="speed"><%= t("units.#{speed_units_by_type(Current.charts_units)}") %></div>
     </div>
 
     <div class="wind-effect-container"
@@ -125,7 +125,7 @@
       <div class="track-indicator-value"
            aria-label="elevation"
            data-summary-indicators-target="elevation"></div>
-      <div class="track-indicator-units"><%= t('units.m') %></div>
+      <div class="track-indicator-units" data-unit="length"><%= t("units.#{altitude_units_by_type(Current.charts_units)}") %></div>
     </div>
   </div>
 
@@ -151,7 +151,7 @@
         </div>
       </div>
 
-      <div class="track-indicator-units"><%= t('units.kmh') %></div>
+      <div class="track-indicator-units" data-unit="speed"><%= t("units.#{speed_units_by_type(Current.charts_units)}") %></div>
     </div>
   </div>
 

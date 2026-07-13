@@ -1,5 +1,6 @@
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
 import { detectFlares, drawFlares } from './flareDetection'
+import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 
 const SVG_NS = 'http://www.w3.org/2000/svg'
 
@@ -10,6 +11,7 @@ export default class SideProjectionChart {
       padding: { top: 0, right: 20, bottom: 40, left: 50 },
       onPointHover: null,
       syncVerticalSpeed: 10,
+      units: 'metric',
       ...options
     }
     this.points = []
@@ -293,7 +295,7 @@ export default class SideProjectionChart {
         xLabel.setAttribute('text-anchor', 'middle')
         xLabel.setAttribute('font-size', '11')
         xLabel.setAttribute('fill', '#666')
-        xLabel.textContent = value
+        xLabel.textContent = Math.round(convertLength(value, this.options.units))
         gridGroup.appendChild(xLabel)
       }
 
@@ -304,7 +306,7 @@ export default class SideProjectionChart {
         yLabel.setAttribute('text-anchor', 'end')
         yLabel.setAttribute('font-size', '11')
         yLabel.setAttribute('fill', '#666')
-        yLabel.textContent = value
+        yLabel.textContent = Math.round(convertLength(value, this.options.units))
         gridGroup.appendChild(yLabel)
       }
 
@@ -317,7 +319,7 @@ export default class SideProjectionChart {
     xAxisLabel.setAttribute('text-anchor', 'middle')
     xAxisLabel.setAttribute('font-size', '12')
     xAxisLabel.setAttribute('fill', '#333')
-    xAxisLabel.textContent = 'Distance (m)'
+    xAxisLabel.textContent = `Distance (${lengthUnitLabel(this.options.units)})`
     gridGroup.appendChild(xAxisLabel)
 
     const yAxisLabel = document.createElementNS(SVG_NS, 'text')
@@ -327,7 +329,7 @@ export default class SideProjectionChart {
     yAxisLabel.setAttribute('font-size', '12')
     yAxisLabel.setAttribute('fill', '#333')
     yAxisLabel.setAttribute('transform', `rotate(-90, 12, ${this.height / 2})`)
-    yAxisLabel.textContent = 'Altitude drop (m)'
+    yAxisLabel.textContent = `Altitude drop (${lengthUnitLabel(this.options.units)})`
     gridGroup.appendChild(yAxisLabel)
 
     this.svg.appendChild(gridGroup)
@@ -541,7 +543,7 @@ export default class SideProjectionChart {
     label.setAttribute('text-anchor', 'middle')
     label.setAttribute('font-size', '11')
     label.setAttribute('font-weight', '600')
-    label.textContent = `${Math.round(maxPoint.fullSpeed)} km/h`
+    label.textContent = `${Math.round(convertSpeed(maxPoint.fullSpeed, this.options.units))} ${speedUnitLabel(this.options.units)}`
     group.appendChild(label)
 
     this.svg.appendChild(group)
@@ -578,7 +580,7 @@ export default class SideProjectionChart {
     label.setAttribute('text-anchor', 'middle')
     label.setAttribute('font-size', '11')
     label.setAttribute('fill', '#f00')
-    label.textContent = `1:1 ${Math.round(intersection.x)}m`
+    label.textContent = `1:1 ${Math.round(convertLength(intersection.x, this.options.units))}${lengthUnitLabel(this.options.units)}`
     this.svg.appendChild(label)
   }
 

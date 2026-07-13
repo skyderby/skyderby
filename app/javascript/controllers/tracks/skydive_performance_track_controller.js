@@ -7,7 +7,7 @@ import {
   initCombinedChart,
   findPositionForAltitude
 } from 'charts'
-import { lengthUnitLabel } from 'utils/units'
+import { convertLength, lengthUnitLabel } from 'utils/units'
 import initMapsApi from 'utils/google_maps_api'
 import cropPoints from 'utils/cropPoints'
 import downsamplePoints from 'utils/downsamplePoints'
@@ -26,7 +26,7 @@ import {
   interpolateByPlayerTime
 } from 'utils/tracks/pointHelpers'
 import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
-import { get } from '@rails/request.js'
+import { get, patch } from '@rails/request.js'
 import I18n from 'i18n'
 
 export default class extends Controller {
@@ -60,7 +60,8 @@ export default class extends Controller {
     'combinedChart',
     'separateCharts',
     'chartsModeItem',
-    'compareModal'
+    'compareModal',
+    'unitsItem'
   ]
 
   static outlets = ['tracks--range-selector']
@@ -73,7 +74,34 @@ export default class extends Controller {
     comparePointsUrl: String,
     compareWeatherUrl: String,
     compareTrackName: String,
-    trackId: Number
+    trackId: Number,
+    chartsUnits: { type: String, default: 'metric' },
+    chartSettingsUrl: String
+  }
+
+  get units() {
+    return this.chartsUnitsValue
+  }
+
+  setUnits(event) {
+    const units = event.currentTarget.dataset.units
+    if (units === this.chartsUnitsValue) return
+
+    this.chartsUnitsValue = units
+    this.unitsItemTargets.forEach(item =>
+      item.classList.toggle('active', item.dataset.units === units)
+    )
+    if (this.hasChartSettingsUrlValue)
+      patch(this.chartSettingsUrlValue, {
+        body: { charts_units: units },
+        responseKind: 'json'
+      })
+  }
+
+  chartsUnitsValueChanged(value, previousValue) {
+    if (previousValue === undefined || value === previousValue || !this.points) return
+    this.updateView()
+    this.updatePlaybackPosition()
   }
 
   connect() {
@@ -492,7 +520,8 @@ export default class extends Controller {
       minAltitude: this.minAltitude,
       weather: this.weather,
       compareWeather: this.compareWeather,
-      compareReferenceTime: this.comparePoints?.[0]?.gpsTime
+      compareReferenceTime: this.comparePoints?.[0]?.gpsTime,
+      units: this.units
     })
   }
 
@@ -827,7 +856,8 @@ export default class extends Controller {
         comparePoints: downsamplePoints(this.compareChartPoints),
         compareTimeOffset: this.chartTimeOffset,
         compareTrackName: this.compareTrackNameValue,
-        xOffset: this.chartXOffset
+        xOffset: this.chartXOffset,
+        units: this.units
       }
     )
   }
@@ -845,7 +875,8 @@ export default class extends Controller {
         comparePoints: downsamplePoints(this.compareChartPoints),
         compareTimeOffset: this.chartTimeOffset,
         compareTrackName: this.compareTrackNameValue,
-        xOffset: this.chartXOffset
+        xOffset: this.chartXOffset,
+        units: this.units
       }
     )
   }
@@ -861,7 +892,8 @@ export default class extends Controller {
         plotBands: this.bufferPlotBands(),
         straightLine: this.straightLine,
         rangeStartPosition: this.bufferStartPosition / 1000,
-        xOffset: this.chartXOffset
+        xOffset: this.chartXOffset,
+        units: this.units
       }
     )
   }
@@ -874,7 +906,8 @@ export default class extends Controller {
       this.downsampledChartPoints,
       {
         plotBands: this.bufferPlotBands(),
-        xOffset: this.chartXOffset
+        xOffset: this.chartXOffset,
+        units: this.units
       }
     )
   }
@@ -892,7 +925,8 @@ export default class extends Controller {
         straightLine: this.straightLine,
         rangeStartPosition: this.bufferStartPosition / 1000,
         chartName: 'SkydivePerformanceCombinedChart',
-        xOffset: this.chartXOffset
+        xOffset: this.chartXOffset,
+        units: this.units
       }
     )
   }
@@ -918,7 +952,7 @@ export default class extends Controller {
       ...(includeLabels
         ? {
             label: {
-              text: `${altitude} ${lengthUnitLabel('metric')}`,
+              text: `${Math.round(convertLength(altitude, this.units))} ${lengthUnitLabel(this.units)}`,
               style: { color: '#999' },
               y: 10
             }
@@ -1131,7 +1165,8 @@ export default class extends Controller {
     if (!this.hasSummaryIndicatorsTarget) return
 
     this.summaryIndicatorsController(this.summaryIndicatorsTarget)?.update(
-      this.rangeSummary
+      this.rangeSummary,
+      this.units
     )
   }
 
@@ -1161,7 +1196,7 @@ export default class extends Controller {
       const controller = this.getPlaybackIndicatorsController(
         this.playbackIndicatorsTarget
       )
-      if (controller) controller.update(primaryData)
+      if (controller) controller.update(primaryData, this.units)
     }
 
     this.updateAccelerationIndicators(index, fraction)
@@ -1174,7 +1209,7 @@ export default class extends Controller {
           this.comparePlaybackIndicatorsTarget
         )
         if (compareController) {
-          compareController.update(compareData)
+          compareController.update(compareData, this.units)
 
           const futureCompare = interpolateByPlayerTime(
             this.compareProcessedPoints,
@@ -1503,7 +1538,8 @@ export default class extends Controller {
     if (!this.hasCompareSummaryIndicatorsTarget) return
 
     this.summaryIndicatorsController(this.compareSummaryIndicatorsTarget)?.update(
-      this.compareRangeSummary
+      this.compareRangeSummary,
+      this.units
     )
   }
 

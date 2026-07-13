@@ -1,0 +1,13 @@
+<% standings = @event.standings %>
+<% editable = @event.editable? %>
+
+<%= turbo_stream.replace 'actions-bar' do %>
+  <%= render 'speed_skydiving_competitions/actions_bar', event: @event, standings:, editable: %>
+<% end %>
+
+<%= turbo_stream.replace 'scoreboard' do %>
+  <%= render 'speed_skydiving_competitions/scoreboard',
+             event: @event,
+             standings:,
+             editable: editable && !@event.finished? %>
+<% end %>

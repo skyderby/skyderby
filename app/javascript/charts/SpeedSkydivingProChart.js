@@ -1,3 +1,5 @@
+import { convertSpeed, convertLength } from 'utils/units'
+
 const G = 9.80665
 const SG_WINDOW_SEC = 1.4
 const SCORE_WINDOW_SEC = 3
@@ -405,16 +407,15 @@ const makeCanvas = (h, xDom, opts) => {
   }
 }
 
-const fmtAlt = v => `${(v / 1000).toFixed(1)}k`
-
 const ACCEL_H = 106
 const SEP_THRESHOLD = 3
 const VALIDATION_H = 1000
 const SEP_PX = 34
 const SEP_FULL = 7
 
-export const renderChart = (svg, { profiles, axis, labels }) => {
+export const renderChart = (svg, { profiles, axis, labels, units = 'metric' }) => {
   const H = 518
+  const fmtAltU = v => `${(convertLength(v, units) / 1000).toFixed(1)}k`
   const dom = xDomain(profiles, axis)
   let vmax = 0
   let altMax = -1e9
@@ -445,7 +446,7 @@ export const renderChart = (svg, { profiles, axis, labels }) => {
   for (const v of niceTicks(0, vmax, 4)) {
     const y = sV(v)
     cv.line(x0, y, x1, y, COLORS.grid)
-    cv.txt(x0 - 7, y + 3.5, Math.round(v), 'end', 11)
+    cv.txt(x0 - 7, y + 3.5, Math.round(convertSpeed(v * 3.6, units)), 'end', 11)
   }
   const xt =
     axis === 'time'
@@ -454,11 +455,18 @@ export const renderChart = (svg, { profiles, axis, labels }) => {
   for (const v of xt) {
     const x = sx(v)
     cv.line(x, y0, x, y1, COLORS.grid)
-    cv.txt(x, y1 + 15, axis === 'time' ? v : fmtAlt(v), 'middle', 11)
+    cv.txt(x, y1 + 15, axis === 'time' ? v : fmtAltU(v), 'middle', 11)
   }
   if (axis === 'time') {
     for (const a of niceTicks(altMin, altMax, 4))
-      cv.txt(x1 + 7, sAlt(a) + 3.5, (a / 1000).toFixed(1), 'start', 10.5, COLORS.muted)
+      cv.txt(
+        x1 + 7,
+        sAlt(a) + 3.5,
+        (convertLength(a, units) / 1000).toFixed(1),
+        'start',
+        10.5,
+        COLORS.muted
+      )
     cv.txt(x1 + 7, y0 - 2, labels.kmMsl, 'start', 9.5, COLORS.muted)
   }
   cv.line(x0, ySplit, x1, ySplit, COLORS.muted, 1.2, null, 0.85)

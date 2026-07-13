@@ -6,12 +6,17 @@ module Tracks
       return respond_not_authorized unless @track.viewable?
 
       if ChartsPreferences::AVAILABLE_UNITS.include?(params[:charts_units])
-        session[:preferred_charts_units] = params[:charts_units]
+        if (profile = Current.user&.profile)
+          profile.update(default_units: params[:charts_units])
+        else
+          session[:preferred_charts_units] = params[:charts_units]
+        end
         Current.charts_units = params[:charts_units]
       end
 
       respond_to do |format|
         format.turbo_stream
+        format.json { head :no_content }
       end
     end
 
