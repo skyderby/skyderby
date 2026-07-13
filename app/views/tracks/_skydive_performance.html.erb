@@ -13,6 +13,8 @@
        data-tracks--skydive-performance-track-reference-point-url-value="<%= track_reference_point_path(@track) %>"
        data-tracks--skydive-performance-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
        data-tracks--skydive-performance-track-track-id-value="<%= @track.id %>"
+       data-tracks--skydive-performance-track-charts-units-value="<%= Current.charts_units %>"
+       data-tracks--skydive-performance-track-chart-settings-url-value="<%= track_chart_settings_path(@track) %>"
        <% if @compare_track %>
        data-tracks--skydive-performance-track-compare-points-url-value="<%= track_points_path(@compare_track, original_frequency: true, trimmed: { seconds_before_start: 5, seconds_after_end: 10 }) %>"
        data-tracks--skydive-performance-track-compare-weather-url-value="<%= track_weather_data_path(@compare_track) %>"
@@ -54,9 +56,9 @@
         <div class="skydive-performance-settings" data-controller="dropdown">
           <button class="actions-bar-button skydive-performance-settings__button"
                   popovertarget="skydive-performance-charts-menu"
-                  type="button">
+                  type="button"
+                  aria-label="<%= t('general.settings') %>">
             <%= icon_tag 'gear-solid' %>
-            <span class="skydive-performance-settings__label"><%= t('general.settings') %></span>
           </button>
 
           <div id="skydive-performance-charts-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
@@ -74,6 +76,24 @@
                     data-tracks--skydive-performance-track-target="chartsModeItem"
                     data-action="tracks--skydive-performance-track#setChartsMode">
               <%= t('tracks.show.menu_one') %>
+            </button>
+
+            <div class="dropdown-divider"></div>
+
+            <div class="dropdown-header"><%= t('tracks.show.units_header') %></div>
+            <button type="button"
+                    class="dropdown-item <%= 'active' if Current.charts_units.metric? %>"
+                    data-units="metric"
+                    data-tracks--skydive-performance-track-target="unitsItem"
+                    data-action="tracks--skydive-performance-track#setUnits">
+              <%= t('tracks.show.m_units_metric') %>
+            </button>
+            <button type="button"
+                    class="dropdown-item <%= 'active' if Current.charts_units.imperial? %>"
+                    data-units="imperial"
+                    data-tracks--skydive-performance-track-target="unitsItem"
+                    data-action="tracks--skydive-performance-track#setUnits">
+              <%= t('tracks.show.m_units_imperial') %>
             </button>
           </div>
         </div>

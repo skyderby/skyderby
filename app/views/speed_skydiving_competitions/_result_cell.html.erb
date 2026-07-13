@@ -13,7 +13,7 @@
     data-action="click->track-compare#selectRow"
     data-track-id="<%= result.track_id %>"
     data-pilot="<%= competitor.name %>"
-    data-result="<%= t('speed_skydiving_competitions.display.kmh', speed: '%.2f' % result.final_result) %>"
+    data-result="<%= speed_skydiving_speed_with_unit(result.final_result) %>"
     data-kind="speed_skydiving"
   <% end %>
 >
@@ -22,12 +22,12 @@
                   method: :get, form: { data: { turbo_stream: true }, class: 'result-show-cell' } do %>
       <% if result.penalized? %>
         <span data-controller="tooltip">
-          <%= '%.2f' % result.final_result %>
+          <%= '%.2f' % speed_skydiving_speed(result.final_result) %>
           <sup class="text-danger">-<%= result.penalty_size.round %>%</sup>
-          <span class="for-screen-reader"><%= '%.2f' % result.result %> - <%= result.penalty_size.round %>%. Reason: <%= result.penalty_reason %></span>
+          <span class="for-screen-reader"><%= '%.2f' % speed_skydiving_speed(result.result) %> - <%= result.penalty_size.round %>%. Reason: <%= result.penalty_reason %></span>
         </span>
       <% else %>
-        <%= '%.2f' % result.final_result %>
+        <%= '%.2f' % speed_skydiving_speed(result.final_result) %>
       <% end %>
     <% end %>
   <% elsif !time_machine && editable %>

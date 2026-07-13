@@ -256,6 +256,7 @@ Skyderby::Application.routes.draw do
       resources :teams
       resources :team_competitors, only: %i[new create destroy]
       resource :status, only: :update
+      resource :unit_settings, only: :update
       resource :comparison, only: :create
       resource :open_scoreboard, only: :show
       resource :display, controller: 'displays', only: :show

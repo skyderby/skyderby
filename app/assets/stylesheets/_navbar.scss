@@ -33,6 +33,7 @@
 
   @media (min-width: $bp-medium) {
     display: flex;
+    align-items: center;
     margin: 0;
     padding: 0;
     gap: 0.5rem;
@@ -57,7 +58,9 @@
     border: none;
     flex-grow: 1;
     font-size: 0.875rem;
-    justify-content: space-around;
+    justify-content: center;
+    text-align: center;
+    word-break: normal;
     text-decoration: none;
     text-transform: uppercase;
     padding: 0.5rem;

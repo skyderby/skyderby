@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 
 export default class extends Controller {
   static targets = [
@@ -14,24 +15,41 @@ export default class extends Controller {
     'angle'
   ]
 
-  update(data) {
+  update(data, units = 'metric') {
     const { altitude, altitudeSpent, fullSpeed, hSpeed, vSpeed, glideRatio } = data
     const roundToStep = (value, step) => Math.round(value / step) * step
 
+    this.applyUnitLabels(units)
+
     if (this.hasAltitudeTarget) {
-      this.altitudeTarget.textContent = roundToStep(altitude, 10).toFixed()
+      this.altitudeTarget.textContent = roundToStep(
+        convertLength(altitude, units),
+        10
+      ).toFixed()
     }
     if (this.hasAltitudeSpentTarget && altitudeSpent !== undefined) {
-      this.altitudeSpentTarget.textContent = roundToStep(altitudeSpent, 10).toFixed()
+      this.altitudeSpentTarget.textContent = roundToStep(
+        convertLength(altitudeSpent, units),
+        10
+      ).toFixed()
     }
     if (this.hasFullSpeedTarget) {
-      this.fullSpeedTarget.textContent = roundToStep(fullSpeed, 5).toFixed()
+      this.fullSpeedTarget.textContent = roundToStep(
+        convertSpeed(fullSpeed, units),
+        5
+      ).toFixed()
     }
     if (this.hasHSpeedTarget) {
-      this.hSpeedTarget.textContent = roundToStep(hSpeed, 5).toFixed()
+      this.hSpeedTarget.textContent = roundToStep(
+        convertSpeed(hSpeed, units),
+        5
+      ).toFixed()
     }
     if (this.hasVSpeedTarget) {
-      this.vSpeedTarget.textContent = roundToStep(vSpeed, 5).toFixed()
+      this.vSpeedTarget.textContent = roundToStep(
+        convertSpeed(vSpeed, units),
+        5
+      ).toFixed()
     }
     if (this.hasGlideRatioTarget) {
       this.glideRatioTarget.textContent = (glideRatio ?? 0).toFixed(1)
@@ -44,6 +62,15 @@ export default class extends Controller {
       const endY = 115 + 65 * Math.cos(angle)
       this.angleTarget.setAttribute('d', `M ${startX} ${startY} ${endX} ${endY}`)
     }
+  }
+
+  applyUnitLabels(units) {
+    this.element.querySelectorAll('[data-unit="speed"]').forEach(el => {
+      el.textContent = speedUnitLabel(units)
+    })
+    this.element.querySelectorAll('[data-unit="length"]').forEach(el => {
+      el.textContent = lengthUnitLabel(units)
+    })
   }
 
   updateAcceleration(data) {

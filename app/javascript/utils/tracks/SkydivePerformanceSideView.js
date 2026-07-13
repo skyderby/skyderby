@@ -6,6 +6,7 @@ import {
   interpolateByPlayerTime
 } from 'utils/tracks/pointHelpers'
 import { LOCATION_ARROW_PATH } from 'utils/tracks/locationArrowPath'
+import { convertSpeed, convertLength, speedUnitLabel } from 'utils/units'
 
 const SVG_NS = 'http://www.w3.org/2000/svg'
 
@@ -57,10 +58,12 @@ export default class SkydivePerformanceSideView {
     minAltitude,
     weather,
     compareWeather,
-    compareReferenceTime
+    compareReferenceTime,
+    units = 'metric'
   }) {
     this.processedPoints = processedPoints || []
     this.compareProcessedPoints = compareProcessedPoints || null
+    this.units = units
     this.fromValue = fromValue
     this.toValue = toValue
     this.maxAltitude = maxAltitude
@@ -176,7 +179,7 @@ export default class SkydivePerformanceSideView {
     startLabel.setAttribute('x', left - 10)
     startLabel.setAttribute('y', windowStartY + 4)
     startLabel.setAttribute('class', 'grid-label grid-label-window')
-    startLabel.textContent = this.fromValue
+    startLabel.textContent = Math.round(convertLength(this.fromValue, this.units))
     grid.appendChild(startLabel)
 
     const endLine = document.createElementNS(SVG_NS, 'line')
@@ -191,7 +194,7 @@ export default class SkydivePerformanceSideView {
     endLabel.setAttribute('x', left - 10)
     endLabel.setAttribute('y', windowEndY + 4)
     endLabel.setAttribute('class', 'grid-label grid-label-window')
-    endLabel.textContent = this.toValue
+    endLabel.textContent = Math.round(convertLength(this.toValue, this.units))
     grid.appendChild(endLabel)
 
     const altitudeStep = 250
@@ -220,7 +223,7 @@ export default class SkydivePerformanceSideView {
       label.setAttribute('x', left - 10)
       label.setAttribute('y', y + 4)
       label.setAttribute('class', 'grid-label')
-      label.textContent = altitude
+      label.textContent = Math.round(convertLength(altitude, this.units))
       grid.appendChild(label)
     }
 
@@ -256,7 +259,7 @@ export default class SkydivePerformanceSideView {
       label.setAttribute('x', x)
       label.setAttribute('y', height - bottom + 20)
       label.setAttribute('class', 'grid-label-distance')
-      label.textContent = dist
+      label.textContent = Math.round(convertLength(dist, this.units))
       grid.appendChild(label)
     }
   }
@@ -378,7 +381,7 @@ export default class SkydivePerformanceSideView {
     label.setAttribute('y', y - fontSize * 0.7)
     label.setAttribute('text-anchor', 'middle')
     label.setAttribute('font-size', fontSize)
-    label.textContent = `${Math.round(maxPoint.fullSpeed)} km/h`
+    label.textContent = `${Math.round(convertSpeed(maxPoint.fullSpeed, this.units))} ${speedUnitLabel(this.units)}`
     group.appendChild(label)
 
     this.trajectory.appendChild(group)
@@ -537,7 +540,7 @@ export default class SkydivePerformanceSideView {
       `translate(${px} ${py}) rotate(${rotation})`
     )
 
-    const speedKmh = windSpeed * 3.6
+    const speedKmh = convertSpeed(windSpeed * 3.6, this.units)
     const head = Math.round(speedKmh * Math.cos(angle))
     const side = Math.round(speedKmh * Math.sin(angle))
     const total = Math.round(speedKmh)
@@ -546,7 +549,8 @@ export default class SkydivePerformanceSideView {
     indicator.tailText.textContent = head < 0 ? `${-head}` : ''
     indicator.leftText.textContent = side < 0 ? `${-side}` : ''
     indicator.rightText.textContent = side > 0 ? `${side}` : ''
-    indicator.totalText.textContent = total > 0 ? `${total} km/h` : ''
+    indicator.totalText.textContent =
+      total > 0 ? `${total} ${speedUnitLabel(this.units)}` : ''
   }
 
   viewBoxFontSize(remPx) {

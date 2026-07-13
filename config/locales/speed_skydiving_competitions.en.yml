@@ -34,6 +34,7 @@ en:
       total: 'Total'
       jumps: 'Jumps'
       kmh: '%{speed} km/h'
+      mph: '%{speed} mph'
       freefall_race: 'Freefall Race'
       window_opens: 'Window opens in'
       speed: 'Speed'

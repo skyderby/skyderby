@@ -1,6 +1,8 @@
 import { Controller } from '@hotwired/stimulus'
 import I18n from 'i18n'
+import { patch } from '@rails/request.js'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
+import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 import {
   analyzeTrack,
   decompose,
@@ -23,7 +25,8 @@ export default class extends Controller {
     'compare',
     'axisButton',
     'compareModal',
-    'tooltip'
+    'tooltip',
+    'unitsItem'
   ]
 
   static values = {
@@ -33,12 +36,38 @@ export default class extends Controller {
     compareName: String,
     trackId: Number,
     windowEnd: Number,
-    compareWindowEnd: Number
+    compareWindowEnd: Number,
+    chartsUnits: { type: String, default: 'metric' },
+    chartSettingsUrl: String
   }
 
   connect() {
     this.axis = 'time'
     this.load()
+  }
+
+  get units() {
+    return this.chartsUnitsValue
+  }
+
+  setUnits(event) {
+    const units = event.currentTarget.dataset.units
+    if (units === this.chartsUnitsValue) return
+
+    this.chartsUnitsValue = units
+    this.unitsItemTargets.forEach(item =>
+      item.classList.toggle('active', item.dataset.units === units)
+    )
+    if (this.hasChartSettingsUrlValue)
+      patch(this.chartSettingsUrlValue, {
+        body: { charts_units: units },
+        responseKind: 'json'
+      })
+  }
+
+  chartsUnitsValueChanged(value, previousValue) {
+    if (previousValue === undefined || value === previousValue || !this.profileA) return
+    this.render()
   }
 
   async load() {
@@ -113,7 +142,8 @@ export default class extends Controller {
     renderChart(this.chartTarget, {
       profiles,
       axis: this.axis,
-      labels: this.chartLabels()
+      labels: this.chartLabels(),
+      units: this.units
     })
 
     this.summaryTarget.innerHTML = this.summaryHtml()
@@ -128,10 +158,13 @@ export default class extends Controller {
   }
 
   chartLabels() {
+    const imperial = this.units === 'imperial'
     return {
-      speedAxis: `${I18n.t('tracks.speed_pro.chart.speed_axis')}  ${I18n.t('units.ms')}`,
+      speedAxis: `${I18n.t('tracks.speed_pro.chart.speed_axis')}  ${I18n.t(imperial ? 'units.mph' : 'units.ms')}`,
       accelAxis: I18n.t('tracks.speed_pro.chart.accel_axis'),
-      kmMsl: I18n.t('tracks.speed_pro.chart.km_msl'),
+      kmMsl: imperial
+        ? I18n.t('tracks.speed_pro.chart.kft_msl')
+        : I18n.t('tracks.speed_pro.chart.km_msl'),
       windowEnd: I18n.t('tracks.speed_pro.chart.window_end'),
       sep: I18n.t('tracks.speed_pro.chart.sep')
     }
@@ -249,7 +282,7 @@ export default class extends Controller {
         key: 'vspeed',
         get: p => {
           const v = this.valueAt(p, xVal, 'vz')
-          return v == null ? null : v * 3.6
+          return v == null ? null : convertSpeed(v * 3.6, this.units)
         },
         ref: 20,
         fmt: v => v.toFixed(0),
@@ -259,7 +292,7 @@ export default class extends Controller {
         key: 'ceiling',
         get: p => {
           const v = this.valueAt(p, xVal, 'vterm')
-          return v == null ? null : v * 3.6
+          return v == null ? null : convertSpeed(v * 3.6, this.units)
         },
         ref: 20,
         fmt: v => v.toFixed(0),
@@ -290,7 +323,10 @@ export default class extends Controller {
     if (this.axis === 'time')
       rows.splice(2, 0, {
         key: 'altitude',
-        get: p => this.valueAt(p, xVal, 'alt'),
+        get: p => {
+          const v = this.valueAt(p, xVal, 'alt')
+          return v == null ? null : convertLength(v, this.units)
+        },
         ref: 400,
         fmt: Math.round,
         dfmt: signed0
@@ -304,7 +340,7 @@ export default class extends Controller {
     const xLabel =
       this.axis === 'time'
         ? `${xVal.toFixed(1)} ${I18n.t('units.sec')}`
-        : `${Math.round(xVal)} ${I18n.t('units.m')} MSL`
+        : `${Math.round(convertLength(xVal, this.units))} ${lengthUnitLabel(this.units)} MSL`
 
     let head = `<th></th><th><span class="ssp-dot is-a"></span>${I18n.t('tracks.speed_pro.col_track')}</th>`
     if (compare)
@@ -356,11 +392,11 @@ export default class extends Controller {
   }
 
   summaryHtml() {
-    const kmh = I18n.t('units.kmh')
-    const m = I18n.t('units.m')
+    const speedU = speedUnitLabel(this.units)
+    const lengthU = lengthUnitLabel(this.units)
     const unit = u => `<span class="ssp-unit">${u}</span>`
-    const speed = s => `${s.scoreKmh.toFixed(1)}${unit(kmh)}`
-    const alt = s => `${Math.round(s.hPeak)}${unit(m)}`
+    const speed = s => `${convertSpeed(s.scoreKmh, this.units).toFixed(1)}${unit(speedU)}`
+    const alt = s => `${Math.round(convertLength(s.hPeak, this.units))}${unit(lengthU)}`
     const bc = s => (s.bcMean ? `${Math.round(s.bcMean)}` : '—')
     const gap = s => (s.gap ? `${(s.gap * 100).toFixed(0)}${unit('%')}` : '—')
     const c = this.profileB ? this.profileB.summary : null
@@ -392,26 +428,26 @@ export default class extends Controller {
   speedGain(profile, t0, t1) {
     const ts = profile.s.map(d => d.t)
     const vs = profile.s.map(d => d.vz)
-    return (sampleAt(ts, vs, t1) - sampleAt(ts, vs, t0)) * 3.6
+    return convertSpeed((sampleAt(ts, vs, t1) - sampleAt(ts, vs, t0)) * 3.6, this.units)
   }
 
   waterfallHtml(dc) {
     const a = this.profileA.summary
     const b = this.profileB.summary
-    const kmh = I18n.t('units.kmh')
-    const m = I18n.t('units.m')
+    const speedU = speedUnitLabel(this.units)
+    const lengthU = lengthUnitLabel(this.units)
     const gainRows = GAIN_PHASES.map(([t0, t1, key]) => {
       const ga = this.speedGain(this.profileA, t0, t1)
       const gb = this.speedGain(this.profileB, t0, t1)
-      return { key, valA: Math.round(ga), valB: Math.round(gb), unit: kmh, v: ga - gb }
+      return { key, valA: Math.round(ga), valB: Math.round(gb), unit: speedU, v: ga - gb }
     })
     const rows = [
       ...gainRows,
       {
         key: 'peak_altitude',
-        valA: Math.round(a.hPeak),
-        valB: Math.round(b.hPeak),
-        unit: m,
+        valA: Math.round(convertLength(a.hPeak, this.units)),
+        valB: Math.round(convertLength(b.hPeak, this.units)),
+        unit: lengthU,
         v: dc.alt
       },
       {

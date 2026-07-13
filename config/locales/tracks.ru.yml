@@ -44,6 +44,7 @@ ru:
         speed_axis: СКОРОСТЬ
         accel_axis: "УСКОРЕНИЕ  ↓ разгон  ↑ торможение"
         km_msl: км MSL
+        kft_msl: kft MSL
         window_end: конец окна
         sep: SEP
       metrics:

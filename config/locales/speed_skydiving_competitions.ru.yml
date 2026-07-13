@@ -38,6 +38,7 @@ ru:
       total: 'Сумма'
       jumps: 'Прыжки'
       kmh: '%{speed} км/ч'
+      mph: '%{speed} миль/ч'
       freefall_race: 'Гонка в свободном падении'
       window_opens: 'Окно открывается через'
       speed: 'Скорость'

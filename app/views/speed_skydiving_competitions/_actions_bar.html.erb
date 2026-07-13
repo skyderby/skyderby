@@ -56,5 +56,27 @@
         </div>
       </div>
     <% end %>
+
+    <div data-controller="dropdown">
+      <button class="actions-bar-button" popovertarget="speed-units-menu-<%= event.id %>" type="button" aria-label="<%= t('general.settings') %>">
+        <%= icon_tag 'gear-solid' %>
+      </button>
+
+      <div id="speed-units-menu-<%= event.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+        <div class="dropdown-header"><%= t('tracks.show.units_header') %></div>
+        <%= button_to t('tracks.show.m_units_metric'),
+                      speed_skydiving_competition_unit_settings_path(event),
+                      method: :patch,
+                      params: { units: 'metric' },
+                      form: { data: { turbo_stream: true } },
+                      class: class_names('dropdown-item', Current.speed_skydiving_units.metric? && 'active') %>
+        <%= button_to t('tracks.show.m_units_imperial'),
+                      speed_skydiving_competition_unit_settings_path(event),
+                      method: :patch,
+                      params: { units: 'imperial' },
+                      form: { data: { turbo_stream: true } },
+                      class: class_names('dropdown-item', Current.speed_skydiving_units.imperial? && 'active') %>
+      </div>
+    </div>
   </div>
 </div>
