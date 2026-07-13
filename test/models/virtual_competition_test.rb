@@ -19,4 +19,15 @@ class VirtualCompetitionTest < ActiveSupport::TestCase
 
     assert_equal 'WTF - Gridset race', competition.title
   end
+
+  test '#comparable_in_pro_view? - true for speed skydiving despite vertical speed discipline' do
+    competition = VirtualCompetition.new(jumps_kind: :speed_skydiving, discipline: :vertical_speed)
+
+    assert_predicate competition, :comparable_in_pro_view?
+  end
+
+  test '#comparable_in_pro_view? - false for flare and non-speed vertical speed' do
+    assert_not VirtualCompetition.new(jumps_kind: :skydive, discipline: :flare).comparable_in_pro_view?
+    assert_not VirtualCompetition.new(jumps_kind: :skydive, discipline: :vertical_speed).comparable_in_pro_view?
+  end
 end

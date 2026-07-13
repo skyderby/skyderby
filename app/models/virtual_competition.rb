@@ -69,6 +69,8 @@ class VirtualCompetition < ApplicationRecord
   end
 
   def comparable_in_pro_view?
+    return true if speed_skydiving?
+
     !flare? && !vertical_speed?
   end
 
