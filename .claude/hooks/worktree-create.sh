@@ -1,15 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [ -d "$HOME/.asdf/shims" ]; then
+  export PATH="$HOME/.asdf/shims:$PATH"
+fi
+
 INPUT=$(cat)
 NAME=$(echo "$INPUT" | jq -r '.name')
 CWD=$(echo "$INPUT" | jq -r '.cwd')
 
 WORKTREE_DIR="$HOME/code/worktrees/$NAME"
-PORTS_FILE="$HOME/.ports-registry"
 
 mkdir -p "$(dirname "$WORKTREE_DIR")"
-git -C "$CWD" worktree add "$WORKTREE_DIR" -b "$NAME" HEAD >&2
+
+if git -C "$CWD" worktree list --porcelain | grep -qxF "worktree $WORKTREE_DIR"; then
+  echo "Worktree already exists at $WORKTREE_DIR, reusing" >&2
+elif [ -e "$WORKTREE_DIR" ]; then
+  echo "Path $WORKTREE_DIR exists but is not a registered worktree" >&2
+  exit 1
+elif git -C "$CWD" show-ref --verify --quiet "refs/heads/$NAME"; then
+  git -C "$CWD" worktree add "$WORKTREE_DIR" "$NAME" >&2
+else
+  git -C "$CWD" worktree add "$WORKTREE_DIR" -b "$NAME" HEAD >&2
+fi
 
 for file in .env .kamal/secrets config/credentials/production.key config/application.yml; do
   if [ -f "$CWD/$file" ]; then
@@ -18,32 +31,14 @@ for file in .env .kamal/secrets config/credentials/production.key config/applica
   fi
 done
 
-touch "$PORTS_FILE"
-
-allocate_port() {
-  local port=$1
-  while grep -q "^$port " "$PORTS_FILE" 2>/dev/null || lsof -i ":$port" >/dev/null 2>&1; do
-    port=$((port + 1))
-  done
-  echo "$port"
-}
-
-RAILS_PORT=$(allocate_port 3000)
-echo "$RAILS_PORT $WORKTREE_DIR rails" >> "$PORTS_FILE"
-WEBPACK_PORT=$(allocate_port 3135)
-echo "$WEBPACK_PORT $WORKTREE_DIR webpack" >> "$PORTS_FILE"
-
-cat > "$WORKTREE_DIR/.env.local" <<EOF
-PORT=$RAILS_PORT
-WEBPACKER_DEV_SERVER_PORT=$WEBPACK_PORT
+if [ -f "$CWD/Procfile.local" ]; then
+  ln -sf "$CWD/Procfile.local" "$WORKTREE_DIR/Procfile.local"
+else
+  cat > "$WORKTREE_DIR/Procfile.local" <<'EOF'
+web: bin/rails server -p $WEB_PORT
+webpack: WEBPACKER_DEV_SERVER_PORT=$((WEB_PORT + 100)) bin/webpacker-dev-server
 EOF
-
-cat > "$WORKTREE_DIR/Procfile.local" <<EOF
-web: bin/rails server -p $RAILS_PORT
-webpack: WEBPACKER_DEV_SERVER_PORT=$WEBPACK_PORT bin/webpacker-dev-server
-scanner: docker inspect --format='{{.State.Running}}' track-scanner 2>/dev/null | grep -q true || (docker rm -f track-scanner 2>/dev/null; docker run -d -p 8000:80 --name track-scanner skyderby/track-scanner >&2); echo "Scanner running"
-ngrok: ngrok http $RAILS_PORT
-EOF
+fi
 
 cd "$WORKTREE_DIR"
 yarn install >&2
