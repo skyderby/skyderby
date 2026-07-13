@@ -6,9 +6,37 @@ import {
   interpolateByPlayerTime
 } from 'utils/tracks/pointHelpers'
 import { LOCATION_ARROW_PATH } from 'utils/tracks/locationArrowPath'
-import { convertSpeed, convertLength, speedUnitLabel } from 'utils/units'
+import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 
 const SVG_NS = 'http://www.w3.org/2000/svg'
+
+const PRIMARY_COLOR = '#2196F3'
+const COMPARE_COLOR = '#9C27B0'
+
+function formatAxisLength(meters, units) {
+  const value = convertLength(meters, units)
+  if (units === 'imperial') {
+    return value === 0 ? '0' : `${(value / 1000).toFixed(1)}k`
+  }
+  return String(Math.round(value))
+}
+
+function deltaCellHtml(a, b, digits = 0) {
+  if (a == null || b == null || Number.isNaN(a) || Number.isNaN(b)) return ''
+
+  const diff = Number((a - b).toFixed(digits))
+  const denom = Math.max(Math.abs(a), Math.abs(b)) || 1
+  const width = Math.min(50, (Math.abs(diff) / denom) * 50)
+  const primaryLeads = diff >= 0
+
+  const fillStyle = primaryLeads
+    ? `right:50%;left:auto;width:${width}%;background:${PRIMARY_COLOR}`
+    : `left:50%;right:auto;width:${width}%;background:${COMPARE_COLOR}`
+  const valueClass = primaryLeads ? 'is-primary' : 'is-compare'
+  const sign = diff > 0 ? '+' : ''
+
+  return `<span class="side-tt-delta"><span class="side-tt-delta__bar"><span class="side-tt-delta__mark"></span><span class="side-tt-delta__fill" style="${fillStyle}"></span></span><span class="side-tt-delta__val ${valueClass}">${sign}${diff.toFixed(digits)}</span></span>`
+}
 
 const CHART_PADDING = { left: 100, right: 20, top: 10, bottom: 45 }
 
@@ -179,7 +207,7 @@ export default class SkydivePerformanceSideView {
     startLabel.setAttribute('x', left - 10)
     startLabel.setAttribute('y', windowStartY + 4)
     startLabel.setAttribute('class', 'grid-label grid-label-window')
-    startLabel.textContent = Math.round(convertLength(this.fromValue, this.units))
+    startLabel.textContent = formatAxisLength(this.fromValue, this.units)
     grid.appendChild(startLabel)
 
     const endLine = document.createElementNS(SVG_NS, 'line')
@@ -194,7 +222,7 @@ export default class SkydivePerformanceSideView {
     endLabel.setAttribute('x', left - 10)
     endLabel.setAttribute('y', windowEndY + 4)
     endLabel.setAttribute('class', 'grid-label grid-label-window')
-    endLabel.textContent = Math.round(convertLength(this.toValue, this.units))
+    endLabel.textContent = formatAxisLength(this.toValue, this.units)
     grid.appendChild(endLabel)
 
     const altitudeStep = 250
@@ -223,7 +251,7 @@ export default class SkydivePerformanceSideView {
       label.setAttribute('x', left - 10)
       label.setAttribute('y', y + 4)
       label.setAttribute('class', 'grid-label')
-      label.textContent = Math.round(convertLength(altitude, this.units))
+      label.textContent = formatAxisLength(altitude, this.units)
       grid.appendChild(label)
     }
 
@@ -259,7 +287,7 @@ export default class SkydivePerformanceSideView {
       label.setAttribute('x', x)
       label.setAttribute('y', height - bottom + 20)
       label.setAttribute('class', 'grid-label-distance')
-      label.textContent = Math.round(convertLength(dist, this.units))
+      label.textContent = formatAxisLength(dist, this.units)
       grid.appendChild(label)
     }
   }
@@ -345,7 +373,7 @@ export default class SkydivePerformanceSideView {
       return top + ((this.altitudeRange.top - altitude) / totalAltitudeRange) * plotHeight
     }
 
-    drawFlares(container, flares, scaleX, scaleY, this.viewBoxFontSize(14))
+    drawFlares(container, flares, scaleX, scaleY, this.viewBoxFontSize(14), this.units)
   }
 
   renderMaxSpeedMarker() {
@@ -744,38 +772,67 @@ export default class SkydivePerformanceSideView {
     const entryTime = this.windowEntryTime || 0
     const entryDistance = this.windowEntryDistance || 0
     const time = Math.round(point.playerTime - entryTime)
-    const distance = value => Math.round(value - entryDistance)
+    const speed = value => convertSpeed(value, this.units)
+    const length = value => convertLength(value, this.units)
+    const speedU = speedUnitLabel(this.units)
+    const lengthU = lengthUnitLabel(this.units)
+    const distance = value => Math.round(length(value - entryDistance))
 
     if (!comparePoint) {
       return `
         <div><b>Time:</b> ${time} s</div>
-        <div><b>Distance:</b> ${distance(point.distance)} m</div>
-        <div><b>Altitude:</b> ${Math.round(point.altitude)} m</div>
-        <div><b>H speed:</b> ${Math.round(point.hSpeed)} km/h</div>
-        <div><b>V speed:</b> ${Math.round(point.vSpeed)} km/h</div>
+        <div><b>Distance:</b> ${distance(point.distance)} ${lengthU}</div>
+        <div><b>Altitude:</b> ${Math.round(length(point.altitude))} ${lengthU}</div>
+        <div><b>H speed:</b> ${Math.round(speed(point.hSpeed))} ${speedU}</div>
+        <div><b>V speed:</b> ${Math.round(speed(point.vSpeed))} ${speedU}</div>
         <div><b>Glide:</b> ${num(point.glideRatio, 2)}</div>
       `
     }
 
     const rows = [
-      ['Distance, m', distance(point.distance), distance(comparePoint.distance)],
-      ['Altitude, m', Math.round(point.altitude), Math.round(comparePoint.altitude)],
-      ['H speed, km/h', Math.round(point.hSpeed), Math.round(comparePoint.hSpeed)],
-      ['V speed, km/h', Math.round(point.vSpeed), Math.round(comparePoint.vSpeed)],
-      ['Glide', num(point.glideRatio, 2), num(comparePoint.glideRatio, 2)]
+      [
+        `Distance, ${lengthU}`,
+        distance(point.distance),
+        distance(comparePoint.distance),
+        ''
+      ],
+      [
+        `Altitude, ${lengthU}`,
+        Math.round(length(point.altitude)),
+        Math.round(length(comparePoint.altitude)),
+        ''
+      ],
+      [
+        `H speed, ${speedU}`,
+        Math.round(speed(point.hSpeed)),
+        Math.round(speed(comparePoint.hSpeed)),
+        deltaCellHtml(speed(point.hSpeed), speed(comparePoint.hSpeed))
+      ],
+      [
+        `V speed, ${speedU}`,
+        Math.round(speed(point.vSpeed)),
+        Math.round(speed(comparePoint.vSpeed)),
+        deltaCellHtml(speed(point.vSpeed), speed(comparePoint.vSpeed))
+      ],
+      [
+        'Glide',
+        num(point.glideRatio, 2),
+        num(comparePoint.glideRatio, 2),
+        deltaCellHtml(point.glideRatio, comparePoint.glideRatio, 1)
+      ]
     ]
 
     const body = rows
       .map(
-        ([label, a, b]) =>
-          `<tr><th>${label}</th><td>${a}</td><td class="is-compare">${b}</td></tr>`
+        ([label, a, b, d]) =>
+          `<tr><th>${label}</th><td>${a}</td><td class="is-compare">${b}</td><td class="side-tt-delta-cell">${d}</td></tr>`
       )
       .join('')
 
     return `
       <div class="skydive-side-tooltip-time"><b>Time:</b> ${time} s</div>
       <table class="skydive-side-tooltip-table">
-        <tr><th></th><td>Pilot</td><td class="is-compare">Compare</td></tr>
+        <tr><th></th><td>Pilot</td><td class="is-compare">Compare</td><td>Δ</td></tr>
         ${body}
       </table>
       <div class="skydive-side-tooltip-summary">
@@ -785,17 +842,19 @@ export default class SkydivePerformanceSideView {
   }
 
   relativeSummaryHtml(point, comparePoint) {
+    const lengthU = lengthUnitLabel(this.units)
     const altDiff = point.altitude - comparePoint.altitude
     const distDiff = point.distance - comparePoint.distance
+    const length = value => Math.abs(Math.round(convertLength(value, this.units)))
 
     const altText =
       Math.abs(altDiff) < 1
         ? 'same altitude'
-        : `${Math.abs(Math.round(altDiff))}m ${altDiff > 0 ? 'above' : 'below'}`
+        : `${length(altDiff)}${lengthU} ${altDiff > 0 ? 'above' : 'below'}`
     const distText =
       Math.abs(distDiff) < 1
         ? 'same distance'
-        : `${Math.abs(Math.round(distDiff))}m ${distDiff > 0 ? 'in front' : 'behind'}`
+        : `${length(distDiff)}${lengthU} ${distDiff > 0 ? 'in front' : 'behind'}`
 
     return `${altText} · ${distText}`
   }

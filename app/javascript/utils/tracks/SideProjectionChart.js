@@ -4,6 +4,34 @@ import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'ut
 
 const SVG_NS = 'http://www.w3.org/2000/svg'
 
+const PRIMARY_COLOR = '#2196F3'
+const COMPARE_COLOR = '#9C27B0'
+
+function formatAxisLength(meters, units) {
+  const value = convertLength(meters, units)
+  if (units === 'imperial') {
+    return value === 0 ? '0' : `${(value / 1000).toFixed(1)}k`
+  }
+  return String(Math.round(value))
+}
+
+function deltaCellHtml(a, b, digits = 0) {
+  if (a == null || b == null || Number.isNaN(a) || Number.isNaN(b)) return ''
+
+  const diff = Number((a - b).toFixed(digits))
+  const denom = Math.max(Math.abs(a), Math.abs(b)) || 1
+  const width = Math.min(50, (Math.abs(diff) / denom) * 50)
+  const primaryLeads = diff >= 0
+
+  const fillStyle = primaryLeads
+    ? `right:50%;left:auto;width:${width}%;background:${PRIMARY_COLOR}`
+    : `left:50%;right:auto;width:${width}%;background:${COMPARE_COLOR}`
+  const valueClass = primaryLeads ? 'is-primary' : 'is-compare'
+  const sign = diff > 0 ? '+' : ''
+
+  return `<span class="side-tt-delta"><span class="side-tt-delta__bar"><span class="side-tt-delta__mark"></span><span class="side-tt-delta__fill" style="${fillStyle}"></span></span><span class="side-tt-delta__val ${valueClass}">${sign}${diff.toFixed(digits)}</span></span>`
+}
+
 export default class SideProjectionChart {
   constructor(container, options = {}) {
     this.container = container
@@ -295,7 +323,7 @@ export default class SideProjectionChart {
         xLabel.setAttribute('text-anchor', 'middle')
         xLabel.setAttribute('font-size', '11')
         xLabel.setAttribute('fill', '#666')
-        xLabel.textContent = Math.round(convertLength(value, this.options.units))
+        xLabel.textContent = formatAxisLength(value, this.options.units)
         gridGroup.appendChild(xLabel)
       }
 
@@ -306,7 +334,7 @@ export default class SideProjectionChart {
         yLabel.setAttribute('text-anchor', 'end')
         yLabel.setAttribute('font-size', '11')
         yLabel.setAttribute('fill', '#666')
-        yLabel.textContent = Math.round(convertLength(value, this.options.units))
+        yLabel.textContent = formatAxisLength(value, this.options.units)
         gridGroup.appendChild(yLabel)
       }
 
@@ -679,7 +707,7 @@ export default class SideProjectionChart {
     const startAltitude = this.points[0].altitude
     const scaleY = altitude => this.scaleY(startAltitude - altitude)
 
-    drawFlares(this.svg, flares, this.scaleX, scaleY)
+    drawFlares(this.svg, flares, this.scaleX, scaleY, 12, this.options.units)
   }
 
   setupInteraction() {
@@ -785,24 +813,30 @@ export default class SideProjectionChart {
     if (this.compareFlightProfile.length) {
       this.tooltip.innerHTML = this.comparisonTooltipHtml(point, clearance)
     } else {
+      const units = this.options.units
+      const speed = value => Math.round(convertSpeed(value, units))
+      const length = value => Math.round(convertLength(value, units))
+      const speedU = speedUnitLabel(units)
+      const lengthU = lengthUnitLabel(units)
+
       let clearanceHtml = ''
       if (clearance !== null) {
         let color = '#4CAF50'
         if (clearance <= 25) color = '#f44336'
         else if (clearance <= 100) color = '#FFC107'
 
-        clearanceHtml = `<div><b>Clearance:</b> <span style="color: ${color}; font-weight: bold;">${clearance} m</span></div>`
+        clearanceHtml = `<div><b>Clearance:</b> <span style="color: ${color}; font-weight: bold;">${length(clearance)} ${lengthU}</span></div>`
       }
 
       const timeFromExit = Math.round(point.flTime - this.primarySyncFlTime())
 
       this.tooltip.innerHTML = `
         <div><b>Time:</b> ${timeFromExit} s</div>
-        <div><b>Distance:</b> ${Math.round(point.x)} m</div>
-        <div><b>Alt drop:</b> ${Math.round(point.y)} m</div>
-        <div><b>Altitude:</b> ${Math.round(point.altitude)} m</div>
-        <div><b>H speed:</b> ${Math.round(point.hSpeed)} km/h</div>
-        <div><b>V speed:</b> ${Math.round(point.vSpeed)} km/h</div>
+        <div><b>Distance:</b> ${length(point.x)} ${lengthU}</div>
+        <div><b>Alt drop:</b> ${length(point.y)} ${lengthU}</div>
+        <div><b>Altitude:</b> ${length(point.altitude)} ${lengthU}</div>
+        <div><b>H speed:</b> ${speed(point.hSpeed)} ${speedU}</div>
+        <div><b>V speed:</b> ${speed(point.vSpeed)} ${speedU}</div>
         <div><b>Glide:</b> ${point.glideRatio?.toFixed(2) ?? 'N/A'}</div>
         ${clearanceHtml}
       `
@@ -842,9 +876,19 @@ export default class SideProjectionChart {
   comparisonTooltipHtml(point, primaryClearance) {
     const comparePoint = this.interpolateCompareProfile(point.playerTime)
 
+    const units = this.options.units
+    const speed = value => convertSpeed(value, units)
+    const length = value => convertLength(value, units)
+    const speedU = speedUnitLabel(units)
+    const lengthU = lengthUnitLabel(units)
+
     const fmt = value => (value == null || Number.isNaN(value) ? '—' : value)
     const num = (value, digits = 0) =>
       value == null || Number.isNaN(value) ? '—' : value.toFixed(digits)
+    const lenCell = value =>
+      value == null || Number.isNaN(value) ? '—' : Math.round(length(value))
+    const speedCell = value =>
+      value == null || Number.isNaN(value) ? '—' : Math.round(speed(value))
 
     const primaryExit = Math.round(point.flTime - this.primarySyncFlTime())
     const compareExit = comparePoint ? Math.round(comparePoint.exitTime) : null
@@ -856,51 +900,58 @@ export default class SideProjectionChart {
       compareClearance == null ? null : Math.round(compareClearance - comparePoint.y)
 
     const rows = [
-      ['Time, s', primaryExit, fmt(compareExit)],
+      ['Time, s', primaryExit, fmt(compareExit), ''],
       [
-        'Distance, m',
-        Math.round(point.x),
-        comparePoint ? Math.round(comparePoint.x) : '—'
+        `Distance, ${lengthU}`,
+        lenCell(point.x),
+        comparePoint ? lenCell(comparePoint.x) : '—',
+        ''
       ],
       [
-        'Alt drop, m',
-        Math.round(point.y),
-        comparePoint ? Math.round(comparePoint.y) : '—'
+        `Alt drop, ${lengthU}`,
+        lenCell(point.y),
+        comparePoint ? lenCell(comparePoint.y) : '—',
+        ''
       ],
       [
-        'Altitude, m',
-        Math.round(point.altitude),
-        comparePoint ? Math.round(comparePoint.altitude) : '—'
+        `Altitude, ${lengthU}`,
+        lenCell(point.altitude),
+        comparePoint ? lenCell(comparePoint.altitude) : '—',
+        ''
       ],
       [
-        'H speed, km/h',
-        Math.round(point.hSpeed),
-        comparePoint ? Math.round(comparePoint.hSpeed) : '—'
+        `H speed, ${speedU}`,
+        speedCell(point.hSpeed),
+        comparePoint ? speedCell(comparePoint.hSpeed) : '—',
+        comparePoint ? deltaCellHtml(speed(point.hSpeed), speed(comparePoint.hSpeed)) : ''
       ],
       [
-        'V speed, km/h',
-        Math.round(point.vSpeed),
-        comparePoint ? Math.round(comparePoint.vSpeed) : '—'
+        `V speed, ${speedU}`,
+        speedCell(point.vSpeed),
+        comparePoint ? speedCell(comparePoint.vSpeed) : '—',
+        comparePoint ? deltaCellHtml(speed(point.vSpeed), speed(comparePoint.vSpeed)) : ''
       ],
       [
         'Glide',
         num(point.glideRatio, 2),
-        comparePoint ? num(comparePoint.glideRatio, 2) : '—'
+        comparePoint ? num(comparePoint.glideRatio, 2) : '—',
+        comparePoint ? deltaCellHtml(point.glideRatio, comparePoint.glideRatio, 1) : ''
       ]
     ]
 
     if (primaryClearance !== null || compareClearanceValue !== null) {
       rows.push([
-        'Clearance, m',
-        primaryClearance == null ? '—' : primaryClearance,
-        compareClearanceValue == null ? '—' : compareClearanceValue
+        `Clearance, ${lengthU}`,
+        primaryClearance == null ? '—' : lenCell(primaryClearance),
+        compareClearanceValue == null ? '—' : lenCell(compareClearanceValue),
+        ''
       ])
     }
 
     const body = rows
       .map(
-        ([label, a, b]) =>
-          `<tr><th>${label}</th><td>${a}</td><td class="is-compare">${b}</td></tr>`
+        ([label, a, b, d]) =>
+          `<tr><th>${label}</th><td>${a}</td><td class="is-compare">${b}</td><td class="side-tt-delta-cell">${d}</td></tr>`
       )
       .join('')
 

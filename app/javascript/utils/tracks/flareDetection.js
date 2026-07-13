@@ -1,3 +1,5 @@
+import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
+
 const SVG_NS = 'http://www.w3.org/2000/svg'
 
 export function detectFlares(points) {
@@ -50,8 +52,11 @@ export function detectFlares(points) {
   return flares
 }
 
-export function drawFlares(svg, flares, scaleX, scaleY, fontSize = 12) {
+export function drawFlares(svg, flares, scaleX, scaleY, fontSize = 12, units = 'metric') {
   if (!flares.length) return
+
+  const speedU = speedUnitLabel(units)
+  const lengthU = lengthUnitLabel(units)
 
   const flareGroup = document.createElementNS(SVG_NS, 'g')
   flareGroup.setAttribute('class', 'flare-annotations')
@@ -118,7 +123,7 @@ export function drawFlares(svg, flares, scaleX, scaleY, fontSize = 12) {
     hDimLabel.setAttribute('text-anchor', 'middle')
     hDimLabel.setAttribute('font-size', fontSize)
     hDimLabel.setAttribute('fill', 'var(--red-80)')
-    hDimLabel.textContent = `${Math.round(horizontalDist)} m`
+    hDimLabel.textContent = `${Math.round(convertLength(horizontalDist, units))} ${lengthU}`
     flareGroup.appendChild(hDimLabel)
 
     const hSpeedExtLine = document.createElementNS(SVG_NS, 'line')
@@ -137,7 +142,7 @@ export function drawFlares(svg, flares, scaleX, scaleY, fontSize = 12) {
     hSpeedLabel.setAttribute('text-anchor', 'end')
     hSpeedLabel.setAttribute('font-size', fontSize)
     hSpeedLabel.setAttribute('fill', 'var(--red-80)')
-    hSpeedLabel.textContent = `${Math.round(flare.zeroCrossHSpeed)} km/h`
+    hSpeedLabel.textContent = `${Math.round(convertSpeed(flare.zeroCrossHSpeed, units))} ${speedU}`
     flareGroup.appendChild(hSpeedLabel)
 
     const vDimLine = document.createElementNS(SVG_NS, 'line')
@@ -178,7 +183,7 @@ export function drawFlares(svg, flares, scaleX, scaleY, fontSize = 12) {
     vDimLabel.setAttribute('text-anchor', 'middle')
     vDimLabel.setAttribute('font-size', fontSize)
     vDimLabel.setAttribute('fill', 'var(--red-80)')
-    vDimLabel.textContent = `${Math.round(altitudeGain * 10) / 10} m`
+    vDimLabel.textContent = `${Math.round(convertLength(altitudeGain, units) * 10) / 10} ${lengthU}`
     flareGroup.appendChild(vDimLabel)
   }
 
