@@ -15,7 +15,7 @@ function formatAxisLength(meters, units) {
   return String(Math.round(value))
 }
 
-function deltaCellHtml(a, b, digits = 0) {
+function deltaCellHtml(a, b, digits = 0, cap = null) {
   if (a == null || b == null || Number.isNaN(a) || Number.isNaN(b)) return ''
 
   const diff = Number((a - b).toFixed(digits))
@@ -23,13 +23,20 @@ function deltaCellHtml(a, b, digits = 0) {
   const width = Math.min(50, (Math.abs(diff) / denom) * 50)
   const primaryLeads = diff >= 0
 
+  const radius = primaryLeads ? '2px 0 0 2px' : '0 2px 2px 0'
   const fillStyle = primaryLeads
-    ? `right:50%;left:auto;width:${width}%;background:${PRIMARY_COLOR}`
-    : `left:50%;right:auto;width:${width}%;background:${COMPARE_COLOR}`
+    ? `right:50%;left:auto;width:${width}%;border-radius:${radius};background:${PRIMARY_COLOR}`
+    : `left:50%;right:auto;width:${width}%;border-radius:${radius};background:${COMPARE_COLOR}`
   const valueClass = primaryLeads ? 'is-primary' : 'is-compare'
-  const sign = diff > 0 ? '+' : ''
 
-  return `<span class="side-tt-delta"><span class="side-tt-delta__bar"><span class="side-tt-delta__mark"></span><span class="side-tt-delta__fill" style="${fillStyle}"></span></span><span class="side-tt-delta__val ${valueClass}">${sign}${diff.toFixed(digits)}</span></span>`
+  let valueText
+  if (cap != null && Math.abs(diff) > cap) {
+    valueText = diff > 0 ? `≥${cap}` : `≤-${cap}`
+  } else {
+    valueText = `${diff > 0 ? '+' : ''}${diff.toFixed(digits)}`
+  }
+
+  return `<span class="side-tt-delta"><span class="side-tt-delta__bar"><span class="side-tt-delta__mark"></span><span class="side-tt-delta__fill" style="${fillStyle}"></span></span><span class="side-tt-delta__val ${valueClass}">${valueText}</span></span>`
 }
 
 export default class SideProjectionChart {
@@ -935,7 +942,9 @@ export default class SideProjectionChart {
         'Glide',
         num(point.glideRatio, 2),
         comparePoint ? num(comparePoint.glideRatio, 2) : '—',
-        comparePoint ? deltaCellHtml(point.glideRatio, comparePoint.glideRatio, 1) : ''
+        comparePoint
+          ? deltaCellHtml(point.glideRatio, comparePoint.glideRatio, 1, 10)
+          : ''
       ]
     ]
 
