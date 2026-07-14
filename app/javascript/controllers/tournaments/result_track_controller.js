@@ -1,4 +1,5 @@
-import { Controller } from '@hotwired/stimulus'
+import PlaybackController from '../playback_controller'
+import { calculateBearing } from 'utils/tracks/pointHelpers'
 import { initGlideChart, initSpeedsChart, initAccuracyChart } from 'charts'
 import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import initMapsApi from 'utils/google_maps_api'
@@ -6,7 +7,7 @@ import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
 
-export default class extends Controller {
+export default class extends PlaybackController {
   static targets = [
     'sideProjection',
     'glideChart',
@@ -373,64 +374,12 @@ export default class extends Controller {
     this.markerElement = img
   }
 
-  togglePlay() {
-    this.playing = !this.playing
-
-    if (this.hasPlayButtonTarget) {
-      this.playButtonTarget.classList.toggle('playing', this.playing)
-    }
-
-    if (this.playing) {
-      const firstPointTime = this.points[0].gpsTime.getTime()
-      const currentPointTime = this.points[this.currentIndex].gpsTime.getTime()
-      this.playbackOffset = currentPointTime - firstPointTime
-      this.playbackStartTime = performance.now()
-      this.animationFrame = requestAnimationFrame(t => this.animate(t))
-    } else {
-      if (this.animationFrame) {
-        cancelAnimationFrame(this.animationFrame)
-      }
-    }
+  get playbackPoints() {
+    return this.points
   }
 
-  animate(timestamp) {
-    if (!this.playing) return
-
-    const elapsed = timestamp - this.playbackStartTime
-    const firstPointTime = this.points[0].gpsTime.getTime()
-    const targetTime = firstPointTime + this.playbackOffset + elapsed
-    const lastPointTime = this.points[this.points.length - 1].gpsTime.getTime()
-
-    if (targetTime >= lastPointTime) {
-      this.playing = false
-      this.currentIndex = this.points.length - 1
-      if (this.hasPlayButtonTarget) {
-        this.playButtonTarget.classList.remove('playing')
-      }
-      this.updatePlaybackPosition()
-      return
-    }
-
-    const { index, fraction } = this.findPointAtTime(targetTime)
-    this.currentIndex = index
-    this.currentFraction = fraction
-    this.updatePlaybackPositionInterpolated()
-
-    this.animationFrame = requestAnimationFrame(t => this.animate(t))
-  }
-
-  findPointAtTime(targetTime) {
-    for (let i = 0; i < this.points.length - 1; i++) {
-      const currTime = this.points[i].gpsTime.getTime()
-      const nextTime = this.points[i + 1].gpsTime.getTime()
-
-      if (targetTime >= currTime && targetTime < nextTime) {
-        const fraction = (targetTime - currTime) / (nextTime - currTime)
-        return { index: i, fraction }
-      }
-    }
-
-    return { index: this.points.length - 1, fraction: 0 }
+  pointTime(point) {
+    return point.gpsTime.getTime()
   }
 
   onSliderInput() {
@@ -581,7 +530,7 @@ export default class extends Controller {
 
     const targetIndex = this.findTargetIndexFrom(index)
     const targetPoint = this.points[targetIndex]
-    const rotation = this.calculateBearing(point, targetPoint)
+    const rotation = calculateBearing(point, targetPoint)
 
     this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
   }
@@ -600,7 +549,7 @@ export default class extends Controller {
 
     const targetIndex = this.findTargetIndexFrom(this.currentIndex)
     const targetPoint = this.points[targetIndex]
-    const rotation = this.calculateBearing({ latitude: lat, longitude: lng }, targetPoint)
+    const rotation = calculateBearing({ latitude: lat, longitude: lng }, targetPoint)
 
     this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
   }
@@ -618,23 +567,8 @@ export default class extends Controller {
     return this.points.length - 1
   }
 
-  calculateBearing(from, to) {
-    const lat1 = (from.latitude * Math.PI) / 180
-    const lat2 = (to.latitude * Math.PI) / 180
-    const dLon = ((to.longitude - from.longitude) * Math.PI) / 180
-
-    const y = Math.sin(dLon) * Math.cos(lat2)
-    const x =
-      Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon)
-
-    const bearing = (Math.atan2(y, x) * 180) / Math.PI
-    return (bearing + 360) % 360
-  }
-
   disconnect() {
-    if (this.animationFrame) {
-      cancelAnimationFrame(this.animationFrame)
-    }
+    this.stopPlaybackLoop()
     if (this.sideProjectionChart) {
       this.sideProjectionChart.destroy()
     }

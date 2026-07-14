@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { get } from '@rails/request.js'
 import RangeChart from 'charts/RangeChart'
 
 const PHASES = ['exit', 'deploy', 'landing']
@@ -62,8 +63,8 @@ export default class extends Controller {
   }
 
   load() {
-    fetch(this.altitudeUrlValue, { credentials: 'same-origin' })
-      .then(response => response.json())
+    get(this.altitudeUrlValue, { responseKind: 'json' })
+      .then(response => response.json)
       .then(data => {
         const samples = data.map(point => ({
           t: point.fl_time,

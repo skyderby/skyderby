@@ -1,4 +1,4 @@
-import { Controller } from '@hotwired/stimulus'
+import PlaybackController from '../playback_controller'
 import {
   initGlideChart,
   initSpeedsChart,
@@ -24,13 +24,14 @@ import {
   calculateBearing,
   targetIndexFrom,
   closestIndexByPlayerTime,
-  interpolateByPlayerTime
+  interpolateByPlayerTime,
+  haversineDistance
 } from 'utils/tracks/pointHelpers'
 import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
-import { get, patch } from '@rails/request.js'
+import { get, post, patch } from '@rails/request.js'
 import I18n from 'i18n'
 
-export default class extends Controller {
+export default class extends PlaybackController {
   static targets = [
     'sideProjection',
     'grid',
@@ -603,7 +604,7 @@ export default class extends Controller {
       const gpsTime = point.gpsTime.getTime()
       const playerTime = (gpsTime - startTime) / 1000
       if (index > 0) {
-        distance += this.calculateDistance(point, points[index - 1])
+        distance += haversineDistance(points[index - 1], point)
       }
 
       return {
@@ -627,7 +628,7 @@ export default class extends Controller {
     let distance = 0
     const points = this.comparePoints.map((point, index) => {
       if (index > 0) {
-        distance += this.calculateDistance(point, this.comparePoints[index - 1])
+        distance += haversineDistance(this.comparePoints[index - 1], point)
       }
       const srcGpsTime = point.gpsTime.getTime()
       const gpsTime = srcGpsTime + this.compareTimeOffset
@@ -654,21 +655,6 @@ export default class extends Controller {
     })
 
     return points
-  }
-
-  calculateDistance(point, startPoint) {
-    const R = 6371000
-    const lat1 = (startPoint.latitude * Math.PI) / 180
-    const lat2 = (point.latitude * Math.PI) / 180
-    const deltaLat = ((point.latitude - startPoint.latitude) * Math.PI) / 180
-    const deltaLon = ((point.longitude - startPoint.longitude) * Math.PI) / 180
-
-    const a =
-      Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-      Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2)
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-
-    return R * c
   }
 
   processCompareTrack() {
@@ -1337,64 +1323,12 @@ export default class extends Controller {
     this.currentIndex = 0
   }
 
-  togglePlay() {
-    this.playing = !this.playing
-
-    if (this.hasPlayButtonTarget) {
-      this.playButtonTarget.classList.toggle('playing', this.playing)
-    }
-
-    if (this.playing) {
-      const firstPointTime = this.processedPoints[0].gpsTime
-      const currentPointTime = this.processedPoints[this.currentIndex].gpsTime
-      this.playbackOffset = currentPointTime - firstPointTime
-      this.playbackStartTime = performance.now()
-      this.animationFrame = requestAnimationFrame(t => this.animate(t))
-    } else {
-      if (this.animationFrame) {
-        cancelAnimationFrame(this.animationFrame)
-      }
-    }
+  get playbackPoints() {
+    return this.processedPoints
   }
 
-  animate(timestamp) {
-    if (!this.playing) return
-
-    const elapsed = timestamp - this.playbackStartTime
-    const firstPointTime = this.processedPoints[0].gpsTime
-    const targetTime = firstPointTime + this.playbackOffset + elapsed
-    const lastPointTime = this.processedPoints[this.processedPoints.length - 1].gpsTime
-
-    if (targetTime >= lastPointTime) {
-      this.playing = false
-      this.currentIndex = this.processedPoints.length - 1
-      if (this.hasPlayButtonTarget) {
-        this.playButtonTarget.classList.remove('playing')
-      }
-      this.updatePlaybackPosition()
-      return
-    }
-
-    const { index, fraction } = this.findPointAtTime(targetTime)
-    this.currentIndex = index
-    this.currentFraction = fraction
-    this.updatePlaybackPositionInterpolated()
-
-    this.animationFrame = requestAnimationFrame(t => this.animate(t))
-  }
-
-  findPointAtTime(targetTime) {
-    for (let i = 0; i < this.processedPoints.length - 1; i++) {
-      const currTime = this.processedPoints[i].gpsTime
-      const nextTime = this.processedPoints[i + 1].gpsTime
-
-      if (targetTime >= currTime && targetTime < nextTime) {
-        const fraction = (targetTime - currTime) / (nextTime - currTime)
-        return { index: i, fraction }
-      }
-    }
-
-    return { index: this.processedPoints.length - 1, fraction: 0 }
+  pointTime(point) {
+    return point.gpsTime
   }
 
   onSliderInput() {
@@ -1793,23 +1727,18 @@ export default class extends Controller {
     const position = this.referencePointMarker.position
     const hasExisting = this.referencePointData?.reference_point
 
-    const method = hasExisting ? 'PATCH' : 'POST'
+    const request = hasExisting ? patch : post
 
-    fetch(this.referencePointUrlValue, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content
-      },
+    request(this.referencePointUrlValue, {
       body: JSON.stringify({
         reference_point: {
           latitude: position.lat,
           longitude: position.lng
         }
-      })
+      }),
+      responseKind: 'json'
     })
-      .then(response => response.json())
+      .then(response => response.json)
       .then(data => {
         this.referencePointData = data
         if (this.designatedLaneToggleTarget.checked) {
@@ -1866,9 +1795,7 @@ export default class extends Controller {
   }
 
   disconnect() {
-    if (this.animationFrame) {
-      cancelAnimationFrame(this.animationFrame)
-    }
+    this.stopPlaybackLoop()
     this.sideView?.destroy()
     this.polarView?.destroy()
     this.destroyCharts()

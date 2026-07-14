@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { get } from '@rails/request.js'
 
 export default class extends Controller {
   static targets = ['playButton', 'roundLink', 'scoreboard']
@@ -43,8 +44,8 @@ export default class extends Controller {
     this.disableNavigation()
 
     try {
-      const response = await fetch(url)
-      const html = await response.text()
+      const response = await get(url, { responseKind: 'html' })
+      const html = await response.html
       const parser = new DOMParser()
       const doc = parser.parseFromString(html, 'text/html')
       const newScoreboard = doc.querySelector('#scoreboard-time-machine table')

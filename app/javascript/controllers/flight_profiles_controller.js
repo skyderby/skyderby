@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { get } from '@rails/request.js'
 import { calculateFlightProfile, calculateTerrainClearance } from 'utils/flightProfiles'
 import I18n from 'i18n'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
@@ -207,8 +208,8 @@ export default class FlightProfilesController extends Controller {
       return this.tracksCache.get(trackId)
     }
 
-    return fetch(`/tracks/${trackId}`, { headers: { Accept: 'application/json' } })
-      .then(res => res.json())
+    return get(`/tracks/${trackId}`, { responseKind: 'json' })
+      .then(response => response.json)
       .then(data => {
         this.tracksCache.set(trackId, data)
         return data
@@ -264,8 +265,8 @@ export default class FlightProfilesController extends Controller {
         </span><br/>`
     }
 
-    fetch(`/exit_measurements/${jumpLineId}`, { Headers: { Accept: 'application/json' } })
-      .then(response => response.json())
+    get(`/exit_measurements/${jumpLineId}`, { responseKind: 'json' })
+      .then(response => response.json)
       .then(responseData => {
         const { name, measurements } = responseData
         this.currentMeasurements = measurements

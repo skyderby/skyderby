@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { get } from '@rails/request.js'
 import { initYoutubeApi, videoCodeFromUrl, defaultPlayerOptions } from 'utils/youtube'
 import smoothScroll from 'utils/smooth_scroll'
 import I18n from 'i18n'
@@ -15,8 +16,8 @@ export default class extends Controller {
   }
 
   fetchChartData() {
-    fetch(this.element.getAttribute('data-url'), { credentials: 'same-origin' })
-      .then(response => response.json())
+    get(this.element.getAttribute('data-url'), { responseKind: 'json' })
+      .then(response => response.json)
       .then(data => {
         const chart = this.highchart
 

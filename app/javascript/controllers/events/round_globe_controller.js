@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { get } from '@rails/request.js'
 import { initCesiumApi } from 'utils/cesium_api'
 
 class CompetitionEntryBuilder {
@@ -104,11 +105,8 @@ export default class extends Controller {
   }
 
   fetchData() {
-    fetch(this.url, {
-      credentials: 'same-origin',
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => response.json())
+    get(this.url, { responseKind: 'json' })
+      .then(response => response.json)
       .then(data => {
         this.mapsData = data
         this.setDataLoaded()

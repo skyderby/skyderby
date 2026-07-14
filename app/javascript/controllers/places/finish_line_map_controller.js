@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { get } from '@rails/request.js'
 import Geospatial from 'utils/geospatial'
 import init_maps_api from 'utils/google_maps_api'
 import I18n from 'i18n'
@@ -27,11 +28,8 @@ export default class extends Controller {
 
   on_change_place(event) {
     const place_id = event.currentTarget.value
-    fetch(`/places/${place_id}`, {
-      credentials: 'same-origin',
-      headers: { Accept: 'application/json' }
-    })
-      .then(response => response.json())
+    get(`/places/${place_id}`, { responseKind: 'json' })
+      .then(response => response.json)
       .then(data => {
         this.exit_lat = data.latitude
         this.exit_lon = data.longitude

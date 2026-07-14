@@ -1,3 +1,21 @@
+export const EARTH_MEAN_RADIUS = 6371000
+
+export const haversineDistance = (from, to) => {
+  const toRad = deg => (deg * Math.PI) / 180
+
+  const dLat = toRad(to.latitude - from.latitude)
+  const dLon = toRad(to.longitude - from.longitude)
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(from.latitude)) *
+      Math.cos(toRad(to.latitude)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2)
+
+  return EARTH_MEAN_RADIUS * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
 export const calculateBearing = (from, to) => {
   const lat1 = (from.latitude * Math.PI) / 180
   const lat2 = (to.latitude * Math.PI) / 180

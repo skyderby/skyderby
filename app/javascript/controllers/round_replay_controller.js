@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
+import { haversineDistance, EARTH_MEAN_RADIUS } from 'utils/tracks/pointHelpers'
 import amplitude from 'utils/amplitude'
 
 const COLORS = ['#470FF4', '#F24C00', '#AA3E98', '#247BA0']
@@ -279,7 +280,7 @@ export default class extends Controller {
       .map(point => {
         const gpsTime = point.gpsTime.getTime()
         const playerTime = (gpsTime - startTime) / 1000
-        const absDistance = this.calculateDistance(point, startPoint)
+        const absDistance = haversineDistance(startPoint, point)
         const distance = gpsTime < startTime ? -absDistance : absDistance
 
         return {
@@ -302,21 +303,6 @@ export default class extends Controller {
             this.windowEndValue -
               (this.windowStartValue - this.windowEndValue) * ALTITUDE_BUFFER_RATIO
       )
-  }
-
-  calculateDistance(point, startPoint) {
-    const R = 6371000
-    const lat1 = (startPoint.latitude * Math.PI) / 180
-    const lat2 = (point.latitude * Math.PI) / 180
-    const deltaLat = ((point.latitude - startPoint.latitude) * Math.PI) / 180
-    const deltaLon = ((point.longitude - startPoint.longitude) * Math.PI) / 180
-
-    const a =
-      Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-      Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2)
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-
-    return R * c
   }
 
   calculateRanges() {
@@ -723,7 +709,7 @@ export default class extends Controller {
 
   calculateLaneDeviation(point, laneStart, referencePoint) {
     const toRad = deg => (deg * Math.PI) / 180
-    const R = 6371000
+    const R = EARTH_MEAN_RADIUS
 
     const lat1 = toRad(laneStart.latitude)
     const lon1 = toRad(laneStart.longitude)
@@ -732,8 +718,8 @@ export default class extends Controller {
     const lat3 = toRad(point.latitude)
     const lon3 = toRad(point.longitude)
 
-    const d13 = this.haversineDistance(laneStart, point)
-    const d12 = this.haversineDistance(laneStart, referencePoint)
+    const d13 = haversineDistance(laneStart, point)
+    const d12 = haversineDistance(laneStart, referencePoint)
 
     if (d12 === 0) return 0
 
@@ -752,23 +738,6 @@ export default class extends Controller {
       Math.asin(Math.sin(d13 / R) * Math.sin(bearing13 - bearing12)) * R
 
     return crossTrackDistance
-  }
-
-  haversineDistance(p1, p2) {
-    const R = 6371000
-    const toRad = deg => (deg * Math.PI) / 180
-
-    const dLat = toRad(p2.latitude - p1.latitude)
-    const dLon = toRad(p2.longitude - p1.longitude)
-
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(p1.latitude)) *
-        Math.cos(toRad(p2.latitude)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2)
-
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
   }
 
   renderTopViewRoad() {

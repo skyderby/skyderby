@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { post } from '@rails/request.js'
 
 export default class extends Controller {
   connect() {
@@ -35,13 +36,9 @@ export default class extends Controller {
 
   async handleCredentialResponse(response) {
     try {
-      const result = await fetch('/google_one_tap', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify({ credential: response.credential })
+      const result = await post('/google_one_tap', {
+        body: JSON.stringify({ credential: response.credential }),
+        responseKind: 'json'
       })
 
       if (result.ok) {

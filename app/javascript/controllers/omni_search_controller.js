@@ -1,9 +1,9 @@
-import { Controller } from '@hotwired/stimulus'
+import PopoverSelectController from './popover_select_controller'
 import debounce from 'lodash.debounce'
 
 let anchorCounter = 0
 
-export default class OmniSearchController extends Controller {
+export default class OmniSearchController extends PopoverSelectController {
   static targets = ['model', 'typeSelect', 'tagsContainer', 'tagTemplate', 'dropdown']
 
   connect() {
@@ -200,59 +200,10 @@ export default class OmniSearchController extends Controller {
     }
   }
 
-  updateFocusedOption() {
-    const options = this.getOptions()
-
-    options.forEach(option => {
-      option.classList.remove('hot-select-option--focused')
-    })
-
-    if (this.focusedOptionIndex >= 0 && this.focusedOptionIndex < options.length) {
-      options[this.focusedOptionIndex].classList.add('hot-select-option--focused')
-    }
-
-    this.scrollToFocusedOption()
-  }
-
-  scrollToFocusedOption() {
-    const options = this.getOptions()
-    if (this.focusedOptionIndex >= 0 && this.focusedOptionIndex < options.length) {
-      const focusedOption = options[this.focusedOptionIndex]
-      const container = this.dropdownTarget.querySelector('.hot-select-selectable')
-
-      const optionTop = focusedOption.offsetTop
-      const optionBottom = optionTop + focusedOption.offsetHeight
-      const containerTop = container.scrollTop
-      const containerBottom = containerTop + container.offsetHeight
-
-      if (optionBottom > containerBottom) {
-        container.scrollTop = optionBottom - container.offsetHeight
-      } else if (optionTop < containerTop) {
-        container.scrollTop = optionTop
-      }
-    }
-  }
-
-  getOptions() {
-    return Array.from(this.dropdownTarget.querySelectorAll('.hot-select-option'))
-  }
-
-  close() {
-    this.dropdownTarget.hidePopover()
-  }
-
   search(event) {
     const frame = this.dropdownTarget.querySelector('turbo-frame')
     if (!frame) return
 
-    const term = event.target.value
-    const url = new URL(frame.src, window.location.origin)
-    url.searchParams.set('term', term)
-    url.searchParams.set('page', '1')
-    frame.src = url.toString()
-  }
-
-  get isOpen() {
-    return this.dropdownTarget.matches(':popover-open')
+    this.updateFrameSearch(frame, event.target.value)
   }
 }
