@@ -65,7 +65,7 @@
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
   font-weight: 600;
-  background: #fff;
+  background: var(--white);
   white-space: nowrap;
   overflow: hidden;
 }
@@ -116,7 +116,7 @@
 
 .round-replay-road-header-position[data-position="3"] {
   background: #cd7f32;
-  color: #fff;
+  color: var(--white);
 }
 
 .round-replay-road-body {
@@ -148,7 +148,7 @@
   align-items: baseline;
   justify-content: center;
   gap: 0.125rem;
-  color: #fff;
+  color: var(--white);
 }
 
 .road-data-label {
@@ -270,7 +270,7 @@
 }
 
 .round-replay-chart .track-marker {
-  stroke: #fff;
+  stroke: var(--white);
   stroke-width: 2;
 }
 
@@ -390,7 +390,7 @@
   border: none;
   border-radius: 50%;
   background: #2196F3;
-  color: #fff;
+  color: var(--white);
   cursor: pointer;
   flex-shrink: 0;
   line-height: 1;

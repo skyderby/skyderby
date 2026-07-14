@@ -31,7 +31,7 @@
     text-align: center;
     line-height: 60px;
     border-right: solid 1px rgba(0, 0, 0, 0.14);
-    color: #555;
+    color: var(--gray-80);
     cursor: pointer;
 
     &:hover {
@@ -51,7 +51,7 @@
   right: 0;
   text-align: center;
   font-size: 32px;
-  color: #777;
+  color: var(--gray-70);
   background-color: white;
 }
 
@@ -78,8 +78,8 @@
 
 .place-preview__geo {
   padding: 0 10px;
-  color: #777;
+  color: var(--gray-70);
   font-size: 12px;
 
-  i { color: #999; }
+  i { color: var(--gray-60); }
 }

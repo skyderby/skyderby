@@ -8,7 +8,7 @@
 
 .crop-selection {
   position: absolute;
-  border: 2px dashed #fff;
+  border: 2px dashed var(--white);
   box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
   cursor: move;
   user-select: none;
@@ -18,8 +18,8 @@
   position: absolute;
   width: 10px;
   height: 10px;
-  background-color: #fff;
-  border: 1px solid #333;
+  background-color: var(--white);
+  border: 1px solid var(--gray-90);
 }
 
 .crop-handle--nw {

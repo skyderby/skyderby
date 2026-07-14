@@ -98,22 +98,6 @@ a.trr-card:hover {
   margin-top: 10px;
 }
 
-.trr-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: var(--accent-bg);
-  color: var(--accent);
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-
-.trr-badge--muted {
-  background: var(--gray-20);
-  color: var(--gray-60);
-}
-
 .trr-note {
   font-size: 0.8125rem;
   color: var(--gray-60);

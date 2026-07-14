@@ -1,10 +1,10 @@
 .event__place {
-  color: #333;
+  color: var(--gray-90);
   font-size: 0.75rem;
   line-height: 1;
   margin-bottom: 9px;
 
-  i { color: #999; }
+  i { color: var(--gray-60); }
   span {
     color: #75a4ba;
     text-transform: uppercase;
@@ -14,7 +14,7 @@
       letter-spacing: -1px;
       margin-right: 5px;
       font-size: 12px;
-      color: #999;
+      color: var(--gray-60);
     }
   }
 }

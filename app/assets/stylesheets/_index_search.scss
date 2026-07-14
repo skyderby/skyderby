@@ -8,7 +8,7 @@
 .index-search__icon {
   display: table-cell;
   background-color: #f7f7f9;
-  color: #999;
+  color: var(--gray-60);
   width: 34px;
   height: 34px;
   text-align: center;
@@ -19,7 +19,7 @@
 .index-search__input {
   display: table-cell;
   background-color: #f7f7f9;
-  color: #777;
+  color: var(--gray-70);
   height: 34px;
   width: 100%;
   padding-left: 5px;

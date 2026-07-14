@@ -7,7 +7,7 @@
 
   &:hover {
     text-decoration: none;
-    background-color: #f3f3f3;
+    background-color: var(--gray-20);
     border-radius: 4px;
     color: $light-text-color;
   }

@@ -3,7 +3,7 @@
   padding-right: 15px;
 
   label {
-    color: #555;
+    color: var(--gray-80);
     padding-top: 7px;
   }
 
@@ -18,16 +18,16 @@
 
 .modal-form__section-title {
   margin: 5px 0;
-  color: #777;
+  color: var(--gray-70);
 }
 
 .modal-form__section-number {
   display: inline-block;
   width: 24px;
   margin-right: 5px;
-  border: 1px solid #777;
+  border: 1px solid var(--gray-70);
   border-radius: 100%;
   line-height: 22px;
-  color: #777;
+  color: var(--gray-70);
   text-align: center;
 }

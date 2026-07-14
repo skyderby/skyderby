@@ -1,4 +1,4 @@
-@media(max-width: 767px){
+@media (max-width: 767px){
   .vc-profile-name {
     font-size: 1.4em;
   }
@@ -10,7 +10,7 @@
   }
 }
 
-@media(min-width: 768px){
+@media (min-width: 768px){
   .vc-profile-name {
     font-size: 1.1em;
   }
@@ -22,7 +22,7 @@
   }
 }
 
-@media(min-width: 992px){
+@media (min-width: 960px){
   .vc-profile-name {
     font-size: 1.4em;
   }
@@ -34,7 +34,7 @@
   }
 }
 
-@media(min-width: 1200px){
+@media (min-width: 1200px){
   .vc-profile-name {
     font-size: 1.4em;
   }
@@ -134,7 +134,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  background: #fff;
+  background: var(--white);
   border: 1px solid var(--gray-20);
   border-radius: var(--border-radius-lg);
   padding: 16px 18px;
@@ -237,17 +237,6 @@
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
-}
-
-.vc-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: var(--accent-bg);
-  color: var(--accent);
-  font-size: 0.8125rem;
-  font-weight: 600;
 }
 
 .vc-card__place,

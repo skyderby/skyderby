@@ -10,7 +10,7 @@
   }
 }
 
-@media (min-width: $bp-medium) {
+@media (min-width: 960px) {
   .profile-overview .dashboard-pbs {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }

@@ -20,7 +20,7 @@
     min-width: 0;
   }
 
-  @media (min-width: $bp-medium) {
+  @media (min-width: 960px) {
     .dashboard-grid {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -383,7 +383,7 @@
     color: var(--text-secondary);
   }
 
-  @media (min-width: $bp-medium) {
+  @media (min-width: 960px) {
     .dashboard-list__row--track {
       flex-direction: row;
       align-items: center;

@@ -9,7 +9,7 @@
   height: 240px;
   border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
 
-  @media (min-width: $bp-large) {
+  @media (min-width: 1200px) {
     height: 320px;
   }
 }
@@ -71,7 +71,7 @@
   border-radius: var(--border-radius-md);
   padding: 1rem;
 
-  @media (min-width: $bp-small) {
+  @media (min-width: 576px) {
     width: 25%;
   }
 }

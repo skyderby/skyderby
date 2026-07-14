@@ -4,7 +4,7 @@
   padding-bottom: 20px;
   margin-bottom: 20px;
   text-decoration: none;
-  background: #fff;
+  background: var(--white);
 
   &:hover {
     text-decoration: none;
@@ -21,7 +21,7 @@
 
   hr {
     border: 0;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--gray-30);
     margin: 12px 0 16px;
   }
 }
@@ -34,7 +34,7 @@
   align-items: center;
   flex-direction: column;
   position: relative;
-  color: #fff;
+  color: var(--white);
   margin: 20px 0 0 -5px;
   background: #39c0ff;
   font-size: 14px;
@@ -96,12 +96,12 @@
     position: absolute;
     top: 2px;
     left: -2px;
-    color: #999;
+    color: var(--gray-60);
   }
 
   p {
     width: auto;
-    color: #555;
+    color: var(--gray-80);
     font-size: 12px;
     line-height: 16px;
     margin: 0;
@@ -111,7 +111,7 @@
       letter-spacing: -1px;
       margin-right: 5px;
       font-size: 12px;
-      color: #999;
+      color: var(--gray-60);
     }
 
     &:last-child:after { display: none; }
@@ -121,11 +121,11 @@
 }
 
 .events-list__item-info {
-  color: #333;
+  color: var(--gray-90);
   font-size: 0.75rem;
   line-height: 1;
   margin-bottom: 9px;
 
   &:last-child { margin-bottom: 0; }
-  span { color: #777; }
+  span { color: var(--gray-70); }
 }

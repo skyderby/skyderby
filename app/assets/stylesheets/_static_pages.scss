@@ -3,11 +3,11 @@ $sf-background-color: lightgray;
 $sf-height: 150px;
 
 .index-page-wrapper {
-  background-color: #fff;
+  background-color: var(--white);
 }
 
 pre.prettyprint {
-  border: 1px solid #999;
+  border: 1px solid var(--gray-60);
   margin-bottom: 0;
   padding: 9px;
 }

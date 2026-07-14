@@ -1,16 +1,16 @@
 .dashboard {
   width: 100%;
-  max-width: $bp-large;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   padding: 1rem;
   gap: 1rem;
 
-  @media (min-width: $bp-medium) {
+  @media (min-width: 960px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (min-width: $bp-large) {
+  @media (min-width: 1200px) {
     grid-template-columns: repeat(4, 1fr);
   }
 }

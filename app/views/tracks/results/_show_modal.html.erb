@@ -33,7 +33,7 @@
             <div class="trr-card__tags">
               <% if result.valid? && result.ranked? %>
                 <% if result.top_percent %>
-                  <span class="trr-badge"><%= t('tracks.show.online_top_percent', percent: result.top_percent) %></span>
+                  <span class="badge--pill"><%= t('tracks.show.online_top_percent', percent: result.top_percent) %></span>
                 <% end %>
                 <% if result.personal_best? %>
                   <span class="trr-note trr-note--record">
@@ -53,7 +53,7 @@
                   </span>
                 <% end %>
               <% else %>
-                <span class="trr-badge trr-badge--muted"><%= t('tracks.show.online_out_of_ranking') %></span>
+                <span class="badge--pill badge--pill-muted"><%= t('tracks.show.online_out_of_ranking') %></span>
                 <span class="trr-note trr-note--invalid"><%= t('tracks.show.online_no_valid_result') %></span>
               <% end %>
             </div>

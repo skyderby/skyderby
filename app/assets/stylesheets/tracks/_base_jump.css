@@ -177,7 +177,7 @@
 
 .side-projection-chart .finish-line-crossing text,
 .side-projection-chart .finish-line-crossing--compare text {
-  stroke: #fff;
+  stroke: var(--white);
   stroke-width: 3;
   paint-order: stroke;
   stroke-linejoin: round;
@@ -220,19 +220,19 @@
 
 .side-projection-chart .crosshair-marker--compare {
   fill: #9C27B0;
-  stroke: #fff;
+  stroke: var(--white);
   stroke-width: 2;
 }
 
 .side-projection-chart .max-speed-marker circle {
   fill: #2196F3;
-  stroke: #fff;
+  stroke: var(--white);
   stroke-width: 1.5;
 }
 
 .side-projection-chart .max-speed-marker text,
 .side-projection-chart .max-speed-marker--compare text {
-  stroke: #fff;
+  stroke: var(--white);
   stroke-width: 3;
   paint-order: stroke;
   stroke-linejoin: round;
@@ -244,7 +244,7 @@
 
 .side-projection-chart .max-speed-marker--compare circle {
   fill: #9C27B0;
-  stroke: #fff;
+  stroke: var(--white);
   stroke-width: 1.5;
 }
 
@@ -330,25 +330,25 @@ td.side-tt-delta-cell {
 }
 
 .side-projection-chart .reference-line {
-  stroke: #999;
+  stroke: var(--gray-60);
   stroke-dasharray: 5, 5;
 }
 
 .side-projection-chart .intersection-marker {
-  fill: #fff;
+  fill: var(--white);
   stroke: #f00;
   stroke-width: 2;
 }
 
 .side-projection-chart .crosshair {
-  stroke: #333;
+  stroke: var(--gray-90);
   stroke-width: 1;
   stroke-dasharray: 4, 4;
 }
 
 .side-projection-chart .crosshair-marker {
   fill: #2196F3;
-  stroke: #fff;
+  stroke: var(--white);
   stroke-width: 2;
 }
 
@@ -377,7 +377,7 @@ td.side-tt-delta-cell {
   border: none;
   border-radius: 50%;
   background: #2196F3;
-  color: #fff;
+  color: var(--white);
   cursor: pointer;
   flex-shrink: 0;
   line-height: 1;
@@ -538,7 +538,7 @@ td.side-tt-delta-cell {
   height: 0.75rem;
   border-radius: 50%;
   background-color: #8b0000;
-  border: 2px solid #fff;
+  border: 2px solid var(--white);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
   transform: translateY(50%);
 }

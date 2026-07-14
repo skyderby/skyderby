@@ -21,7 +21,7 @@
   .header__home {
     display: flex;
     justify-content: center;
-    color: #fff;
+    color: var(--white);
     font-weight: 200;
     font-size: 25px;
     letter-spacing: .05em;
@@ -34,7 +34,7 @@
     }
 
     &:hover {
-      color: #fff;
+      color: var(--white);
       text-decoration: none;
     }
   }
@@ -98,7 +98,7 @@
     align-items: center;
     justify-content: center;
     font-size: 14px;
-    color: #555;
+    color: var(--gray-80);
     gap: 0.25rem;
 
     .button {

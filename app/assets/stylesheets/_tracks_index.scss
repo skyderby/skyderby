@@ -4,7 +4,7 @@
 }
 
 .tracks-index-filters-button {
-  @media (min-width: $bp-small) {
+  @media (min-width: 576px) {
     display: none;
   }
 }
@@ -12,7 +12,7 @@
 .tracks-index-search {
   display: none;
 
-  @media (min-width: $bp-small) {
+  @media (min-width: 576px) {
     display: block;
   }
 }

@@ -121,7 +121,7 @@
   transform: translateX(-50%);
   width: 230px;
   background: var(--blue-gray-90);
-  color: #fff;
+  color: var(--white);
   font-size: 0.72rem;
   font-weight: 400;
   line-height: 1.45;

@@ -1,5 +1,5 @@
 .language__toggle {
-  color: #fff;
+  color: var(--white);
   text-decoration: none;
   position: relative;
   white-space: nowrap;
@@ -10,7 +10,7 @@
   position: absolute;
   top: 30px; left: 50%;
   margin-left: -40px;
-  background: #fff;
+  background: var(--white);
   border-radius: 2px;
   display: none;
   z-index: 1;
@@ -25,7 +25,7 @@
     height: 0;
     border-style: solid;
     border-width: 0 4px 4px 4px;
-    border-color: transparent transparent #fff transparent;
+    border-color: transparent transparent var(--white) transparent;
   }
 
   &.active {
