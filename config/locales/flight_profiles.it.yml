@@ -3,6 +3,20 @@ it:
     title: Profili di volo
     distance_traveled: Distanza dall'uscita
     distance_to_terrain: Distanza dal terreno
+    full_speed: Velocità totale
+    ground_speed: Velocità orizzontale
+    vertical_speed: Velocità verticale
+    reset_zoom: Reimposta zoom
+    zoom_to_first: "Zoom sui primi %{distance} m"
+    pro_cta:
+      prefix_view: Vedi questa traccia in
+      prefix_compare: Confronta queste tracce in
+      product_view: BASE Pro View
+      product_compare: BASE Pro Compare
+      guest_meta: "Registrati — %{count} gratis ogni mese"
+      locked_prefix: "%{count} in più il %{date} o"
+      unlock: Sblocca illimitato
+      unlock_features: Pro View e Compare
     show:
       select_jump_line: Profilo del terreno
     filters:

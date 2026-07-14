@@ -114,7 +114,8 @@ class TracksController < ApplicationController
         track_id: @track.id,
         compare_track_id: @compare_track.id,
         subscription_plan: Current.user.subscription_plan,
-        is_own_track: @track.recorded_by? && @compare_track.recorded_by?
+        is_own_track: @track.recorded_by? && @compare_track.recorded_by?,
+        source: params[:source].presence
       }
     )
   end

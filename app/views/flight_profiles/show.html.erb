@@ -1,7 +1,8 @@
 <% provide :title, page_title(t('flight_profiles.title')) %>
 <% provide :page_class, 'fullscreen' %>
 
-<div class="explorer" data-controller="flight-profiles">
+<div class="explorer" data-controller="flight-profiles"
+     data-flight-profiles-jump-profiles-url-value="<%= places_jump_profiles_select_options_path %>">
   <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
     <turbo-frame id="hot-select-search" class="explorer-search">
       <%= form_with url: tracks_path, method: :get, data: { controller: 'tracks-search', turbo_frame: 'tracks-list' } do |f| %>
@@ -46,9 +47,57 @@
 
   <main class="explorer-main">
     <div class="flight-profiles-charts">
-      <div>
-        <div data-flight-profiles-target="flightProfilesChart"></div>
-      </div>
+      <% unless Current.subscription_active? %>
+        <% cta_attrs = {
+             'flight-profiles-target': 'proCta',
+             'view-prefix': t('flight_profiles.pro_cta.prefix_view'),
+             'compare-prefix': t('flight_profiles.pro_cta.prefix_compare'),
+             'view-label': t('flight_profiles.pro_cta.product_view'),
+             'compare-label': t('flight_profiles.pro_cta.product_compare')
+           } %>
+        <% reset_date = l(Date.current.next_month.beginning_of_month, format: :short) %>
+        <% if !Current.user.registered? %>
+          <div class="fp-pro-cta" hidden <%= tag.attributes(data: cta_attrs.merge('pro-cta-state': 'guest')) %>>
+            <span class="fp-pro-cta__prefix" data-flight-profiles-target="proCtaPrefix"></span>
+            <%= link_to new_user_registration_path, class: 'fp-pro-cta__button',
+                  data: { action: 'flight-profiles#trackProCta' } do %>
+              <span data-flight-profiles-target="proCtaLabel"></span>
+            <% end %>
+            <span class="fp-pro-cta__meta">
+              <%= t('flight_profiles.pro_cta.guest_meta', count: FreeProView.monthly_limit) %>
+            </span>
+          </div>
+        <% elsif FreeProView.remaining_for(Current.user).positive? %>
+          <%= form_with url: '#', method: :post,
+                html: { class: 'fp-pro-cta', hidden: true },
+                data: cta_attrs.merge(
+                  'pro-cta-state': 'free',
+                  'pro-cta-form': true,
+                  'pro-view-url-template': track_pro_view_path('__ID__'),
+                  action: 'submit->flight-profiles#trackProCta'
+                ) do %>
+            <%= hidden_field_tag :compare_id, '', data: { 'flight-profiles-target': 'proCtaCompareId' } %>
+            <%= hidden_field_tag :source, 'flight_profiles' %>
+            <span class="fp-pro-cta__prefix" data-flight-profiles-target="proCtaPrefix"></span>
+            <button type="submit" class="fp-pro-cta__button" data-flight-profiles-target="proCtaLabel"></button>
+            <span class="fp-pro-cta__meta">
+              <%= t('tracks.pro_view.remaining_free', count: FreeProView.remaining_for(Current.user)) %>
+            </span>
+          <% end %>
+        <% else %>
+          <div class="fp-pro-cta" hidden
+               data-flight-profiles-target="proCta" data-pro-cta-state="locked">
+            <span class="fp-pro-cta__prefix">
+              <%= t('flight_profiles.pro_cta.locked_prefix', count: FreeProView.monthly_limit, date: reset_date) %>
+            </span>
+            <%= link_to t('flight_profiles.pro_cta.unlock'), subscriptions_path,
+                  class: 'fp-pro-cta__button', data: { action: 'flight-profiles#trackProCta' } %>
+            <span class="fp-pro-cta__meta"><%= t('flight_profiles.pro_cta.unlock_features') %></span>
+          </div>
+        <% end %>
+      <% end %>
+
+      <div class="fp-profile" data-flight-profiles-target="profileHost"></div>
       <div class="flight-profiles-tagbar" data-flight-profiles-target="tagbar">
         <template data-flight-profiles-target="tagTemplate">
           <div class="filter-tag">
@@ -57,9 +106,7 @@
           </div>
         </template>
       </div>
-      <div>
-        <div data-flight-profiles-target="terrainClearanceChart"></div>
-      </div>
+      <div class="fp-terrain" data-flight-profiles-target="terrainHost"></div>
     </div>
   </main>
 </div>

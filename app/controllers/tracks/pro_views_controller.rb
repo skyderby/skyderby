@@ -21,7 +21,11 @@ module Tracks
     end
 
     def refresh_page
-      redirect_to track_path(@track)
+      redirect_to track_path(
+        @track,
+        compare_id: params[:compare_id].presence,
+        source: params[:source].presence
+      )
     end
 
     def show_limit_error

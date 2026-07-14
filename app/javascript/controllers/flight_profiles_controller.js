@@ -3,31 +3,54 @@ import { get } from '@rails/request.js'
 import { calculateFlightProfile, calculateTerrainClearance } from 'utils/flightProfiles'
 import I18n from 'i18n'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
-
-const headerFormat = '<span style="font-size: 14px">{series.name}</span><br/>'
+import FlightProfileChart from 'charts/FlightProfileChart'
+import amplitude from 'utils/amplitude'
 
 export default class FlightProfilesController extends Controller {
   static targets = [
     'tracksList',
-    'flightProfilesChart',
-    'terrainClearanceChart',
+    'profileHost',
+    'terrainHost',
     'tagbar',
-    'tagTemplate'
+    'tagTemplate',
+    'proCta',
+    'proCtaCompareId',
+    'proCtaPrefix',
+    'proCtaLabel'
   ]
+
+  static values = { jumpProfilesUrl: String }
 
   connect() {
     this.selectedTracks = new Set(this.getSelectedTracksFromUrl())
     this.straightLine = this.getUnrollFromUrl()
     this.pointsCache = new Map()
     this.tracksCache = new Map()
-    this.initFlightProfilesChart()
-    this.initTerrainClearanceChart()
+
+    this.collapseSidebarOnMobileWithSelection()
+    this.updateProCta()
+
+    this.chart = new FlightProfileChart({
+      profileHost: this.profileHostTarget,
+      terrainHost: this.terrainHostTarget,
+      formatters: {
+        profile: this.profileTooltip,
+        clearance: this.clearanceTooltip,
+        terrain: this.terrainTooltip
+      },
+      labels: {
+        resetZoom: I18n.t('flight_profiles.reset_zoom'),
+        zoomTo: meters =>
+          I18n.t('flight_profiles.zoom_to_first', { distance: Math.round(meters) })
+      }
+    })
 
     this.resizeCharts = this.resizeCharts.bind(this)
+    this.chart.resize()
 
     Array.from(this.selectedTracks)
       .reduce(
-        (promise, trackId) => promise.then(this.displayTrack(trackId)),
+        (promise, trackId) => promise.then(() => this.displayTrack(trackId)),
         Promise.resolve()
       )
       .then(() => {
@@ -35,12 +58,20 @@ export default class FlightProfilesController extends Controller {
         if (jumpLineId) this.displayTerrainProfile(jumpLineId)
       })
 
-    this.resizeCharts()
     window.addEventListener('resize', this.resizeCharts, { passive: true })
   }
 
   disconnect() {
     window.removeEventListener('resize', this.resizeCharts)
+    this.chart?.destroy()
+  }
+
+  collapseSidebarOnMobileWithSelection() {
+    if (this.selectedTracks.size === 0) return
+    if (!window.matchMedia('(max-width: 575.98px)').matches) return
+
+    const sidebar = this.element.querySelector('.explorer-sidebar')
+    sidebar?.classList.add('collapsed')
   }
 
   handleJumpLineSelection(event) {
@@ -49,11 +80,12 @@ export default class FlightProfilesController extends Controller {
 
     if (jumpLineId) {
       url.searchParams.set('jump_profile_id', jumpLineId)
-      this.removeTerrainProfile()
       this.displayTerrainProfile(jumpLineId)
     } else {
       url.searchParams.delete('jump_profile_id')
-      this.removeTerrainProfile()
+      this.currentMeasurements = null
+      this.chart.clearTerrain()
+      this.updateTerrainClearance()
     }
 
     window.history.replaceState({}, '', url)
@@ -74,6 +106,7 @@ export default class FlightProfilesController extends Controller {
     }
 
     this.updateUrlWithSelectedTracks()
+    this.updateProCta()
   }
 
   processTrackLinks(event) {
@@ -114,58 +147,63 @@ export default class FlightProfilesController extends Controller {
   }
 
   resizeCharts() {
-    const charts = [this.flightProfilesChartTarget, this.terrainClearanceChartTarget]
-    charts.forEach(chartElement => {
-      const parent = chartElement.parentElement
-      const parentBoundingRect = parent.getBoundingClientRect()
-      if (!parentBoundingRect) return
-
-      chartElement.chart.setSize(
-        parentBoundingRect.width,
-        parentBoundingRect.height,
-        false
-      )
-    })
+    this.chart?.resize()
   }
 
   async displayTrack(trackId) {
-    const pointFormatter = function () {
-      return `
-        <div>${this.series.options.custom?.place}</div>
-        <div>${this.series.options.custom?.suit}</div>
-        <span style="color: transparent">-</span><br/>
-        <span style="font-size: 16px">↓${Math.round(this.y ?? 0)}
-          ${I18n.t('units.m')} →${Math.round(this.x)} ${I18n.t('units.m')}</span><br/>
-        <span style="color: transparent">-</span><br/>
-        <div><b>Full speed:</b> ${this.options.custom?.fullSpeed} ${I18n.t('units.kmh')}</div>
-        <div><b>Ground speed:</b> ${this.options.custom?.hSpeed} ${I18n.t('units.kmh')}</div>
-        <div><b>Vertical speed:</b> ${this.options.custom?.vSpeed} ${I18n.t('units.kmh')}</div>
-      `
-    }
-
     const track = await this.fetchTrack(trackId)
     const { points } = await this.fetchPoints(trackId)
-    const data = calculateFlightProfile(points, this.straightLine)
+    const profile = calculateFlightProfile(points, this.straightLine)
 
-    const series = this.flightProfilesChartTarget.chart.addSeries({
-      name: `#${trackId} ${track.name}`,
-      id: `track-${trackId}`,
-      type: 'spline',
-      data,
-      custom: {
-        trackId,
-        name: track.name,
-        place: track.place,
-        suit: track.suit
-      },
-      tooltip: {
-        headerFormat,
-        pointFormatter
-      }
-    })
-
+    this.chart.setTrack(trackId, { name: `#${trackId} ${track.name}`, profile })
     this.addTrackToTagbar(track)
-    this.displayTerrainClearance(track, points, series.color)
+    this.displayTerrainClearance(trackId, points)
+    this.maybeAutoSelectTerrain(track)
+  }
+
+  async maybeAutoSelectTerrain(track) {
+    if (this.currentMeasurements) return
+    if (this.getJumpLineIdFromUrl()) return
+    if (this.selectedTracks.size !== 1) return
+    if (!track.placeId || !this.jumpProfilesUrlValue) return
+
+    const option = await this.fetchPlaceJumpProfile(track.placeId)
+    if (!option) return
+    if (this.currentMeasurements || this.selectedTracks.size !== 1) return
+
+    this.selectJumpLine(option.id, option.name)
+  }
+
+  async fetchPlaceJumpProfile(placeId) {
+    const response = await get(this.jumpProfilesUrlValue, {
+      query: { place_id: placeId },
+      responseKind: 'html'
+    })
+    if (!response.ok) return null
+
+    const doc = new DOMParser().parseFromString(await response.html, 'text/html')
+    const option = doc.querySelector('.hot-select-option')
+    if (!option) return null
+
+    return { id: option.dataset.value, name: option.textContent.trim() }
+  }
+
+  selectJumpLine(id, name) {
+    const select = this.element.querySelector('select[name="jump_line_id"]')
+
+    if (!select) {
+      this.displayTerrainProfile(id)
+      const url = new URL(window.location.href)
+      url.searchParams.set('jump_profile_id', id)
+      window.history.replaceState({}, '', url)
+      return
+    }
+
+    if (!Array.from(select.options).some(option => option.value === String(id))) {
+      select.add(new Option(name, id))
+    }
+    select.value = String(id)
+    select.dispatchEvent(new Event('change', { bubbles: true }))
   }
 
   addTrackToTagbar(track) {
@@ -188,7 +226,7 @@ export default class FlightProfilesController extends Controller {
   removeTrack(trackId) {
     this.selectedTracks.delete(trackId)
     this.updateUrlWithSelectedTracks()
-    this.removeTrackFromCharts(trackId)
+    this.chart.removeTrack(trackId)
     this.pointsCache.delete(trackId)
     this.tracksCache.delete(trackId)
 
@@ -196,11 +234,52 @@ export default class FlightProfilesController extends Controller {
       .querySelector(`[data-id="${trackId}"]`)
       ?.classList.remove('active')
     this.tagbarTarget.querySelector(`[data-id="${trackId}"]`)?.remove()
+    this.updateProCta()
   }
 
-  removeTrackFromCharts(trackId) {
-    this.flightProfilesChartTarget.chart.get(`track-${trackId}`)?.remove()
-    this.terrainClearanceChartTarget.chart.get(`track-${trackId}`)?.remove()
+  updateProCta() {
+    if (!this.hasProCtaTarget) return
+
+    const cta = this.proCtaTarget
+    const ids = Array.from(this.selectedTracks)
+
+    if (ids.length !== 1 && ids.length !== 2) {
+      cta.hidden = true
+      return
+    }
+
+    const isCompare = ids.length === 2
+
+    if (this.hasProCtaPrefixTarget) {
+      this.proCtaPrefixTarget.textContent = isCompare
+        ? cta.dataset.comparePrefix
+        : cta.dataset.viewPrefix
+    }
+
+    if (this.hasProCtaLabelTarget) {
+      this.proCtaLabelTarget.textContent = isCompare
+        ? cta.dataset.compareLabel
+        : cta.dataset.viewLabel
+    }
+
+    if (cta.dataset.proCtaForm && this.hasProCtaCompareIdTarget) {
+      cta.action = cta.dataset.proViewUrlTemplate.replace('__ID__', ids[0])
+      this.proCtaCompareIdTarget.value = isCompare ? ids[1] : ''
+    }
+
+    cta.hidden = false
+  }
+
+  trackProCta() {
+    const ids = Array.from(this.selectedTracks)
+
+    amplitude.track('pro_view_cta_clicked', {
+      source: 'flight_profiles',
+      action: ids.length === 2 ? 'compare' : 'view',
+      state: this.proCtaTarget.dataset.proCtaState,
+      track_id: ids[0],
+      compare_track_id: ids[1] || null
+    })
   }
 
   fetchTrack(trackId) {
@@ -227,280 +306,75 @@ export default class FlightProfilesController extends Controller {
     })
   }
 
-  displayTerrainClearance(track, points, color) {
-    const pointFormatter = function () {
-      return `
-        <span style="margin-top: 10px"><b>${I18n.t('flight_profiles.distance_traveled')}:</b>
-          ${Math.round(this.x)} ${I18n.t('units.m')}</span><br/>
-        <span><b>${I18n.t('flight_profiles.distance_to_terrain')}:</b>
-          ${this.options.custom?.presentation} ${I18n.t('units.m')}</span><br/>
-      `
-    }
-
+  displayTerrainClearance(trackId, points) {
     if (!this.currentMeasurements) return
-    const terrainClearance = calculateTerrainClearance(
+
+    const clearance = calculateTerrainClearance(
       points,
       this.currentMeasurements,
       this.straightLine
     )
-
-    this.terrainClearanceChartTarget.chart.addSeries({
-      name: `#${track.id} ${track.name}`,
-      id: `track-${track.id}`,
-      type: 'spline',
-      data: terrainClearance,
-      color,
-      tooltip: {
-        headerFormat,
-        pointFormatter
-      }
-    })
+    this.chart.setClearance(trackId, clearance)
   }
 
   displayTerrainProfile(jumpLineId) {
-    const pointFormatter = function () {
-      return `
-        <span style="font-size: 16px">↓${this.y} ${I18n.t('units.m')}
-          →${this.x} ${I18n.t('units.m')}
-        </span><br/>`
-    }
-
-    get(`/exit_measurements/${jumpLineId}`, { responseKind: 'json' })
+    return get(`/exit_measurements/${jumpLineId}`, { responseKind: 'json' })
       .then(response => response.json)
-      .then(responseData => {
-        const { name, measurements } = responseData
+      .then(({ name, measurements }) => {
         this.currentMeasurements = measurements
-        this.removeTerrainProfile()
-
-        const maxAltitude = measurements.at(-1)?.altitude || 0
-        const data = measurements.map(el => [el.distance, el.altitude, maxAltitude])
-
-        this.flightProfilesChartTarget.chart.addSeries({
-          name,
-          id: 'placeMeasurementsLine',
-          type: 'spline',
-          color: '#B88E8D',
-          data,
-          tooltip: {
-            headerFormat,
-            pointFormatter
-          }
-        })
-
-        this.flightProfilesChartTarget.chart.addSeries({
-          id: 'placeMeasurementsArea',
-          type: 'areasplinerange',
-          color: '#B88E8D',
-          data,
-          enableMouseTracking: false,
-          showInLegend: false
-        })
+        this.chart.setTerrain({ name, measurements })
       })
-      .then(() => this.updateTerrainClearanceChart())
+      .then(() => this.updateTerrainClearance())
   }
 
-  removeTerrainProfile() {
-    this.flightProfilesChartTarget.chart.get('placeMeasurementsLine')?.remove()
-    this.flightProfilesChartTarget.chart.get('placeMeasurementsArea')?.remove()
-  }
-
-  async updateTerrainClearanceChart() {
-    this.selectedTracks.forEach(trackId => {
-      this.terrainClearanceChartTarget.chart.get(`track-${trackId}`)?.remove()
-    })
-
-    if (this.currentMeasurements) {
-      this.selectedTracks.forEach(async trackId => {
-        const series = this.flightProfilesChartTarget.chart.get(`track-${trackId}`)
-        if (!series) return
-
-        const track = this.fetchTrack(trackId)
-        const { points } = this.fetchPoints(trackId)
-        this.displayTerrainClearance(track, points, series.color)
-      })
-    }
-  }
-
-  onZoomChange(extremes) {
-    if (!extremes) {
-      this.terrainClearanceChartTarget.chart.xAxis[0].setExtremes(null, null)
-    } else {
-      const { min, max } = extremes
-      this.terrainClearanceChartTarget.chart.xAxis[0].setExtremes(min, max)
-    }
-  }
-
-  initFlightProfilesChart() {
-    this.flightProfilesChartTarget.chart = Highcharts.chart(
-      this.flightProfilesChartTarget,
-      this.flightProfilesChartOptions()
-    )
-  }
-
-  initTerrainClearanceChart() {
-    this.terrainClearanceChartTarget.chart = Highcharts.chart(
-      this.terrainClearanceChartTarget,
-      this.terrainClearanceChartOptions()
-    )
-  }
-
-  flightProfilesChartOptions() {
-    return {
-      chart: {
-        type: 'spline',
-        zoomType: 'x',
-        events: {
-          selection: event => {
-            if (event.xAxis?.[0]) {
-              const { min, max } = event.xAxis[0]
-              this.onZoomChange({ min, max })
-            } else {
-              this.onZoomChange(null)
-            }
-
-            return undefined
-          }
-        }
-      },
-      title: {
-        text: null
-      },
-      plotOptions: {
-        spline: {
-          marker: {
-            enabled: false
-          }
-        },
-        series: {
-          marker: {
-            radius: 1
-          },
-          fillOpacity: 0.7,
-          states: {
-            inactive: {
-              enabled: false
-            }
-          }
-        }
-      },
-      tooltip: {
-        useHTML: true
-      },
-      xAxis: {
-        crosshair: true,
-        opposite: true,
-        gridLineWidth: 1,
-        tickInterval: 100,
-        min: 0,
-        events: {
-          setExtremes: function (event) {
-            this.chart?.yAxis?.[0]?.setExtremes(event.min, event.max, true)
-          }
-        }
-      },
-      yAxis: {
-        title: {
-          text: 'Flight profiles'
-        },
-        reversed: true,
-        tickInterval: 100,
-        min: 0
-      },
-      series: [
-        {
-          type: 'spline',
-          data: []
-        }
-      ],
-      credits: {
-        enabled: false
-      },
-      legend: {
-        enabled: false
+  async updateTerrainClearance() {
+    for (const trackId of this.selectedTracks) {
+      if (this.currentMeasurements) {
+        const { points } = await this.fetchPoints(trackId)
+        this.displayTerrainClearance(trackId, points)
+      } else {
+        this.chart.setClearance(trackId, null)
       }
     }
   }
 
-  terrainClearanceChartOptions() {
-    return {
-      chart: {
-        type: 'spline',
-        height: '150px'
-      },
-      title: {
-        text: null
-      },
-      plotOptions: {
-        spline: {
-          marker: {
-            enabled: false
-          }
-        },
-        series: {
-          marker: {
-            radius: 1
-          },
-          states: {
-            inactive: {
-              enabled: false
-            }
-          },
-          zones: [
-            {
-              value: 0
-            },
-            {
-              value: 5,
-              color: 'red'
-            }
-          ]
-        }
-      },
-      yAxis: {
-        title: {
-          text: 'Terrain clearance'
-        },
-        gridLineWidth: 1,
-        tickInterval: 25,
-        min: 0,
-        max: 125,
-        plotBands: [
-          {
-            color: '#efcdcb',
-            from: 0,
-            to: 25
-          },
-          {
-            color: '#e4f1de',
-            from: 100,
-            to: 125
-          }
-        ]
-      },
-      xAxis: {
-        title: {
-          text: null
-        },
-        crosshair: true,
-        tickInterval: 100,
-        tickLength: 0,
-        gridLineWidth: 1,
-        labels: {
-          enabled: false
-        }
-      },
-      series: [
-        {
-          type: 'spline',
-          data: []
-        }
-      ],
-      credits: {
-        enabled: false
-      },
-      legend: {
-        enabled: false
-      }
-    }
+  profileTooltip = (sample, track) => {
+    const custom = sample.custom || {}
+    return `
+      <div class="fp-tooltip-row">
+        <span class="fp-tooltip-name" style="color: var(${track.colorVar})">${track.name}</span>
+        <span>↓${Math.round(sample.y)} ${I18n.t('units.m')}
+          →${Math.round(sample.x)} ${I18n.t('units.m')}</span>
+        <span><b>${I18n.t('flight_profiles.full_speed')}:</b>
+          ${custom.fullSpeed} ${I18n.t('units.kmh')}</span>
+        <span><b>${I18n.t('flight_profiles.ground_speed')}:</b>
+          ${custom.hSpeed} ${I18n.t('units.kmh')}</span>
+        <span><b>${I18n.t('flight_profiles.vertical_speed')}:</b>
+          ${custom.vSpeed} ${I18n.t('units.kmh')}</span>
+      </div>
+    `
+  }
+
+  clearanceTooltip = (sample, track) => {
+    const custom = sample.custom || {}
+    return `
+      <div class="fp-tooltip-row">
+        <span class="fp-tooltip-name" style="color: var(${track.colorVar})">${track.name}</span>
+        <span><b>${I18n.t('flight_profiles.distance_traveled')}:</b>
+          ${Math.round(sample.x)} ${I18n.t('units.m')}</span>
+        <span><b>${I18n.t('flight_profiles.distance_to_terrain')}:</b>
+          ${custom.presentation} ${I18n.t('units.m')}</span>
+      </div>
+    `
+  }
+
+  terrainTooltip = (sample, terrain) => {
+    return `
+      <div class="fp-tooltip-row">
+        <span class="fp-tooltip-name fp-tooltip-name--terrain">${terrain.name}</span>
+        <span>↓${Math.round(sample.y)} ${I18n.t('units.m')}
+          →${Math.round(sample.x)} ${I18n.t('units.m')}</span>
+      </div>
+    `
   }
 }

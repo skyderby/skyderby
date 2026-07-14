@@ -3,6 +3,20 @@ en:
     title: Flight Profiles
     distance_traveled: Distance from exit
     distance_to_terrain: Distance to terrain
+    full_speed: Full speed
+    ground_speed: Ground speed
+    vertical_speed: Vertical speed
+    reset_zoom: Reset zoom
+    zoom_to_first: "Zoom to first %{distance} m"
+    pro_cta:
+      prefix_view: See this track in
+      prefix_compare: Compare these tracks in
+      product_view: BASE Pro View
+      product_compare: BASE Pro Compare
+      guest_meta: "Sign up — %{count} free every month"
+      locked_prefix: "%{count} more on %{date} or"
+      unlock: Unlock Unlimited
+      unlock_features: Pro View and Compare
     show:
       select_jump_line: Select jump line
     filters:

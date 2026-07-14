@@ -3,6 +3,20 @@ ru:
     title: Профили полета
     distance_traveled: Расстояние от экзита
     distance_to_terrain: Расстояние до рельефа
+    full_speed: Полная скорость
+    ground_speed: Горизонтальная скорость
+    vertical_speed: Вертикальная скорость
+    reset_zoom: Сбросить зум
+    zoom_to_first: "Приблизить к первым %{distance} м"
+    pro_cta:
+      prefix_view: Посмотреть трек в
+      prefix_compare: Сравнить треки в
+      product_view: BASE Pro View
+      product_compare: BASE Pro Compare
+      guest_meta: "Регистрация — %{count} бесплатно каждый месяц"
+      locked_prefix: "Ещё %{count} с %{date} или"
+      unlock: Открыть без лимита
+      unlock_features: Pro View и Compare
     show:
       select_jump_line: Профиль рельефа
     filters:

@@ -1,0 +1,252 @@
+.flight-profiles-charts {
+  position: relative;
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-row: 1;
+  grid-template-rows: minmax(0, 1fr) 2rem 150px;
+  grid-template-columns: minmax(250px, 1fr);
+  min-width: 0;
+  height: 100%;
+  background-color: var(--white);
+}
+
+@media (min-width: 576px) {
+  .flight-profiles-charts {
+    padding: 1.5rem;
+  }
+}
+
+.flight-profiles-tagbar {
+  overflow-y: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  padding: 0 1rem 0 0;
+}
+
+.fp-pro-cta {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 4;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 14rem;
+  padding: 0.75rem;
+  background-color: var(--white);
+  border: var(--default-border);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.fp-pro-cta[hidden] {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  .fp-pro-cta {
+    top: 2rem;
+    right: 2rem;
+  }
+}
+
+.fp-pro-cta__prefix,
+.fp-pro-cta__meta {
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: var(--text-secondary);
+}
+
+.fp-pro-cta__button {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.9rem;
+  background-color: var(--gray-80);
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.fp-pro-cta__button:hover {
+  background-color: var(--gray-90);
+  color: var(--white);
+}
+
+.fp-pro-cta__button:active {
+  transform: translateY(1px);
+}
+
+.fp-profile,
+.fp-terrain {
+  position: relative;
+  min-width: 0;
+}
+
+.fp-chart {
+  position: relative;
+  touch-action: none;
+}
+
+.fp-svg {
+  display: block;
+  overflow: hidden;
+}
+
+.fp-selection {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(25, 147, 224, 0.12);
+  border-right: 1px solid var(--blue-40);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.fp-selection__label {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  padding: 0.15rem 0.45rem;
+  background-color: var(--blue-70);
+  color: var(--white);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  border-radius: var(--border-radius-sm);
+}
+
+.fp-reset-zoom {
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.fp-reset-zoom[hidden] {
+  display: none;
+}
+
+.fp-grid {
+  stroke: var(--gray-30);
+  stroke-width: 1;
+}
+
+.fp-ratio-line {
+  stroke: var(--gray-50);
+  stroke-width: 1;
+  stroke-dasharray: 5 4;
+}
+
+.fp-axis-label {
+  fill: var(--text-secondary);
+  font-size: 11px;
+}
+
+.fp-series {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.fp-terrain-line {
+  fill: none;
+  stroke: #b88e8d;
+  stroke-width: 1.5;
+}
+
+.fp-terrain-area {
+  fill: #b88e8d;
+  fill-opacity: 0.35;
+  stroke: none;
+}
+
+.fp-band-danger {
+  fill: #efcdcb;
+}
+
+.fp-band-safe {
+  fill: #e4f1de;
+}
+
+.fp-clearance {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.fp-clearance--danger {
+  stroke: var(--red-60);
+  stroke-width: 2;
+}
+
+.fp-marker {
+  stroke: var(--white);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.fp-cursor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: var(--gray-60);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.fp-tooltip {
+  position: absolute;
+  transform: translate(var(--fp-tip-tx, 0.5rem), var(--fp-tip-ty, -0.5rem));
+  min-width: 12rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--white);
+  border: var(--default-border);
+  border-radius: var(--border-radius-sm);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+  line-height: 1.4;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.fp-tooltip--flip {
+  --fp-tip-tx: calc(-100% - 0.5rem);
+}
+
+.fp-tooltip--above {
+  --fp-tip-ty: calc(-100% - 0.5rem);
+}
+
+.fp-tooltip-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.fp-tooltip-row + .fp-tooltip-row {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: var(--default-border);
+}
+
+.fp-tooltip-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.fp-tooltip-name--terrain {
+  color: #b88e8d;
+}
