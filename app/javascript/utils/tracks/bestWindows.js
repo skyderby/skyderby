@@ -1,17 +1,71 @@
 const workerBody = () => {
-  const R = 6371000
   const toRad = deg => (deg * Math.PI) / 180
 
-  const haversine = (lat1, lon1, lat2, lon2) => {
-    const dLat = toRad(lat2 - lat1)
-    const dLon = toRad(lon2 - lon1)
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) *
-        Math.cos(toRad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2)
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+  const vincenty = (lat1, lon1, lat2, lon2) => {
+    const a = 6378137
+    const f = 1 / 298.257223563
+    const b = (1 - f) * a
+
+    const L = toRad(lon2 - lon1)
+    const tanU1 = (1 - f) * Math.tan(toRad(lat1))
+    const cosU1 = 1 / Math.sqrt(1 + tanU1 * tanU1)
+    const sinU1 = tanU1 * cosU1
+    const tanU2 = (1 - f) * Math.tan(toRad(lat2))
+    const cosU2 = 1 / Math.sqrt(1 + tanU2 * tanU2)
+    const sinU2 = tanU2 * cosU2
+
+    let lambda = L
+    let lambdaPrev
+    let iterations = 0
+    let sinSigma
+    let cosSigma
+    let sigma
+    let cosSqAlpha
+    let cos2SigmaM
+
+    do {
+      const sinLambda = Math.sin(lambda)
+      const cosLambda = Math.cos(lambda)
+      sinSigma = Math.sqrt(
+        cosU2 * sinLambda * (cosU2 * sinLambda) +
+          (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) *
+            (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda)
+      )
+      if (sinSigma === 0) return 0
+
+      cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda
+      sigma = Math.atan2(sinSigma, cosSigma)
+      const sinAlpha = (cosU1 * cosU2 * sinLambda) / sinSigma
+      cosSqAlpha = 1 - sinAlpha * sinAlpha
+      cos2SigmaM = cosSqAlpha !== 0 ? cosSigma - (2 * sinU1 * sinU2) / cosSqAlpha : 0
+      const C = (f / 16) * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha))
+      lambdaPrev = lambda
+      lambda =
+        L +
+        (1 - C) *
+          f *
+          sinAlpha *
+          (sigma +
+            C *
+              sinSigma *
+              (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)))
+    } while (Math.abs(lambda - lambdaPrev) > 1e-12 && ++iterations < 100)
+
+    const uSq = (cosSqAlpha * (a * a - b * b)) / (b * b)
+    const A = 1 + (uSq / 16384) * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)))
+    const B = (uSq / 1024) * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)))
+    const deltaSigma =
+      B *
+      sinSigma *
+      (cos2SigmaM +
+        (B / 4) *
+          (cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM) -
+            (B / 6) *
+              cos2SigmaM *
+              (-3 + 4 * sinSigma * sinSigma) *
+              (-3 + 4 * cos2SigmaM * cos2SigmaM)))
+
+    return b * A * (sigma - deltaSigma)
   }
 
   self.onmessage = event => {
@@ -57,7 +111,7 @@ const workerBody = () => {
       if (!exit) break
       exitHint = exit.idx
 
-      const distance = haversine(entry.lat, entry.lng, exit.lat, exit.lng)
+      const distance = vincenty(entry.lat, entry.lng, exit.lat, exit.lng)
       const time = (exit.t - entry.t) / 1000
       const speed = time > 0 ? (distance / time) * 3.6 : 0
 

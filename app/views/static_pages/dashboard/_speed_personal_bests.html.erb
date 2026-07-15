@@ -8,9 +8,10 @@
         <span class="dashboard-pb__dot">·</span>
         <span><%= t('dashboard.disciplines.speed') %></span>
       </div>
-      <div class="dashboard-pb__value">
+      <% speed_link = dashboard.speed_pb_track_id ? track_path(dashboard.speed_pb_track_id) : nil %>
+      <%= dashboard_pb_value_tag(speed_link) do %>
         <%= dashboard.speed_pb.round(1) %><span class="dashboard-pb__unit"><%= t('units.kmh') %></span>
-      </div>
+      <% end %>
     </div>
 
     <div class="dashboard-pb panel">

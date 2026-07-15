@@ -17,9 +17,9 @@
           <span><%= t("dashboard.disciplines.#{discipline}") %></span>
         </div>
         <% if pb %>
-          <div class="dashboard-pb__value">
+          <%= dashboard_pb_value_tag(personal_best_track_path(pb)) do %>
             <%= format_result(pb.result, pb.competition) %><span class="dashboard-pb__unit"><%= competition_unit(pb.competition) %></span>
-          </div>
+          <% end %>
           <% if pb.delta %>
             <div class="dashboard-pb__delta">
               <%= render 'static_pages/dashboard/delta', value: pb.delta, unit: competition_unit(pb.competition) %>

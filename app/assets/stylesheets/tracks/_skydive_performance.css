@@ -672,6 +672,40 @@
   display: flex;
 }
 
+.sd-dropdown-menu.sd-settings-menu {
+  gap: 0.5rem;
+  padding: 0.5rem;
+  min-width: 15rem;
+}
+
+.sd-settings-menu .sd-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.sd-settings-menu .sd-setting-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gray-70);
+  white-space: nowrap;
+}
+
+.sd-dropdown-menu.sd-settings-menu .sd-setting-tabs {
+  width: auto;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0.25rem;
+  border: 0;
+  border-radius: var(--border-radius-md);
+}
+
+.sd-settings-menu .sd-setting-tabs .tab-bar-item {
+  padding: 0.3125rem 0.625rem;
+  font-size: 0.8125rem;
+}
+
 @media (max-width: 767px) {
   .skydive-performance-settings__label {
     display: none;

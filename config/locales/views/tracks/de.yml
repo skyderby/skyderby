@@ -23,6 +23,11 @@ de:
       units_header: 'Maßeinheit:'
       m_units_metric: Metrisches Einheitssystem (m, km/h.)
       m_units_imperial: Imperiale Einheiten (Fuß, mi/h)
+      padding_header: 'Abstand:'
+      padding_seconds: '%{seconds} Sek.'
+      charts_header: 'Diagramme:'
+      charts_separate: 'Getrennt'
+      charts_single: 'Zusammen'
       delete_confirmation: Sind Sie sicher, daß Sie diesen Track entfernen möchten?
       manage: Korrektur
       edit_range: Bereich bearbeiten

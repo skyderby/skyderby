@@ -25,6 +25,11 @@ ru:
       units_header: 'Единицы измерения:'
       m_units_metric: 'Метрические (м, км/ч)'
       m_units_imperial: 'Имперские (футы, мили/ч)'
+      padding_header: 'Отступ:'
+      padding_seconds: '%{seconds} сек'
+      charts_header: 'Графики:'
+      charts_separate: 'Раздельно'
+      charts_single: 'Вместе'
       delete_confirmation: "Вы уверены, что хотите удалить этот трек?"
       manage: "Редактирование"
       edit_range: "Редактирование диапазона"

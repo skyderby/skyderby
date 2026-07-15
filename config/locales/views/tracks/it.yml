@@ -24,6 +24,11 @@ it:
       units_header: 'Unità:'
       m_units_metric: 'Metrico'
       m_units_imperial: 'Imperiale'
+      padding_header: 'Margine:'
+      padding_seconds: '%{seconds} s'
+      charts_header: 'Grafici:'
+      charts_separate: 'Separati'
+      charts_single: 'Unico'
       delete_confirmation: "Sicuro di voler cancellare questa traccia?"
       manage: "Gestisci"
       edit_range: "Modifica intervallo"

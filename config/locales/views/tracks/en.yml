@@ -25,6 +25,11 @@ en:
       units_header: 'Units:'
       m_units_metric: 'Metric'
       m_units_imperial: 'Imperial'
+      padding_header: 'Padding:'
+      padding_seconds: '%{seconds} sec'
+      charts_header: 'Charts:'
+      charts_separate: 'Separate'
+      charts_single: 'Single'
       delete_confirmation: "Are you sure you want delete this track?"
       manage: "Manage"
       edit_range: "Edit range"

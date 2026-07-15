@@ -66,7 +66,8 @@ export default class extends PlaybackController {
     'separateCharts',
     'chartsModeItem',
     'compareModal',
-    'unitsItem'
+    'unitsItem',
+    'paddingItem'
   ]
 
   static outlets = ['tracks--range-selector']
@@ -107,6 +108,7 @@ export default class extends PlaybackController {
     if (previousValue === undefined || value === previousValue || !this.points) return
     this.updateView()
     this.updatePlaybackPosition()
+    if (this.bestWindows) this.renderBestWindowShortcuts(this.bestWindows)
   }
 
   connect() {
@@ -117,6 +119,7 @@ export default class extends PlaybackController {
     this.comparePoints = null
     this.initializeStraightLine()
     this.initializeChartsMode()
+    this.initializePadding()
     this.initSideView()
     this.initPolarView()
 
@@ -198,12 +201,14 @@ export default class extends PlaybackController {
       {
         target: this.hasBestSpeedTarget && this.bestSpeedTarget,
         window: result.speed,
-        value: Math.round(result.speed.value)
+        unit: speedUnitLabel(this.units),
+        value: convertSpeed(result.speed.value, this.units).toFixed(0)
       },
       {
         target: this.hasBestDistanceTarget && this.bestDistanceTarget,
         window: result.distance,
-        value: Math.round(result.distance.value)
+        unit: lengthUnitLabel(this.units),
+        value: String(Math.floor(convertLength(result.distance.value, this.units)))
       },
       {
         target: this.hasBestTimeTarget && this.bestTimeTarget,
@@ -212,13 +217,18 @@ export default class extends PlaybackController {
       }
     ]
 
-    shortcuts.forEach(({ target, window, value }) => {
+    shortcuts.forEach(({ target, window, unit, value }) => {
       if (!target) return
+
       target.dataset.from = window.from
       target.dataset.to = window.to
       target.querySelector('[data-best-window-range]').textContent =
         `${window.from} — ${window.to}`
       target.querySelector('[data-best-window-value]').textContent = value
+
+      const unitTarget = target.querySelector('[data-best-window-unit]')
+      if (unitTarget && unit) unitTarget.textContent = unit
+
       target.classList.remove('hidden')
     })
   }
@@ -251,13 +261,37 @@ export default class extends PlaybackController {
 
     this.chartsMode = mode
     localStorage.setItem('SkydivePerformanceChartsMode', mode)
-    event.currentTarget.closest('[popover]')?.hidePopover()
     this.updateChartsModeUI()
 
     if (!this.points || this.points.length === 0) return
 
     this.destroyCharts()
     this.renderCharts()
+  }
+
+  initializePadding() {
+    const stored = Number(localStorage.getItem('SkydivePerformancePadding'))
+    this.padding = stored === 5 || stored === 15 ? stored : 15
+    this.updatePaddingUI()
+  }
+
+  setPadding(event) {
+    const padding = Number(event.currentTarget.dataset.padding)
+    if (padding === this.padding) return
+
+    this.padding = padding
+    localStorage.setItem('SkydivePerformancePadding', String(padding))
+    this.updatePaddingUI()
+
+    if (!this.points || this.points.length === 0) return
+
+    this.updateView()
+  }
+
+  updatePaddingUI() {
+    this.paddingItemTargets.forEach(item =>
+      item.classList.toggle('active', Number(item.dataset.padding) === this.padding)
+    )
   }
 
   updateChartsModeUI() {
@@ -437,12 +471,26 @@ export default class extends PlaybackController {
     this.fromValue = from
     this.toValue = to
 
+    if (event.currentTarget.dataset.straightLine === 'true') {
+      this.enableStraightLine()
+    }
+
     if (this.hasTracksRangeSelectorOutlet) {
       this.tracksRangeSelectorOutlet.updateSlider(from, to)
     }
 
     this.updateUrl(from, to)
     this.updateView()
+  }
+
+  enableStraightLine() {
+    if (this.straightLine) return
+
+    this.straightLine = true
+    if (this.hasStraightLineToggleTarget) {
+      this.straightLineToggleTarget.checked = true
+    }
+    this.updateStraightLineUrl()
   }
 
   resetRange() {
@@ -539,12 +587,14 @@ export default class extends PlaybackController {
   }
 
   calculateChartPoints() {
-    const bufferSeconds = 3
+    const leadSeconds = this.padding ?? 15
+    const trailSeconds = 3
     const rangeStartTime = this.windowPoints[0].gpsTime.getTime()
     const rangeEndTime = this.windowPoints.at(-1).gpsTime.getTime()
 
-    const bufferStartTime = rangeStartTime - bufferSeconds * 1000
-    const bufferEndTime = rangeEndTime + bufferSeconds * 1000
+    const leadStartTime = Math.max(rangeStartTime - leadSeconds * 1000, this.exitTime)
+    const bufferStartTime = Math.min(leadStartTime, rangeStartTime)
+    const bufferEndTime = rangeEndTime + trailSeconds * 1000
 
     let chartPoints = this.points.filter(
       point =>
@@ -811,7 +861,10 @@ export default class extends PlaybackController {
     const point = series.searchPoint(normalized, true)
     if (!point) return
 
-    const index = closestIndexByPlayerTime(this.processedPoints, point.x)
+    const index = closestIndexByPlayerTime(
+      this.processedPoints,
+      point.x + this.chartXOffset
+    )
     if (index < 0) return
 
     this.currentIndex = index
@@ -944,7 +997,7 @@ export default class extends PlaybackController {
       ...(includeLabels
         ? {
             label: {
-              text: `${Math.round(convertLength(altitude, this.units))} ${lengthUnitLabel(this.units)}`,
+              text: this.altitudeLabelText(altitude),
               style: { color: '#999' },
               y: 10
             }
@@ -1502,7 +1555,7 @@ export default class extends PlaybackController {
     const point = this.processedPoints[index]
     if (!point) return
 
-    const targetX = point.playerTime
+    const targetX = point.playerTime - this.chartXOffset
 
     const charts = [
       this.glideChartTarget?.chart,
@@ -1603,14 +1656,8 @@ export default class extends PlaybackController {
 
     this.clearDesignatedLane()
 
-    const exitPoint = this.findExitPoint()
-    if (!exitPoint) return
-
-    const exitTime = exitPoint.gpsTime.getTime()
-    const dlStartTime = exitTime + 9000
-    const dlStartPoint = interpolatePointByTime(this.points, dlStartTime)
-
-    if (!dlStartPoint) return
+    const startPoint = this.designatedLaneStart ?? this.defaultDesignatedLaneStart()
+    if (!startPoint) return
 
     let referencePoint
     if (this.referencePointData?.reference_point) {
@@ -1632,7 +1679,7 @@ export default class extends PlaybackController {
 
     this.designatedLane = createDesignatedLane(
       this.map,
-      dlStartPoint,
+      startPoint,
       windowEndPoint,
       windowEndPoint,
       referencePoint,
@@ -1641,6 +1688,125 @@ export default class extends PlaybackController {
     )
 
     this.createReferenceMarker(referencePoint, isEditable)
+    this.createStartMarker(startPoint)
+  }
+
+  get exitTime() {
+    if (this._exitTime == null) {
+      this._exitTime =
+        this.findExitPoint()?.gpsTime.getTime() ?? this.points[0].gpsTime.getTime()
+    }
+    return this._exitTime
+  }
+
+  defaultDesignatedLaneStart() {
+    return interpolatePointByTime(this.points, this.exitTime + 9000)
+  }
+
+  nearestTrackPoint(latitude, longitude) {
+    if (!this.points?.length) return null
+
+    const target = { latitude, longitude }
+    let best = null
+    let bestDistance = Infinity
+
+    this.points.forEach(point => {
+      const distance = haversineDistance(target, point)
+      if (distance < bestDistance) {
+        bestDistance = distance
+        best = point
+      }
+    })
+
+    return best
+  }
+
+  altitudeLabelText(altitude) {
+    return `${Math.round(convertLength(altitude, this.units))} ${lengthUnitLabel(this.units)}`
+  }
+
+  createStartMarker(startPoint) {
+    if (this.startPointMarker) {
+      this.startPointMarker.map = null
+    }
+
+    const pin = new google.maps.marker.PinElement({
+      background: '#2E7D32',
+      borderColor: '#1B5E20',
+      glyphColor: '#fff',
+      scale: 0.7
+    })
+
+    const content = document.createElement('div')
+    content.style.position = 'relative'
+    content.style.cursor = 'grab'
+
+    const label = document.createElement('div')
+    label.style.position = 'absolute'
+    label.style.bottom = '100%'
+    label.style.left = '50%'
+    label.style.transform = 'translate(-50%, -4px)'
+    label.style.padding = '2px 6px'
+    label.style.borderRadius = '4px'
+    label.style.background = 'rgba(46, 125, 50, 0.95)'
+    label.style.color = '#fff'
+    label.style.fontSize = '11px'
+    label.style.fontWeight = '600'
+    label.style.whiteSpace = 'nowrap'
+    label.style.pointerEvents = 'none'
+    label.textContent = this.altitudeLabelText(startPoint.altitude)
+    content.appendChild(label)
+
+    const hitArea = document.createElement('div')
+    hitArea.style.position = 'absolute'
+    hitArea.style.left = '50%'
+    hitArea.style.top = '50%'
+    hitArea.style.width = '48px'
+    hitArea.style.height = '48px'
+    hitArea.style.borderRadius = '50%'
+    hitArea.style.transform = 'translate(-50%, -50%)'
+    content.appendChild(hitArea)
+
+    content.appendChild(pin.element)
+
+    const marker = new google.maps.marker.AdvancedMarkerElement({
+      map: this.map,
+      position: new google.maps.LatLng(startPoint.latitude, startPoint.longitude),
+      content,
+      gmpDraggable: true,
+      zIndex: 1000
+    })
+    marker.pin = pin
+
+    let dragFrame = null
+    marker.addListener('drag', () => {
+      if (dragFrame) return
+      dragFrame = requestAnimationFrame(() => {
+        dragFrame = null
+        const nearest = this.nearestTrackPoint(marker.position.lat, marker.position.lng)
+        if (nearest) label.textContent = this.altitudeLabelText(nearest.altitude)
+      })
+    })
+
+    marker.addListener('dragend', () => {
+      if (dragFrame) {
+        cancelAnimationFrame(dragFrame)
+        dragFrame = null
+      }
+
+      const nearest = this.nearestTrackPoint(marker.position.lat, marker.position.lng)
+      if (!nearest) return
+
+      this.designatedLaneStart = {
+        latitude: nearest.latitude,
+        longitude: nearest.longitude,
+        altitude: nearest.altitude,
+        gpsTime: nearest.gpsTime
+      }
+      this.showDesignatedLane()
+    })
+
+    this.startPointMarker = marker
   }
 
   findExitPoint() {
@@ -1711,6 +1877,9 @@ export default class extends PlaybackController {
     this.clearDesignatedLane()
     if (this.referencePointMarker) {
       this.referencePointMarker.map = null
+    }
+    if (this.startPointMarker) {
+      this.startPointMarker.map = null
     }
   }
 

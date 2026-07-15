@@ -9,7 +9,7 @@ module Profiles
 
     Ranking = Struct.new(:competition, :result, :rank, :total, :rank_delta, :result_ahead, :result_behind,
                          keyword_init: true)
-    PersonalBest = Struct.new(:discipline, :result, :competition, :delta, keyword_init: true)
+    PersonalBest = Struct.new(:discipline, :result, :competition, :delta, :track_id, keyword_init: true)
     CompetitionEntry = Struct.new(:event, :place, :live, :hidden_place, keyword_init: true)
     LiveCompetition = Struct.new(:event, :location, :athletes_count, keyword_init: true)
 
@@ -76,6 +76,8 @@ module Profiles
     end
 
     def speed_pb = speed_result_values.max
+
+    def speed_pb_track_id = speed_results.max_by(&:first)&.last
 
     def speed_p95
       return if speed_result_values.empty?
@@ -186,7 +188,8 @@ module Profiles
         discipline: best.virtual_competition.discipline.to_sym,
         result: best.result,
         competition: best.virtual_competition,
-        delta: previous_pb_delta(best.virtual_competition)
+        delta: previous_pb_delta(best.virtual_competition),
+        track_id: best.track_id
       )
     end
 
@@ -315,14 +318,16 @@ module Profiles
       competition.results_sort_order == 'descending' ? result : -result
     end
 
-    def speed_result_values
-      @speed_result_values ||=
+    def speed_result_values = speed_results.map(&:first)
+
+    def speed_results
+      @speed_results ||=
         VirtualCompetition::Result
         .wind_cancellation(false)
         .where(virtual_competition_id: activity_scores.map(&:virtual_competition_id).uniq)
         .joins(:track)
         .where(tracks: { profile_id: id })
-        .pluck(:result)
+        .pluck(:result, :track_id)
     end
 
     def percentile(values, rank)

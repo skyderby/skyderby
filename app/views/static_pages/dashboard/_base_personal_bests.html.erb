@@ -9,9 +9,9 @@
         <span class="dashboard-pb__dot">·</span>
         <span><%= t('dashboard.base_flare') %></span>
       </div>
-      <div class="dashboard-pb__value">
+      <%= dashboard_pb_value_tag(personal_best_track_path(flare)) do %>
         <%= format_result(flare.result, flare.competition) %><span class="dashboard-pb__unit"><%= competition_unit(flare.competition) %></span>
-      </div>
+      <% end %>
       <% if flare.delta %>
         <div class="dashboard-pb__delta">
           <%= render 'static_pages/dashboard/delta', value: flare.delta, unit: competition_unit(flare.competition) %>
@@ -32,9 +32,9 @@
         <span class="dashboard-pb__dot">·</span>
         <span class="truncate"><%= dashboard_discipline_label(pb.competition) %></span>
       </div>
-      <div class="dashboard-pb__value">
+      <%= dashboard_pb_value_tag(personal_best_track_path(pb)) do %>
         <%= format_result(pb.result, pb.competition) %><span class="dashboard-pb__unit"><%= competition_unit(pb.competition) %></span>
-      </div>
+      <% end %>
       <% if pb.delta %>
         <div class="dashboard-pb__delta">
           <%= render 'static_pages/dashboard/delta', value: pb.delta, unit: competition_unit(pb.competition) %>

@@ -23,6 +23,11 @@ es:
       units_header: 'Unidades de medida:'
       m_units_metric: Metricas
       m_units_imperial: Imperiales
+      padding_header: 'Margen:'
+      padding_seconds: '%{seconds} s'
+      charts_header: 'Gráficos:'
+      charts_separate: 'Separados'
+      charts_single: 'Único'
       delete_confirmation: "Seguro, que quieres eliminar esta pista?"
       manage: "Сorrección"
       edit_range: "Editar rango"

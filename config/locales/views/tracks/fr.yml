@@ -24,6 +24,11 @@ fr:
       units_header: 'Unités:'
       m_units_metric: Métriques
       m_units_imperial: Impériales
+      padding_header: 'Marge:'
+      padding_seconds: '%{seconds} s'
+      charts_header: 'Graphiques:'
+      charts_separate: 'Séparés'
+      charts_single: 'Unique'
       delete_confirmation: Êtes-vous sûr de vouloir supprimer cet enregistrement?
       manage: Gestion
       edit_range: Modifier écarts

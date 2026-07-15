@@ -61,40 +61,66 @@
             <%= icon_tag 'gear-solid' %>
           </button>
 
-          <div id="skydive-performance-charts-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
-            <div class="dropdown-header"><%= t('tracks.show.menu_header') %></div>
-            <button type="button"
-                    class="dropdown-item"
-                    data-mode="separate"
-                    data-tracks--skydive-performance-track-target="chartsModeItem"
-                    data-action="tracks--skydive-performance-track#setChartsMode">
-              <%= t('tracks.show.menu_sep') %>
-            </button>
-            <button type="button"
-                    class="dropdown-item"
-                    data-mode="single"
-                    data-tracks--skydive-performance-track-target="chartsModeItem"
-                    data-action="tracks--skydive-performance-track#setChartsMode">
-              <%= t('tracks.show.menu_one') %>
-            </button>
+          <div id="skydive-performance-charts-menu" popover class="sd-dropdown-menu sd-settings-menu" data-dropdown-target="menu">
+            <div class="sd-setting-row">
+              <span class="sd-setting-label"><%= t('tracks.show.charts_header') %></span>
+              <div class="tab-bar sd-setting-tabs">
+                <button type="button"
+                        class="tab-bar-item"
+                        data-mode="separate"
+                        data-tracks--skydive-performance-track-target="chartsModeItem"
+                        data-action="tracks--skydive-performance-track#setChartsMode">
+                  <%= t('tracks.show.charts_separate') %>
+                </button>
+                <button type="button"
+                        class="tab-bar-item"
+                        data-mode="single"
+                        data-tracks--skydive-performance-track-target="chartsModeItem"
+                        data-action="tracks--skydive-performance-track#setChartsMode">
+                  <%= t('tracks.show.charts_single') %>
+                </button>
+              </div>
+            </div>
 
-            <div class="dropdown-divider"></div>
+            <div class="sd-setting-row">
+              <span class="sd-setting-label"><%= t('tracks.show.units_header') %></span>
+              <div class="tab-bar sd-setting-tabs">
+                <button type="button"
+                        class="tab-bar-item <%= 'active' if Current.charts_units.metric? %>"
+                        data-units="metric"
+                        data-tracks--skydive-performance-track-target="unitsItem"
+                        data-action="tracks--skydive-performance-track#setUnits">
+                  <%= t('tracks.show.m_units_metric') %>
+                </button>
+                <button type="button"
+                        class="tab-bar-item <%= 'active' if Current.charts_units.imperial? %>"
+                        data-units="imperial"
+                        data-tracks--skydive-performance-track-target="unitsItem"
+                        data-action="tracks--skydive-performance-track#setUnits">
+                  <%= t('tracks.show.m_units_imperial') %>
+                </button>
+              </div>
+            </div>
 
-            <div class="dropdown-header"><%= t('tracks.show.units_header') %></div>
-            <button type="button"
-                    class="dropdown-item <%= 'active' if Current.charts_units.metric? %>"
-                    data-units="metric"
-                    data-tracks--skydive-performance-track-target="unitsItem"
-                    data-action="tracks--skydive-performance-track#setUnits">
-              <%= t('tracks.show.m_units_metric') %>
-            </button>
-            <button type="button"
-                    class="dropdown-item <%= 'active' if Current.charts_units.imperial? %>"
-                    data-units="imperial"
-                    data-tracks--skydive-performance-track-target="unitsItem"
-                    data-action="tracks--skydive-performance-track#setUnits">
-              <%= t('tracks.show.m_units_imperial') %>
-            </button>
+            <div class="sd-setting-row">
+              <span class="sd-setting-label"><%= t('tracks.show.padding_header') %></span>
+              <div class="tab-bar sd-setting-tabs">
+                <button type="button"
+                        class="tab-bar-item"
+                        data-padding="5"
+                        data-tracks--skydive-performance-track-target="paddingItem"
+                        data-action="tracks--skydive-performance-track#setPadding">
+                  <%= t('tracks.show.padding_seconds', seconds: 5) %>
+                </button>
+                <button type="button"
+                        class="tab-bar-item"
+                        data-padding="15"
+                        data-tracks--skydive-performance-track-target="paddingItem"
+                        data-action="tracks--skydive-performance-track#setPadding">
+                  <%= t('tracks.show.padding_seconds', seconds: 15) %>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -137,19 +163,22 @@
 
         <button class="button button--sm rounded best-window-shortcut hidden"
                 data-tracks--skydive-performance-track-target="bestSpeed"
-                data-action="tracks--skydive-performance-track#setRange">
+                data-action="tracks--skydive-performance-track#setRange"
+                data-straight-line="true">
           <span data-best-window-range></span><%= t('units.m') %>
-          <span class="best-window-shortcut-value"><span data-best-window-value>—</span> <%= t('units.kmh') %></span>
+          <span class="best-window-shortcut-value"><span data-best-window-value>—</span> <span data-best-window-unit><%= t('units.kmh') %></span></span>
         </button>
         <button class="button button--sm rounded best-window-shortcut hidden"
                 data-tracks--skydive-performance-track-target="bestDistance"
-                data-action="tracks--skydive-performance-track#setRange">
+                data-action="tracks--skydive-performance-track#setRange"
+                data-straight-line="true">
           <span data-best-window-range></span><%= t('units.m') %>
-          <span class="best-window-shortcut-value"><span data-best-window-value>—</span> <%= t('units.m') %></span>
+          <span class="best-window-shortcut-value"><span data-best-window-value>—</span> <span data-best-window-unit><%= t('units.m') %></span></span>
         </button>
         <button class="button button--sm rounded best-window-shortcut hidden"
                 data-tracks--skydive-performance-track-target="bestTime"
-                data-action="tracks--skydive-performance-track#setRange">
+                data-action="tracks--skydive-performance-track#setRange"
+                data-straight-line="true">
           <span data-best-window-range></span><%= t('units.m') %>
           <span class="best-window-shortcut-value"><span data-best-window-value>—</span> <%= t('units.sec') %></span>
         </button>
