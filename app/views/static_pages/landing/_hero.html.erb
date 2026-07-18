@@ -1,0 +1,31 @@
+<section class="lp-hero">
+  <div class="lp-hero__sky" aria-hidden="true"></div>
+  <div class="lp-wrap lp-hero__grid">
+    <div class="lp-hero__intro">
+      <p class="lp-eyebrow"><%= t('static_pages.landing.hero.eyebrow') %></p>
+      <h1 class="lp-hero__title"><%= t('static_pages.landing.hero.title_html') %></h1>
+      <p class="lp-hero__sub"><%= t('static_pages.landing.hero.subtitle') %></p>
+
+      <div class="lp-hero__cta">
+        <%= link_to t('static_pages.landing.hero.cta'), new_user_registration_path,
+                    class: 'button button--primary' %>
+        <%= link_to t('static_pages.landing.hero.explore'), '#lp-rankings',
+                    class: 'lp-hero__ghost' %>
+      </div>
+
+      <p class="lp-hero__trust">
+        <span><%= t('static_pages.landing.hero.trust_label') %></span>
+        <span class="lp-mono"><%= t('static_pages.landing.hero.trust_devices') %></span>
+      </p>
+    </div>
+
+    <div class="lp-hero__aside">
+      <turbo-frame id="lp_featured_chart" src="<%= landing_featured_chart_path %>"
+                   loading="lazy" class="lp-chart-frame">
+        <div class="lp-proview lp-proview--skeleton" aria-hidden="true">
+          <div class="lp-proview__skeleton-line"></div>
+        </div>
+      </turbo-frame>
+    </div>
+  </div>
+</section>

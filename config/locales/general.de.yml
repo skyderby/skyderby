@@ -30,3 +30,5 @@ de:
         current_password_hint: "Erforderlich, um die Änderungen unten zu bestätigen."
         password_hint: "Leer lassen, um dein aktuelles Passwort zu behalten."
         connect_google_hint: "Melde dich schneller an, indem du dein Google-Konto verknüpfst."
+  meta:
+    description: "Skyderby ist eine Web-App für die Analyse von Skydive- und BASE-Sprüngen und für die Wertung von Wettbewerben"

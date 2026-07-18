@@ -1,0 +1,28 @@
+<section class="lp-section lp-pro" id="lp-pro">
+  <div class="lp-wrap">
+    <div class="lp-section__head">
+      <span class="lp-pro__badge"><%= t('static_pages.landing.pro.badge') %></span>
+      <h2 class="lp-section__title"><%= t('static_pages.landing.pro.title') %></h2>
+      <p class="lp-section__sub"><%= t('static_pages.landing.pro.subtitle') %></p>
+    </div>
+
+    <div class="lp-pro__grid">
+      <% %w[base skydive compare].each do |feature| %>
+        <div class="lp-pcard">
+          <h3 class="lp-pcard__title"><%= t("static_pages.landing.pro.features.#{feature}.title") %></h3>
+          <p class="lp-pcard__desc"><%= t("static_pages.landing.pro.features.#{feature}.desc") %></p>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="lp-pro__cta">
+      <div class="lp-pro__price">
+        <span class="lp-price"><b>$30</b><span><%= t('static_pages.landing.pro.per_year') %></span></span>
+        <span class="lp-price"><b>$59</b><span><%= t('static_pages.landing.pro.lifetime') %></span></span>
+      </div>
+      <p class="lp-pro__free"><%= t('static_pages.landing.pro.free_note') %></p>
+      <%= link_to t('static_pages.landing.pro.cta'), subscriptions_path,
+                  class: 'button button--primary lp-pro__button' %>
+    </div>
+  </div>
+</section>

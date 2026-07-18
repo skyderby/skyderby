@@ -1,0 +1,20 @@
+<section class="lp-stats">
+  <div class="lp-wrap lp-stats__grid">
+    <div class="lp-stat">
+      <div class="lp-stat__num"><%= page.tracks_count %></div>
+      <div class="lp-stat__label"><%= t('static_pages.landing.stats.tracks') %></div>
+    </div>
+    <div class="lp-stat">
+      <div class="lp-stat__num"><%= page.users_count %></div>
+      <div class="lp-stat__label"><%= t('static_pages.landing.stats.jumpers') %></div>
+    </div>
+    <div class="lp-stat lp-stat--wide">
+      <ul class="lp-disciplines">
+        <li><%= t('static_pages.landing.stats.base') %></li>
+        <li><%= t('static_pages.landing.stats.performance') %></li>
+        <li><%= t('static_pages.landing.stats.speed') %></li>
+      </ul>
+      <div class="lp-stat__label"><%= t('static_pages.landing.stats.disciplines') %></div>
+    </div>
+  </div>
+</section>

@@ -103,11 +103,23 @@
     --button-bg: transparent;
   }
 
+  .button--outline-light {
+    --button-bg: transparent;
+    --button-color: var(--white);
+    --button-border-size: 1px;
+    --button-border-color: var(--white);
+  }
+
   @media (any-hover: hover) {
     .button--ghost:hover:not(:disabled),
     .button--outline:hover:not(:disabled) {
       filter: none;
       background-color: var(--gray-20);
+    }
+
+    .button--outline-light:hover:not(:disabled) {
+      filter: none;
+      background-color: rgba(255, 255, 255, 0.15);
     }
   }
 

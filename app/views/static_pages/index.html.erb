@@ -1,107 +1,27 @@
 <% if @dashboard %>
   <%= render 'static_pages/dashboard', dashboard: @dashboard %>
 <% else %>
-<div class="index-header">
-  <div class="index-header__dark-layer"></div>
-  <div class="index-header__text">
-    <%= t('static_pages.index.desc') %>
+  <% content_for :description, t('static_pages.landing.meta_description') %>
+
+  <% content_for :og_image do %>
+    <meta property="og:image" content="<%= asset_url('landing/og_cover.png') %>">
+    <meta property="og:image:secure_url" content="<%= asset_url('landing/og_cover.png') %>">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="twitter:card" content="summary_large_image">
+  <% end %>
+
+  <% content_for :head do %>
+    <meta name="color-scheme" content="light dark">
+  <% end %>
+
+  <div class="lp">
+    <%= render 'static_pages/landing/hero', page: @page %>
+    <%= render 'static_pages/landing/stats', page: @page %>
+    <%= render 'static_pages/landing/showcase' %>
+    <%= render 'static_pages/landing/leaderboard' %>
+    <%= render 'static_pages/landing/pro_view_upsell' %>
+    <%= render 'static_pages/landing/founder' %>
   </div>
-  <div class="index-header__cta">
-    <%= button_to new_track_file_path, method: :get,
-                  form: { data: { turbo_stream: true }},
-                  class: 'button button--green-gradient button--shadow' do %>
-      <%= icon_tag 'upload-solid' %>
-      <%= t('application.header.upload_track') %>
-    <% end %>
-  </div>
-</div>
-
-<div class="top-buffer">
-  <div class="about-me">
-    <div class="about-me__photo">
-      <%= image_tag 'a_kunin.jpg', class: 'img-circle' %>
-    </div>
-    <div class="about-me__info">
-      <span class="about-me__greeting">Brought to you by Aleksandr Kunin</span>
-      <p>Developing Skyderby since May 2014 to make You fly better, faster, longer</p>
-      <div class="about-me__contacts">
-        <a href="https://discord.gg/WX8kfrx7b8" class="button button--outline button--primary">
-          Chat with me on Discord
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <%= render 'contributions', contributions: @page.contribution_summary %>
-</div>
-
-<hr>
-
-<div class="container top-buffer">
-  <div class="row">
-    <div class="col-sm-12 text-center">
-      <h1 class="light-header"><%= t('static_pages.index.how_it_works') %></h1>
-    </div>
-  </div>
-  <div class="row how-it-works">
-    <div class="col-lg-4 col-md-4 col-sm-4">
-      <div id="first-step-hiw">
-        <div class="step-number-hiw">1</div>
-        <p><%= t('static_pages.index.upload_a_file') %></p>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4">
-      <div id="second-step-hiw">
-        <div class="step-number-hiw">2</div>
-        <p><%= t('static_pages.index.select_free_fall_range') %></p>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-4">
-      <div id="third-step-hiw">
-        <div class="step-number-hiw">3</div>
-        <p><%= t('static_pages.index.analyze') %></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<%= render 'static_pages/online_competitions_section' %>
-
-<hr>
-
-<div class="container top-buffer">
-  <div class="row">
-    <div class="col-sm-12 text-center">
-      <h1 class="light-header"><%= t('static_pages.index.supported_formats') %></h1>
-    </div>
-  </div>
-  <div class="row supported-formats">
-    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
-      <div id="fs-sf" class="grayed"></div>
-      <div class="text-center">Flysight</div>
-    </div>
-    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
-      <div id="garmin-sf" class="grayed"></div>
-      <div class="text-center">Garmin Foretrex 101/201/301/401</div>
-    </div>
-    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
-      <div id="wintec-sf" class="grayed"></div>
-      <div class="text-center">Wintec WBT-202</div>
-    </div>
-    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
-      <div id="columbus-sf" class="grayed"></div>
-      <div class="text-center">Columbus V900</div>
-    </div>
-    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
-      <div id="dual-xgps" class="grayed"></div>
-      <div class="text-center">Dual XGPS160</div>
-    </div>
-    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 top-buffer">
-      <div id="gpx-sf" class="grayed"></div>
-      <div class="text-center">Files in GPX format</div>
-    </div>
-  </div>
-</div>
 <% end %>

@@ -1,0 +1,13 @@
+<section class="lp-section lp-leaders" id="lp-rankings">
+  <div class="lp-wrap lp-leaders__grid">
+    <div class="lp-section__head lp-leaders__intro">
+      <p class="lp-eyebrow"><%= t('static_pages.landing.leaderboard.eyebrow') %></p>
+      <h2 class="lp-section__title"><%= t('static_pages.landing.leaderboard.title') %></h2>
+      <p class="lp-section__sub"><%= t('static_pages.landing.leaderboard.subtitle') %></p>
+    </div>
+
+    <turbo-frame id="lp_leaderboard" src="<%= landing_leaderboard_path %>" loading="lazy">
+      <div class="lp-leaderboard-skeleton" aria-hidden="true"></div>
+    </turbo-frame>
+  </div>
+</section>

@@ -1,19 +1,86 @@
 it:
   static_pages:
-    online_competitions_section:
-      competitions_header:
-        base: Competizioni BASE
-        skydive: Competizioni Paracadutismo
+    landing:
+      meta_description: Trasforma i track GPS dei tuoi salti e BASE in una vera analisi di volo, con classifiche mondiali e punteggio delle competizioni. Inizia gratis.
+      hero:
+        eyebrow: Track · classifiche · competizioni
+        title_html: Atterra. Carica.<br><span class="lp-accent">Capisci.</span>
+        subtitle: Carica il tuo track FlySight, analizzalo secondo per secondo e mettilo
+          accanto ai track dei migliori al mondo.
+        cta: Crea un account
+        explore: Vedi le classifiche
+        trust_label: Compatibile con
+        trust_devices: FlySight · Garmin · Wintec · GPX
+      featured:
+        title: The Kings Challenge
+        tag: Pro Compare
+      stats:
+        tracks: Track analizzati
+        jumpers: Saltatori registrati
+        disciplines: Discipline coperte
+        base: BASE jumping
+        performance: Performance flying
+        speed: Speed skydiving
+      showcase:
+        eyebrow: Cosa c'è dentro
+        title: Strumenti pro — per ogni disciplina.
+        prev: Precedente
+        next: Successivo
+        skydive_pro_view:
+          tag: Skydive Pro View
+          lead: Analizza ogni secondo del salto.
+          desc: Designated Lane, vento, polare e planata — la tua caduta libera trasformata
+            nei numeri che decidono la manche.
+        lane_validation:
+          tag: Lane Validation Tool
+          lead: Giudica con sicurezza.
+          desc: Wingsuit Performance, Speed Skydiving, BASE Race, gare amatoriali — e chi più ne ha più ne metta.
+        speed_pro_view:
+          tag: Speed Skydiving Pro View
+          lead: Conosci il tuo limite.
+          desc: È più alto di quanto pensi. Lo calcoliamo su misura per te, proprio per quel giorno.
+        video_replay:
+          tag: Video Replay
+          lead: Rivivi il tuo track accanto al video.
+          desc: Dati GPS e video sincronizzati fotogramma per fotogramma, per vedere cosa
+            significa ogni numero.
+      leaderboard:
+        eyebrow: Dal vivo ora
+        title: Le competizioni online sono già nel vivo.
+        subtitle: Ogni track caricato vale per le competizioni online. Guarda chi comanda
+          questa stagione.
+        view_all: Vedi la classifica completa
+      pro:
+        badge: Skyderby Pro
+        title: Scopri quello che i dati nascondono davvero.
+        subtitle: I membri sbloccano tutte le Pro View — e il loro nome è sempre in vista nelle classifiche.
+        features:
+          base:
+            title: BASE Pro View
+            desc: I tuoi dati GPS dicono già molto. Confrontati con un altro track, dicono tutto.
+          skydive:
+            title: Skydive Pro View
+            desc: Designated Lane, vento, polare e confronto dei segmenti — l’analisi completa
+              della performance.
+          compare:
+            title: Pro Compare
+            desc: Sovrapponi due track affiancati e vedi esattamente dove la manche è
+              stata vinta o persa.
+        per_year: "/ anno"
+        lifetime: una tantum · a vita
+        free_note: 5 visualizzazioni Pro gratis ogni mese per i membri registrati — nessuna
+          carta per iniziare.
+        cta: Passa a Pro
+      founder:
+        eyebrow: Fatto da un wingsuiter, non da un'azienda
+        title: Creato da un pilota di wingsuit che voleva solo capire i propri salti.
+        body: Skyderby è nato nel 2014 come strumento di un singolo saltatore per capire
+          i propri track FlySight. È ancora costruito a mano da un pilota di wingsuit
+          in attività — ogni funzione nasce da una domanda reale al punto di uscita.
+        discord: Entra nel Discord
+        photo: Aleksandr Kunin, il pilota di wingsuit dietro Skyderby
     index:
       title: Vola! Gareggia! Vinci!
-      desc: Il più avanzato sistema di analisi di volo e di punteggio per le competizioni
-      supported_formats: Tipi di file e GPS supportati
-      donate: Se ti piace Skyderby puoi supportarlo facendo una donazione.
-      online_comps_leaders: i Leader delle competizioni OnLine
-      how_it_works: E' molto semplice
-      upload_a_file: Carica un file
-      select_free_fall_range: Seleziona l'intervallo di caduta libera
-      analyze: Analizza
       track_form:
         title: Visualizza ed analizza la tua traccia
         name_plh: John Doe
@@ -22,20 +89,3 @@ it:
         help: "sono supportati i file con estensione: .csv (Columbus, FlySight), .gpx, .tes e .kml"
         comment_plh: Condividi i tuoi pensieri sul tuo volo
         submit: Carica
-      about_me:
-        greeting: Ciao! Mi chiamo Aleksandr
-        message: Sono il creatore di Skyderby. Hai qualche domanda? Non esitare a scrivermi o anche a chiamarmi.
-      mobile:
-        stats:
-          registered_pilots: Piloti registrati
-          tracks_recorded: Tracce registrate
-        flights_section:
-          header: Voli
-          subheader: da tutte le angolazioni
-          description: A che velocità stavo volando? Quanto ha aggiunto il vento? Troverai facilmente risposte a queste domande, oltre a visualizzare la tua traccia sulla mappa, in 3D, sincronizzare con il video e molto altro.
-        competitions_section:
-          header: Competizioni online
-          subheader: ti diranno molto
-        free_section:
-          header: Gratuito
-          subheader: e senza pubblicità

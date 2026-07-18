@@ -65,3 +65,5 @@ es:
         current_password_hint: "Necesaria para confirmar los cambios siguientes."
         password_hint: "Déjalo en blanco para mantener tu contraseña actual."
         connect_google_hint: "Inicia sesión más rápido vinculando tu cuenta de Google."
+  meta:
+    description: "Skyderby es una aplicación web para el análisis de saltos de paracaidismo y BASE y para la puntuación de competiciones"

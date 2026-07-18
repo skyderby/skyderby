@@ -1,0 +1,44 @@
+<section class="lp-section lp-showcase" data-controller="landing-carousel">
+  <div class="lp-wrap">
+    <div class="lp-section__head">
+      <p class="lp-eyebrow"><%= t('static_pages.landing.showcase.eyebrow') %></p>
+      <h2 class="lp-section__title"><%= t('static_pages.landing.showcase.title') %></h2>
+    </div>
+  </div>
+
+  <div class="lp-wrap">
+    <div class="lp-showcase__track" data-landing-carousel-target="track">
+      <% Landing::Showcase.cards.each do |card| %>
+        <article class="lp-scard" data-carousel-card>
+          <div class="lp-scard__shot">
+            <% if card.image? %>
+              <%= image_tag card.image, class: 'lp-scard__image', loading: 'lazy',
+                            alt: t("static_pages.landing.showcase.#{card.key}.tag") %>
+            <% else %>
+              <div class="lp-scard__placeholder">
+                <%= t("static_pages.landing.showcase.#{card.key}.tag") %>
+              </div>
+            <% end %>
+          </div>
+          <p class="lp-scard__cap">
+            <b><%= t("static_pages.landing.showcase.#{card.key}.lead") %></b>
+            <span><%= t("static_pages.landing.showcase.#{card.key}.desc") %></span>
+          </p>
+        </article>
+      <% end %>
+    </div>
+
+    <div class="lp-showcase__nav">
+      <button type="button" class="lp-arrow" data-action="landing-carousel#prev"
+              aria-label="<%= t('static_pages.landing.showcase.prev') %>">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button type="button" class="lp-arrow" data-action="landing-carousel#next"
+              aria-label="<%= t('static_pages.landing.showcase.next') %>">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</section>

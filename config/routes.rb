@@ -442,5 +442,11 @@ Skyderby::Application.routes.draw do
 
   resource :dashboard, only: :update
 
+  namespace :landing do
+    resource  :featured_chart, only: :show
+    resources :featured_tracks, only: :show, param: :key
+    resource  :leaderboard,     only: :show
+  end
+
   root 'static_pages#index'
 end

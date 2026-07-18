@@ -1,19 +1,84 @@
 ru:
   static_pages:
-    online_competitions_section:
-      competitions_header:
-        base: BASE соревнования
-        skydive: Skydive соревнования
+    landing:
+      meta_description: Превращайте GPS-треки прыжков и бейс-джампов в полноценный анализ полёта — плюс мировые рейтинги и судейство соревнований. Начать бесплатно.
+      hero:
+        eyebrow: Треки · рейтинги · соревнования
+        title_html: Приземлился. Загрузил.<br><span class="lp-accent">Разобрал.</span>
+        subtitle: Загрузи трек FlySight, разбери его по секундам и поставь рядом с треками
+          лучших в мире.
+        cta: Зарегистрироваться
+        explore: Смотреть рейтинги
+        trust_label: Работает с
+        trust_devices: FlySight · Garmin · Wintec · GPX
+      featured:
+        title: The Kings Challenge
+        tag: Pro Compare
+      stats:
+        tracks: Треков проанализировано
+        jumpers: Пилотов зарегистрировано
+        disciplines: Поддерживаемые дисциплины
+        base: BASE jumping
+        performance: Performance flying
+        speed: Speed skydiving
+      showcase:
+        eyebrow: Что внутри
+        title: Инструменты профи — для любой дисциплины.
+        prev: Назад
+        next: Вперёд
+        skydive_pro_view:
+          tag: Skydive Pro View
+          lead: Каждая секунда прыжка — в цифрах.
+          desc: Анализ по сегментам, поляра, карта с коридором, вид сбоку и привычные графики
+            скоростей и качества.
+        lane_validation:
+          tag: Lane Validation Tool
+          lead: Чёткое судейство.
+          desc: Wingsuit Performance, Speed Skydiving, BASE Race, любительские соревнования — и дальше по списку.
+        speed_pro_view:
+          tag: Speed Skydiving Pro View
+          lead: Знай свой предел.
+          desc: Он выше, чем ты думаешь. Посчитано под тебя и под тот самый день.
+        video_replay:
+          tag: Video Replay
+          lead: Данные трека вместе с видео.
+          desc: GPS и видео синхронизированы по кадрам — видно, что стоит за каждой
+            цифрой.
+      leaderboard:
+        eyebrow: Прямо сейчас
+        title: Онлайн-соревнования уже в разгаре.
+        subtitle: Каждый загруженный трек идёт в зачёт онлайн-соревнований. Смотри, кто
+          в лидерах в этом сезоне.
+        view_all: Полный рейтинг
+      pro:
+        badge: Skyderby Pro
+        title: Разгляди, что на самом деле скрывают данные.
+        subtitle: Подписчики открывают все Pro View — и их имя всегда на виду в рейтингах.
+        features:
+          base:
+            title: BASE Pro View
+            desc: Твои GPS-данные и так говорят о многом. В сравнении с другим треком — говорят всё.
+          skydive:
+            title: Skydive Pro View
+            desc: Designated Lane, ветер, поляра и сравнение сегментов — полный разбор перформанса.
+          compare:
+            title: Pro Compare
+            desc: Наложи два трека рядом и увидь, где именно выигран или проигран заход.
+        per_year: "/ год"
+        lifetime: разово · навсегда
+        free_note: 5 бесплатных Pro-просмотров каждый месяц для зарегистрированных — карта
+          не нужна.
+        cta: Стать Pro
+      founder:
+        eyebrow: Сделано вингсьютером, а не корпорацией
+        title: Делал для себя, а оказалось полезно многим.
+        body: Начал делать Skyderby в 2014 году, и это оказалось так же увлекательно, как
+          и прыжки. Запал не пропал и сейчас — с удовольствием делаю новый функционал,
+          чтобы помочь тебе летать быстрее, дальше и дольше.
+        discord: Зайти в Discord
+        photo: Александр Кунин, вингсьют-пилот, который делает Skyderby
     index:
       title: Летай! Соревнуйся! Побеждай!
-      desc: Профессиональный анализ полетов и проведение соревнований
-      supported_formats: Поддерживаемые форматы и приборы
-      donate: Если Вам нравится Skyderby - Вы можете оказать проекту финансовую поддержку.
-      online_comps_leaders: Лидеры онлайн соревнований
-      how_it_works: Это очень просто
-      upload_a_file: Загрузите трек
-      select_free_fall_range: Выберите диапазон свободного падения
-      analyze: Анализируйте
       track_form:
         title: Посмотреть и оценить трек
         name_plh: Имя Ф.
@@ -22,20 +87,3 @@ ru:
         help: Поддерживаются файлы в формате csv, gpx, tes и kml
         comment_plh: Пара слов о Вашем полете
         submit: Загрузить
-      about_me:
-        greeting: Привет! Меня зовут Александр
-        message: Я разработчик Skyderby. Если возник вопрос, напишите или позвоните, буду рад ответить.
-      mobile:
-        stats:
-          registered_pilots: Зарегистрировано пилотов
-          tracks_recorded: Загружено треков
-        flights_section:
-          header: Полёты
-          subheader: во всех ракурсах
-          description: С какой скоростью я летел? А сколько из нее добавлял ветер? Вам будет легко найти ответы на эти вопросы, а также посмотреть на трек на карте, в 3D, синхронизировать с видео и многое другое.
-        competitions_section:
-          header: Онлайн соревнования
-          subheader: расскажут о многом
-        free_section:
-          header: Бесплатно
-          subheader: и без рекламы

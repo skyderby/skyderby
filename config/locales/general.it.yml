@@ -43,3 +43,5 @@ it:
         current_password_hint: Necessaria per confermare le modifiche qui sotto.
         password_hint: Lascia vuoto per mantenere la password attuale.
         connect_google_hint: Accedi più velocemente collegando il tuo account Google.
+  meta:
+    description: "Skyderby è un'applicazione web per l'analisi dei salti di paracadutismo e BASE e per il punteggio delle competizioni"

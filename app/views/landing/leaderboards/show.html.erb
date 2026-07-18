@@ -1,0 +1,33 @@
+<%= turbo_frame_tag 'lp_leaderboard' do %>
+  <% cache "lp_online_competitions_v2_#{I18n.locale}", expires_in: 10.minutes do %>
+    <% if @leaderboard.any? %>
+      <div class="lp-board" data-controller="landing-tabs">
+        <div class="lp-tabs" role="tablist">
+          <% @leaderboard.boards.each_with_index do |ranking, index| %>
+            <button type="button" class="lp-tab" role="tab"
+                    aria-selected="<%= index.zero? %>"
+                    data-landing-tabs-target="tab"
+                    data-action="landing-tabs#select">
+              <%= ranking.competition.name %>
+            </button>
+          <% end %>
+        </div>
+
+        <% @leaderboard.boards.each_with_index do |ranking, index| %>
+          <div class="lp-tabpanel" role="tabpanel"
+               data-landing-tabs-target="panel"
+               <%= tag.attributes(hidden: index.positive?) %>>
+            <div class="vc-scoreboard__list">
+              <% ranking.all_scores.each do |score| %>
+                <%= render 'virtual_competitions/score_row', score: score, ranking: ranking %>
+              <% end %>
+            </div>
+            <%= link_to t('static_pages.landing.leaderboard.view_all'),
+                        virtual_competition_path(ranking.competition),
+                        class: 'lp-board__link' %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

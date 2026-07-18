@@ -1,5 +1,5 @@
 <title><%= page_title(yield(:title)) %></title>
-<meta name="description" content="<%= yield(:description) || t('meta.description') %>">
+<meta name="description" content="<%= yield(:description).presence || t('meta.description') %>">
 
 <%= action_cable_meta_tag %>
 
@@ -29,11 +29,11 @@
 <link rel="manifest" href="/site.webmanifest" />
 
 <meta property="og:title" content="<%= page_title(yield(:title)) %>">
-<meta property="og:description" content="<%= yield(:description) || t('meta.description') %>">
+<meta property="og:description" content="<%= yield(:description).presence || t('meta.description') %>">
 <meta property="og:type" content="website">
 
 <meta property="twitter:title" content="<%= page_title(yield(:title)) %>">
-<meta property="twitter:description" content="<%= yield(:description) || t('meta.description') %>">
+<meta property="twitter:description" content="<%= yield(:description).presence || t('meta.description') %>">
 
 <% if content_for?(:og_image) %>
   <%= yield :og_image %>

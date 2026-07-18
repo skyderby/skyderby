@@ -1,0 +1,19 @@
+<section class="lp-section lp-founder">
+  <div class="lp-wrap">
+    <div class="lp-founder__card">
+      <div class="lp-founder__photo">
+        <%= image_tag 'landing/founder.webp', class: 'lp-founder__image', loading: 'lazy',
+                      alt: t('static_pages.landing.founder.photo') %>
+      </div>
+      <div class="lp-founder__body">
+        <p class="lp-eyebrow"><%= t('static_pages.landing.founder.eyebrow') %></p>
+        <h2 class="lp-section__title"><%= t('static_pages.landing.founder.title') %></h2>
+        <p class="lp-founder__text"><%= t('static_pages.landing.founder.body') %></p>
+        <a href="https://discord.gg/WX8kfrx7b8" rel="noopener"
+           class="button button--outline button--primary">
+          <%= t('static_pages.landing.founder.discord') %>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -47,6 +47,8 @@ export default class SideProjectionChart {
       onPointHover: null,
       syncVerticalSpeed: 10,
       units: 'metric',
+      persistentTooltip: false,
+      persistentTooltipIndex: null,
       ...options
     }
     this.points = []
@@ -246,7 +248,25 @@ export default class SideProjectionChart {
     this.createCrosshair()
     this.setupInteraction()
 
+    if (this.options.persistentTooltip) {
+      this.showPersistentTooltip()
+    }
+
     return this
+  }
+
+  showPersistentTooltip() {
+    if (!this.flightProfile.length) return
+
+    const requested = this.options.persistentTooltipIndex
+    const fallback = Math.floor(this.flightProfile.length * 0.62)
+    const index = Math.min(
+      Math.max(requested ?? fallback, 0),
+      this.flightProfile.length - 1
+    )
+
+    this.showTooltip(this.flightProfile[index])
+    this.showCrosshair(index)
   }
 
   clear() {
@@ -792,6 +812,8 @@ export default class SideProjectionChart {
   }
 
   handleInteractionEnd() {
+    if (this.options.persistentTooltip) return
+
     this.hideTooltip()
   }
 

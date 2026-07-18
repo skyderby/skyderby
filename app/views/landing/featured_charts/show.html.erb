@@ -1,0 +1,16 @@
+<%= turbo_frame_tag 'lp_featured_chart' do %>
+  <figure class="lp-proview">
+    <figcaption class="lp-proview__head">
+      <span class="lp-proview__title"><%= t('static_pages.landing.featured.title') %></span>
+      <span class="lp-proview__tag"><%= t('static_pages.landing.featured.tag') %></span>
+    </figcaption>
+
+    <div class="lp-proview__body"
+         data-controller="tracks--landing-side-view"
+         data-tracks--landing-side-view-points-url-value="<%= landing_featured_track_path('primary', format: :json) %>"
+         data-tracks--landing-side-view-compare-points-url-value="<%= landing_featured_track_path('compare', format: :json) %>"
+         data-tracks--landing-side-view-units-value="metric">
+      <div class="lp-proview__chart" data-tracks--landing-side-view-target="chart"></div>
+    </div>
+  </figure>
+<% end %>

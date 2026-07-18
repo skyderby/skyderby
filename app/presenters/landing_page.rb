@@ -6,12 +6,4 @@ class LandingPage
   def tracks_count
     "#{Track.last.id.floor(-3)}+"
   end
-
-  def online_competitions_summary
-    @online_competitions_summary ||= VirtualCompetition::Summary.new
-  end
-
-  def contribution_summary
-    @contribution_summary ||= Contribution::Summary.new
-  end
 end
