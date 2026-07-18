@@ -29,8 +29,8 @@ fr:
         skydive_pro_view:
           tag: Skydive Pro View
           lead: Analyse chaque seconde du saut.
-          desc: Designated Lane, vent, polaire de traînée et finesse — ta chute libre traduite
-            dans les chiffres qui décident de la manche.
+          desc: Analyse par segments, polaire de traînée, carte avec Designated Lane, vue
+            de côté, et les habituels graphiques de vitesses et de finesse.
         lane_validation:
           tag: Lane Validation Tool
           lead: Juge en toute confiance.
@@ -73,10 +73,10 @@ fr:
         cta: Passer Pro
       founder:
         eyebrow: Fait par un wingsuiter, pas par une entreprise
-        title: Un pilote de wingsuit qui voulait juste comprendre ses propres sauts.
-        body: Skyderby a démarré en 2014 comme l’outil d’un sauteur pour comprendre ses
-          propres tracks FlySight. Il est toujours fait main par un pilote de wingsuit
-          en activité — chaque fonction naît d’une vraie question au point de sortie.
+        title: Je l'ai fait pour moi — et c'est devenu utile à beaucoup de monde.
+        body: J'ai commencé Skyderby en 2014, et le construire s'est révélé aussi passionnant
+          que le saut lui-même. L'étincelle est toujours là — je continue d'ajouter de
+          nouvelles fonctions, pour t'aider à voler plus vite, plus loin et plus longtemps.
         discord: Rejoindre le Discord
         photo: Aleksandr Kunin, le pilote de wingsuit derrière Skyderby
     index:

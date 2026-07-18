@@ -9,7 +9,7 @@ it:
       profiles: Atleti
       about: Info sul Progetto
       sign_in: Accedi
-      sign_up: Crea un account gratuito
+      sign_up: Crea un account
       sign_out: Scollegati
       login_email: Indirizzo Email
       password: Password

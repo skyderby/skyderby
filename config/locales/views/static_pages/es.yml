@@ -29,8 +29,8 @@ es:
         skydive_pro_view:
           tag: Skydive Pro View
           lead: Analiza cada segundo del salto.
-          desc: Designated Lane, viento, polar y planeo — tu caída libre convertida en los
-            números que deciden la manga.
+          desc: Análisis por segmentos, polar, mapa con el Designated Lane, vista lateral
+            y las clásicas gráficas de velocidad y planeo.
         lane_validation:
           tag: Lane Validation Tool
           lead: Juzga con seguridad.
@@ -73,10 +73,10 @@ es:
         cta: Hazte Pro
       founder:
         eyebrow: Hecho por un wingsuiter, no por una empresa
-        title: Creado por un piloto de wingsuit que solo quería entender sus propios saltos.
-        body: Skyderby empezó en 2014 como la herramienta de un saltador para entender
-          sus propios tracks de FlySight. Sigue estando hecho a mano por un piloto de
-          wingsuit en activo — cada función nace de una pregunta real en el punto de salida.
+        title: Lo hice para mí y resultó útil para mucha gente.
+        body: Empecé Skyderby en 2014, y construirlo resultó ser tan divertido como saltar.
+          La chispa sigue ahí — sigo añadiendo funciones nuevas para ayudarte a volar
+          más rápido, más lejos y más tiempo.
         discord: Únete al Discord
         photo: Aleksandr Kunin, el piloto de wingsuit detrás de Skyderby
     index:

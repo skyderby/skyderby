@@ -29,8 +29,8 @@ de:
         skydive_pro_view:
           tag: Skydive Pro View
           lead: Analysiere jede Sekunde des Sprungs.
-          desc: Designated Lane, Wind, Widerstandspolare und Gleitzahl — dein freier Fall,
-            übersetzt in die Zahlen, die über den Run entscheiden.
+          desc: Segmentanalyse, Widerstandspolare, eine Karte mit Designated Lane, Seitenansicht
+            und die gewohnten Geschwindigkeits- und Gleitzahl-Diagramme.
         lane_validation:
           tag: Lane Validation Tool
           lead: Souverän werten.
@@ -72,10 +72,10 @@ de:
         cta: Pro werden
       founder:
         eyebrow: Von einem Wingsuiter gebaut, nicht von einem Konzern
-        title: Ein Wingsuit-Pilot, der einfach seine eigenen Sprünge verstehen wollte.
-        body: Skyderby begann 2014 als Werkzeug eines einzelnen Springers, um seine eigenen
-          FlySight-Tracks zu verstehen. Es wird immer noch von einem aktiven Wingsuit-Piloten
-          von Hand gebaut — jede Funktion entsteht aus einer echten Frage am Exit.
+        title: Hab's für mich selbst gebaut — und es wurde für viele nützlich.
+        body: 2014 habe ich angefangen, Skyderby zu bauen, und das war genauso spannend wie
+          das Springen selbst. Der Funke ist bis heute da — mit Freude baue ich neue Funktionen,
+          um dir zu helfen, schneller, weiter und länger zu fliegen.
         discord: Zum Discord
         photo: Aleksandr Kunin, der Wingsuit-Pilot hinter Skyderby
     index:
