@@ -11,7 +11,6 @@ class TracksController < ApplicationController
     @tracks = TrackFilter.new(index_params).apply(@tracks)
 
     @tracks = @tracks
-              .left_outer_joins(:time, :distance, :speed)
               .sorted(*order_params)
               .includes(
                 :video,
