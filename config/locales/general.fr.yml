@@ -48,3 +48,15 @@ fr:
         connect_google_hint: Connectez-vous plus vite en liant votre compte Google.
   meta:
     description: "Skyderby est une application web pour l'analyse des sauts en parachute et en BASE et pour le scoring des compétitions"
+    events:
+      headline_with_place: "%{sport} à %{location} — %{date}."
+      headline: "%{sport} — %{date}."
+      competitors:
+        one: "%{count} compétiteur"
+        other: "%{count} compétiteurs"
+      countries:
+        one: "%{count} pays"
+        other: "%{count} pays"
+      participants: "%{competitors} de %{countries}."
+      participants_only: "%{competitors}."
+      cta: "Suivez le classement en direct, les résultats et les scores finaux sur Skyderby."

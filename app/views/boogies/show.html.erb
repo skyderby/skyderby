@@ -1,4 +1,4 @@
-<% provide :title, @event.name %>
+<%= render 'shared/sports_event_meta', event: @event %>
 <% editable = @event.editable? %>
 
 <div class="show-page">

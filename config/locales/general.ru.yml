@@ -47,6 +47,22 @@ ru:
       sign_in: Войти
   meta:
     description: "Skyderby это веб-приложение для анализа треков полётов и проведения соревнований"
+    events:
+      headline_with_place: "%{sport} в %{location} — %{date}."
+      headline: "%{sport} — %{date}."
+      competitors:
+        one: "%{count} участник"
+        few: "%{count} участника"
+        many: "%{count} участников"
+        other: "%{count} участников"
+      countries:
+        one: "%{count} страна"
+        few: "%{count} страны"
+        many: "%{count} стран"
+        other: "%{count} стран"
+      participants: "%{competitors} из %{countries}."
+      participants_only: "%{competitors}."
+      cta: "Онлайн-табло, результаты и итоговые протоколы на Skyderby."
   date:
     abbr_day_names:
       - Вс

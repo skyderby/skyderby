@@ -1,0 +1,15 @@
+<%# locals: (event:) %>
+<% meta = Events::MetaTags.new(event, url: polymorphic_url(event)) %>
+<% provide :title, event.name %>
+<% provide :description, meta.description if meta.indexable? %>
+
+<% content_for :head do %>
+  <% if meta.indexable? %>
+    <link rel="canonical" href="<%= meta.canonical_url %>">
+    <script type="application/ld+json">
+      <%= raw meta.structured_data.to_json %>
+    </script>
+  <% else %>
+    <meta name="robots" content="noindex">
+  <% end %>
+<% end %>

@@ -1,4 +1,4 @@
-<% provide :title, @tournament.name %>
+<%= render 'shared/sports_event_meta', event: @tournament %>
 <% editable = policy(@tournament).update? %>
 
 <div class="show-page">

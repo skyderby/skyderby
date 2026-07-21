@@ -62,3 +62,15 @@ en:
       sign_in: Sign in
   meta:
     description: "Skyderby is a web application for skydiving and basejumping jump analysis and scoring competitions"
+    events:
+      headline_with_place: "%{sport} at %{location} — %{date}."
+      headline: "%{sport} — %{date}."
+      competitors:
+        one: "%{count} competitor"
+        other: "%{count} competitors"
+      countries:
+        one: "%{count} country"
+        other: "%{count} countries"
+      participants: "%{competitors} from %{countries}."
+      participants_only: "%{competitors}."
+      cta: "Follow the live scoreboard, results and final standings on Skyderby."

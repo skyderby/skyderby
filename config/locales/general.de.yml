@@ -33,3 +33,15 @@ de:
         connect_google_hint: "Melde dich schneller an, indem du dein Google-Konto verknüpfst."
   meta:
     description: "Skyderby ist eine Web-App für die Analyse von Skydive- und BASE-Sprüngen und für die Wertung von Wettbewerben"
+    events:
+      headline_with_place: "%{sport} bei %{location} — %{date}."
+      headline: "%{sport} — %{date}."
+      competitors:
+        one: "%{count} Teilnehmer"
+        other: "%{count} Teilnehmer"
+      countries:
+        one: "%{count} Land"
+        other: "%{count} Ländern"
+      participants: "%{competitors} aus %{countries}."
+      participants_only: "%{competitors}."
+      cta: "Live-Wertung, Ergebnisse und Endstände auf Skyderby."
