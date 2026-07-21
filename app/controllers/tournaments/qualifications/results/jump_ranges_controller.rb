@@ -30,7 +30,7 @@ module Tournaments
         end
 
         def result_params
-          params.require(:jump_range).permit(:start_time)
+          params.require(:jump_range).permit(:start_time, :result, :canopy_time)
         end
       end
     end

@@ -21,7 +21,6 @@ class QualificationJump < ApplicationRecord
   belongs_to :track, optional: true
 
   delegate :tournament, to: :qualification_round
-  delegate :start_time, to: :track, prefix: true, allow_nil: true
   delegate :name, to: :competitor, prefix: true, allow_nil: true
   delegate :order, to: :round, prefix: true, allow_nil: true
   delegate :suit_id, to: :competitor
@@ -43,6 +42,12 @@ class QualificationJump < ApplicationRecord
     self.start_time_in_seconds = nil
   end
 
+  # Auto-detected start, matching online competitions: the point where vertical
+  # speed first reaches BASE_START_SPEED (10 km/h).
+  def detected_start_time
+    base_race_start_point&.fetch(:gps_time)
+  end
+
   def track_owner = tournament
 
   def tracks_visibility = :public_track
@@ -59,6 +64,25 @@ class QualificationJump < ApplicationRecord
   end
 
   private
+
+  def base_race_start_point
+    return unless track
+
+    points = PointsPostprocessor.for(track.gps_type).call(
+      PointsQuery.execute(
+        track,
+        trimmed: { seconds_before_start: 10 },
+        only: %i[gps_time time_diff altitude latitude longitude h_speed v_speed glide_ratio]
+      )
+    )
+
+    WindowRangeFinder
+      .new(points)
+      .execute(from_vertical_speed: OnlineCompetitionsService::BASE_START_SPEED)
+      .start_point
+  rescue WindowRangeFinder::ValueOutOfRange
+    nil
+  end
 
   def jump_range_points
     return unless track

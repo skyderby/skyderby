@@ -11,6 +11,16 @@ en:
       last_completed_round: 'Result of the last completed round'
     qualifications:
       round: 'Qualification'
+      compare:
+        start: Compare Tracks
+        submit: Compare
+        slot_placeholder: Select a result
+        swap: Swap tracks
+        cancel: Cancel
+        remaining:
+          zero: No free comparisons left
+          one: "%{count} free comparison left"
+          other: "%{count} free comparisons left"
       scoreboard:
         rank: 'Rank'
         competitor: 'Competitor'

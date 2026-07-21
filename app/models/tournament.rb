@@ -26,6 +26,7 @@ class Tournament < ApplicationRecord
   include CompetitorsCopy
 
   enum :status, { draft: 0, published: 1, finished: 2, surprise: 3 }
+  enum :visibility, { public_event: 0, unlisted_event: 1, private_event: 2 }
   enum :qualification_scoring, { best_result: 0, last_completed_round: 1 }, prefix: :scoring
   enum :discipline, {
     time: 0,
@@ -62,6 +63,13 @@ class Tournament < ApplicationRecord
     return false unless user&.registered?
 
     user.admin? || user == responsible || organizers.exists?(user:)
+  end
+
+  def viewable?(user = Current.user)
+    return true if editable?(user)
+    return true if public_event? || unlisted_event?
+
+    user&.profile.present? && competitors.exists?(profile: user.profile)
   end
 
   def is_official = false

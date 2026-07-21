@@ -5,6 +5,16 @@ de:
     show:
       show_details: 'Hier klicken für Trackdetails'
     qualifications:
+      compare:
+        start: Tracks vergleichen
+        submit: Vergleichen
+        slot_placeholder: Track auswählen
+        swap: Tauschen
+        cancel: Abbrechen
+        remaining:
+          zero: Keine kostenlosen Vergleiche übrig
+          one: "%{count} kostenloser Vergleich übrig"
+          other: "%{count} kostenlose Vergleiche übrig"
       actions_bar:
         display: 'Slide Show'
       display:

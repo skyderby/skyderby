@@ -16,7 +16,7 @@ class QualificationJumpsTest < ApplicationSystemTestCase
 
     click_button I18n.t('general.save')
 
-    fill_in 'result_start_time', with: '2017-06-05 08:03:17.400'
+    fill_in 'jump_range_start_time', with: '2017-06-05 08:03:17.400'
 
     click_button I18n.t('general.save')
 

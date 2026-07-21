@@ -125,7 +125,18 @@
         <% scoreboard.rounds.each do |round| %>
           <% result = competitor.result_in_round(round) %>
           <% if result&.result.present? %>
-            <td class="<%= class_names 'result-cell', 'round-result', ('text-green' if competitor.best_result_in?(result)) %>">
+            <% compare_data =
+                 if result.track_id.present?
+                   { 'track-compare-target': 'row',
+                     action: 'click->track-compare#selectRow',
+                     track_id: result.track_id,
+                     pilot: competitor.name,
+                     result: number_with_precision(result.result, precision: 3),
+                     kind: 'base' }
+                 else
+                   {}
+                 end %>
+            <%= tag.td class: class_names('result-cell', 'round-result', ('text-green' if competitor.best_result_in?(result))), data: compare_data do %>
               <%= link_to tournament_qualification_result_path(tournament, result),
                           **(mobile? ? { target: '_blank' } : { data: { turbo_stream: true } }),
                           class: 'result-show-cell', rel: 'nofollow' do %>
@@ -134,7 +145,7 @@
               <% if !show_best && result.result.positive? && (leader = scoreboard.round_leader_result(round)) %>
                 <%= render 'tournaments/qualifications/result_gap', gap: result.result.to_f - leader.to_f %>
               <% end %>
-            </td>
+            <% end %>
             <td class="<%= class_names('text-left result-value round-canopy', 'canopy-low' => result.canopy_time.present? && result.canopy_time < 40) %>">
               <span data-controller="tooltip"><%= number_with_precision(result.canopy_time, precision: 1) %><span class="for-screen-reader"><%= t('tournaments.qualifications.scoreboard.canopy_time') %></span></span>
             </td>

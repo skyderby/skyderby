@@ -1,8 +1,8 @@
 <%= turbo_stream.update 'modal-root' do %>
-  <%= render partial: 'edit_result', layout: 'components/dialog', locals: {
+  <%= render partial: 'tournaments/qualifications/results/jump_ranges/jump_range_form', layout: 'components/dialog', locals: {
     title: qualification_jump_presentation(@result),
     dialog_size: 'lg',
     show_cancel: true,
-    wrap_in_container: true
+    show_tabs: false
   } %>
 <% end %>

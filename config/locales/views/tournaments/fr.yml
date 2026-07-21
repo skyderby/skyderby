@@ -5,6 +5,16 @@ fr:
     show:
       show_details: Cliquer pour voir les détails de l'enregistrement
     qualifications:
+      compare:
+        start: Comparer les tracks
+        submit: Comparer
+        slot_placeholder: Choisir un track
+        swap: Permuter
+        cancel: Annuler
+        remaining:
+          zero: Aucune comparaison gratuite restante
+          one: "%{count} comparaison gratuite restante"
+          other: "%{count} comparaisons gratuites restantes"
       actions_bar:
         display: 'Slide Show'
       display:

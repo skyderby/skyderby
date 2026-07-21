@@ -61,7 +61,8 @@ class TournamentsController < ApplicationController
       :starts_at,
       :bracket_size,
       :has_qualification,
-      :qualification_scoring
+      :qualification_scoring,
+      :visibility
     )
   end
 end

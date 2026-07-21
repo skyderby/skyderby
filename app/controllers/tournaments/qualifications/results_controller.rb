@@ -6,7 +6,7 @@ module Tournaments
 
       before_action :set_tournament
       before_action :set_round, only: %i[new create]
-      before_action :set_result, only: %i[show edit update destroy]
+      before_action :set_result, only: %i[show edit destroy]
 
       def new
         authorize @tournament, :update?
@@ -47,16 +47,6 @@ module Tournaments
         end
       end
 
-      def update
-        authorize @tournament, :update?
-
-        if @result.update(update_result_params)
-          respond_with_scoreboard
-        else
-          respond_with_errors(@result.errors)
-        end
-      end
-
       def destroy
         authorize @tournament, :update?
 
@@ -89,13 +79,6 @@ module Tournaments
             :place_id,
             :suit_id
           ]
-      end
-
-      def update_result_params
-        params.require(:result).permit \
-          :start_time,
-          :result,
-          :canopy_time
       end
     end
   end

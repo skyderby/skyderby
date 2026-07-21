@@ -10,6 +10,18 @@ ru:
       best_result: 'Лучший результат во всех раундах'
       last_completed_round: 'Результат последнего завершённого раунда'
     qualifications:
+      compare:
+        start: Сравнить треки
+        submit: Сравнить
+        slot_placeholder: Выберите результат
+        swap: Поменять местами
+        cancel: Отмена
+        remaining:
+          zero: Бесплатных сравнений не осталось
+          one: "Осталось %{count} бесплатное сравнение"
+          few: "Осталось %{count} бесплатных сравнения"
+          many: "Осталось %{count} бесплатных сравнений"
+          other: "Осталось %{count} бесплатных сравнений"
       scoreboard:
         rank: 'Место'
         competitor: 'Участник'

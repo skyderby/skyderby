@@ -5,13 +5,14 @@
 <div class="show-page">
   <%= render partial: 'tournaments/header', variants: [], locals: { editable: } %>
 
-  <% if editable %>
-    <div class="show-page-content">
-      <%= render 'actions_bar', tournament: @tournament %>
-    </div>
-  <% end %>
+  <div class="show-page-content"
+       data-controller="track-compare"
+       data-track-compare-source-value="tournaments"
+       data-track-compare-competition-id-value="<%= @tournament.id %>"
+       data-track-compare-kind-value="base"
+       data-track-compare-slot-placeholder-value="<%= t('tournaments.qualifications.compare.slot_placeholder') %>">
+    <%= render 'actions_bar', tournament: @tournament, editable: %>
 
-  <div class="show-page-content">
     <%= render 'scoreboard', tournament: @tournament, editable: %>
 
     <div class="show-page-content">

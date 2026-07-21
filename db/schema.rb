@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_13_084825) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_21_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -734,6 +734,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_084825) do
     t.date "starts_at"
     t.integer "status", default: 0, null: false
     t.timestamptz "updated_at", null: false
+    t.integer "visibility", default: 0, null: false
     t.index ["finish_line_id"], name: "index_tournaments_on_finish_line_id"
     t.index ["profile_id"], name: "index_tournaments_on_profile_id"
   end

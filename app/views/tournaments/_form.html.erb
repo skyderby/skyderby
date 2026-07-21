@@ -71,6 +71,18 @@
         </div>
       </div>
 
+      <div class="form-row">
+        <%= f.label :visibility, t('activerecord.attributes.event.visibility'), class: 'form-label col-sm-2' %>
+        <div class="col-sm-10 form-radio-group">
+          <% Tournament.visibilities.each_key do |key| %>
+            <label class="form-radio">
+              <%= f.radio_button :visibility, key %>
+              <%= t("activerecord.attributes.event.visibilities.#{key}") %>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
       <div class="col-sm-offset-2 col-sm-8">
         <%= f.submit nil, class: 'button button--primary' %>
         <% path = @tournament.persisted? ? tournament_path(@tournament) : events_path %>

@@ -4,7 +4,7 @@ class TournamentPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    record.viewable?(user)
   end
 
   def update?

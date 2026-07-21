@@ -400,10 +400,11 @@ Skyderby::Application.routes.draw do
       resource :qualification, only: :show do
         scope module: :qualifications do
           resource :display, controller: 'displays', only: :show
+          resource :comparison, only: :create
 
           resources :rounds, only: %i[create update destroy]
 
-          resources :results, except: :index do
+          resources :results, except: %i[index update] do
             scope module: :results do
               resource :jump_range, only: %i[show update]
             end
