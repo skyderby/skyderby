@@ -7,6 +7,7 @@ de:
     qualifications:
       compare:
         start: Tracks vergleichen
+        incompatible_kinds: "%{kind_a}-Track von %{name_a} kann nicht mit %{kind_b}-Track von %{name_b} verglichen werden"
         submit: Vergleichen
         slot_placeholder: Track auswählen
         swap: Tauschen

@@ -3,7 +3,8 @@ module Tournaments
     class ComparisonsController < ApplicationController
       def create
         return redirect_to_sign_in unless Current.user.registered?
-        return head :unprocessable_content unless comparable?
+        return head :unprocessable_content unless track_a && track_b
+        return render_incompatible_toast unless comparable?
 
         if FreeProView.grant(user: Current.user, track: track_a) == :limit_reached
           redirect_to subscriptions_path
@@ -40,7 +41,26 @@ module Tournaments
       end
 
       def comparable?
-        track_a && track_b && track_a.base? && track_b.base?
+        track_a.kind == track_b.kind && %w[base skydive].include?(track_a.kind)
+      end
+
+      def render_incompatible_toast
+        render turbo_stream: turbo_stream.append(
+          'toasts',
+          partial: 'toasts/toast',
+          locals: {
+            type: 'error',
+            message: t(
+              'tournaments.qualifications.compare.incompatible_kinds',
+              kind_a: track_a.kind, name_a: pilot_name(track_a),
+              kind_b: track_b.kind, name_b: pilot_name(track_b)
+            )
+          }
+        )
+      end
+
+      def pilot_name(track)
+        tournament.qualification_jumps.find_by(track_id: track.id)&.competitor_name
       end
 
       def redirect_to_sign_in
@@ -56,7 +76,7 @@ module Tournaments
           properties: {
             source: 'tournaments',
             competition_id: tournament.id,
-            kind: 'base',
+            kind: track_a.kind,
             compare_track_id: track_b.id,
             subscription_plan: Current.user.subscription_plan,
             views_remaining: FreeProView.remaining_for(Current.user)

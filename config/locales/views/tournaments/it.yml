@@ -7,6 +7,7 @@ it:
     qualifications:
       compare:
         start: Confronta tracce
+        incompatible_kinds: "Impossibile confrontare la traccia %{kind_a} di %{name_a} con la traccia %{kind_b} di %{name_b}"
         submit: Confronta
         slot_placeholder: Seleziona una traccia
         swap: Scambia

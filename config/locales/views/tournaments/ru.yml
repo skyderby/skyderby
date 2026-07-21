@@ -12,6 +12,7 @@ ru:
     qualifications:
       compare:
         start: Сравнить треки
+        incompatible_kinds: "Нельзя сравнить %{kind_a}-трек от %{name_a} с %{kind_b}-треком от %{name_b}"
         submit: Сравнить
         slot_placeholder: Выберите результат
         swap: Поменять местами

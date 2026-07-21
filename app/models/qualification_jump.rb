@@ -21,6 +21,7 @@ class QualificationJump < ApplicationRecord
   belongs_to :track, optional: true
 
   delegate :tournament, to: :qualification_round
+  delegate :finish_line, to: :tournament, allow_nil: true
   delegate :name, to: :competitor, prefix: true, allow_nil: true
   delegate :order, to: :round, prefix: true, allow_nil: true
   delegate :suit_id, to: :competitor
@@ -97,9 +98,5 @@ class QualificationJump < ApplicationRecord
 
   def assign_top_speed
     self.top_speed = calculate_top_speed
-  end
-
-  def finish_line
-    qualification_round.tournament.finish_line
   end
 end

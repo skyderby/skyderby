@@ -13,6 +13,7 @@ en:
       round: 'Qualification'
       compare:
         start: Compare Tracks
+        incompatible_kinds: "Can't compare %{kind_a} track from %{name_a} with %{kind_b} track from %{name_b}"
         submit: Compare
         slot_placeholder: Select a result
         swap: Swap tracks
