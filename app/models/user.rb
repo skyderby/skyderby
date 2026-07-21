@@ -54,7 +54,10 @@ class User < ApplicationRecord
   def subscription_active?
     return true if admin?
 
-    gifted_subscription_active? || stripe_processor&.subscription&.active? || lifetime_subscription?
+    gifted_subscription_active? ||
+      stripe_processor&.subscription&.active? ||
+      lifetime_subscription? ||
+      false
   end
 
   def gifted_subscription_active?
@@ -62,7 +65,7 @@ class User < ApplicationRecord
   end
 
   def lifetime_subscription?
-    stripe_processor&.charges&.any? { |c| c.metadata['type'] == 'lifetime' }
+    stripe_processor&.charges&.any? { |c| c.metadata['type'] == 'lifetime' } || false
   end
 
   def stripe_processor

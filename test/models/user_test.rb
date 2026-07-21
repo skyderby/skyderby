@@ -33,4 +33,20 @@ class UserTest < ActiveSupport::TestCase
 
     assert user.organizer_of_event?(tournament)
   end
+
+  test '#subscription_active? - returns false, not nil, without any subscription' do
+    user = users(:regular_user)
+
+    assert_equal false, user.subscription_active?
+  end
+
+  test 'revoking a gifted subscription resets subscribed without error' do
+    user = users(:regular_user)
+    gifted = user.gifted_subscriptions.create!(reason: 'Gifted lifetime')
+
+    assert user.reload.subscribed
+
+    assert_nothing_raised { gifted.destroy }
+    assert_equal false, user.reload.subscribed
+  end
 end
