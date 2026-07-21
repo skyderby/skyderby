@@ -10,7 +10,7 @@ module Tournaments
           redirect_to subscriptions_path
         else
           track_comparison_started
-          redirect_to track_path(track_a, compare_id: track_b.id)
+          redirect_to track_path(track_a, compare_id: track_b.id, result_finish_line_id: tournament.finish_line_id)
         end
       end
 

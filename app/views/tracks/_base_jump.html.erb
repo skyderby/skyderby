@@ -8,7 +8,7 @@
 
   <% default_jump_line = @track.place&.jump_lines&.first %>
   <% compare_same_place = @compare_track && @track.place_id.present? && @track.place_id == @compare_track.place_id %>
-  <% base_result = Tracks::BaseResult.new(@track, competition_id: params[:result_competition_id], compare_track: @compare_track) %>
+  <% base_result = Tracks::BaseResult.new(@track, competition_id: params[:result_competition_id], finish_line_id: params[:result_finish_line_id], compare_track: @compare_track) %>
   <% show_result_point = base_result.available? && !base_result.race? %>
   <% race = (!base_result.available? || base_result.race?) ? @track.race_finish_line : nil %>
   <% finish_line_coords = race && race[:finish_line]&.to_coordinates %>
@@ -83,6 +83,7 @@
                         data-action="tracks--base-jump-track#selectResult"
                         data-tracks--base-jump-track-target="resultOption"
                         data-competition-id="<%= competition.id %>"
+                        data-finish-line-id="<%= competition.finish_line_id %>"
                         data-discipline="<%= competition.discipline %>"
                         data-parameter="<%= competition.discipline_parameter %>">
                   <%= icon_tag competition_icon(competition) %>

@@ -599,9 +599,20 @@ export default class extends PlaybackController {
   selectResult(event) {
     const option = event.currentTarget
     this.rememberResultOption(option)
+    this.visitResultOption(option)
+  }
 
+  // Base race options are identified by their finish line; everything else by
+  // competition id.
+  visitResultOption(option) {
     const url = new URL(window.location)
-    url.searchParams.set('result_competition_id', option.dataset.competitionId)
+    url.searchParams.delete('result_competition_id')
+    url.searchParams.delete('result_finish_line_id')
+    if (option.dataset.discipline === 'base_race' && option.dataset.finishLineId) {
+      url.searchParams.set('result_finish_line_id', option.dataset.finishLineId)
+    } else {
+      url.searchParams.set('result_competition_id', option.dataset.competitionId)
+    }
     Turbo.visit(url.toString())
   }
 
@@ -609,7 +620,7 @@ export default class extends PlaybackController {
     if (!this.hasResultOptionTarget) return false
 
     const params = new URLSearchParams(window.location.search)
-    if (params.has('result_competition_id')) {
+    if (params.has('result_competition_id') || params.has('result_finish_line_id')) {
       const active = this.resultOptionTargets.find(option =>
         option.classList.contains('active')
       )
@@ -627,9 +638,7 @@ export default class extends PlaybackController {
     )
     if (!match || match.classList.contains('active')) return false
 
-    const url = new URL(window.location)
-    url.searchParams.set('result_competition_id', match.dataset.competitionId)
-    Turbo.visit(url.toString())
+    this.visitResultOption(match)
     return true
   }
 

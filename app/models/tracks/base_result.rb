@@ -3,9 +3,10 @@ module Tracks
     DISCIPLINES = %w[base_race distance_in_time distance_in_altitude].freeze
     NONE = 'none'.freeze
 
-    def initialize(track, competition_id: nil, compare_track: nil)
+    def initialize(track, competition_id: nil, finish_line_id: nil, compare_track: nil)
       @track = track
       @competition_id = competition_id
+      @finish_line_id = finish_line_id
       @compare_track = compare_track
     end
 
@@ -24,7 +25,10 @@ module Tracks
     def selected
       return if none?
 
-      @selected ||= representative_for(@competition_id.presence&.to_i) || competitions.first
+      @selected ||=
+        selected_by_finish_line ||
+        representative_for(@competition_id.presence&.to_i) ||
+        competitions.first
     end
 
     def race?
@@ -49,14 +53,38 @@ module Tracks
 
     private
 
+    def selected_by_finish_line
+      return if @finish_line_id.blank?
+
+      competitions.find do |competition|
+        competition.base_race? && competition.finish_line_id.to_s == @finish_line_id.to_s
+      end
+    end
+
     def all_competitions
       @all_competitions ||=
-        VirtualCompetition
+        (virtual_competitions + tournament_base_races)
+        .each_with_index
+        .sort_by { |competition, index| [DISCIPLINES.index(competition.discipline), index] }
+        .map(&:first)
+    end
+
+    def virtual_competitions
+      VirtualCompetition
         .where(id: @track.virtual_competition_results.select(:virtual_competition_id))
         .where(discipline: DISCIPLINES.map { |name| VirtualCompetition.disciplines[name] })
         .distinct
         .to_a
-        .sort_by { |competition| DISCIPLINES.index(competition.discipline) }
+    end
+
+    def tournament_base_races
+      Tournament
+        .joins(:qualification_jumps)
+        .where(qualification_jumps: { track_id: @track.id })
+        .where('qualification_jumps.result > 0')
+        .where.not(finish_line_id: nil)
+        .distinct
+        .map { |tournament| TournamentBaseRace.new(tournament) }
     end
 
     def group_key(competition)
