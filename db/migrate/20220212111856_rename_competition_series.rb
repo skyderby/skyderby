@@ -12,7 +12,5 @@ class RenameCompetitionSeries < ActiveRecord::Migration[6.0]
                   :performance_competition_series_id
     rename_column :performance_competition_series_included_competitions,
                   :competition_series_id, :performance_competition_series_id
-
-    update_view :event_lists, version: 8, revert_to_version: 7
   end
 end

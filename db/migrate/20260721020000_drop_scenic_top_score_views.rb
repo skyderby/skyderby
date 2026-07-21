@@ -1,17 +1,17 @@
 class DropScenicTopScoreViews < ActiveRecord::Migration[8.1]
+  VIEWS = %w[
+    personal_top_scores
+    interval_top_scores
+    annual_top_scores
+    virtual_competition_group_overall_standing_rows
+    virtual_competition_group_annual_standing_rows
+  ].freeze
+
   def up
-    drop_view :personal_top_scores, revert_to_version: 5
-    drop_view :interval_top_scores, revert_to_version: 2
-    drop_view :annual_top_scores, revert_to_version: 5
-    drop_view :virtual_competition_group_overall_standing_rows, revert_to_version: 2
-    drop_view :virtual_competition_group_annual_standing_rows, revert_to_version: 1
+    VIEWS.each { |view| execute "DROP VIEW IF EXISTS #{view}" }
   end
 
   def down
-    create_view :virtual_competition_group_annual_standing_rows, version: 1
-    create_view :virtual_competition_group_overall_standing_rows, version: 2
-    create_view :annual_top_scores, version: 5
-    create_view :interval_top_scores, version: 2
-    create_view :personal_top_scores, version: 5
+    raise ActiveRecord::IrreversibleMigration
   end
 end

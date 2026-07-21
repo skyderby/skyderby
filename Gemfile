@@ -12,7 +12,6 @@ gem 'thruster', require: false
 # DB
 gem 'pg', '~> 1.5'
 gem 'pluck_to_hash'
-gem 'scenic'
 
 gem 'benchmark' # indirect dependency, being removed from Ruby 4.0 stdlib so here to quash warnings
 gem 'bootsnap', require: false

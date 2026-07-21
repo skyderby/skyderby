@@ -1,9 +1,9 @@
 class DropEventListsView < ActiveRecord::Migration[8.1]
   def up
-    drop_view :event_lists, revert_to_version: 11
+    execute 'DROP VIEW IF EXISTS event_lists'
   end
 
   def down
-    create_view :event_lists, version: 11
+    raise ActiveRecord::IrreversibleMigration
   end
 end
