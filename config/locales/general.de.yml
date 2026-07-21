@@ -1,5 +1,6 @@
 de:
   general:
+    confirm_delete: "Diese Aktion ist unwiderruflich. Fortfahren?"
     previous_page: Vorherige Seite
     next_page: Nächste Seite
     cancel: Abbrechen

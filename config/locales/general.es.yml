@@ -35,6 +35,7 @@ es:
       es_translate: "Traducción al español por Ekaterina Larina y Daniel Duarte"
       logo_designed_by: "Logo diseñado por Julia Makoveeva"
   general:
+    confirm_delete: "Esta acción es irreversible. ¿Continuar?"
     previous_page: Página anterior
     next_page: Página siguiente
     cancel: "Anular"

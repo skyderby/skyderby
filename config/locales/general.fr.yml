@@ -6,6 +6,7 @@ fr:
     messages:
       duplicate_file: "Fichier déjà utilisé. Pilot: %{pilot_name}, round: %{round}"
   general:
+    confirm_delete: "Cette action est irréversible. Continuer ?"
     previous_page: Page précédente
     next_page: Page suivante
     new: Nouveau

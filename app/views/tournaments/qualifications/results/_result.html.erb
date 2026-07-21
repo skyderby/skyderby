@@ -86,7 +86,7 @@
       <% if editable %>
         <%= link_to t('general.delete'),
                     tournament_qualification_result_path(result.tournament, result),
-                    data: { turbo_method: :delete, turbo_confirm: t('general.confirm') },
+                    data: { turbo_method: :delete, turbo_confirm: t('general.confirm_delete') },
                     class: 'button button--ghost button--danger' %>
       <% end %>
     </div>
