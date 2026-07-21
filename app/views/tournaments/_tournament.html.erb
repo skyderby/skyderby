@@ -9,6 +9,12 @@
     <div class="event-name">
       <h2 class="event-title"><%= event.name %></h2>
 
+      <% if event.unlisted_event? %>
+        <%= icon_tag 'eye-slash-solid', data: { toggle: 'tooltip' }, title: t('visibility.unlisted') %>
+      <% elsif event.private_event? %>
+        <%= icon_tag 'lock-solid', data: { toggle: 'tooltip' }, title: t('visibility.private') %>
+      <% end %>
+
       <div class="pill pill-green">Tournament</div>
 
       <% if event.is_official %>
