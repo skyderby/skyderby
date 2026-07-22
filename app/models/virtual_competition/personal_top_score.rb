@@ -23,15 +23,7 @@ class VirtualCompetition::PersonalTopScore < ApplicationRecord
         entities.*
       FROM (
         SELECT DISTINCT ON (results.virtual_competition_id, results.wind_cancelled, tracks.profile_id)
-          results.id,
-          results.virtual_competition_id,
-          results.track_id,
-          results.result,
-          results.highest_speed,
-          results.highest_gr,
-          results.wind_cancelled,
-          results.created_at,
-          results.updated_at,
+          results.*,
           tracks.profile_id,
           tracks.suit_id,
           tracks.recorded_at,

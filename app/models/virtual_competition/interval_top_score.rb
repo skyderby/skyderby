@@ -22,30 +22,10 @@ class VirtualCompetition::IntervalTopScore < ApplicationRecord
           PARTITION BY entities.virtual_competition_id, entities.custom_interval_id, entities.wind_cancelled
           ORDER BY CASE WHEN entities.results_sort_order = 'descending' THEN entities.result ELSE -entities.result END DESC
         ) AS rank,
-        entities.id,
-        entities.virtual_competition_id,
-        entities.track_id,
-        entities.result,
-        entities.highest_speed,
-        entities.highest_gr,
-        entities.profile_id,
-        entities.suit_id,
-        entities.custom_interval_id,
-        entities.wind_cancelled,
-        entities.recorded_at,
-        entities.created_at,
-        entities.updated_at
+        entities.*
       FROM (
         SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, intervals.id, results.wind_cancelled)
-          results.id,
-          results.virtual_competition_id,
-          results.track_id,
-          results.result,
-          results.highest_speed,
-          results.highest_gr,
-          results.wind_cancelled,
-          results.created_at,
-          results.updated_at,
+          results.*,
           tracks.profile_id,
           tracks.suit_id,
           tracks.recorded_at,
