@@ -28,6 +28,7 @@ class Tournament::Match::Slot < ApplicationRecord
   before_save :replace_nan_with_zero
 
   delegate :tournament, :start_time, :round, to: :match
+  delegate :tracks_visibility, to: :tournament
   delegate :name, to: :competitor, prefix: true, allow_nil: true
   delegate :order, to: :round, prefix: true, allow_nil: true
 
@@ -45,10 +46,6 @@ class Tournament::Match::Slot < ApplicationRecord
 
   def track_owner
     tournament
-  end
-
-  def tracks_visibility
-    :public_track
   end
 
   def track_activity

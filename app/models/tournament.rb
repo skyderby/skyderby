@@ -24,6 +24,7 @@
 class Tournament < ApplicationRecord
   include EventPayable
   include CompetitorsCopy
+  include Event::TrackVisibility
 
   enum :status, { draft: 0, published: 1, finished: 2, surprise: 3 }
   enum :visibility, { public_event: 0, unlisted_event: 1, private_event: 2 }
@@ -48,6 +49,8 @@ class Tournament < ApplicationRecord
 
   has_many :qualification_rounds, dependent: :restrict_with_error
   has_many :qualification_jumps, through: :qualification_rounds
+
+  has_many :tracks, as: :owner, dependent: :restrict_with_error
 
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, inverse_of: :sponsorable, dependent: :destroy
 

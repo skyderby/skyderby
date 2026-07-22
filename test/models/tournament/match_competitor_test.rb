@@ -25,4 +25,18 @@ class Tournament::Match::SlotTest < ActiveSupport::TestCase
 
     assert_nil record.result
   end
+
+  test 'tracks are public for a public tournament' do
+    record = Tournament::Match::Slot.new(@attributes)
+    record.tournament.update!(visibility: :public_event)
+
+    assert_equal Track.visibilities[:public_track], record.tracks_visibility
+  end
+
+  test 'tracks are unlisted for a non-public tournament' do
+    record = Tournament::Match::Slot.new(@attributes)
+    record.tournament.update!(visibility: :private_event)
+
+    assert_equal Track.visibilities[:unlisted_track], record.tracks_visibility
+  end
 end

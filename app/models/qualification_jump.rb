@@ -51,7 +51,7 @@ class QualificationJump < ApplicationRecord
 
   def track_owner = tournament
 
-  def tracks_visibility = :public_track
+  delegate :tracks_visibility, to: :tournament
 
   def track_activity = :base
 
