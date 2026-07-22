@@ -1,0 +1,14 @@
+<% product = t("tracks.pro_view.product.#{@track.kind}") %>
+<%= render layout: 'components/dialog', locals: { title: t('tracks.first_look.title') } do %>
+  <div class="first-look">
+    <p class="first-look__lead"><%= t('tracks.first_look.lead', product: product) %></p>
+    <ul class="first-look__perks">
+      <% t("tracks.first_look.perks.#{@track.kind}").each do |perk| %>
+        <li class="first-look__perk"><%= icon_tag 'check-solid' %><span><%= perk %></span></li>
+      <% end %>
+    </ul>
+    <button class="button button--primary first-look__cta" data-action="dialog#close">
+      <%= t('tracks.first_look.cta') %>
+    </button>
+  </div>
+<% end %>

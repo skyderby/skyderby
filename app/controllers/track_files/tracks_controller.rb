@@ -1,9 +1,12 @@
 module TrackFiles
   class TracksController < ApplicationController
+    include FirstLookGrantable
+
     def create
       @track = build_track
 
       current_user.tracks << @track.id unless current_user.registered?
+      grant_first_look(@track)
 
       redirect_to track_path(@track)
     end

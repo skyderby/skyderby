@@ -1,4 +1,6 @@
 class TrackFilesController < ApplicationController
+  include FirstLookGrantable
+
   def new
     @form = Track::Form.new(user: current_user)
 
@@ -19,6 +21,7 @@ class TrackFilesController < ApplicationController
     if @track_file.one_segment?
       @track = build_track
       current_user.tracks << @track.id unless current_user.registered?
+      grant_first_look(@track)
 
       redirect_to track_path(@track)
     else

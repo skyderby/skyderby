@@ -81,7 +81,7 @@ class Track < ApplicationRecord
            inverse_of: :track,
            dependent: :destroy
   has_many :all_virtual_competition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
-  has_many :free_pro_views, dependent: :delete_all
+  has_many :free_pro_views, dependent: :nullify
 
   validates :name, presence: true, unless: :pilot
 

@@ -1,5 +1,9 @@
 <% provide :title, title(@track) %>
 
+<% if flash[:first_look] && @track.pro_view_available? %>
+  <%= render 'tracks/first_look_modal' %>
+<% end %>
+
 <% if @track.base? && @track.pro_view_available? %>
   <%= render 'tracks/base_jump' %>
 <% elsif @track.skydive? && @track.pro_view_available? %>

@@ -18,6 +18,27 @@ en:
       unlock_unlimited: Unlock Unlimited
       sign_in: Sign in
       sign_in_prompt: "to try %{product} — 5 free per month"
+    first_look:
+      title: Take a look at Pro View
+      lead: "We opened this jump in %{product} for you — no charge."
+      perks:
+        skydive:
+          - Compare with any other track
+          - Segment-by-segment analysis
+          - Drag polar
+          - Map and corridor
+          - Jump playback
+        base:
+          - Compare with any other track
+          - "1:1, top full speed and flares"
+          - Terrain profile
+          - Online rankings visualized
+          - Jump playback
+        speed_skydiving:
+          - Compare with any other track
+          - Speed over time and altitude
+          - Ballistic Coefficient and Your True Peak Speed
+      cta: Explore my jump
     comparison:
       modal_title: Compare with another track
       compare_button: Compare

@@ -186,7 +186,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_21_020000) do
 
   create_table "free_pro_views", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.bigint "track_id", null: false
+    t.boolean "first_look", default: false, null: false
+    t.bigint "track_id"
     t.bigint "user_id", null: false
     t.index ["track_id"], name: "index_free_pro_views_on_track_id"
     t.index ["user_id", "created_at"], name: "index_free_pro_views_on_user_id_and_created_at"
@@ -925,7 +926,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_21_020000) do
   add_foreign_key "event_entry_payments", "pay_charges"
   add_foreign_key "event_results", "tracks"
   add_foreign_key "event_teams", "countries"
-  add_foreign_key "free_pro_views", "tracks"
+  add_foreign_key "free_pro_views", "tracks", on_delete: :nullify
   add_foreign_key "free_pro_views", "users"
   add_foreign_key "gifted_subscriptions", "users"
   add_foreign_key "gifted_subscriptions", "users", column: "granted_by_id"
@@ -968,5 +969,4 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_21_020000) do
   add_foreign_key "track_reference_points", "tracks"
   add_foreign_key "tracks", "profiles"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
-
 end
