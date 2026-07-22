@@ -32,7 +32,9 @@ class VirtualCompetition::IntervalTopScore < ApplicationRecord
         entities.suit_id,
         entities.custom_interval_id,
         entities.wind_cancelled,
-        entities.recorded_at
+        entities.recorded_at,
+        entities.created_at,
+        entities.updated_at
       FROM (
         SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, intervals.id, results.wind_cancelled)
           results.id,
@@ -42,6 +44,8 @@ class VirtualCompetition::IntervalTopScore < ApplicationRecord
           results.highest_speed,
           results.highest_gr,
           results.wind_cancelled,
+          results.created_at,
+          results.updated_at,
           tracks.profile_id,
           tracks.suit_id,
           tracks.recorded_at,

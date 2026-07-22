@@ -30,6 +30,8 @@ class VirtualCompetition::PersonalTopScore < ApplicationRecord
           results.highest_speed,
           results.highest_gr,
           results.wind_cancelled,
+          results.created_at,
+          results.updated_at,
           tracks.profile_id,
           tracks.suit_id,
           tracks.recorded_at,
