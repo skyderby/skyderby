@@ -135,14 +135,15 @@ module Profiles
 
     def primary_finish_line_rows(rows)
       rows.group_by(&:track_id).map do |_track_id, track_rows|
-        track_rows.min_by { |row| [ranked_finish_line_ids.include?(row.variant.to_i) ? 0 : 1, row.variant.to_i] }
+        preferred_id = race_finish_line_id(track_rows.first.track)
+        track_rows.find { |row| row.variant.to_i == preferred_id } ||
+          track_rows.min_by { |row| row.variant.to_i }
       end
     end
 
-    def ranked_finish_line_ids
-      @ranked_finish_line_ids ||=
-        VirtualCompetition.where(discipline: VirtualCompetition.disciplines[:base_race])
-                          .pluck(:finish_line_id).compact.to_set
+    def race_finish_line_id(track)
+      race = track.race_finish_line
+      race && race[:finish_line]&.id
     end
   end
 end
