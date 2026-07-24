@@ -1,0 +1,30 @@
+en:
+  journal:
+    title: Training journal
+    empty: No tracks yet. Upload a flight to start your training journal.
+    no_results: No results to show for this activity yet.
+    tasks:
+      distance: Distance
+      speed: Speed
+      time: Time
+      distance_in_time: Distance in time
+      flare: Flare
+      base_race: BASE Race
+      vertical_speed: Vertical speed
+    series:
+      seconds: "%{seconds} s"
+      no_suit: No suit
+    periods:
+      1m: 1M
+      3m: 3M
+      6m: 6M
+      1y: 1Y
+    compare:
+      start: Compare
+      slot_placeholder: Pick a point
+      swap: Swap
+      submit: Compare
+      cancel: Cancel
+      remaining:
+        one: 1 free comparison left
+        other: "%{count} free comparisons left"

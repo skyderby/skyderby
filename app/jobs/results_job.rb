@@ -3,7 +3,7 @@ class ResultsJob < ApplicationJob
     track = Track.find_by(id: track_id)
     return unless track
 
-    TrackResultsService.new(track).execute
+    Track::Result::Calculation.run(track)
   rescue WindowRangeFinder::ValueOutOfRange => e
     Rails.logger.info("Failed to calc best results beacause of error #{e}")
   end

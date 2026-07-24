@@ -15,8 +15,8 @@ module ChartParams
   end
 
   def save_charts_units
-    if (profile = Current.user&.profile)
-      profile.update(default_units: params[:charts_units])
+    if Current.user.registered?
+      Current.user.setting.update(default_units: params[:charts_units])
     else
       session[:preferred_charts_units] = params[:charts_units]
     end

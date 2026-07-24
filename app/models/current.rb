@@ -27,5 +27,13 @@ class Current < ActiveSupport::CurrentAttributes
 
   def speed_skydiving_units = super.inquiry
 
+  def default_units
+    user&.registered? ? user.setting.default_units : nil
+  end
+
+  def default_speed_skydiving_units
+    user&.registered? ? user.setting.speed_skydiving_units : nil
+  end
+
   def subscription_active? = user&.subscription_active? || false
 end

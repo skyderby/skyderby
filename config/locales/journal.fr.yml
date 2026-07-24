@@ -1,0 +1,30 @@
+fr:
+  journal:
+    title: Journal d'entraînement
+    empty: Aucune trace pour l'instant. Importez un vol pour démarrer votre journal d'entraînement.
+    no_results: Aucun résultat à afficher pour cette activité pour le moment.
+    tasks:
+      distance: Distance
+      speed: Vitesse
+      time: Temps
+      distance_in_time: Distance dans le temps
+      flare: Flare
+      base_race: BASE Race
+      vertical_speed: Vitesse verticale
+    series:
+      seconds: "%{seconds} s"
+      no_suit: Sans combinaison
+    periods:
+      1m: 1M
+      3m: 3M
+      6m: 6M
+      1y: 1A
+    compare:
+      start: Comparer
+      slot_placeholder: Choisir un point
+      swap: Permuter
+      submit: Comparer
+      cancel: Annuler
+      remaining:
+        one: 1 comparaison gratuite restante
+        other: "%{count} comparaisons gratuites restantes"

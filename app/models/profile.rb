@@ -10,8 +10,6 @@
 #  userpic_content_type :string(510)
 #  userpic_file_size    :integer
 #  userpic_updated_at   :datetime
-#  default_units        :integer          default("metric")
-#  default_chart_view   :integer          default("multi")
 #  country_id           :integer
 #  owner_type           :string
 #  owner_id             :integer
@@ -28,9 +26,6 @@ class Profile < ApplicationRecord
 
   MIN_NAME_QUERY_LENGTH = 3
 
-  enum :default_units, { metric: 0, imperial: 1 }
-  enum :speed_skydiving_units, { metric: 0, imperial: 1 }, prefix: true
-  enum :default_chart_view, { multi: 0, single: 1 }
   enum :gender, { male: 0, female: 1, other: 2 }
 
   belongs_to :country, optional: true

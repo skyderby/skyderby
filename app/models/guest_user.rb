@@ -47,6 +47,8 @@ class GuestUser
 
   def profile = nil
 
+  def setting = nil
+
   def organizer_of_events = []
 
   def organizer_of_event?(_event) = false

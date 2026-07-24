@@ -8,8 +8,8 @@ class SpeedSkydivingCompetitions::UnitSettingsController < ApplicationController
 
   def update
     if AVAILABLE_UNITS.include?(params[:units])
-      if (profile = Current.user&.profile)
-        profile.update(speed_skydiving_units: params[:units])
+      if Current.user.registered?
+        Current.user.setting.update(speed_skydiving_units: params[:units])
       else
         session[:preferred_speed_skydiving_units] = params[:units]
       end

@@ -1,0 +1,30 @@
+de:
+  journal:
+    title: Trainingstagebuch
+    empty: Noch keine Tracks. Lade einen Flug hoch, um dein Trainingstagebuch zu starten.
+    no_results: Für diese Aktivität gibt es noch keine Ergebnisse.
+    tasks:
+      distance: Distanz
+      speed: Geschwindigkeit
+      time: Zeit
+      distance_in_time: Distanz in Zeit
+      flare: Flare
+      base_race: BASE Race
+      vertical_speed: Vertikalgeschwindigkeit
+    series:
+      seconds: "%{seconds} s"
+      no_suit: Kein Anzug
+    periods:
+      1m: 1M
+      3m: 3M
+      6m: 6M
+      1y: 1J
+    compare:
+      start: Vergleichen
+      slot_placeholder: Punkt wählen
+      swap: Tauschen
+      submit: Vergleichen
+      cancel: Abbrechen
+      remaining:
+        one: 1 kostenloser Vergleich übrig
+        other: "%{count} kostenlose Vergleiche übrig"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_21_020000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_24_010000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -492,10 +492,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_21_020000) do
   create_table "profiles", id: :serial, force: :cascade do |t|
     t.integer "country_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.boolean "dashboard_female_rankings", default: false, null: false
-    t.string "dashboard_mode"
-    t.integer "default_chart_view", default: 0
-    t.integer "default_units", default: 0
     t.boolean "donor", default: false, null: false
     t.string "first_name", limit: 510
     t.integer "gender"
@@ -503,7 +499,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_21_020000) do
     t.string "name", limit: 510
     t.integer "owner_id"
     t.string "owner_type"
-    t.integer "speed_skydiving_units", default: 0, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "userpic_data"
     t.index ["country_id"], name: "index_profiles_on_country_id"
@@ -765,7 +760,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_21_020000) do
     t.integer "range_to"
     t.float "result"
     t.integer "track_id"
-    t.index ["track_id", "discipline"], name: "index_track_results_on_track_id_and_discipline", unique: true
+    t.string "variant", null: false
+    t.index ["track_id", "discipline", "variant"], name: "index_track_results_on_track_id_and_discipline_and_variant", unique: true
     t.index ["track_id"], name: "index_track_results_on_track_id"
   end
 
@@ -820,6 +816,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_21_020000) do
     t.index ["profile_id"], name: "index_tracks_on_profile_id"
     t.index ["suit_id"], name: "index_tracks_on_suit_id"
     t.index ["user_id"], name: "index_tracks_on_user_id"
+  end
+
+  create_table "user_settings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "dashboard_female_rankings", default: false, null: false
+    t.string "dashboard_mode"
+    t.integer "default_chart_view", default: 0, null: false
+    t.integer "default_units", default: 0, null: false
+    t.string "journal_period", default: "1y", null: false
+    t.integer "speed_skydiving_units", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_user_settings_on_user_id", unique: true
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -968,5 +977,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_21_020000) do
   add_foreign_key "tournaments", "profiles"
   add_foreign_key "track_reference_points", "tracks"
   add_foreign_key "tracks", "profiles"
+  add_foreign_key "user_settings", "users"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
 end

@@ -56,19 +56,19 @@ class Track < ApplicationRecord
   has_one :reference_point, dependent: :destroy
 
   has_one :time,
-          -> { where(discipline: Result.disciplines[:time]) },
+          -> { where(discipline: Result.disciplines[:time], variant: Result::BEST_VARIANT) },
           class_name: 'Track::Result',
           inverse_of: :track,
           dependent: :destroy
 
   has_one :distance,
-          -> { where(discipline: Result.disciplines[:distance]) },
+          -> { where(discipline: Result.disciplines[:distance], variant: Result::BEST_VARIANT) },
           class_name: 'Track::Result',
           inverse_of: :track,
           dependent: :destroy
 
   has_one :speed,
-          -> { where(discipline: Result.disciplines[:speed]) },
+          -> { where(discipline: Result.disciplines[:speed], variant: Result::BEST_VARIANT) },
           class_name: 'Track::Result',
           inverse_of: :track,
           dependent: :destroy

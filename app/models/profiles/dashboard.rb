@@ -45,7 +45,9 @@ module Profiles
         available_modes.first
     end
 
-    def stored_mode = dashboard_mode&.to_sym
+    def user_setting = @user&.registered? ? @user.setting : nil
+
+    def stored_mode = user_setting&.dashboard_mode&.to_sym
 
     def current_activity = ACTIVITY_BY_MODE.fetch(current_mode, :skydive)
 
@@ -55,7 +57,7 @@ module Profiles
       return false unless female?
       return @requested_gender == :female unless @requested_gender.nil?
 
-      dashboard_female_rankings
+      user_setting&.dashboard_female_rankings || false
     end
 
     def rankings_gender = female_rankings? ? :female : :open

@@ -1,0 +1,14 @@
+<%# locals: (journal:, task:) %>
+
+<section class="journal-chart" data-journal-target="chart">
+  <header class="journal-chart__head">
+    <h3 class="journal-chart__title"><%= t("journal.tasks.#{task.key}") %></h3>
+    <span class="journal-chart__unit"><%= journal_unit_label(task.unit) %></span>
+  </header>
+
+  <div class="journal-chart__plot" data-journal-target="plot"></div>
+
+  <script type="application/json" data-journal-target="data">
+    <%= raw ERB::Util.json_escape(journal_chart_data(journal, task).to_json) %>
+  </script>
+</section>

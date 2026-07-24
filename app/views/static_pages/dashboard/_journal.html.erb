@@ -1,0 +1,45 @@
+<%# locals: (dashboard:) %>
+
+<% journal = Profiles::Journal.new(dashboard.profile, user: Current.user, mode: dashboard.current_mode) %>
+
+<section class="dashboard-section panel dashboard-journal"
+         data-controller="journal track-compare"
+         data-track-compare-source-value="journal"
+         data-track-compare-kind-value="<%= journal.current_activity %>"
+         data-track-compare-slot-placeholder-value="<%= t('journal.compare.slot_placeholder') %>">
+  <div class="actions-bar dashboard-journal__bar">
+    <span class="dashboard-journal__heading">
+      <span class="dashboard-journal__title"><%= t('journal.title') %></span>
+      <span class="dashboard-journal__privacy">
+        <%= icon_tag 'lock-solid' %>
+        <%= t('visibility.private') %>
+      </span>
+    </span>
+
+    <div class="tab-bar dashboard-journal__periods">
+      <% journal.periods.each do |period| %>
+        <%= button_to t("journal.periods.#{period}"),
+                      dashboard_path,
+                      method: :patch,
+                      params: { journal_period: period },
+                      form: { class: 'dashboard-journal__period-form' },
+                      class: ['tab-bar-item', ('active' if period == journal.period)] %>
+      <% end %>
+    </div>
+
+    <%= render 'application/track_compare',
+               scope: 'journal.compare',
+               form_url: journal_comparison_path,
+               attention: !Current.subscription_active? %>
+  </div>
+
+  <% if journal.tasks.any? %>
+    <div class="dashboard-journal__charts">
+      <% journal.tasks.each do |task| %>
+        <%= render 'journals/chart', journal: journal, task: task %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="dashboard-journal__empty text-muted"><%= t('journal.no_results') %></div>
+  <% end %>
+</section>

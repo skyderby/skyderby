@@ -1,0 +1,32 @@
+ru:
+  journal:
+    title: Тренировочный журнал
+    empty: Пока нет треков. Загрузите полёт, чтобы начать тренировочный журнал.
+    no_results: Для этой активности пока нет результатов.
+    tasks:
+      distance: Дистанция
+      speed: Скорость
+      time: Время
+      distance_in_time: Дистанция за время
+      flare: Флейр
+      base_race: BASE Race
+      vertical_speed: Вертикальная скорость
+    series:
+      seconds: "%{seconds} с"
+      no_suit: Без костюма
+    periods:
+      1m: 1м
+      3m: 3м
+      6m: 6м
+      1y: 1г
+    compare:
+      start: Сравнить
+      slot_placeholder: Выберите точку
+      swap: Поменять
+      submit: Сравнить
+      cancel: Отмена
+      remaining:
+        one: осталось 1 бесплатное сравнение
+        few: осталось %{count} бесплатных сравнения
+        many: осталось %{count} бесплатных сравнений
+        other: осталось %{count} бесплатных сравнений

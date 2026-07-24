@@ -58,7 +58,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
     patch dashboard_path, params: { mode: 'base' }
 
     assert_redirected_to root_path
-    assert_equal 'base', profiles(:regular_user).reload.dashboard_mode
+    assert_equal 'base', users(:regular_user).reload.setting.dashboard_mode
   end
 
   test 'update ignores unknown modes' do
@@ -67,7 +67,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
     patch dashboard_path, params: { mode: 'bogus' }
 
     assert_redirected_to root_path
-    assert_nil profiles(:regular_user).reload.dashboard_mode
+    assert_nil users(:regular_user).reload.setting.dashboard_mode
   end
 
   test 'update persists the female rankings preference for a female profile' do
@@ -77,7 +77,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
     patch dashboard_path, params: { rankings_gender: 'female' }
 
     assert_redirected_to root_path
-    assert profiles(:regular_user).reload.dashboard_female_rankings
+    assert users(:regular_user).reload.setting.dashboard_female_rankings
   end
 
   test 'update ignores the rankings gender for a non-female profile' do
@@ -87,7 +87,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
     patch dashboard_path, params: { rankings_gender: 'female' }
 
     assert_redirected_to root_path
-    assert_not profiles(:regular_user).reload.dashboard_female_rankings
+    assert_not users(:regular_user).reload.setting.dashboard_female_rankings
   end
 
   test 'a female pilot sees the Open/Female rankings toggle' do

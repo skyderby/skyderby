@@ -28,6 +28,7 @@ class User < ApplicationRecord
   pay_customer default_payment_processor: :stripe
 
   has_one :profile, as: :owner, dependent: :nullify, inverse_of: :owner
+  has_one :setting, class_name: 'User::Setting', dependent: :destroy, inverse_of: :user
   has_many :gifted_subscriptions, dependent: :destroy
   has_many :free_pro_views, dependent: :delete_all
 
@@ -38,6 +39,10 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :profile
 
   delegate :name, to: :profile, allow_nil: true
+
+  def setting
+    super || build_setting
+  end
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

@@ -1,0 +1,30 @@
+it:
+  journal:
+    title: Diario di allenamento
+    empty: Ancora nessuna traccia. Carica un volo per iniziare il tuo diario di allenamento.
+    no_results: Nessun risultato da mostrare per questa attività.
+    tasks:
+      distance: Distanza
+      speed: Velocità
+      time: Tempo
+      distance_in_time: Distanza nel tempo
+      flare: Flare
+      base_race: BASE Race
+      vertical_speed: Velocità verticale
+    series:
+      seconds: "%{seconds} s"
+      no_suit: Senza tuta
+    periods:
+      1m: 1M
+      3m: 3M
+      6m: 6M
+      1y: 1A
+    compare:
+      start: Confronta
+      slot_placeholder: Scegli un punto
+      swap: Scambia
+      submit: Confronta
+      cancel: Annulla
+      remaining:
+        one: 1 confronto gratuito rimasto
+        other: "%{count} confronti gratuiti rimasti"
