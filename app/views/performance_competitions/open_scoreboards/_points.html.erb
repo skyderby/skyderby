@@ -1,5 +1,6 @@
-<%# locals: (event:, round:, result:) %>
-<td class="text-right">
+<%# locals: (event:, round:, result:, round_position: nil) %>
+<%= tag.td class: class_names('text-right', ('result-points-cell' if round_position)),
+           data: (round_position ? { round: round_position } : {}) do %>
   <% if round.completed %>
     <% if result.penalized? %>
       <span class="dotted-underline" data-controller="tooltip">
@@ -13,4 +14,4 @@
       <%= format('%.1f', result.points.to_f.round(1)) if result.valid? %>
     <% end %>
   <% end %>
-</td>
+<% end %>

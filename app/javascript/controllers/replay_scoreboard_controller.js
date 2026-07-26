@@ -102,6 +102,8 @@ export default class extends Controller {
 
     for (const item of resultsToRemove) {
       this.fadeOutResult(item.cell)
+      const pointsCell = this.pointsCellFor(item.cell)
+      if (pointsCell) this.fadeOutResult(pointsCell)
       const newRow = newScoreboard.querySelector(
         `[data-competitor-id="${item.row.dataset.competitorId}"]`
       )
@@ -110,6 +112,13 @@ export default class extends Controller {
     }
     await this.sleep(300)
     await this.animatePositionChanges(newScoreboard)
+  }
+
+  pointsCellFor(resultCell) {
+    const row = resultCell.closest('tr')
+    return row?.querySelector(
+      `.result-points-cell[data-round="${resultCell.dataset.round}"]`
+    )
   }
 
   async progressToScoreboard(newScoreboard) {
@@ -136,6 +145,7 @@ export default class extends Controller {
             resultsToAdd.push({
               cell: currentCell,
               newContent: newCell.innerHTML,
+              newPointsContent: this.pointsCellFor(newCell)?.innerHTML,
               createdAt: Date.parse(newCell.dataset.createdAt),
               row: currentRow,
               newRow: newCell.closest('tr')
@@ -149,6 +159,10 @@ export default class extends Controller {
 
     for (const item of resultsToAdd) {
       this.fadeInResult(item.cell, item.newContent)
+      const pointsCell = this.pointsCellFor(item.cell)
+      if (pointsCell && item.newPointsContent != null) {
+        this.fadeInResult(pointsCell, item.newPointsContent)
+      }
       this.updateRowTotals(item.row, item.newRow)
       await this.sleep(50)
     }

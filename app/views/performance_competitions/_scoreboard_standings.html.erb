@@ -37,10 +37,10 @@
           <% result = position && position <= scoreboard.until_round ? row.result_in_round(round) : nil %>
           <% if result %>
             <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable: false, comparable:, pilot: row.competitor.profile&.name, round_position: position %>
-            <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result: %>
+            <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result:, round_position: position %>
           <% else %>
             <td class="result-cell" data-round="<%= position %>"></td>
-            <td></td>
+            <td class="result-points-cell text-right" data-round="<%= position %>"></td>
           <% end %>
         <% else %>
           <% result = row.result_in_round(round) %>
