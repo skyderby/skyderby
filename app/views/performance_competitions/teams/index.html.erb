@@ -4,11 +4,14 @@
 <div class="show-page">
   <%= render 'performance_competitions/header', editable: %>
 
-  <div class="show-page-content">
-    <% if editable || @event.wind_cancellation %>
-      <%= render 'actions_bar', event: @event  %>
+  <div class="show-page-content" data-controller="replay-scoreboard">
+    <% scoreboard = @until_round ? @event.team_standings(until_round: @until_round, wind_cancellation: @wind_cancellation) : nil %>
+    <% if @until_round %>
+      <%= render 'performance_competitions/time_machine_controls', event: @event, scoreboard:, board: :teams %>
+    <% else %>
+      <%= render 'actions_bar', event: @event, editable: editable && !@event.finished? %>
     <% end %>
 
-    <%= render 'scoreboard', event: @event, editable: editable && !@event.finished?, wind_cancellation: @wind_cancellation %>
+    <%= render 'scoreboard', event: @event, editable: editable && !@event.finished?, wind_cancellation: @wind_cancellation, until_round: @until_round, scoreboard: %>
   </div>
 </div>

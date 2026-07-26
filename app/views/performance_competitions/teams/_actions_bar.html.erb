@@ -1,14 +1,26 @@
-<%# locals: (event:) %>
+<%# locals: (event:, editable: false) %>
 <div class="card actions-bar" id="teams-actions-bar">
-  <%= button_to new_performance_competition_team_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
-    <%= icon_tag 'plus-solid' %>
-    Team
+  <% if editable %>
+    <%= button_to new_performance_competition_team_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+      <%= icon_tag 'plus-solid' %>
+      Team
+    <% end %>
+
+    <%= button_to new_performance_competition_team_competitor_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
+      <%= icon_tag 'plus-solid' %>
+      Competitor
+    <% end %>
   <% end %>
 
-  <%= button_to new_performance_competition_team_competitor_path(event), method: :get, form: { data: { turbo_stream: true } }, class: 'actions-bar-button' do %>
-    <%= icon_tag 'plus-solid' %>
-    Competitor
-  <% end %>
+  <div class="actions-bar-right">
+    <% completed_rounds_count = event.rounds.completed.size %>
+    <% if completed_rounds_count.positive? %>
+      <%= link_to performance_time_machine_path(event, completed_rounds_count, board: :teams), class: 'actions-bar-button' do %>
+        <%= icon_tag 'circle-play' %>
+        <%= t('performance_competitions.time_machine.enter') %>
+      <% end %>
+    <% end %>
+  </div>
 
   <div class="sd-dropdown actions-bar-right">
     <% if event.wind_cancellation %>

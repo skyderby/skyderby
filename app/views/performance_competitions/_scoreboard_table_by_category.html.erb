@@ -1,14 +1,20 @@
 <%# locals: (event:, scoreboard:, editable:, id:, comparable: false) %>
+<% container_id = scoreboard.time_machine? ? 'scoreboard-time-machine' : id %>
 
 <div class="<%= class_names 'scoreboard-container', (scoreboard.rounds.size > 6 && 'scoreboard-container-fluid') %>"
-     data-controller="events--sticky-header" id="<%= id %>">
+     data-controller="events--sticky-header" id="<%= container_id %>">
   <div class="scoreboard-scroll" data-events--sticky-header-target="container" data-action="scroll->events--sticky-header#on_horizontal_scroll">
-    <table class="scoreboard-table scoreboard-table--pinned-competitor performance-competition-scoreboard-table" data-events--sticky-header-target="table">
+    <table class="scoreboard-table scoreboard-table--pinned-competitor performance-competition-scoreboard-table"
+           data-events--sticky-header-target="table"
+           <% if scoreboard.time_machine? %>
+             data-replay-scoreboard-target="scoreboard"
+             data-until-round="<%= scoreboard.until_round %>"
+           <% end %>>
       <%= render 'performance_competitions/scoreboard_header', event:, scoreboard:, editable: %>
       <% scoreboard.categories.each do |category, standings| %>
         <tbody>
           <%= render 'performance_competitions/categories/category_row', event:, category:, columns_count: scoreboard.columns_count, editable: %>
-          <%= render 'performance_competitions/scoreboard_standings', event:, rounds_by_discipline: scoreboard.rounds_by_discipline, standings: , editable:, comparable: %>
+          <%= render 'performance_competitions/scoreboard_standings', event:, scoreboard:, rounds_by_discipline: scoreboard.rounds_by_discipline, standings: , editable:, comparable: %>
         </tbody>
       <% end %>
     </table>

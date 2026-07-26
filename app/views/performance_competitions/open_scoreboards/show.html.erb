@@ -5,13 +5,16 @@
 <div class="show-page">
   <%= render 'performance_competitions/header', editable: %>
 
-  <% if @event.wind_cancellation %>
-    <div class="show-page-content">
+  <div class="show-page-content" data-controller="replay-scoreboard">
+    <% scoreboard = @until_round ? @event.open_standings(until_round: @until_round, wind_cancellation: @wind_cancellation) : nil %>
+    <% if @until_round %>
+      <%= render 'performance_competitions/time_machine_controls', event: @event, scoreboard:, board: :open %>
+    <% else %>
       <%= render 'actions_bar', event: @event %>
-    </div>
-  <% end %>
+    <% end %>
 
-  <div class="show-page-content" id="open_scoreboard">
-    <%= render 'scoreboard', event: @event, editable:, wind_cancellation: @wind_cancellation %>
+    <div id="open_scoreboard">
+      <%= render 'scoreboard', event: @event, editable:, wind_cancellation: @wind_cancellation, until_round: @until_round, scoreboard: %>
+    </div>
   </div>
 </div>

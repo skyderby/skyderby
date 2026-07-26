@@ -14,6 +14,7 @@ class PerformanceCompetitions::TaskScoreboardsController < ApplicationController
     @tasks = @event.rounds.group_by(&:discipline).keys
     @task = params[:id]
     @wind_cancellation = @event.wind_cancellation && params[:including_wind] != '1'
+    @until_round = params[:until_round]&.to_i
 
     redirect_to performance_competition_task_scoreboards_path if @tasks.exclude? @task
   end

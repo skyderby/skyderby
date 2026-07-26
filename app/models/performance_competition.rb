@@ -42,15 +42,23 @@ class PerformanceCompetition < ApplicationRecord
 
   def active? = starts_at < Time.zone.now && !finished?
 
-  def standings(wind_cancellation: false) = PerformanceCompetition::Scoreboard.new(self, wind_cancellation:)
+  def standings(until_round: nil, wind_cancellation: false)
+    PerformanceCompetition::Scoreboard.new(self, until_round:, wind_cancellation:)
+  end
 
-  def team_standings(wind_cancellation: false) = PerformanceCompetition::TeamStandings.new(self, wind_cancellation:)
+  def team_standings(until_round: nil, wind_cancellation: false)
+    PerformanceCompetition::TeamStandings.new(self, until_round:, wind_cancellation:)
+  end
 
   def use_open_standings? = categories.many?
 
-  def open_standings(wind_cancellation: false) = OpenScoreboard.new(self, wind_cancellation:)
+  def open_standings(until_round: nil, wind_cancellation: false)
+    OpenScoreboard.new(self, until_round:, wind_cancellation:)
+  end
 
-  def task_standings(task, wind_cancellation: false) = TaskScoreboard.new(self, task, wind_cancellation:)
+  def task_standings(task, until_round: nil, wind_cancellation: false)
+    TaskScoreboard.new(self, task, until_round:, wind_cancellation:)
+  end
 
   # rubocop:disable Rails/SkipsModelValidations
   def assign_competitor_places!

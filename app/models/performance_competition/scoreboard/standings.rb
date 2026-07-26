@@ -34,6 +34,12 @@ class PerformanceCompetition::Scoreboard::Standings
       end
   end
 
+  def previous_rank(competitor)
+    return unless @previous_standings
+
+    @previous_standings.rows.find { |row| row.competitor == competitor }&.rank
+  end
+
   private
 
   def assign_ranks(standings)

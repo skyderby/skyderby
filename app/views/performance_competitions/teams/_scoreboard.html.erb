@@ -1,16 +1,21 @@
-<%# locals: (event:, editable:, wind_cancellation: false) %>
+<%# locals: (event:, editable:, wind_cancellation: false, until_round: nil, scoreboard: nil) %>
 <% id = ['teams-scoreboard', ('no_wind' if wind_cancellation)].compact.join('_') %>
 
 <% if event.surprise? && !editable %>
   <h1 class="text-muted text-center" id="<%= id %>">🙅 Let it be a Surprise</h1>
 <% else %>
-  <% standings = event.team_standings(wind_cancellation:) %>
+  <% standings = scoreboard || event.team_standings(until_round:, wind_cancellation:) %>
+  <% container_id = standings.time_machine? ? 'scoreboard-time-machine' : id %>
 
   <% ranking = standings.ranking %>
   <% podium_enabled = ranking.size >= 3 %>
 
-  <div class="scoreboard-container" id="<%= id %>">
-    <table class="scoreboard-table team-standings-table">
+  <div class="scoreboard-container" id="<%= container_id %>">
+    <table class="scoreboard-table team-standings-table"
+           <% if standings.time_machine? %>
+             data-replay-scoreboard-target="scoreboard"
+             data-until-round="<%= standings.until_round %>"
+           <% end %>>
       <thead>
         <tr>
           <th>#</th>

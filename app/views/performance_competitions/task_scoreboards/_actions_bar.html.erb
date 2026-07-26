@@ -1,6 +1,16 @@
-<%# locals: (event:) %>
+<%# locals: (event:, task:) %>
 
 <div class="card actions-bar" id="actions-bar">
+  <div class="actions-bar-right">
+    <% completed_rounds_count = event.rounds.where(discipline: task).completed.size %>
+    <% if completed_rounds_count.positive? %>
+      <%= link_to performance_time_machine_path(event, completed_rounds_count, board: :task, task:), class: 'actions-bar-button' do %>
+        <%= icon_tag 'circle-play' %>
+        <%= t('performance_competitions.time_machine.enter') %>
+      <% end %>
+    <% end %>
+  </div>
+
   <div class="sd-dropdown actions-bar-right">
     <% if event.wind_cancellation %>
       <%= form_with url: url_for, method: :get, data: { controller: 'auto-submit' }, class: 'actions-bar-button' do |form| %>

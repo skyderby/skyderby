@@ -1,0 +1,42 @@
+<%# locals: (event:, scoreboard:, board:, task: nil) %>
+
+<div class="actions-bar card replay-controls" id="replay-controls">
+  <button class="replay-button button button--primary"
+          data-action="click->replay-scoreboard#play"
+          data-replay-scoreboard-target="playButton"
+          data-play-label="<%= t('performance_competitions.time_machine.play') %>"
+          data-stop-label="<%= t('performance_competitions.time_machine.stop') %>">
+    <%= icon_tag 'play-solid' %>
+    <span><%= t('performance_competitions.time_machine.play') %></span>
+  </button>
+
+  <div class="rounds-timeline">
+    <%= link_to t('performance_competitions.time_machine.start'),
+        performance_time_machine_path(event, 0, board:, task:),
+        class: class_names('button button--ghost', scoreboard.until_round == 0 && 'active'),
+        data: {
+          round: 0,
+          action: 'click->replay-scoreboard#goToRound',
+          replay_scoreboard_target: 'roundLink'
+        } %>
+
+    <% scoreboard.timeline_rounds.each_with_index do |round, index| %>
+      <div><%= icon_tag 'angle-right-solid' %></div>
+      <% position = index + 1 %>
+      <%= link_to round.presentation,
+          performance_time_machine_path(event, position, board:, task:),
+          class: class_names('button button--ghost', scoreboard.until_round == position && 'active'),
+          data: {
+            round: position,
+            action: 'click->replay-scoreboard#goToRound',
+            replay_scoreboard_target: 'roundLink'
+          } %>
+    <% end %>
+  </div>
+
+  <div class="actions-bar-right">
+    <%= link_to t('performance_competitions.time_machine.exit'),
+        performance_time_machine_path(event, nil, board:, task:),
+        class: 'actions-bar-button' %>
+  </div>
+</div>

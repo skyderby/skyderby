@@ -1,17 +1,30 @@
-<%# locals: (event:, rounds_by_discipline:, standings:, editable:, comparable: false) %>
+<%# locals: (event:, scoreboard:, rounds_by_discipline:, standings:, editable:, comparable: false) %>
 
 <% any_completed = rounds_by_discipline.values.flatten.any?(&:completed?) %>
 <% podium_enabled = standings.rows.size >= 3 %>
+<% time_machine = scoreboard.time_machine? %>
+<% show_delta = any_completed && scoreboard.completed_rounds.length > 1 %>
 
 <% standings.rows.each_with_index do |row, index| %>
   <% on_podium = podium_enabled && any_completed && row.total_points.to_f.positive? && row.rank <= 3 %>
-  <tr class="<%= class_names('scoreboard-competitor', 'scoreboard-row--striped' => index.even?, "podium-row--#{row.rank}" => on_podium) %>">
+  <% previous_rank = show_delta ? standings.previous_rank(row.competitor) : nil %>
+  <tr data-competitor-id="<%= row.competitor.id %>"
+      class="<%= class_names('scoreboard-competitor', 'competitor-row', 'scoreboard-row--striped' => index.even?, "podium-row--#{row.rank}" => on_podium) %>">
     <%= render 'scoreboards/pinned_competitor_cell', name: row.competitor.name %>
-    <td class="text-center">
+    <td class="text-center rank-cell" data-rank>
       <% if on_podium %>
         <span class="rank-badge rank-badge--<%= row.rank %>"><%= row.rank %></span>
       <% else %>
         <%= row.rank %>
+      <% end %>
+      <% if show_delta %>
+        <% if previous_rank.nil? || previous_rank == row.rank %>
+          <span class="rank-same">—</span>
+        <% elsif previous_rank < row.rank %>
+          <span class="rank-down" data-controller="tooltip" title="<%= previous_rank %>">▼</span>
+        <% else %>
+          <span class="rank-up" data-controller="tooltip" title="<%= previous_rank %>">▲</span>
+        <% end %>
       <% end %>
     </td>
 
@@ -19,40 +32,54 @@
 
     <% rounds_by_discipline.each do |discipline, rounds| %>
       <% rounds.each do |round| %>
-        <% result = row.result_in_round(round) %>
-        <% if result && (round.completed || editable) %>
-          <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable:, comparable:, pilot: row.competitor.profile&.name %>
-          <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result: %>
-        <% elsif result&.validated? %>
-          <td class="text-right text-muted">
-            <%= result.formatted_result %>
-            <% if result.penalized? && result.apply_penalty_to_result? %>
-              <sup class="text-danger">-<%= result.penalty_size %>%</sup>
-            <% end %>
-          </td>
-          <td></td>
-        <% elsif editable && !round.completed? %>
-          <td class="result-cell">
-            <%= button_to icon_tag('upload-solid'), new_performance_competition_result_path(event),
-                          params: { 'result[competitor_id]' => row.competitor.id, 'result[round_id]' => round.id },
-                          method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } %>
-          </td>
-          <td></td>
-        <% elsif round.completed? %>
-          <td></td>
-          <td class="text-right">0.0</td>
+        <% if time_machine %>
+          <% position = scoreboard.timeline_position(round) %>
+          <% result = position && position <= scoreboard.until_round ? row.result_in_round(round) : nil %>
+          <% if result %>
+            <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable: false, comparable:, pilot: row.competitor.profile&.name, round_position: position %>
+            <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result: %>
+          <% else %>
+            <td class="result-cell" data-round="<%= position %>"></td>
+            <td></td>
+          <% end %>
         <% else %>
-          <td></td>
-          <td></td>
+          <% result = row.result_in_round(round) %>
+          <% if result && (round.completed || editable) %>
+            <%= render 'performance_competitions/open_scoreboards/result', event:, result:, editable:, comparable:, pilot: row.competitor.profile&.name %>
+            <%= render 'performance_competitions/open_scoreboards/points', event:, round:, result: %>
+          <% elsif result&.validated? %>
+            <td class="text-right text-muted">
+              <%= result.formatted_result %>
+              <% if result.penalized? && result.apply_penalty_to_result? %>
+                <sup class="text-danger">-<%= result.penalty_size %>%</sup>
+              <% end %>
+            </td>
+            <td></td>
+          <% elsif editable && !round.completed? %>
+            <td class="result-cell">
+              <%= button_to icon_tag('upload-solid'), new_performance_competition_result_path(event),
+                            params: { 'result[competitor_id]' => row.competitor.id, 'result[round_id]' => round.id },
+                            method: :get, form: { data: { turbo_stream: true }, class: 'result-upload-cell' } %>
+            </td>
+            <td></td>
+          <% elsif round.completed? %>
+            <td></td>
+            <td class="text-right">0.0</td>
+          <% else %>
+            <td></td>
+            <td></td>
+          <% end %>
         <% end %>
       <% end %>
       <td class="text-right discipline-points">
         <% points_in_discipline = row.points_in_disciplines[discipline] %>
-        <%= format('%.1f', points_in_discipline.to_f) if rounds.any?(&:completed?) %>
+        <% show_points = time_machine ? points_in_discipline.present? : rounds.any?(&:completed?) %>
+        <%= format('%.1f', points_in_discipline.to_f) if show_points %>
       </td>
     <% end %>
-    <td class="scoreboard-total-result">
-      <%= format('%.1f', row.total_points.to_f) if rounds_by_discipline.values.flatten.any?(&:completed?) %>
+    <td class="scoreboard-total-result" data-total>
+      <% show_total = time_machine ? scoreboard.completed_rounds.any? : any_completed %>
+      <%= format('%.1f', row.total_points.to_f) if show_total %>
     </td>
   </tr>
 <% end %>

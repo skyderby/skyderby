@@ -1,7 +1,9 @@
 class PerformanceCompetition::Scoreboard
+  include PerformanceCompetition::TimeMachineable
+
   attr_reader :event, :until_round, :apply_penalty_to_score, :wind_cancellation
 
-  # @param until_round [Round, nil] the round until which the scoreboard should be displayed
+  # @param until_round [Integer, nil] 1-based position in the completion timeline to display up to
   def initialize(event, until_round: nil, wind_cancellation: false)
     @event = event
     @apply_penalty_to_score = event.apply_penalty_to_score
@@ -23,16 +25,6 @@ class PerformanceCompetition::Scoreboard
   end
 
   def rounds = event.rounds.ordered
-
-  def completed_rounds
-    @completed_rounds ||= rounds.completed.then do |rounds|
-      if until_round.nil?
-        rounds
-      else
-        rounds.take_while { it != until_round }
-      end
-    end
-  end
 
   def category_standings(category)
     category_competitors = category.competitors

@@ -2,6 +2,12 @@ ru:
   performance_competitions:
     actions_bar:
       display: 'Слайд-шоу'
+    time_machine:
+      enter: 'Машина времени'
+      play: 'Воспроизвести'
+      stop: 'Стоп'
+      start: 'Начало'
+      exit: 'Выйти из машины времени'
     scoreboard:
       best: 'Лучший'
     track_upload:

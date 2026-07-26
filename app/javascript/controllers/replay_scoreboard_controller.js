@@ -6,6 +6,14 @@ export default class extends Controller {
 
   connect() {}
 
+  get playLabel() {
+    return this.playButtonTarget.dataset.playLabel || 'Play'
+  }
+
+  get stopLabel() {
+    return this.playButtonTarget.dataset.stopLabel || 'Stop'
+  }
+
   async play() {
     if (this.isPlaying) {
       this.stop()
@@ -13,7 +21,7 @@ export default class extends Controller {
     }
 
     this.isPlaying = true
-    this.playButtonTarget.querySelector('span').textContent = 'Stop'
+    this.playButtonTarget.querySelector('span').textContent = this.stopLabel
 
     for (const link of this.roundLinkTargets) {
       if (!this.isPlaying) break
@@ -22,12 +30,12 @@ export default class extends Controller {
     }
 
     this.isPlaying = false
-    this.playButtonTarget.querySelector('span').textContent = 'Play'
+    this.playButtonTarget.querySelector('span').textContent = this.playLabel
   }
 
   stop() {
     this.isPlaying = false
-    this.playButtonTarget.querySelector('span').textContent = 'Play'
+    this.playButtonTarget.querySelector('span').textContent = this.playLabel
   }
 
   async goToRound(event) {

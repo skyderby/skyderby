@@ -2,6 +2,12 @@ en:
   performance_competitions:
     actions_bar:
       display: 'Slide Show'
+    time_machine:
+      enter: 'Time Machine'
+      play: 'Play'
+      stop: 'Stop'
+      start: 'Start'
+      exit: 'Exit Time Machine'
     scoreboard:
       best: 'Best'
     track_upload:

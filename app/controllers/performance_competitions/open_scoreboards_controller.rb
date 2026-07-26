@@ -6,5 +6,6 @@ class PerformanceCompetitions::OpenScoreboardsController < ApplicationController
 
   def show
     @wind_cancellation = @event.wind_cancellation && params[:including_wind] != '1'
+    @until_round = params[:until_round]&.to_i
   end
 end

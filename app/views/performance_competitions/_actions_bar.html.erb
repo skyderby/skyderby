@@ -37,6 +37,14 @@
   <% end %>
 
   <div class="actions-bar-right">
+    <% completed_rounds_count = event.rounds.completed.size %>
+    <% if completed_rounds_count.positive? %>
+      <%= link_to performance_time_machine_path(event, completed_rounds_count, board: :main), class: 'actions-bar-button' do %>
+        <%= icon_tag 'circle-play' %>
+        <%= t('performance_competitions.time_machine.enter') %>
+      <% end %>
+    <% end %>
+
     <%= link_to performance_competition_display_path(event), target: '_blank', rel: 'noopener', class: 'actions-bar-button' do %>
       <%= icon_tag 'circle-play' %>
       <%= t('performance_competitions.actions_bar.display') %>

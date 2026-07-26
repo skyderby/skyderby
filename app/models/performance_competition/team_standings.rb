@@ -2,10 +2,12 @@ class PerformanceCompetition::TeamStandings
   Row = Struct.new(:team, :ranks, :total_points, :rank)
 
   delegate :teams, to: :event
+  delegate :until_round, :time_machine?, :timeline_rounds, :timeline_position, to: :open_scoreboard
 
-  def initialize(event, wind_cancellation: false)
+  def initialize(event, until_round: nil, wind_cancellation: false)
     @event = event
-    @personal_standings = event.open_standings(wind_cancellation:).standings
+    @open_scoreboard = event.open_standings(until_round:, wind_cancellation:)
+    @personal_standings = open_scoreboard.standings
   end
 
   def ranking
@@ -18,7 +20,7 @@ class PerformanceCompetition::TeamStandings
 
   private
 
-  attr_reader :event, :personal_standings
+  attr_reader :event, :personal_standings, :open_scoreboard
 
   def assign_ranks(rows)
     return rows unless rows.any?

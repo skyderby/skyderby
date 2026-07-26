@@ -1,4 +1,4 @@
-<%# locals: (event:, result:, editable:, comparable: false, pilot: nil)  %>
+<%# locals: (event:, result:, editable:, comparable: false, pilot: nil, round_position: nil)  %>
 
 <% compare_data =
      if comparable && result.track_id.present?
@@ -14,7 +14,9 @@
        {}
      end %>
 
-<%= tag.td class: class_names('result-cell', ('text-green' if result.best_result)), data: compare_data do %>
+<% cell_data = round_position ? compare_data.merge(round: round_position, created_at: result.created_at.iso8601) : compare_data %>
+
+<%= tag.td class: class_names('result-cell', ('text-green' if result.best_result)), data: cell_data do %>
   <%= link_to(performance_competition_result_path(event, result),
               **(mobile? ? { target: '_blank' } : { 'data-turbo-stream' => 'true' }),
               class: 'result-show-cell',

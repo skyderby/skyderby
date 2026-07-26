@@ -1,0 +1,8 @@
+fr:
+  performance_competitions:
+    time_machine:
+      enter: 'Machine à remonter le temps'
+      play: 'Lire'
+      stop: 'Arrêter'
+      start: 'Début'
+      exit: 'Quitter la machine à remonter le temps'

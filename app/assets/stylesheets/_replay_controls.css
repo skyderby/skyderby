@@ -5,6 +5,19 @@
     gap: 1.5rem;
     flex-wrap: wrap;
   }
+
+  /* Below the card breakpoint the controls bar sits flush against the viewport
+     edges without rounded corners, so its leading (play) and trailing (exit)
+     controls must not keep their rounded corners either. */
+  @media (max-width: 1199px) {
+    &.actions-bar > :first-child:not(.actions-bar-right),
+    &.actions-bar > :first-child:not(.actions-bar-right) > .actions-bar-button,
+    &.actions-bar > :last-child:not([popover]),
+    &.actions-bar .actions-bar-right > :last-child:not([popover]),
+    &.actions-bar .actions-bar-right > :last-child:not([popover]) .actions-bar-button {
+      border-radius: 0;
+    }
+  }
 }
 
 .replay-button {

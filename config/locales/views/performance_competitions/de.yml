@@ -1,0 +1,8 @@
+de:
+  performance_competitions:
+    time_machine:
+      enter: 'Zeitmaschine'
+      play: 'Abspielen'
+      stop: 'Stopp'
+      start: 'Start'
+      exit: 'Zeitmaschine verlassen'
