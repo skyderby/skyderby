@@ -3,9 +3,13 @@ module PerformanceCompetition::TimeMachineable
 
   def timeline_rounds
     @timeline_rounds ||=
-      rounds
-      .select(&:completed)
-      .sort_by { |round| [round.completed_at, round.number, round.created_at, round.id] }
+      begin
+        all_rounds = rounds.to_a
+        discipline_order = all_rounds.map(&:discipline).uniq
+        all_rounds
+          .select(&:completed)
+          .sort_by { |round| [round.number, discipline_order.index(round.discipline)] }
+      end
   end
 
   def timeline_positions
