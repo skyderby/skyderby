@@ -42,8 +42,6 @@ Skyderby::Application.routes.draw do
 
   get '/manage', to: 'manage/dashboards#show'
 
-  get '/about', to: 'static_pages#about', as: :about
-
   devise_for :users,
              controllers: { omniauth_callbacks: 'users/omniauth_callbacks',
                             registrations: 'users/registrations',

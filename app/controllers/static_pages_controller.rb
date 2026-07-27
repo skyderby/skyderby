@@ -17,6 +17,4 @@ class StaticPagesController < ApplicationController
   end
 
   def site_webmanifest; end
-
-  def about; end
 end
