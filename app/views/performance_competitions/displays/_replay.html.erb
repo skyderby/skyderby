@@ -24,6 +24,8 @@
       </div>
       <div class="display-fall-stage">
         <svg class="display-fall-svg" data-performance-replay-target="svg"
+             id="perf-replay-svg-<%= Digest::SHA1.hexdigest([replay.discipline, *fallers.map(&:name)].join('|'))[0, 12] %>"
+             data-turbo-permanent
              preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
       </div>
       <div class="display-replay-countdown" data-performance-replay-target="countdown" hidden>

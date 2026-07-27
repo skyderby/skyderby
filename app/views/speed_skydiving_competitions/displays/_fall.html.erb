@@ -18,6 +18,8 @@
       </div>
       <div class="display-fall-stage">
         <svg class="display-fall-svg" data-speed-fall-target="svg"
+             id="speed-fall-svg-<%= Digest::SHA1.hexdigest([category.name, *fallers.map(&:name)].join('|'))[0, 12] %>"
+             data-turbo-permanent
              preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
       </div>
       <div class="display-replay-countdown" data-speed-fall-target="countdown" hidden>

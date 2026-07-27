@@ -917,7 +917,8 @@ body {
 .display-replay-photo {
   position: relative;
   width: 100%;
-  height: calc(260 * var(--px));
+  flex: 1;
+  min-height: calc(260 * var(--px));
   overflow: hidden;
   background: var(--panel2);
   border: 1px solid var(--line);

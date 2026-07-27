@@ -1,6 +1,5 @@
 class PerformanceCompetition::Display < SimpleDelegator
   PALETTE = %w[#470FF4 #F24C00 #36e07a #a855f7].freeze
-  MAX_FALLERS = 4
   DISCIPLINE_ORDER = %w[time distance speed vertical_speed flare].freeze
 
   def initialize(event)
@@ -166,7 +165,6 @@ class PerformanceCompetition::Display < SimpleDelegator
         rows
         .filter_map { |row| best_scored_result(row, discipline) }
         .sort_by { |result| -result.result }
-        .first(MAX_FALLERS)
         .each_with_index
         .filter_map { |result, index| Faller.build(result, PALETTE[index % PALETTE.size]) }
 
@@ -179,7 +177,14 @@ class PerformanceCompetition::Display < SimpleDelegator
          .max_by(&:result)
     end
 
-    def fall_pairs = fallers.each_slice(2).to_a
+    def fall_pairs
+      pairs = fallers.each_slice(2).to_a
+      return pairs unless pairs.last&.one?
+
+      leftover = pairs.pop.first
+      partner = fallers[-2]
+      pairs << (partner ? [partner, leftover] : [leftover])
+    end
   end
 
   LEAD_IN = 5 # seconds of flight shown before the window opens
