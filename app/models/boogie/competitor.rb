@@ -10,7 +10,6 @@ class Boogie::Competitor < ApplicationRecord
   belongs_to :team, optional: true
 
   has_many :results, dependent: :restrict_with_error
-  has_many :reference_point_assignments, dependent: :delete_all
 
   scope :ordered,
         -> { left_joins(:profile, :competitor_alias).order(Arel.sql('COALESCE(profile_aliases.name, profiles.name)')) }

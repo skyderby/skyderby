@@ -18,11 +18,6 @@ class Boogie::Result < ApplicationRecord
   delegate :category, to: :competitor
   delegate :tracks_visibility, to: :round
 
-  def reference_point
-    round.reference_point_assignments
-         .find { it.competitor_id == competitor_id }&.reference_point
-  end
-
   def penalty_sizes = [10, 20, 50, 100]
 
   def apply_penalty_to_result? = !event.apply_penalty_to_score

@@ -14,7 +14,6 @@ class Boogie::Round < ApplicationRecord
 
   has_many :results, dependent: :restrict_with_error
   has_many :tracks, through: :results
-  has_many :reference_point_assignments, dependent: :delete_all
 
   validates :discipline, presence: true
 
