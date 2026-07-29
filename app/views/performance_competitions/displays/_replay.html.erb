@@ -19,7 +19,7 @@
     <div class="display-replay-center">
       <div class="display-replay-maphead">
         <span class="display-replay-maptitle">
-          <%= category.name %> · <%= t("disciplines.#{replay.discipline}") %>
+          <%= category.name %> · <%= t("disciplines.#{replay.discipline}") %> <%= fallers.map(&:round_number).uniq.sort.join(' / ') %>
         </span>
       </div>
       <div class="display-fall-stage">
