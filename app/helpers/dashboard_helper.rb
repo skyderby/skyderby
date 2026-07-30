@@ -24,7 +24,9 @@ module DashboardHelper
 
   def dashboard_pb_value_tag(track_link, &)
     classes = class_names('dashboard-pb__value', 'dashboard-pb__value--link' => track_link)
-    content_tag(track_link ? :a : :div, class: classes, href: track_link, &)
+    return content_tag(:div, class: classes, &) if track_link.nil?
+
+    content_tag(:a, class: classes, href: track_link, data: { turbo_frame: '_top' }, &)
   end
 
   def dashboard_discipline_label(competition)
