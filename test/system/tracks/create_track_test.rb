@@ -1,6 +1,10 @@
 require 'application_system_test_case'
 
 class CreateTrackTest < ApplicationSystemTestCase
+  setup do
+    sign_in users(:regular_user)
+  end
+
   test 'Flysight file' do
     upload_track 'flysight.csv'
 
@@ -58,8 +62,6 @@ class CreateTrackTest < ApplicationSystemTestCase
     assert_selector '.dialog-title', text: I18n.t('static_pages.index.track_form.title')
 
     within 'form.sd-form' do
-      fill_in 'track_file[track_attributes][name]', with: 'John'
-
       click_link I18n.t('tracks.form.toggle_suit_link')
       fill_in 'track_file[track_attributes][missing_suit_name]', with: 'Horus'
 
