@@ -3,7 +3,7 @@
 <% any_completed = rounds_by_discipline.values.flatten.any?(&:completed?) %>
 <% podium_enabled = standings.rows.size >= 3 %>
 <% time_machine = scoreboard.time_machine? %>
-<% show_delta = any_completed && scoreboard.completed_rounds.length > 1 %>
+<% show_delta = any_completed && scoreboard.completed_rounds.length > 1 && (!event.finished? || time_machine) %>
 
 <% standings.rows.each_with_index do |row, index| %>
   <% on_podium = podium_enabled && any_completed && row.total_points.to_f.positive? && row.rank <= 3 %>
