@@ -37,7 +37,8 @@ class UserTest < ActiveSupport::TestCase
   test '#subscription_active? - returns false, not nil, without any subscription' do
     user = users(:regular_user)
 
-    assert_equal false, user.subscription_active?
+    assert_not_nil user.subscription_active?
+    assert_not user.subscription_active?
   end
 
   test 'revoking a gifted subscription resets subscribed without error' do
@@ -47,6 +48,6 @@ class UserTest < ActiveSupport::TestCase
     assert user.reload.subscribed
 
     assert_nothing_raised { gifted.destroy }
-    assert_equal false, user.reload.subscribed
+    assert_not user.reload.subscribed
   end
 end
