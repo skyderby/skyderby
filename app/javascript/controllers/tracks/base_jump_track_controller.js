@@ -6,6 +6,8 @@ import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
 import { calculateBearing } from 'utils/tracks/pointHelpers'
+import { computeBaseJumpSummary } from 'utils/tracks/baseJumpSummary'
+import { convertLength, convertSpeed, lengthUnitLabel, speedUnitLabel } from 'utils/units'
 import { get, patch } from '@rails/request.js'
 import I18n from 'i18n'
 
@@ -19,6 +21,7 @@ const RESULT_NONE = 'none'
 export default class extends PlaybackController {
   static targets = [
     'sideProjection',
+    'summary',
     'glideChart',
     'speedChart',
     'sepChart',
@@ -44,6 +47,9 @@ export default class extends PlaybackController {
     comparePointsUrl: String,
     compareTrackName: String,
     compareSamePlace: Boolean,
+    exitFlTime: Number,
+    compareExitFlTime: Number,
+    wingsuit: Boolean,
     finishLineStartLat: Number,
     finishLineStartLon: Number,
     finishLineEndLat: Number,
@@ -96,6 +102,7 @@ export default class extends PlaybackController {
     this.initSpeedsChart()
     this.initSepChart()
     this.initSideProjection()
+    this.renderSummary()
     this.updatePlaybackPosition()
   }
 
@@ -126,6 +133,7 @@ export default class extends PlaybackController {
         }
 
         this.points = pointsData.points
+        this.deployFlTime = pointsData.deployFlTime
         this.points.forEach(point => {
           point.playerTime = point.flTime - this.points[0].flTime
         })
@@ -133,6 +141,7 @@ export default class extends PlaybackController {
 
         if (compareData && compareData.points.length > 0) {
           this.comparePoints = compareData.points
+          this.compareDeployFlTime = compareData.deployFlTime
           this.prepareCompare()
         }
 
@@ -142,6 +151,7 @@ export default class extends PlaybackController {
           this.findFinishLineCrossings()
         }
         this.initCharts()
+        this.renderSummary()
         this.renderMap()
         this.initPlayback()
         this.loadDefaultTerrainProfile()
@@ -588,6 +598,181 @@ export default class extends PlaybackController {
       xOffset: this.chartXOffset,
       units: this.units
     })
+  }
+
+  renderSummary() {
+    if (!this.hasSummaryTarget || !this.points) return
+
+    const summary = this.summaryFor(
+      this.points,
+      this.hasExitFlTimeValue ? this.exitFlTimeValue : null,
+      this.deployFlTime
+    )
+    if (!summary) return
+
+    const compare = this.hasCompare
+      ? this.summaryFor(
+          this.comparePoints,
+          this.hasCompareExitFlTimeValue ? this.compareExitFlTimeValue : null,
+          this.compareDeployFlTime
+        )
+      : null
+
+    this.summaryTarget.innerHTML = this.summaryHtml(summary, compare)
+  }
+
+  summaryFor(points, exitFlTime, deployFlTime) {
+    return computeBaseJumpSummary(points, {
+      exitFlTime,
+      deployFlTime,
+      wingsuit: this.wingsuitValue
+    })
+  }
+
+  summaryHtml(summary, compare) {
+    const speedUnit = speedUnitLabel(this.units)
+    const lengthUnit = lengthUnitLabel(this.units)
+    const length = value =>
+      value == null
+        ? '—'
+        : `${Math.round(convertLength(value, this.units))}${this.unitHtml(lengthUnit)}`
+    const glide = value => (value == null ? '—' : value.toFixed(2))
+    const speed = value =>
+      value == null
+        ? '—'
+        : `${Math.round(convertSpeed(value, this.units))}${this.unitHtml(speedUnit)}`
+    const drop = `${Math.round(convertLength(summary.referenceDrop, this.units))} ${lengthUnit}`
+    const comparing = Boolean(compare)
+    const seconds = value => (value >= 10 ? Math.round(value) : Number(value.toFixed(1)))
+
+    return [
+      this.tileHtml({
+        key: 'one_to_one',
+        value: length(summary.oneToOneDrop),
+        compare: compare && length(compare.oneToOneDrop)
+      }),
+      this.tileHtml({
+        key: 'first_drop',
+        labelArgs: { drop },
+        value: length(summary.referenceDistance),
+        compare: compare && length(compare.referenceDistance),
+        histogram: this.histogramHtml({
+          rows: this.bandRows(
+            summary.referenceBands,
+            compare && compare.referenceBands,
+            band =>
+              `${Math.round(convertLength(band.from, this.units))}–${Math.round(convertLength(band.to, this.units))}`,
+            band => band.distance
+          ),
+          comparing,
+          formatValue: value => Math.round(convertLength(value, this.units)),
+          unit: lengthUnit
+        })
+      }),
+      this.tileHtml({
+        key: 'glide',
+        value: glide(summary.glide.value),
+        compare: compare && glide(compare.glide.value),
+        histogram: this.histogramHtml({
+          rows: this.bandRows(
+            summary.glide.buckets,
+            compare && compare.glide.buckets,
+            bucket => this.bucketLabel(bucket, edge => String(Number(edge.toFixed(1)))),
+            bucket => bucket.seconds
+          ),
+          comparing,
+          formatValue: seconds,
+          unit: I18n.t('units.sec')
+        })
+      }),
+      this.tileHtml({
+        key: 'speed',
+        value: speed(summary.speed.value),
+        compare: compare && speed(compare.speed.value),
+        histogram: this.histogramHtml({
+          rows: this.bandRows(
+            summary.speed.buckets,
+            compare && compare.speed.buckets,
+            bucket =>
+              this.bucketLabel(bucket, edge =>
+                String(Math.round(convertSpeed(edge, this.units)))
+              ),
+            bucket => bucket.seconds
+          ),
+          comparing,
+          formatValue: seconds,
+          unit: I18n.t('units.sec')
+        })
+      })
+    ].join('')
+  }
+
+  bandRows(bands, compareBands, formatBand, valueOf) {
+    return bands.map((band, index) => ({
+      label: formatBand(band),
+      value: valueOf(band),
+      compare: compareBands ? valueOf(compareBands[index]) : null
+    }))
+  }
+
+  tileHtml({ key, labelArgs = {}, value, compare, histogram = '' }) {
+    return `
+      <div class="bjs-tile">
+        <div class="bjs-tile__label">
+          ${I18n.t(`tracks.base_pro.summary.${key}`, labelArgs)}
+          ${this.helpHtml(I18n.t(`tracks.base_pro.tooltip.${key}`, labelArgs))}
+        </div>
+        <div class="bjs-tile__body">
+          <div class="bjs-tile__figures">
+            <div class="bjs-tile__value">${value}</div>
+            ${compare ? `<div class="bjs-tile__cmp"><span class="bjs-dot"></span>${compare}</div>` : ''}
+          </div>
+          ${histogram}
+        </div>
+      </div>`
+  }
+
+  histogramHtml({ rows, comparing, formatValue, unit }) {
+    const peak = Math.max(...rows.flatMap(row => [row.value ?? 0, row.compare ?? 0]), 1)
+    const barHtml = (value, modifier) =>
+      `<span class="bjs-hist__fill${modifier}" style="width:${((value ?? 0) / peak) * 100}%"></span>`
+    const format = value => (value == null ? '—' : formatValue(value))
+    const valueHtml = row => {
+      const compare = comparing
+        ? `<span class="bjs-hist__sep">|</span><span class="bjs-hist__value-cmp">${format(row.compare)}</span>`
+        : ''
+      return `<span class="bjs-hist__value">${format(row.value)}${compare}${this.unitHtml(unit)}</span>`
+    }
+
+    const rowsHtml = rows
+      .map(
+        row => `
+          <div class="bjs-hist__row">
+            <span class="bjs-hist__band">${row.label}</span>
+            <span class="bjs-hist__track">
+              ${barHtml(row.value, '')}
+              ${comparing ? barHtml(row.compare, ' is-compare') : ''}
+            </span>
+            ${valueHtml(row)}
+          </div>`
+      )
+      .join('')
+
+    return `<div class="bjs-hist">${rowsHtml}</div>`
+  }
+
+  bucketLabel(bucket, formatEdge) {
+    if (bucket.min === null) return `&lt;${formatEdge(bucket.max)}`
+    if (bucket.max === null) return `${formatEdge(bucket.min)}+`
+    return `${formatEdge(bucket.min)}–${formatEdge(bucket.max)}`
+  }
+
+  unitHtml(unit) {
+    return `<span class="bjs-unit">${unit}</span>`
+  }
+
+  helpHtml(text) {
+    return `<span class="bjs-help" tabindex="0" role="button" aria-label="${text}">?<span class="bjs-help__bubble">${text}</span></span>`
   }
 
   loadDefaultTerrainProfile() {

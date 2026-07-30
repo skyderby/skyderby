@@ -43,6 +43,17 @@ en:
       modal_title: Compare with another track
       compare_button: Compare
       remove: Remove comparison
+    base_pro:
+      summary:
+        one_to_one: 1:1 altitude
+        first_drop: Distance in first %{drop}
+        glide: Glide ratio
+        speed: Average speed
+      tooltip:
+        one_to_one: Altitude lost by the moment the horizontal distance from the exit matched the drop, measured along the flown trajectory.
+        first_drop: Horizontal distance covered over the first %{drop} of altitude loss, measured along the flown trajectory.
+        glide: Horizontal distance divided by altitude lost between the 10th second and deployment, measured along the trajectory rather than averaged from instant readings. Bars show how long you held each glide band.
+        speed: Trajectory length divided by time between the 10th second and deployment. Bars show how long you held each speed band.
     speed_pro:
       axis:
         time: Time from exit

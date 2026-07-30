@@ -21,10 +21,17 @@
        data-tracks--base-jump-track-track-id-value="<%= @track.id %>"
        data-tracks--base-jump-track-charts-units-value="<%= Current.charts_units %>"
        data-tracks--base-jump-track-chart-settings-url-value="<%= track_chart_settings_path(@track) %>"
+       data-tracks--base-jump-track-wingsuit-value="<%= @track.wingsuit? ? 'true' : 'false' %>"
+       <% if @track.ff_start %>
+       data-tracks--base-jump-track-exit-fl-time-value="<%= @track.ff_start %>"
+       <% end %>
        <% if @compare_track %>
        data-tracks--base-jump-track-compare-points-url-value="<%= track_points_path(@compare_track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
        data-tracks--base-jump-track-compare-track-name-value="<%= @compare_track.pilot&.name || @compare_track.name %>"
        data-tracks--base-jump-track-compare-same-place-value="<%= compare_same_place %>"
+       <% if @compare_track.ff_start %>
+       data-tracks--base-jump-track-compare-exit-fl-time-value="<%= @compare_track.ff_start %>"
+       <% end %>
        <% end %>
        <% if finish_line_coords.present? %>
        data-tracks--base-jump-track-finish-line-start-lat-value="<%= finish_line_coords.first[:latitude] %>"
@@ -176,6 +183,8 @@
     <% end %>
 
     <div class="track-show-content">
+      <div class="base-jump-summary" data-tracks--base-jump-track-target="summary"></div>
+
       <%= render 'tracks/base_jump_body', terrain: terrain, indicators: indicators %>
 
       <blockquote class="flex flex-column">

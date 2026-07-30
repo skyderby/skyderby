@@ -1,0 +1,13 @@
+de:
+  tracks:
+    base_pro:
+      summary:
+        one_to_one: 1:1-Höhe
+        first_drop: Strecke in den ersten %{drop}
+        glide: Gleitzahl
+        speed: Durchschnittsgeschwindigkeit
+      tooltip:
+        one_to_one: Höhenverlust in dem Moment, in dem die horizontale Distanz vom Absprung dem Höhenverlust entsprach — entlang der geflogenen Bahn gemessen.
+        first_drop: Horizontale Distanz über die ersten %{drop} Höhenverlust, entlang der geflogenen Bahn gemessen.
+        glide: Horizontale Distanz geteilt durch den Höhenverlust zwischen der 10. Sekunde und der Öffnung — entlang der Bahn gemessen, nicht aus Momentanwerten gemittelt. Die Balken zeigen, wie lange du in jedem Gleitzahl-Bereich warst.
+        speed: Bahnlänge geteilt durch die Zeit zwischen der 10. Sekunde und der Öffnung. Die Balken zeigen, wie lange du in jedem Geschwindigkeitsbereich warst.

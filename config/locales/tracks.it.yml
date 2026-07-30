@@ -1,0 +1,13 @@
+it:
+  tracks:
+    base_pro:
+      summary:
+        one_to_one: Quota 1:1
+        first_drop: Distanza nei primi %{drop}
+        glide: Efficienza
+        speed: Velocità media
+      tooltip:
+        one_to_one: Quota persa nel momento in cui la distanza orizzontale dall'uscita ha eguagliato la caduta, misurata lungo la traiettoria percorsa.
+        first_drop: Distanza orizzontale percorsa nei primi %{drop} di perdita di quota, misurata lungo la traiettoria percorsa.
+        glide: Distanza orizzontale divisa per la quota persa tra il decimo secondo e l'apertura, misurata sulla traiettoria e non mediando valori istantanei. Le barre mostrano quanto tempo hai tenuto ogni fascia di efficienza.
+        speed: Lunghezza della traiettoria divisa per il tempo tra il decimo secondo e l'apertura. Le barre mostrano quanto tempo hai tenuto ogni fascia di velocità.

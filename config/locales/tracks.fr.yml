@@ -1,0 +1,13 @@
+fr:
+  tracks:
+    base_pro:
+      summary:
+        one_to_one: Altitude 1:1
+        first_drop: Distance sur les premiers %{drop}
+        glide: Finesse
+        speed: Vitesse moyenne
+      tooltip:
+        one_to_one: Perte d'altitude au moment où la distance horizontale depuis la sortie a égalé la chute, mesurée le long de la trajectoire volée.
+        first_drop: Distance horizontale parcourue sur les premiers %{drop} de perte d'altitude, mesurée le long de la trajectoire volée.
+        glide: Distance horizontale divisée par la perte d'altitude entre la 10e seconde et l'ouverture, mesurée sur la trajectoire plutôt que moyennée à partir de valeurs instantanées. Les barres montrent le temps passé dans chaque plage de finesse.
+        speed: Longueur de la trajectoire divisée par le temps entre la 10e seconde et l'ouverture. Les barres montrent le temps passé dans chaque plage de vitesse.

@@ -1,0 +1,13 @@
+es:
+  tracks:
+    base_pro:
+      summary:
+        one_to_one: Altura 1:1
+        first_drop: Distancia en los primeros %{drop}
+        glide: Planeo
+        speed: Velocidad media
+      tooltip:
+        one_to_one: Altura perdida en el momento en que la distancia horizontal desde la salida igualó la caída, medida a lo largo de la trayectoria volada.
+        first_drop: Distancia horizontal recorrida durante los primeros %{drop} de pérdida de altura, medida a lo largo de la trayectoria volada.
+        glide: Distancia horizontal dividida por la altura perdida entre el segundo 10 y la apertura, medida sobre la trayectoria y no promediando valores instantáneos. Las barras muestran cuánto tiempo mantuviste cada banda de planeo.
+        speed: Longitud de la trayectoria dividida por el tiempo entre el segundo 10 y la apertura. Las barras muestran cuánto tiempo mantuviste cada banda de velocidad.
