@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Event::RoundTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
   setup do
     @event = PerformanceCompetition.create!(
       name: 'Test Event',
@@ -52,5 +54,20 @@ class Event::RoundTest < ActiveSupport::TestCase
   test '.by_name' do
     event = events(:nationals)
     assert_equal event_rounds(:distance_1), event.rounds.by_name('Distance-1')
+  end
+
+  test 'completing a round publishes tracks and rescores online competitions' do
+    @event.public_event!
+    section = create :event_section, event: @event
+    competitor = create :event_competitor, category: section
+    round = @event.rounds.create!(discipline: 'distance')
+    track = create :empty_track, visibility: Track.visibilities[:private_track]
+    create :event_result, competitor: competitor, round: round, track: track
+
+    assert_enqueued_with job: OnlineCompetitionJob, args: [track.id] do
+      round.update!(completed: true)
+    end
+
+    assert_predicate track.reload, :public_track?
   end
 end

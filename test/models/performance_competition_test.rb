@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class EventTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
   test 'initial state' do
     date = Time.zone.local(2024, 3, 24)
     travel_to date
@@ -22,7 +24,9 @@ class EventTest < ActiveSupport::TestCase
     track = create :empty_track, visibility: Track.visibilities[:unlisted_track]
     create :event_result, competitor: competitor, round: round, track: track
 
-    event.public_event!
+    assert_enqueued_with job: OnlineCompetitionJob, args: [track.id] do
+      event.public_event!
+    end
     track.reload
 
     assert_predicate track, :public_track?

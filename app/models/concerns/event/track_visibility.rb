@@ -6,7 +6,11 @@ module Event::TrackVisibility
   end
 
   def set_tracks_visibility
-    tracks.update_all(visibility: tracks_visibility) # rubocop:disable Rails/SkipsModelValidations
+    changed_track_ids = tracks.where.not(visibility: tracks_visibility).ids
+    return if changed_track_ids.empty?
+
+    Track.where(id: changed_track_ids).update_all(visibility: tracks_visibility) # rubocop:disable Rails/SkipsModelValidations
+    changed_track_ids.each { |track_id| OnlineCompetitionJob.perform_later(track_id) }
   end
 
   def tracks_visibility

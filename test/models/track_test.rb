@@ -1,6 +1,24 @@
 require 'test_helper'
 
 class TrackTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
+
+  test 'rescores online competitions when visibility changes' do
+    track = create :empty_track, visibility: Track.visibilities[:private_track]
+
+    assert_enqueued_with job: OnlineCompetitionJob, args: [track.id] do
+      track.update!(visibility: Track.visibilities[:public_track])
+    end
+  end
+
+  test 'does not rescore online competitions when visibility is unchanged' do
+    track = create :empty_track, visibility: Track.visibilities[:public_track]
+
+    assert_no_enqueued_jobs only: OnlineCompetitionJob do
+      track.update!(comment: 'Updated comment')
+    end
+  end
+
   test 'validations - requires name if pilot not specified' do
     track = tracks(:hellesylt)
     track.pilot = nil

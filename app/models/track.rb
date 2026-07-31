@@ -88,6 +88,7 @@ class Track < ApplicationRecord
   before_save :sync_activity_timestamps, if: -> { ff_start_changed? || ff_end_changed? }
   before_destroy :used_in_competition?
   after_create_commit :track_amplitude_event
+  after_update_commit :rescore_online_competitions, if: :saved_change_to_visibility?
 
   scope :chronologically, -> { order(id: :desc) }
   scope :sorted_by_speed, ->(dir) { left_joins(:speed).order("track_results.result #{dir} NULLS LAST") }
@@ -186,6 +187,8 @@ class Track < ApplicationRecord
   def recorded_at = super || created_at
 
   private
+
+  def rescore_online_competitions = OnlineCompetitionJob.perform_later(id)
 
   def sync_activity_timestamps
     first_gps = first_point_epoch
