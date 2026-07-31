@@ -4,9 +4,6 @@ export default class extends Controller {
   static targets = ['menu', 'overlay', 'locale_menu']
 
   connect() {
-    const menu_width = this.menu.offsetWidth
-    this.menu.style.right = `${-menu_width}px`
-
     document.addEventListener('turbo:before-cache', this.close_menu.bind(this), {
       once: true
     })
