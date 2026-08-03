@@ -236,6 +236,12 @@
   margin: 0.5rem 0 0 0;
 }
 
+.subscriptions-social-proof__note {
+  font-size: 0.875rem;
+  color: var(--gray-50);
+  margin: 0.25rem 0 0 0;
+}
+
 .subscriptions-active {
   background: linear-gradient(135deg, var(--green-10) 0%, var(--white) 100%);
   border: 2px solid var(--green-80);

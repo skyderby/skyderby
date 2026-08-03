@@ -24,6 +24,7 @@ ru:
       highlight_title: Выделенное имя
       highlight_example: "Ваше имя будет выглядеть так:"
       social_proof: пилотов используют преимущества Pro
+      social_proof_note: И это не совпадение
     success:
       title: Добро пожаловать в Pro!
       subtitle: Ты только что вышел на новый уровень

@@ -24,6 +24,7 @@ es:
       highlight_title: Nombre destacado
       highlight_example: "Tu nombre se verá así:"
       social_proof: saltadores aprovechan las ventajas de Pro
+      social_proof_note: Y no es casualidad
     success:
       title: "¡Bienvenido a Pro!"
       subtitle: Acabas de subir de nivel en tu vuelo

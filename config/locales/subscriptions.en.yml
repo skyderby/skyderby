@@ -24,6 +24,7 @@ en:
       highlight_title: Highlighted Name
       highlight_example: "Your name will look like this:"
       social_proof: jumpers getting advantage of Pro features
+      social_proof_note: And that's no coincidence
     success:
       title: Welcome to Pro!
       subtitle: You just leveled up your flying

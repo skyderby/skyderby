@@ -24,6 +24,7 @@ fr:
       highlight_title: Nom mis en avant
       highlight_example: "Votre nom apparaîtra ainsi :"
       social_proof: sauteurs profitent des avantages Pro
+      social_proof_note: "Et ce n'est pas un hasard"
     success:
       title: Bienvenue dans Pro !
       subtitle: Tu viens de passer au niveau supérieur
