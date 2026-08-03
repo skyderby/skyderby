@@ -15,7 +15,7 @@ ru:
         visibilities:
           public_event: Открытый
           unlisted_event: Доступ по ссылке
-          private_event: Ограниченный
+          private_event: Приватный
         number_of_results_for_total: Количество прыжков в зачет
         designated_lane_starts:
           on_10_sec: Коридор считается от 10 секунд после отделения
