@@ -1,6 +1,7 @@
 module ApplicationHelper
   def page_title(title)
     base_title = I18n.t 'static_pages.index.title'
+    title = CGI.unescapeHTML(title.to_s)
     title.present? ? "#{title} - Skyderby" : "Skyderby: #{base_title}"
   end
 
