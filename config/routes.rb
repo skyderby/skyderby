@@ -378,7 +378,11 @@ Skyderby::Application.routes.draw do
   resources :virtual_competitions, concerns: :sponsorable do
     scope module: :virtual_competitions do
       collection do
-        resources :groups, as: :virtual_competition_groups
+        resources :groups, as: :virtual_competition_groups do
+          scope module: :groups do
+            resources :categories, only: :show, param: :suit_kind
+          end
+        end
       end
 
       resource :person_details, only: :show

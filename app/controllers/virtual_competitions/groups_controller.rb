@@ -1,5 +1,7 @@
 module VirtualCompetitions
   class GroupsController < ApplicationController
+    include VirtualCompetitionGroupScoped
+
     before_action :set_group, only: [:show, :edit, :update, :destroy]
 
     def index
@@ -10,6 +12,8 @@ module VirtualCompetitions
 
     def show
       authorize @group
+
+      @scoreboard = build_scoreboard(@group)
     end
 
     def new

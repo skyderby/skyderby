@@ -1,6 +1,27 @@
 de:
   virtual_competitions:
+    suit_kinds:
+      wingsuit: 'Wingsuit'
+      monotrack: 'Monotrack'
+      tracksuit: 'Tracksuit'
+      slick: 'Slick'
+    groups:
+      show:
+        subtitle: 'Gesamtwertung aus Distanz, Geschwindigkeit und Zeit'
+        not_available: 'Keine Anzugklasse dieser Gruppe hat bisher alle drei Disziplinen.'
+        no_results: 'Kein Pilot hat für diese Auswahl Ergebnisse in allen drei Disziplinen.'
+      navbar:
+        overall: 'Gesamt'
+      actions_bar:
+        raw: 'Roh'
+        wind_cancelled: 'Windbereinigt'
+      scoreboard_header:
+        competitor: 'Teilnehmer'
+        total: 'Gesamt'
+      load_more:
+        load_more: 'Mehr laden'
     index:
+      combined_scoreboard: 'Gesamtwertung'
       show_archived: Archiv anzeigen
       archived: Archiv
       athletes:

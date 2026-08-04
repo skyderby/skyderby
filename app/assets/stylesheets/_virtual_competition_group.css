@@ -1,0 +1,40 @@
+.vc-group-scoreboard-table tbody tr.scoreboard-row--striped > td {
+  --pinned-tint: rgba(0, 0, 0, 0.015);
+  background-color: var(--pinned-tint);
+}
+
+.vc-group-scoreboard-table .competitor-profile {
+  font-weight: 700;
+}
+
+.vc-group-scoreboard-table a.result-show-cell,
+.vc-group-scoreboard-table td.scoreboard-total-result {
+  font-weight: 700;
+}
+
+.vc-group-scoreboard-table td.text-green,
+.vc-group-scoreboard-table a.text-green {
+  color: var(--green-90);
+}
+
+.vc-group-scoreboard-table td.result-points-cell {
+  font-variant-numeric: tabular-nums;
+}
+
+.vc-group-scoreboard__more td {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.vc-group__combined-link {
+  margin-left: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.vc-group-scoreboard__blank {
+  padding: 2rem;
+  text-align: center;
+  color: var(--gray-70);
+}

@@ -33,6 +33,12 @@ class VirtualCompetition::AnnualTopScore < ApplicationRecord
       unscoped.from(ranked_results_sql(snapshot_at: time))
     end
 
+    # The default scope only ever contains raw results, so the wind-cancelled set
+    # needs its own FROM clause rather than a `wind_cancellation(true)` filter.
+    def with_wind_cancellation(wind_cancelled)
+      unscoped.from(ranked_results_sql(wind_cancelled:))
+    end
+
     def ranked_results_sql(snapshot_at: Time.current, wind_cancelled: false)
       best_results_sql = <<~SQL.squish
         SELECT DISTINCT ON (vcr.virtual_competition_id, EXTRACT(YEAR FROM t.recorded_at), t.profile_id)

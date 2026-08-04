@@ -77,4 +77,18 @@ module VirtualCompetitionsHelper
   def competition_location(competition)
     competition.place_name || t('virtual_competitions.worldwide')
   end
+
+  COMBINED_DISCIPLINE_UNITS = {
+    'distance' => 'm',
+    'speed' => 'kmh',
+    'time' => 't_unit'
+  }.freeze
+
+  def combined_discipline_unit(discipline)
+    t("units.#{COMBINED_DISCIPLINE_UNITS.fetch(discipline)}")
+  end
+
+  def group_category_rows_id(category) = "group-category-#{category.suit_kind}"
+
+  def group_category_more_id(category) = "group-category-#{category.suit_kind}-more"
 end

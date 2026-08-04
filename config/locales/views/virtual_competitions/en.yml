@@ -1,5 +1,25 @@
 en:
   virtual_competitions:
+    suit_kinds:
+      wingsuit: 'Wingsuit'
+      monotrack: 'Monotrack'
+      tracksuit: 'Tracksuit'
+      slick: 'Slick'
+    groups:
+      show:
+        subtitle: 'Combined standings across distance, speed and time'
+        not_available: 'No suit class in this group has all three disciplines yet.'
+        no_results: 'No pilot has results in all three disciplines for this selection.'
+      navbar:
+        overall: 'Overall'
+      actions_bar:
+        raw: 'Raw'
+        wind_cancelled: 'Wind adjusted'
+      scoreboard_header:
+        competitor: 'Competitor'
+        total: 'Total'
+      load_more:
+        load_more: 'Load more'
     show:
       jump_kinds:
         all: All
@@ -9,6 +29,7 @@ en:
         open: Open
         female: Female
     index:
+      combined_scoreboard: 'Combined scoreboard'
       show_archived: Show archived
       archived: Archived
       athletes:

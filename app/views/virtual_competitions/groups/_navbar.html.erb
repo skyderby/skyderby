@@ -1,0 +1,14 @@
+<%# locals: (scoreboard:) %>
+<% filters = scoreboard_filters.except(:year) %>
+
+<div class="page-nav" data-controller="page-nav">
+  <%= link_to t('.overall'),
+              virtual_competition_group_path(scoreboard.group, **filters),
+              class: class_names('page-tab', 'page-tab-active' => scoreboard.overall?) %>
+
+  <% scoreboard.group.years.each do |year| %>
+    <%= link_to year,
+                virtual_competition_group_path(scoreboard.group, year:, **filters),
+                class: class_names('page-tab', 'page-tab-active' => scoreboard.year == year) %>
+  <% end %>
+</div>

@@ -1,5 +1,25 @@
 ru:
   virtual_competitions:
+    suit_kinds:
+      wingsuit: 'Вингсьют'
+      monotrack: 'Монотрек'
+      tracksuit: 'Трексьют'
+      slick: 'Слик'
+    groups:
+      show:
+        subtitle: 'Общий зачёт по дальности, скорости и времени'
+        not_available: 'Ни в одном классе костюмов этой группы пока нет всех трёх дисциплин.'
+        no_results: 'Нет пилотов с результатами во всех трёх дисциплинах для этого фильтра.'
+      navbar:
+        overall: 'Общий зачёт'
+      actions_bar:
+        raw: 'Без поправки'
+        wind_cancelled: 'С поправкой на ветер'
+      scoreboard_header:
+        competitor: 'Участник'
+        total: 'Итого'
+      load_more:
+        load_more: 'Показать ещё'
     show:
       jump_kinds:
         all: Все
@@ -9,6 +29,7 @@ ru:
         open: Общий
         female: Женщины
     index:
+      combined_scoreboard: 'Общий зачёт'
       show_archived: Показать архив
       archived: Архив
       athletes:

@@ -1,6 +1,27 @@
 it:
   virtual_competitions:
+    suit_kinds:
+      wingsuit: 'Wingsuit'
+      monotrack: 'Monotrack'
+      tracksuit: 'Tracksuit'
+      slick: 'Slick'
+    groups:
+      show:
+        subtitle: 'Classifica combinata di distanza, velocità e tempo'
+        not_available: 'Nessuna classe di tuta di questo gruppo ha ancora tutte e tre le discipline.'
+        no_results: 'Nessun pilota ha risultati in tutte e tre le discipline per questa selezione.'
+      navbar:
+        overall: 'Generale'
+      actions_bar:
+        raw: 'Grezzo'
+        wind_cancelled: 'Corretto per il vento'
+      scoreboard_header:
+        competitor: 'Concorrente'
+        total: 'Totale'
+      load_more:
+        load_more: 'Carica altri'
     index:
+      combined_scoreboard: 'Classifica combinata'
       show_archived: Mostra archiviati
       archived: Archiviati
       athletes:

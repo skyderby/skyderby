@@ -1,0 +1,14 @@
+<%# locals: (category:) %>
+
+<% if category.more? %>
+  <tr class="vc-group-scoreboard__more">
+    <td class="pinned-competitor-cell"></td>
+    <td colspan="<%= category.columns_count %>">
+      <%= link_to t('.load_more'),
+                  virtual_competition_group_category_path(category.group, category,
+                                                          page: category.next_page, **scoreboard_filters),
+                  class: 'button button--ghost button--sm',
+                  data: { turbo_stream: true } %>
+    </td>
+  </tr>
+<% end %>
