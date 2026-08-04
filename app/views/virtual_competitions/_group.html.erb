@@ -1,7 +1,13 @@
 <div class="vc-group">
   <h3 class="vc-group__title">
-    <%= title %>
+    <%= group.name %>
     <span class="vc-group__count"><%= competitions.size %></span>
+
+    <% if group.combined_scoreboard? %>
+      <%= link_to t('virtual_competitions.index.combined_scoreboard'),
+                  virtual_competition_group_path(group),
+                  class: 'vc-group__combined-link' %>
+    <% end %>
   </h3>
   <div class="vc-cards">
     <% competitions.each do |competition| %>

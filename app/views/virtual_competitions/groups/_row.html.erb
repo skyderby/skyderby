@@ -1,0 +1,50 @@
+<%# locals: (row:, category:) %>
+
+<% on_podium = category.podium? && row.rank <= 3 && row.total_points.positive? %>
+<% previous_rank = category.show_rank_changes? ? category.standings.previous_rank(row.profile_id) : nil %>
+
+<tr class="<%= class_names('scoreboard-competitor',
+                           'scoreboard-row--striped' => row.rank.even?,
+                           "podium-row--#{row.rank}" => on_podium) %>">
+  <%= render 'scoreboards/pinned_competitor_cell', name: row.profile.name.titleize %>
+
+  <td class="text-center rank-cell">
+    <% if on_podium %>
+      <span class="rank-badge rank-badge--<%= row.rank %>"><%= row.rank %></span>
+    <% else %>
+      <%= row.rank %>
+    <% end %>
+
+    <% if category.show_rank_changes? %>
+      <% if previous_rank.nil? %>
+        <span class="rank-new" data-controller="tooltip">•<span class="for-screen-reader"><%= t('virtual_competitions.scoreboard.rank_new') %></span></span>
+      <% elsif previous_rank > row.rank %>
+        <span class="rank-up" data-controller="tooltip">▲<span class="for-screen-reader"><%= t('virtual_competitions.scoreboard.rank_up', change: previous_rank - row.rank) %></span></span>
+      <% elsif previous_rank < row.rank %>
+        <span class="rank-down" data-controller="tooltip">▼<span class="for-screen-reader"><%= t('virtual_competitions.scoreboard.rank_down', change: row.rank - previous_rank) %></span></span>
+      <% else %>
+        <span class="rank-same">—</span>
+      <% end %>
+    <% end %>
+  </td>
+
+  <td class="competitor">
+    <%= link_to row.profile.name.titleize, profile_path(row.profile), class: 'competitor-profile' %>
+  </td>
+  <td class="text-center">
+    <span data-controller="tooltip">
+      <%= row.profile.country&.code %>
+      <span class="for-screen-reader"><%= row.profile.country&.name %></span>
+    </span>
+  </td>
+
+  <% category.competitions.each do |discipline, competition| %>
+    <% score = row.score(discipline) %>
+    <%= tag.td class: class_names('result-cell', 'text-green' => row.best_in?(discipline)) do %>
+      <%= link_to format_result(score.result, competition), score.track, class: 'result-show-cell' %>
+    <% end %>
+    <td class="text-right result-points-cell"><%= format('%.1f', row.points_in_disciplines[discipline]) %></td>
+  <% end %>
+
+  <td class="scoreboard-total-result"><%= format('%.1f', row.total_points) %></td>
+</tr>

@@ -1,0 +1,23 @@
+<%# locals: (scoreboard:) %>
+<% base = scoreboard_filters %>
+
+<div class="card actions-bar vc-actions-bar">
+  <div class="vc-actions-bar__filters">
+    <div class="tab-bar tab-bar--gender">
+      <% scoreboard.gender_options.each do |gender| %>
+        <%= link_to t("virtual_competitions.show.genders.#{gender || 'open'}"),
+                    virtual_competition_group_path(scoreboard.group, **base.merge(gender:).compact_blank),
+                    class: class_names('tab-bar-item', 'active' => scoreboard.gender == gender) %>
+      <% end %>
+    </div>
+
+    <div class="tab-bar tab-bar--wind">
+      <%= link_to t('.raw'),
+                  virtual_competition_group_path(scoreboard.group, **base.except(:wind)),
+                  class: class_names('tab-bar-item', 'active' => !scoreboard.wind_cancellation) %>
+      <%= link_to t('.wind_cancelled'),
+                  virtual_competition_group_path(scoreboard.group, **base.merge(wind: 1)),
+                  class: class_names('tab-bar-item', 'active' => scoreboard.wind_cancellation) %>
+    </div>
+  </div>
+</div>

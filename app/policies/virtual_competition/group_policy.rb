@@ -4,6 +4,6 @@ class VirtualCompetition::GroupPolicy < ApplicationPolicy
   end
 
   def show?
-    admin?
+    true
   end
 end

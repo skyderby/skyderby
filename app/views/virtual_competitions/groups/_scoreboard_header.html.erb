@@ -1,0 +1,19 @@
+<%# locals: (scoreboard:) %>
+
+<thead>
+  <tr>
+    <%= render 'scoreboards/pinned_competitor_header', label: t('.competitor'), rowspan: 2 %>
+    <th class="text-center" rowspan="2">#</th>
+    <th rowspan="2" colspan="2"><%= t('.competitor') %></th>
+    <% VirtualCompetition::Group::Scoreboard::DISCIPLINES.each do |discipline| %>
+      <th class="text-center" colspan="2"><%= t("disciplines.#{discipline}") %></th>
+    <% end %>
+    <th class="text-center" rowspan="2"><%= t('.total') %></th>
+  </tr>
+  <tr>
+    <% VirtualCompetition::Group::Scoreboard::DISCIPLINES.each do |discipline| %>
+      <th class="text-center"><%= combined_discipline_unit(discipline) %></th>
+      <th class="text-center">%</th>
+    <% end %>
+  </tr>
+</thead>

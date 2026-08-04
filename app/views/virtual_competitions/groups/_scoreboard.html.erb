@@ -1,0 +1,23 @@
+<%# locals: (scoreboard:) %>
+
+<div class="scoreboard-container" data-controller="events--sticky-header">
+  <div class="scoreboard-scroll"
+       data-events--sticky-header-target="container"
+       data-action="scroll->events--sticky-header#on_horizontal_scroll">
+    <table class="scoreboard-table scoreboard-table--pinned-competitor vc-group-scoreboard-table"
+           data-events--sticky-header-target="table">
+      <%= render 'virtual_competitions/groups/scoreboard_header', scoreboard: %>
+
+      <% scoreboard.populated_categories.each do |category| %>
+        <tbody id="<%= group_category_rows_id(category) %>">
+          <%= render 'virtual_competitions/groups/category_row', category: %>
+          <%= render partial: 'virtual_competitions/groups/row', collection: category.rows,
+                     as: :row, locals: { category: } %>
+        </tbody>
+        <tbody id="<%= group_category_more_id(category) %>">
+          <%= render 'virtual_competitions/groups/load_more', category: %>
+        </tbody>
+      <% end %>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<%= turbo_stream.append group_category_rows_id(@category) do %>
+  <%= render partial: 'virtual_competitions/groups/row', collection: @category.rows_on_page,
+             as: :row, locals: { category: @category } %>
+<% end %>
+
+<%= turbo_stream.replace group_category_more_id(@category) do %>
+  <tbody id="<%= group_category_more_id(@category) %>">
+    <%= render 'virtual_competitions/groups/load_more', category: @category %>
+  </tbody>
+<% end %>

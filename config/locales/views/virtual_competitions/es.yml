@@ -1,5 +1,25 @@
 es:
   virtual_competitions:
+    suit_kinds:
+      wingsuit: 'Wingsuit'
+      monotrack: 'Monotrack'
+      tracksuit: 'Tracksuit'
+      slick: 'Slick'
+    groups:
+      show:
+        subtitle: 'Clasificación combinada de distancia, velocidad y tiempo'
+        not_available: 'Ninguna clase de traje de este grupo tiene todavía las tres disciplinas.'
+        no_results: 'Ningún piloto tiene resultados en las tres disciplinas para esta selección.'
+      navbar:
+        overall: 'General'
+      actions_bar:
+        raw: 'Bruto'
+        wind_cancelled: 'Corregido por viento'
+      scoreboard_header:
+        competitor: 'Competidor'
+        total: 'Total'
+      load_more:
+        load_more: 'Cargar más'
     compare:
       start: Comparar tracks
       submit: Comparar
@@ -11,6 +31,7 @@ es:
         one: "Queda %{count} comparación gratuita"
         other: "Quedan %{count} comparaciones gratuitas"
     index:
+      combined_scoreboard: 'Clasificación combinada'
       show_archived: Mostrar archivados
       archived: Archivados
       athletes:
