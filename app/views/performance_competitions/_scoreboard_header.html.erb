@@ -1,4 +1,5 @@
 <%# locals: (event:, scoreboard:, editable:) %>
+<% show_discipline_points = scoreboard.show_discipline_points? %>
 
 <thead>
   <tr>
@@ -6,7 +7,7 @@
     <th class="text-center" rowspan="3">#</th>
     <th rowspan="3" colspan="2"><%= t('activerecord.models.event/competitor') %></th>
     <% scoreboard.rounds_by_discipline.each do |discipline, rounds| %>
-      <th class="text-center" colspan="<%= rounds.count * 2 + 1 %>"><%= t('disciplines.' + discipline) %></th>
+      <th class="text-center" colspan="<%= rounds.count * 2 + (show_discipline_points ? 1 : 0) %>"><%= t('disciplines.' + discipline) %></th>
     <% end %>
     <th class="text-center" rowspan="3"><%= t('events.show.total') %></th>
   </tr>
@@ -15,7 +16,9 @@
       <% rounds.each do |round| %>
         <%= render 'performance_competitions/round_cell', event:, round:, editable: %>
       <% end %>
-      <th class="text-center" rowspan="2" data-discipline="<%= discipline %>" data-role="points">%</th>
+      <% if show_discipline_points %>
+        <th class="text-center" rowspan="2" data-discipline="<%= discipline %>" data-role="points">%</th>
+      <% end %>
     <% end %>
   </tr>
   <tr>

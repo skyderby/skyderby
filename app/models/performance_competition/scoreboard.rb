@@ -12,8 +12,10 @@ class PerformanceCompetition::Scoreboard
   end
 
   def columns_count
-    @columns_count ||= rounds.count * 2 + rounds_by_discipline.count + 4
+    @columns_count ||= rounds.count * 2 + (show_discipline_points? ? rounds_by_discipline.count : 0) + 4
   end
+
+  def show_discipline_points? = rounds_by_discipline.size > 1
 
   def categories
     @categories ||=
