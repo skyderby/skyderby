@@ -48,6 +48,7 @@ it:
     person_details:
       modal_title: Migliori risultati in competizione
     scoreboard:
+      best: migliore
       result: Risultato
       show_details: Clicca il dettaglio della traccia
       show_profile: Clicca per vedere il profilo

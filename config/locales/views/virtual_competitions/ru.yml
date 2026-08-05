@@ -50,6 +50,7 @@ ru:
     person_details:
       modal_title: Лучшие результаты в соревновании
     scoreboard:
+      best: лучший
       result: Результат
       show_details: Нажмите для просмотра деталей трека
       show_profile: Нажмите для просмотра профиля пилота

@@ -48,6 +48,7 @@ en:
     person_details:
       modal_title: Best results in competition
     scoreboard:
+      best: best
       result: Result
       show_details: Click to view track details
       show_profile: Click to view profile

@@ -1,15 +1,32 @@
-.vc-group-scoreboard-table tbody tr.scoreboard-row--striped > td {
-  --pinned-tint: rgba(0, 0, 0, 0.015);
-  background-color: var(--pinned-tint);
-}
-
 .vc-group-scoreboard-table .competitor-profile {
   font-weight: 700;
+}
+
+.vc-group-scoreboard-table .competitor-profile .contributor {
+  font-weight: inherit;
 }
 
 .vc-group-scoreboard-table a.result-show-cell,
 .vc-group-scoreboard-table td.scoreboard-total-result {
   font-weight: 700;
+}
+
+.vc-group-scoreboard-table a.result-show-cell {
+  background-color: transparent;
+  line-height: 1.2;
+  padding: 0.25rem 0.5rem 0.125rem;
+}
+
+.vc-group-scoreboard-table tbody td {
+  vertical-align: top;
+}
+
+.vc-group-scoreboard-table tbody td.result-cell {
+  height: auto;
+}
+
+.vc-group-scoreboard-table tbody tr.scoreboard-competitor > td:not(.result-cell, .pinned-competitor-cell) {
+  padding-top: 0.3rem;
 }
 
 .vc-group-scoreboard-table td.text-green,

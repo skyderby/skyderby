@@ -29,7 +29,11 @@
   </td>
 
   <td class="competitor">
-    <%= link_to row.profile.name.titleize, profile_path(row.profile), class: 'competitor-profile' %>
+    <%= link_to profile_path(row.profile), class: 'competitor-profile' do %>
+      <span class="<%= 'contributor' if row.profile.contributor? %>">
+        <%= row.profile.name.titleize %>
+      </span>
+    <% end %>
   </td>
   <td class="text-center">
     <span data-controller="tooltip">
@@ -40,8 +44,14 @@
 
   <% category.competitions.each do |discipline, competition| %>
     <% score = row.score(discipline) %>
+    <% gap = row.gap_to_best(discipline) %>
     <%= tag.td class: class_names('result-cell', 'text-green' => row.best_in?(discipline)) do %>
       <%= link_to format_result(score.result, competition), score.track, class: 'result-show-cell' %>
+      <% if row.best_in?(discipline) %>
+        <div class="result-gap result-gap--leader"><%= t('virtual_competitions.scoreboard.best') %></div>
+      <% elsif gap %>
+        <div class="result-gap text-gray"><%= format_gap(gap, competition) %></div>
+      <% end %>
     <% end %>
     <td class="text-right result-points-cell"><%= format('%.1f', row.points_in_disciplines[discipline]) %></td>
   <% end %>
