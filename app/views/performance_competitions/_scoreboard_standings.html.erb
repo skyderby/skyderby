@@ -4,6 +4,7 @@
 <% podium_enabled = standings.rows.size >= 3 %>
 <% time_machine = scoreboard.time_machine? %>
 <% show_delta = any_completed && scoreboard.completed_rounds.length > 1 && (!event.finished? || time_machine) %>
+<% show_discipline_points = scoreboard.show_discipline_points? %>
 
 <% standings.rows.each_with_index do |row, index| %>
   <% on_podium = podium_enabled && any_completed && row.total_points.to_f.positive? && row.rank <= 3 %>
@@ -71,11 +72,13 @@
           <% end %>
         <% end %>
       <% end %>
-      <td class="text-right discipline-points">
-        <% points_in_discipline = row.points_in_disciplines[discipline] %>
-        <% show_points = time_machine ? points_in_discipline.present? : rounds.any?(&:completed?) %>
-        <%= format('%.1f', points_in_discipline.to_f) if show_points %>
-      </td>
+      <% if show_discipline_points %>
+        <td class="text-right discipline-points">
+          <% points_in_discipline = row.points_in_disciplines[discipline] %>
+          <% show_points = time_machine ? points_in_discipline.present? : rounds.any?(&:completed?) %>
+          <%= format('%.1f', points_in_discipline.to_f) if show_points %>
+        </td>
+      <% end %>
     <% end %>
     <td class="scoreboard-total-result" data-total>
       <% show_total = time_machine ? scoreboard.completed_rounds.any? : any_completed %>

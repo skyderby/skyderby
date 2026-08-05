@@ -14,6 +14,8 @@ class PerformanceCompetition::TaskScoreboard
     @columns_count ||= rounds.count * 2 + 4
   end
 
+  def show_discipline_points? = false
+
   def standings
     previous_standings = PerformanceCompetition::Scoreboard::Standings.new(
       event.competitors,
