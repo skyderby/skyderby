@@ -71,7 +71,9 @@ export default class extends Controller {
 
     clone.style.width = this.tableTarget.offsetWidth + 'px'
 
-    const dataRow = this.tableTarget.querySelector('tbody tr:has(td + td)')
+    const dataRow = Array.from(this.tableTarget.querySelectorAll('tbody tr')).find(
+      row => row.cells.length > 1 && !Array.from(row.cells).some(cell => cell.colSpan > 1)
+    )
     if (dataRow) {
       let colgroup = clone.querySelector('colgroup')
       if (!colgroup) {

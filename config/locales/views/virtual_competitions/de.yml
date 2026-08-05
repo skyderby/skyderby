@@ -46,6 +46,7 @@ de:
         open: Offen
         female: Frauen
     scoreboard:
+      best: bester
       result: Ergebnis
       show_details: 'Klicke hier für Trackdetails'
       show_profile: 'Hier klicken für Profil'

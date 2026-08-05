@@ -55,6 +55,10 @@ module VirtualCompetitionsHelper
     end
   end
 
+  def format_gap(gap, competition)
+    "#{gap.negative? ? '-' : '+'}#{format_result(gap.abs, competition)}"
+  end
+
   DISCIPLINE_ICONS = {
     'distance' => 'ruler-horizontal',
     'distance_in_time' => 'ruler-horizontal',

@@ -19,6 +19,14 @@ class VirtualCompetition::Group::Scoreboard
       result.present? && result == best_results[discipline]
     end
 
+    def gap_to_best(discipline)
+      result = score(discipline)&.result
+      best = best_results[discipline]
+      return if result.blank? || best.blank? || result == best
+
+      result - best
+    end
+
     def points_in_disciplines
       @points_in_disciplines ||= competitions.keys.index_with { |discipline| points_in(discipline) }
     end

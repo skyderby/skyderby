@@ -162,6 +162,20 @@
   width: 100%;
 }
 
+.scoreboard-table .result-gap {
+  padding: 0 0.5rem 0.25rem;
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 400;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.scoreboard-table .result-gap--leader {
+  color: var(--green-90);
+  font-weight: 600;
+}
+
 .scoreboard-table .result-show-cell {
   display: flex;
   align-items: center;
@@ -547,20 +561,6 @@ td.scoreboard-total-result {
   border-right-color: transparent;
 }
 
-.qualification-scoreboard-table .result-gap {
-  padding: 0 0.5rem 0.25rem;
-  font-size: 0.6875rem;
-  line-height: 1;
-  font-weight: 400;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-.qualification-scoreboard-table .result-gap--leader {
-  color: var(--green-90);
-  font-weight: 600;
-}
-
 .qualification-scoreboard-table .rank-badge {
   display: inline-flex;
   align-items: center;
@@ -748,16 +748,6 @@ td.scoreboard-total-result {
   color: var(--white);
 }
 
-.speed-skydiving-scoreboard-table tbody tr:nth-child(even) > td {
-  --pinned-tint: rgba(0, 0, 0, 0.015);
-  background-color: var(--pinned-tint);
-}
-
-.performance-competition-scoreboard-table tbody tr.scoreboard-row--striped > td {
-  --pinned-tint: rgba(0, 0, 0, 0.015);
-  background-color: var(--pinned-tint);
-}
-
 .performance-competition-scoreboard-table .competitor-profile {
   font-weight: 700;
 }
@@ -796,22 +786,14 @@ td.scoreboard-total-result {
   padding-top: 0.3rem;
 }
 
-.performance-competition-scoreboard-table .result-gap {
-  padding: 0 0.5rem 0.25rem;
-  font-size: 0.6875rem;
-  line-height: 1;
-  font-weight: 400;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-.performance-competition-scoreboard-table .result-gap--leader {
-  color: var(--green-90);
-  font-weight: 600;
-}
-
 .team-standings-table tbody tr.team-row--striped > td {
   background-color: rgba(0, 0, 0, 0.015);
+}
+
+.scoreboard-table tbody tr.scoreboard-row--striped > td,
+.speed-skydiving-scoreboard-table tbody tr:nth-child(even) > td {
+  --pinned-tint: rgba(0, 0, 0, 0.015);
+  background-color: var(--pinned-tint);
 }
 
 .scoreboard-table tbody tr.podium-row--1 > td {

@@ -56,6 +56,7 @@ es:
         open: Abierta
         female: Femenina
     scoreboard:
+      best: mejor
       result: Result
       show_details: Haz click para ver el seguimiento
       show_profile: Haz click para ver el perfil
