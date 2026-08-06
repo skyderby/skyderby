@@ -1,17 +1,18 @@
 <div class="vc-group">
   <h3 class="vc-group__title">
     <%= group.name %>
-    <span class="vc-group__count"><%= competitions.size %></span>
-
-    <% if group.combined_scoreboard? %>
-      <%= link_to t('virtual_competitions.index.combined_scoreboard'),
-                  virtual_competition_group_path(group),
-                  class: 'vc-group__combined-link' %>
-    <% end %>
+    <span class="vc-group__count"><%= group.size %></span>
   </h3>
-  <div class="vc-cards">
-    <% competitions.each do |competition| %>
-      <%= render 'card', competition: competition, count: index.athlete_count(competition), finished: finished %>
-    <% end %>
-  </div>
+
+  <% if group.combined_scoreboard? %>
+    <%= render 'combined_card', group: group, finished: finished %>
+  <% end %>
+
+  <% if group.cards.any? %>
+    <div class="vc-cards">
+      <% group.cards.each do |competition| %>
+        <%= render 'card', competition: competition, count: group.athlete_count(competition), finished: finished %>
+      <% end %>
+    </div>
+  <% end %>
 </div>

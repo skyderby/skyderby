@@ -22,12 +22,16 @@ it:
         load_more: 'Carica altri'
     index:
       combined_scoreboard: 'Classifica combinata'
+      combined_description: 'Raggruppata per tipo di tuta, con Distanza, Velocità e Tempo in colonne affiancate.'
+      combined_summary: 'Per tipo di tuta · %{count} discipline'
+      combined_open: 'Apri'
+      individual_scoreboards: 'Classifiche individuali'
       show_archived: Mostra archiviati
       archived: Archiviati
       athletes:
         zero: Nessun atleta
-        one: "%{count} atleta"
-        other: "%{count} atleti"
+        one: "%{formatted} atleta"
+        other: "%{formatted} atleti"
     badges:
       speed: Velocità
       vertical_speed: Velocità

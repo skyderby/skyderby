@@ -13,7 +13,7 @@
       </span>
       <span class="vc-card__athletes">
         <%= icon_tag 'users-solid' %>
-        <%= t('virtual_competitions.index.athletes', count: count) %>
+        <%= t('virtual_competitions.index.athletes', count: count, formatted: number_with_delimiter(count)) %>
       </span>
     </div>
   </div>
