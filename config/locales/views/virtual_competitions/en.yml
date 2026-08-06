@@ -30,12 +30,16 @@ en:
         female: Female
     index:
       combined_scoreboard: 'Combined scoreboard'
+      combined_description: 'Grouped by suit type, with Distance, Speed and Time columns side by side.'
+      combined_summary: 'Grouped by suit type · %{count} disciplines'
+      combined_open: 'Open'
+      individual_scoreboards: 'Individual scoreboards'
       show_archived: Show archived
       archived: Archived
       athletes:
         zero: No athletes
-        one: "%{count} athlete"
-        other: "%{count} athletes"
+        one: "%{formatted} athlete"
+        other: "%{formatted} athletes"
     badges:
       speed: Speed
       vertical_speed: Speed

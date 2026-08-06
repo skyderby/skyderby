@@ -22,12 +22,16 @@ de:
         load_more: 'Mehr laden'
     index:
       combined_scoreboard: 'Gesamtwertung'
+      combined_description: 'Nach Anzugtyp gruppiert, mit Distanz, Geschwindigkeit und Zeit als Spalten nebeneinander.'
+      combined_summary: 'Nach Anzugtyp · %{count} Disziplinen'
+      combined_open: 'Öffnen'
+      individual_scoreboards: 'Einzelwertungen'
       show_archived: Archiv anzeigen
       archived: Archiv
       athletes:
         zero: Keine Teilnehmer
-        one: "%{count} Teilnehmer"
-        other: "%{count} Teilnehmer"
+        one: "%{formatted} Teilnehmer"
+        other: "%{formatted} Teilnehmer"
     badges:
       speed: Geschwindigkeit
       vertical_speed: Geschwindigkeit

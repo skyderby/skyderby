@@ -1,0 +1,57 @@
+<div class="<%= class_names('vc-combined', finished && 'vc-combined--finished') %>">
+  <%= link_to virtual_competition_group_path(group), class: 'vc-combined__intro' do %>
+    <span class="vc-combined__icon"><%= icon_tag 'table-cells-large-solid' %></span>
+    <span class="vc-combined__text">
+      <span class="vc-combined__title"><%= t('virtual_competitions.index.combined_scoreboard') %></span>
+      <span class="vc-combined__description">
+        <%= t('virtual_competitions.index.combined_description') %>
+      </span>
+      <span class="vc-combined__summary">
+        <%= t('virtual_competitions.index.combined_summary', count: group.disciplines.size) %>
+      </span>
+    </span>
+    <span class="vc-combined__open">
+      <span class="vc-combined__open-label"><%= t('virtual_competitions.index.combined_open') %></span>
+      <%= icon_tag 'angle-right-solid' %>
+    </span>
+  <% end %>
+
+  <div class="vc-combined__matrix">
+    <div class="vc-combined__matrix-header">
+      <span class="vc-combined__matrix-title"><%= t('virtual_competitions.index.individual_scoreboards') %></span>
+      <span class="vc-combined__matrix-count">
+        <% athlete_count = group.combined_athlete_count %>
+        <%= t('virtual_competitions.index.athletes', count: athlete_count,
+                                                     formatted: number_with_delimiter(athlete_count)) %>
+      </span>
+    </div>
+
+    <table class="vc-combined__table">
+      <thead>
+        <tr>
+          <td class="vc-combined__corner"></td>
+          <% group.disciplines.each do |discipline| %>
+            <th class="vc-combined__discipline vc-combined__discipline--<%= discipline %>">
+              <%= t("virtual_competitions.badges.#{discipline}") %>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% group.categories.each do |category| %>
+          <tr>
+            <th scope="row" class="vc-combined__suit"><%= category.name %></th>
+            <% category.cells.each do |cell| %>
+              <td class="vc-combined__cell-wrap">
+                <%= link_to number_with_delimiter(cell.athlete_count),
+                            virtual_competition_path(cell.competition),
+                            class: "vc-combined__cell vc-combined__cell--#{cell.discipline}",
+                            title: cell.competition.name %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

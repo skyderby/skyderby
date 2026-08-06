@@ -22,12 +22,16 @@ fr:
         load_more: 'Voir plus'
     index:
       combined_scoreboard: 'Classement combiné'
+      combined_description: 'Regroupé par type de combinaison, avec Distance, Vitesse et Temps en colonnes côte à côte.'
+      combined_summary: 'Par type de combinaison · %{count} disciplines'
+      combined_open: 'Ouvrir'
+      individual_scoreboards: 'Classements individuels'
       show_archived: Afficher les archives
       archived: Archives
       athletes:
         zero: Aucun athlète
-        one: "%{count} athlète"
-        other: "%{count} athlètes"
+        one: "%{formatted} athlète"
+        other: "%{formatted} athlètes"
     badges:
       speed: Vitesse
       vertical_speed: Vitesse

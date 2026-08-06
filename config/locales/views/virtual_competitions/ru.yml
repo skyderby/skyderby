@@ -30,14 +30,18 @@ ru:
         female: Женщины
     index:
       combined_scoreboard: 'Общий зачёт'
+      combined_description: 'Разбит по типу костюма, дистанция, скорость и время — колонками рядом.'
+      combined_summary: 'По типу костюма · %{count} дисциплины'
+      combined_open: 'Открыть'
+      individual_scoreboards: 'Отдельные зачёты'
       show_archived: Показать архив
       archived: Архив
       athletes:
         zero: Нет участников
-        one: "%{count} участник"
-        few: "%{count} участника"
-        many: "%{count} участников"
-        other: "%{count} участников"
+        one: "%{formatted} участник"
+        few: "%{formatted} участника"
+        many: "%{formatted} участников"
+        other: "%{formatted} участников"
     badges:
       speed: Скорость
       vertical_speed: Скорость

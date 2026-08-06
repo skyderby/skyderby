@@ -5,6 +5,16 @@ class VirtualCompetition::Group
     PER_PAGE = 25
     SNAPSHOT_AGE = 1.week
 
+    def self.categorize(competitions)
+      SUIT_KINDS.filter_map do |suit_kind|
+        by_discipline = competitions.select { |competition| competition.suits_kind == suit_kind }
+                                    .index_by(&:discipline)
+        next unless (DISCIPLINES - by_discipline.keys).empty?
+
+        [suit_kind, by_discipline.slice(*DISCIPLINES)]
+      end.to_h
+    end
+
     attr_reader :group, :year, :wind_cancellation, :gender
 
     def initialize(group, year: nil, wind_cancellation: false, gender: nil, pages: {})
@@ -16,7 +26,9 @@ class VirtualCompetition::Group
     end
 
     def categories
-      @categories ||= SUIT_KINDS.filter_map { |suit_kind| build_category(suit_kind) }
+      @categories ||= group.combined_categories.map do |suit_kind, by_discipline|
+        build_category(suit_kind, by_discipline)
+      end
     end
 
     def category(suit_kind) = categories.find { |category| category.suit_kind == suit_kind }
@@ -33,7 +45,7 @@ class VirtualCompetition::Group
 
     def overall? = year.nil?
 
-    def competitions = @competitions ||= group.virtual_competitions.where(discipline: DISCIPLINES).to_a
+    def competitions = group.combined_competitions
 
     private
 
@@ -42,13 +54,7 @@ class VirtualCompetition::Group
       year if year && group.years.include?(year)
     end
 
-    def build_category(suit_kind)
-      by_discipline = competitions.select { |competition| competition.suits_kind == suit_kind }
-                                  .index_by(&:discipline)
-      return unless DISCIPLINES.all? { |discipline| by_discipline.key?(discipline) }
-
-      by_discipline = by_discipline.slice(*DISCIPLINES)
-
+    def build_category(suit_kind, by_discipline)
       Category.new(
         self,
         suit_kind,

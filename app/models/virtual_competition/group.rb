@@ -17,9 +17,9 @@ class VirtualCompetition::Group < ApplicationRecord
 
   def years = virtual_competitions.select(&:annual?).flat_map(&:years).uniq.sort
 
-  def combined_scoreboard?
-    virtual_competitions.group_by(&:suits_kind).any? do |suit_kind, competitions|
-      suit_kind.present? && (Scoreboard::DISCIPLINES - competitions.map(&:discipline)).empty?
-    end
-  end
+  def combined_scoreboard? = combined_categories.any?
+
+  def combined_categories = @combined_categories ||= Scoreboard.categorize(virtual_competitions)
+
+  def combined_competitions = combined_categories.values.flat_map(&:values)
 end

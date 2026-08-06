@@ -32,12 +32,16 @@ es:
         other: "Quedan %{count} comparaciones gratuitas"
     index:
       combined_scoreboard: 'Clasificación combinada'
+      combined_description: 'Agrupada por tipo de traje, con Distancia, Velocidad y Tiempo en columnas contiguas.'
+      combined_summary: 'Por tipo de traje · %{count} disciplinas'
+      combined_open: 'Abrir'
+      individual_scoreboards: 'Clasificaciones individuales'
       show_archived: Mostrar archivados
       archived: Archivados
       athletes:
         zero: Sin atletas
-        one: "%{count} atleta"
-        other: "%{count} atletas"
+        one: "%{formatted} atleta"
+        other: "%{formatted} atletas"
     badges:
       speed: Velocidad
       vertical_speed: Velocidad
