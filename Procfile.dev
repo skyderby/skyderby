@@ -1,2 +1,2 @@
-web: bin/rails server -p $WEB_PORT
-webpack: bin/webpacker-dev-server
+web: WEBPACKER_DEV_SERVER_PORT=$((WEB_PORT + 100)) bin/rails server -p $WEB_PORT
+webpack: WEBPACKER_DEV_SERVER_PORT=$((WEB_PORT + 100)) bin/webpacker-dev-server
