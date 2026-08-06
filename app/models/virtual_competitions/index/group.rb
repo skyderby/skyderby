@@ -1,11 +1,11 @@
 module VirtualCompetitions
   class Index
     class Group < SimpleDelegator
-      Category = Struct.new(:suit_kind, :cells) do
+      Category = Data.define(:suit_kind, :cells) do
         def name = I18n.t("virtual_competitions.suit_kinds.#{suit_kind}")
       end
 
-      Cell = Struct.new(:discipline, :competition, :athlete_count)
+      Cell = Data.define(:discipline, :competition, :athlete_count)
 
       attr_reader :section
 
