@@ -19,7 +19,7 @@ export default class FlightProfilesController extends Controller {
     'proCtaLabel'
   ]
 
-  static values = { jumpProfilesUrl: String }
+  static values = { terrainProfilesUrl: String, measurementsUrlTemplate: String }
 
   connect() {
     this.selectedTracks = new Set(this.getSelectedTracksFromUrl())
@@ -165,17 +165,17 @@ export default class FlightProfilesController extends Controller {
     if (this.currentMeasurements) return
     if (this.getJumpLineIdFromUrl()) return
     if (this.selectedTracks.size !== 1) return
-    if (!track.placeId || !this.jumpProfilesUrlValue) return
+    if (!track.placeId || !this.terrainProfilesUrlValue) return
 
-    const option = await this.fetchPlaceJumpProfile(track.placeId)
+    const option = await this.fetchPlaceTerrainProfile(track.placeId)
     if (!option) return
     if (this.currentMeasurements || this.selectedTracks.size !== 1) return
 
     this.selectJumpLine(option.id, option.name)
   }
 
-  async fetchPlaceJumpProfile(placeId) {
-    const response = await get(this.jumpProfilesUrlValue, {
+  async fetchPlaceTerrainProfile(placeId) {
+    const response = await get(this.terrainProfilesUrlValue, {
       query: { place_id: placeId },
       responseKind: 'html'
     })
@@ -318,7 +318,9 @@ export default class FlightProfilesController extends Controller {
   }
 
   displayTerrainProfile(jumpLineId) {
-    return get(`/exit_measurements/${jumpLineId}`, { responseKind: 'json' })
+    return get(this.measurementsUrlTemplateValue.replace('__ID__', jumpLineId), {
+      responseKind: 'json'
+    })
       .then(response => response.json)
       .then(({ name, measurements }) => {
         this.currentMeasurements = measurements

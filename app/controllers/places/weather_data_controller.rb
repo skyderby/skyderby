@@ -2,8 +2,6 @@ class Places::WeatherDataController < ApplicationController
   before_action :set_place
 
   def show
-    authorize @place, :show?
-
     @time =
       if params[:day].present? && params[:hour].present?
         Time.zone.parse("#{params[:day]}T#{params[:hour]}:00:00Z")

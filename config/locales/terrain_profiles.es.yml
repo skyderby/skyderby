@@ -1,0 +1,27 @@
+es:
+  terrain_profiles:
+    draft: "Borrador"
+    index:
+      title: "Perfiles de terreno"
+      shared: "Públicos"
+      own: "Personales"
+      search_placeholder: "Buscar..."
+      no_shared_profiles: "Aún no hay perfiles de terreno compartidos"
+      no_own_profiles: "Todavía no tienes perfiles de terreno"
+      new: "Nuevo perfil"
+    new:
+      title: "Nuevo perfil de terreno"
+    form:
+      general: "General"
+      measurements: "Mediciones del terreno"
+      measurements_hint: "Una medición por línea: altitud y distancia desde la salida, en metros. El gráfico se actualiza mientras escribes."
+      ownership: "Propiedad"
+      ownership_personal: "Personal"
+      ownership_shared: "Público"
+      ownership_hint: "Los perfiles públicos son de todos y pueden ser mantenidos por otros editores de ubicaciones."
+      publication: "Publicación"
+      publish: "Publicar este perfil"
+      publish_hint: "Los perfiles publicados son visibles para todos. Se requieren una ubicación y un track grabado allí."
+      place_hint: "Opcional. Obligatorio si publicas el perfil."
+      select_place: "Seleccionar ubicación"
+      select_track: "Seleccionar track"

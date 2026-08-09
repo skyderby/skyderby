@@ -1,0 +1,22 @@
+ru:
+  activerecord:
+    models:
+      terrain_profile: "Профили рельефа"
+    attributes:
+      terrain_profile:
+        name: "Название"
+        place_id: "Локация"
+        track_id: "Трек"
+        measurements_text: "Замеры"
+        published: "Опубликован"
+      terrain_profile/measurement:
+        altitude: "Высота"
+        distance: "Расстояние"
+    errors:
+      models:
+        terrain_profile:
+          attributes:
+            measurements_text:
+              invalid_format: "должны содержать два числа в строке: высоту и расстояние"
+            track_id:
+              not_at_place: "должен быть записан в выбранной локации"

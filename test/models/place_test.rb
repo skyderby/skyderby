@@ -14,6 +14,16 @@ class PlaceTest < ActiveSupport::TestCase
     }
   end
 
+  test 'destroying a place removes shared terrain profiles and keeps personal ones' do
+    shared = @place.terrain_profiles.create!(name: 'Community line')
+    personal = @place.terrain_profiles.create!(name: 'My line', user: users(:regular_user))
+
+    @place.destroy
+
+    assert_not TerrainProfile.exists?(shared.id)
+    assert_nil personal.reload.place_id
+  end
+
   test 'validations' do
     assert_not Place.new(@valid_attributes.merge(country: nil)).valid?
     assert_not Place.new(@valid_attributes.merge(name: nil)).valid?

@@ -8,6 +8,7 @@ class Tracks::SelectOptionsController < ApplicationController
       Track
       .order(recorded_at: :desc)
       .then { |tracks| profile_id ? tracks.where(profile_id: profile_id) : tracks }
+      .then { |tracks| place_id ? tracks.where(place_id: place_id) : tracks }
       .search(search_query)
       .page(page).per(25)
 
@@ -19,4 +20,6 @@ class Tracks::SelectOptionsController < ApplicationController
   def search_query = params[:term]
 
   def profile_id = params[:profile_id]
+
+  def place_id = params[:place_id]
 end

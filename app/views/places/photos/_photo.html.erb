@@ -1,6 +1,6 @@
 <div class="place-photos__item col-sm-3" id="<%= dom_id(photo) %>">
   <%= image_tag photo.image_url(:thumb), class: 'img-responsive' %>
-  <% if policy(photo).destroy? %>
+  <% if photo.deletable? %>
     <%= button_to place_photo_path(photo.place, photo), method: :delete, data: { turbo_stream: true, turbo_confirm: 'Are you sure?' }, class: 'place-photos__item-delete' do %>
       <%= icon_tag 'trash-solid' %>
     <% end %>

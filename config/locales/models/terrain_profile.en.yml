@@ -1,0 +1,22 @@
+en:
+  activerecord:
+    models:
+      terrain_profile: "Terrain profiles"
+    attributes:
+      terrain_profile:
+        name: "Name"
+        place_id: "Location"
+        track_id: "Track"
+        measurements_text: "Measurements"
+        published: "Published"
+      terrain_profile/measurement:
+        altitude: "Altitude"
+        distance: "Distance"
+    errors:
+      models:
+        terrain_profile:
+          attributes:
+            measurements_text:
+              invalid_format: "must contain two numbers per line: altitude and distance"
+            track_id:
+              not_at_place: "must be recorded at the selected location"

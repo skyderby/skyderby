@@ -1,0 +1,93 @@
+<% provide :title, page_title(t('terrain_profiles.index.title')) %>
+<% provide :page_class, 'fullscreen' %>
+
+<div class="explorer"
+     data-controller="terrain-profiles"
+     data-terrain-profiles-measurements-url-template-value="<%= terrain_profile_measurements_path('__ID__') %>">
+  <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
+    <div class="explorer-search">
+      <% if @index.own? %>
+        <div class="segmented-control">
+          <button type="button"
+                  class="segmented-control-option active"
+                  data-scope="published"
+                  data-terrain-profiles-target="scopeButton"
+                  data-action="terrain-profiles#switchScope">
+            <%= t('.shared') %>
+          </button>
+          <button type="button"
+                  class="segmented-control-option"
+                  data-scope="own"
+                  data-terrain-profiles-target="scopeButton"
+                  data-action="terrain-profiles#switchScope">
+            <%= t('.own') %>
+          </button>
+        </div>
+      <% end %>
+
+      <div class="search-input-container">
+        <div class="search-input-icon">
+          <%= icon_tag 'magnifying-glass-solid' %>
+        </div>
+        <input class="search-input"
+               type="text"
+               placeholder="<%= t('.search_placeholder') %>"
+               data-terrain-profiles-target="search"
+               data-action="input->terrain-profiles#filter">
+      </div>
+    </div>
+
+    <div class="explorer-sidebar-scrollable">
+      <ul class="explorer-list" data-scope="published" data-terrain-profiles-target="scope">
+        <%= render partial: 'terrain_profiles/terrain_profile',
+                   collection: @index.published,
+                   as: :terrain_profile %>
+        <% if @index.published.empty? %>
+          <li class="explorer-list-empty"><%= t('.no_shared_profiles') %></li>
+        <% end %>
+      </ul>
+
+      <% if @index.own? %>
+        <ul class="explorer-list hide" data-scope="own" data-terrain-profiles-target="scope">
+          <%= render partial: 'terrain_profiles/terrain_profile',
+                     collection: @index.own,
+                     as: :terrain_profile %>
+          <% if @index.own.empty? %>
+            <li class="explorer-list-empty"><%= t('.no_own_profiles') %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
+    <div class="explorer-sidebar-toggle">
+      <button class="button" data-action="toggleable#toggle terrain-profiles#resizeChart">
+        <%= icon_tag 'angle-left-solid', class: 'explorer-sidebar-toggle-opened' %>
+        <%= icon_tag 'angle-right-solid', class: 'explorer-sidebar-toggle-closed' %>
+      </button>
+    </div>
+
+    <% if TerrainProfile.creatable? %>
+      <div class="explorer-sidebar-footer">
+        <%= link_to new_terrain_profile_path, class: 'button' do %>
+          <%= icon_tag 'plus-solid' %>
+          <%= t('.new') %>
+        <% end %>
+      </div>
+    <% end %>
+  </aside>
+  <aside class="explorer-sidebar-mask"></aside>
+
+  <main class="explorer-main">
+    <div class="terrain-profiles-chart">
+      <div class="fp-profile" data-terrain-profiles-target="chartHost"></div>
+      <div class="flight-profiles-tagbar" data-terrain-profiles-target="tagbar">
+        <template data-terrain-profiles-target="tagTemplate">
+          <div class="filter-tag">
+            <span class="filter-tag-type"></span>
+            <button class="filter-tag-remove" data-action="terrain-profiles#removeTag">×</button>
+          </div>
+        </template>
+      </div>
+    </div>
+  </main>
+</div>

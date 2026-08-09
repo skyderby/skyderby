@@ -4,14 +4,12 @@ module Places
 
     def index
       @photos = @place.photos
-
-      authorize @photos
     end
 
     def new
-      @photo = @place.photos.new
+      return respond_not_authorized unless Place::Photo.creatable?
 
-      authorize @photo
+      @photo = @place.photos.new
 
       respond_to do |format|
         format.turbo_stream
@@ -19,9 +17,9 @@ module Places
     end
 
     def create
-      @photo = @place.photos.new(photo_params)
+      return respond_not_authorized unless Place::Photo.creatable?
 
-      authorize @photo
+      @photo = @place.photos.new(photo_params)
 
       if @photo.save
         respond_to do |format|
@@ -35,7 +33,7 @@ module Places
     def destroy
       @photo = @place.photos.find(params[:id])
 
-      authorize @photo
+      return respond_not_authorized unless @photo.deletable?
 
       if @photo.destroy
         respond_to do |format|

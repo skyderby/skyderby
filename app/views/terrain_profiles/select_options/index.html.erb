@@ -1,0 +1,17 @@
+<turbo-frame id="<%= sanitize params[:frame_id] %>">
+  <div class="hot-select-options">
+    <% @terrain_profiles.each do |terrain_profile| %>
+      <div class="hot-select-option" data-value="<%= terrain_profile.id %>">
+        <span class="hot-select-option-label"><%= terrain_profile.full_name %></span>
+        <% unless terrain_profile.published? %>
+          <span class="pill pill-blue-gray"><%= t('terrain_profiles.index.own') %></span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @terrain_profiles.next_page %>
+      <% frame_id = "#{sanitize params[:frame_id]}-#{@terrain_profiles.next_page}" %>
+      <%= render 'hot_select/load_more', page: @terrain_profiles.next_page, frame_id: %>
+    <% end %>
+  </div>
+</turbo-frame>

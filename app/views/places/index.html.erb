@@ -23,7 +23,7 @@
       </button>
     </div>
 
-    <% if policy(Place).create? %>
+    <% if Place.creatable? %>
       <div class="explorer-sidebar-footer">
         <%= link_to new_place_path, class: 'button' do %>
           <%= icon_tag 'plus-solid' %>

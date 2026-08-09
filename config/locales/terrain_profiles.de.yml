@@ -1,0 +1,27 @@
+de:
+  terrain_profiles:
+    draft: "Entwurf"
+    index:
+      title: "Geländeprofile"
+      shared: "Öffentlich"
+      own: "Persönlich"
+      search_placeholder: "Suchen..."
+      no_shared_profiles: "Noch keine allgemeinen Geländeprofile"
+      no_own_profiles: "Sie haben noch keine Geländeprofile"
+      new: "Neues Profil"
+    new:
+      title: "Neues Geländeprofil"
+    form:
+      general: "Allgemein"
+      measurements: "Geländemessungen"
+      measurements_hint: "Eine Messung pro Zeile: Höhe und Entfernung vom Exit in Metern. Das Diagramm aktualisiert sich beim Tippen."
+      ownership: "Eigentum"
+      ownership_personal: "Persönlich"
+      ownership_shared: "Öffentlich"
+      ownership_hint: "Öffentliche Profile gehören allen und können von anderen Ortsredakteuren gepflegt werden."
+      publication: "Veröffentlichung"
+      publish: "Dieses Profil veröffentlichen"
+      publish_hint: "Veröffentlichte Profile sind für alle sichtbar. Ein Ort und ein dort aufgezeichneter Track sind erforderlich."
+      place_hint: "Optional. Erforderlich, wenn Sie das Profil veröffentlichen."
+      select_place: "Ort auswählen"
+      select_track: "Track auswählen"

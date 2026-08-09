@@ -1,0 +1,22 @@
+it:
+  activerecord:
+    models:
+      terrain_profile: "Profili del terreno"
+    attributes:
+      terrain_profile:
+        name: "Nome"
+        place_id: "Località"
+        track_id: "Traccia"
+        measurements_text: "Misurazioni"
+        published: "Pubblicato"
+      terrain_profile/measurement:
+        altitude: "Altitudine"
+        distance: "Distanza"
+    errors:
+      models:
+        terrain_profile:
+          attributes:
+            measurements_text:
+              invalid_format: "devono contenere due numeri per riga: altitudine e distanza"
+            track_id:
+              not_at_place: "deve essere registrata nella località selezionata"

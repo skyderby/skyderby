@@ -10,3 +10,8 @@ regular_user:
 event_responsible:
   email: event_responsible@example.com
   confirmed_at: 2015-01-01 00:00:00
+
+places_editor:
+  email: places_editor@example.com
+  confirmed_at: 2015-01-01 00:00:00
+  roles: ['edit_places']

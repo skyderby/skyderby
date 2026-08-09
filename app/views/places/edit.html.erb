@@ -1,5 +1,5 @@
 <% provide(:title, page_title(@place.name)) %>
-<% editable = policy(@place).update? %>
+<% editable = @place.editable? %>
 
 <div class="show-page place-show">
   <%= render 'places/header', editable: %>

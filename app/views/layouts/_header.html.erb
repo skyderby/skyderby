@@ -122,6 +122,13 @@
         <% end %>
       </li>
 
+      <li class="main-menu__item <%= 'active' if root_controller == 'terrain_profiles' %>">
+        <%= link_to terrain_profiles_path do %>
+          <%= icon_tag 'chart-line-solid' %>
+          <%= t('application.header.terrain_profiles') %>
+        <% end %>
+      </li>
+
       <li class="main-menu__item <%= 'active' if root_controller == 'profiles' %>">
         <%= link_to profiles_path do %>
           <%= icon_tag 'user-solid' %>

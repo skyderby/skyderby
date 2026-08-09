@@ -1,5 +1,5 @@
 class Place < ApplicationRecord
-  include Photos, Stats, WeatherData
+  include Permissions, Photos, Stats, WeatherData
 
   enum :kind, { skydive: 0, base: 1 }
 
@@ -9,12 +9,10 @@ class Place < ApplicationRecord
   has_many :pilots, -> { distinct }, through: :tracks
   has_many :events, dependent: :restrict_with_error
   has_many :weather_data, dependent: :delete_all
-  has_many :jump_lines, dependent: :destroy
+  has_many :terrain_profiles, dependent: :nullify
   has_many :finish_lines, dependent: :destroy
 
-  accepts_nested_attributes_for :jump_lines,
-                                allow_destroy: true,
-                                reject_if: ->(attrs) { attrs['name'].blank? }
+  before_destroy :destroy_shared_terrain_profiles, prepend: true
 
   validates :name, :latitude, :longitude, presence: true
 
@@ -46,9 +44,10 @@ class Place < ApplicationRecord
     end
   end
 
-  def editable?(user = Current.user)
-    user&.role?(:edit_places) || user&.role?(:admin)
+  def destroy_shared_terrain_profiles
+    terrain_profiles.shared.destroy_all
   end
+  private :destroy_shared_terrain_profiles
 
   def trajectory_points(track)
     PointsQuery
@@ -60,13 +59,7 @@ class Place < ApplicationRecord
   end
   private :trajectory_points
 
-  def viewable?(_user = Current.user) = true
-
   class << self
-    def creatable?(user = Current.user)
-      user&.role?(:edit_places) || user&.role?(:admin)
-    end
-
     def search(query)
       return all if query.blank?
 

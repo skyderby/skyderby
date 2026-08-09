@@ -64,7 +64,8 @@ export default class extends PlaybackController {
     resultComparePointGpsTime: Number,
     resultCompareLabel: String,
     chartsUnits: { type: String, default: 'metric' },
-    chartSettingsUrl: String
+    chartSettingsUrl: String,
+    terrainProfileMeasurementsUrlTemplate: String
   }
 
   get units() {
@@ -874,7 +875,10 @@ export default class extends PlaybackController {
   }
 
   fetchTerrainProfile(terrainProfileId) {
-    get(`/exit_measurements/${terrainProfileId}`, { responseKind: 'json' })
+    get(
+      this.terrainProfileMeasurementsUrlTemplateValue.replace('__ID__', terrainProfileId),
+      { responseKind: 'json' }
+    )
       .then(response => response.json)
       .then(data => {
         if (this.sideProjectionChart) {
