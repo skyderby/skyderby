@@ -1,0 +1,100 @@
+<% url = @terrain_profile.new_record? ? terrain_profiles_path : terrain_profile_path(@terrain_profile) %>
+
+<%= form_with model: @terrain_profile,
+              url:,
+              html: { role: 'form', class: 'panel form-page-panel', id: "#{action_name}_terrain_profile_form" },
+              data: { controller: 'terrain-profiles--form',
+                      action: 'submit->terrain-profiles--form#validatePublication' } do |f| %>
+  <section class="form-section">
+    <h2 class="form-section-title"><%= t('.general') %></h2>
+
+    <div class="form-fields">
+      <div class="form-field">
+        <%= f.label :name, class: 'form-field-label' %>
+        <%= f.text_field :name, required: true, autofocus: true, class: 'form-input' %>
+      </div>
+
+      <% if @terrain_profile.new_record? && TerrainProfile.shareable_by? %>
+        <div class="form-field">
+          <span class="form-field-label"><%= t('.ownership') %></span>
+          <div class="form-radio-group">
+            <label class="form-radio">
+              <%= f.radio_button :ownership, 'personal', checked: true %>
+              <%= t('.ownership_personal') %>
+            </label>
+            <label class="form-radio">
+              <%= f.radio_button :ownership, 'shared' %>
+              <%= t('.ownership_shared') %>
+            </label>
+          </div>
+          <p class="form-hint"><%= t('.ownership_hint') %></p>
+        </div>
+      <% end %>
+
+      <div class="form-field">
+        <%= f.label :place_id, class: 'form-field-label' %>
+        <%= render 'hot_select/select',
+                   form: f,
+                   name: :place_id,
+                   src: places_select_options_path,
+                   options: options_for_select([[@terrain_profile.place&.name, @terrain_profile.place_id]], @terrain_profile.place_id),
+                   placeholder: t('.select_place'),
+                   select: { data: { action: 'terrain-profiles--form#handlePlaceChange' } } %>
+        <p class="form-hint"><%= t('.place_hint') %></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <h2 class="form-section-title"><%= t('.measurements') %></h2>
+    <p class="form-section-hint"><%= t('.measurements_hint') %></p>
+
+    <div class="terrain-profile-editor">
+      <%= f.text_area :measurements_text,
+                      rows: 14,
+                      spellcheck: false,
+                      class: 'form-input terrain-profile-editor-input',
+                      data: {
+                        'terrain-profiles--form-target': 'measurementsText',
+                        action: 'input->terrain-profiles--form#renderPreview'
+                      } %>
+      <div class="terrain-profile-editor-preview" data-terrain-profiles--form-target="preview"></div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <h2 class="form-section-title"><%= t('.publication') %></h2>
+
+    <label class="form-checkbox">
+      <%= f.check_box :published,
+                      data: { action: 'terrain-profiles--form#togglePublication',
+                              'terrain-profiles--form-target': 'publishedCheckbox' } %>
+      <%= t('.publish') %>
+    </label>
+    <p class="form-section-hint"><%= t('.publish_hint') %></p>
+
+    <div class="form-fields <%= 'hide' unless @terrain_profile.published? %>"
+         data-terrain-profiles--form-target="publicationFields">
+      <div class="form-field">
+        <%= f.label :track_id, class: 'form-field-label' %>
+        <%= render 'hot_select/select',
+                   form: f,
+                   name: :track_id,
+                   src: tracks_select_options_path(place_id: @terrain_profile.place_id),
+                   options: options_for_select([[terrain_profile_track_label(@terrain_profile.track), @terrain_profile.track_id]], @terrain_profile.track_id),
+                   placeholder: t('.select_track') %>
+      </div>
+    </div>
+  </section>
+
+  <footer class="form-actions">
+    <% if @terrain_profile.persisted? %>
+      <%= link_to t('general.delete'),
+                  terrain_profile_path(@terrain_profile),
+                  class: 'button button--danger form-actions-left',
+                  data: { turbo_method: :delete, turbo_confirm: t('general.confirm_delete') } %>
+    <% end %>
+    <%= link_to t('general.cancel'), terrain_profiles_path, class: 'button' %>
+    <%= f.submit t('general.save'), class: 'button button--primary' %>
+  </footer>
+<% end %>

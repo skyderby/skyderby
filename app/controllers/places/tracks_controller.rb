@@ -1,7 +1,6 @@
 class Places::TracksController < ApplicationController
   def index
     @place = Place.find(params[:place_id])
-    authorize @place, :show?
 
     @tracks =
       @place

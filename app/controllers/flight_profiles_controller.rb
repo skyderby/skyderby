@@ -1,6 +1,6 @@
 class FlightProfilesController < ApplicationController
   def show
-    @jump_profile = Place::JumpLine.find_by(id: params[:jump_profile_id])
+    @jump_profile = TerrainProfile.find_by(id: params[:jump_profile_id])
 
     @filters = [
       profiles.map { |id, name| [id, name, 'profile_id[]', 'Profile'] },

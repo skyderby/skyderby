@@ -29,26 +29,24 @@
       <% end %>
     <% end %>
 
-    <% if @place.base? && policy([:place, :finish_line]).index? %>
+    <% if @place.base? %>
       <%= link_to place_finish_lines_path(@place), class: ['page-tab', ('page-tab-active' if current_page?(place_finish_lines_path(@place)))] do %>
         Finish lines
       <% end %>
     <% end %>
 
-    <% if policy(@place).edit? %>
+    <% if @place.editable? %>
       <%= link_to place_photos_path(@place), class: ['page-tab', ('page-tab-active' if current_page?(place_photos_path(@place)))] do %>
         <%= t('activerecord.models.place/photo') %>
       <% end %>
     <% end %>
 
     <% if @place.base? %>
-      <%= link_to t('flight_profiles.title'), flight_profiles_path(place_id: [@place], jump_profile_id: @place.jump_lines.pick(:id)), class: ['page-tab'] %>
-    <% end %>
+      <%= link_to t('flight_profiles.title'), flight_profiles_path(place_id: [@place], jump_profile_id: @place.terrain_profiles.published.pick(:id)), class: ['page-tab'] %>
 
-    <% if @place.base? && policy(@place).edit? %>
-      <%= link_to place_jump_profiles_path(@place), class: ['page-tab', ('page-tab-active' if current_page?(place_jump_profiles_path(@place)))] do %>
-        <%= t('activerecord.models.place/jump_line') %>
-      <% end %>
+      <%= link_to t('terrain_profiles.index.title'),
+                  terrain_profiles_path(profile: @place.terrain_profiles.published.pluck(:id)),
+                  class: ['page-tab'] %>
     <% end %>
 
     <% if editable %>

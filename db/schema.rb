@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_24_010000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_09_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -416,20 +416,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_24_010000) do
     t.index ["place_id"], name: "index_place_finish_lines_on_place_id"
   end
 
-  create_table "place_jump_line_measurements", force: :cascade do |t|
-    t.integer "altitude"
-    t.integer "distance"
-    t.integer "jump_line_id"
-  end
-
-  create_table "place_jump_lines", force: :cascade do |t|
-    t.datetime "created_at", precision: nil, null: false
-    t.string "name"
-    t.bigint "place_id"
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["place_id"], name: "index_place_jump_lines_on_place_id"
-  end
-
   create_table "place_photos", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.jsonb "image_data"
@@ -666,6 +652,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_24_010000) do
     t.string "name", limit: 510
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["manufacturer_id"], name: "index_suits_on_manufacturer_id"
+  end
+
+  create_table "terrain_profile_measurements", force: :cascade do |t|
+    t.integer "altitude"
+    t.integer "distance"
+    t.integer "terrain_profile_id"
+    t.index ["terrain_profile_id"], name: "index_terrain_profile_measurements_on_terrain_profile_id"
+  end
+
+  create_table "terrain_profiles", force: :cascade do |t|
+    t.datetime "created_at", precision: nil, null: false
+    t.string "name"
+    t.bigint "place_id"
+    t.datetime "published_at"
+    t.bigint "track_id"
+    t.datetime "updated_at", precision: nil, null: false
+    t.bigint "user_id"
+    t.index ["place_id"], name: "index_terrain_profiles_on_place_id"
+    t.index ["track_id"], name: "index_terrain_profiles_on_track_id"
+    t.index ["user_id"], name: "index_terrain_profiles_on_user_id"
   end
 
   create_table "tournament_competitors", id: :serial, force: :cascade do |t|

@@ -1,0 +1,27 @@
+en:
+  terrain_profiles:
+    draft: "Draft"
+    index:
+      title: "Terrain profiles"
+      shared: "Public"
+      own: "Personal"
+      search_placeholder: "Search..."
+      no_shared_profiles: "No shared terrain profiles yet"
+      no_own_profiles: "You have no terrain profiles yet"
+      new: "New profile"
+    new:
+      title: "New terrain profile"
+    form:
+      general: "General"
+      measurements: "Terrain measurements"
+      measurements_hint: "One measurement per line: altitude and distance from the exit, in meters. The chart updates as you type."
+      ownership: "Ownership"
+      ownership_personal: "Personal"
+      ownership_shared: "Public"
+      ownership_hint: "Public profiles belong to everyone and can be maintained by other place editors."
+      publication: "Publication"
+      publish: "Publish this profile"
+      publish_hint: "Published profiles are visible to everyone. A location and a track recorded there are required."
+      place_hint: "Optional. Required if you publish the profile."
+      select_place: "Select location"
+      select_track: "Select track"

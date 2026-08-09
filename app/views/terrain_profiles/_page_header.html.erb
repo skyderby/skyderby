@@ -1,0 +1,9 @@
+<%# locals: (current:) %>
+
+<div class="show-page-header">
+  <nav class="breadcrumbs" aria-label="<%= t('general.breadcrumbs') %>">
+    <%= link_to t('terrain_profiles.index.title'), terrain_profiles_path, class: 'breadcrumbs-item' %>
+    <%= icon_tag 'angle-right-solid', class: 'breadcrumbs-separator' %>
+    <span class="breadcrumbs-item breadcrumbs-current" aria-current="page"><%= current %></span>
+  </nav>
+</div>

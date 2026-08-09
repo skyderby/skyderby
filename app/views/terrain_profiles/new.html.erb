@@ -1,0 +1,9 @@
+<% provide :title, page_title(t('.title')) %>
+
+<div class="show-page">
+  <%= render 'page_header', current: t('.title') %>
+
+  <div class="show-page-content container form-page">
+    <%= render 'form' %>
+  </div>
+</div>

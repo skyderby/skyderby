@@ -1,0 +1,9 @@
+hellesylt_steep:
+  name: Steepest
+  place: hellesylt
+  track: hellesylt
+  published_at: 2020-01-01 00:00:00
+
+own_draft:
+  name: Backyard cliff
+  user: regular_user

@@ -6,7 +6,7 @@
 <div class="show-page">
   <%= render partial: 'header', locals: { track: @track } %>
 
-  <% default_jump_line = @track.place&.jump_lines&.first %>
+  <% default_terrain_profile = TerrainProfile.default_for(@track.place) %>
   <% compare_same_place = @compare_track && @track.place_id.present? && @track.place_id == @compare_track.place_id %>
   <% base_result = Tracks::BaseResult.new(@track, competition_id: params[:result_competition_id], finish_line_id: params[:result_finish_line_id], compare_track: @compare_track) %>
   <% show_result_point = base_result.available? && !base_result.race? %>
@@ -54,7 +54,8 @@
        data-tracks--base-jump-track-result-compare-point-gps-time-value="<%= compare_point[:gps_time] %>"
        data-tracks--base-jump-track-result-compare-label-value="<%= "#{format_result(base_result.compare_value, base_result.selected)} #{competition_unit(base_result.selected)}" %>"
        <% end %>
-       data-tracks--base-jump-track-default-terrain-profile-id-value="<%= default_jump_line&.id %>">
+       data-tracks--base-jump-track-default-terrain-profile-id-value="<%= default_terrain_profile&.id %>"
+       data-tracks--base-jump-track-terrain-profile-measurements-url-template-value="<%= terrain_profile_measurements_path('__ID__') %>">
 
     <div class="card actions-bar base-jump-actions-bar" id="track-actions-bar">
       <div class="actions-bar-right">
@@ -168,9 +169,9 @@
         <label><%= t('tracks.base_jump.terrain_profile') %></label>
         <%= render 'hot_select/select',
                    name: :terrain_profile_id,
-                   src: places_jump_profiles_select_options_path,
+                   src: terrain_profiles_select_options_path,
                    placeholder: t('tracks.base_jump.select_terrain_profile'),
-                   options: default_jump_line.present? ? options_for_select([["#{default_jump_line.place.name} - #{default_jump_line.name}", default_jump_line.id]], default_jump_line.id) : [],
+                   options: default_terrain_profile.present? ? options_for_select([[default_terrain_profile.full_name, default_terrain_profile.id]], default_terrain_profile.id) : [],
                    select: { data: { action: 'tracks--base-jump-track#handleTerrainProfileSelection', 'tracks--base-jump-track-target': 'terrainProfileSelect' } } %>
       </div>
     <% end %>

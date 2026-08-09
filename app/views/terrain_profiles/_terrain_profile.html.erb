@@ -1,0 +1,28 @@
+<%# locals: (terrain_profile:) %>
+
+<li class="explorer-list-item terrain-profile-item"
+    data-terrain-profiles-target="item"
+    data-id="<%= terrain_profile.id %>"
+    data-name="<%= terrain_profile.full_name %>">
+  <a href="#" data-action="terrain-profiles#toggle">
+    <% if terrain_profile.place %>
+      <span class="terrain-profile-item-name"><%= terrain_profile.place.name %></span>
+      <span class="terrain-profile-item-secondary"><%= terrain_profile.name %></span>
+    <% else %>
+      <span class="terrain-profile-item-name"><%= terrain_profile.name %></span>
+    <% end %>
+  </a>
+
+  <% if terrain_profile.editable? %>
+    <span class="terrain-profile-item-actions">
+      <% unless terrain_profile.published? %>
+        <span class="pill pill-blue-gray"><%= t('terrain_profiles.draft') %></span>
+      <% end %>
+      <%= link_to edit_terrain_profile_path(terrain_profile),
+                  class: 'terrain-profile-item-edit',
+                  title: t('general.edit') do %>
+        <%= icon_tag 'pencil-solid' %>
+      <% end %>
+    </span>
+  <% end %>
+</li>

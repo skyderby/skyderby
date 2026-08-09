@@ -60,18 +60,3 @@
   background-color: var(--gray-20);
 }
 
-.place-jump-profiles {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.jump-profile-card {
-  border: var(--default-border);
-  border-radius: var(--border-radius-md);
-  padding: 1rem;
-
-  @media (min-width: 576px) {
-    width: 25%;
-  }
-}

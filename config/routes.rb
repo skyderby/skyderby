@@ -100,13 +100,7 @@ Skyderby::Application.routes.draw do
         end
       end
       resources :virtual_competitions
-      resources :places do
-        scope module: :places do
-          collection do
-            resources :exit_measurements, only: %i[index show]
-          end
-        end
-      end
+      resources :places
 
       resources :suits, only: :index
 
@@ -326,8 +320,17 @@ Skyderby::Application.routes.draw do
   end
   resources :badges
 
-  resources :exit_measurements, only: :show
   resource :flight_profiles, only: :show
+
+  resources :terrain_profiles, path: 'terrain-profiles', except: :show do
+    scope module: :terrain_profiles do
+      resources :measurements, only: :index
+
+      collection do
+        resources :select_options, only: :index, as: :terrain_profiles_select_options
+      end
+    end
+  end
 
   resources :manufacturers do
     collection do
@@ -355,16 +358,12 @@ Skyderby::Application.routes.draw do
       resources :tracks, only: :index
       resources :videos, only: :index
       resource :trajectories, only: :show
-      resources :jump_profiles
       resources :finish_lines
       resources :photos
       resource :stats, only: :show
       resource :weather_data, only: :show
 
       collection do
-        resources :select_options,
-                  only: :index, path: 'jump_profiles/select_options',
-                  module: :jump_profiles, as: :places_jump_profiles_select_options
         resources :select_options,
                   only: :index, path: 'finish_lines/select_options',
                   module: :finish_lines, as: :places_finish_lines_select_options

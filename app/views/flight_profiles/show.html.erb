@@ -2,7 +2,8 @@
 <% provide :page_class, 'fullscreen' %>
 
 <div class="explorer" data-controller="flight-profiles"
-     data-flight-profiles-jump-profiles-url-value="<%= places_jump_profiles_select_options_path %>">
+     data-flight-profiles-terrain-profiles-url-value="<%= terrain_profiles_select_options_path %>"
+     data-flight-profiles-measurements-url-template-value="<%= terrain_profile_measurements_path('__ID__') %>">
   <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
     <turbo-frame id="hot-select-search" class="explorer-search">
       <%= form_with url: tracks_path, method: :get, data: { controller: 'tracks-search', turbo_frame: 'tracks-list' } do |f| %>
@@ -37,9 +38,9 @@
     </div>
 
     <div class="explorer-sidebar-footer">
-      <%= render 'hot_select/select', name: :jump_line_id, src: places_jump_profiles_select_options_path,
+      <%= render 'hot_select/select', name: :jump_line_id, src: terrain_profiles_select_options_path,
                 placeholder: t('flight_profiles.show.select_jump_line'),
-                options: @jump_profile.present? ? options_for_select([["#{@jump_profile.place.name} - #{@jump_profile.name}", @jump_profile.id]]) : [],
+                options: @jump_profile.present? ? options_for_select([[@jump_profile.full_name, @jump_profile.id]]) : [],
                 select: { data: { action: 'flight-profiles#handleJumpLineSelection' }}%>
     </div>
   </aside>

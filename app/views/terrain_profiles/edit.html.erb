@@ -1,0 +1,9 @@
+<% provide :title, page_title(@terrain_profile.full_name) %>
+
+<div class="show-page">
+  <%= render 'page_header', current: @terrain_profile.full_name %>
+
+  <div class="show-page-content container form-page">
+    <%= render 'form' %>
+  </div>
+</div>

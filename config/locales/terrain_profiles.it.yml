@@ -1,0 +1,27 @@
+it:
+  terrain_profiles:
+    draft: "Bozza"
+    index:
+      title: "Profili del terreno"
+      shared: "Pubblici"
+      own: "Personali"
+      search_placeholder: "Cerca..."
+      no_shared_profiles: "Non ci sono ancora profili del terreno comuni"
+      no_own_profiles: "Non hai ancora profili del terreno"
+      new: "Nuovo profilo"
+    new:
+      title: "Nuovo profilo del terreno"
+    form:
+      general: "Generale"
+      measurements: "Misurazioni del terreno"
+      measurements_hint: "Una misurazione per riga: altitudine e distanza dall'exit, in metri. Il grafico si aggiorna mentre digiti."
+      ownership: "Proprietà"
+      ownership_personal: "Personale"
+      ownership_shared: "Pubblico"
+      ownership_hint: "I profili pubblici sono di tutti e possono essere gestiti da altri editor di località."
+      publication: "Pubblicazione"
+      publish: "Pubblica questo profilo"
+      publish_hint: "I profili pubblicati sono visibili a tutti. Servono una località e una traccia registrata lì."
+      place_hint: "Facoltativo. Obbligatorio se pubblichi il profilo."
+      select_place: "Seleziona località"
+      select_track: "Seleziona traccia"

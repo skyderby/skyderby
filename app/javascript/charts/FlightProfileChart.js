@@ -64,7 +64,7 @@ const svgEl = (width, height, className) => {
 export default class FlightProfileChart {
   constructor({ profileHost, terrainHost, formatters = {}, labels = {} }) {
     this.profileHost = profileHost
-    this.terrainHost = terrainHost
+    this.terrainHost = terrainHost || null
     this.formatProfile = formatters.profile || (() => '')
     this.formatClearance = formatters.clearance || (() => '')
     this.formatTerrain = formatters.terrain || (() => '')
@@ -94,7 +94,7 @@ export default class FlightProfileChart {
 
     this.buildDom()
 
-    this.hosts = [this.profileHost, this.terrainHost]
+    this.hosts = [this.profileHost, this.terrainHost].filter(Boolean)
     this.hosts.forEach(host => {
       host.addEventListener('pointerdown', this.onPointerDown)
       host.addEventListener('pointermove', this.onPointerMove)
@@ -106,24 +106,29 @@ export default class FlightProfileChart {
 
   buildDom() {
     this.profileHost.classList.add('fp-chart')
-    this.terrainHost.classList.add('fp-chart')
+    this.terrainHost?.classList.add('fp-chart')
 
     this.profileCursor = el('div', 'fp-cursor')
     this.profileCursor.hidden = true
-    this.terrainCursor = el('div', 'fp-cursor')
-    this.terrainCursor.hidden = true
 
     this.profileTip = el('div', 'fp-tooltip')
     this.profileTip.hidden = true
-    this.terrainTip = el('div', 'fp-tooltip')
-    this.terrainTip.hidden = true
 
     this.profileSelection = el('div', 'fp-selection')
     this.profileSelection.hidden = true
     this.selectionLabel = el('span', 'fp-selection__label')
     this.profileSelection.appendChild(this.selectionLabel)
-    this.terrainSelection = el('div', 'fp-selection')
-    this.terrainSelection.hidden = true
+
+    if (this.terrainHost) {
+      this.terrainCursor = el('div', 'fp-cursor')
+      this.terrainCursor.hidden = true
+
+      this.terrainTip = el('div', 'fp-tooltip')
+      this.terrainTip.hidden = true
+
+      this.terrainSelection = el('div', 'fp-selection')
+      this.terrainSelection.hidden = true
+    }
 
     this.resetZoomButton = el('button', 'button fp-reset-zoom')
     this.resetZoomButton.type = 'button'
@@ -138,7 +143,7 @@ export default class FlightProfileChart {
       this.resetZoomButton,
       this.profileTip
     )
-    this.terrainHost.append(this.terrainCursor, this.terrainSelection, this.terrainTip)
+    this.terrainHost?.append(this.terrainCursor, this.terrainSelection, this.terrainTip)
   }
 
   destroy() {
@@ -164,7 +169,7 @@ export default class FlightProfileChart {
     ].forEach(node => node?.remove())
 
     this.profileHost.classList.remove('fp-chart')
-    this.terrainHost.classList.remove('fp-chart')
+    this.terrainHost?.classList.remove('fp-chart')
   }
 
   setTrack(id, { name, profile }) {
@@ -470,6 +475,8 @@ export default class FlightProfileChart {
   }
 
   renderTerrain() {
+    if (!this.terrainHost) return
+
     const svg = svgEl(this.width, TERRAIN_HEIGHT, 'fp-svg')
     let markup = this.terrainBandsSvg()
 
@@ -551,6 +558,9 @@ export default class FlightProfileChart {
     this.profileSelection.hidden = false
     this.profileSelection.style.width = `${px}px`
     this.selectionLabel.textContent = this.formatZoomTo(px / this.scale)
+
+    if (!this.terrainSelection) return
+
     this.terrainSelection.hidden = false
     this.terrainSelection.style.width = `${px}px`
   }
@@ -565,14 +575,14 @@ export default class FlightProfileChart {
 
   hideSelection() {
     this.profileSelection.hidden = true
-    this.terrainSelection.hidden = true
+    if (this.terrainSelection) this.terrainSelection.hidden = true
   }
 
   clearHover() {
     this.profileCursor.hidden = true
-    this.terrainCursor.hidden = true
     this.profileTip.hidden = true
-    this.terrainTip.hidden = true
+    if (this.terrainCursor) this.terrainCursor.hidden = true
+    if (this.terrainTip) this.terrainTip.hidden = true
     if (this.profileMarkers) this.profileMarkers.innerHTML = ''
     if (this.terrainMarkers) this.terrainMarkers.innerHTML = ''
   }
@@ -652,8 +662,11 @@ export default class FlightProfileChart {
 
     this.profileCursor.hidden = false
     this.profileCursor.style.left = `${px}px`
-    this.terrainCursor.hidden = false
-    this.terrainCursor.style.left = `${px}px`
+
+    if (this.terrainCursor) {
+      this.terrainCursor.hidden = false
+      this.terrainCursor.style.left = `${px}px`
+    }
 
     const profileRows = []
     let profileMarks = ''
@@ -701,12 +714,12 @@ export default class FlightProfileChart {
     }
 
     this.profileMarkers.innerHTML = profileMarks
-    this.terrainMarkers.innerHTML = terrainMarks
+    if (this.terrainMarkers) this.terrainMarkers.innerHTML = terrainMarks
 
     const activeRows = onTerrain ? terrainRows : profileRows
     const activeTip = onTerrain ? this.terrainTip : this.profileTip
     const idleTip = onTerrain ? this.profileTip : this.terrainTip
-    idleTip.hidden = true
+    if (idleTip) idleTip.hidden = true
 
     if (!activeRows.length) {
       activeTip.hidden = true

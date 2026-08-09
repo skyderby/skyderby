@@ -1,0 +1,22 @@
+de:
+  activerecord:
+    models:
+      terrain_profile: "Geländeprofile"
+    attributes:
+      terrain_profile:
+        name: "Name"
+        place_id: "Ort"
+        track_id: "Track"
+        measurements_text: "Messungen"
+        published: "Veröffentlicht"
+      terrain_profile/measurement:
+        altitude: "Höhe"
+        distance: "Entfernung"
+    errors:
+      models:
+        terrain_profile:
+          attributes:
+            measurements_text:
+              invalid_format: "müssen zwei Zahlen pro Zeile enthalten: Höhe und Entfernung"
+            track_id:
+              not_at_place: "muss am ausgewählten Ort aufgezeichnet sein"

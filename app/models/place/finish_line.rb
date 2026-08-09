@@ -1,4 +1,6 @@
 class Place::FinishLine < ApplicationRecord
+  include Permissions
+
   belongs_to :place
   has_many :virtual_competitions, dependent: :restrict_with_error
 

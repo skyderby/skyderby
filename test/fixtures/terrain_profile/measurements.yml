@@ -1,0 +1,9 @@
+hellesylt_steep_exit:
+  terrain_profile: hellesylt_steep
+  altitude: 0
+  distance: 0
+
+hellesylt_steep_mid:
+  terrain_profile: hellesylt_steep
+  altitude: 300
+  distance: 500

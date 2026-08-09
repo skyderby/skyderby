@@ -1,0 +1,33 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--gray-90);
+}
+
+.show-page-header > .breadcrumbs:last-child {
+  padding-bottom: 1rem;
+}
+
+.breadcrumbs-item {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.breadcrumbs-item:hover {
+  color: var(--gray-90);
+}
+
+.breadcrumbs-separator {
+  width: 0.75rem;
+  height: 0.75rem;
+  color: var(--gray-60);
+}
+
+.breadcrumbs-current {
+  color: var(--gray-90);
+}

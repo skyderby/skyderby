@@ -1,0 +1,22 @@
+es:
+  activerecord:
+    models:
+      terrain_profile: "Perfiles de terreno"
+    attributes:
+      terrain_profile:
+        name: "Nombre"
+        place_id: "Ubicación"
+        track_id: "Track"
+        measurements_text: "Mediciones"
+        published: "Publicado"
+      terrain_profile/measurement:
+        altitude: "Altitud"
+        distance: "Distancia"
+    errors:
+      models:
+        terrain_profile:
+          attributes:
+            measurements_text:
+              invalid_format: "deben contener dos números por línea: altitud y distancia"
+            track_id:
+              not_at_place: "debe estar grabado en la ubicación seleccionada"

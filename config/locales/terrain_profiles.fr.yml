@@ -1,0 +1,27 @@
+fr:
+  terrain_profiles:
+    draft: "Brouillon"
+    index:
+      title: "Profils de terrain"
+      shared: "Publics"
+      own: "Personnels"
+      search_placeholder: "Rechercher..."
+      no_shared_profiles: "Aucun profil de terrain commun pour le moment"
+      no_own_profiles: "Vous n'avez pas encore de profils de terrain"
+      new: "Nouveau profil"
+    new:
+      title: "Nouveau profil de terrain"
+    form:
+      general: "Général"
+      measurements: "Mesures du terrain"
+      measurements_hint: "Une mesure par ligne : altitude et distance depuis la sortie, en mètres. Le graphique se met à jour à la saisie."
+      ownership: "Propriété"
+      ownership_personal: "Personnel"
+      ownership_shared: "Public"
+      ownership_hint: "Les profils publics appartiennent à tous et peuvent être maintenus par d'autres éditeurs de lieux."
+      publication: "Publication"
+      publish: "Publier ce profil"
+      publish_hint: "Les profils publiés sont visibles par tous. Un lieu et un tracé enregistré sur place sont requis."
+      place_hint: "Facultatif. Obligatoire si vous publiez le profil."
+      select_place: "Sélectionner un lieu"
+      select_track: "Sélectionner un tracé"
