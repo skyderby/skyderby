@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 import { get } from '@rails/request.js'
 import initMapsApi from 'utils/google_maps_api'
+import { isTurboPreview } from 'utils/turbo_preview'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 
@@ -12,6 +13,8 @@ export default class extends Controller {
   static values = { url: String, latitude: Number, longitude: Number }
 
   connect() {
+    if (isTurboPreview()) return
+
     Promise.all([initMapsApi(), this.loadTrajectories()])
       .then(() => this.render())
       .catch(() => this.hide())

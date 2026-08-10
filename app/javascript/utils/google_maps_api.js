@@ -1,12 +1,15 @@
 import { loadScript } from 'utils/load_external'
+import { isTurboPreview } from 'utils/turbo_preview'
 
 const getMapsApiKey = () => {
   const meta = document.querySelector('meta[name="maps-api-key"]')
   return meta ? meta.content : null
 }
 
-const initMapsApi = () =>
-  new Promise((resolve, reject) => {
+const initMapsApi = () => {
+  if (isTurboPreview()) return new Promise(() => {})
+
+  return new Promise((resolve, reject) => {
     const mapsApiKey = getMapsApiKey()
     if (!mapsApiKey) {
       reject(new Error('Maps API key not found'))
@@ -34,6 +37,7 @@ const initMapsApi = () =>
       loadScript(URL, { onError: reject })
     }
   })
+}
 
 export default initMapsApi
 
