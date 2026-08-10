@@ -10,6 +10,7 @@ import {
 import { convertLength, lengthUnitLabel, convertSpeed, speedUnitLabel } from 'utils/units'
 import { computeSegmentAnalysis } from 'utils/tracks/skydiveSegments'
 import initMapsApi from 'utils/google_maps_api'
+import { isTurboPreview } from 'utils/turbo_preview'
 import cropPoints from 'utils/cropPoints'
 import downsamplePoints from 'utils/downsamplePoints'
 import calculateWindCancellation, { WeatherData } from 'utils/windCancellation'
@@ -112,6 +113,8 @@ export default class extends PlaybackController {
   }
 
   connect() {
+    if (isTurboPreview()) return
+
     this.playing = false
     this.currentIndex = 0
     this.stage = 'segments'

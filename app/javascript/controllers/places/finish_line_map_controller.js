@@ -89,8 +89,7 @@ export default class extends Controller {
   }
 
   init_maps() {
-    document.addEventListener('maps_api:ready', this.on_maps_ready, { once: true })
-    init_maps_api()
+    init_maps_api().then(this.on_maps_ready)
   }
 
   set_center() {
@@ -119,6 +118,8 @@ export default class extends Controller {
   }
 
   on_maps_ready = () => {
+    if (!this.element.isConnected) return
+
     const options = {
       zoom: 2,
       center: new google.maps.LatLng(20, 20),

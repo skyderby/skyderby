@@ -2,13 +2,14 @@ import { Controller } from '@hotwired/stimulus'
 import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
+import { acquireMap } from 'utils/maps/shared_map'
 
 export default class extends Controller {
   static targets = ['map', 'data']
 
   connect() {
     this.mapData = JSON.parse(this.dataTarget.textContent)
-    initMapsApi()
+    initMapsApi().then(() => this.onMapsReady())
   }
 
   renderMap() {
@@ -39,6 +40,7 @@ export default class extends Controller {
     })
 
     polyline.setMap(this.map)
+    this.sharedMap.add(polyline)
   }
 
   fitBounds() {
@@ -53,13 +55,16 @@ export default class extends Controller {
   }
 
   onMapsReady() {
+    if (!this.element.isConnected) return
+
     this.mapsReady = true
     this.initMap()
     this.renderMap()
   }
 
   initMap() {
-    this.map = new google.maps.Map(this.mapTarget, this.mapsOptions)
+    this.sharedMap = acquireMap(this.mapTarget, 'track-map', this.mapsOptions)
+    this.map = this.sharedMap.map
   }
 
   get mapsOptions() {
@@ -68,5 +73,11 @@ export default class extends Controller {
       center: new google.maps.LatLng(20, 20),
       mapTypeId: 'terrain'
     }
+  }
+
+  disconnect() {
+    this.sharedMap?.release()
+    this.sharedMap = null
+    this.map = null
   }
 }

@@ -4,6 +4,8 @@ import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
+import { acquireMap } from 'utils/maps/shared_map'
+import { isTurboPreview } from 'utils/turbo_preview'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
 import { calculateBearing } from 'utils/tracks/pointHelpers'
 import { computeBaseJumpSummary } from 'utils/tracks/baseJumpSummary'
@@ -108,6 +110,7 @@ export default class extends PlaybackController {
   }
 
   connect() {
+    if (isTurboPreview()) return
     if (this.applyResultPreference()) return
 
     this.playing = false
@@ -128,6 +131,8 @@ export default class extends PlaybackController {
 
     Promise.all(fetches)
       .then(([pointsData, , compareData]) => {
+        if (!this.element.isConnected) return
+
         if (!pointsData.points || pointsData.points.length === 0) {
           this.showEmptyState('no_data')
           return
@@ -243,11 +248,13 @@ export default class extends PlaybackController {
       ? 'base-jump-result-marker base-jump-result-marker--compare'
       : 'base-jump-result-marker'
 
-    new google.maps.marker.AdvancedMarkerElement({
-      map: this.map,
-      position: { lat, lng: lon },
-      content: dot
-    })
+    this.sharedMap.add(
+      new google.maps.marker.AdvancedMarkerElement({
+        map: this.map,
+        position: { lat, lng: lon },
+        content: dot
+      })
+    )
   }
 
   showEmptyState(messageKey) {
@@ -902,15 +909,17 @@ export default class extends PlaybackController {
   drawFinishLine() {
     if (!this.hasFinishLine) return
 
-    this.finishLinePolyline = new google.maps.Polyline({
-      path: [
-        { lat: this.finishLineStartLatValue, lng: this.finishLineStartLonValue },
-        { lat: this.finishLineEndLatValue, lng: this.finishLineEndLonValue }
-      ],
-      strokeColor: FINISH_LINE_COLOR,
-      strokeOpacity: 1,
-      strokeWeight: 2
-    })
+    this.finishLinePolyline = this.sharedMap.add(
+      new google.maps.Polyline({
+        path: [
+          { lat: this.finishLineStartLatValue, lng: this.finishLineStartLonValue },
+          { lat: this.finishLineEndLatValue, lng: this.finishLineEndLonValue }
+        ],
+        strokeColor: FINISH_LINE_COLOR,
+        strokeOpacity: 1,
+        strokeWeight: 2
+      })
+    )
   }
 
   get showCompareOnMap() {
@@ -926,7 +935,7 @@ export default class extends PlaybackController {
   }
 
   initMap() {
-    this.map = new google.maps.Map(this.mapTarget, {
+    this.sharedMap = acquireMap(this.mapTarget, 'base-jump-track', {
       zoom: 2,
       center: new google.maps.LatLng(20, 20),
       mapTypeId: 'terrain',
@@ -935,6 +944,7 @@ export default class extends PlaybackController {
       streetViewControl: false,
       zoomControl: true
     })
+    this.map = this.sharedMap.map
   }
 
   drawTrajectory(points, { dashed = false, weight = 6 } = {}) {
@@ -972,6 +982,7 @@ export default class extends PlaybackController {
 
       const polyline = new google.maps.Polyline(options)
       polyline.setMap(this.map)
+      this.sharedMap.add(polyline)
     }
   }
 
@@ -1024,11 +1035,13 @@ export default class extends PlaybackController {
     img.style.height = '24px'
     img.style.transform = 'translateY(50%) rotate(-45deg)'
 
-    this.mapMarker = new google.maps.marker.AdvancedMarkerElement({
-      map: this.map,
-      position: { lat: this.points[0].latitude, lng: this.points[0].longitude },
-      content: img
-    })
+    this.mapMarker = this.sharedMap.add(
+      new google.maps.marker.AdvancedMarkerElement({
+        map: this.map,
+        position: { lat: this.points[0].latitude, lng: this.points[0].longitude },
+        content: img
+      })
+    )
 
     this.markerElement = img
   }
@@ -1042,14 +1055,16 @@ export default class extends PlaybackController {
     arrow.style.webkitMaskImage = `url(${this.locationArrowUrlValue})`
     arrow.style.transform = 'translateY(50%) rotate(-45deg)'
 
-    this.compareMapMarker = new google.maps.marker.AdvancedMarkerElement({
-      map: this.map,
-      position: {
-        lat: this.comparePoints[0].latitude,
-        lng: this.comparePoints[0].longitude
-      },
-      content: arrow
-    })
+    this.compareMapMarker = this.sharedMap.add(
+      new google.maps.marker.AdvancedMarkerElement({
+        map: this.map,
+        position: {
+          lat: this.comparePoints[0].latitude,
+          lng: this.comparePoints[0].longitude
+        },
+        content: arrow
+      })
+    )
 
     this.compareMarkerElement = arrow
   }
@@ -1418,6 +1433,13 @@ export default class extends PlaybackController {
 
   disconnect() {
     this.stopPlaybackLoop()
+
+    this.sharedMap?.release()
+    this.sharedMap = null
+    this.map = null
+    this.mapMarker = null
+    this.compareMapMarker = null
+    this.finishLinePolyline = null
 
     this.destroyChart(this.sideProjectionChart)
     this.destroyChart(this.glideChartTarget?.chart)

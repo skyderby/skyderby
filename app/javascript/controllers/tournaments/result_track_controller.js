@@ -3,6 +3,7 @@ import { calculateBearing } from 'utils/tracks/pointHelpers'
 import { initGlideChart, initSpeedsChart, initAccuracyChart } from 'charts'
 import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import initMapsApi from 'utils/google_maps_api'
+import { isTurboPreview } from 'utils/turbo_preview'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
@@ -32,6 +33,8 @@ export default class extends PlaybackController {
   }
 
   connect() {
+    if (isTurboPreview()) return
+
     this.playing = false
     this.currentIndex = 0
 

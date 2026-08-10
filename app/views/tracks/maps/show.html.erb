@@ -5,7 +5,7 @@
 
   <div class="track-show-content">
     <% if user_signed_in? %>
-      <div class="row" data-controller="tracks--map" data-action="maps_api:ready@window->tracks--map#onMapsReady">
+      <div class="row" data-controller="tracks--map">
         <script type="application/json" data-tracks--map-target="data">
           <%= raw render partial: 'tracks/maps/map_data', locals: { map_data: @map_data }, formats: [:json] %>
         </script>
