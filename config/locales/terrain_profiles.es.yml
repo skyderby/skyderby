@@ -15,6 +15,8 @@ es:
       general: "General"
       measurements: "Mediciones del terreno"
       measurements_hint: "Una medición por línea: altitud y distancia desde la salida, en metros. El gráfico se actualiza mientras escribes."
+      import_csv: "Importar CSV"
+      import_csv_failed: "No se pudieron leer las mediciones del terreno de este archivo."
       ownership: "Propiedad"
       ownership_personal: "Personal"
       ownership_shared: "Público"

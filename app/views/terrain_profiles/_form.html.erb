@@ -46,8 +46,17 @@
   </section>
 
   <section class="form-section">
-    <h2 class="form-section-title"><%= t('.measurements') %></h2>
+    <div class="form-section-header">
+      <h2 class="form-section-title"><%= t('.measurements') %></h2>
+      <button type="button"
+              class="button button--outline button--sm"
+              data-action="terrain-profiles--form#openImportDialog">
+        <%= t('.import_csv') %>
+      </button>
+    </div>
     <p class="form-section-hint"><%= t('.measurements_hint') %></p>
+    <p class="terrain-profile-editor-error hide"
+       data-terrain-profiles--form-target="importError"></p>
 
     <div class="terrain-profile-editor">
       <%= f.text_area :measurements_text,
@@ -59,6 +68,14 @@
                         action: 'input->terrain-profiles--form#renderPreview'
                       } %>
       <div class="terrain-profile-editor-preview" data-terrain-profiles--form-target="preview"></div>
+
+      <%= file_field_tag :csv_file,
+                         accept: '.csv,text/csv',
+                         class: 'hide',
+                         data: {
+                           'terrain-profiles--form-target': 'csvFile',
+                           action: 'change->terrain-profiles--form#importCsv'
+                         } %>
     </div>
   </section>
 

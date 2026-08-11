@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 import I18n from 'i18n'
 import FlightProfileChart from 'charts/FlightProfileChart'
-import { withExitPoint } from 'utils/terrainProfiles'
+import { parseTerrainCsv, withExitPoint } from 'utils/terrainProfiles'
 
 const MEASUREMENT_LINE = /^(-?\d+(?:[.,]\d+)?)[\s,;]+(-?\d+(?:[.,]\d+)?)$/
 
@@ -10,7 +10,9 @@ export default class extends Controller {
     'publishedCheckbox',
     'publicationFields',
     'measurementsText',
-    'preview'
+    'preview',
+    'csvFile',
+    'importError'
   ]
 
   connect() {
@@ -59,6 +61,46 @@ export default class extends Controller {
       .sort((a, b) => a.x - b.x)
 
     return withExitPoint(points)
+  }
+
+  openImportDialog() {
+    this.csvFileTarget.click()
+  }
+
+  async importCsv(event) {
+    const [file] = event.target.files
+    event.target.value = ''
+    if (!file) return
+
+    const measurements = await this.readMeasurements(file)
+
+    if (measurements.length === 0) {
+      this.showImportError()
+      return
+    }
+
+    this.hideImportError()
+    this.measurementsTextTarget.value = measurements
+      .map(({ altitude, distance }) => `${altitude} ${distance}`)
+      .join('\n')
+    this.renderPreview()
+  }
+
+  async readMeasurements(file) {
+    try {
+      return parseTerrainCsv(await file.text())
+    } catch {
+      return []
+    }
+  }
+
+  showImportError() {
+    this.importErrorTarget.textContent = I18n.t('terrain_profiles.form.import_csv_failed')
+    this.importErrorTarget.classList.remove('hide')
+  }
+
+  hideImportError() {
+    this.importErrorTarget.classList.add('hide')
   }
 
   togglePublication() {
