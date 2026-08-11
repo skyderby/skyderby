@@ -15,6 +15,8 @@ de:
       general: "Allgemein"
       measurements: "Geländemessungen"
       measurements_hint: "Eine Messung pro Zeile: Höhe und Entfernung vom Exit in Metern. Das Diagramm aktualisiert sich beim Tippen."
+      import_csv: "CSV importieren"
+      import_csv_failed: "Aus dieser Datei konnten keine Geländemessungen gelesen werden."
       ownership: "Eigentum"
       ownership_personal: "Persönlich"
       ownership_shared: "Öffentlich"

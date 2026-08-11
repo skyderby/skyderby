@@ -90,6 +90,12 @@
   resize: vertical;
 }
 
+.terrain-profile-editor-error {
+  margin: 0;
+  color: var(--red-60);
+  font-size: 0.875rem;
+}
+
 .terrain-profile-editor-preview {
   height: var(--terrain-editor-height);
   border: var(--default-border);

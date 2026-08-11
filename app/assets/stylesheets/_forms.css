@@ -179,6 +179,13 @@
   border-bottom-right-radius: 0;
 }
 
+.form-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .form-section-title {
   color: var(--gray-80);
   font-weight: 500;

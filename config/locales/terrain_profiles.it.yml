@@ -15,6 +15,8 @@ it:
       general: "Generale"
       measurements: "Misurazioni del terreno"
       measurements_hint: "Una misurazione per riga: altitudine e distanza dall'exit, in metri. Il grafico si aggiorna mentre digiti."
+      import_csv: "Importa CSV"
+      import_csv_failed: "Impossibile leggere le misurazioni del terreno da questo file."
       ownership: "Proprietà"
       ownership_personal: "Personale"
       ownership_shared: "Pubblico"
