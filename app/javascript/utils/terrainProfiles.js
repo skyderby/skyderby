@@ -18,16 +18,33 @@ const toNumber = value => {
 
 const numericRows = (lines, delimiter) =>
   lines
-    .map(line => line.split(delimiter))
+    .map(line => line.split(delimiter).map(toNumber))
     .filter(columns => columns.length >= 2)
-    .map(columns => columns.slice(-2).map(toNumber))
-    .filter(([elevation, distance]) => elevation !== null && distance !== null)
+    .filter(columns => columns.slice(-2).every(value => value !== null))
 
 const parseWithBestDelimiter = lines =>
   DELIMITERS.map(delimiter => numericRows(lines, delimiter)).reduce(
     (best, rows) => (rows.length > best.length ? rows : best),
     []
   )
+
+const isSurvey = rows =>
+  rows.every(
+    columns => columns.length >= 4 && columns.slice(0, 3).every(value => value !== null)
+  )
+
+const surveyPairs = rows => {
+  let distance = 0
+
+  return rows.map(([x, y, elevation], index) => {
+    if (index > 0) {
+      const [previousX, previousY] = rows[index - 1]
+      distance += Math.hypot(x - previousX, y - previousY)
+    }
+
+    return [elevation, distance]
+  })
+}
 
 export const parseTerrainCsv = text => {
   const lines = text
@@ -38,9 +55,12 @@ export const parseTerrainCsv = text => {
   const rows = parseWithBestDelimiter(lines)
   if (rows.length < 2) return []
 
-  const [exitElevation] = rows[0]
+  const pairs = isSurvey(rows)
+    ? surveyPairs(rows)
+    : rows.map(columns => columns.slice(-2))
+  const [exitElevation] = pairs[0]
 
-  return rows
+  return pairs
     .map(([elevation, distance]) => ({
       altitude: Math.round(exitElevation - elevation),
       distance: Math.round(distance)

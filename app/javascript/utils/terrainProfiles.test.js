@@ -2,7 +2,7 @@ import { test, describe, expect } from 'vitest'
 import { parseTerrainCsv } from './terrainProfiles'
 
 describe('parseTerrainCsv', () => {
-  test('rebases altitudes on the first row and keeps the last two columns', () => {
+  test('rebases altitudes and measures distance horizontally in a survey', () => {
     const csv = [
       'Source: dtm',
       'X;Y;Z;M',
@@ -13,8 +13,8 @@ describe('parseTerrainCsv', () => {
 
     expect(parseTerrainCsv(csv)).toEqual([
       { altitude: 0, distance: 0 },
-      { altitude: 7, distance: 7 },
-      { altitude: 16, distance: 16 }
+      { altitude: 7, distance: 1 },
+      { altitude: 16, distance: 2 }
     ])
   })
 
