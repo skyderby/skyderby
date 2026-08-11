@@ -80,6 +80,9 @@ de:
       landing: Landung
       add_landing: Landung hinzufügen
       remove_landing: Landung entfernen
+    side_view:
+      reset_zoom: Zoom zurücksetzen
+      zoom_to_exit: "Auf die ersten %{distance} %{unit} ab Exit zoomen"
     form:
       suit_text_placeholder: Suitname angeben
       suit_select_placeholder: Wähle eine Suit aus der Liste
