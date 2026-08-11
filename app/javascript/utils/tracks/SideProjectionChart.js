@@ -1,4 +1,5 @@
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import I18n from 'i18n'
 import { detectFlares, drawFlares } from './flareDetection'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 
@@ -6,6 +7,11 @@ const SVG_NS = 'http://www.w3.org/2000/svg'
 
 const PRIMARY_COLOR = '#2196F3'
 const COMPARE_COLOR = '#9C27B0'
+const MAX_ZOOM = 20
+
+let clipSeq = 0
+
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value))
 
 function formatAxisLength(meters, units) {
   const value = convertLength(meters, units)
@@ -51,6 +57,9 @@ export default class SideProjectionChart {
       persistentTooltipIndex: null,
       ...options
     }
+    this.zoom = 1
+    this.selecting = false
+    this.selectionMoved = false
     this.points = []
     this.flightProfile = []
     this.compareRawPoints = null
@@ -237,6 +246,7 @@ export default class SideProjectionChart {
     this.createSvg()
     this.drawGrid()
     this.drawReferenceLine()
+    this.createPlotLayer()
     this.drawTerrainProfile()
     this.drawTerrainClearance()
     this.drawTrajectory()
@@ -247,6 +257,7 @@ export default class SideProjectionChart {
     this.renderMaxSpeedMarker()
     this.createCrosshair()
     this.setupInteraction()
+    this.createZoomControls()
 
     if (this.options.persistentTooltip) {
       this.showPersistentTooltip()
@@ -290,7 +301,8 @@ export default class SideProjectionChart {
     const maxValue = Math.max(maxX, maxY)
 
     const roundTo = maxValue > 500 ? 100 : 50
-    this.maxScale = Math.ceil(maxValue / roundTo) * roundTo
+    this.fullScale = Math.ceil(maxValue / roundTo) * roundTo
+    this.maxScale = this.fullScale / this.zoom
 
     this.scaleX = x => padding.left + (x / this.maxScale) * this.chartWidth
     this.scaleY = y => padding.top + (y / this.maxScale) * this.chartHeight
@@ -303,6 +315,54 @@ export default class SideProjectionChart {
     this.svg.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`)
     this.svg.setAttribute('class', 'side-projection-chart')
     this.container.appendChild(this.svg)
+  }
+
+  createPlotLayer() {
+    const { padding } = this.options
+    const seq = (clipSeq += 1)
+    const defs = document.createElementNS(SVG_NS, 'defs')
+
+    const plotClip = this.clipPath(`side-projection-plot-${seq}`, {
+      x: padding.left,
+      y: padding.top,
+      width: this.chartWidth,
+      height: this.chartHeight
+    })
+    const annotationClip = this.clipPath(`side-projection-annotations-${seq}`, {
+      x: padding.left,
+      y: 0,
+      width: this.chartWidth,
+      height: this.height
+    })
+    defs.append(plotClip, annotationClip)
+    this.svg.appendChild(defs)
+
+    this.plot = this.clippedGroup('plot-area', plotClip.id)
+    this.annotations = this.clippedGroup('annotation-area', annotationClip.id)
+    this.crosshairLayer = this.clippedGroup('crosshair-area', plotClip.id)
+    this.svg.append(this.plot, this.annotations, this.crosshairLayer)
+  }
+
+  clipPath(id, { x, y, width, height }) {
+    const clipPath = document.createElementNS(SVG_NS, 'clipPath')
+    clipPath.setAttribute('id', id)
+
+    const rect = document.createElementNS(SVG_NS, 'rect')
+    rect.setAttribute('x', x)
+    rect.setAttribute('y', y)
+    rect.setAttribute('width', width)
+    rect.setAttribute('height', height)
+    clipPath.appendChild(rect)
+
+    return clipPath
+  }
+
+  clippedGroup(className, clipId) {
+    const group = document.createElementNS(SVG_NS, 'g')
+    group.setAttribute('class', className)
+    group.setAttribute('clip-path', `url(#${clipId})`)
+
+    return group
   }
 
   drawGrid() {
@@ -439,7 +499,7 @@ export default class SideProjectionChart {
     area.setAttribute('fill-opacity', '0.5')
     area.setAttribute('stroke', '#A67B5B')
     area.setAttribute('stroke-width', '1')
-    this.svg.appendChild(area)
+    this.plot.appendChild(area)
   }
 
   getTerrainAltitudeAt(distance) {
@@ -525,7 +585,7 @@ export default class SideProjectionChart {
       area.setAttribute('d', pathData)
       area.setAttribute('fill', color)
       area.setAttribute('stroke', 'none')
-      this.svg.appendChild(area)
+      this.plot.appendChild(area)
     }
   }
 
@@ -544,7 +604,7 @@ export default class SideProjectionChart {
     path.setAttribute('stroke-width', '3')
     path.setAttribute('stroke-linecap', 'round')
     path.setAttribute('stroke-linejoin', 'round')
-    this.svg.appendChild(path)
+    this.plot.appendChild(path)
 
     this.trajectoryPath = path
   }
@@ -565,7 +625,7 @@ export default class SideProjectionChart {
     path.setAttribute('stroke-dasharray', '8 4')
     path.setAttribute('stroke-linecap', 'round')
     path.setAttribute('stroke-linejoin', 'round')
-    this.svg.appendChild(path)
+    this.plot.appendChild(path)
   }
 
   renderMaxSpeedMarker() {
@@ -601,7 +661,7 @@ export default class SideProjectionChart {
     label.textContent = `${Math.round(convertSpeed(maxPoint.fullSpeed, this.options.units))} ${speedUnitLabel(this.options.units)}`
     group.appendChild(label)
 
-    this.svg.appendChild(group)
+    this.annotations.appendChild(group)
   }
 
   drawIntersectionPoint() {
@@ -617,7 +677,7 @@ export default class SideProjectionChart {
     circle.setAttribute('cy', y)
     circle.setAttribute('r', '2')
     circle.setAttribute('fill', '#f00')
-    this.svg.appendChild(circle)
+    this.annotations.appendChild(circle)
 
     const extLine = document.createElementNS(SVG_NS, 'line')
     extLine.setAttribute('x1', x)
@@ -627,7 +687,7 @@ export default class SideProjectionChart {
     extLine.setAttribute('stroke', '#f00')
     extLine.setAttribute('stroke-width', '1')
     extLine.setAttribute('stroke-dasharray', '2,2')
-    this.svg.appendChild(extLine)
+    this.annotations.appendChild(extLine)
 
     const label = document.createElementNS(SVG_NS, 'text')
     label.setAttribute('x', x)
@@ -636,7 +696,7 @@ export default class SideProjectionChart {
     label.setAttribute('font-size', '11')
     label.setAttribute('fill', '#f00')
     label.textContent = `1:1 ${Math.round(convertLength(intersection.x, this.options.units))}${lengthUnitLabel(this.options.units)}`
-    this.svg.appendChild(label)
+    this.annotations.appendChild(label)
   }
 
   drawFinishLineCrossing() {
@@ -717,7 +777,7 @@ export default class SideProjectionChart {
           : 'FINISH'
     group.appendChild(label)
 
-    this.svg.appendChild(group)
+    this.annotations.appendChild(group)
   }
 
   drawFlares() {
@@ -734,7 +794,7 @@ export default class SideProjectionChart {
     const startAltitude = this.points[0].altitude
     const scaleY = altitude => this.scaleY(startAltitude - altitude)
 
-    drawFlares(this.svg, flares, this.scaleX, scaleY, 12, this.options.units)
+    drawFlares(this.annotations, flares, this.scaleX, scaleY, 12, this.options.units)
   }
 
   setupInteraction() {
@@ -782,6 +842,190 @@ export default class SideProjectionChart {
     this.interactionOverlay.addEventListener('touchend', () =>
       this.handleInteractionEnd()
     )
+
+    this.interactionOverlay.addEventListener('pointerdown', this.onSelectStart)
+    this.interactionOverlay.addEventListener('pointermove', this.onSelectMove)
+  }
+
+  createZoomControls() {
+    this.selection = document.createElement('div')
+    this.selection.className = 'side-projection-selection'
+    this.selection.hidden = true
+
+    this.selectionLabel = document.createElement('span')
+    this.selectionLabel.className = 'side-projection-selection__label'
+    this.selection.appendChild(this.selectionLabel)
+
+    this.resetZoomButton = document.createElement('button')
+    this.resetZoomButton.type = 'button'
+    this.resetZoomButton.className = 'button side-projection-reset-zoom'
+    this.resetZoomButton.textContent = I18n.t('tracks.side_view.reset_zoom')
+    this.resetZoomButton.hidden = this.zoom <= 1
+    this.resetZoomButton.addEventListener('click', () => this.resetZoom())
+
+    this.container.append(this.selection, this.resetZoomButton)
+  }
+
+  setZoom(zoom) {
+    const clamped = clamp(zoom, 1, MAX_ZOOM)
+    if (Math.abs(clamped - this.zoom) < 1e-4) return
+
+    this.zoom = clamped
+    this.render()
+  }
+
+  resetZoom() {
+    this.setZoom(1)
+  }
+
+  zoomToDistance(distance) {
+    if (!(distance > 0)) return
+
+    this.setZoom(this.fullScale / distance)
+  }
+
+  svgPoint(clientX, clientY) {
+    const ctm = this.svg.getScreenCTM()
+    if (!ctm) {
+      const rect = this.svg.getBoundingClientRect()
+      return {
+        x: ((clientX - rect.left) / rect.width) * this.width,
+        y: ((clientY - rect.top) / rect.height) * this.height
+      }
+    }
+
+    return {
+      x: (clientX - ctm.e) / ctm.a,
+      y: (clientY - ctm.f) / ctm.d
+    }
+  }
+
+  screenScale() {
+    const ctm = this.svg.getScreenCTM()
+    if (!ctm) return { x: 1, y: 1 }
+
+    return { x: ctm.a, y: ctm.d }
+  }
+
+  containerOffset() {
+    const ctm = this.svg.getScreenCTM()
+    const containerRect = this.container.getBoundingClientRect()
+    if (!ctm) return { x: 0, y: 0 }
+
+    return { x: ctm.e - containerRect.left, y: ctm.f - containerRect.top }
+  }
+
+  zoomToLabel(meters) {
+    const units = this.options.units
+
+    return I18n.t('tracks.side_view.zoom_to_exit', {
+      distance: Math.round(convertLength(meters, units)),
+      unit: lengthUnitLabel(units)
+    })
+  }
+
+  selectionDistance(event) {
+    const { x } = this.svgPoint(event.clientX, event.clientY)
+    const distance = ((x - this.options.padding.left) / this.chartWidth) * this.maxScale
+    const closest = this.findClosestPoint(distance)
+
+    return clamp(
+      closest ? closest.point.x : distance,
+      Math.min(this.fullScale / MAX_ZOOM, this.maxScale),
+      this.maxScale
+    )
+  }
+
+  showSelection(distance) {
+    const { padding } = this.options
+    const scale = this.screenScale()
+    const origin = this.containerOffset()
+    const left = origin.x + padding.left * scale.x
+    const width = (this.scaleX(distance) - padding.left) * scale.x
+
+    this.selection.hidden = false
+    this.selection.style.left = `${left}px`
+    this.selection.style.top = `${origin.y + padding.top * scale.y}px`
+    this.selection.style.height = `${this.chartHeight * scale.y}px`
+    this.selection.style.width = `${width}px`
+    this.selectionLabel.textContent = this.zoomToLabel(distance)
+    this.positionSelectionLabel(left, width)
+  }
+
+  positionSelectionLabel(left, width) {
+    const gap = 6
+    const labelWidth = this.selectionLabel.offsetWidth
+    const right = left + width
+    const inside = right - gap - labelWidth
+    const labelLeft =
+      inside >= left + gap
+        ? inside
+        : Math.min(right + gap, this.container.clientWidth - labelWidth - gap)
+
+    this.selectionLabel.style.left = `${Math.max(gap - left, labelLeft - left)}px`
+  }
+
+  hideSelection() {
+    if (this.selection) this.selection.hidden = true
+  }
+
+  onSelectStart = event => {
+    if (event.button !== 0 || event.pointerType === 'touch') return
+
+    this.selecting = true
+    this.selectionMoved = false
+    this.selectionStartX = event.clientX
+
+    window.addEventListener('pointerup', this.onSelectEnd)
+    window.addEventListener('pointercancel', this.onSelectCancel)
+    window.addEventListener('blur', this.onSelectCancel)
+
+    this.capturePointer(event.pointerId)
+  }
+
+  capturePointer(pointerId) {
+    try {
+      this.interactionOverlay.setPointerCapture(pointerId)
+    } catch {
+      this.hasPointerCapture = false
+      return
+    }
+
+    this.hasPointerCapture = true
+  }
+
+  onSelectMove = event => {
+    if (!this.selecting) return
+
+    if (Math.abs(event.clientX - this.selectionStartX) > 3) this.selectionMoved = true
+    if (this.selectionMoved) this.hideTooltip()
+    this.showSelection(this.selectionDistance(event))
+  }
+
+  onSelectEnd = event => {
+    if (!this.selecting) return
+
+    const moved = this.selectionMoved
+    this.stopSelecting()
+
+    if (moved) this.zoomToDistance(this.selectionDistance(event))
+    else if (this.zoom !== 1) this.resetZoom()
+
+    if (this.options.persistentTooltip) this.showPersistentTooltip()
+  }
+
+  onSelectCancel = () => {
+    this.stopSelecting()
+  }
+
+  stopSelecting() {
+    this.selecting = false
+    this.selectionMoved = false
+    this.hideSelection()
+
+    window.removeEventListener('pointerup', this.onSelectEnd)
+    window.removeEventListener('pointercancel', this.onSelectCancel)
+    window.removeEventListener('blur', this.onSelectCancel)
   }
 
   handleInteraction(e) {
@@ -789,20 +1033,22 @@ export default class SideProjectionChart {
     const clientX = touch ? touch.clientX : e.clientX
     const clientY = touch ? touch.clientY : e.clientY
 
-    const svgRect = this.svg.getBoundingClientRect()
-    const svgX = ((clientX - svgRect.left) / svgRect.width) * this.width
-    const svgY = ((clientY - svgRect.top) / svgRect.height) * this.height
+    const point = this.svgPoint(clientX, clientY)
 
     const { padding } = this.options
-    const relX = svgX - padding.left
-    const relY = svgY - padding.top
+    const relX = point.x - padding.left
+    const relY = point.y - padding.top
 
     const x = (relX / this.chartWidth) * this.maxScale
     const y = (relY / this.chartHeight) * this.maxScale
 
+    const containerRect = this.container.getBoundingClientRect()
+    const cursor = { x: clientX - containerRect.left, y: clientY - containerRect.top }
+
     const result = this.findClosestPoint(x, y)
     if (result) {
-      this.showTooltip(result.point)
+      if (this.selecting && this.selectionMoved) this.hideTooltip()
+      else this.showTooltip(result.point, cursor)
       this.showCrosshair(result.index)
 
       if (this.options.onPointHover) {
@@ -835,7 +1081,7 @@ export default class SideProjectionChart {
     return closestIndex >= 0 ? { point: closestPoint, index: closestIndex } : null
   }
 
-  showTooltip(point) {
+  showTooltip(point, anchor = null) {
     const terrainAlt = this.getTerrainAltitudeAt(point.x)
     const clearance = terrainAlt !== null ? Math.round(terrainAlt - point.y) : null
 
@@ -871,35 +1117,47 @@ export default class SideProjectionChart {
       `
     }
 
-    const svgRect = this.svg.getBoundingClientRect()
+    if (anchor) this.positionTooltipAtCursor(anchor)
+    else this.positionTooltipAtPoint(point)
+
+    this.tooltip.style.display = 'block'
+  }
+
+  tooltipSize() {
+    const rect = this.tooltip.getBoundingClientRect()
+
+    return { width: rect.width || 150, height: rect.height || 100 }
+  }
+
+  positionTooltipAtCursor(cursor) {
     const containerRect = this.container.getBoundingClientRect()
+    const { width, height } = this.tooltipSize()
+    const offset = 14
 
-    const pointSvgX = this.scaleX(point.x)
-    const pointSvgY = this.scaleY(point.y)
+    const above = cursor.y - height - offset
+    const top = above >= 0 ? above : cursor.y + offset
 
-    const pointScreenX = (pointSvgX / this.width) * svgRect.width
-    const pointScreenY = (pointSvgY / this.height) * svgRect.height
+    this.tooltip.style.left = `${clamp(cursor.x - width / 2, 0, Math.max(0, containerRect.width - width))}px`
+    this.tooltip.style.top = `${clamp(top, 0, Math.max(0, containerRect.height - height))}px`
+  }
 
-    const tooltipRect = this.tooltip.getBoundingClientRect()
-    const tooltipWidth = tooltipRect.width || 150
-    const tooltipHeight = tooltipRect.height || 100
-
+  positionTooltipAtPoint(point) {
+    const containerRect = this.container.getBoundingClientRect()
+    const scale = this.screenScale()
+    const origin = this.containerOffset()
+    const { width, height } = this.tooltipSize()
     const offset = this.compareFlightProfile.length ? 32 : 10
 
-    let left = pointScreenX + offset
-    let top = pointScreenY - tooltipHeight - offset
+    const pointX = origin.x + this.scaleX(point.x) * scale.x
+    const pointY = origin.y + this.scaleY(point.y) * scale.y
 
-    if (left + tooltipWidth > containerRect.width) {
-      left = pointScreenX - tooltipWidth - offset
-    }
-
-    if (top < 0) {
-      top = 0
-    }
+    const left =
+      pointX + offset + width > containerRect.width
+        ? pointX - width - offset
+        : pointX + offset
 
     this.tooltip.style.left = `${left}px`
-    this.tooltip.style.top = `${top}px`
-    this.tooltip.style.display = 'block'
+    this.tooltip.style.top = `${Math.max(0, pointY - height - offset)}px`
   }
 
   comparisonTooltipHtml(point, primaryClearance) {
@@ -1020,7 +1278,7 @@ export default class SideProjectionChart {
       this.crosshairGroup.appendChild(this.compareCrosshairMarker)
     }
 
-    this.svg.appendChild(this.crosshairGroup)
+    this.crosshairLayer.appendChild(this.crosshairGroup)
   }
 
   showCrosshair(index) {
@@ -1088,6 +1346,7 @@ export default class SideProjectionChart {
   }
 
   destroy() {
+    this.stopSelecting()
     this.clear()
     this.points = []
     this.flightProfile = []

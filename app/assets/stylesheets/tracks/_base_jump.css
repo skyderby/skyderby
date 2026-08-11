@@ -213,6 +213,41 @@
   height: 100%;
 }
 
+.side-projection-selection {
+  position: absolute;
+  background-color: rgba(33, 150, 243, 0.12);
+  border-right: 1px solid #2196f3;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.side-projection-selection__label {
+  position: absolute;
+  top: 0.35rem;
+  left: 0;
+  padding: 0.15rem 0.45rem;
+  background-color: #2196f3;
+  color: var(--white);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  border-radius: var(--border-radius-sm);
+}
+
+.side-projection-reset-zoom {
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.side-projection-reset-zoom[hidden] {
+  display: none;
+}
+
 .side-projection-chart .trajectory--compare {
   stroke: #9C27B0;
   stroke-width: 2;

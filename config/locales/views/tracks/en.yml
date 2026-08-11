@@ -107,6 +107,9 @@ en:
       compare_result: Result
       result_none: None
       result_select: Select task
+    side_view:
+      reset_zoom: Reset zoom
+      zoom_to_exit: "Zoom to first %{distance} %{unit} from exit"
     form:
       suit_text_placeholder: Enter suit name
       suit_select_placeholder: Select suit from list

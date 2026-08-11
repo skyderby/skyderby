@@ -113,6 +113,9 @@ ru:
       compare_result: Результат
       result_none: Нет
       result_select: Выберите задачу
+    side_view:
+      reset_zoom: Сбросить зум
+      zoom_to_exit: "Приблизить первые %{distance} %{unit} от отделения"
     form:
       suit_text_placeholder: 'Введите название костюма'
       suit_select_placeholder: 'Выберите костюм из списка'
