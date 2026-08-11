@@ -20,7 +20,7 @@ module Tournaments
 
           respond_with_scoreboard
         rescue ActiveRecord::RecordInvalid
-          respond_with_errors(@result.errors)
+          respond_with_errors(@result)
         end
 
         private

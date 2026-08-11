@@ -12,7 +12,7 @@ module Tournaments
         if @round.save
           respond_with_scoreboard
         else
-          respond_with_errors(@round.errors)
+          respond_with_errors(@round)
         end
       end
 
@@ -22,7 +22,7 @@ module Tournaments
         if @round.update(round_params)
           respond_with_scoreboard
         else
-          respond_with_errors(@round.errors)
+          respond_with_errors(@round)
         end
       end
 
@@ -32,7 +32,7 @@ module Tournaments
         if @round.destroy
           respond_with_scoreboard
         else
-          respond_with_errors(@round.errors)
+          respond_with_errors(@round)
         end
       end
 

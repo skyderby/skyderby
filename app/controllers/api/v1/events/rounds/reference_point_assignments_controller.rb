@@ -16,7 +16,7 @@ class Api::V1::Events::Rounds::ReferencePointAssignmentsController < Application
     if perform_action.call
       head :ok
     else
-      respond_with_errors(assignment.errors)
+      respond_with_errors(assignment)
     end
   end
 

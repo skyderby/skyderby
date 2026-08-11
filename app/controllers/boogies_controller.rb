@@ -35,7 +35,7 @@ class BoogiesController < ApplicationController
 
       redirect_to boogie_path(@event)
     else
-      respond_with_errors(@event.errors)
+      respond_with_errors(@event)
     end
   end
 
