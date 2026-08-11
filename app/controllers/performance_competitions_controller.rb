@@ -41,7 +41,7 @@ class PerformanceCompetitionsController < ApplicationController
 
       redirect_to performance_competition_path(@event)
     else
-      respond_with_errors(@event.errors)
+      respond_with_errors(@event)
     end
   end
 

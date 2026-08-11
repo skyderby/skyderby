@@ -19,6 +19,8 @@ module Tournaments
       end
 
       def create
+        authorize @tournament, :update?
+
         @result = @round.qualification_jumps.new(new_result_params)
 
         if @result.save
@@ -26,7 +28,7 @@ module Tournaments
             format.turbo_stream { render :edit }
           end
         else
-          respond_with_errors(@result.errors)
+          respond_with_errors(@result)
         end
       end
 
@@ -53,7 +55,7 @@ module Tournaments
         if @result.destroy
           respond_with_scoreboard
         else
-          respond_with_errors(@result.errors)
+          respond_with_errors(@result)
         end
       end
 

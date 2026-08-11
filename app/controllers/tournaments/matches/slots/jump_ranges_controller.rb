@@ -23,7 +23,7 @@ module Tournaments
 
           respond_with_scoreboard
         rescue ActiveRecord::RecordInvalid
-          respond_with_errors(@slot.errors)
+          respond_with_errors(@slot)
         end
 
         private
