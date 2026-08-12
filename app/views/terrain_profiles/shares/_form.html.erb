@@ -1,0 +1,22 @@
+<%= form_with model: @share,
+              url: terrain_profile_shares_path(@terrain_profile),
+              scope: :terrain_profile_share,
+              data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
+  <div class="sd-form">
+    <p class="form-hint"><%= t('.hint', name: @terrain_profile.full_name) %></p>
+
+    <div class="form-field">
+      <%= f.label :user_id, class: 'form-field-label' %>
+      <%= render 'hot_select/select',
+                 form: f,
+                 name: :user_id,
+                 src: users_select_options_path,
+                 placeholder: t('.select_user') %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit t('.submit'), class: 'button button--primary' %>
+      <button type="button" class="button" data-action="dialog#close"><%= t('general.cancel') %></button>
+    </div>
+  </div>
+<% end %>

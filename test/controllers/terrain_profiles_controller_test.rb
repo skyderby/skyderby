@@ -106,6 +106,57 @@ class TerrainProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to terrain_profiles_path
   end
 
+  test 'user destroys only own share of a profile shared with them' do
+    sign_in users(:event_responsible)
+
+    assert_no_difference 'TerrainProfile.count' do
+      assert_difference 'TerrainProfile::Share.count', -1 do
+        delete terrain_profile_path(@own_profile)
+      end
+    end
+
+    assert_redirected_to terrain_profiles_path
+  end
+
+  test 'destroying own profile removes its shares' do
+    sign_in @user
+
+    assert_difference 'TerrainProfile::Share.count', -1 do
+      delete terrain_profile_path(@own_profile)
+    end
+  end
+
+  test 'user without access can not destroy a profile' do
+    sign_in users(:places_editor)
+    delete terrain_profile_path(@own_profile)
+
+    assert_response :forbidden
+    assert_predicate TerrainProfile.where(id: @own_profile.id), :exists?
+  end
+
+  test '#select_options lists profiles shared with the user' do
+    sign_in users(:event_responsible)
+    get terrain_profiles_select_options_path(frame_id: 'x')
+
+    assert_response :success
+    assert_includes response.body, @own_profile.full_name
+  end
+
+  test '#index lists profiles shared with the user among personal ones' do
+    sign_in users(:event_responsible)
+    get terrain_profiles_path
+
+    assert_response :success
+    assert_includes response.body, @own_profile.full_name
+  end
+
+  test '#measurements are visible to a user the profile is shared with' do
+    sign_in users(:event_responsible)
+    get terrain_profile_measurements_path(@own_profile, format: :json)
+
+    assert_response :success
+  end
+
   test '#select_options lists only published profiles for a guest' do
     get terrain_profiles_select_options_path(frame_id: 'x')
 

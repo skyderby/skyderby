@@ -2,6 +2,7 @@ ru:
   activerecord:
     models:
       terrain_profile: "Профили рельефа"
+      terrain_profile/share: "Доступ к профилю рельефа"
     attributes:
       terrain_profile:
         name: "Название"
@@ -12,6 +13,8 @@ ru:
       terrain_profile/measurement:
         altitude: "Высота"
         distance: "Расстояние"
+      terrain_profile/share:
+        user_id: "Пилот"
     errors:
       models:
         terrain_profile:
@@ -20,3 +23,8 @@ ru:
               invalid_format: "должны содержать два числа в строке: высоту и расстояние"
             track_id:
               not_at_place: "должен быть записан в выбранной локации"
+        terrain_profile/share:
+          attributes:
+            user_id:
+              owner: "уже владеет этим профилем"
+              taken: "уже имеет доступ к этому профилю"

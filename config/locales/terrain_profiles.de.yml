@@ -9,6 +9,19 @@ de:
       no_shared_profiles: "Noch keine allgemeinen Geländeprofile"
       no_own_profiles: "Sie haben noch keine Geländeprofile"
       new: "Neues Profil"
+      actions: "Aktionen"
+      share: "Teilen"
+      shared_by_you: "Mit anderen Piloten geteilt"
+      shared_with_you: "Mit Ihnen geteilt"
+      remove_share: "Aus meinen Profilen entfernen"
+      confirm_remove_share: "Dieses Profil wird nicht mehr mit Ihnen geteilt. Fortfahren?"
+    shares:
+      new:
+        title: "Geländeprofil teilen"
+      form:
+        hint: "Wählen Sie einen Piloten, der „%{name}“ unter seinen persönlichen Geländeprofilen sieht."
+        select_user: "Pilot auswählen"
+        submit: "Teilen"
     new:
       title: "Neues Geländeprofil"
     form:

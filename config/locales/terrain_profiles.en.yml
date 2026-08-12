@@ -9,6 +9,19 @@ en:
       no_shared_profiles: "No shared terrain profiles yet"
       no_own_profiles: "You have no terrain profiles yet"
       new: "New profile"
+      actions: "Actions"
+      share: "Share"
+      shared_by_you: "Shared with other pilots"
+      shared_with_you: "Shared with you"
+      remove_share: "Remove from my profiles"
+      confirm_remove_share: "This profile will no longer be shared with you. Proceed?"
+    shares:
+      new:
+        title: "Share terrain profile"
+      form:
+        hint: "Choose a pilot who will see \"%{name}\" among their personal terrain profiles."
+        select_user: "Select pilot"
+        submit: "Share"
     new:
       title: "New terrain profile"
     form:

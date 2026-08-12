@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_09_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_12_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -659,6 +659,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_09_000000) do
     t.integer "distance"
     t.integer "terrain_profile_id"
     t.index ["terrain_profile_id"], name: "index_terrain_profile_measurements_on_terrain_profile_id"
+  end
+
+  create_table "terrain_profile_shares", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "terrain_profile_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["terrain_profile_id", "user_id"], name: "index_terrain_profile_shares_on_terrain_profile_id_and_user_id", unique: true
+    t.index ["user_id"], name: "index_terrain_profile_shares_on_user_id"
   end
 
   create_table "terrain_profiles", force: :cascade do |t|

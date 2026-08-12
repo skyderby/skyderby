@@ -2,6 +2,7 @@ es:
   activerecord:
     models:
       terrain_profile: "Perfiles de terreno"
+      terrain_profile/share: "Perfil de terreno compartido"
     attributes:
       terrain_profile:
         name: "Nombre"
@@ -12,6 +13,8 @@ es:
       terrain_profile/measurement:
         altitude: "Altitud"
         distance: "Distancia"
+      terrain_profile/share:
+        user_id: "Piloto"
     errors:
       models:
         terrain_profile:
@@ -20,3 +23,8 @@ es:
               invalid_format: "deben contener dos números por línea: altitud y distancia"
             track_id:
               not_at_place: "debe estar grabado en la ubicación seleccionada"
+        terrain_profile/share:
+          attributes:
+            user_id:
+              owner: "ya es propietario de este perfil"
+              taken: "ya tiene acceso a este perfil"

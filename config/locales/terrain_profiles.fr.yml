@@ -9,6 +9,19 @@ fr:
       no_shared_profiles: "Aucun profil de terrain commun pour le moment"
       no_own_profiles: "Vous n'avez pas encore de profils de terrain"
       new: "Nouveau profil"
+      actions: "Actions"
+      share: "Partager"
+      shared_by_you: "Partagé avec d'autres pilotes"
+      shared_with_you: "Partagé avec vous"
+      remove_share: "Retirer de mes profils"
+      confirm_remove_share: "Ce profil ne sera plus partagé avec vous. Continuer ?"
+    shares:
+      new:
+        title: "Partager le profil de terrain"
+      form:
+        hint: "Choisissez un pilote qui verra « %{name} » parmi ses profils de terrain personnels."
+        select_user: "Sélectionner un pilote"
+        submit: "Partager"
     new:
       title: "Nouveau profil de terrain"
     form:
