@@ -22,7 +22,7 @@ class Boogie::Scoreboard
     @categories ||=
       event
       .categories
-      .includes(competitors: [:event, { profile: :country, suit: :manufacturer }])
+      .includes(competitors: [:event, :competitor_alias, { profile: :country, suit: :manufacturer }])
       .ordered
       .index_with { |category| category_standings(category) }
   end
@@ -40,6 +40,6 @@ class Boogie::Scoreboard
   end
 
   def results
-    @results ||= event.results.includes(:round, :competitor)
+    @results ||= event.results.includes(:round, :competitor, :track)
   end
 end

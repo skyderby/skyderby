@@ -1,0 +1,38 @@
+ru:
+  boogies:
+    actions_bar:
+      display: 'Слайд-шоу'
+    display:
+      live: 'В эфире'
+      athletes:
+        one: '%{count} спортсмен'
+        few: '%{count} спортсмена'
+        many: '%{count} спортсменов'
+        other: '%{count} спортсменов'
+      results:
+        one: 'Лучший результат'
+        few: '%{count} лучших результата'
+        many: '%{count} лучших результатов'
+        other: '%{count} лучших результатов'
+      rank: 'Место'
+      competitor: 'Участник'
+      total: 'Итого'
+      distance: 'Дальность'
+      best_distance: 'Лучшая дальность'
+      best_jumps: 'Лучшие прыжки'
+      furthest: 'дальше всех'
+      flying: 'Летит на'
+      jumps: 'Прыжки'
+      speed: 'Скорость'
+      glide_ratio: 'Качество'
+      altitude: 'Высота'
+      kmh_short: 'КМ/Ч'
+      meters_short: 'М'
+      rounds: 'Раунды'
+      round_short: 'Раунд'
+      round: 'Раунд %{number}'
+      best_short: 'лучший'
+      vs_best: 'к лучшему'
+      to_window_end: 'До конца окна'
+      window_start: 'Начало окна'
+      window_end: 'Конец окна'

@@ -1,0 +1,5 @@
+es:
+  activerecord:
+    attributes:
+      boogie/competitor:
+        photo: Foto

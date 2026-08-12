@@ -13,3 +13,23 @@ track_with_video:
 
 speed_skydiving_track:
   <<: *default
+
+boogie_track_1: &boogie_track
+  <<: *default
+  pilot: john
+  kind: skydive
+
+boogie_track_2:
+  <<: *boogie_track
+
+boogie_track_3:
+  <<: *boogie_track
+  pilot: travis
+
+boogie_track_4:
+  <<: *boogie_track
+  pilot: travis
+
+boogie_track_5:
+  <<: *boogie_track
+  pilot: event_responsible

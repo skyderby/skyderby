@@ -1,0 +1,40 @@
+<%# locals: (event:, category:, fallers:) %>
+
+<div class="display-slide display-fall display-replay"
+     data-slideshow-target="slide"
+     data-slideshow-duration="23"
+     data-controller="performance-replay"
+     data-performance-replay-discipline-value="distance"
+     data-performance-replay-window-start-value="<%= event.range_from %>"
+     data-performance-replay-window-end-value="<%= event.range_to %>"
+     data-start-label="<%= t('boogies.display.window_start') %>"
+     data-finish-label="<%= t('boogies.display.window_end') %>">
+  <%= render 'statusbar', event: event %>
+
+  <script type="application/json" data-performance-replay-target="data"><%= raw fallers.to_json %></script>
+
+  <div class="display-replay-body">
+    <%= render 'replay_card', faller: fallers.first, side: 'a' %>
+
+    <div class="display-replay-center">
+      <div class="display-replay-maphead">
+        <span class="display-replay-maptitle">
+          <%= category.name %> · <%= t('boogies.display.best_jumps') %>
+        </span>
+      </div>
+      <div class="display-fall-stage">
+        <svg class="display-fall-svg" data-performance-replay-target="svg"
+             id="boogie-replay-svg-<%= Digest::SHA1.hexdigest([category.name, *fallers.map(&:name)].join('|'))[0, 12] %>"
+             data-turbo-permanent
+             preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+      </div>
+      <div class="display-replay-countdown" data-performance-replay-target="countdown" hidden>
+        <span class="count" data-performance-replay-target="countText">3</span>
+      </div>
+    </div>
+
+    <% if fallers.second %>
+      <%= render 'replay_card', faller: fallers.second, side: 'b' %>
+    <% end %>
+  </div>
+</div>

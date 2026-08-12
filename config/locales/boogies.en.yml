@@ -1,0 +1,34 @@
+en:
+  boogies:
+    actions_bar:
+      display: 'Slide Show'
+    display:
+      live: 'Live'
+      athletes:
+        one: '%{count} Athlete'
+        other: '%{count} Athletes'
+      results:
+        one: 'Best result'
+        other: 'Best %{count} results'
+      rank: 'Rank'
+      competitor: 'Competitor'
+      total: 'Total'
+      distance: 'Distance'
+      best_distance: 'Best distance'
+      best_jumps: 'Best jumps'
+      furthest: 'furthest'
+      flying: 'Flying'
+      jumps: 'Jumps'
+      speed: 'Speed'
+      glide_ratio: 'Glide ratio'
+      altitude: 'Altitude'
+      kmh_short: 'KM/H'
+      meters_short: 'M'
+      rounds: 'Rounds'
+      round_short: 'Round'
+      round: 'Round %{number}'
+      best_short: 'best'
+      vs_best: 'vs best'
+      to_window_end: 'To window end'
+      window_start: 'Window start'
+      window_end: 'Window end'

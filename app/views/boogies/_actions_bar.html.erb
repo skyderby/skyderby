@@ -22,23 +22,30 @@
     <% end %>
   <% end %>
 
-  <% if editable %>
-    <div class="actions-bar-right" data-controller="dropdown">
-      <button class="actions-bar-button" popovertarget="boogie-status-menu-<%= event.id %>">
-        <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + event.status) %>
-        <%= icon_tag 'angle-down-solid' %>
-      </button>
+  <div class="actions-bar-right">
+    <%= link_to boogie_display_path(event), target: '_blank', rel: 'noopener', class: 'actions-bar-button' do %>
+      <%= icon_tag 'circle-play' %>
+      <%= t('boogies.actions_bar.display') %>
+    <% end %>
 
-      <div id="boogie-status-menu-<%= event.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
-        <% Boogie.statuses.each do |status, _index| %>
-          <%= button_to(t("event_status.#{status}"),
-                      boogie_path(event),
-                      method: :patch,
-                      form: { data: { turbo_stream: true } },
-                      params: { 'boogie[status]' => status },
-                      class: "dropdown-item #{'active' if event.status == status}") %>
-        <% end %>
+    <% if editable %>
+      <div data-controller="dropdown">
+        <button class="actions-bar-button" popovertarget="boogie-status-menu-<%= event.id %>">
+          <%= t('activerecord.attributes.event.status') + ': ' + t('event_status.' + event.status) %>
+          <%= icon_tag 'angle-down-solid' %>
+        </button>
+
+        <div id="boogie-status-menu-<%= event.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+          <% Boogie.statuses.each do |status, _index| %>
+            <%= button_to(t("event_status.#{status}"),
+                          boogie_path(event),
+                          method: :patch,
+                          form: { data: { turbo_stream: true } },
+                          params: { 'boogie[status]' => status },
+                          class: "dropdown-item #{'active' if event.status == status}") %>
+          <% end %>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

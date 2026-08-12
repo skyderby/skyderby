@@ -1,0 +1,21 @@
+<% provide :title, @event.name %>
+
+<div class="display-wrap display-boogie"
+     data-controller="slideshow refresh"
+     data-refresh-interval-seconds-value="300">
+  <div class="display-stage">
+    <div class="display-backdrop"></div>
+
+    <% @display.categories.each_with_index do |category, index| %>
+      <%= render 'leaderboard', event: @event, category: category, active: index.zero? %>
+
+      <% category.leaderboard.each do |row| %>
+        <%= render 'participant', event: @event, category: category, row: row, field_size: category.size %>
+      <% end %>
+
+      <% category.fall_pairs.each do |pair| %>
+        <%= render 'replay', event: @event, category: category, fallers: pair %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

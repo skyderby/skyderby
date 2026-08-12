@@ -12,3 +12,15 @@ speed_1:
   discipline: speed
   number: 1
   completed_at: 2020-01-01 00:00:00
+
+boogie_distance_1:
+  event: boogie
+  discipline: distance
+  number: 1
+  completed_at: 2020-01-01 00:00:00
+
+boogie_distance_2:
+  event: boogie
+  discipline: distance
+  number: 2
+  completed_at: 2020-01-01 00:00:00

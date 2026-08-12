@@ -1298,7 +1298,8 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-.display-performance .display-replay-stat-value .num {
+.display-performance .display-replay-stat-value .num,
+.display-boogie .display-replay-stat-value .num {
   font-size: calc(40 * var(--px));
   font-variant-numeric: tabular-nums;
 }
@@ -1378,7 +1379,8 @@ body {
 }
 
 /* ---- Performance competition countdown: top-right corner, no blur ---- */
-.display-performance .display-replay-countdown {
+.display-performance .display-replay-countdown,
+.display-boogie .display-replay-countdown {
   inset: auto;
   top: calc(66 * var(--px));
   right: calc(26 * var(--px));
@@ -1386,11 +1388,13 @@ body {
   backdrop-filter: none;
 }
 
-.display-performance .display-replay-countdown .count {
+.display-performance .display-replay-countdown .count,
+.display-boogie .display-replay-countdown .count {
   font-size: calc(76 * var(--px));
 }
 
-.display-performance .display-replay-countdown.is-rate .count {
+.display-performance .display-replay-countdown.is-rate .count,
+.display-boogie .display-replay-countdown.is-rate .count {
   font-size: calc(46 * var(--px));
   color: var(--text);
   text-shadow: none;
@@ -1559,4 +1563,25 @@ body {
   font-size: 14px;
   fill: #7dffa6;
   text-transform: uppercase;
+}
+
+/* ---- Hungary boogie leaderboard columns ---- */
+.display-boogie .display-lb-head,
+.display-boogie .display-lb-row {
+  grid-template-columns: calc(100 * var(--px)) 1fr calc(190 * var(--px)) calc(560 * var(--px));
+  gap: calc(18 * var(--px));
+}
+
+.display-boogie .display-lb-tiles {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+/* ---- Hungary boogie participant slide ---- */
+.display-boogie .display-besttime-value .num {
+  font-size: calc(108 * var(--px));
+}
+
+.display-boogie .display-attempts-head,
+.display-boogie .display-attempts-row {
+  grid-template-columns: calc(180 * var(--px)) 1fr calc(200 * var(--px));
 }

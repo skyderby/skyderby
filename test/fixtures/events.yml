@@ -8,3 +8,15 @@ nationals:
   responsible: event_responsible
   status: published
   place: ravenna
+
+boogie:
+  name: Hungary Boogie
+  rules: 2
+  range_from: 3000
+  range_to: 2000
+  wind_cancellation: false
+  number_of_results_for_total: 2
+  starts_at: 2015-03-01
+  responsible: event_responsible
+  status: published
+  place: ravenna

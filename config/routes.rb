@@ -222,6 +222,7 @@ Skyderby::Application.routes.draw do
       end
 
       resource :deletion, only: %i[new create]
+      resource :display, controller: 'displays', only: :show
     end
   end
 

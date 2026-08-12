@@ -1,0 +1,85 @@
+<%# locals: (event:, category:, row:, field_size:) %>
+
+<div class="display-slide display-participant" data-slideshow-target="slide" data-slideshow-duration="11">
+  <%= render 'statusbar', event: event %>
+
+  <div class="display-participant-photo <%= 'is-empty' unless row.photo_url %>">
+    <% if row.photo_url %><%= image_tag row.photo_url, alt: row.name %><% end %>
+  </div>
+  <div class="display-participant-edge"></div>
+
+  <div class="display-pcontent">
+    <div class="display-phead">
+      <div class="display-pname-block">
+        <h1 class="display-pname"><%= row.name %></h1>
+        <div class="display-pmeta">
+          <span class="display-pcountry">
+            <span class="display-pcountry-code"><%= row.country_code %></span>
+            <span class="display-pcountry-name"><%= row.country_name %></span>
+          </span>
+          <% if row.suit.present? %>
+            <span class="display-psuit">
+              <%= t('boogies.display.flying') %>
+              <strong><%= row.suit %></strong>
+            </span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="display-phero">
+      <div class="display-besttime">
+        <div class="display-besttime-bar"></div>
+        <div class="display-besttime-body">
+          <span class="display-label"><%= t('boogies.display.best_distance') %></span>
+          <div class="display-besttime-value">
+            <span class="num"><%= format('%d', row.best.result) %></span>
+            <span class="unit"><%= t('boogies.display.meters_short') %></span>
+          </div>
+          <div class="display-besttime-sub">
+            <span class="run">
+              <%= t('boogies.display.round', number: row.best_round) %> · <%= t('boogies.display.furthest') %>
+            </span>
+            <span class="divider"></span>
+            <div>
+              <span class="ts-label"><%= t('boogies.display.jumps') %></span>
+              <div class="ts-value"><%= row.jumps %></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="display-rankcard">
+        <span class="display-label"><%= t('boogies.display.rank') %></span>
+        <div class="display-rankcard-value">
+          <span class="num"><%= row.rank %></span>
+          <span class="total">/ <%= field_size %></span>
+        </div>
+        <span class="display-rankcard-gap">
+          <%= t('boogies.display.total') %>: <%= row.total_points.positive? ? format('%d', row.total_points) : '—' %>
+        </span>
+      </div>
+    </div>
+
+    <div class="display-attempts">
+      <div class="display-attempts-title">
+        <span><%= t('boogies.display.rounds') %></span>
+        <span class="rule"></span>
+      </div>
+      <div class="display-attempts-head">
+        <span><%= t('boogies.display.round_short') %></span>
+        <span class="text-right"><%= t('boogies.display.distance') %></span>
+        <span class="text-right"><%= t('boogies.display.vs_best') %></span>
+      </div>
+      <% row.attempts.each do |attempt| %>
+        <div class="display-attempts-row <%= 'is-best' if attempt.counting %>">
+          <span class="run"><%= t('boogies.display.round', number: attempt.round) %></span>
+          <span class="time"><%= format('%d', attempt.result) %> <%= t('boogies.display.meters_short') %></span>
+          <span class="delta">
+            <%= attempt.best ? t('boogies.display.best_short') : format('%d', attempt.result - row.best.result) %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
