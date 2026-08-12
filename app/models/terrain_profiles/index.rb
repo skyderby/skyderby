@@ -7,11 +7,20 @@ module TerrainProfiles
     end
 
     def published
-      @published ||= TerrainProfile.viewable(user).publicly_listed.alphabetically.to_a
+      @published ||=
+        TerrainProfile.viewable(user).publicly_listed.includes(:shares).alphabetically.to_a
     end
 
     def own
-      @own ||= own? ? TerrainProfile.owned_by(user).alphabetically.to_a : []
+      return [] unless own?
+
+      @own ||=
+        TerrainProfile
+        .owned_by(user)
+        .or(TerrainProfile.shared_with(user))
+        .includes(:shares)
+        .alphabetically
+        .to_a
     end
 
     def own?

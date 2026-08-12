@@ -1,0 +1,11 @@
+<%# locals: (terrain_profile:) %>
+
+<% if terrain_profile.owned_by? && terrain_profile.shares.any? %>
+  <%= icon_tag 'users-solid',
+               class: 'terrain-profile-item-badge',
+               title: t('terrain_profiles.index.shared_by_you') %>
+<% elsif terrain_profile.shared_with? %>
+  <%= icon_tag 'users-solid',
+               class: 'terrain-profile-item-badge',
+               title: t('terrain_profiles.index.shared_with_you') %>
+<% end %>

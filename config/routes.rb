@@ -326,6 +326,7 @@ Skyderby::Application.routes.draw do
   resources :terrain_profiles, path: 'terrain-profiles', except: :show do
     scope module: :terrain_profiles do
       resources :measurements, only: :index
+      resources :shares, only: [:new, :create]
 
       collection do
         resources :select_options, only: :index, as: :terrain_profiles_select_options

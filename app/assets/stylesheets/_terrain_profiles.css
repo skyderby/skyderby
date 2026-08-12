@@ -19,7 +19,7 @@
   border-left: 3px solid var(--tag-color, transparent);
 }
 
-.terrain-profile-item a {
+.terrain-profile-item > a {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
@@ -37,7 +37,14 @@
   padding-right: 0.5rem;
 }
 
-.terrain-profile-item-edit {
+.terrain-profile-item-badge {
+  margin-left: 0.25rem;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  vertical-align: baseline;
+}
+
+.terrain-profile-item-menu .dropdown-toggle {
   display: flex;
   align-items: center;
   color: var(--text-secondary);
@@ -45,17 +52,18 @@
   transition: opacity 0.15s ease, color 0.15s ease;
 }
 
-.explorer-list-item:hover .terrain-profile-item-edit,
-.terrain-profile-item-edit:focus-visible {
+.explorer-list-item:hover .terrain-profile-item-menu .dropdown-toggle,
+.terrain-profile-item-menu .dropdown-toggle:focus-visible,
+.terrain-profile-item-menu .dropdown-toggle:has(+ :popover-open) {
   opacity: 1;
 }
 
-.terrain-profile-item-edit:hover {
+.terrain-profile-item-menu .dropdown-toggle:hover {
   color: var(--gray-80);
 }
 
 @media (hover: none) {
-  .terrain-profile-item-edit {
+  .terrain-profile-item-menu .dropdown-toggle {
     opacity: 1;
   }
 }

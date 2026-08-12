@@ -41,7 +41,8 @@
       <ul class="explorer-list" data-scope="published" data-terrain-profiles-target="scope">
         <%= render partial: 'terrain_profiles/terrain_profile',
                    collection: @index.published,
-                   as: :terrain_profile %>
+                   as: :terrain_profile,
+                   locals: { scope: 'published' } %>
         <% if @index.published.empty? %>
           <li class="explorer-list-empty"><%= t('.no_shared_profiles') %></li>
         <% end %>
@@ -51,7 +52,8 @@
         <ul class="explorer-list hide" data-scope="own" data-terrain-profiles-target="scope">
           <%= render partial: 'terrain_profiles/terrain_profile',
                      collection: @index.own,
-                     as: :terrain_profile %>
+                     as: :terrain_profile,
+                     locals: { scope: 'own' } %>
           <% if @index.own.empty? %>
             <li class="explorer-list-empty"><%= t('.no_own_profiles') %></li>
           <% end %>

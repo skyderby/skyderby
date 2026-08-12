@@ -12,6 +12,9 @@ class TerrainProfile < ApplicationRecord
            dependent: :delete_all,
            inverse_of: :terrain_profile
 
+  has_many :shares, dependent: :delete_all, inverse_of: :terrain_profile
+  has_many :shared_with_users, through: :shares, source: :user
+
   validates :name, presence: true
   validates :place, :track, presence: true, if: :published?
   validate :track_recorded_at_place, if: :published?
@@ -27,6 +30,9 @@ class TerrainProfile < ApplicationRecord
   scope :with_place, -> { eager_load(:place) }
   scope :with_measurements, -> { where(id: Measurement.select(:terrain_profile_id)) }
   scope :owned_by, ->(user) { where(user_id: user.id) }
+  scope :shared_with, lambda { |user|
+    where(id: Share.where(user_id: user.id).select(:terrain_profile_id))
+  }
   scope :alphabetically, lambda {
     with_place.order(
       Arel.sql(

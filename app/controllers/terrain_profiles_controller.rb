@@ -1,5 +1,5 @@
 class TerrainProfilesController < ApplicationController
-  before_action :set_terrain_profile, only: %i[edit update destroy]
+  before_action :set_terrain_profile, only: %i[edit update]
 
   def index
     @index = TerrainProfiles::Index.new(user: Current.user)
@@ -35,7 +35,17 @@ class TerrainProfilesController < ApplicationController
   end
 
   def destroy
-    @terrain_profile.destroy
+    @terrain_profile = TerrainProfile.find(params[:id])
+    share = @terrain_profile.shares.find_by(user_id: Current.user&.id)
+
+    if @terrain_profile.deletable?
+      @terrain_profile.destroy
+    elsif share
+      share.destroy
+    else
+      return respond_not_authorized
+    end
+
     redirect_to terrain_profiles_path
   end
 

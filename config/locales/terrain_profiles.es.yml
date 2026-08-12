@@ -9,6 +9,19 @@ es:
       no_shared_profiles: "Aún no hay perfiles de terreno compartidos"
       no_own_profiles: "Todavía no tienes perfiles de terreno"
       new: "Nuevo perfil"
+      actions: "Acciones"
+      share: "Compartir"
+      shared_by_you: "Compartido con otros pilotos"
+      shared_with_you: "Compartido contigo"
+      remove_share: "Quitar de mis perfiles"
+      confirm_remove_share: "Este perfil dejará de estar compartido contigo. ¿Continuar?"
+    shares:
+      new:
+        title: "Compartir perfil de terreno"
+      form:
+        hint: "Elige un piloto que verá \"%{name}\" entre sus perfiles de terreno personales."
+        select_user: "Selecciona un piloto"
+        submit: "Compartir"
     new:
       title: "Nuevo perfil de terreno"
     form:
