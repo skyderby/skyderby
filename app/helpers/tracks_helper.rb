@@ -36,6 +36,20 @@ module TracksHelper
            formats: :json
   end
 
+  def track_point_coordinates(point)
+    format('%.6f, %.6f', point.latitude, point.longitude)
+  end
+
+  def track_point_altitude(point)
+    altitude = point.abs_altitude || point.elevation
+    return if altitude.nil?
+
+    units = Current.charts_units
+    altitude = m_to_ft(altitude) if units.imperial?
+
+    "#{number_with_precision(altitude, precision: 0)} #{t("units.#{altitude_units_by_type(units)}")}"
+  end
+
   def range_title(result)
     "#{result.range_from} - #{result.range_to}" if result
   end

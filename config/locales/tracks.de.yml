@@ -1,5 +1,11 @@
 de:
   tracks:
+    metadata:
+      exit_point: 'Absprungpunkt:'
+      landing_point: 'Landepunkt:'
+      altitude_msl: '(%{altitude} über NN)'
+      copy_hint: Zum Kopieren der Koordinaten klicken
+      copied: Kopiert
     base_pro:
       summary:
         one_to_one: 1:1-Höhe

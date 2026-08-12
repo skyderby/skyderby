@@ -1,5 +1,11 @@
 ru:
   tracks:
+    metadata:
+      exit_point: 'Точка отделения:'
+      landing_point: 'Точка приземления:'
+      altitude_msl: '(%{altitude} над уровнем моря)'
+      copy_hint: Нажмите, чтобы скопировать координаты
+      copied: Скопировано
     index:
       meta:
         description: GPS треки прыжков скайдайверов и бейсджамперов. Анализ скорости, дистанции и качества полёта.

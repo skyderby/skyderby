@@ -1,5 +1,11 @@
 it:
   tracks:
+    metadata:
+      exit_point: 'Punto di uscita:'
+      landing_point: 'Punto di atterraggio:'
+      altitude_msl: '(%{altitude} s.l.m.)'
+      copy_hint: Clicca per copiare le coordinate
+      copied: Copiato
     base_pro:
       summary:
         one_to_one: Quota 1:1

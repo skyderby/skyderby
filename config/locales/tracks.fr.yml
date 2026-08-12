@@ -1,5 +1,11 @@
 fr:
   tracks:
+    metadata:
+      exit_point: 'Point de sortie :'
+      landing_point: "Point d'atterrissage :"
+      altitude_msl: '(%{altitude} au-dessus du niveau de la mer)'
+      copy_hint: Cliquez pour copier les coordonnées
+      copied: Copié
     base_pro:
       summary:
         one_to_one: Altitude 1:1

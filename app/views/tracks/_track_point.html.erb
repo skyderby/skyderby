@@ -1,0 +1,17 @@
+<small>
+  <%= label %>
+  <button type="button"
+          class="copy-value"
+          data-controller="clipboard"
+          data-action="clipboard#copy"
+          data-clipboard-text-value="<%= track_point_coordinates(point) %>"
+          data-copied-label="<%= t('tracks.metadata.copied') %>"
+          title="<%= t('tracks.metadata.copy_hint') %>">
+    <%= track_point_coordinates(point) %>
+  </button>
+  <% if track_point_altitude(point) %>
+    <span class="text-muted">
+      <%= t('tracks.metadata.altitude_msl', altitude: track_point_altitude(point)) %>
+    </span>
+  <% end %>
+</small>

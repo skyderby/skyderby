@@ -17,9 +17,16 @@
   </small>
 <% end %>
 
-<% if @track.downloadable? && @track.track_file %>
-  <small>
-    Download file:
-    <%= link_to @track.track_file.file.original_filename, track_download_path(@track), 'data-turbo': false %>
-  </small>
+<% if @track.downloadable? %>
+  <% { exit_point: @track.exit_point, landing_point: @track.landing_point }.each do |name, point| %>
+    <% next if point.blank? %>
+    <%= render 'tracks/track_point', label: t("tracks.metadata.#{name}"), point: %>
+  <% end %>
+
+  <% if @track.track_file %>
+    <small>
+      Download file:
+      <%= link_to @track.track_file.file.original_filename, track_download_path(@track), 'data-turbo': false %>
+    </small>
+  <% end %>
 <% end %>
