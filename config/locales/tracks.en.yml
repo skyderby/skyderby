@@ -1,5 +1,11 @@
 en:
   tracks:
+    metadata:
+      exit_point: 'Exit point:'
+      landing_point: 'Landing point:'
+      altitude_msl: '(%{altitude} MSL)'
+      copy_hint: Click to copy coordinates
+      copied: Copied
     index:
       meta:
         description: Browse GPS tracks from skydivers and BASE jumpers. Analyze flight performance, speed, distance, and glide ratio.

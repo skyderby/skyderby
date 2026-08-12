@@ -127,6 +127,10 @@ class Track < ApplicationRecord
 
   def first_point_epoch = points.minimum(:gps_time_in_seconds)
 
+  def exit_point = @exit_point ||= point_at(ff_start)
+
+  def landing_point = @landing_point ||= point_at(landing_fl_time)
+
   def duration = (points.last.gps_time_in_seconds - points.first.gps_time_in_seconds).to_i
 
   def speed_skydiving_result = @speed_skydiving_result ||= Tracks::SpeedSkydivingResult.new(self)
@@ -187,6 +191,12 @@ class Track < ApplicationRecord
   def recorded_at = super || created_at
 
   private
+
+  def point_at(fl_time)
+    return if fl_time.blank?
+
+    points.where(fl_time: fl_time..).first || points.last
+  end
 
   def rescore_online_competitions = OnlineCompetitionJob.perform_later(id)
 

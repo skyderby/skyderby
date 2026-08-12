@@ -62,6 +62,32 @@ class TrackTest < ActiveSupport::TestCase
     end
   end
 
+  test '#exit_point - first point at or after the start of the jump range' do
+    track = track_with_points(ff_start: 2)
+
+    assert_in_delta 2.0, track.exit_point.fl_time
+  end
+
+  test '#exit_point - nil when jump range is not set' do
+    track = track_with_points(ff_start: nil)
+
+    assert_nil track.exit_point
+  end
+
+  test '#landing_point - point at the landing time' do
+    track = track_with_points(ff_start: 0)
+    track.update!(landing_fl_time: 3)
+
+    assert_in_delta 3.0, track.landing_point.fl_time
+  end
+
+  test '#landing_point - nil when landing time is unknown' do
+    track = track_with_points(ff_start: 0)
+    track.update!(landed_at: nil)
+
+    assert_nil track.landing_point
+  end
+
   test '#delete_online_competitions_results - deletes all results' do
     online_competition = virtual_competitions(:skydive_distance_wingsuit)
     track = create :empty_track
@@ -73,5 +99,21 @@ class TrackTest < ActiveSupport::TestCase
     assert_changes -> { online_competition.results.where(id: results.map(&:id)).count }, from: 2, to: 0 do
       track.delete_online_competitions_results
     end
+  end
+
+  private
+
+  def track_with_points(ff_start:)
+    track = create :empty_track, ff_start: ff_start, ff_end: 4
+    (0..4).each do |second|
+      track.points.create!(
+        gps_time_in_seconds: 1_000 + second,
+        fl_time: second,
+        latitude: 62.0 + second,
+        longitude: 6.0 + second,
+        abs_altitude: 1_500 - (100 * second)
+      )
+    end
+    track
   end
 end
