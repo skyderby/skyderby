@@ -17,17 +17,17 @@ module UnitsHelper
 
   def speed_skydiving_imperial? = Current.speed_skydiving_units.imperial?
 
-  def speed_skydiving_speed(speed_kmh)
-    return if speed_kmh.nil?
-
-    speed_skydiving_imperial? ? kmh_to_mph(speed_kmh) : speed_kmh
+  def speed_kmh_value_tag(speed_kmh, precision: 2)
+    tag.span(
+      number_with_precision(speed_kmh, precision:),
+      data: { speed_units_target: 'value', speed_kmh:, precision: }
+    )
   end
 
-  def speed_skydiving_speed_with_unit(speed_kmh, precision: 2)
-    key = speed_skydiving_imperial? ? 'mph' : 'kmh'
+  def speed_kmh_with_unit(speed_kmh, precision: 2)
     t(
-      "speed_skydiving_competitions.display.#{key}",
-      speed: number_with_precision(speed_skydiving_speed(speed_kmh), precision:)
+      'speed_skydiving_competitions.display.kmh',
+      speed: number_with_precision(speed_kmh, precision:)
     )
   end
 end

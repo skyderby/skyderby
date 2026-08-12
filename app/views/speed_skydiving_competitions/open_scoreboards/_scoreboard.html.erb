@@ -3,7 +3,7 @@
 <% standings = event.open_standings %>
 <% at_least_one_round_completed = standings.completed_rounds.length > 0 %>
 
-<div class="scoreboard-container" id="open-scoreboard">
+<div class="scoreboard-container" id="open-scoreboard" data-controller="speed-units">
   <table class="scoreboard-table">
     <thead>
       <tr>
@@ -32,8 +32,8 @@
             <%= render 'speed_skydiving_competitions/result_cell', event:, standings:, round:, competitor:, result:, editable: %>
           <% end %>
           <% if at_least_one_round_completed %>
-            <td class="text-right"><%= '%.2f' % row[:total] %></td>
-            <td class="text-right"><%= '%.2f' % row[:average] %></td>
+            <td class="text-right"><%= speed_kmh_value_tag row[:total] %></td>
+            <td class="text-right"><%= speed_kmh_value_tag row[:average] %></td>
           <% else %>
             <td></td>
             <td></td>
