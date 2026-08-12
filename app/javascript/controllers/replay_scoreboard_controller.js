@@ -178,10 +178,10 @@ export default class extends Controller {
       const newAvgCell = newRow.querySelector('[data-avg]')
 
       if (totalCell && newTotalCell) {
-        totalCell.textContent = newTotalCell.textContent
+        totalCell.innerHTML = newTotalCell.innerHTML
       }
       if (avgCell && newAvgCell) {
-        avgCell.textContent = newAvgCell.textContent
+        avgCell.innerHTML = newAvgCell.innerHTML
       }
     }
   }
