@@ -15,3 +15,27 @@ alex:
   suit: nala
   category: advanced
   profile: alex
+
+boogie_john:
+  event: boogie
+  suit: apache
+  category: boogie_open
+  profile: john
+
+boogie_travis:
+  event: boogie
+  suit: apache
+  category: boogie_open
+  profile: travis
+
+boogie_alex:
+  event: boogie
+  suit: apache
+  category: boogie_open
+  profile: alex
+
+boogie_organizer:
+  event: boogie
+  suit: apache
+  category: boogie_open
+  profile: event_responsible

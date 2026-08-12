@@ -10,3 +10,8 @@ intermediate:
   event: nationals
   order: 2
   name: Intermediate
+
+boogie_open:
+  event: boogie
+  order: 1
+  name: Boogie Open

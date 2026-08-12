@@ -37,3 +37,43 @@ travis_speed_1:
   result_net: 265
   uploaded_by: event_responsible
   created_at: 2018-01-01 12:05:00
+
+boogie_john_1:
+  competitor: boogie_john
+  round: boogie_distance_1
+  result: 3000
+  created_at: 2018-01-01 12:00:00
+  track: boogie_track_1
+  uploaded_by: event_responsible
+
+boogie_john_2:
+  competitor: boogie_john
+  round: boogie_distance_2
+  result: 3200
+  created_at: 2018-01-01 12:01:00
+  track: boogie_track_2
+  uploaded_by: event_responsible
+
+boogie_travis_1:
+  competitor: boogie_travis
+  round: boogie_distance_1
+  result: 2500
+  created_at: 2018-01-01 12:02:00
+  track: boogie_track_3
+  uploaded_by: event_responsible
+
+boogie_travis_2:
+  competitor: boogie_travis
+  round: boogie_distance_2
+  result: 2600
+  created_at: 2018-01-01 12:03:00
+  track: boogie_track_4
+  uploaded_by: event_responsible
+
+boogie_organizer_1:
+  competitor: boogie_organizer
+  round: boogie_distance_1
+  result: 1500
+  created_at: 2018-01-01 12:04:00
+  track: boogie_track_5
+  uploaded_by: event_responsible

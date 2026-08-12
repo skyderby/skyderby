@@ -1,0 +1,59 @@
+<%# locals: (event:, category:, active: false) %>
+
+<div class="display-slide <%= 'is-active' if active %>" data-slideshow-target="slide" data-slideshow-duration="30">
+  <%= render 'statusbar', event: event %>
+
+  <div class="display-content">
+    <div class="display-title-row">
+      <h1 class="display-title"><%= category.name %></h1>
+      <div class="display-title-aside">
+        <span class="display-title-count"><%= t('boogies.display.athletes', count: category.size) %></span>
+      </div>
+    </div>
+
+    <div class="display-lb-head">
+      <span><%= t('boogies.display.rank') %></span>
+      <span><%= t('boogies.display.competitor') %></span>
+      <span class="text-right"><%= t('boogies.display.total') %></span>
+      <span><%= t('boogies.display.results', count: category.counting_results) %></span>
+    </div>
+
+    <div class="display-lb-window">
+      <div class="display-lb-scroller" data-slideshow-scroll>
+        <% category.leaderboard.each do |row| %>
+          <div class="display-lb-row <%= class_names('is-leader' => row.rank == 1, 'is-podium' => row.rank <= 3) %>">
+            <div class="display-rank">
+              <span class="display-rank-number"><%= row.rank %></span>
+            </div>
+
+            <div class="display-competitor">
+              <span class="display-competitor-name"><%= row.name %></span>
+              <div class="display-competitor-meta">
+                <span class="display-country">
+                  <span class="display-country-code"><%= row.country_code %></span>
+                  <span class="display-country-name"><%= row.country_name %></span>
+                </span>
+                <% if row.suit.present? %><span class="display-suit"><%= row.suit %></span><% end %>
+              </div>
+            </div>
+
+            <div class="display-metric">
+              <span class="display-metric-value display-metric-total">
+                <%= row.total_points.positive? ? format('%d', row.total_points) : '—' %>
+              </span>
+            </div>
+
+            <div class="display-lb-tiles">
+              <% row.attempts.each do |attempt| %>
+                <span class="display-lb-tile <%= 'is-best' if attempt.counting %>"><%= format('%d', attempt.result) %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="display-fade-top"></div>
+      <div class="display-fade-bottom"></div>
+    </div>
+  </div>
+</div>

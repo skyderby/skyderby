@@ -1,0 +1,34 @@
+es:
+  boogies:
+    actions_bar:
+      display: 'Presentación'
+    display:
+      live: 'En directo'
+      athletes:
+        one: '%{count} atleta'
+        other: '%{count} atletas'
+      results:
+        one: 'Mejor resultado'
+        other: 'Mejores %{count} resultados'
+      rank: 'Puesto'
+      competitor: 'Competidor'
+      total: 'Total'
+      distance: 'Distancia'
+      best_distance: 'Mejor distancia'
+      best_jumps: 'Mejores saltos'
+      furthest: 'más lejos'
+      flying: 'Vuela'
+      jumps: 'Saltos'
+      speed: 'Velocidad'
+      glide_ratio: 'Planeo'
+      altitude: 'Altitud'
+      kmh_short: 'KM/H'
+      meters_short: 'M'
+      rounds: 'Rondas'
+      round_short: 'Ronda'
+      round: 'Ronda %{number}'
+      best_short: 'mejor'
+      vs_best: 'vs mejor'
+      to_window_end: 'Hasta fin de ventana'
+      window_start: 'Inicio de ventana'
+      window_end: 'Fin de ventana'
