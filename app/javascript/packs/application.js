@@ -9,7 +9,11 @@ const honeybadgerApiKeyMeta = document.querySelector('meta[name="hb-api-key"]')
 if (currentEnvMeta && honeybadgerApiKeyMeta && currentEnvMeta.content === 'production') {
   Honeybadger.configure({
     apiKey: honeybadgerApiKeyMeta.content,
-    environment: currentEnvMeta.content
+    environment: currentEnvMeta.content,
+    ignorePatterns: [
+      /The browser supports WebGL, but initialization failed/i,
+      /Failed to fetch/i
+    ]
   })
 }
 
