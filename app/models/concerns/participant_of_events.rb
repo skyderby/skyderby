@@ -24,7 +24,9 @@ module ParticipantOfEvents
   end
 
   def organizer_of_event?(event)
-    (responsible_of_events + responsible_of_tournaments + organizer_of_events).include? event
+    return true if event.try(:responsible_id) == id
+
+    organizer_of_events.include? event
   end
 
   def participant_of_events

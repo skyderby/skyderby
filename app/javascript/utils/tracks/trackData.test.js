@@ -3,7 +3,7 @@ import { describe, test, expect, vi, beforeEach } from 'vitest'
 const { get } = vi.hoisted(() => ({ get: vi.fn() }))
 vi.mock('@rails/request.js', () => ({ get }))
 
-import { fetchTrackPoints, fetchTrackWeather } from './trackData'
+import { fetchTrackAltitude, fetchTrackPoints, fetchTrackWeather } from './trackData'
 
 const okResponse = data => ({ ok: true, statusCode: 200, json: Promise.resolve(data) })
 const errorResponse = status => ({
@@ -79,6 +79,22 @@ describe('fetchTrackPoints', () => {
     expect(data.points).toEqual([])
     expect(get).toHaveBeenCalledTimes(2)
     vi.useRealTimers()
+  })
+})
+
+describe('fetchTrackAltitude', () => {
+  test('returns the samples on success', async () => {
+    get.mockResolvedValue(okResponse([{ fl_time: 0, altitude: 4000 }]))
+
+    await expect(fetchTrackAltitude('/altitude')).resolves.toEqual([
+      { fl_time: 0, altitude: 4000 }
+    ])
+  })
+
+  test('rejects instead of returning the error body', async () => {
+    get.mockResolvedValue(errorResponse(403))
+
+    await expect(fetchTrackAltitude('/altitude')).rejects.toThrow('HTTP 403')
   })
 })
 
