@@ -16,6 +16,20 @@ class Boogie::Scoreboard::Standings::Row
 
   def best_result = best_results.first
 
+  def qualified? = results.size >= number_of_results_for_total
+
+  def average_result
+    return 0 if results.empty?
+
+    results.sum { |result| result.result.to_f } / results.size
+  end
+
+  def sort_key
+    return [0, -total_points, 0, competitor.name] if qualified?
+
+    [1, -results.size, -average_result, competitor.name]
+  end
+
   def best_results
     return [] if results.size < number_of_results_for_total
 

@@ -17,7 +17,7 @@ class Boogie::Scoreboard::Standings
       end
 
     standings
-      .sort_by { |row| [-row.total_points, row.best_result&.result || 0, row.competitor.name] }
+      .sort_by(&:sort_key)
       .tap { |rows| assign_ranks(rows) }
   end
 
