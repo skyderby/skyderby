@@ -30,7 +30,7 @@
         <%= button_to performance_competition_competitor_path(event, competitor),
                       class: 'dropdown-item',
                       method: :delete,
-                      form: { data: { turbo_stream: true, confirm: t('general.confirm_delete') } } do %>
+                      form: { data: { turbo_stream: true, turbo_confirm: t('general.confirm_delete') } } do %>
           <%= t('general.delete') %>
         <% end %>
       </div>

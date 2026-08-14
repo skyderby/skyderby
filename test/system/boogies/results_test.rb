@@ -16,7 +16,7 @@ module Boogies
       find('.scoreboard-competitor', text: @result.competitor.name)
         .first('.result-show-cell').click
 
-      click_button I18n.t('event_tracks.show.delete')
+      accept_confirm { click_button I18n.t('event_tracks.show.delete') }
 
       assert_no_selector 'dialog.dialog'
       assert_nil Boogie::Result.find_by(id: @result.id)

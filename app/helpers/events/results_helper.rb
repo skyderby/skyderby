@@ -20,9 +20,11 @@ module Events
     def delete_event_track_link(event_track)
       button_to(t('event_tracks.show.delete'),
                 event_result_path(event_track.event, event_track),
-                data: {
-                  confirm: t('event_tracks.show.delete_confirmation'),
-                  turbo: true
+                form: {
+                  data: {
+                    turbo: true,
+                    turbo_confirm: t('event_tracks.show.delete_confirmation')
+                  }
                 },
                 method: :delete,
                 class: 'button button--ghost button--danger')

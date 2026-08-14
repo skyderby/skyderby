@@ -21,7 +21,7 @@
     <div class="form-actions justify-between" data-action="turbo:submit-end->dialog#close">
       <%= button_to t('general.delete'), speed_skydiving_competition_result_path(event, result),
                     method: :delete,
-                    form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } },
+                    form: { data: { turbo_stream: true, turbo_confirm: 'This action is irreversible. Proceed?' } },
                     class: 'button button--ghost button--danger' %>
 
       <button type="button" class="button" data-action="dialog#close">

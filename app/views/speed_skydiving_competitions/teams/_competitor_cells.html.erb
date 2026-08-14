@@ -12,7 +12,7 @@
         <div id="speed-team-competitor-menu-<%= competitor.id %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
           <%= button_to 'Delete', speed_skydiving_competition_team_competitor_path(event, competitor),
                         class: 'dropdown-item',
-                        method: :delete, form: { data: { turbo_stream: true, confirm: 'This action is irreversible. Proceed?' } } %>
+                        method: :delete, form: { data: { turbo_stream: true, turbo_confirm: 'This action is irreversible. Proceed?' } } %>
         </div>
       </div>
     <% end %>
