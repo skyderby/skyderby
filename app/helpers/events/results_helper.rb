@@ -19,13 +19,21 @@ module Events
 
     def delete_event_track_link(event_track)
       button_to(t('event_tracks.show.delete'),
-                performance_competition_result_path(event_track.event, event_track),
+                event_result_path(event_track.event, event_track),
                 data: {
                   confirm: t('event_tracks.show.delete_confirmation'),
                   turbo: true
                 },
                 method: :delete,
                 class: 'button button--ghost button--danger')
+    end
+
+    def event_result_path(event, event_track, **)
+      if event.is_a?(Boogie)
+        boogie_result_path(event, event_track, **)
+      else
+        performance_competition_result_path(event, event_track, **)
+      end
     end
 
     def event_result_presentation(event_track)
