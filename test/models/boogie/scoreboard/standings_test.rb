@@ -33,6 +33,16 @@ class Boogie::Scoreboard::StandingsTest < ActiveSupport::TestCase
                  rows.first(2).map(&:competitor)
   end
 
+  test 'penalized results count with the penalty applied' do
+    result(:boogie_john_1).update!(penalized: true, penalty_size: 50)
+
+    rows = standings(@results).rows
+
+    assert_equal competitor(:boogie_travis), rows.first.competitor
+    assert_equal 2550, rows.first.total_points
+    assert_equal 2350, rows.second.total_points
+  end
+
   test 'pilots without results are ordered alphabetically' do
     names = standings([]).rows.map { |row| row.competitor.name }
 

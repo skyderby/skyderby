@@ -58,7 +58,7 @@ class Boogie::Display < SimpleDelegator
 
     def photo_url = (competitor.photo_url(:medium) if competitor.photo)
 
-    def best = scored_results.max_by(&:result)
+    def best = scored_results.max_by(&:scored_result)
 
     def best_round = best&.round_number
 
@@ -67,7 +67,9 @@ class Boogie::Display < SimpleDelegator
     def attempts
       @attempts ||=
         scored_results.sort_by(&:round_number).map do |result|
-          Attempt.new(result.round_number, result.result, counting_results.include?(result), result == best)
+          Attempt.new(
+            result.round_number, result.scored_result, counting_results.include?(result), result == best
+          )
         end
     end
 
@@ -103,7 +105,7 @@ class Boogie::Display < SimpleDelegator
         suit: row.suit,
         photo_url: row.photo_url,
         color: color,
-        result: record.result.round,
+        result: record.scored_result.round,
         points: points
       )
     end

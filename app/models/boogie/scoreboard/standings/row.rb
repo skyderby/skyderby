@@ -11,7 +11,7 @@ class Boogie::Scoreboard::Standings::Row
   def total_points
     return 0 if best_results.empty?
 
-    best_results.sum(&:result) / number_of_results_for_total
+    best_results.sum(&:scored_result) / number_of_results_for_total
   end
 
   def best_result = best_results.first
@@ -21,7 +21,7 @@ class Boogie::Scoreboard::Standings::Row
   def average_result
     return 0 if results.empty?
 
-    results.sum { |result| result.result.to_f } / results.size
+    results.sum { |result| result.scored_result.to_f } / results.size
   end
 
   def sort_key
@@ -33,7 +33,7 @@ class Boogie::Scoreboard::Standings::Row
   def best_results
     return [] if results.size < number_of_results_for_total
 
-    results.sort_by(&:result).reverse.first(number_of_results_for_total)
+    results.sort_by(&:scored_result).reverse.first(number_of_results_for_total)
   end
 
   def result_in_round(round) = results.find { |r| r.round == round }

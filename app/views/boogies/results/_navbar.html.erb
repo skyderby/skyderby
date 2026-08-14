@@ -12,5 +12,8 @@
   <% if result.event.editable? %>
     <%= link_to t('general.jump_range'), boogie_result_jump_range_path(result.event, result),data: link_data,
                   class: class_names('tab-bar-item', current_controller == 'jump_ranges' && 'active') %>
+
+    <%= link_to t('event_tracks.show.penalties'), boogie_result_penalty_path(result.event, result), data: link_data,
+                  class: class_names('tab-bar-item', current_controller == 'penalties' && 'active') %>
   <% end %>
 </div>

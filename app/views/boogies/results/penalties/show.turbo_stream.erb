@@ -1,0 +1,13 @@
+<% editable = @event.editable? && !@event.finished? && !@result.round.completed? %>
+
+<%= turbo_stream.update 'modal-root' do %>
+  <%= render partial: 'penalties_form',
+             layout: 'components/dialog',
+             locals: {
+               title: event_result_presentation(@result),
+               dialog_size: 'lg',
+               result: @result,
+               modal: true,
+               editable:
+             } %>
+<% end %>

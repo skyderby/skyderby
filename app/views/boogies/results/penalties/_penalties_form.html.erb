@@ -1,0 +1,51 @@
+<%# locals: (result:, editable:, modal: false, **rest) %>
+
+<div class="sd-container">
+  <%= render 'boogies/results/navbar', result:, modal: %>
+
+  <%= form_with model: result, scope: :penalty,
+                url: boogie_result_penalty_path(result.event, result),
+                method: :put, class: 'sd-form',
+                data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
+    <div class="grid">
+      <label class="col-start-4 col-4 checkbox-label">
+        <%= f.check_box :penalized, checked: result.penalized %>
+        <%= f.label :penalized %>
+      </label>
+    </div>
+
+    <div class="grid">
+      <%= f.label :penalty_size, class: 'col-3 text-right' %>
+      <div class="tab-bar col-7">
+        <% result.penalty_sizes.each do |penalty_size| %>
+          <label class="tab-bar-item">
+            <%= f.radio_button :penalty_size, penalty_size, class: 'tab-bar-radio' %>
+            <span><%= "#{penalty_size} %" %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="grid">
+      <%= f.label :penalty_reason, class: 'col-3 text-right' %>
+      <%= f.text_field :penalty_reason, class: 'form-input col-7', value: result.penalty_reason %>
+    </div>
+
+    <div class="form-actions justify-between">
+      <div>
+        <% if editable %>
+          <%= delete_event_track_link(result) %>
+        <% end %>
+      </div>
+
+      <div>
+        <% if editable %>
+          <%= f.submit t('general.save'), class: 'button button--primary' %>
+        <% end %>
+        <% if modal %>
+          <button class="button" type="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

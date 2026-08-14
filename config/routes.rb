@@ -217,6 +217,7 @@ Skyderby::Application.routes.draw do
       resources :results do
         scope module: :results do
           resource :jump_range, only: %i[show update]
+          resource :penalty, only: %i[show update]
           resource :map, only: :show
         end
       end

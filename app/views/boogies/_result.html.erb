@@ -6,7 +6,10 @@
               class: 'result-show-cell',
               rel: 'nofollow') do  %>
     <% if result.result&.positive? %>
-      <%= format('%d', result.result) %>
+      <%= format('%d', result.scored_result) %>
+      <% if result.penalized? %>
+        <sup class="text-danger">-<%= result.penalty_size %>%</sup>
+      <% end %>
     <% elsif editable %>
       <%= icon_tag 'circle-question', class: 'text-danger' %>
     <% end %>

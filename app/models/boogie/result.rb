@@ -20,6 +20,12 @@ class Boogie::Result < ApplicationRecord
 
   def penalty_sizes = [10, 20, 50, 100]
 
+  def scored_result
+    return result unless penalized? && penalty_size
+
+    result - (result / 100 * penalty_size)
+  end
+
   def apply_penalty_to_result? = !event.apply_penalty_to_score
 
   def apply_penalty_to_score? = event.apply_penalty_to_score

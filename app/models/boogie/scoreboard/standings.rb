@@ -21,7 +21,7 @@ class Boogie::Scoreboard::Standings
       .tap { |rows| assign_ranks(rows) }
   end
 
-  def best_result = results.max_by(&:result)
+  def best_result = results.max_by(&:scored_result)
 
   private
 
