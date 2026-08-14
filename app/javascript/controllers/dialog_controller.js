@@ -15,6 +15,7 @@ export default class extends Controller {
     this.createOverlay()
     this.dialogTarget.show()
     document.body.classList.add('overflow-hidden')
+    document.dispatchEvent(new CustomEvent('dialog:open'))
   }
 
   disconnect() {
@@ -22,6 +23,7 @@ export default class extends Controller {
     document.removeEventListener('keydown', this.handleKeydown)
     this.removeOverlay()
     document.body.classList.remove('overflow-hidden')
+    document.dispatchEvent(new CustomEvent('dialog:close'))
   }
 
   createOverlay() {

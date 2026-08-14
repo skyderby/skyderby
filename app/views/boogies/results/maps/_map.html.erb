@@ -1,0 +1,37 @@
+<%# locals: (result:, editable:, modal: false, **rest) %>
+
+<div class="sd-container">
+  <%= render 'boogies/results/navbar', result:, modal: %>
+
+  <section class="single-jump-map"
+           data-controller="single-jump-map"
+           data-single-jump-map-track-points-url-value="<%= track_points_path(result.track_id) %>"
+           data-single-jump-map-event-id-value="<%= result.event.id %>"
+           data-single-jump-map-window-start-value="<%= result.event.range_from %>"
+           data-single-jump-map-window-end-value="<%= result.event.range_to %>"
+           data-single-jump-map-exited-at-value="<%= result.exited_at&.iso8601 %>">
+
+    <script type="application/json" data-single-jump-map-target="referencePoints">[]</script>
+
+    <div class="single-jump-map-container"
+         data-single-jump-map-target="map"
+         data-controller="map"
+         data-map-type="ROADMAP"
+         data-center-lat="<%= result.event.place&.latitude %>"
+         data-center-lon="<%= result.event.place&.longitude %>"></div>
+  </section>
+
+  <div class="form-actions justify-between">
+    <div>
+      <% if editable %>
+        <%= delete_event_track_link(result) %>
+      <% end %>
+    </div>
+
+    <div>
+      <% if modal %>
+        <button class="button" type="button" data-action="dialog#close"><%= t 'general.cancel' %></button>
+      <% end %>
+    </div>
+  </div>
+</div>

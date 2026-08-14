@@ -6,9 +6,13 @@ export default class extends Controller {
   connect() {
     this.onResize = this.onResize.bind(this)
     this.onScroll = this.onScroll.bind(this)
+    this.onDialogOpen = this.onDialogOpen.bind(this)
+    this.onDialogClose = this.onDialogClose.bind(this)
 
     window.addEventListener('resize', this.onResize)
     window.addEventListener('scroll', this.onScroll)
+    document.addEventListener('dialog:open', this.onDialogOpen)
+    document.addEventListener('dialog:close', this.onDialogClose)
 
     this.element.addEventListener('turbo:before-morph-element', event => {
       if (event.target === this._popover) event.preventDefault()
@@ -36,6 +40,22 @@ export default class extends Controller {
 
     window.removeEventListener('resize', this.onResize)
     window.removeEventListener('scroll', this.onScroll)
+    document.removeEventListener('dialog:open', this.onDialogOpen)
+    document.removeEventListener('dialog:close', this.onDialogClose)
+  }
+
+  onDialogOpen() {
+    this._suspended = true
+
+    if (this._visible) {
+      this._popover.hidePopover()
+      this._visible = false
+    }
+  }
+
+  onDialogClose() {
+    this._suspended = false
+    this.onScroll()
   }
 
   buildPopover() {
@@ -108,7 +128,7 @@ export default class extends Controller {
   }
 
   onScroll() {
-    if (!this._popover || !this.hasTableTarget) return
+    if (!this._popover || !this.hasTableTarget || this._suspended) return
 
     const thead = this.tableTarget.querySelector('thead')
     if (!thead) return
