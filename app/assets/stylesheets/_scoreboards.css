@@ -189,7 +189,7 @@
 .scoreboard-table a.result-upload-cell {
   font: inherit;
   color: inherit;
-  background-color: var(--white);
+  background-color: transparent;
   border: 0;
   padding: 0.5rem;
   height: 100%;
@@ -205,7 +205,7 @@
 
 .scoreboard-table .result-upload-cell button,
 .scoreboard-table a.result-upload-cell {
-  color: var(--white);
+  color: transparent;
   font-size: 1.125rem;
 }
 
@@ -223,6 +223,7 @@
 .scoreboard-table .result-upload-cell button:hover,
 .scoreboard-table a.result-upload-cell:hover {
   background-color: var(--blue-70);
+  color: var(--white);
 }
 
 .scoreboard-table td,

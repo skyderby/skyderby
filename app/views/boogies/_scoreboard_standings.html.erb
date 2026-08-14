@@ -1,7 +1,7 @@
 <%# locals: (event:, rounds:, standings:, editable:) %>
 
-<% standings.rows.each do |row| %>
-  <tr class="scoreboard-competitor">
+<% standings.rows.each_with_index do |row, index| %>
+  <tr class="<%= class_names('scoreboard-competitor', 'scoreboard-row--striped' => index.even?) %>">
     <td class="text-center"><%= row.rank %></td>
 
     <%= render 'boogies/competitors/competitor_cells', event:, competitor: row.competitor, editable: %>
