@@ -9,6 +9,8 @@
     <% end %>
 
     <% case dashboard.current_mode %>
+    <% when :admin %>
+      <%= render 'static_pages/dashboard/admin', dashboard: dashboard %>
     <% when :performance %>
       <%= render 'static_pages/dashboard/performance', dashboard: dashboard %>
     <% when :base %>

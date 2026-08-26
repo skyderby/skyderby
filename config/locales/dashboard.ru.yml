@@ -14,6 +14,7 @@ ru:
     hero:
       season: Сезон %{year}
     modes:
+      admin: "Админка"
       performance: Performance Flying
       base: BASE
       speed: Speed

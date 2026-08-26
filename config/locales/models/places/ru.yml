@@ -12,3 +12,10 @@ ru:
         msl: 'Превышение над уровнем моря'
       place/photo:
         image: Файл с изображением
+    errors:
+      models:
+        place:
+          attributes:
+            base:
+              duplicate_nearby: "рядом уже есть локация: %{name}"
+              too_far_from_anchor: "локация должна быть не дальше %{distance} м от точки, записанной в треке"

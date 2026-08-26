@@ -1,0 +1,5 @@
+<%= turbo_stream.update 'modal-root' do %>
+  <%= render partial: 'review',
+             layout: 'components/dialog',
+             locals: { title: @review.place.name, dialog_size: 'lg' } %>
+<% end %>

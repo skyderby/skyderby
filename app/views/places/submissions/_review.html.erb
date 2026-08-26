@@ -1,0 +1,62 @@
+<% place = @review.place %>
+
+<div class="place-submission">
+  <%= image_tag place.google_map_image_url, class: 'place-submission__map', alt: place.name %>
+
+  <dl class="place-submission__facts">
+    <dt>Kind</dt>
+    <dd><%= place.kind %></dd>
+
+    <dt>Country</dt>
+    <dd><%= place.country_name %></dd>
+
+    <dt>Coordinates</dt>
+    <dd><%= format('%.6f, %.6f', place.latitude, place.longitude) %></dd>
+
+    <dt>MSL</dt>
+    <dd><%= place.msl || '&mdash;'.html_safe %></dd>
+
+    <dt>Added by</dt>
+    <dd><%= link_to @review.user_name, profile_path(@review.user.profile) if @review.user.profile %></dd>
+
+    <dt>Added at</dt>
+    <dd><%= l(@review.created_at, format: :long) %></dd>
+
+    <dt>From track</dt>
+    <dd>
+      <% if @review.track %>
+        <%= link_to "##{@review.track_id}", track_path(@review.track), data: { turbo_frame: '_top' } %>
+      <% else %>
+        &mdash;
+      <% end %>
+    </dd>
+
+    <dt>Tracks assigned</dt>
+    <dd><%= @review.tracks_count %></dd>
+  </dl>
+
+  <div class="place-submission__neighbours">
+    <h3 class="place-submission__subtitle">Nearby locations</h3>
+
+    <% if @review.neighbours.any? %>
+      <ul>
+        <% @review.neighbours.each do |neighbour| %>
+          <li>
+            <%= link_to place_path(neighbour), data: { turbo_frame: '_top' } do %>
+              <%= place_presentation(neighbour) %>
+            <% end %>
+            <span class="text-muted"><%= number_with_delimiter(@review.distance_to(neighbour)) %> m</span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-muted">No other locations of this kind nearby</p>
+    <% end %>
+  </div>
+
+  <div class="form-actions">
+    <%= link_to 'Open location', place_path(place), class: 'button', data: { turbo_frame: '_top' } %>
+    <%= link_to 'Edit location', edit_place_path(place), class: 'button button--primary', data: { turbo_frame: '_top' } %>
+    <button type="button" class="button" data-action="dialog#close">Close</button>
+  </div>
+</div>

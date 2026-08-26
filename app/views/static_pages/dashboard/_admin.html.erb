@@ -1,0 +1,16 @@
+<%# locals: (dashboard:) %>
+
+<%= turbo_frame_tag 'place_submissions', src: places_submissions_path, loading: :lazy do %>
+  <div class="dashboard-section panel">
+    <div class="dashboard-blankslate">Loading…</div>
+  </div>
+<% end %>
+
+<div class="dashboard-section panel">
+  <div class="dashboard-section__header">Manage</div>
+  <div class="dashboard-list">
+    <%= link_to 'Admin dashboard', manage_path, class: 'dashboard-list__row' %>
+    <%= link_to 'Missing places', missing_places_path, class: 'dashboard-list__row' %>
+    <%= link_to 'Locations', places_path, class: 'dashboard-list__row' %>
+  </div>
+</div>

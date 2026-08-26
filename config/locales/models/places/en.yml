@@ -12,3 +12,10 @@ en:
         msl: Elevation (MSL)
       place/photo:
         image: File with photo
+    errors:
+      models:
+        place:
+          attributes:
+            base:
+              duplicate_nearby: "there is already a location nearby: %{name}"
+              too_far_from_anchor: "the location must be within %{distance} m of the point recorded in your track"

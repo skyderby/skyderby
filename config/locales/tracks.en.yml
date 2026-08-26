@@ -1,5 +1,19 @@
 en:
   tracks:
+    places:
+      new:
+        title: "Location for this track"
+        add_place: "Add location"
+        suggestions_title: "Nearby locations"
+        suggestions_hint: "Pick one of these if it matches where you jumped."
+        create_title: "Create a new location"
+        country_placeholder: "Select country"
+        msl_hint: "Elevation of the landing area, taken from your track."
+        pin_hint_base: "The pin is placed at the exit point of your track."
+        pin_hint_skydive: "Drag the pin to the centre of the landing area."
+        allow_duplicate: "Save anyway, ignoring the nearby location"
+        no_anchor: "This track has no usable coordinates, so a location cannot be created from it."
+        distance_away: "%{distance} m away"
     metadata:
       exit_point: 'Exit point:'
       landing_point: 'Landing point:'

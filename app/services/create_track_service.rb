@@ -96,16 +96,16 @@ class CreateTrackService
     @segments ||= Track::Segments.new(points)
   end
 
-  # Find and set place as closest to exit point
-  # and set ground level if place found as place msl offset
   def set_place
-    place = find_place segments.exit_point, search_radius
+    place = find_place place_anchor_point, search_radius
     track.place = place
     track.ground_level = place.msl if place
   end
 
-  # Record track, then assign to it points and
-  # record points to db
+  def place_anchor_point
+    track.base? ? segments.exit_point : segments.landing_point || segments.exit_point
+  end
+
   def save_track
     track.save!
     Point.bulk_insert points: points, track_id: track.id
@@ -118,16 +118,13 @@ class CreateTrackService
   end
 
   def search_radius
-    # Search radius for place in km
-    # Base exit described as exit coordinates
-    # Skydive dropzone descriped as landing area coordinates
     base_search_radius = 1
     skydive_search_radius = 10
 
-    @track.base? ? base_search_radius : skydive_search_radius
+    track.base? ? base_search_radius : skydive_search_radius
   end
 
-  def find_place(start_point, radius)
-    Place.nearby(start_point, radius).first
+  def find_place(anchor_point, radius)
+    Place.where(kind: track.place_kind).nearby(anchor_point, radius).first
   end
 end

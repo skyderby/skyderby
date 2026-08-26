@@ -1,0 +1,108 @@
+<div class="track-place">
+  <% if @new_place.suggestions.any? %>
+    <section class="track-place__section">
+      <h3 class="track-place__section-title"><%= t('tracks.places.new.suggestions_title') %></h3>
+      <p class="track-place__hint"><%= t('tracks.places.new.suggestions_hint') %></p>
+
+      <div class="track-place__suggestions">
+        <% @new_place.suggestions.each do |place| %>
+          <%= render 'tracks/places/suggestion', place: place, distance: @new_place.distance_to(place) %>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+
+  <section class="track-place__section">
+    <h3 class="track-place__section-title"><%= t('tracks.places.new.create_title') %></h3>
+
+    <% if @new_place.anchor_available? %>
+      <%= form_with model: @new_place,
+                    scope: :place,
+                    url: track_place_path(@new_place.track),
+                    class: 'sd-form track-place__form',
+                    data: {
+                      controller: 'tracks--place-form',
+                      'tracks--place-form-draggable-value': @new_place.draggable_pin?,
+                      'tracks--place-form-countries-url-value': countries_select_options_path(format: :json)
+                    } do |f| %>
+        <% if @new_place.errors.any? %>
+          <ul class="track-place__errors">
+            <% @new_place.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        <% end %>
+
+        <div class="grid">
+          <%= f.label :name, class: 'form-label col-4' %>
+          <div class="col-8">
+            <%= f.text_field :name, autofocus: true, required: true, class: 'form-input' %>
+          </div>
+        </div>
+
+        <div class="grid">
+          <%= f.label :country_id, t('activerecord.attributes.place.country'), class: 'form-label col-4' %>
+          <div class="col-8">
+            <%= render 'hot_select/select',
+                       form: f,
+                       name: :country_id,
+                       src: countries_select_options_path,
+                       placeholder: t('tracks.places.new.country_placeholder'),
+                       options: options_for_select(
+                         [([@new_place.country_name, @new_place.country_id] if @new_place.country)],
+                         @new_place.country_id
+                       ),
+                       select: { data: { 'tracks--place-form-target': 'country' } } %>
+          </div>
+        </div>
+
+        <% %i[latitude longitude].each do |coordinate| %>
+          <div class="grid">
+            <%= f.label coordinate, class: 'form-label col-4' %>
+            <div class="col-8">
+              <% if @new_place.draggable_pin? %>
+                <%= f.text_field coordinate,
+                                 required: true,
+                                 class: 'form-input',
+                                 data: { 'tracks--place-form-target': coordinate } %>
+              <% else %>
+                <%= f.hidden_field coordinate, data: { 'tracks--place-form-target': coordinate } %>
+                <div class="form-static"><%= @new_place.public_send(coordinate) %></div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @new_place.skydive? %>
+          <div class="grid">
+            <%= f.label :msl, class: 'form-label col-4' %>
+            <div class="col-8">
+              <%= f.text_field :msl, class: 'form-input' %>
+              <div class="form-hint"><%= t('tracks.places.new.msl_hint') %></div>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="track-place__map" data-tracks--place-form-target="map"></div>
+
+        <p class="track-place__hint">
+          <%= t("tracks.places.new.pin_hint_#{@new_place.kind}") %>
+        </p>
+
+        <% if Place.creatable? && @new_place.errors.of_kind?(:base, :duplicate_nearby) %>
+          <label class="form-checkbox">
+            <%= f.check_box :allow_duplicate %>
+            <%= t('tracks.places.new.allow_duplicate') %>
+          </label>
+        <% end %>
+
+        <div class="form-actions">
+          <%= f.submit t('general.save'), class: 'button button--primary' %>
+          <button type="button" class="button" data-action="dialog#close"><%= t('general.cancel') %></button>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="track-place__hint"><%= t('tracks.places.new.no_anchor') %></p>
+    <% end %>
+  </section>
+</div>

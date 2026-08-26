@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_12_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_26_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -422,6 +422,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_12_000000) do
     t.bigint "place_id"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["place_id"], name: "index_place_photos_on_place_id"
+  end
+
+  create_table "place_submissions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "place_id", null: false
+    t.bigint "track_id"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["place_id"], name: "index_place_submissions_on_place_id", unique: true
+    t.index ["track_id"], name: "index_place_submissions_on_track_id"
+    t.index ["user_id"], name: "index_place_submissions_on_user_id"
   end
 
   create_table "place_weather_data", id: :serial, force: :cascade do |t|

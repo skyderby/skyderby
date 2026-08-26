@@ -1,6 +1,6 @@
 module Profiles
   class Dashboard < SimpleDelegator
-    MODES = %i[performance base speed].freeze
+    MODES = %i[admin performance base speed].freeze
     ACTIVITY_BY_MODE = { performance: :skydive, base: :base, speed: :speed_skydiving }.freeze
     DISCIPLINES_BY_MODE = { base: %i[distance_in_time flare], speed: %i[vertical_speed] }.freeze
     DISCIPLINES = %i[speed distance time flare].freeze
@@ -41,7 +41,9 @@ module Profiles
 
     def default_mode
       recent_kinds = tracks.order(recorded_at: :desc).limit(RECENT_TRACKS_FOR_MODE).pluck(:kind).tally
-      available_modes.max_by { |mode| recent_kinds[ACTIVITY_BY_MODE.fetch(mode).to_s] || 0 } ||
+      activity_modes = available_modes & ACTIVITY_BY_MODE.keys
+
+      activity_modes.max_by { |mode| recent_kinds[ACTIVITY_BY_MODE.fetch(mode).to_s] || 0 } ||
         available_modes.first
     end
 
@@ -171,6 +173,7 @@ module Profiles
 
     def mode_available?(mode)
       case mode
+      when :admin then @user&.admin? || false
       when :performance then tracks.skydive.exists?
       when :base then tracks.base.exists?
       when :speed then tracks.speed_skydiving.exists?

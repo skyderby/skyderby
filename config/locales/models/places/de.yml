@@ -9,3 +9,10 @@ de:
         latitude: 'Latitude'
         longitude: 'Longitude'
         msl: 'Höhe (MSL)'
+    errors:
+      models:
+        place:
+          attributes:
+            base:
+              duplicate_nearby: "in der Nähe gibt es bereits einen Standort: %{name}"
+              too_far_from_anchor: "der Standort muss innerhalb von %{distance} m des im Track aufgezeichneten Punktes liegen"

@@ -9,3 +9,10 @@ it:
         latitude: Latitudine
         longitude: Longitudine
         msl: Altitudine (Sul Livello del Mare)
+    errors:
+      models:
+        place:
+          attributes:
+            base:
+              duplicate_nearby: "esiste già una località nelle vicinanze: %{name}"
+              too_far_from_anchor: "la località deve trovarsi entro %{distance} m dal punto registrato nel tuo track"

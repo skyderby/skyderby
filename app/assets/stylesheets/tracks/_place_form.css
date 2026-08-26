@@ -1,0 +1,73 @@
+.track-place {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 100%;
+}
+
+.track-place__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.track-place__section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.track-place__hint {
+  color: var(--gray-70);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.track-place__suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.track-place__suggestion-form {
+  display: block;
+}
+
+.track-place__suggestion {
+  align-items: center;
+  background: var(--gray-10);
+  border: 1px solid var(--gray-30);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  width: 100%;
+}
+
+.track-place__suggestion:hover {
+  border-color: var(--blue-40);
+}
+
+.track-place__suggestion-distance {
+  color: var(--gray-70);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.track-place__map {
+  border-radius: 0.375rem;
+  height: 16rem;
+  overflow: hidden;
+  width: 100%;
+}
+
+.track-place__errors {
+  color: var(--red-70);
+  font-size: 0.875rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

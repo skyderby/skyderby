@@ -1,5 +1,19 @@
 de:
   tracks:
+    places:
+      new:
+        title: "Standort des Tracks"
+        add_place: "Standort angeben"
+        suggestions_title: "Standorte in der Nähe"
+        suggestions_hint: "Wähle einen aus, wenn er zu deinem Sprung passt."
+        create_title: "Neuen Standort anlegen"
+        country_placeholder: "Land auswählen"
+        msl_hint: "Höhe des Landebereichs, aus deinem Track übernommen."
+        pin_hint_base: "Die Markierung steht am Exit-Punkt deines Tracks."
+        pin_hint_skydive: "Ziehe die Markierung in die Mitte des Landebereichs."
+        allow_duplicate: "Trotz nahegelegenem Standort speichern"
+        no_anchor: "Dieser Track hat keine brauchbaren Koordinaten, ein Standort kann daraus nicht erstellt werden."
+        distance_away: "%{distance} m entfernt"
     metadata:
       exit_point: 'Absprungpunkt:'
       landing_point: 'Landepunkt:'

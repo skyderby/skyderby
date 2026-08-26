@@ -1,5 +1,19 @@
 fr:
   tracks:
+    places:
+      new:
+        title: "Lieu du track"
+        add_place: "Indiquer le lieu"
+        suggestions_title: "Lieux à proximité"
+        suggestions_hint: "Choisissez-en un s'il correspond à votre saut."
+        create_title: "Créer un nouveau lieu"
+        country_placeholder: "Choisir un pays"
+        msl_hint: "Altitude de la zone d'atterrissage, issue de votre track."
+        pin_hint_base: "Le repère est placé au point de sortie de votre track."
+        pin_hint_skydive: "Déplacez le repère au centre de la zone d'atterrissage."
+        allow_duplicate: "Enregistrer malgré le lieu voisin"
+        no_anchor: "Ce track n'a pas de coordonnées exploitables, impossible de créer un lieu."
+        distance_away: "à %{distance} m"
     metadata:
       exit_point: 'Point de sortie :'
       landing_point: "Point d'atterrissage :"

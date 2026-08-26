@@ -1,0 +1,32 @@
+<%= turbo_frame_tag 'place_submissions' do %>
+  <div class="dashboard-section panel">
+    <div class="dashboard-section__header">
+      Locations added by users
+    </div>
+
+    <% if @submissions.any? %>
+      <div class="dashboard-list">
+        <% @submissions.each do |submission| %>
+          <%= link_to places_submission_path(submission),
+                      data: { turbo_stream: true },
+                      rel: 'nofollow',
+                      class: 'dashboard-list__row place-submission__row' do %>
+            <span class="place-submission__info">
+              <span class="dashboard-list__title"><%= place_presentation(submission.place) %></span>
+              <span class="place-submission__meta">
+                <%= submission.user_name %> &middot; <%= l(submission.created_at.to_date, format: :short) %>
+              </span>
+            </span>
+            <span class="place-submission__kind"><%= submission.place.kind %></span>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="pagination">
+        <%= paginate @submissions %>
+      </div>
+    <% else %>
+      <div class="dashboard-blankslate">No submissions yet</div>
+    <% end %>
+  </div>
+<% end %>

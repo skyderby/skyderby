@@ -83,6 +83,11 @@
   gap: 0.25rem;
 }
 
+.track-header-place__edit {
+  color: var(--gray-70);
+  font-size: 0.8125rem;
+}
+
 @media (min-width: 960px) {
   .track-header-info {
     grid-row: 1;

@@ -36,13 +36,23 @@ class DashboardTest < ActionDispatch::IntegrationTest
   end
 
   test 'signed-in user without tracks sees the empty upload prompt' do
-    # admin has a profile but no tracks and organizes nothing -> no modes
-    sign_in users(:admin)
+    user = User.create!(email: 'no-tracks@example.com', password: 'password', confirmed_at: Time.current)
+    Profile.create!(name: 'No tracks', owner: user)
+
+    sign_in user
     get root_path
 
     assert_response :success
     assert_select '.dashboard-empty'
     assert_select '.dashboard-section', false
+  end
+
+  test 'admin without tracks lands on the admin tab' do
+    sign_in users(:admin)
+    get root_path
+
+    assert_response :success
+    assert_select 'turbo-frame#place_submissions'
   end
 
   test 'anonymous visitor still sees the landing page' do

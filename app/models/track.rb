@@ -131,6 +131,10 @@ class Track < ApplicationRecord
 
   def landing_point = @landing_point ||= point_at(landing_fl_time)
 
+  def place_anchor_point = base? ? exit_point : landing_point || exit_point
+
+  def place_kind = base? ? :base : :skydive
+
   def duration = (points.last.gps_time_in_seconds - points.first.gps_time_in_seconds).to_i
 
   def speed_skydiving_result = @speed_skydiving_result ||= Tracks::SpeedSkydivingResult.new(self)

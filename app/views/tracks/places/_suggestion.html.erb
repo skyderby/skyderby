@@ -1,0 +1,15 @@
+<%# locals: (place:, distance:) %>
+
+<% track_attributes = { place_id: place.id }
+   track_attributes[:ground_level] = place.msl if place.msl %>
+
+<%= button_to track_path(@new_place.track),
+              method: :patch,
+              params: { track: track_attributes },
+              form: { class: 'track-place__suggestion-form' },
+              class: 'track-place__suggestion' do %>
+  <span class="track-place__suggestion-name"><%= place_presentation(place) %></span>
+  <span class="track-place__suggestion-distance">
+    <%= t('tracks.places.new.distance_away', distance: number_with_delimiter(distance)) %>
+  </span>
+<% end %>

@@ -230,6 +230,19 @@
   font-style: italic;
 }
 
+.hot-select-container--locked {
+  background-color: var(--gray-20);
+  color: var(--gray-70);
+}
+
+.hot-select-container--locked .hot-select-control {
+  pointer-events: none;
+}
+
+.hot-select-container--locked .hot-select-indicators {
+  visibility: hidden;
+}
+
 .hide {
   display: none !important;
 }

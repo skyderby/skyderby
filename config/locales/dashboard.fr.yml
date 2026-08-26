@@ -14,6 +14,7 @@ fr:
     hero:
       season: Saison %{year}
     modes:
+      admin: "Admin"
       performance: Performance Flying
       base: BASE
       speed: Speed

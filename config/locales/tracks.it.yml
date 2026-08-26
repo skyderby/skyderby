@@ -1,5 +1,19 @@
 it:
   tracks:
+    places:
+      new:
+        title: "Località del track"
+        add_place: "Indica la località"
+        suggestions_title: "Località vicine"
+        suggestions_hint: "Scegline una se corrisponde al luogo del salto."
+        create_title: "Crea una nuova località"
+        country_placeholder: "Seleziona il paese"
+        msl_hint: "Quota dell'area di atterraggio, presa dal tuo track."
+        pin_hint_base: "Il segnaposto è nel punto di uscita del tuo track."
+        pin_hint_skydive: "Trascina il segnaposto al centro dell'area di atterraggio."
+        allow_duplicate: "Salva comunque, nonostante la località vicina"
+        no_anchor: "Questo track non ha coordinate utilizzabili, non è possibile creare una località."
+        distance_away: "a %{distance} m"
     metadata:
       exit_point: 'Punto di uscita:'
       landing_point: 'Punto di atterraggio:'

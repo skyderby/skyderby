@@ -287,6 +287,7 @@ Skyderby::Application.routes.draw do
       resource :points, only: :show
       resource :pro_view, only: :create
       resource :reference_point, only: [:show, :create, :update, :destroy]
+      resource :place, only: [:new, :create]
 
       collection do
         resources :select_options, only: :index, as: :tracks_select_options
@@ -371,6 +372,7 @@ Skyderby::Application.routes.draw do
                   only: :index, path: 'finish_lines/select_options',
                   module: :finish_lines, as: :places_finish_lines_select_options
         resources :select_options, only: :index, as: :places_select_options
+        resources :submissions, only: [:index, :show], as: :places_submissions
       end
     end
 
