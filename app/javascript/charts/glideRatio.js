@@ -144,6 +144,7 @@ export const initGlideChart = (
         }
       },
       series: {
+        turboThreshold: 0,
         marker: {
           radius: 1
         },

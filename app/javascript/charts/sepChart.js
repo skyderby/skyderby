@@ -53,6 +53,7 @@ export const initAccuracyChart = (
         }
       },
       series: {
+        turboThreshold: 0,
         marker: {
           radius: 1
         }

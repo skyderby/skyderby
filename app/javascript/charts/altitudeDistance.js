@@ -156,6 +156,7 @@ export const initAltitudeDistanceChart = (
         }
       },
       series: {
+        turboThreshold: 0,
         marker: {
           radius: 1
         },

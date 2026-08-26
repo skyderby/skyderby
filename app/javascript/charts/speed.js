@@ -218,6 +218,7 @@ export const initSpeedsChart = (
         }
       },
       series: {
+        turboThreshold: 0,
         marker: {
           radius: 1
         },
