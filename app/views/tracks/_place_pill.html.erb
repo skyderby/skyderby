@@ -1,0 +1,39 @@
+<%# locals: (track:, editable:) %>
+
+<% if track.place %>
+  <span class="place-pill">
+    <%= link_to place_path(track.place), class: 'place-pill__main' do %>
+      <%= icon_tag 'location-dot-solid' %>
+      <span class="place-pill__label"><%= place_presentation(track.place) %></span>
+    <% end %>
+
+    <% if editable %>
+      <%= link_to new_track_place_path(track),
+                  class: 'place-pill__action',
+                  data: { turbo_stream: true },
+                  rel: 'nofollow',
+                  title: t('tracks.places.new.title') do %>
+        <%= icon_tag 'pencil-solid' %>
+      <% end %>
+    <% end %>
+  </span>
+<% elsif editable %>
+  <%= link_to new_track_place_path(track),
+              class: 'place-pill place-pill--empty',
+              data: { turbo_stream: true },
+              rel: 'nofollow',
+              title: t('tracks.places.new.add_place') do %>
+    <span class="place-pill__main">
+      <%= icon_tag 'location-dot-solid' %>
+      <span class="place-pill__label"><%= track.location.presence || t('tracks.places.missing') %></span>
+    </span>
+    <span class="place-pill__action"><%= icon_tag 'plus-solid' %></span>
+  <% end %>
+<% elsif track.location.present? %>
+  <span class="place-pill place-pill--empty">
+    <span class="place-pill__main">
+      <%= icon_tag 'location-dot-solid' %>
+      <span class="place-pill__label"><%= track.location %></span>
+    </span>
+  </span>
+<% end %>

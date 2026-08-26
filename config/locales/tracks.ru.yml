@@ -1,6 +1,7 @@
 ru:
   tracks:
     places:
+      missing: "Локация не найдена"
       new:
         title: "Локация трека"
         add_place: "Указать локацию"

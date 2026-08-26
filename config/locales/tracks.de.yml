@@ -1,6 +1,7 @@
 de:
   tracks:
     places:
+      missing: "Standort nicht gefunden"
       new:
         title: "Standort des Tracks"
         add_place: "Standort angeben"

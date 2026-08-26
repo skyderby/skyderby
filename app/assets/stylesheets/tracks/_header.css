@@ -83,9 +83,8 @@
   gap: 0.25rem;
 }
 
-.track-header-place__edit {
-  color: var(--gray-70);
-  font-size: 0.8125rem;
+.track-header-place {
+  align-items: center;
 }
 
 @media (min-width: 960px) {

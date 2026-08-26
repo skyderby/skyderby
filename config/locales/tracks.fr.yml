@@ -1,6 +1,7 @@
 fr:
   tracks:
     places:
+      missing: "Lieu introuvable"
       new:
         title: "Lieu du track"
         add_place: "Indiquer le lieu"

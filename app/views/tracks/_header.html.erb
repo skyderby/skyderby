@@ -27,33 +27,11 @@
         <% end %>
       <% end %>
 
-      <% place_editable = Current.user.registered? && track.editable? %>
-      <% if track.place || track.location.present? || place_editable %>
-        <span class="track-header-place">
-          <%= icon_tag 'location-dot-solid' %>
-          <% if track.place %>
-            <a href="<%= place_path(track.place) %>">
-              <span><%= place_presentation(track.place) %></span>
-            </a>
-          <% elsif track.location.present? %>
-            <span><%= track.location %></span>
-          <% end %>
-
-          <% if place_editable %>
-            <%= link_to new_track_place_path(track),
-                        data: { turbo_stream: true },
-                        rel: 'nofollow',
-                        class: 'track-header-place__edit',
-                        title: t('tracks.places.new.title') do %>
-              <% if track.place %>
-                <%= icon_tag 'pencil-solid' %>
-              <% else %>
-                <%= t('tracks.places.new.add_place') %>
-              <% end %>
-            <% end %>
-          <% end %>
-        </span>
-      <% end %>
+      <span class="track-header-place">
+        <%= render 'tracks/place_pill',
+                   track: track,
+                   editable: Current.user.registered? && track.editable? %>
+      </span>
     </div>
 
     <div class="track-header-id">

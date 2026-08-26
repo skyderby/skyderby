@@ -1,6 +1,7 @@
 en:
   tracks:
     places:
+      missing: "Location not found"
       new:
         title: "Location for this track"
         add_place: "Add location"
