@@ -18,6 +18,8 @@ class Track::ExitProfile < ApplicationRecord
   MAX_DROP = 300
   REFERENCE_DROP = 200
   MAX_TIME_GAP = 2.0
+  MAX_GLIDE_RATIO = 2.5
+  GLIDE_CHECKED_FROM = 50
 
   belongs_to :track
   belongs_to :suit, inverse_of: :exit_profiles
@@ -55,7 +57,14 @@ class Track::ExitProfile < ApplicationRecord
     curve = build_curve(track)
     return unless curve && curve.last.first >= MAX_DROP
 
-    drops.map { |drop| distance_at(curve, drop) }
+    distances = drops.map { |drop| distance_at(curve, drop) }
+    distances if plausible?(distances)
+  end
+
+  def self.plausible?(distances)
+    drops.zip(distances).all? do |drop, distance|
+      drop < GLIDE_CHECKED_FROM || distance <= drop * MAX_GLIDE_RATIO
+    end
   end
 
   def self.build_curve(track)
@@ -95,7 +104,7 @@ class Track::ExitProfile < ApplicationRecord
     (lower.last + ((upper.last - lower.last) * ratio)).round(1)
   end
 
-  private_class_method :sample_distances, :build_curve, :distance_between, :distance_at
+  private_class_method :sample_distances, :plausible?, :build_curve, :distance_between, :distance_at
 
   private
 

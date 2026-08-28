@@ -22,6 +22,14 @@ class Track::ExitProfileTest < ActiveSupport::TestCase
     assert_nil track.reload.exit_profile
   end
 
+  test 'skips jumps with an impossible glide ratio' do
+    track = create_jump(glide_ratio: 3.0)
+
+    Track::ExitProfile.recalculate(track)
+
+    assert_nil track.reload.exit_profile
+  end
+
   test 'skips jumps with gaps in data' do
     track = create_jump(glide_ratio: 1.5)
     track.points.where(fl_time: 10..14).delete_all

@@ -23,12 +23,15 @@ class Profile::ExitPerformanceTest < ActiveSupport::TestCase
     assert_nil recalculate
   end
 
-  test 'rejects outliers before calculating percentiles' do
-    create_exit_profiles([1.20, 1.21, 1.22, 1.23, 1.24, 1.25, 5.0])
+  test 'keeps the flattest jumps instead of treating them as outliers' do
+    create_exit_profiles([0.9, 0.95, 1.0, 1.05, 1.1, 1.15, 2.0])
 
     performance = recalculate
+    sample = performance.samples.find { |value| value['drop'] == 200 }
 
-    assert_equal 6, performance.tracks_count
+    assert_equal 7, performance.tracks_count
+    assert_in_delta 298, sample['high'], 5
+    assert_in_delta 315, sample['flat'], 5
   end
 
   test 'keeps only the most recent jumps within the window' do
