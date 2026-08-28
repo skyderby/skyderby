@@ -112,7 +112,7 @@ class CreateTrackService
   end
 
   def enque_jobs
-    [ResultsJob, OnlineCompetitionJob, MissingWeatherFetchingJob].each do |job|
+    [ResultsJob, OnlineCompetitionJob, MissingWeatherFetchingJob, ExitProfileJob].each do |job|
       job.perform_later(track.id)
     end
   end

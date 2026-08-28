@@ -56,6 +56,17 @@ de:
         other: "%{count} Teilnehmer"
     achievements:
       title: Erfolge
+    exit_performance:
+      empty: "Noch zu wenige Sprünge — ein Anzug braucht mindestens %{count} BASE-Sprünge mit vollständigen GPS-Daten."
+      terrain: Geländeprofil
+      title: Exit-Performance
+      median: Median
+      flat: Flachste
+      axis_drop: Höhenverlust
+      axis_distance: Distanz
+      jumps:
+        one: "%{count} Sprung"
+        other: "%{count} Sprünge"
     pro:
       label: SKYDERBY PRO
       text: Vollständige Fluganalyse und Vergleich nebeneinander.

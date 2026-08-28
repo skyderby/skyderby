@@ -56,6 +56,17 @@ en:
         other: "%{count} athletes"
     achievements:
       title: Achievements
+    exit_performance:
+      empty: "Not enough jumps yet — a suit needs at least %{count} BASE jumps with full GPS data."
+      terrain: Terrain profile
+      title: Exit performance
+      median: Median
+      flat: Flattest
+      axis_drop: Drop
+      axis_distance: Distance
+      jumps:
+        one: "%{count} jump"
+        other: "%{count} jumps"
     pro:
       label: SKYDERBY PRO
       text: Full flight analytics and side-by-side comparison.

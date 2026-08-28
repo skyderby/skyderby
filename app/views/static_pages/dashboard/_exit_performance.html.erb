@@ -1,0 +1,46 @@
+<%# locals: (dashboard:) %>
+
+<% performances = dashboard.exit_performances %>
+
+<section class="dashboard-section panel exit-performance"
+         data-controller="exit-performance"
+         data-exit-performance-measurements-url-template-value="<%= terrain_profile_measurements_path('__ID__') %>">
+  <div class="dashboard-section__header exit-performance__header">
+    <span class="exit-performance__heading"><%= t('dashboard.exit_performance.title') %></span>
+
+    <% if performances.any? %>
+      <div class="exit-performance__terrain">
+        <%= render 'hot_select/select',
+                   name: :terrain_profile_id,
+                   src: terrain_profiles_select_options_path,
+                   placeholder: t('dashboard.exit_performance.terrain'),
+                   select: { data: { action: 'exit-performance#selectTerrain' } } %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if performances.any? %>
+    <div class="exit-performance__legend">
+      <% performances.each_with_index do |performance, index| %>
+        <button type="button" class="exit-performance__series"
+                data-series-index="<%= index %>"
+                data-exit-performance-target="series"
+                data-action="exit-performance#toggleSeries">
+          <span class="exit-performance__swatch"></span>
+          <span class="exit-performance__suit"><%= exit_performance_suit_name(performance) %></span>
+          <span class="exit-performance__jumps"><%= t('dashboard.exit_performance.jumps', count: performance.tracks_count) %></span>
+        </button>
+      <% end %>
+    </div>
+
+    <div class="exit-performance__plot" data-exit-performance-target="plot"></div>
+
+    <script type="application/json" data-exit-performance-target="data">
+      <%= raw ERB::Util.json_escape(exit_performance_chart_data(dashboard).to_json) %>
+    </script>
+  <% else %>
+    <div class="dashboard-blankslate">
+      <%= t('dashboard.exit_performance.empty', count: Profile::ExitPerformance::MIN_TRACKS) %>
+    </div>
+  <% end %>
+</section>

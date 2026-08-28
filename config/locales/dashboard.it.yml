@@ -56,6 +56,17 @@ it:
         other: "%{count} atleti"
     achievements:
       title: Riconoscimenti
+    exit_performance:
+      empty: "Ancora pochi salti: una tuta richiede almeno %{count} salti BASE con dati GPS completi."
+      terrain: Profilo del terreno
+      title: Performance dell'exit
+      median: Mediana
+      flat: Più piatti
+      axis_drop: Caduta
+      axis_distance: Distanza
+      jumps:
+        one: "%{count} salto"
+        other: "%{count} salti"
     pro:
       label: SKYDERBY PRO
       text: Analisi di volo completa e confronto affiancato.

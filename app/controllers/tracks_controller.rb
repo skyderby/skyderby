@@ -50,7 +50,7 @@ class TracksController < ApplicationController
     return redirect_to_track_not_found unless @track.editable?
 
     if @track.update(track_params)
-      [ResultsJob, OnlineCompetitionJob, MissingWeatherFetchingJob].each do |job|
+      [ResultsJob, OnlineCompetitionJob, MissingWeatherFetchingJob, ExitProfileJob].each do |job|
         job.perform_later(@track.id)
       end
 

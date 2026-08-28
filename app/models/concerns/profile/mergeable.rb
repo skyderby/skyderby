@@ -2,10 +2,12 @@ class Profile < ApplicationRecord
   module Mergeable
     extend ActiveSupport::Concern
 
+    RECALCULATED_ASSOCIATIONS = %w[exit_performances].freeze
+
     class_methods do
       def has_many_associations
-        reflections.select do |_association_name, reflection|
-          reflection.macro == :has_many
+        reflections.select do |association_name, reflection|
+          reflection.macro == :has_many && RECALCULATED_ASSOCIATIONS.exclude?(association_name)
         end
       end
     end
@@ -18,6 +20,7 @@ class Profile < ApplicationRecord
         merge_attributes_from(another)
         preserve_name_in_competitors(another)
         replace_reference_in_associations(another)
+        rebuild_exit_performances(another)
         save!
       end
     end
@@ -60,6 +63,14 @@ class Profile < ApplicationRecord
       self.class.has_many_associations
           .map { |association_name, _reflection| another.public_send(association_name) }
           .each { |collection| replace_reference_in_collection(collection) }
+    end
+
+    def rebuild_exit_performances(another)
+      Profile::ExitPerformance.where(profile_id: [id, another.id]).delete_all
+
+      Track::ExitProfile.where(profile_id: id).distinct.pluck(:suit_id).each do |suit_id|
+        Profile::ExitPerformance.recalculate(profile_id: id, suit_id:)
+      end
     end
 
     def replace_reference_in_collection(collection)
