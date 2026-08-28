@@ -19,3 +19,4 @@ ru:
             base:
               duplicate_nearby: "рядом уже есть локация: %{name}"
               too_far_from_anchor: "локация должна быть не дальше %{distance} м от точки, записанной в треке"
+              finish_lines_in_use: "финишные линии ещё используются соревнованиями: %{names}"

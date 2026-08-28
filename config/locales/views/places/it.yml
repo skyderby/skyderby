@@ -4,7 +4,10 @@ it:
       new: 'Aggiungi'
       title: 'Luoghi'
       details: 'dettagli'
+    edit:
+      delete_title: "Elimina questa località"
+      delete_hint: "I track restano ma perderanno la località. Attualmente collegati: %{count}."
+      delete_confirmation: "Eliminare %{name}? L'azione è irreversibile."
     show:
       visited_by: 'Visitato da'
       and_more: "+%{count} altri"
-      delete_confirmation: "Sei sicuro di voler cancellare questo luogo?"

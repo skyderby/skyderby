@@ -4,7 +4,10 @@ ru:
       new: 'Добавить'
       title: 'Локации'
       details: 'Подробнее'
+    edit:
+      delete_title: "Удалить локацию"
+      delete_hint: "Треки останутся, но потеряют привязку к локации. Сейчас привязано: %{count}."
+      delete_confirmation: "Удалить «%{name}»? Отменить будет нельзя."
     show:
       visited_by: 'Здесь летали'
       and_more: "+ ещё %{count}"
-      delete_confirmation: 'Вы уверены, что хотиту удалить эту локацию?'

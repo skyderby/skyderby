@@ -4,7 +4,10 @@ fr:
       new: Nouveau
       title: Lieux
       details: Plus
+    edit:
+      delete_title: "Supprimer ce lieu"
+      delete_hint: "Les traces sont conservées mais perdront leur lieu. Actuellement liées : %{count}."
+      delete_confirmation: "Supprimer %{name} ? Cette action est irréversible."
     show:
       visited_by: Visité par
       and_more: "+%{count} de plus"
-      delete_confirmation: Êtes-vous sûr de vouloir supprimer ce lieu?

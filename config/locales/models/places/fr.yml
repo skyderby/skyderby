@@ -16,3 +16,4 @@ fr:
             base:
               duplicate_nearby: "il existe déjà un lieu à proximité : %{name}"
               too_far_from_anchor: "le lieu doit se trouver à moins de %{distance} m du point enregistré dans votre trace"
+              finish_lines_in_use: "des lignes d’arrivée sont encore utilisées par des compétitions : %{names}"

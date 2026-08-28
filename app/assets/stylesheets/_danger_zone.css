@@ -1,0 +1,24 @@
+.danger-zone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  border: 1px solid var(--red-30);
+}
+
+.danger-zone__text {
+  min-width: 0;
+}
+
+.danger-zone__title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.danger-zone__hint {
+  color: var(--gray-70);
+  font-size: 0.875rem;
+  margin: 0.25rem 0 0;
+}

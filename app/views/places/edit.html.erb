@@ -8,5 +8,20 @@
     <div class="card">
       <%= render 'form' %>
     </div>
+
+    <% if @place.deletable? %>
+      <div class="card danger-zone">
+        <div class="danger-zone__text">
+          <h2 class="danger-zone__title"><%= t('.delete_title') %></h2>
+          <p class="danger-zone__hint"><%= t('.delete_hint', count: @place.tracks.count) %></p>
+        </div>
+
+        <%= button_to t('general.delete'),
+                      place_path(@place),
+                      method: :delete,
+                      class: 'button button--danger',
+                      form: { data: { turbo_confirm: t('.delete_confirmation', name: @place.name) } } %>
+      </div>
+    <% end %>
   </div>
 </div>

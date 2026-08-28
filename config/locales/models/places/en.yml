@@ -19,3 +19,4 @@ en:
             base:
               duplicate_nearby: "there is already a location nearby: %{name}"
               too_far_from_anchor: "the location must be within %{distance} m of the point recorded in your track"
+              finish_lines_in_use: "finish lines are still used by competitions: %{names}"

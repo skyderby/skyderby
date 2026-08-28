@@ -16,3 +16,4 @@ de:
             base:
               duplicate_nearby: "in der Nähe gibt es bereits einen Standort: %{name}"
               too_far_from_anchor: "der Standort muss innerhalb von %{distance} m des im Track aufgezeichneten Punktes liegen"
+              finish_lines_in_use: "Ziellinien werden noch von Wettbewerben verwendet: %{names}"

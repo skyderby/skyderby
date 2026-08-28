@@ -56,7 +56,7 @@ class PlacesController < ApplicationController
     end
 
     if @place.destroy
-      redirect_to places_path
+      redirect_to places_path, status: :see_other
     else
       respond_with_errors @place
     end

@@ -14,11 +14,15 @@ class Place < ApplicationRecord
   has_many :tracks, inverse_of: :place, dependent: :nullify
   has_many :pilots, -> { distinct }, through: :tracks
   has_many :events, dependent: :restrict_with_error
+  has_many :tournaments, dependent: :restrict_with_error
+  has_many :speed_skydiving_competitions, dependent: :restrict_with_error
+  has_many :virtual_competitions, dependent: :restrict_with_error
   has_many :weather_data, dependent: :delete_all
   has_many :terrain_profiles, dependent: :nullify
   has_many :finish_lines, dependent: :destroy
   has_one :submission, dependent: :destroy
 
+  before_destroy :no_finish_lines_in_use, prepend: true
   before_destroy :destroy_shared_terrain_profiles, prepend: true
 
   validates :name, :latitude, :longitude, presence: true
@@ -76,6 +80,15 @@ class Place < ApplicationRecord
     terrain_profiles.shared.destroy_all
   end
   private :destroy_shared_terrain_profiles
+
+  def no_finish_lines_in_use
+    in_use = finish_lines.select(&:in_use?)
+    return if in_use.empty?
+
+    errors.add(:base, :finish_lines_in_use, names: in_use.map(&:name).to_sentence)
+    throw(:abort)
+  end
+  private :no_finish_lines_in_use
 
   def no_duplicate_nearby
     duplicate = duplicate_nearby

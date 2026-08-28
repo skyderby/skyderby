@@ -3,6 +3,7 @@ class Place::FinishLine < ApplicationRecord
 
   belongs_to :place
   has_many :virtual_competitions, dependent: :restrict_with_error
+  has_many :tournaments, dependent: :restrict_with_error
 
   validates :name, presence: true
   validates :start_latitude, :end_latitude,
@@ -10,6 +11,8 @@ class Place::FinishLine < ApplicationRecord
 
   validates :start_longitude, :end_longitude,
             numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
+
+  def in_use? = virtual_competitions.exists? || tournaments.exists?
 
   def to_coordinates
     [

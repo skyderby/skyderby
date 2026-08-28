@@ -4,7 +4,10 @@ en:
       new: 'Add'
       title: 'Places'
       details: 'More'
+    edit:
+      delete_title: "Delete this location"
+      delete_hint: "Tracks recorded here will stay, but will no longer be linked to a location. Currently linked: %{count}."
+      delete_confirmation: "Delete %{name}? This cannot be undone."
     show:
       visited_by: 'Visited by'
       and_more: "+%{count} more"
-      delete_confirmation: "Are you sure you want delete this place?"

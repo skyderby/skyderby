@@ -16,3 +16,4 @@ it:
             base:
               duplicate_nearby: "esiste già una località nelle vicinanze: %{name}"
               too_far_from_anchor: "la località deve trovarsi entro %{distance} m dal punto registrato nel tuo track"
+              finish_lines_in_use: "le linee di arrivo sono ancora usate da competizioni: %{names}"
