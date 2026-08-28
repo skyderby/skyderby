@@ -24,6 +24,10 @@ module Profiles
 
     def profile = __getobj__
 
+    def upload_stats
+      @upload_stats ||= Tracks::UploadStats.new
+    end
+
     def available_modes
       @available_modes ||= MODES.select { |mode| mode_available?(mode) }
     end

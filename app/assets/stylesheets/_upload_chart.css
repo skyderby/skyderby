@@ -1,0 +1,329 @@
+@layer components {
+  .upload-stats {
+    --upload-chart-height: 9rem;
+    --upload-chart-skydive: var(--blue-60);
+    --upload-chart-skydive-pro: var(--blue-90);
+    --upload-chart-base: var(--orange-50);
+    --upload-chart-base-pro: var(--orange-90);
+    --upload-chart-speed-skydiving: var(--purple-70);
+    --upload-chart-speed-skydiving-pro: var(--blue-gray-90);
+  }
+
+  .upload-chart__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.6875rem;
+    font-weight: 600;
+  }
+
+  .upload-chart__legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--text-secondary);
+  }
+
+  .upload-chart__legend-item::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 0.125rem;
+  }
+
+  .upload-chart__legend-item--skydive::before {
+    background-color: var(--upload-chart-skydive);
+  }
+
+  .upload-chart__legend-item--base::before {
+    background-color: var(--upload-chart-base);
+  }
+
+  .upload-chart__legend-item--speed-skydiving::before {
+    background-color: var(--upload-chart-speed-skydiving);
+  }
+
+  .upload-chart__plot {
+    position: relative;
+    padding: 1.25rem 0 0 1.75rem;
+  }
+
+  .upload-chart__gridline {
+    position: absolute;
+    left: 1.75rem;
+    right: 0;
+    border-top: 1px dashed var(--gray-30);
+    pointer-events: none;
+  }
+
+  .upload-chart__gridline span {
+    position: absolute;
+    right: 100%;
+    top: -0.5em;
+    padding-right: 0.375rem;
+    font-size: 0.625rem;
+    color: var(--gray-60);
+  }
+
+  .upload-chart__scroll {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+
+  .upload-chart__months {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(2.75rem, 1fr);
+    gap: 0.25rem;
+  }
+
+  .upload-chart__month {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    border-radius: var(--border-radius-md);
+    outline-offset: 0.125rem;
+  }
+
+  .upload-chart__total {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.1875rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--text-color);
+    white-space: nowrap;
+  }
+
+  .upload-chart__delta {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    color: var(--gray-50);
+  }
+
+  .upload-chart__delta--up {
+    color: var(--green-90);
+  }
+
+  .upload-chart__delta--down {
+    color: var(--red-70);
+  }
+
+  .upload-chart__bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.125rem;
+    height: var(--upload-chart-height);
+  }
+
+  .upload-chart__bar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 1 1 0;
+    max-width: 1.125rem;
+    height: 100%;
+    border-radius: 0.125rem 0.125rem 0 0;
+  }
+
+  .upload-chart__free,
+  .upload-chart__pro {
+    display: block;
+    min-height: 1px;
+  }
+
+  .upload-chart__free {
+    border-bottom: 1px solid var(--white);
+  }
+
+  .upload-chart__bar--skydive .upload-chart__free {
+    background-color: var(--upload-chart-skydive);
+  }
+
+  .upload-chart__bar--skydive .upload-chart__pro {
+    background-color: var(--upload-chart-skydive-pro);
+  }
+
+  .upload-chart__bar--base .upload-chart__free {
+    background-color: var(--upload-chart-base);
+  }
+
+  .upload-chart__bar--base .upload-chart__pro {
+    background-color: var(--upload-chart-base-pro);
+  }
+
+  .upload-chart__bar--speed-skydiving .upload-chart__free {
+    background-color: var(--upload-chart-speed-skydiving);
+  }
+
+  .upload-chart__bar--speed-skydiving .upload-chart__pro {
+    background-color: var(--upload-chart-speed-skydiving-pro);
+  }
+
+  .upload-chart__previous {
+    position: absolute;
+    left: -0.125rem;
+    right: -0.125rem;
+    height: 0;
+    border-top: 2px dashed var(--blue-gray-70);
+  }
+
+  .upload-chart__month--partial .upload-chart__free,
+  .upload-chart__month--partial .upload-chart__pro {
+    opacity: 0.6;
+  }
+
+  .upload-chart__label {
+    display: flex;
+    justify-content: center;
+    gap: 0.1875rem;
+    padding-top: 0.375rem;
+    border-top: 1px solid var(--gray-30);
+    font-size: 0.625rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  .upload-chart__year {
+    color: var(--gray-50);
+  }
+
+  .upload-chart__mtd {
+    font-weight: 700;
+    color: var(--primary-color);
+  }
+
+  .upload-chart__month:hover .upload-chart__bar,
+  .upload-chart__month:focus-visible .upload-chart__bar,
+  .upload-chart__month:focus .upload-chart__bar {
+    filter: brightness(1.08);
+  }
+
+  .upload-chart-tip {
+    position: absolute;
+    left: 50%;
+    bottom: 2rem;
+    z-index: 2;
+    display: none;
+    flex-direction: column;
+    gap: 0.375rem;
+    width: max-content;
+    max-width: 20rem;
+    padding: 0.5rem 0.625rem;
+    transform: translateX(calc(-50% + var(--tip-shift, 0px)));
+    border-radius: var(--border-radius-md);
+    background-color: var(--blue-gray-90);
+    color: var(--white);
+    text-align: left;
+    box-shadow: 0 0.375rem 1rem rgba(0, 0, 0, 0.25);
+  }
+
+  .upload-chart__month:hover .upload-chart-tip,
+  .upload-chart__month:focus .upload-chart-tip {
+    display: flex;
+  }
+
+  .upload-chart__month:nth-child(-n + 3) .upload-chart-tip {
+    left: 0;
+    transform: translateX(var(--tip-shift, 0px));
+  }
+
+  .upload-chart__month:nth-last-child(-n + 3) .upload-chart-tip {
+    left: auto;
+    right: 0;
+    transform: translateX(var(--tip-shift, 0px));
+  }
+
+  @media (max-width: 30rem) {
+    .upload-chart-tip {
+      max-width: 84vw;
+    }
+  }
+
+  .upload-chart-tip__title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.375rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .upload-chart-tip__against {
+    font-weight: 400;
+    color: var(--blue-gray-30);
+  }
+
+  .upload-chart-tip__title .upload-chart__mtd {
+    color: var(--blue-40);
+  }
+
+  .upload-chart-tip__grid {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: baseline;
+    gap: 0.125rem 0.5rem;
+    font-size: 0.6875rem;
+    line-height: 1.3;
+  }
+
+  .upload-chart-tip__name {
+    display: flex;
+    align-items: center;
+    gap: 0.3125rem;
+    white-space: nowrap;
+  }
+
+  .upload-chart-tip__name::before {
+    content: '';
+    width: 0.4375rem;
+    height: 0.4375rem;
+    border-radius: 0.125rem;
+    background-color: transparent;
+  }
+
+  .upload-chart-tip__name--skydive::before {
+    background-color: var(--upload-chart-skydive);
+  }
+
+  .upload-chart-tip__name--base::before {
+    background-color: var(--upload-chart-base);
+  }
+
+  .upload-chart-tip__name--speed-skydiving::before {
+    background-color: var(--upload-chart-speed-skydiving);
+  }
+
+  .upload-chart-tip__name--all {
+    font-weight: 700;
+  }
+
+  .upload-chart-tip__count {
+    font-weight: 700;
+    text-align: right;
+  }
+
+  .upload-chart-tip__split,
+  .upload-chart-tip__previous {
+    color: var(--blue-gray-30);
+    white-space: nowrap;
+  }
+
+  .upload-chart-tip__previous {
+    text-align: right;
+  }
+}

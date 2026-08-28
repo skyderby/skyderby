@@ -1,5 +1,7 @@
 <%# locals: (dashboard:) %>
 
+<%= render 'static_pages/dashboard/upload_stats', stats: dashboard.upload_stats %>
+
 <%= turbo_frame_tag 'place_submissions', src: places_submissions_path, loading: :lazy do %>
   <div class="dashboard-section panel">
     <div class="dashboard-blankslate">Loading…</div>

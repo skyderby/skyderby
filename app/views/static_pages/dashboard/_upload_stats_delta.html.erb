@@ -1,0 +1,10 @@
+<%# locals: (bucket:) %>
+
+<% if bucket.previous.zero? %>
+<% elsif bucket.delta.zero? %>
+  <span class="upload-chart__delta">=</span>
+<% else %>
+  <span class="upload-chart__delta upload-chart__delta--<%= bucket.delta.positive? ? 'up' : 'down' %>">
+    <%= bucket.delta.positive? ? '▲' : '▼' %><%= bucket.delta.abs %>
+  </span>
+<% end %>

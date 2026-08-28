@@ -1,0 +1,22 @@
+<%# locals: (month:) %>
+
+<span class="upload-chart-tip" data-upload-chart-target="tip">
+  <span class="upload-chart-tip__title">
+    <%= l(month.date, format: '%B %Y') %>
+    <% if month.partial? %>
+      <span class="upload-chart__mtd">MTD</span>
+    <% end %>
+    <span class="upload-chart-tip__against">vs <%= l(month.previous_date, format: '%b %Y') %></span>
+  </span>
+
+  <span class="upload-chart-tip__grid">
+    <% [month.total, *month.kinds].each do |bucket| %>
+      <span class="upload-chart-tip__name upload-chart-tip__name--<%= bucket.kind&.dasherize || 'all' %>">
+        <%= bucket.label %>
+      </span>
+      <span class="upload-chart-tip__count"><%= bucket.uploaders %></span>
+      <span class="upload-chart-tip__split"><%= bucket.pro %> pro · <%= bucket.free %> free</span>
+      <span class="upload-chart-tip__previous"><%= bucket.previous %></span>
+    <% end %>
+  </span>
+</span>

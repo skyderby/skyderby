@@ -1,0 +1,63 @@
+<%# locals: (stats:) %>
+
+<div class="dashboard-section panel upload-stats">
+  <div class="dashboard-section__header dashboard-section__header--linked">
+    <span>Unique uploaders by month</span>
+    <span class="upload-chart__legend">
+      <% stats.months.first.kinds.each do |bucket| %>
+        <span class="upload-chart__legend-item upload-chart__legend-item--<%= bucket.kind.dasherize %>">
+          <%= bucket.label %>
+        </span>
+      <% end %>
+    </span>
+  </div>
+
+  <div class="upload-chart" data-controller="upload-chart">
+    <div class="upload-chart__plot">
+      <% [1, 0.5, 0].each do |fraction| %>
+        <div class="upload-chart__gridline" style="bottom: <%= (fraction * 100).round %>%">
+          <span><%= (stats.max * fraction).round %></span>
+        </div>
+      <% end %>
+
+      <div class="upload-chart__scroll" data-upload-chart-target="scroll">
+        <div class="upload-chart__months">
+          <% stats.months.reverse_each do |month| %>
+            <button type="button"
+                    class="upload-chart__month<%= ' upload-chart__month--partial' if month.partial? %>"
+                    data-action="pointerenter->upload-chart#place focus->upload-chart#place">
+              <span class="upload-chart__total">
+                <%= month.total.uploaders %>
+                <%= render 'static_pages/dashboard/upload_stats_delta', bucket: month.total %>
+              </span>
+
+              <span class="upload-chart__bars">
+                <% month.kinds.each do |bucket| %>
+                  <span class="upload-chart__bar upload-chart__bar--<%= bucket.kind.dasherize %>">
+                    <span class="upload-chart__free" style="height: <%= bucket.free * 100.0 / stats.max %>%"></span>
+                    <span class="upload-chart__pro" style="height: <%= bucket.pro * 100.0 / stats.max %>%"></span>
+                    <% if bucket.previous.positive? %>
+                      <span class="upload-chart__previous"
+                            style="bottom: <%= bucket.previous * 100.0 / stats.max %>%"></span>
+                    <% end %>
+                  </span>
+                <% end %>
+              </span>
+
+              <span class="upload-chart__label">
+                <%= l(month.date, format: '%b') %>
+                <% if month.partial? %>
+                  <span class="upload-chart__mtd">MTD</span>
+                <% else %>
+                  <span class="upload-chart__year"><%= l(month.date, format: '%y') %></span>
+                <% end %>
+              </span>
+
+              <%= render 'static_pages/dashboard/upload_stats_tooltip', month: month %>
+            </button>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
