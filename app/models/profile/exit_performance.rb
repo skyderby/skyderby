@@ -15,8 +15,6 @@
 class Profile::ExitPerformance < ApplicationRecord
   TRACKS_WINDOW = 50
   MIN_TRACKS = 5
-  OUTLIER_THRESHOLD = 3.0
-  MAD_SCALE = 1.4826
   FLAT_SHARE = 0.25
   SUITS_LIMIT = 3
 
@@ -27,7 +25,7 @@ class Profile::ExitPerformance < ApplicationRecord
 
   def self.recalculate(profile_id:, suit_id:)
     record = find_by(profile_id:, suit_id:)
-    exit_profiles = without_outliers(recent_exit_profiles(profile_id, suit_id))
+    exit_profiles = recent_exit_profiles(profile_id, suit_id)
 
     if exit_profiles.size < MIN_TRACKS
       record&.destroy
@@ -47,18 +45,6 @@ class Profile::ExitPerformance < ApplicationRecord
       .order(recorded_at: :desc)
       .limit(TRACKS_WINDOW)
       .to_a
-  end
-
-  def self.without_outliers(exit_profiles)
-    return exit_profiles if exit_profiles.size < MIN_TRACKS
-
-    values = exit_profiles.map(&:reference_distance)
-    middle = percentile(values, 50)
-    deviation = percentile(values.map { |value| (value - middle).abs }, 50) * MAD_SCALE
-    return exit_profiles unless deviation.positive?
-
-    limit = OUTLIER_THRESHOLD * deviation
-    exit_profiles.select { |exit_profile| (exit_profile.reference_distance - middle).abs <= limit }
   end
 
   def self.build_samples(exit_profiles)
@@ -94,5 +80,5 @@ class Profile::ExitPerformance < ApplicationRecord
     lower + ((upper - lower) * (position - position.floor))
   end
 
-  private_class_method :recent_exit_profiles, :without_outliers, :build_samples, :distances_at, :build_sample
+  private_class_method :recent_exit_profiles, :build_samples, :distances_at, :build_sample
 end
