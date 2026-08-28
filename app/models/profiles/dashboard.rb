@@ -106,6 +106,16 @@ module Profiles
       @rankings ||= build_rankings
     end
 
+    def exit_performances
+      @exit_performances ||=
+        profile
+        .exit_performances
+        .joins(:suit)
+        .includes(suit: :manufacturer)
+        .limit(Profile::ExitPerformance::SUITS_LIMIT)
+        .to_a
+    end
+
     def recent_tracks(limit = 5)
       tracks.where(kind: current_activity)
             .includes(:suit, :place, :time, :distance, :speed)

@@ -11,6 +11,16 @@ class Profile::MergeableTest < ActiveSupport::TestCase
     end
   end
 
+  def create_exit_profile(profile, suit, index)
+    track = Track.create!(pilot: profile, suit:, kind: :base, recorded_at: index.days.ago)
+    distances = Track::ExitProfile.drops.map { |drop| (drop * (1.5 + (index * 0.01))).round(1) }
+
+    Track::ExitProfile.create!(
+      track:, profile_id: profile.id, suit_id: suit.id, recorded_at: track.recorded_at,
+      distances:, reference_distance: distances[Track::ExitProfile.reference_index]
+    )
+  end
+
   test 'merge' do
     merged_profile = Profile.create!(
       name: 'Peter',
@@ -21,6 +31,23 @@ class Profile::MergeableTest < ActiveSupport::TestCase
     assert_equal countries(:norway), merged_profile.country
     assert_equal 5, merged_profile.tracks.count
     assert_equal 5, merged_profile.badges.count
+  end
+
+  test 'rebuilds exit performances instead of moving them into a duplicate' do
+    suit = suits(:apache)
+    5.times { |index| create_exit_profile(@source, suit, index) }
+    Profile::ExitPerformance.recalculate(profile_id: @source.id, suit_id: suit.id)
+
+    destination = Profile.create!(name: 'Peter', owner: events(:nationals))
+    Profile::ExitPerformance.create!(profile: destination, suit:, tracks_count: 99, samples: [],
+                                     last_recorded_at: 1.year.ago)
+
+    assert destination.merge_with(@source)
+
+    assert_empty Profile::ExitPerformance.where(profile_id: @source.id)
+    performances = Profile::ExitPerformance.where(profile_id: destination.id)
+    assert_equal 1, performances.count
+    assert_equal 5, performances.first.tracks_count
   end
 
   test 'preserves source name as alias on competitors' do

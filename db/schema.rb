@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_26_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_28_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -486,6 +486,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_000000) do
     t.index ["profile_id"], name: "index_profile_aliases_on_profile_id"
   end
 
+  create_table "profile_exit_performances", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.timestamptz "last_recorded_at"
+    t.bigint "profile_id", null: false
+    t.jsonb "samples", default: [], null: false
+    t.bigint "suit_id", null: false
+    t.integer "tracks_count", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id", "suit_id"], name: "index_profile_exit_performances_on_profile_id_and_suit_id", unique: true
+  end
+
   create_table "profiles", id: :serial, force: :cascade do |t|
     t.integer "country_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -759,6 +770,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_000000) do
     t.integer "visibility", default: 0, null: false
     t.index ["finish_line_id"], name: "index_tournaments_on_finish_line_id"
     t.index ["profile_id"], name: "index_tournaments_on_profile_id"
+  end
+
+  create_table "track_exit_profiles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.jsonb "distances", default: [], null: false
+    t.bigint "profile_id", null: false
+    t.timestamptz "recorded_at", null: false
+    t.float "reference_distance", null: false
+    t.bigint "suit_id", null: false
+    t.bigint "track_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id", "suit_id", "recorded_at"], name: "idx_on_profile_id_suit_id_recorded_at_0f4c43b88c"
+    t.index ["track_id"], name: "index_track_exit_profiles_on_track_id", unique: true
   end
 
   create_table "track_files", id: :serial, force: :cascade do |t|

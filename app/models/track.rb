@@ -54,6 +54,7 @@ class Track < ApplicationRecord
   has_one :event_result, class_name: 'PerformanceCompetition::Result', dependent: :restrict_with_error
   has_one :video, class_name: 'TrackVideo', dependent: :destroy, inverse_of: :track
   has_one :reference_point, dependent: :destroy
+  has_one :exit_profile, class_name: 'Track::ExitProfile', inverse_of: :track, dependent: :destroy
 
   has_one :time,
           -> { where(discipline: Result.disciplines[:time], variant: Result::BEST_VARIANT) },

@@ -56,6 +56,17 @@ es:
         other: "%{count} atletas"
     achievements:
       title: Logros
+    exit_performance:
+      empty: "Aún faltan saltos: un traje necesita al menos %{count} saltos BASE con datos GPS completos."
+      terrain: Perfil del terreno
+      title: Rendimiento del exit
+      median: Mediana
+      flat: Más planos
+      axis_drop: Caída
+      axis_distance: Distancia
+      jumps:
+        one: "%{count} salto"
+        other: "%{count} saltos"
     pro:
       label: SKYDERBY PRO
       text: Análisis de vuelo completo y comparación lado a lado.

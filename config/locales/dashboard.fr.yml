@@ -56,6 +56,17 @@ fr:
         other: "%{count} athlètes"
     achievements:
       title: Distinctions
+    exit_performance:
+      empty: "Pas encore assez de sauts — une combinaison a besoin d'au moins %{count} sauts BASE avec des données GPS complètes."
+      terrain: Profil du terrain
+      title: Performance à l'exit
+      median: Médiane
+      flat: Les plus plats
+      axis_drop: Chute
+      axis_distance: Distance
+      jumps:
+        one: "%{count} saut"
+        other: "%{count} sauts"
     pro:
       label: SKYDERBY PRO
       text: Analyse de vol complète et comparaison côte à côte.

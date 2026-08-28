@@ -65,6 +65,30 @@ module Profiles
       assert_equal 1, entry.athletes_count
     end
 
+    test 'exit_performances returns the most recently flown suits' do
+      profile = profiles(:alex)
+      [suits(:apache), suits(:nala), suits(:oneshot)].each_with_index do |suit, index|
+        Profile::ExitPerformance.create!(
+          profile_id: profile.id, suit:, tracks_count: 5, samples: [],
+          last_recorded_at: index.days.ago
+        )
+      end
+
+      performances = Dashboard.new(profile).exit_performances
+
+      assert_equal [suits(:apache), suits(:nala), suits(:oneshot)], performances.map(&:suit)
+    end
+
+    test 'exit_performances skips rows whose suit is gone' do
+      profile = profiles(:alex)
+      performance = Profile::ExitPerformance.create!(
+        profile:, suit: suits(:apache), tracks_count: 5, samples: [], last_recorded_at: Time.current
+      )
+      performance.update_columns(suit_id: Suit.maximum(:id) + 1)
+
+      assert_empty Dashboard.new(profile).exit_performances
+    end
+
     private
 
     def create_tracks(profile, kind:, count:, starting:)

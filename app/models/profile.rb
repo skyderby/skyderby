@@ -38,6 +38,12 @@ class Profile < ApplicationRecord
   has_many :base_tracks,
            -> { base.order(created_at: :desc) }, class_name: 'Track', inverse_of: false, dependent: :nullify
   has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all, inverse_of: :profile
+  has_many :exit_profiles, class_name: 'Track::ExitProfile', inverse_of: :profile, dependent: :delete_all
+  has_many :exit_performances,
+           -> { recently_flown },
+           class_name: 'Profile::ExitPerformance',
+           inverse_of: :profile,
+           dependent: :delete_all
   has_many :performance_competition_participation,
            class_name: 'PerformanceCompetition::Competitor',
            dependent: :restrict_with_error

@@ -45,6 +45,7 @@ module AcceptsNestedTrack
   def enque_jobs
     ResultsJob.perform_later track_id
     OnlineCompetitionJob.perform_later track_id
+    ExitProfileJob.perform_later track_id
   end
 
   def check_duplicates_for(track_file)

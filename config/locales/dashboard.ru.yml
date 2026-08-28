@@ -58,6 +58,19 @@ ru:
         other: "%{count} участников"
     achievements:
       title: Достижения
+    exit_performance:
+      empty: "Пока мало прыжков — нужно минимум %{count} BASE-прыжков на одном костюме с полными GPS-данными."
+      terrain: Профиль рельефа
+      title: Профиль экзита
+      median: Медиана
+      flat: Пологие
+      axis_drop: Падение
+      axis_distance: Дистанция
+      jumps:
+        one: "%{count} прыжок"
+        few: "%{count} прыжка"
+        many: "%{count} прыжков"
+        other: "%{count} прыжков"
     pro:
       label: SKYDERBY PRO
       text: Полная аналитика полётов и сравнение бок о бок.

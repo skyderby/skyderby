@@ -19,6 +19,8 @@ class Suit < ApplicationRecord
   has_many :tracks, -> { order(created_at: :desc) }, inverse_of: :suit, dependent: :nullify
   has_many :competitors, dependent: :restrict_with_error
   has_many :pilots, through: :tracks
+  has_many :exit_profiles, class_name: 'Track::ExitProfile', inverse_of: :suit, dependent: :delete_all
+  has_many :exit_performances, class_name: 'Profile::ExitPerformance', inverse_of: :suit, dependent: :delete_all
 
   validates :name, presence: true
 
