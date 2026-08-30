@@ -61,7 +61,7 @@ it:
       terrain: Profilo del terreno
       title: Performance dell'exit
       median: Mediana
-      flat: Più piatti
+      flat: "Top-25% Avg"
       axis_drop: Caduta
       axis_distance: Distanza
       jumps:

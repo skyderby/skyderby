@@ -63,7 +63,7 @@ ru:
       terrain: Профиль рельефа
       title: Профиль экзита
       median: Медиана
-      flat: Пологие
+      flat: "Top-25% Avg"
       axis_drop: Падение
       axis_distance: Дистанция
       jumps:

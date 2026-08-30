@@ -61,7 +61,7 @@ fr:
       terrain: Profil du terrain
       title: Performance à l'exit
       median: Médiane
-      flat: Les plus plats
+      flat: "Top-25% Avg"
       axis_drop: Chute
       axis_distance: Distance
       jumps:

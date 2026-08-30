@@ -61,7 +61,7 @@ en:
       terrain: Terrain profile
       title: Exit performance
       median: Median
-      flat: Flattest
+      flat: "Top-25% Avg"
       axis_drop: Drop
       axis_distance: Distance
       jumps:
