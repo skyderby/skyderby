@@ -1,0 +1,40 @@
+<%# locals: (suit:, tab:) %>
+
+<div class="show-page-header">
+  <nav class="breadcrumbs" aria-label="<%= t('general.breadcrumbs') %>">
+    <%= link_to t('suits.title'), suits_path, class: 'breadcrumbs-item' %>
+    <%= icon_tag 'angle-right-solid', class: 'breadcrumbs-separator' %>
+    <span class="breadcrumbs-item breadcrumbs-current" aria-current="page"><%= suit.name %></span>
+  </nav>
+
+  <h1 class="show-page-title"><%= suit.name %></h1>
+
+  <div class="show-page-info">
+    <%= link_to suit.manufacturer_name, suits_path(manufacturer_id: suit.manufacturer_id) %>
+    <span class="suit-show__separator">·</span>
+    <%= t("dashboard.suit_types.#{suit.kind}", default: suit.kind.to_s.humanize) %>
+  </div>
+
+  <% if suit.description.present? %>
+    <div class="show-page-info suit-show__description"><%= suit.description %></div>
+  <% end %>
+
+  <div class="page-nav">
+    <%= link_to t('suits.show.skydive'),
+                suit_path(suit, query: { kind: :skydive }),
+                class: ['page-tab', ('page-tab-active' if tab == :skydive)] %>
+    <%= link_to t('suits.show.base'),
+                suit_path(suit, query: { kind: :base }),
+                class: ['page-tab', ('page-tab-active' if tab == :base)] %>
+    <%= link_to t('suits.show.videos'),
+                suit_videos_path(suit),
+                class: ['page-tab', ('page-tab-active' if tab == :videos)] %>
+
+    <% if policy(suit).update? %>
+      <%= link_to edit_suit_path(suit), class: 'page-tab page-tab-right' do %>
+        <%= icon_tag 'gear-solid' %>
+        <%= t('general.edit') %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

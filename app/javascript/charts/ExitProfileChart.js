@@ -1,8 +1,15 @@
 const SVG_NS = 'http://www.w3.org/2000/svg'
 const MARGIN = { top: 24, right: 18, bottom: 44, left: 46 }
-const PALETTE = ['--blue-70', '--green-80', '--orange-70']
+const PALETTE = [
+  '--blue-70',
+  '--green-80',
+  '--orange-70',
+  '--purple-70',
+  '--cyan-70',
+  '--pink-70'
+]
 const TERRAIN_COLOR = '#b88e8d'
-const PLOT_HEIGHT = 350
+const MAX_PLOT_HEIGHT = 520
 
 const svgEl = (tag, attrs = {}) => {
   const node = document.createElementNS(SVG_NS, tag)
@@ -113,7 +120,6 @@ export default class ExitProfileChart {
     if (!visible.length) return
 
     const availableWidth = Math.max(width - MARGIN.left - MARGIN.right, 10)
-    const availableHeight = PLOT_HEIGHT
 
     const maxDrop = this.dataMaxDrop()
     const maxDistance = Math.max(
@@ -121,13 +127,14 @@ export default class ExitProfileChart {
       ...(this.terrain?.points || []).map(point => point.distance)
     )
 
-    const scale = Math.min(availableWidth / maxDistance, availableHeight / maxDrop)
+    const scale = Math.min(availableWidth / maxDistance, MAX_PLOT_HEIGHT / maxDrop)
 
     this.maxDrop = maxDrop
     this.maxDistance = maxDistance
     this.plotWidth = maxDistance * scale
     this.plotHeight = maxDrop * scale
-    this.scaleX = distance => MARGIN.left + distance * scale
+    this.originX = MARGIN.left + (availableWidth - this.plotWidth) / 2
+    this.scaleX = distance => this.originX + distance * scale
     this.scaleY = drop => MARGIN.top + drop * scale
 
     const height = MARGIN.top + this.plotHeight + MARGIN.bottom
@@ -144,8 +151,8 @@ export default class ExitProfileChart {
 
     this.cursor = svgEl('line', {
       class: 'exit-performance__cursor',
-      x1: MARGIN.left,
-      x2: MARGIN.left + this.plotWidth,
+      x1: this.originX,
+      x2: this.originX + this.plotWidth,
       y1: MARGIN.top,
       y2: MARGIN.top
     })
@@ -174,15 +181,20 @@ export default class ExitProfileChart {
     niceTicks(this.maxDrop).forEach(value => {
       const y = this.scaleY(value)
       group.appendChild(
-        svgEl('line', { x1: MARGIN.left, x2: MARGIN.left + this.plotWidth, y1: y, y2: y })
+        svgEl('line', {
+          x1: this.originX,
+          x2: this.originX + this.plotWidth,
+          y1: y,
+          y2: y
+        })
       )
-      const label = svgEl('text', { x: MARGIN.left - 8, y: y + 4, 'text-anchor': 'end' })
+      const label = svgEl('text', { x: this.originX - 8, y: y + 4, 'text-anchor': 'end' })
       label.textContent = Math.round(value)
       group.appendChild(label)
     })
 
     const axisX = svgEl('text', {
-      x: MARGIN.left + this.plotWidth,
+      x: this.originX + this.plotWidth,
       y: bottom + 34,
       'text-anchor': 'end',
       class: 'exit-performance__axis-label'
@@ -191,7 +203,7 @@ export default class ExitProfileChart {
     group.appendChild(axisX)
 
     const axisY = svgEl('text', {
-      x: 2,
+      x: Math.max(this.originX - 44, 2),
       y: 10,
       'text-anchor': 'start',
       class: 'exit-performance__axis-label'
@@ -211,8 +223,8 @@ export default class ExitProfileChart {
     )
     const last = points[points.length - 1]
     const area = line.concat([
-      `${MARGIN.left},${this.scaleY(last.drop)}`,
-      `${MARGIN.left},${this.scaleY(points[0].drop)}`
+      `${this.originX},${this.scaleY(last.drop)}`,
+      `${this.originX},${this.scaleY(points[0].drop)}`
     ])
 
     svg.appendChild(
@@ -347,11 +359,11 @@ export default class ExitProfileChart {
       bounds.height - this.tooltip.offsetHeight - 4
     )
     const left = Math.min(
-      MARGIN.left + this.plotWidth + 12,
+      this.originX + this.plotWidth + 12,
       bounds.width - this.tooltip.offsetWidth - 4
     )
     this.tooltip.style.top = `${Math.max(top, 4)}px`
-    this.tooltip.style.left = `${Math.max(left, MARGIN.left)}px`
+    this.tooltip.style.left = `${Math.max(left, this.originX)}px`
   }
 
   onLeave() {

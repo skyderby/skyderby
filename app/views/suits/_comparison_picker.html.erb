@@ -1,0 +1,23 @@
+<%# locals: (suit:, comparison:, **) %>
+
+<div class="comparison-picker">
+  <%= form_with url: suit_comparison_options_path(suit), method: :get,
+                data: { controller: 'auto-submit', turbo_frame: 'suit-comparison-options' } do |form| %>
+    <% comparison.compared_ids.each do |suit_id| %>
+      <%= hidden_field_tag 'compare[]', suit_id, id: nil %>
+    <% end %>
+
+    <%= form.search_field :term,
+                          class: 'form-input',
+                          autofocus: true,
+                          autocomplete: 'off',
+                          placeholder: t('suits.comparison.search'),
+                          data: { action: 'input->auto-submit#submit' } %>
+  <% end %>
+
+  <%= turbo_frame_tag 'suit-comparison-options',
+                      src: suit_comparison_options_path(suit, compare: comparison.compared_ids),
+                      class: 'comparison-options' do %>
+    <div class="comparison-options__empty"><%= t('suits.comparison.loading') %></div>
+  <% end %>
+</div>

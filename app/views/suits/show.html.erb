@@ -1,78 +1,28 @@
-<div class="show-page">
-  <div class="show-page-header">
-    <a href="<%= suits_path %>">
-      <%= icon_tag 'angle-left-solid' %>
-      Suits list
-    </a>
-    <div class="row">
-      <div class="col-sm-9">
-        <h1>
-          <%= @suit.name %>
-          <small><%= @suit.manufacturer.name %></small>
-        </h1>
-        <div class="description">
-          <%= @suit.description %>
+<% provide(:title, page_title("#{@suit.manufacturer_name} #{@suit.name}")) %>
+<% base = (show_params[:query] || {})[:kind] == 'base' %>
+
+<div class="show-page suit-show">
+  <%= render 'suits/header', suit: @suit, tab: (base ? :base : :skydive) %>
+
+  <div class="show-page-content">
+    <% if base && @comparison.available? %>
+      <%= render 'suits/exit_performance', suit: @suit, comparison: @comparison %>
+    <% end %>
+
+    <div class="card">
+      <div id="tracks-table" class="table table-hover">
+        <div class="thead">
+          <%= render 'tracks/table_header' %>
         </div>
-        <% if policy(@suit).update? %>
-          <%= link_to 'Edit', edit_suit_path(@suit), class: 'button' %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-
-  <div class="show-page-content container-lg card">
-    <% query_params = show_params[:query] || {} %>
-    <% activity = query_params[:kind] %>
-    <% skydive = !activity || activity == 'skydive' %>
-    <% base = !skydive %>
-
-    <ul class="nav nav-tabs" role="tablist">
-      <li class="<%= 'active' if skydive %>" role="presentation">
-        <%= link_to show_params.except(:page).merge(query: query_params.merge(kind: :skydive)), role: 'tab' do %>
-          Skydive
-        <% end %>
-      </li>
-      <li class="<%= 'active' if base %>" role="presentation">
-        <%= link_to show_params.except(:page).merge(query: query_params.merge(kind: :base)), role: 'tab' do %>
-          B.A.S.E
-        <% end %>
-      </li>
-    </ul>
-
-    <div class="tab-content">
-      <div id="tab-pane-skydive" class="tab-pane <%= 'active' if skydive %>" role="tabpanel">
-        <% if skydive %>
-          <div id="tracks-table" class="table table-hover">
-            <div class="thead">
-              <%= render 'tracks/table_header' %>
-            </div>
-            <div id="tracks-list" class="tbody">
-              <%= render collection: @tracks, partial: 'tracks/track' %>
-            </div>
-          </div>
-        <% end %>
+        <div id="tracks-list" class="tbody">
+          <%= render collection: @tracks, partial: 'tracks/track' %>
+        </div>
       </div>
 
-      <div id="tab-pane-base" class="tab-pane <%= 'active' if base %>" role="tabpanel">
-        <% if base %>
-          <% if @suit.exit_performance %>
-            <%= render 'suits/exit_performance', performance: @suit.exit_performance %>
-          <% end %>
-          <div id="tracks-table" class="table table-hover">
-            <div class="thead">
-              <%= render 'tracks/table_header' %>
-            </div>
-            <div id="tracks-list" class="tbody">
-              <%= render collection: @tracks, partial: 'tracks/track' %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="text-center top-buffer">
-      <div class="pagination">
-        <%= paginate @tracks %>
+      <div class="flex justify-center">
+        <div class="pagination">
+          <%= paginate @tracks %>
+        </div>
       </div>
     </div>
   </div>

@@ -55,3 +55,12 @@
   font-size: 18px;
   line-height: 40px;
 }
+
+.suit-show__separator {
+  color: var(--gray-40, #9ca3af);
+  padding: 0 0.125rem;
+}
+
+.suit-show__description {
+  max-width: 720px;
+}

@@ -1,0 +1,17 @@
+<%= turbo_frame_tag 'suit-comparison-options', class: 'comparison-options' do %>
+  <% if @suits.any? %>
+    <% @suits.each do |suit| %>
+      <%= link_to suit_path(@suit, query: { kind: :base }, compare: @comparison.ids_with(suit.id)),
+                  class: 'comparison-option',
+                  data: { turbo_frame: '_top' } do %>
+        <span class="comparison-option__name"><%= suit.name %></span>
+        <span class="comparison-option__manufacturer"><%= suit.manufacturer_name %></span>
+        <span class="comparison-option__pilots">
+          <%= t('suits.exit_performance.pilots', count: suit.exit_performance.pilots_count) %>
+        </span>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div class="comparison-options__empty"><%= t('suits.comparison.no_results') %></div>
+  <% end %>
+<% end %>

@@ -13,6 +13,7 @@ class SuitsController < ApplicationController
   def show
     authorize @suit
 
+    @comparison = Suits::ExitComparison.new(@suit, show_params[:compare])
     @tracks = Track.accessible
     @tracks = TrackFilter.new(show_params[:query]).apply(@tracks)
     @tracks =
@@ -77,7 +78,7 @@ class SuitsController < ApplicationController
   helper_method :index_params
 
   def show_params
-    params.permit(:order, :page, query: [:kind])
+    params.permit(:order, :page, compare: [], query: [:kind])
   end
   helper_method :show_params
 

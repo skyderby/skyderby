@@ -4,6 +4,13 @@ en:
       suits: Suits
   suits:
     title: Suits
+    comparison:
+      title: Compare suits
+      add: Compare
+      search: Search suits
+      loading: Loading…
+      no_results: No suits with enough data
+      remove: Remove from comparison
     exit_performance:
       title: Exit performance
       hint: Across pilots who jump this suit
@@ -13,5 +20,9 @@ en:
       jumps:
         one: "%{count} jump"
         other: "%{count} jumps"
+    show:
+      skydive: Skydive
+      base: BASE
+      videos: Videos
     index:
       new: New suit

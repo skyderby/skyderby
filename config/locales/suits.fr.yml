@@ -4,6 +4,13 @@ fr:
       suits: Combinaisons
   suits:
     title: Combinaisons
+    comparison:
+      title: Comparer les combinaisons
+      add: Comparer
+      search: Rechercher une combinaison
+      loading: Chargement…
+      no_results: Aucune combinaison avec assez de données
+      remove: Retirer de la comparaison
     exit_performance:
       title: Performance à l'exit
       hint: Parmi les pilotes qui volent cette combinaison
@@ -13,5 +20,9 @@ fr:
       jumps:
         one: "%{count} saut"
         other: "%{count} sauts"
+    show:
+      skydive: Parachutisme
+      base: BASE
+      videos: Vidéos
     index:
       new: Nouvelle combinaison
