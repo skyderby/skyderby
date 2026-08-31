@@ -7,6 +7,8 @@
   <div class="show-page-content">
     <% if base && @comparison.available? %>
       <%= render 'suits/exit_performance', suit: @suit, comparison: @comparison %>
+    <% elsif !base && @scoreboard&.available? %>
+      <%= render 'suits/scoreboard', suit: @suit, scoreboard: @scoreboard %>
     <% end %>
 
     <div class="card">

@@ -50,7 +50,7 @@ class Track::ExitProfileTest < ActiveSupport::TestCase
     track.update!(suit: suits(:oneshot))
     Track::ExitProfile.recalculate(track)
 
-    assert_nil performance_for(other_suit)
+    assert_equal 4, performance_for(other_suit).tracks_count
   end
 
   test 'removes a stored profile when the suit is unassigned' do

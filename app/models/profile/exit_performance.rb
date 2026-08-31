@@ -14,7 +14,8 @@
 
 class Profile::ExitPerformance < ApplicationRecord
   TRACKS_WINDOW = 50
-  MIN_TRACKS = 5
+  MIN_TRACKS = 1
+  RELIABLE_TRACKS = 5
   FLAT_SHARE = 0.25
   SUITS_LIMIT = 3
 
@@ -22,6 +23,8 @@ class Profile::ExitPerformance < ApplicationRecord
   belongs_to :suit, inverse_of: :pilot_exit_performances
 
   scope :recently_flown, -> { order(last_recorded_at: :desc) }
+
+  def reliable? = tracks_count >= RELIABLE_TRACKS
 
   def self.recalculate(profile_id:, suit_id:)
     record = find_by(profile_id:, suit_id:)

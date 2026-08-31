@@ -57,7 +57,8 @@ es:
     achievements:
       title: Logros
     exit_performance:
-      empty: "Aún faltan saltos: un traje necesita al menos %{count} saltos BASE con datos GPS completos."
+      empty: "Aún no hay datos: sube un track BASE con traje para ver tu perfil de salida."
+      low_data: "Menos de %{count} saltos: los números pueden no ser representativos."
       terrain: Perfil del terreno
       title: Rendimiento del exit
       median: Mediana

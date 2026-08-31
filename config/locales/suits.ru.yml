@@ -12,6 +12,7 @@ ru:
       no_results: Нет костюмов с достаточными данными
       remove: Убрать из сравнения
     exit_performance:
+      low_data: "Меньше %{count} пилотов: цифры могут быть недостоверными."
       title: Профиль экзита
       pilots:
         one: "%{count} пилот"

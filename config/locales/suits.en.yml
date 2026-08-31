@@ -12,6 +12,7 @@ en:
       no_results: No suits with enough data
       remove: Remove from comparison
     exit_performance:
+      low_data: "Fewer than %{count} pilots: the numbers may not be representative yet."
       title: Exit performance
       pilots:
         one: "%{count} pilot"

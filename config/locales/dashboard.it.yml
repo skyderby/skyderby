@@ -57,7 +57,8 @@ it:
     achievements:
       title: Riconoscimenti
     exit_performance:
-      empty: "Ancora pochi salti: una tuta richiede almeno %{count} salti BASE con dati GPS completi."
+      empty: "Ancora nessun dato: carica un track BASE con la tuta per vedere il profilo di uscita."
+      low_data: "Meno di %{count} salti: i numeri potrebbero non essere rappresentativi."
       terrain: Profilo del terreno
       title: Performance dell'exit
       median: Mediana

@@ -57,7 +57,8 @@ en:
     achievements:
       title: Achievements
     exit_performance:
-      empty: "Not enough jumps yet — a suit needs at least %{count} BASE jumps with full GPS data."
+      empty: "Not enough data yet — upload a BASE track with a suit to see your exit profile."
+      low_data: "Only %{count} jumps or fewer: the numbers may not be representative yet."
       terrain: Terrain profile
       title: Exit performance
       median: Median

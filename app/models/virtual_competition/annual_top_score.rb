@@ -29,17 +29,17 @@ class VirtualCompetition::AnnualTopScore < ApplicationRecord
   scope :wind_cancellation, ->(wind_cancelled) { where(wind_cancelled:) }
 
   class << self
-    def at_snapshot(time)
-      unscoped.from(ranked_results_sql(snapshot_at: time))
+    def at_snapshot(time, suit_id: nil)
+      unscoped.from(ranked_results_sql(snapshot_at: time, suit_id:))
     end
 
     # The default scope only ever contains raw results, so the wind-cancelled set
     # needs its own FROM clause rather than a `wind_cancellation(true)` filter.
-    def with_wind_cancellation(wind_cancelled)
-      unscoped.from(ranked_results_sql(wind_cancelled:))
+    def with_wind_cancellation(wind_cancelled, suit_id: nil)
+      unscoped.from(ranked_results_sql(wind_cancelled:, suit_id:))
     end
 
-    def ranked_results_sql(snapshot_at: Time.current, wind_cancelled: false)
+    def ranked_results_sql(snapshot_at: Time.current, wind_cancelled: false, suit_id: nil)
       best_results_sql = <<~SQL.squish
         SELECT DISTINCT ON (vcr.virtual_competition_id, EXTRACT(YEAR FROM t.recorded_at), t.profile_id)
           vcr.*,
@@ -53,6 +53,7 @@ class VirtualCompetition::AnnualTopScore < ApplicationRecord
         JOIN virtual_competitions vc ON vc.id = vcr.virtual_competition_id
         WHERE t.recorded_at < :snapshot_at
           AND vcr.wind_cancelled = :wind_cancelled
+          #{'AND t.suit_id = :suit_id' if suit_id}
         ORDER BY vcr.virtual_competition_id, EXTRACT(YEAR FROM t.recorded_at), t.profile_id,
           CASE WHEN vc.results_sort_order = 'descending' THEN vcr.result ELSE -vcr.result END DESC
       SQL
@@ -67,7 +68,9 @@ class VirtualCompetition::AnnualTopScore < ApplicationRecord
         FROM (#{best_results_sql}) AS best
       SQL
 
-      Arel.sql("(#{sanitize_sql([ranked_sql, { snapshot_at:, wind_cancelled: }])}) AS #{table_name}")
+      Arel.sql(
+        "(#{sanitize_sql([ranked_sql, { snapshot_at:, wind_cancelled:, suit_id: }])}) AS #{table_name}"
+      )
     end
   end
 

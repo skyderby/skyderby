@@ -57,7 +57,8 @@ de:
     achievements:
       title: Erfolge
     exit_performance:
-      empty: "Noch zu wenige Sprünge — ein Anzug braucht mindestens %{count} BASE-Sprünge mit vollständigen GPS-Daten."
+      empty: "Noch keine Daten — lade einen BASE-Track mit Anzug hoch, um dein Exit-Profil zu sehen."
+      low_data: "Weniger als %{count} Sprünge: die Zahlen sind noch wenig aussagekräftig."
       terrain: Geländeprofil
       title: Exit-Performance
       median: Median

@@ -12,9 +12,12 @@
 #
 
 class Suit::ExitPerformance < ApplicationRecord
-  MIN_PILOTS = 10
+  MIN_PILOTS = 1
+  RELIABLE_PILOTS = 10
 
   belongs_to :suit, inverse_of: :exit_performance
+
+  def reliable? = pilots_count >= RELIABLE_PILOTS
 
   def self.recalculate(suit_id:)
     record = find_by(suit_id:)

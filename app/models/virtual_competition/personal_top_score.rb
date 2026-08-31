@@ -13,7 +13,9 @@ class VirtualCompetition::PersonalTopScore < ApplicationRecord
 
   scope :wind_cancellation, ->(enabled) { where(wind_cancelled: enabled) }
 
-  def self.ranked_results_sql
+  def self.for_suit(suit_id) = unscoped.from(ranked_results_sql(suit_id:))
+
+  def self.ranked_results_sql(suit_id: nil)
     sql = <<~SQL.squish
       SELECT
         row_number() OVER (
@@ -31,6 +33,7 @@ class VirtualCompetition::PersonalTopScore < ApplicationRecord
         FROM virtual_competition_results AS results
           INNER JOIN virtual_competitions competitions ON results.virtual_competition_id = competitions.id
           LEFT JOIN tracks AS tracks ON tracks.id = results.track_id
+        #{'WHERE tracks.suit_id = :suit_id' if suit_id}
         ORDER BY
           results.virtual_competition_id,
           results.wind_cancelled,
@@ -39,7 +42,7 @@ class VirtualCompetition::PersonalTopScore < ApplicationRecord
       ) AS entities
     SQL
 
-    Arel.sql("(#{sql}) AS #{table_name}")
+    Arel.sql("(#{sanitize_sql([sql, { suit_id: }])}) AS #{table_name}")
   end
 
   private

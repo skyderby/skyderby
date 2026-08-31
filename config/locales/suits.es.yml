@@ -12,6 +12,7 @@ es:
       no_results: No hay trajes con datos suficientes
       remove: Quitar de la comparación
     exit_performance:
+      low_data: "Menos de %{count} pilotos: los números pueden no ser representativos."
       title: Rendimiento del exit
       pilots:
         one: "%{count} piloto"

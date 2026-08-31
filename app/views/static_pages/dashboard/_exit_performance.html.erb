@@ -30,6 +30,12 @@
             <span class="exit-performance__swatch"></span>
             <span class="exit-performance__suit"><%= exit_performance_suit_name(performance) %></span>
             <span class="exit-performance__jumps"><%= t('dashboard.exit_performance.jumps', count: performance.tracks_count) %></span>
+            <% unless performance.reliable? %>
+              <span class="exit-performance__warning"
+                    title="<%= t('dashboard.exit_performance.low_data', count: Profile::ExitPerformance::RELIABLE_TRACKS) %>">
+                <%= icon_tag 'triangle-exclamation-solid' %>
+              </span>
+            <% end %>
           </button>
         </span>
       <% end %>
@@ -42,7 +48,7 @@
     </script>
   <% else %>
     <div class="dashboard-blankslate">
-      <%= t('dashboard.exit_performance.empty', count: Profile::ExitPerformance::MIN_TRACKS) %>
+      <%= t('dashboard.exit_performance.empty') %>
     </div>
   <% end %>
 </section>

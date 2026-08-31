@@ -22,17 +22,26 @@ class Suit::ExitPerformanceTest < ActiveSupport::TestCase
     assert_in_delta 290, sample['mid'], 2
   end
 
-  test 'skips suits with too few pilots' do
-    create_pilots(Suit::ExitPerformance::MIN_PILOTS - 1)
+  test 'keeps a suit with a single pilot but marks it unreliable' do
+    create_pilots(1)
 
-    assert_nil recalculate
+    performance = recalculate
+
+    assert_equal 1, performance.pilots_count
+    assert_not_predicate performance, :reliable?
   end
 
-  test 'removes the aggregate when pilots drop below the minimum' do
+  test 'marks a suit reliable once enough pilots fly it' do
+    create_pilots(Suit::ExitPerformance::RELIABLE_PILOTS)
+
+    assert_predicate recalculate, :reliable?
+  end
+
+  test 'removes the aggregate when the pilots are gone' do
     create_pilots(10)
     assert_predicate recalculate, :present?
 
-    Profile::ExitPerformance.limit(5).destroy_all
+    Profile::ExitPerformance.destroy_all
 
     assert_nil recalculate
   end

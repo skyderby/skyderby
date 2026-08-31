@@ -12,6 +12,7 @@ it:
       no_results: Nessuna tuta con dati sufficienti
       remove: Rimuovi dal confronto
     exit_performance:
+      low_data: "Meno di %{count} piloti: i numeri potrebbero non essere rappresentativi."
       title: Performance dell'exit
       pilots:
         one: "%{count} pilota"
