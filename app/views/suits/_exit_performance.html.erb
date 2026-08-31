@@ -34,8 +34,8 @@
 
   <div class="exit-performance__legend">
     <% comparison.performances.each_with_index do |performance, index| %>
-      <span class="exit-performance__series-group">
-        <button type="button" class="exit-performance__series"
+      <span class="exit-performance__series">
+        <button type="button" class="exit-performance__toggle"
                 data-series-index="<%= index %>"
                 data-exit-performance-target="series"
                 data-action="exit-performance#toggleSeries">
@@ -55,8 +55,6 @@
         <% end %>
       </span>
     <% end %>
-
-    <span class="exit-performance__hint"><%= t('suits.exit_performance.hint') %></span>
   </div>
 
   <div class="exit-performance__plot" data-exit-performance-target="plot"></div>

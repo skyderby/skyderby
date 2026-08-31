@@ -13,7 +13,6 @@ it:
       remove: Rimuovi dal confronto
     exit_performance:
       title: Performance dell'exit
-      hint: Tra i piloti che volano questa tuta
       pilots:
         one: "%{count} pilota"
         other: "%{count} piloti"

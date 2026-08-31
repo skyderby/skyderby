@@ -13,7 +13,6 @@ de:
       remove: Aus dem Vergleich entfernen
     exit_performance:
       title: Exit-Performance
-      hint: Über alle Piloten mit diesem Anzug
       pilots:
         one: "%{count} Pilot"
         other: "%{count} Piloten"

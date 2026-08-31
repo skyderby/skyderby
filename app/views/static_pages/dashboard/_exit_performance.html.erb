@@ -22,14 +22,16 @@
   <% if performances.any? %>
     <div class="exit-performance__legend">
       <% performances.each_with_index do |performance, index| %>
-        <button type="button" class="exit-performance__series"
-                data-series-index="<%= index %>"
-                data-exit-performance-target="series"
-                data-action="exit-performance#toggleSeries">
-          <span class="exit-performance__swatch"></span>
-          <span class="exit-performance__suit"><%= exit_performance_suit_name(performance) %></span>
-          <span class="exit-performance__jumps"><%= t('dashboard.exit_performance.jumps', count: performance.tracks_count) %></span>
-        </button>
+        <span class="exit-performance__series">
+          <button type="button" class="exit-performance__toggle"
+                  data-series-index="<%= index %>"
+                  data-exit-performance-target="series"
+                  data-action="exit-performance#toggleSeries">
+            <span class="exit-performance__swatch"></span>
+            <span class="exit-performance__suit"><%= exit_performance_suit_name(performance) %></span>
+            <span class="exit-performance__jumps"><%= t('dashboard.exit_performance.jumps', count: performance.tracks_count) %></span>
+          </button>
+        </span>
       <% end %>
     </div>
 
