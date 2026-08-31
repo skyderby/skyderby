@@ -4,5 +4,14 @@ fr:
       suits: Combinaisons
   suits:
     title: Combinaisons
+    exit_performance:
+      title: Performance à l'exit
+      hint: Parmi les pilotes qui volent cette combinaison
+      pilots:
+        one: "%{count} pilote"
+        other: "%{count} pilotes"
+      jumps:
+        one: "%{count} saut"
+        other: "%{count} sauts"
     index:
       new: Nouvelle combinaison

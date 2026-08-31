@@ -4,5 +4,14 @@ es:
       suits: Trajes
   suits:
     title: Trajes
+    exit_performance:
+      title: Rendimiento del exit
+      hint: Entre los pilotos que vuelan este traje
+      pilots:
+        one: "%{count} piloto"
+        other: "%{count} pilotos"
+      jumps:
+        one: "%{count} salto"
+        other: "%{count} saltos"
     index:
       new: Nuevo traje

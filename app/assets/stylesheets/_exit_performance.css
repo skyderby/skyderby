@@ -38,6 +38,16 @@
   cursor: pointer;
 }
 
+.exit-performance__series--static {
+  cursor: default;
+}
+
+.exit-performance__hint {
+  align-self: center;
+  font-size: 0.75rem;
+  color: var(--gray-60, #6b7280);
+}
+
 .exit-performance__series--muted {
   opacity: 0.45;
 }

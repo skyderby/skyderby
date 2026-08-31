@@ -55,6 +55,9 @@
 
       <div id="tab-pane-base" class="tab-pane <%= 'active' if base %>" role="tabpanel">
         <% if base %>
+          <% if @suit.exit_performance %>
+            <%= render 'suits/exit_performance', performance: @suit.exit_performance %>
+          <% end %>
           <div id="tracks-table" class="table table-hover">
             <div class="thead">
               <%= render 'tracks/table_header' %>

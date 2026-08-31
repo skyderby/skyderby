@@ -4,5 +4,14 @@ en:
       suits: Suits
   suits:
     title: Suits
+    exit_performance:
+      title: Exit performance
+      hint: Across pilots who jump this suit
+      pilots:
+        one: "%{count} pilot"
+        other: "%{count} pilots"
+      jumps:
+        one: "%{count} jump"
+        other: "%{count} jumps"
     index:
       new: New suit

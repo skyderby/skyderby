@@ -1,0 +1,32 @@
+<%# locals: (performance:) %>
+
+<section class="dashboard-section panel exit-performance"
+         data-controller="exit-performance"
+         data-exit-performance-measurements-url-template-value="<%= terrain_profile_measurements_path('__ID__') %>">
+  <div class="dashboard-section__header exit-performance__header">
+    <span class="exit-performance__heading"><%= t('suits.exit_performance.title') %></span>
+
+    <div class="exit-performance__terrain">
+      <%= render 'hot_select/select',
+                 name: :terrain_profile_id,
+                 src: terrain_profiles_select_options_path,
+                 placeholder: t('dashboard.exit_performance.terrain'),
+                 select: { data: { action: 'exit-performance#selectTerrain' } } %>
+    </div>
+  </div>
+
+  <div class="exit-performance__legend">
+    <span class="exit-performance__series exit-performance__series--static">
+      <span class="exit-performance__swatch" style="background: var(--blue-70)"></span>
+      <span class="exit-performance__suit"><%= t('suits.exit_performance.pilots', count: performance.pilots_count) %></span>
+      <span class="exit-performance__jumps"><%= t('suits.exit_performance.jumps', count: performance.jumps_count) %></span>
+    </span>
+    <span class="exit-performance__hint"><%= t('suits.exit_performance.hint') %></span>
+  </div>
+
+  <div class="exit-performance__plot" data-exit-performance-target="plot"></div>
+
+  <script type="application/json" data-exit-performance-target="data">
+    <%= raw ERB::Util.json_escape(suit_exit_performance_chart_data(performance).to_json) %>
+  </script>
+</section>

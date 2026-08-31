@@ -20,7 +20,9 @@ class Suit < ApplicationRecord
   has_many :competitors, dependent: :restrict_with_error
   has_many :pilots, through: :tracks
   has_many :exit_profiles, class_name: 'Track::ExitProfile', inverse_of: :suit, dependent: :delete_all
-  has_many :exit_performances, class_name: 'Profile::ExitPerformance', inverse_of: :suit, dependent: :delete_all
+  has_many :pilot_exit_performances,
+           class_name: 'Profile::ExitPerformance', inverse_of: :suit, dependent: :delete_all
+  has_one :exit_performance, class_name: 'Suit::ExitPerformance', inverse_of: :suit, dependent: :destroy
 
   validates :name, presence: true
 
