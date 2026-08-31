@@ -64,3 +64,19 @@
 .suit-show__description {
   max-width: 720px;
 }
+
+.suit-scoreboard__wind.tab-bar {
+  flex: 0 0 auto;
+  width: auto;
+  margin: 0;
+  gap: 0.125rem;
+  padding: 0.1875rem;
+}
+
+.suit-scoreboard__wind .tab-bar-item {
+  padding: 0.25rem 0.625rem;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
