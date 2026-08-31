@@ -19,7 +19,7 @@ class Profile::ExitPerformance < ApplicationRecord
   SUITS_LIMIT = 3
 
   belongs_to :profile, inverse_of: :exit_performances
-  belongs_to :suit, inverse_of: :exit_performances
+  belongs_to :suit, inverse_of: :pilot_exit_performances
 
   scope :recently_flown, -> { order(last_recorded_at: :desc) }
 

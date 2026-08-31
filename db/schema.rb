@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_31_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -664,6 +664,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_000000) do
     t.index ["sponsorable_id", "sponsorable_type"], name: "index_sponsors_on_sponsorable_id_and_sponsorable_type"
     t.index ["sponsorable_id"], name: "event_sponsors_event_id_idx"
     t.index ["sponsorable_id"], name: "index_sponsors_on_sponsorable_id"
+  end
+
+  create_table "suit_exit_performances", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "jumps_count", default: 0, null: false
+    t.integer "pilots_count", default: 0, null: false
+    t.jsonb "samples", default: [], null: false
+    t.bigint "suit_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["suit_id"], name: "index_suit_exit_performances_on_suit_id", unique: true
   end
 
   create_table "suits", id: :serial, force: :cascade do |t|

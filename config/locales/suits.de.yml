@@ -4,5 +4,14 @@ de:
       suits: Anzüge
   suits:
     title: Anzüge
+    exit_performance:
+      title: Exit-Performance
+      hint: Über alle Piloten mit diesem Anzug
+      pilots:
+        one: "%{count} Pilot"
+        other: "%{count} Piloten"
+      jumps:
+        one: "%{count} Sprung"
+        other: "%{count} Sprünge"
     index:
       new: Neuer Anzug

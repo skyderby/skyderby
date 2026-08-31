@@ -4,5 +4,18 @@ ru:
       suits: Костюмы
   suits:
     title: Костюмы
+    exit_performance:
+      title: Профиль экзита
+      hint: По пилотам, летающим этот костюм
+      pilots:
+        one: "%{count} пилот"
+        few: "%{count} пилота"
+        many: "%{count} пилотов"
+        other: "%{count} пилотов"
+      jumps:
+        one: "%{count} прыжок"
+        few: "%{count} прыжка"
+        many: "%{count} прыжков"
+        other: "%{count} прыжков"
     index:
       new: Новый костюм
