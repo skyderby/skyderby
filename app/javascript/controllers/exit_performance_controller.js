@@ -33,7 +33,8 @@ export default class extends Controller {
   toggleSeries(event) {
     const index = Number(event.currentTarget.dataset.seriesIndex)
     const visible = this.chart.toggle(index)
-    event.currentTarget.classList.toggle('exit-performance__series--muted', !visible)
+    const pill = event.currentTarget.closest('.exit-performance__series')
+    pill?.classList.toggle('exit-performance__series--muted', !visible)
   }
 
   selectTerrain(event) {

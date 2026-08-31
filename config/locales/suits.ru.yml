@@ -13,7 +13,6 @@ ru:
       remove: Убрать из сравнения
     exit_performance:
       title: Профиль экзита
-      hint: По пилотам, летающим этот костюм
       pilots:
         one: "%{count} пилот"
         few: "%{count} пилота"

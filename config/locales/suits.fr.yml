@@ -13,7 +13,6 @@ fr:
       remove: Retirer de la comparaison
     exit_performance:
       title: Performance à l'exit
-      hint: Parmi les pilotes qui volent cette combinaison
       pilots:
         one: "%{count} pilote"
         other: "%{count} pilotes"

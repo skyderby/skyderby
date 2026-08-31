@@ -23,7 +23,7 @@ class ExitPerformanceTest < ApplicationSystemTestCase
 
     visit root_path(mode: 'base')
     assert_selector '.exit-performance__line--median', count: 2
-    page.execute_script("document.querySelector('.exit-performance__series').click()")
+    page.execute_script("document.querySelector('.exit-performance__toggle').click()")
 
     assert_selector '.exit-performance__line--median', count: 1
   end
