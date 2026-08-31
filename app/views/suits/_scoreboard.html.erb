@@ -7,7 +7,7 @@
   <div class="exit-performance__header">
     <span class="exit-performance__title"><%= scoreboard.group.name %></span>
 
-    <div class="tab-bar tab-bar--wind">
+    <div class="tab-bar suit-scoreboard__wind">
       <%= link_to t('virtual_competitions.groups.actions_bar.raw'),
                   suit_path(suit, **tab),
                   class: class_names('tab-bar-item', 'active' => !scoreboard.wind_cancellation) %>
