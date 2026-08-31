@@ -12,6 +12,7 @@ de:
       no_results: Keine Anzüge mit ausreichenden Daten
       remove: Aus dem Vergleich entfernen
     exit_performance:
+      low_data: "Weniger als %{count} Piloten: die Zahlen sind noch wenig aussagekräftig."
       title: Exit-Performance
       pilots:
         one: "%{count} Pilot"

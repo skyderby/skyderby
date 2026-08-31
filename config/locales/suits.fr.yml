@@ -12,6 +12,7 @@ fr:
       no_results: Aucune combinaison avec assez de données
       remove: Retirer de la comparaison
     exit_performance:
+      low_data: "Moins de %{count} pilotes : les chiffres peuvent ne pas être représentatifs."
       title: Performance à l'exit
       pilots:
         one: "%{count} pilote"

@@ -15,7 +15,7 @@ class SuitExitPerformanceTest < ApplicationSystemTestCase
     assert_text I18n.t('suits.exit_performance.pilots', count: performance.pilots_count)
   end
 
-  test 'hides the card until the suit has enough pilots' do
+  test 'hides the card until the suit has any data' do
     visit suit_path(suits(:apache), query: { kind: :base })
 
     assert_no_selector '.exit-performance'

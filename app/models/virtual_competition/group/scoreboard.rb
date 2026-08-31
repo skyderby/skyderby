@@ -25,10 +25,16 @@ class VirtualCompetition::Group
       @pages = pages
     end
 
+    def suit = nil
+
+    def per_page = PER_PAGE
+
     def categories
-      @categories ||= group.combined_categories.map do |suit_kind, by_discipline|
-        build_category(suit_kind, by_discipline)
-      end
+      @categories ||=
+        group
+        .combined_categories
+        .select { |suit_kind, _| suit.nil? || suit.kind == suit_kind }
+        .map { |suit_kind, by_discipline| build_category(suit_kind, by_discipline) }
     end
 
     def category(suit_kind) = categories.find { |category| category.suit_kind == suit_kind }
@@ -78,7 +84,11 @@ class VirtualCompetition::Group
     def top_scores(competitions)
       scores =
         if year
-          VirtualCompetition::AnnualTopScore.with_wind_cancellation(wind_cancellation).for_year(year)
+          VirtualCompetition::AnnualTopScore
+            .with_wind_cancellation(wind_cancellation, suit_id: suit&.id)
+            .for_year(year)
+        elsif suit
+          VirtualCompetition::PersonalTopScore.for_suit(suit.id)
         else
           VirtualCompetition::PersonalTopScore.all
         end
@@ -89,7 +99,10 @@ class VirtualCompetition::Group
     def previous_scores(competitions)
       return {} unless show_rank_changes?
 
-      scores = VirtualCompetition::AnnualTopScore.at_snapshot(SNAPSHOT_AGE.ago).for_year(year)
+      scores =
+        VirtualCompetition::AnnualTopScore
+        .at_snapshot(SNAPSHOT_AGE.ago, suit_id: suit&.id)
+        .for_year(year)
 
       load_scores(scores, competitions)
     end

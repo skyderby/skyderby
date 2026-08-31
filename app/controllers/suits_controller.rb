@@ -13,7 +13,12 @@ class SuitsController < ApplicationController
   def show
     authorize @suit
 
-    @comparison = Suits::ExitComparison.new(@suit, show_params[:compare])
+    if base_tab?
+      @comparison = Suits::ExitComparison.new(@suit, show_params[:compare])
+    else
+      @scoreboard = suit_scoreboard
+    end
+
     @tracks = Track.accessible
     @tracks = TrackFilter.new(show_params[:query]).apply(@tracks)
     @tracks =
@@ -78,7 +83,20 @@ class SuitsController < ApplicationController
   helper_method :index_params
 
   def show_params
-    params.permit(:order, :page, compare: [], query: [:kind])
+    params.permit(:order, :page, :wind, :scoreboard_page, compare: [], query: [:kind])
+  end
+
+  def base_tab? = show_params.dig(:query, :kind) == 'base'
+
+  def suit_scoreboard
+    group = VirtualCompetition::Group.skydive_combined
+    return if group.nil?
+
+    group.suit_scoreboard(
+      @suit,
+      wind_cancellation: show_params[:wind].present?,
+      pages: { @suit.kind => show_params[:scoreboard_page] }
+    )
   end
   helper_method :show_params
 

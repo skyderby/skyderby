@@ -2,7 +2,7 @@ class VirtualCompetition::Group::Scoreboard
   class Category
     attr_reader :scoreboard, :suit_kind, :competitions, :standings, :page
 
-    delegate :group, :show_rank_changes?, :columns_count, to: :scoreboard
+    delegate :group, :show_rank_changes?, :columns_count, :per_page, to: :scoreboard
 
     def initialize(scoreboard, suit_kind, competitions, standings, page: 1)
       @scoreboard = scoreboard
@@ -18,9 +18,9 @@ class VirtualCompetition::Group::Scoreboard
 
     def competition(discipline) = competitions[discipline]
 
-    def rows = @rows ||= standings.rows.first(page * PER_PAGE)
+    def rows = @rows ||= standings.rows.first(page * per_page)
 
-    def rows_on_page = standings.rows.slice((page - 1) * PER_PAGE, PER_PAGE) || []
+    def rows_on_page = standings.rows.slice((page - 1) * per_page, per_page) || []
 
     def more? = standings.rows.size > rows.size
 

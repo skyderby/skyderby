@@ -9,11 +9,17 @@
 #
 
 class VirtualCompetition::Group < ApplicationRecord
+  SKYDIVE_COMBINED = 'Skydive Worldwide Challenge'.freeze
+
   has_many :virtual_competitions, dependent: :restrict_with_error
+
+  def self.skydive_combined = find_by(name: SKYDIVE_COMBINED)
 
   validates :name, presence: true
 
   def scoreboard(**) = Scoreboard.new(self, **)
+
+  def suit_scoreboard(suit, **) = SuitScoreboard.new(self, suit:, **)
 
   def years = virtual_competitions.select(&:annual?).flat_map(&:years).uniq.sort
 

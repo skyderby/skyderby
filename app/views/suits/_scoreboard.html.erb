@@ -1,0 +1,44 @@
+<%# locals: (suit:, scoreboard:) %>
+
+<% category = scoreboard.category %>
+<% tab = { query: { kind: :skydive } } %>
+
+<section class="card suit-scoreboard">
+  <div class="exit-performance__header">
+    <span class="exit-performance__title"><%= scoreboard.group.name %></span>
+
+    <div class="tab-bar tab-bar--wind">
+      <%= link_to t('virtual_competitions.groups.actions_bar.raw'),
+                  suit_path(suit, **tab),
+                  class: class_names('tab-bar-item', 'active' => !scoreboard.wind_cancellation) %>
+      <%= link_to t('virtual_competitions.groups.actions_bar.wind_cancelled'),
+                  suit_path(suit, **tab, wind: 1),
+                  class: class_names('tab-bar-item', 'active' => scoreboard.wind_cancellation) %>
+    </div>
+  </div>
+
+  <div class="scoreboard-container" data-controller="events--sticky-header">
+    <div class="scoreboard-scroll"
+         data-events--sticky-header-target="container"
+         data-action="scroll->events--sticky-header#on_horizontal_scroll">
+      <table class="scoreboard-table scoreboard-table--pinned-competitor vc-group-scoreboard-table"
+             data-events--sticky-header-target="table">
+        <%= render 'virtual_competitions/groups/scoreboard_header', scoreboard: %>
+
+        <tbody>
+          <%= render partial: 'virtual_competitions/groups/row',
+                     collection: category.rows, as: :row, locals: { category: } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <% if category.more? %>
+    <div class="flex justify-center suit-scoreboard__more">
+      <%= link_to t('virtual_competitions.groups.load_more.load_more'),
+                  suit_path(suit, **tab, wind: scoreboard.wind_cancellation.presence,
+                                  scoreboard_page: category.next_page),
+                  class: 'button button--ghost button--sm' %>
+    </div>
+  <% end %>
+</section>

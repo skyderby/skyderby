@@ -44,6 +44,12 @@
           <span class="exit-performance__jumps">
             <%= t('suits.exit_performance.pilots', count: performance.pilots_count) %>
           </span>
+          <% unless performance.reliable? %>
+            <span class="exit-performance__warning"
+                  title="<%= t('suits.exit_performance.low_data', count: Suit::ExitPerformance::RELIABLE_PILOTS) %>">
+              <%= icon_tag 'triangle-exclamation-solid' %>
+            </span>
+          <% end %>
         </button>
 
         <% if index.positive? %>

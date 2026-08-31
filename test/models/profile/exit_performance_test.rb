@@ -17,10 +17,19 @@ class Profile::ExitPerformanceTest < ActiveSupport::TestCase
     assert_in_delta 330, sample['flat'], 2
   end
 
-  test 'skips suits with less than five jumps' do
-    create_exit_profiles([1.0, 1.1, 1.2, 1.3])
+  test 'keeps a suit with a single jump but marks it unreliable' do
+    create_exit_profiles([1.2])
 
-    assert_nil recalculate
+    performance = recalculate
+
+    assert_equal 1, performance.tracks_count
+    assert_not_predicate performance, :reliable?
+  end
+
+  test 'marks a suit reliable once it has enough jumps' do
+    create_exit_profiles([1.0, 1.1, 1.2, 1.3, 1.4])
+
+    assert_predicate recalculate, :reliable?
   end
 
   test 'keeps the flattest jumps instead of treating them as outliers' do
@@ -43,7 +52,7 @@ class Profile::ExitPerformanceTest < ActiveSupport::TestCase
   end
 
   test 'removes the aggregate when jumps are gone' do
-    create_exit_profiles([1.0, 1.1, 1.2, 1.3, 1.4])
+    create_exit_profiles([1.0, 1.1])
     assert_predicate recalculate, :present?
 
     Track::ExitProfile.delete_all
