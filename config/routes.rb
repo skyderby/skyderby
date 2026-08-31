@@ -342,6 +342,11 @@ Skyderby::Application.routes.draw do
     end
   end
   resources :suits, except: :index do
+    scope module: :suits do
+      resources :videos, only: :index
+      resources :comparison_options, only: :index
+    end
+
     collection do
       get '/', to: 'suits/overviews#show', constraints: ->(req) { req.params[:manufacturer_id].blank? }
       get '/', to: 'suits#index', constraints: ->(req) { req.params[:manufacturer_id].present? }

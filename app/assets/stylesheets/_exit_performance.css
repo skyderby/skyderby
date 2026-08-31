@@ -3,11 +3,17 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
+  margin-bottom: 0.875rem;
 }
 
-.exit-performance__heading {
+.exit-performance__title {
   flex: 1;
   min-width: 200px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-color);
 }
 
 .exit-performance__terrain {
@@ -174,5 +180,83 @@
 }
 
 .exit-performance__tooltip-value--flat {
+  color: var(--gray-60, #6b7280);
+}
+
+.exit-performance__series-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.exit-performance__remove {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 999px;
+  color: var(--gray-60, #6b7280);
+  font-size: 0.75rem;
+}
+
+.exit-performance__remove:hover {
+  color: var(--text-color);
+  background: var(--gray-10, #f3f4f6);
+}
+
+.exit-performance__compare {
+  flex: 0 0 auto;
+  font-size: 0.8125rem;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 400;
+}
+
+.comparison-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 420px;
+  max-width: 100%;
+}
+
+.comparison-options {
+  display: flex;
+  flex-direction: column;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.comparison-option {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  padding: 8px 10px;
+  border-radius: var(--border-radius-md, 6px);
+  color: inherit;
+}
+
+.comparison-option:hover {
+  background: var(--gray-10, #f3f4f6);
+  text-decoration: none;
+}
+
+.comparison-option__name {
+  font-weight: 600;
+}
+
+.comparison-option__manufacturer,
+.comparison-option__pilots {
+  font-size: 0.75rem;
+  color: var(--gray-60, #6b7280);
+}
+
+.comparison-option__pilots {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+
+.comparison-options__empty {
+  padding: 12px 10px;
   color: var(--gray-60, #6b7280);
 }

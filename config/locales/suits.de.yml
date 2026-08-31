@@ -4,6 +4,13 @@ de:
       suits: Anzüge
   suits:
     title: Anzüge
+    comparison:
+      title: Anzüge vergleichen
+      add: Vergleichen
+      search: Anzüge suchen
+      loading: Wird geladen…
+      no_results: Keine Anzüge mit ausreichenden Daten
+      remove: Aus dem Vergleich entfernen
     exit_performance:
       title: Exit-Performance
       hint: Über alle Piloten mit diesem Anzug
@@ -13,5 +20,9 @@ de:
       jumps:
         one: "%{count} Sprung"
         other: "%{count} Sprünge"
+    show:
+      skydive: Skydive
+      base: BASE
+      videos: Videos
     index:
       new: Neuer Anzug

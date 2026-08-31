@@ -4,6 +4,13 @@ it:
       suits: Tute
   suits:
     title: Tute
+    comparison:
+      title: Confronta le tute
+      add: Confronta
+      search: Cerca tute
+      loading: Caricamento…
+      no_results: Nessuna tuta con dati sufficienti
+      remove: Rimuovi dal confronto
     exit_performance:
       title: Performance dell'exit
       hint: Tra i piloti che volano questa tuta
@@ -13,5 +20,9 @@ it:
       jumps:
         one: "%{count} salto"
         other: "%{count} salti"
+    show:
+      skydive: Paracadutismo
+      base: BASE
+      videos: Video
     index:
       new: Nuova tuta

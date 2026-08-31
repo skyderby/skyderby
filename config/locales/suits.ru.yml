@@ -4,6 +4,13 @@ ru:
       suits: Костюмы
   suits:
     title: Костюмы
+    comparison:
+      title: Сравнить костюмы
+      add: Сравнить
+      search: Поиск костюмов
+      loading: Загрузка…
+      no_results: Нет костюмов с достаточными данными
+      remove: Убрать из сравнения
     exit_performance:
       title: Профиль экзита
       hint: По пилотам, летающим этот костюм
@@ -17,5 +24,9 @@ ru:
         few: "%{count} прыжка"
         many: "%{count} прыжков"
         other: "%{count} прыжков"
+    show:
+      skydive: Скайдайв
+      base: BASE
+      videos: Видео
     index:
       new: Новый костюм

@@ -1,0 +1,11 @@
+<% provide(:title, page_title("#{@suit.manufacturer_name} #{@suit.name}")) %>
+
+<div class="show-page suit-show">
+  <%= render 'suits/header', suit: @suit, tab: :videos %>
+
+  <div class="show-page-content">
+    <div class="thumbnails">
+      <%= render collection: @videos, partial: 'track_videos/thumbnail', as: :video %>
+    </div>
+  </div>
+</div>

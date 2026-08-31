@@ -9,17 +9,17 @@ module ExitPerformancesHelper
     }
   end
 
-  def suit_exit_performance_chart_data(performance)
+  def suit_exit_performance_chart_data(performances)
     {
       unit: t("units.#{altitude_units_by_type(Current.charts_units)}"),
       labels: exit_performance_labels,
-      series: [
+      series: performances.map do |performance|
         {
           key: performance.id,
           label: performance.suit.name,
           samples: exit_performance_samples(performance)
         }
-      ]
+      end
     }
   end
 

@@ -4,6 +4,13 @@ es:
       suits: Trajes
   suits:
     title: Trajes
+    comparison:
+      title: Comparar trajes
+      add: Comparar
+      search: Buscar trajes
+      loading: Cargando…
+      no_results: No hay trajes con datos suficientes
+      remove: Quitar de la comparación
     exit_performance:
       title: Rendimiento del exit
       hint: Entre los pilotos que vuelan este traje
@@ -13,5 +20,9 @@ es:
       jumps:
         one: "%{count} salto"
         other: "%{count} saltos"
+    show:
+      skydive: Paracaidismo
+      base: BASE
+      videos: Vídeos
     index:
       new: Nuevo traje

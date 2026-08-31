@@ -1,10 +1,10 @@
-<%# locals: (performance:) %>
+<%# locals: (suit:, comparison:) %>
 
-<section class="dashboard-section panel exit-performance"
+<section class="card exit-performance"
          data-controller="exit-performance"
          data-exit-performance-measurements-url-template-value="<%= terrain_profile_measurements_path('__ID__') %>">
-  <div class="dashboard-section__header exit-performance__header">
-    <span class="exit-performance__heading"><%= t('suits.exit_performance.title') %></span>
+  <div class="exit-performance__header">
+    <span class="exit-performance__title"><%= t('suits.exit_performance.title') %></span>
 
     <div class="exit-performance__terrain">
       <%= render 'hot_select/select',
@@ -13,20 +13,55 @@
                  placeholder: t('dashboard.exit_performance.terrain'),
                  select: { data: { action: 'exit-performance#selectTerrain' } } %>
     </div>
+
+    <% unless comparison.full? %>
+      <button type="button"
+              class="button exit-performance__compare"
+              data-controller="modal-trigger"
+              data-template-id="suit-comparison-modal"
+              data-action="modal-trigger#open">
+        <%= icon_tag 'right-left' %>
+        <%= t('suits.comparison.add') %>
+      </button>
+
+      <template id="suit-comparison-modal">
+        <%= render partial: 'suits/comparison_picker',
+                   layout: 'components/dialog',
+                   locals: { title: t('suits.comparison.title'), suit:, comparison: } %>
+      </template>
+    <% end %>
   </div>
 
   <div class="exit-performance__legend">
-    <span class="exit-performance__series exit-performance__series--static">
-      <span class="exit-performance__swatch" style="background: var(--blue-70)"></span>
-      <span class="exit-performance__suit"><%= t('suits.exit_performance.pilots', count: performance.pilots_count) %></span>
-      <span class="exit-performance__jumps"><%= t('suits.exit_performance.jumps', count: performance.jumps_count) %></span>
-    </span>
+    <% comparison.performances.each_with_index do |performance, index| %>
+      <span class="exit-performance__series-group">
+        <button type="button" class="exit-performance__series"
+                data-series-index="<%= index %>"
+                data-exit-performance-target="series"
+                data-action="exit-performance#toggleSeries">
+          <span class="exit-performance__swatch"></span>
+          <span class="exit-performance__suit"><%= performance.suit.name %></span>
+          <span class="exit-performance__jumps">
+            <%= t('suits.exit_performance.pilots', count: performance.pilots_count) %>
+          </span>
+        </button>
+
+        <% if index.positive? %>
+          <%= link_to suit_path(suit, query: { kind: :base }, compare: comparison.ids_without(performance.suit_id)),
+                      class: 'exit-performance__remove',
+                      title: t('suits.comparison.remove') do %>
+            <%= icon_tag 'xmark' %>
+          <% end %>
+        <% end %>
+      </span>
+    <% end %>
+
     <span class="exit-performance__hint"><%= t('suits.exit_performance.hint') %></span>
   </div>
 
   <div class="exit-performance__plot" data-exit-performance-target="plot"></div>
 
   <script type="application/json" data-exit-performance-target="data">
-    <%= raw ERB::Util.json_escape(suit_exit_performance_chart_data(performance).to_json) %>
+    <%= raw ERB::Util.json_escape(suit_exit_performance_chart_data(comparison.performances).to_json) %>
   </script>
 </section>
