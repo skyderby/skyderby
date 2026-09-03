@@ -4,6 +4,9 @@ it:
       base:
         event_finished: Non puoi effettuare modifiche perché l'evento è concluso.
   general:
+    play: Riproduci
+    pause: Pausa
+    playback_position: Posizione di riproduzione
     breadcrumbs: "Percorso di navigazione"
     confirm_delete: "Questa azione è irreversibile. Procedere?"
     previous_page: Pagina precedente

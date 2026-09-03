@@ -6,6 +6,9 @@ fr:
     messages:
       duplicate_file: "Fichier déjà utilisé. Pilot: %{pilot_name}, round: %{round}"
   general:
+    play: Lecture
+    pause: Pause
+    playback_position: Position de lecture
     breadcrumbs: "Fil d'Ariane"
     confirm_delete: "Cette action est irréversible. Continuer ?"
     previous_page: Page précédente

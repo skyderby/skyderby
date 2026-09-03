@@ -73,6 +73,30 @@
           <div class="lane-validation-group">
             <h2 class="lane-validation-group-title"><%= t 'events.rounds.map.group' %> <%= group_index + 1 %></h2>
 
+            <div class="lane-validation-replay"
+                 data-controller="lane-validation-replay"
+                 data-lane-validation-replay-unit-value="<%= t 'units.m' %>"
+                 data-lane-validation-replay-play-label-value="<%= t 'general.play' %>"
+                 data-lane-validation-replay-pause-label-value="<%= t 'general.pause' %>">
+              <button type="button"
+                      class="lane-validation-replay-button"
+                      title="<%= t 'general.play' %>"
+                      data-lane-validation-replay-target="playButton"
+                      data-action="lane-validation-replay#toggle">
+                <%= icon_tag 'play-solid', class: 'lane-validation-replay-icon-play' %>
+                <%= icon_tag 'pause-solid', class: 'lane-validation-replay-icon-pause' %>
+              </button>
+              <input type="range"
+                     class="lane-validation-replay-range"
+                     min="0"
+                     max="1000"
+                     value="0"
+                     aria-label="<%= t 'general.playback_position' %>"
+                     data-lane-validation-replay-target="range"
+                     data-action="input->lane-validation-replay#seek">
+              <span class="lane-validation-replay-time" data-lane-validation-replay-target="time"></span>
+            </div>
+
             <div class="lane-validation-jumps">
               <% jumps.each_with_index do |jump, jump_index| %>
                 <div class="lane-validation-competitor"

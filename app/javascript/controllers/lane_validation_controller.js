@@ -117,6 +117,7 @@ export default class extends Controller {
     this.updateReferencePointsOnMap()
 
     await Promise.all(displayPromises)
+    this.syncReplay(groupId)
   }
 
   clearAllTracks() {
@@ -147,6 +148,7 @@ export default class extends Controller {
     if (this.hasProximityCheckTarget) this.proximityCheckTarget.replaceChildren()
 
     this.clearProximityMarkers()
+    this.replayControllers.forEach(replay => replay.reset())
   }
 
   async displayResult(resultId, trackPointsUrl, color) {
@@ -202,7 +204,74 @@ export default class extends Controller {
     if (competitorElement) {
       const checkbox = competitorElement.querySelector('input[type="checkbox"]')
       if (checkbox) checkbox.checked = false
+      this.syncReplay(competitorElement.dataset.groupId)
     }
+  }
+
+  syncReplay(groupId) {
+    const replay = this.replayControllerFor(groupId)
+    if (!replay) return
+
+    const map = this.mapTarget.mapInstance
+    if (!map) {
+      replay.reset()
+      return
+    }
+
+    const jumps = []
+    this.groupElementFor(groupId)
+      ?.querySelectorAll('.lane-validation-competitor')
+      .forEach(competitor => {
+        const resultId = competitor.dataset.resultId
+        const data = this.pointsCache.get(competitor.dataset.trackPointsUrl)
+        if (!this.displayedCompetitors.has(resultId) || !data) return
+
+        jumps.push({
+          id: resultId,
+          name: competitor
+            .querySelector('.lane-validation-competitor-name')
+            ?.textContent.trim(),
+          color: competitor.dataset.color,
+          points: data.points,
+          exitedAt: competitor.dataset.exitedAt,
+          deployFlTime: data.deployFlTime
+        })
+      })
+
+    if (jumps.length === 0) {
+      replay.reset()
+    } else {
+      replay.load(jumps, map)
+    }
+  }
+
+  groupElementFor(groupId) {
+    return this.element
+      .querySelector(`[data-group-id="${groupId}"]`)
+      ?.closest('.lane-validation-group')
+  }
+
+  replayControllerFor(groupId) {
+    const element = this.groupElementFor(groupId)?.querySelector(
+      '.lane-validation-replay'
+    )
+    if (!element) return null
+
+    return this.application.getControllerForElementAndIdentifier(
+      element,
+      'lane-validation-replay'
+    )
+  }
+
+  get replayControllers() {
+    return Array.from(this.element.querySelectorAll('.lane-validation-replay'))
+      .map(element =>
+        this.application.getControllerForElementAndIdentifier(
+          element,
+          'lane-validation-replay'
+        )
+      )
+      .filter(Boolean)
   }
 
   async fetchPoints(url) {

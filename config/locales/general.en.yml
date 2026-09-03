@@ -13,6 +13,9 @@ en:
       duplicate_file: "File already used. Pilot: %{pilot_name}, round: %{round}"
       round_completed: "Round already completed. Changes couldn't be made."
   general:
+    play: Play
+    pause: Pause
+    playback_position: Playback position
     breadcrumbs: "Breadcrumb"
     previous_page: Previous page
     next_page: Next page
