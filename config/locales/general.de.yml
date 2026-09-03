@@ -1,5 +1,8 @@
 de:
   general:
+    play: Abspielen
+    pause: Pause
+    playback_position: Wiedergabeposition
     breadcrumbs: "Brotkrümelnavigation"
     confirm_delete: "Diese Aktion ist unwiderruflich. Fortfahren?"
     previous_page: Vorherige Seite

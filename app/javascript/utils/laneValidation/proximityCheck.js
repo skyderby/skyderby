@@ -1,11 +1,18 @@
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
 
-const proximityThreshold = 150
+export const proximityThreshold = 150
 
 export function calculateDistance(point1, point2) {
   const coord1 = new LatLon(point1.latitude, point1.longitude)
   const coord2 = new LatLon(point2.latitude, point2.longitude)
   return coord1.distanceTo(coord2)
+}
+
+export function distance3D(point1, point2) {
+  const horizontalDistance = calculateDistance(point1, point2)
+  const altitudeDiff = point1.altitude - point2.altitude
+
+  return Math.sqrt(horizontalDistance * horizontalDistance + altitudeDiff * altitudeDiff)
 }
 
 export function checkProximityViolation(
@@ -56,16 +63,14 @@ export function checkProximityViolation(
         const horizontalDistance = calculateDistance(currentPoint, otherPoint)
         if (horizontalDistance >= proximityThreshold) continue
 
-        const distance3D = Math.sqrt(
-          horizontalDistance * horizontalDistance + altitudeDiff * altitudeDiff
-        )
+        const distance = distance3D(currentPoint, otherPoint)
 
-        if (distance3D < proximityThreshold) {
+        if (distance < proximityThreshold) {
           hasViolation = true
           violationData = {
             point1: currentPoint,
             point2: otherPoint,
-            distance: distance3D
+            distance
           }
           break
         }
