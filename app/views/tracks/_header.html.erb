@@ -70,12 +70,6 @@
         <span class="for-screen-reader">Pilot has not added video yet</span>
       </div>
     <% end %>
-    <% if track.ge_enabled %>
-      <%= link_to track_globe_path(track), class: ['page-tab', ('page-tab-active' if controller.controller_path == 'tracks/globe')] do %>
-        <%= icon_tag 'compass-regular' %>
-        3D Maps
-      <% end %>
-    <% end %>
     <%= link_to track_map_path(track), class: ['page-tab', ('page-tab-active' if controller_path == 'tracks/maps')] do %>
       <%= icon_tag 'compass-regular' %>
       Google maps
