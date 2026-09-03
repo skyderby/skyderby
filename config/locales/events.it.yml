@@ -40,7 +40,6 @@ it:
         after_exit_description: Punto nel quale il concorrente si trovava a 10 secondi dall'exit.
     show:
       competitor: Concorrente
-      round_map_view: 'Tracce del round sulla mappa'
       comp_window: 'Finestra di competizione'
       total: 'Totale'
       new: 'Nuova'
