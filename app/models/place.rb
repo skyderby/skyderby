@@ -4,7 +4,7 @@ class Place < ApplicationRecord
   enum :kind, { skydive: 0, base: 1 }
 
   SEARCH_RADIUS = { 'base' => 0.1, 'skydive' => 5.0 }.freeze
-  DUPLICATE_RADIUS = { 'base' => 0.02, 'skydive' => 0.5 }.freeze
+  DUPLICATE_RADIUS = { 'base' => 0.01, 'skydive' => 0.5 }.freeze
 
   attr_reader :allow_duplicate
   attr_accessor :anchor
