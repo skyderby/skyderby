@@ -21,5 +21,21 @@ class QualificationJumpsTest < ApplicationSystemTestCase
     click_button I18n.t('general.save')
 
     assert_text '34.716'
+
+    find('td.result-cell', text: '34.716').click
+
+    assert_selector '[data-tournaments--result-track-target="sideProjection"] svg'
+    assert_selector '[data-tournaments--result-track-target="maxHSpeed"]', text: /\d+/
+
+    execute_script(<<~JS)
+      const slider = document.querySelector('[data-tournaments--result-track-target="playbackSlider"]')
+      slider.value = Math.floor(slider.max / 2)
+      slider.dispatchEvent(new Event('input', { bubbles: true }))
+    JS
+
+    within '[data-tournaments--result-track-target="playbackIndicators"]' do
+      assert_selector '[data-playback-indicators-target="altitude"]', text: /\d+/
+      assert_selector '[data-playback-indicators-target="altitudeSpent"]', text: /\d+/
+    end
   end
 end
