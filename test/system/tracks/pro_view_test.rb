@@ -21,7 +21,7 @@ class ProViewTest < ApplicationSystemTestCase
 
     altitude_before = playback_altitude
     seek_slider 'tracks--skydive-performance-track', 0.5
-    refute_equal altitude_before, playback_altitude
+    assert_not_equal altitude_before, playback_altitude
 
     find('.actions-bar-button[popovertarget="skydive-performance-charts-menu"]').click
     click_button I18n.t('tracks.show.m_units_imperial')
