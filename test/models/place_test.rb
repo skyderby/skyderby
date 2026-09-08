@@ -58,6 +58,19 @@ class PlaceTest < ActiveSupport::TestCase
     assert_predicate place, :valid?
   end
 
+  test 'allows a new BASE place 15 m away from an existing one' do
+    neighbour = places(:hellesylt)
+    place = Place.new(
+      name: 'Next exit on the same wall',
+      country: @country,
+      kind: :base,
+      latitude: neighbour.latitude + 0.000135,
+      longitude: neighbour.longitude
+    )
+
+    assert_predicate place, :valid?
+  end
+
   test 'ignores places of another kind when looking for duplicates' do
     neighbour = places(:hellesylt)
     place = Place.new(
