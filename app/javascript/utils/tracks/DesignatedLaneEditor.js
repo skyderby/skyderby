@@ -6,10 +6,14 @@ const EXIT_VSPEED_KMH = 10 * 3.6
 const EXIT_CONSECUTIVE_POINTS = 15
 const DEFAULT_START_OFFSET_MS = 9000
 
-const styles = (element, values) => Object.assign(element.style, values)
+const styled = (tag, values) => {
+  const element = document.createElement(tag)
+  Object.assign(element.style, values)
+  return element
+}
 
 const buildHitArea = () =>
-  styles(document.createElement('div'), {
+  styled('div', {
     position: 'absolute',
     left: '50%',
     top: '50%',
@@ -20,7 +24,7 @@ const buildHitArea = () =>
   })
 
 const buildLabel = () =>
-  styles(document.createElement('div'), {
+  styled('div', {
     position: 'absolute',
     bottom: '100%',
     left: '50%',
