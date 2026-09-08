@@ -17,7 +17,7 @@ import { syncCrosshairByIndex } from 'utils/tracks/playback/highchartsCrosshair'
 import ArrowMarker from 'utils/tracks/playback/ArrowMarker'
 import { computeBaseJumpSummary } from 'utils/tracks/baseJumpSummary'
 import { convertLength, convertSpeed, lengthUnitLabel, speedUnitLabel } from 'utils/units'
-import { get, patch } from '@rails/request.js'
+import { get } from '@rails/request.js'
 import I18n from 'i18n'
 
 const SYNC_VERTICAL_SPEED = 10
@@ -44,8 +44,7 @@ export default class extends PlaybackController {
     'expandMapToggle',
     'finishLineToggle',
     'resultOption',
-    'emptyState',
-    'unitsItem'
+    'emptyState'
   ]
 
   static values = {
@@ -73,7 +72,6 @@ export default class extends PlaybackController {
     resultComparePointGpsTime: Number,
     resultCompareLabel: String,
     chartsUnits: { type: String, default: 'metric' },
-    chartSettingsUrl: String,
     terrainProfileMeasurementsUrlTemplate: String
   }
 
@@ -82,18 +80,7 @@ export default class extends PlaybackController {
   }
 
   setUnits(event) {
-    const units = event.currentTarget.dataset.units
-    if (units === this.chartsUnitsValue) return
-
-    this.chartsUnitsValue = units
-    this.unitsItemTargets.forEach(item =>
-      item.classList.toggle('active', item.dataset.units === units)
-    )
-    if (this.hasChartSettingsUrlValue)
-      patch(this.chartSettingsUrlValue, {
-        body: { charts_units: units },
-        responseKind: 'json'
-      })
+    this.chartsUnitsValue = event.detail.units
   }
 
   chartsUnitsValueChanged(value, previousValue) {

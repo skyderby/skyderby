@@ -33,6 +33,7 @@ import {
 import { syncCrosshairByX } from 'utils/tracks/playback/highchartsCrosshair'
 import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
 import { get, post, patch } from '@rails/request.js'
+import { readParam, updateParams } from 'utils/urlState'
 import I18n from 'i18n'
 
 export default class extends PlaybackController {
@@ -56,8 +57,7 @@ export default class extends PlaybackController {
     'comparePlaybackIndicators',
     'summaryIndicators',
     'compareSummaryIndicators',
-    'range3000to2000',
-    'range2500to1500',
+
     'bestSpeed',
     'bestDistance',
     'bestTime',
@@ -70,7 +70,6 @@ export default class extends PlaybackController {
     'separateCharts',
     'chartsModeItem',
     'compareModal',
-    'unitsItem',
     'paddingItem'
   ]
 
@@ -85,8 +84,7 @@ export default class extends PlaybackController {
     compareWeatherUrl: String,
     compareTrackName: String,
     trackId: Number,
-    chartsUnits: { type: String, default: 'metric' },
-    chartSettingsUrl: String
+    chartsUnits: { type: String, default: 'metric' }
   }
 
   get units() {
@@ -94,18 +92,7 @@ export default class extends PlaybackController {
   }
 
   setUnits(event) {
-    const units = event.currentTarget.dataset.units
-    if (units === this.chartsUnitsValue) return
-
-    this.chartsUnitsValue = units
-    this.unitsItemTargets.forEach(item =>
-      item.classList.toggle('active', item.dataset.units === units)
-    )
-    if (this.hasChartSettingsUrlValue)
-      patch(this.chartSettingsUrlValue, {
-        body: { charts_units: units },
-        responseKind: 'json'
-      })
+    this.chartsUnitsValue = event.detail.units
   }
 
   chartsUnitsValueChanged(value, previousValue) {
@@ -245,8 +232,7 @@ export default class extends PlaybackController {
   }
 
   initializeStraightLine() {
-    const url = new URL(window.location)
-    const param = url.searchParams.get('straight-line')
+    const param = readParam('straight-line')
     this.straightLine = param !== null ? param === 'true' : this.hasComparePointsUrlValue
     if (this.hasStraightLineToggleTarget) {
       this.straightLineToggleTarget.checked = this.straightLine
@@ -352,13 +338,7 @@ export default class extends PlaybackController {
   }
 
   updateStraightLineUrl() {
-    const url = new URL(window.location)
-    if (this.straightLine) {
-      url.searchParams.set('straight-line', 'true')
-    } else {
-      url.searchParams.delete('straight-line')
-    }
-    history.replaceState({}, '', url)
+    updateParams({ 'straight-line': this.straightLine })
   }
 
   fetchPoints() {
@@ -416,74 +396,23 @@ export default class extends PlaybackController {
     this.maxAltitude = Math.ceil(this.points[0].altitude)
     this.minAltitude = Math.floor(this.points.at(-1).altitude)
 
-    const url = new URL(window.location)
-    const fromParam = url.searchParams.get('f')
-    const toParam = url.searchParams.get('t')
-
     const compareDefaults = this.hasComparePointsUrlValue
-    const defaultFrom = compareDefaults ? 2500 : this.maxAltitude
-    const defaultTo = compareDefaults ? 1500 : this.minAltitude
+    const range = this.hasTracksRangeSelectorOutlet
+      ? this.tracksRangeSelectorOutlet.init({
+          max: this.maxAltitude,
+          min: this.minAltitude,
+          defaultFrom: compareDefaults ? 2500 : this.maxAltitude,
+          defaultTo: compareDefaults ? 1500 : this.minAltitude
+        })
+      : { from: this.maxAltitude, to: this.minAltitude }
 
-    this.fromValue = fromParam ? Number(fromParam) : defaultFrom
-    this.toValue = toParam ? Number(toParam) : defaultTo
-
-    if (this.fromValue > this.maxAltitude) this.fromValue = this.maxAltitude
-    if (this.toValue < this.minAltitude || this.toValue >= this.fromValue) {
-      this.toValue = this.minAltitude
-    }
-
-    if (this.hasTracksRangeSelectorOutlet) {
-      this.tracksRangeSelectorOutlet.initSlider(
-        this.maxAltitude,
-        this.minAltitude,
-        this.fromValue,
-        this.toValue
-      )
-    }
-
-    this.showRangeShortcuts()
-  }
-
-  showRangeShortcuts() {
-    if (
-      this.hasRange3000to2000Target &&
-      this.maxAltitude > 3000 &&
-      this.minAltitude < 2000
-    ) {
-      this.range3000to2000Target.classList.remove('hidden')
-    }
-    if (
-      this.hasRange2500to1500Target &&
-      this.maxAltitude > 2500 &&
-      this.minAltitude < 1500
-    ) {
-      this.range2500to1500Target.classList.remove('hidden')
-    }
+    this.fromValue = range.from
+    this.toValue = range.to
   }
 
   updateRange(event) {
-    const [from, to] = event.detail.range
-    this.fromValue = from
-    this.toValue = to
-    this.updateUrl(from, to)
-    this.updateView()
-  }
-
-  setRange(event) {
-    const from = Number(event.currentTarget.dataset.from)
-    const to = Number(event.currentTarget.dataset.to)
-    this.fromValue = from
-    this.toValue = to
-
-    if (event.currentTarget.dataset.straightLine === 'true') {
-      this.enableStraightLine()
-    }
-
-    if (this.hasTracksRangeSelectorOutlet) {
-      this.tracksRangeSelectorOutlet.updateSlider(from, to)
-    }
-
-    this.updateUrl(from, to)
+    ;[this.fromValue, this.toValue] = event.detail.range
+    if (event.detail.straightLine) this.enableStraightLine()
     this.updateView()
   }
 
@@ -495,32 +424,6 @@ export default class extends PlaybackController {
       this.straightLineToggleTarget.checked = true
     }
     this.updateStraightLineUrl()
-  }
-
-  resetRange() {
-    this.fromValue = this.maxAltitude
-    this.toValue = this.minAltitude
-
-    if (this.hasTracksRangeSelectorOutlet) {
-      this.tracksRangeSelectorOutlet.updateSlider(this.maxAltitude, this.minAltitude)
-    }
-
-    this.clearRangeUrl()
-    this.updateView()
-  }
-
-  updateUrl(from, to) {
-    const url = new URL(window.location)
-    url.searchParams.set('f', from)
-    url.searchParams.set('t', to)
-    history.replaceState({}, '', url)
-  }
-
-  clearRangeUrl() {
-    const url = new URL(window.location)
-    url.searchParams.delete('f')
-    url.searchParams.delete('t')
-    history.replaceState({}, '', url)
   }
 
   updateView() {

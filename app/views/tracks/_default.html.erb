@@ -31,26 +31,26 @@
 
     <hr class="top-buffer">
 
-    <div class="track-jump-range">
-      <input id="range-selector" class="hidden" type="text" name="range" data-controller="tracks--range-selector">
+    <div class="track-jump-range" id="range-selector" data-controller="tracks--range-selector">
+      <input class="hidden" type="text" name="range" data-tracks--range-selector-target="slider">
 
       <div class="range-shortcuts">
         <button class="button button--sm button--rounded hidden"
-                data-tracks--skydive-track-target="range3000to2000"
-                data-action="tracks--skydive-track#setRange"
+                data-tracks--range-selector-target="shortcut"
+                data-action="tracks--range-selector#setRange"
                 data-from="3000"
                 data-to="2000">
           3000 — 2000<%= t('units.m') %>
         </button>
         <button class="button button--sm button--rounded hidden"
-                data-tracks--skydive-track-target="range2500to1500"
-                data-action="tracks--skydive-track#setRange"
+                data-tracks--range-selector-target="shortcut"
+                data-action="tracks--range-selector#setRange"
                 data-from="2500"
                 data-to="1500">
           2500 — 1500<%= t('units.m') %>
         </button>
         <button class="button button--sm button--rounded"
-                data-action="tracks--skydive-track#resetRange">
+                data-action="tracks--range-selector#reset">
           <%= t('tracks.show.full_jump') %>
         </button>
       </div>

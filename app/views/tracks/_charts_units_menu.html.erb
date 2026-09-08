@@ -1,0 +1,20 @@
+<%# locals: (track:, item_class: 'dropdown-item', wrapper_class: nil) %>
+<div class="<%= wrapper_class %>"
+     data-controller="tracks--charts-units"
+     data-tracks--charts-units-url-value="<%= track_chart_settings_path(track) %>"
+     data-tracks--charts-units-current-value="<%= Current.charts_units %>">
+  <button type="button"
+          class="<%= item_class %> <%= 'active' if Current.charts_units.metric? %>"
+          data-units="metric"
+          data-tracks--charts-units-target="item"
+          data-action="tracks--charts-units#select">
+    <%= t('tracks.show.m_units_metric') %>
+  </button>
+  <button type="button"
+          class="<%= item_class %> <%= 'active' if Current.charts_units.imperial? %>"
+          data-units="imperial"
+          data-tracks--charts-units-target="item"
+          data-action="tracks--charts-units#select">
+    <%= t('tracks.show.m_units_imperial') %>
+  </button>
+</div>

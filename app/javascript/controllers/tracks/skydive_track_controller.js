@@ -14,6 +14,7 @@ import RangeSummary from 'charts/RangeSummary'
 import { convertSpeed, convertLength, lengthUnitLabel } from 'utils/units'
 import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
 import I18n from 'i18n'
+import { readParam, updateParams } from 'utils/urlState'
 
 export default class extends Controller {
   static targets = [
@@ -49,8 +50,7 @@ export default class extends Controller {
     'windEffectGlideRatioWindPercent',
     'windEffectGlideRatio',
     'windEffectGlideRatioWind',
-    'range3000to2000',
-    'range2500to1500',
+
     'straightLineButton',
     'emptyState'
   ]
@@ -95,8 +95,7 @@ export default class extends Controller {
   }
 
   initializeStraightLine() {
-    const url = new URL(window.location)
-    this.straightLine = url.searchParams.get('straight-line') === 'true'
+    this.straightLine = readParam('straight-line') === 'true'
     this.updateStraightLineButton()
   }
 
@@ -118,106 +117,31 @@ export default class extends Controller {
   }
 
   updateStraightLineUrl() {
-    const url = new URL(window.location)
-    if (this.straightLine) {
-      url.searchParams.set('straight-line', 'true')
-    } else {
-      url.searchParams.delete('straight-line')
-    }
-    history.replaceState({}, '', url)
+    updateParams({ 'straight-line': this.straightLine })
   }
 
   initializeRange() {
     this.maxAltitude = Math.ceil(this.points[0].altitude)
     this.minAltitude = Math.floor(this.points.at(-1).altitude)
 
-    const url = new URL(window.location)
-    const fromParam = url.searchParams.get('f')
-    const toParam = url.searchParams.get('t')
+    const range = this.hasTracksRangeSelectorOutlet
+      ? this.tracksRangeSelectorOutlet.init({
+          max: this.maxAltitude,
+          min: this.minAltitude
+        })
+      : { from: this.maxAltitude, to: this.minAltitude }
 
-    this.fromValue = fromParam ? Number(fromParam) : this.maxAltitude
-    this.toValue = toParam ? Number(toParam) : this.minAltitude
-
-    if (this.fromValue > this.maxAltitude) this.fromValue = this.maxAltitude
-    if (this.toValue < this.minAltitude || this.toValue >= this.fromValue) {
-      this.toValue = this.minAltitude
-    }
-
-    if (this.hasTracksRangeSelectorOutlet) {
-      this.tracksRangeSelectorOutlet.initSlider(
-        this.maxAltitude,
-        this.minAltitude,
-        this.fromValue,
-        this.toValue
-      )
-    }
-
-    this.showRangeShortcuts()
-  }
-
-  showRangeShortcuts() {
-    if (
-      this.hasRange3000to2000Target &&
-      this.maxAltitude > 3000 &&
-      this.minAltitude < 2000
-    ) {
-      this.range3000to2000Target.classList.remove('hidden')
-    }
-    if (
-      this.hasRange2500to1500Target &&
-      this.maxAltitude > 2500 &&
-      this.minAltitude < 1500
-    ) {
-      this.range2500to1500Target.classList.remove('hidden')
-    }
+    this.fromValue = range.from
+    this.toValue = range.to
   }
 
   updateRange(event) {
-    const [from, to] = event.detail.range
-    this.fromValue = from
-    this.toValue = to
-    this.updateUrl(from, to)
+    ;[this.fromValue, this.toValue] = event.detail.range
     this.updateCharts()
   }
 
-  setRange(event) {
-    const from = Number(event.currentTarget.dataset.from)
-    const to = Number(event.currentTarget.dataset.to)
-    this.fromValue = from
-    this.toValue = to
-
-    if (this.hasTracksRangeSelectorOutlet) {
-      this.tracksRangeSelectorOutlet.updateSlider(from, to)
-    }
-
-    this.updateUrl(from, to)
-    this.updateCharts()
-  }
-
-  updateUrl(from, to) {
-    const url = new URL(window.location)
-    url.searchParams.set('f', from)
-    url.searchParams.set('t', to)
-    history.replaceState({}, '', url)
-  }
-
-  clearRangeUrl() {
-    const url = new URL(window.location)
-    url.searchParams.delete('f')
-    url.searchParams.delete('t')
-    history.replaceState({}, '', url)
-  }
-
-  resetRange() {
-    this.fromValue = this.maxAltitude
-    this.toValue = this.minAltitude
-
-    if (this.hasTracksRangeSelectorOutlet) {
-      this.tracksRangeSelectorOutlet.updateSlider(this.maxAltitude, this.minAltitude)
-    }
-
-    this.clearRangeUrl()
-    this.updateCharts()
+  setUnits(event) {
+    this.chartsUnitsValue = event.detail.units
   }
 
   updateCharts() {
@@ -252,10 +176,6 @@ export default class extends Controller {
 
   get units() {
     return this.chartsUnitsValue
-  }
-
-  applyUnits(units) {
-    this.chartsUnitsValue = units
   }
 
   chartsUnitsValueChanged(value, previousValue) {

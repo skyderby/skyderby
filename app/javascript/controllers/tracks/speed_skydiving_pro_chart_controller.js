@@ -1,6 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
 import I18n from 'i18n'
-import { patch } from '@rails/request.js'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 import {
@@ -25,8 +24,7 @@ export default class extends Controller {
     'compare',
     'axisButton',
     'compareModal',
-    'tooltip',
-    'unitsItem'
+    'tooltip'
   ]
 
   static values = {
@@ -37,8 +35,7 @@ export default class extends Controller {
     trackId: Number,
     windowEnd: Number,
     compareWindowEnd: Number,
-    chartsUnits: { type: String, default: 'metric' },
-    chartSettingsUrl: String
+    chartsUnits: { type: String, default: 'metric' }
   }
 
   connect() {
@@ -51,18 +48,7 @@ export default class extends Controller {
   }
 
   setUnits(event) {
-    const units = event.currentTarget.dataset.units
-    if (units === this.chartsUnitsValue) return
-
-    this.chartsUnitsValue = units
-    this.unitsItemTargets.forEach(item =>
-      item.classList.toggle('active', item.dataset.units === units)
-    )
-    if (this.hasChartSettingsUrlValue)
-      patch(this.chartSettingsUrlValue, {
-        body: { charts_units: units },
-        responseKind: 'json'
-      })
+    this.chartsUnitsValue = event.detail.units
   }
 
   chartsUnitsValueChanged(value, previousValue) {

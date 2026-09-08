@@ -14,14 +14,13 @@
        data-tracks--skydive-performance-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
        data-tracks--skydive-performance-track-track-id-value="<%= @track.id %>"
        data-tracks--skydive-performance-track-charts-units-value="<%= Current.charts_units %>"
-       data-tracks--skydive-performance-track-chart-settings-url-value="<%= track_chart_settings_path(@track) %>"
        <% if @compare_track %>
        data-tracks--skydive-performance-track-compare-points-url-value="<%= track_points_path(@compare_track, original_frequency: true, trimmed: { seconds_before_start: 5, seconds_after_end: 10 }) %>"
        data-tracks--skydive-performance-track-compare-weather-url-value="<%= track_weather_data_path(@compare_track) %>"
        data-tracks--skydive-performance-track-compare-track-name-value="<%= @compare_track.pilot&.name || @compare_track.name %>"
        <% end %>
        data-tracks--skydive-performance-track-tracks--range-selector-outlet="#range-selector"
-       data-action="tracks--range-selector:change->tracks--skydive-performance-track#updateRange">
+       data-action="tracks--range-selector:change->tracks--skydive-performance-track#updateRange tracks--charts-units:change->tracks--skydive-performance-track#setUnits">
 
     <div class="card actions-bar skydive-performance-actions-bar" id="track-actions-bar">
       <div class="actions-bar-right">
@@ -84,22 +83,7 @@
 
             <div class="sd-setting-row">
               <span class="sd-setting-label"><%= t('tracks.show.units_header') %></span>
-              <div class="tab-bar sd-setting-tabs">
-                <button type="button"
-                        class="tab-bar-item <%= 'active' if Current.charts_units.metric? %>"
-                        data-units="metric"
-                        data-tracks--skydive-performance-track-target="unitsItem"
-                        data-action="tracks--skydive-performance-track#setUnits">
-                  <%= t('tracks.show.m_units_metric') %>
-                </button>
-                <button type="button"
-                        class="tab-bar-item <%= 'active' if Current.charts_units.imperial? %>"
-                        data-units="imperial"
-                        data-tracks--skydive-performance-track-target="unitsItem"
-                        data-action="tracks--skydive-performance-track#setUnits">
-                  <%= t('tracks.show.m_units_imperial') %>
-                </button>
-              </div>
+              <%= render 'tracks/charts_units_menu', track: @track, item_class: 'tab-bar-item', wrapper_class: 'tab-bar sd-setting-tabs' %>
             </div>
 
             <div class="sd-setting-row">
@@ -138,46 +122,46 @@
 
     <hr class="top-buffer">
 
-    <div class="track-jump-range">
-      <input id="range-selector" class="hidden" type="text" name="range" data-controller="tracks--range-selector" data-tracks--range-selector-step-value="5">
+    <div class="track-jump-range" id="range-selector" data-controller="tracks--range-selector" data-tracks--range-selector-step-value="5">
+      <input class="hidden" type="text" name="range" data-tracks--range-selector-target="slider">
 
       <div class="range-shortcuts">
         <button class="button button--sm rounded hidden"
-                data-tracks--skydive-performance-track-target="range3000to2000"
-                data-action="tracks--skydive-performance-track#setRange"
+                data-tracks--range-selector-target="shortcut"
+                data-action="tracks--range-selector#setRange"
                 data-from="3000"
                 data-to="2000">
           3000 — 2000<%= t('units.m') %>
         </button>
         <button class="button button--sm rounded hidden"
-                data-tracks--skydive-performance-track-target="range2500to1500"
-                data-action="tracks--skydive-performance-track#setRange"
+                data-tracks--range-selector-target="shortcut"
+                data-action="tracks--range-selector#setRange"
                 data-from="2500"
                 data-to="1500">
           2500 — 1500<%= t('units.m') %>
         </button>
         <button class="button button--sm rounded"
-                data-action="tracks--skydive-performance-track#resetRange">
+                data-action="tracks--range-selector#reset">
           <%= t('tracks.show.full_jump') %>
         </button>
 
         <button class="button button--sm rounded best-window-shortcut hidden"
                 data-tracks--skydive-performance-track-target="bestSpeed"
-                data-action="tracks--skydive-performance-track#setRange"
+                data-action="tracks--range-selector#setRange"
                 data-straight-line="true">
           <span data-best-window-range></span><%= t('units.m') %>
           <span class="best-window-shortcut-value"><span data-best-window-value>—</span> <span data-best-window-unit><%= t('units.kmh') %></span></span>
         </button>
         <button class="button button--sm rounded best-window-shortcut hidden"
                 data-tracks--skydive-performance-track-target="bestDistance"
-                data-action="tracks--skydive-performance-track#setRange"
+                data-action="tracks--range-selector#setRange"
                 data-straight-line="true">
           <span data-best-window-range></span><%= t('units.m') %>
           <span class="best-window-shortcut-value"><span data-best-window-value>—</span> <span data-best-window-unit><%= t('units.m') %></span></span>
         </button>
         <button class="button button--sm rounded best-window-shortcut hidden"
                 data-tracks--skydive-performance-track-target="bestTime"
-                data-action="tracks--skydive-performance-track#setRange"
+                data-action="tracks--range-selector#setRange"
                 data-straight-line="true">
           <span data-best-window-range></span><%= t('units.m') %>
           <span class="best-window-shortcut-value"><span data-best-window-value>—</span> <%= t('units.sec') %></span>

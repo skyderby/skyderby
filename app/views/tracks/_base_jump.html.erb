@@ -16,11 +16,11 @@
   <% compare_point = show_result_point && base_result.compare_value ? base_result.compare_point : nil %>
   <div class="base-jump-page"
        data-controller="tracks--base-jump-track"
+       data-action="tracks--charts-units:change->tracks--base-jump-track#setUnits"
        data-tracks--base-jump-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
        data-tracks--base-jump-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
        data-tracks--base-jump-track-track-id-value="<%= @track.id %>"
        data-tracks--base-jump-track-charts-units-value="<%= Current.charts_units %>"
-       data-tracks--base-jump-track-chart-settings-url-value="<%= track_chart_settings_path(@track) %>"
        data-tracks--base-jump-track-wingsuit-value="<%= @track.wingsuit? ? 'true' : 'false' %>"
        <% if @track.ff_start %>
        data-tracks--base-jump-track-exit-fl-time-value="<%= @track.ff_start %>"
@@ -143,20 +143,7 @@
 
           <div id="base-jump-settings-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
             <div class="dropdown-header"><%= t('tracks.show.units_header') %></div>
-            <button type="button"
-                    class="dropdown-item <%= 'active' if Current.charts_units.metric? %>"
-                    data-units="metric"
-                    data-tracks--base-jump-track-target="unitsItem"
-                    data-action="tracks--base-jump-track#setUnits">
-              <%= t('tracks.show.m_units_metric') %>
-            </button>
-            <button type="button"
-                    class="dropdown-item <%= 'active' if Current.charts_units.imperial? %>"
-                    data-units="imperial"
-                    data-tracks--base-jump-track-target="unitsItem"
-                    data-action="tracks--base-jump-track#setUnits">
-              <%= t('tracks.show.m_units_imperial') %>
-            </button>
+            <%= render 'tracks/charts_units_menu', track: @track, item_class: 'dropdown-item' %>
           </div>
         </div>
       </div>
