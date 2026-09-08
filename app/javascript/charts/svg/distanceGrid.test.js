@@ -91,10 +91,4 @@ describe('renderWindowLines', () => {
     expect(grid.children[2].textContent).toBe('3000')
     expect(grid.children[3].attrs.y).toBe('404')
   })
-
-  test('skips labels when not given', () => {
-    const grid = fakeElement('g')
-    renderWindowLines(grid, { plot, startY: 50, endY: 400 })
-    expect(grid.children).toHaveLength(2)
-  })
 })

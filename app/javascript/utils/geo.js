@@ -2,7 +2,7 @@ export const EARTH_MEAN_RADIUS = 6371000
 
 export const toRadians = degrees => (degrees * Math.PI) / 180
 
-export const toDegrees = radians => (radians * 180) / Math.PI
+const toDegrees = radians => (radians * 180) / Math.PI
 
 export const haversineDistance = (from, to) => {
   const dLat = toRadians(to.latitude - from.latitude)
@@ -68,8 +68,3 @@ export const crossTrackDistance = (point, lineStart, lineEnd) => {
     EARTH_MEAN_RADIUS
   )
 }
-
-export const midpoint = (a, b) => ({
-  latitude: (a.latitude + b.latitude) / 2,
-  longitude: (a.longitude + b.longitude) / 2
-})

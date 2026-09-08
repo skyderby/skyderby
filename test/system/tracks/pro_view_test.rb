@@ -5,11 +5,11 @@ class ProViewTest < ApplicationSystemTestCase
     @user = users(:regular_user)
     GiftedSubscription.create!(user: @user, expires_at: 1.day.from_now, reason: 'test')
     sign_in @user
+    upload_track 'flysight.csv'
+    @track = Track.last
   end
 
   test 'skydive pro view renders segments, playback and units switch' do
-    upload_track 'flysight.csv'
-
     assert_selector '.sps-seg', minimum: 1
     assert_selector '.sps-entry [data-slot="topSpeed"]', text: /\d+/
     assert_selector '.sps-seg [data-slot="distance"]', text: /\d+/
@@ -37,9 +37,8 @@ class ProViewTest < ApplicationSystemTestCase
   end
 
   test 'base jump pro view renders summary tiles and playback' do
-    upload_track 'flysight.csv'
-    Track.last.update!(kind: :base)
-    visit track_path(Track.last)
+    @track.update!(kind: :base)
+    visit track_path(@track)
 
     assert_selector '.base-jump-summary [data-summary-tile="glide"] [data-slot="value"]', text: /\d/
     assert_selector '.base-jump-summary [data-summary-tile="first_drop"] .bjs-hist__row', minimum: 1

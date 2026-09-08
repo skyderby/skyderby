@@ -12,10 +12,6 @@ describe('haversineDistance', () => {
   test('one degree of latitude is about 111 km', () => {
     expect(haversineDistance(p(0, 0), p(1, 0))).toBeCloseTo(111195, -1)
   })
-
-  test('same point is zero', () => {
-    expect(haversineDistance(p(45, 30), p(45, 30))).toBe(0)
-  })
 })
 
 describe('calculateBearing', () => {

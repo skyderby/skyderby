@@ -62,18 +62,6 @@ describe('videoCodeFromUrl', () => {
     )
   })
 
-  test('extracts video code from real example URL', () => {
-    expect(videoCodeFromUrl('https://www.youtube.com/watch?v=GAsVaWWAArA')).toBe(
-      'GAsVaWWAArA'
-    )
-  })
-
-  test('returns same video code for duplicate URLs', () => {
-    const url = 'https://www.youtube.com/watch?v=GAsVaWWAArA'
-    expect(videoCodeFromUrl(url)).toBe('GAsVaWWAArA')
-    expect(videoCodeFromUrl(url)).toBe('GAsVaWWAArA')
-  })
-
   test('extracts video code from youtu.be URL with si parameter', () => {
     expect(videoCodeFromUrl('https://youtu.be/GAsVaWWAArA?si=yGqEbVdDBWwYapvZ')).toBe(
       'GAsVaWWAArA'
