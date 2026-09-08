@@ -4,7 +4,7 @@ import {
   interpolatePointByAltitude,
   interpolatePointByTime
 } from 'utils/tracks/pointHelpers'
-import { crossTrackDistance } from 'utils/geo'
+import { crossTrackDistance, haversineDistance } from 'utils/geo'
 import amplitude from 'utils/amplitude'
 
 const COLORS = ['#470FF4', '#F24C00', '#AA3E98', '#247BA0']
