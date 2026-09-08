@@ -1,6 +1,10 @@
 import { Controller } from '@hotwired/stimulus'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
-import { haversineDistance, EARTH_MEAN_RADIUS } from 'utils/tracks/pointHelpers'
+import {
+  interpolatePointByAltitude,
+  interpolatePointByTime
+} from 'utils/tracks/pointHelpers'
+import { crossTrackDistance } from 'utils/geo'
 import amplitude from 'utils/amplitude'
 
 const COLORS = ['#470FF4', '#F24C00', '#AA3E98', '#247BA0']
@@ -606,68 +610,22 @@ export default class extends Controller {
 
   calculateLaneStartPoint(rawPoints, exitedAt) {
     if (!exitedAt || !rawPoints || rawPoints.length === 0) {
-      return this.interpolatePointByAltitude(rawPoints, this.windowStartValue)
+      return interpolatePointByAltitude(rawPoints, this.windowStartValue)
     }
 
     if (this.dlStartValue === 'on_10_sec') {
       const exitedAtTime = new Date(exitedAt).getTime()
       const targetTime = exitedAtTime + 10000
-      return this.interpolatePointByTime(rawPoints, targetTime)
+      return interpolatePointByTime(rawPoints, targetTime)
     }
 
     if (this.dlStartValue === 'on_9_sec') {
       const exitedAtTime = new Date(exitedAt).getTime()
       const targetTime = exitedAtTime + 9000
-      return this.interpolatePointByTime(rawPoints, targetTime)
+      return interpolatePointByTime(rawPoints, targetTime)
     }
 
-    return this.interpolatePointByAltitude(rawPoints, this.windowStartValue)
-  }
-
-  interpolatePointByAltitude(points, targetAltitude) {
-    if (!points || points.length === 0) return null
-
-    for (let i = 0; i < points.length - 1; i++) {
-      const current = points[i]
-      const next = points[i + 1]
-
-      if (current.altitude >= targetAltitude && next.altitude < targetAltitude) {
-        const ratio =
-          (current.altitude - targetAltitude) / (current.altitude - next.altitude)
-        return {
-          latitude: current.latitude + (next.latitude - current.latitude) * ratio,
-          longitude: current.longitude + (next.longitude - current.longitude) * ratio,
-          altitude: targetAltitude,
-          gpsTime: new Date(
-            current.gpsTime.getTime() +
-              (next.gpsTime.getTime() - current.gpsTime.getTime()) * ratio
-          )
-        }
-      }
-    }
-    return null
-  }
-
-  interpolatePointByTime(points, targetTime) {
-    if (!points || points.length === 0) return null
-
-    for (let i = 0; i < points.length - 1; i++) {
-      const current = points[i]
-      const next = points[i + 1]
-      const currentTime = current.gpsTime.getTime()
-      const nextTime = next.gpsTime.getTime()
-
-      if (currentTime <= targetTime && nextTime > targetTime) {
-        const ratio = (targetTime - currentTime) / (nextTime - currentTime)
-        return {
-          latitude: current.latitude + (next.latitude - current.latitude) * ratio,
-          longitude: current.longitude + (next.longitude - current.longitude) * ratio,
-          altitude: current.altitude + (next.altitude - current.altitude) * ratio,
-          gpsTime: new Date(targetTime)
-        }
-      }
-    }
-    return null
+    return interpolatePointByAltitude(rawPoints, this.windowStartValue)
   }
 
   processLaneDeviation(processedPoints, laneStartPoint, referencePoint) {
@@ -680,7 +638,7 @@ export default class extends Controller {
         return { ...point, laneDeviation: 0 }
       }
 
-      const deviation = this.calculateLaneDeviation(point, laneStartPoint, referencePoint)
+      const deviation = crossTrackDistance(point, laneStartPoint, referencePoint)
       return { ...point, laneDeviation: deviation }
     })
   }
@@ -705,39 +663,6 @@ export default class extends Controller {
     })
 
     return maxViolation
-  }
-
-  calculateLaneDeviation(point, laneStart, referencePoint) {
-    const toRad = deg => (deg * Math.PI) / 180
-    const R = EARTH_MEAN_RADIUS
-
-    const lat1 = toRad(laneStart.latitude)
-    const lon1 = toRad(laneStart.longitude)
-    const lat2 = toRad(referencePoint.latitude)
-    const lon2 = toRad(referencePoint.longitude)
-    const lat3 = toRad(point.latitude)
-    const lon3 = toRad(point.longitude)
-
-    const d13 = haversineDistance(laneStart, point)
-    const d12 = haversineDistance(laneStart, referencePoint)
-
-    if (d12 === 0) return 0
-
-    const bearing12 = Math.atan2(
-      Math.sin(lon2 - lon1) * Math.cos(lat2),
-      Math.cos(lat1) * Math.sin(lat2) -
-        Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)
-    )
-    const bearing13 = Math.atan2(
-      Math.sin(lon3 - lon1) * Math.cos(lat3),
-      Math.cos(lat1) * Math.sin(lat3) -
-        Math.sin(lat1) * Math.cos(lat3) * Math.cos(lon3 - lon1)
-    )
-
-    const crossTrackDistance =
-      Math.asin(Math.sin(d13 / R) * Math.sin(bearing13 - bearing12)) * R
-
-    return crossTrackDistance
   }
 
   renderTopViewRoad() {

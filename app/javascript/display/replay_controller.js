@@ -1,5 +1,8 @@
 import { Controller } from '@hotwired/stimulus'
 import loadMaps from './maps_loader'
+import { haversineDistance, calculateBearing, segmentIntersection } from '../utils/geo'
+
+const toGeo = ({ lat, lng }) => ({ latitude: lat, longitude: lng })
 
 const SYNC_VSPEED = 10 // km/h — race start, same point BASE Pro View zeroes time at
 const FINISH_COLOR = '#e84855'
@@ -68,24 +71,10 @@ export default class extends Controller {
       const b = points[i + 1]
       if (a.t < 0) continue
 
-      const frac = this.segmentIntersection(a, b, line[0], line[1])
-      if (frac != null) return a.t + (b.t - a.t) * frac
+      const hit = segmentIntersection(toGeo(a), toGeo(b), toGeo(line[0]), toGeo(line[1]))
+      if (hit) return a.t + (b.t - a.t) * hit.fraction
     }
     return null
-  }
-
-  segmentIntersection(p1, p2, p3, p4) {
-    const denom =
-      (p2.lng - p1.lng) * (p4.lat - p3.lat) - (p2.lat - p1.lat) * (p4.lng - p3.lng)
-    if (Math.abs(denom) < 1e-12) return null
-
-    const t =
-      ((p3.lng - p1.lng) * (p4.lat - p3.lat) - (p3.lat - p1.lat) * (p4.lng - p3.lng)) /
-      denom
-    const u =
-      ((p3.lng - p1.lng) * (p2.lat - p1.lat) - (p3.lat - p1.lat) * (p2.lng - p1.lng)) /
-      denom
-    return t >= 0 && t <= 1 && u >= 0 && u <= 1 ? t : null
   }
 
   syncTime(points) {
@@ -391,34 +380,17 @@ export default class extends Controller {
 
     const from = points[index]
     const to = points[Math.min(index + 4, points.length - 1)]
-    const lat1 = (from.lat * Math.PI) / 180
-    const lat2 = (to.lat * Math.PI) / 180
-    const dLng = ((to.lng - from.lng) * Math.PI) / 180
-    const y = Math.sin(dLng) * Math.cos(lat2)
-    const x =
-      Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng)
-    return (Math.atan2(y, x) * 180) / Math.PI
+    return calculateBearing(toGeo(from), toGeo(to))
   }
 
   distanceToFinish(point) {
     if (!this.finishCenter) return 0
-    return this.haversine(point, this.finishCenter)
+    return haversineDistance(toGeo(point), toGeo(this.finishCenter))
   }
 
   lineCenter(line) {
     if (!line || line.length < 2) return null
     return { lat: (line[0].lat + line[1].lat) / 2, lng: (line[0].lng + line[1].lng) / 2 }
-  }
-
-  haversine(a, b) {
-    const R = 6371000
-    const toRad = d => (d * Math.PI) / 180
-    const dLat = toRad(b.lat - a.lat)
-    const dLng = toRad(b.lng - a.lng)
-    const s =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2
-    return R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s))
   }
 
   showCountdown(remaining) {

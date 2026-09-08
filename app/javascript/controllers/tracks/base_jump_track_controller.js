@@ -7,7 +7,11 @@ import Bounds from 'utils/maps/bounds'
 import { acquireMap } from 'utils/maps/shared_map'
 import { isTurboPreview } from 'utils/turbo_preview'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
-import { calculateBearing } from 'utils/tracks/pointHelpers'
+import {
+  calculateBearing,
+  findLineCrossing,
+  nearestIndexByTime
+} from 'utils/tracks/pointHelpers'
 import { computeBaseJumpSummary } from 'utils/tracks/baseJumpSummary'
 import { convertLength, convertSpeed, lengthUnitLabel, speedUnitLabel } from 'utils/units'
 import { get, patch } from '@rails/request.js'
@@ -178,7 +182,7 @@ export default class extends PlaybackController {
   findResultCrossings() {
     if (!this.points) return
 
-    const index = this.indexByGpsTime(this.points, this.resultPointGpsTimeValue)
+    const index = nearestIndexByTime(this.points, this.resultPointGpsTimeValue * 1000)
     this.primaryCrossing = {
       index: Math.max(index, 1),
       fraction: 0,
@@ -187,9 +191,9 @@ export default class extends PlaybackController {
     this.primaryResultTime = this.points[index].flTime - this.primarySyncFlTime
 
     if (this.hasCompare && this.hasResultComparePointGpsTimeValue) {
-      const compareIndex = this.indexByGpsTime(
+      const compareIndex = nearestIndexByTime(
         this.comparePoints,
-        this.resultComparePointGpsTimeValue
+        this.resultComparePointGpsTimeValue * 1000
       )
       this.compareCrossing = {
         index: Math.max(compareIndex, 1),
@@ -199,22 +203,6 @@ export default class extends PlaybackController {
       this.compareResultTime =
         this.comparePoints[compareIndex].flTime - this.compareSyncFlTime
     }
-  }
-
-  indexByGpsTime(points, epochSeconds) {
-    const target = epochSeconds * 1000
-    let bestIndex = 0
-    let bestDiff = Infinity
-
-    for (let i = 0; i < points.length; i++) {
-      const diff = Math.abs(points[i].gpsTime.getTime() - target)
-      if (diff < bestDiff) {
-        bestDiff = diff
-        bestIndex = i
-      }
-    }
-
-    return bestIndex
   }
 
   initResultMarker() {
@@ -273,61 +261,25 @@ export default class extends PlaybackController {
     )
   }
 
+  get finishLine() {
+    if (!this.hasFinishLine) return null
+
+    return {
+      start: {
+        latitude: this.finishLineStartLatValue,
+        longitude: this.finishLineStartLonValue
+      },
+      end: { latitude: this.finishLineEndLatValue, longitude: this.finishLineEndLonValue }
+    }
+  }
+
   findFinishLineCrossings() {
     if (!this.hasFinishLine) return
 
-    this.primaryCrossing = this.findCrossing(this.points)
+    this.primaryCrossing = findLineCrossing(this.points, this.finishLine)
     if (this.hasCompare) {
-      this.compareCrossing = this.findCrossing(this.comparePoints)
+      this.compareCrossing = findLineCrossing(this.comparePoints, this.finishLine)
     }
-  }
-
-  findCrossing(points) {
-    for (let i = 1; i < points.length; i++) {
-      const prev = points[i - 1]
-      const curr = points[i]
-
-      const intersection = this.lineIntersection(
-        prev.latitude,
-        prev.longitude,
-        curr.latitude,
-        curr.longitude,
-        this.finishLineStartLatValue,
-        this.finishLineStartLonValue,
-        this.finishLineEndLatValue,
-        this.finishLineEndLonValue
-      )
-
-      if (intersection) {
-        return {
-          index: i,
-          fraction: this.calculateFraction(prev, curr, intersection.lat, intersection.lon)
-        }
-      }
-    }
-    return null
-  }
-
-  lineIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
-    const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
-    if (Math.abs(denom) < 1e-10) return null
-
-    const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom
-    const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom
-
-    if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
-      return { lat: x1 + t * (x2 - x1), lon: y1 + t * (y2 - y1) }
-    }
-    return null
-  }
-
-  calculateFraction(prev, curr, lat, lon) {
-    const totalDist = Math.hypot(
-      curr.latitude - prev.latitude,
-      curr.longitude - prev.longitude
-    )
-    const partDist = Math.hypot(lat - prev.latitude, lon - prev.longitude)
-    return totalDist === 0 ? 0 : partDist / totalDist
   }
 
   initFinishLineToggle() {

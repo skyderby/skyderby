@@ -1,44 +1,194 @@
-export const EARTH_MEAN_RADIUS = 6371000
+import { haversineDistance, calculateBearing, segmentIntersection } from '../geo'
 
-export const haversineDistance = (from, to) => {
-  const toRad = deg => (deg * Math.PI) / 180
+export { EARTH_MEAN_RADIUS, haversineDistance, calculateBearing } from '../geo'
 
-  const dLat = toRad(to.latitude - from.latitude)
-  const dLon = toRad(to.longitude - from.longitude)
-
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(from.latitude)) *
-      Math.cos(toRad(to.latitude)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2)
-
-  return EARTH_MEAN_RADIUS * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+export const timeOf = point => {
+  const time = point.gpsTime
+  return time instanceof Date ? time.getTime() : new Date(time).getTime()
 }
 
-export const calculateBearing = (from, to) => {
-  const lat1 = (from.latitude * Math.PI) / 180
-  const lat2 = (to.latitude * Math.PI) / 180
-  const dLon = ((to.longitude - from.longitude) * Math.PI) / 180
+export const lerp = (a, b, fraction) => a + (b - a) * fraction
 
-  const y = Math.sin(dLon) * Math.cos(lat2)
-  const x =
-    Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon)
-
-  const bearing = (Math.atan2(y, x) * 180) / Math.PI
-  return (bearing + 360) % 360
+const lerpPoint = (curr, next, fraction, keys) => {
+  const point = {}
+  keys.forEach(key => {
+    point[key] = lerp(curr[key] ?? 0, next[key] ?? 0, fraction)
+  })
+  return point
 }
 
-export const targetIndexFrom = (points, fromIndex, milliseconds = 3000) => {
-  const targetTime = points[fromIndex].gpsTime + milliseconds
+export const POSITION_KEYS = ['latitude', 'longitude', 'altitude']
+export const INDICATOR_KEYS = ['altitude', 'fullSpeed', 'hSpeed', 'vSpeed', 'glideRatio']
 
-  for (let i = fromIndex + 1; i < points.length; i++) {
-    if (points[i].gpsTime >= targetTime) {
-      return i
+export const interpolateAtIndex = (points, index, fraction, keys = INDICATOR_KEYS) => {
+  const curr = points[index]
+  const next = points[Math.min(index + 1, points.length - 1)]
+  if (!curr || !next) return null
+
+  return lerpPoint(curr, next, fraction, keys)
+}
+
+export const timeAtIndex = (points, index, fraction = 0) => {
+  const curr = points[index]
+  const next = points[Math.min(index + 1, points.length - 1)]
+  return lerp(timeOf(curr), timeOf(next), fraction)
+}
+
+export const indexAtTime = (points, targetTime) => {
+  for (let i = 0; i < points.length - 1; i++) {
+    const currTime = timeOf(points[i])
+    const nextTime = timeOf(points[i + 1])
+
+    if (targetTime >= currTime && targetTime < nextTime) {
+      return { index: i, fraction: (targetTime - currTime) / (nextTime - currTime) }
     }
   }
 
-  return points.length - 1
+  return { index: points.length - 1, fraction: 0 }
+}
+
+export const futureIndexFrom = (points, fromIndex, milliseconds) => {
+  const targetTime = timeOf(points[fromIndex]) + milliseconds
+
+  for (let i = fromIndex + 1; i < points.length; i++) {
+    if (timeOf(points[i]) >= targetTime) return i
+  }
+
+  return null
+}
+
+export const targetIndexFrom = (points, fromIndex, milliseconds = 3000) =>
+  futureIndexFrom(points, fromIndex, milliseconds) ?? points.length - 1
+
+export const headingAtIndex = (points, index, fraction = 0) => {
+  const from = interpolateAtIndex(points, index, fraction, POSITION_KEYS)
+  const to = points[targetIndexFrom(points, index)]
+  return { point: from, heading: calculateBearing(from, to) }
+}
+
+export const nearestIndexByTime = (points, targetTime) => {
+  let bestIndex = 0
+  let bestDiff = Infinity
+
+  points.forEach((point, index) => {
+    const diff = Math.abs(timeOf(point) - targetTime)
+    if (diff < bestDiff) {
+      bestDiff = diff
+      bestIndex = index
+    }
+  })
+
+  return bestIndex
+}
+
+export const nearestPointTo = (points, target) => {
+  let best = null
+  let bestDistance = Infinity
+
+  points.forEach(point => {
+    const distance = haversineDistance(target, point)
+    if (distance < bestDistance) {
+      bestDistance = distance
+      best = point
+    }
+  })
+
+  return best
+}
+
+export const altitudeCrossing = (points, altitude, { descendingOnly = true } = {}) => {
+  for (let i = 0; i < points.length - 1; i++) {
+    const curr = points[i]
+    const next = points[i + 1]
+
+    const descending = curr.altitude >= altitude && next.altitude < altitude
+    const ascending =
+      !descendingOnly && curr.altitude <= altitude && next.altitude > altitude
+
+    if (descending || ascending) {
+      if (curr.altitude === altitude) return { index: i, fraction: 0 }
+      if (next.altitude === altitude) return { index: i + 1, fraction: 0 }
+
+      const fraction = (altitude - curr.altitude) / (next.altitude - curr.altitude)
+      return { index: i, fraction }
+    }
+  }
+
+  return null
+}
+
+export const valueAtCrossing = (points, crossing, key) => {
+  if (!crossing) return null
+  const curr = points[crossing.index]
+  const next = points[Math.min(crossing.index + 1, points.length - 1)]
+  return lerp(curr[key], next[key], crossing.fraction)
+}
+
+export const interpolatePointByAltitude = (points, altitude) => {
+  if (!points || points.length === 0) return null
+
+  const crossing = altitudeCrossing(points, altitude, { descendingOnly: false })
+  if (!crossing) return null
+
+  const curr = points[crossing.index]
+  if (crossing.fraction === 0) return curr
+  const next = points[crossing.index + 1]
+
+  return {
+    ...lerpPoint(curr, next, crossing.fraction, ['latitude', 'longitude']),
+    altitude,
+    gpsTime: new Date(lerp(timeOf(curr), timeOf(next), crossing.fraction))
+  }
+}
+
+export const interpolatePointByTime = (points, targetTime) => {
+  if (!points || points.length === 0) return null
+
+  for (let i = 0; i < points.length - 1; i++) {
+    const curr = points[i]
+    const next = points[i + 1]
+    const currTime = timeOf(curr)
+    const nextTime = timeOf(next)
+
+    const within =
+      (currTime <= targetTime && nextTime >= targetTime) ||
+      (currTime >= targetTime && nextTime <= targetTime)
+    if (!within) continue
+
+    if (currTime === targetTime) return curr
+    if (nextTime === targetTime) return next
+
+    const fraction = (targetTime - currTime) / (nextTime - currTime)
+    return {
+      ...lerpPoint(curr, next, fraction, POSITION_KEYS),
+      gpsTime: new Date(targetTime)
+    }
+  }
+
+  return null
+}
+
+export const findLineCrossing = (points, line) => {
+  if (!line) return null
+
+  for (let i = 1; i < points.length; i++) {
+    const intersection = segmentIntersection(
+      points[i - 1],
+      points[i],
+      line.start,
+      line.end
+    )
+    if (intersection) {
+      return {
+        index: i,
+        fraction: intersection.fraction,
+        latitude: intersection.latitude,
+        longitude: intersection.longitude
+      }
+    }
+  }
+
+  return null
 }
 
 export const closestIndexByPlayerTime = (points, playerTime) => {
@@ -66,16 +216,7 @@ export const interpolateByPlayerTime = (points, targetTime) => {
     if (targetTime >= curr.playerTime && targetTime < next.playerTime) {
       const fraction =
         (targetTime - curr.playerTime) / (next.playerTime - curr.playerTime)
-      return {
-        altitude: curr.altitude + (next.altitude - curr.altitude) * fraction,
-        distance: curr.distance + (next.distance - curr.distance) * fraction,
-        fullSpeed: curr.fullSpeed + (next.fullSpeed - curr.fullSpeed) * fraction,
-        hSpeed: curr.hSpeed + (next.hSpeed - curr.hSpeed) * fraction,
-        vSpeed: curr.vSpeed + (next.vSpeed - curr.vSpeed) * fraction,
-        glideRatio:
-          (curr.glideRatio ?? 0) +
-          ((next.glideRatio ?? 0) - (curr.glideRatio ?? 0)) * fraction
-      }
+      return lerpPoint(curr, next, fraction, [...INDICATOR_KEYS, 'distance'])
     }
   }
 

@@ -1,5 +1,5 @@
 import PlaybackController from '../playback_controller'
-import { calculateBearing } from 'utils/tracks/pointHelpers'
+import { calculateBearing, findLineCrossing } from 'utils/tracks/pointHelpers'
 import { initGlideChart, initSpeedsChart, initAccuracyChart } from 'charts'
 import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import initMapsApi from 'utils/google_maps_api'
@@ -57,67 +57,23 @@ export default class extends PlaybackController {
   }
 
   findFinishLineCrossing() {
-    if (!this.hasFinishLine) return
+    const crossing = findLineCrossing(this.points, this.finishLine)
+    if (!crossing) return
 
-    const finishLine = {
-      start: { lat: this.finishLineStartLatValue, lon: this.finishLineStartLonValue },
-      end: { lat: this.finishLineEndLatValue, lon: this.finishLineEndLonValue }
-    }
-
-    for (let i = 1; i < this.points.length; i++) {
-      const prev = this.points[i - 1]
-      const curr = this.points[i]
-
-      const intersection = this.lineIntersection(
-        prev.latitude,
-        prev.longitude,
-        curr.latitude,
-        curr.longitude,
-        finishLine.start.lat,
-        finishLine.start.lon,
-        finishLine.end.lat,
-        finishLine.end.lon
-      )
-
-      if (intersection) {
-        this.finishCrossingIndex = i
-        this.finishCrossingPoint = intersection
-        this.finishCrossingFraction = this.calculateFraction(
-          prev,
-          curr,
-          intersection.lat,
-          intersection.lon
-        )
-        break
-      }
-    }
+    this.finishCrossingIndex = crossing.index
+    this.finishCrossingFraction = crossing.fraction
   }
 
-  lineIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
-    const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
-    if (Math.abs(denom) < 1e-10) return null
+  get finishLine() {
+    if (!this.hasFinishLine) return null
 
-    const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom
-    const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom
-
-    if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
-      return {
-        lat: x1 + t * (x2 - x1),
-        lon: y1 + t * (y2 - y1)
-      }
+    return {
+      start: {
+        latitude: this.finishLineStartLatValue,
+        longitude: this.finishLineStartLonValue
+      },
+      end: { latitude: this.finishLineEndLatValue, longitude: this.finishLineEndLonValue }
     }
-    return null
-  }
-
-  calculateFraction(prev, curr, lat, lon) {
-    const totalDist = Math.sqrt(
-      Math.pow(curr.latitude - prev.latitude, 2) +
-        Math.pow(curr.longitude - prev.longitude, 2)
-    )
-    const partDist = Math.sqrt(
-      Math.pow(lat - prev.latitude, 2) + Math.pow(lon - prev.longitude, 2)
-    )
-    return partDist / totalDist
   }
 
   get hasFinishLine() {
