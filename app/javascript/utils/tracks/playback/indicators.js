@@ -31,9 +31,14 @@ export const accelerationAt = (points, index, fraction = 0, lookaheadMs = 1000) 
   return accelerationBetween(current, future, deltaSeconds)
 }
 
-export const accelerationAtPlayerTime = (points, playerTime, lookaheadSeconds = 1) =>
+export const accelerationAtPlayerTime = (
+  points,
+  playerTime,
+  current = interpolateByPlayerTime(points, playerTime),
+  lookaheadSeconds = 1
+) =>
   accelerationBetween(
-    interpolateByPlayerTime(points, playerTime),
+    current,
     interpolateByPlayerTime(points, playerTime + lookaheadSeconds),
     lookaheadSeconds
   )

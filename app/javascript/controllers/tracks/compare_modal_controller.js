@@ -32,9 +32,10 @@ export default class extends Controller {
     const url = new URL(window.location)
     url.searchParams.set('compare_id', trackId)
 
-    Object.entries(this.defaultsValue).forEach(([name, value]) => {
-      if (!url.searchParams.has(name)) url.searchParams.set(name, value)
-    })
+    const defaults = Object.entries(this.defaultsValue)
+    if (defaults.every(([name]) => !url.searchParams.has(name))) {
+      defaults.forEach(([name, value]) => url.searchParams.set(name, value))
+    }
 
     Turbo.visit(url.toString())
   }

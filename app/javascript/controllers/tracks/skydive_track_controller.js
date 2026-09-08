@@ -141,7 +141,11 @@ export default class extends Controller {
   }
 
   setUnits(event) {
-    this.chartsUnitsValue = event.detail.units
+    this.applyUnits(event.detail.units)
+  }
+
+  applyUnits(units) {
+    this.chartsUnitsValue = units
   }
 
   updateCharts() {

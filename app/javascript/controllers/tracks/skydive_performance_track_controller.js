@@ -873,14 +873,6 @@ export default class extends PlaybackController {
     return this.processedPoints
   }
 
-  get playbackCharts() {
-    return [
-      this.glideChartTarget?.chart,
-      this.speedChartTarget?.chart,
-      this.sepChartTarget?.chart
-    ]
-  }
-
   syncPosition(index, fraction, interpolated) {
     const point = this.processedPoints[index]
     if (!point) return

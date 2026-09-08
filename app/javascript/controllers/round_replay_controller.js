@@ -570,7 +570,9 @@ export default class extends Controller {
 
   calculateLaneStartPoint(rawPoints, exitedAt) {
     if (!exitedAt || !rawPoints || rawPoints.length === 0) {
-      return interpolatePointByAltitude(rawPoints, this.windowStartValue)
+      return interpolatePointByAltitude(rawPoints, this.windowStartValue, {
+        descendingOnly: true
+      })
     }
 
     if (this.dlStartValue === 'on_10_sec') {
@@ -585,7 +587,9 @@ export default class extends Controller {
       return interpolatePointByTime(rawPoints, targetTime)
     }
 
-    return interpolatePointByAltitude(rawPoints, this.windowStartValue)
+    return interpolatePointByAltitude(rawPoints, this.windowStartValue, {
+      descendingOnly: true
+    })
   }
 
   processLaneDeviation(processedPoints, laneStartPoint, referencePoint) {

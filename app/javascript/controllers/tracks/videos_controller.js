@@ -1,6 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 import { initYoutubeApi } from 'utils/youtube'
 import getPointsAroundTime from 'utils/getPointsAroundTime'
+import { accelerationBetween } from 'utils/tracks/playback/indicators'
 
 const interpolateValue = (first, second, factor) => first + (second - first) * factor
 
@@ -73,22 +74,9 @@ export default class extends Controller {
   }
 
   updateAccelerationIndicators(currentData, trackTime, controller) {
-    const futureTime = trackTime + 1
-    const futureData = this.getInterpolatedPoint(futureTime)
-    if (!futureData) return
-
-    const currFullSpeed = currentData.fullSpeed / 3.6
-    const currHSpeed = currentData.hSpeed / 3.6
-    const currVSpeed = currentData.vSpeed / 3.6
-    const futureFullSpeed = futureData.fullSpeed / 3.6
-    const futureHSpeed = futureData.hSpeed / 3.6
-    const futureVSpeed = futureData.vSpeed / 3.6
-
-    const fullSpeedAccel = futureFullSpeed - currFullSpeed
-    const hSpeedAccel = futureHSpeed - currHSpeed
-    const vSpeedAccel = futureVSpeed - currVSpeed
-
-    controller.updateAcceleration({ fullSpeedAccel, hSpeedAccel, vSpeedAccel })
+    const futureData = this.getInterpolatedPoint(trackTime + 1)
+    const acceleration = accelerationBetween(currentData, futureData, 1)
+    if (acceleration) controller.updateAcceleration(acceleration)
   }
 
   getPlaybackIndicatorsController() {

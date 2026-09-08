@@ -298,7 +298,6 @@ export default class extends PlaybackController {
   initPlayback() {
     if (!this.hasPlaybackSliderTarget) return
 
-    this.startAltitude = this.points[0].altitude
     this.resetPlayback()
     this.createMapMarker()
   }
@@ -311,14 +310,6 @@ export default class extends PlaybackController {
       position: this.points[0],
       imageUrl: this.locationArrowUrlValue
     })
-  }
-
-  get playbackCharts() {
-    return [
-      this.glideChartTarget?.chart,
-      this.speedChartTarget?.chart,
-      this.sepChartTarget?.chart
-    ]
   }
 
   syncPosition(index, fraction, interpolated) {

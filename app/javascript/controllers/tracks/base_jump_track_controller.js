@@ -808,7 +808,6 @@ export default class extends PlaybackController {
   initPlayback() {
     if (!this.hasPlaybackSliderTarget) return
 
-    this.startAltitude = this.points[0].altitude
     this.resetPlayback()
     this.createMapMarkers()
   }
@@ -834,14 +833,6 @@ export default class extends PlaybackController {
     this.sharedMap.add(this.compareMapMarker.marker)
   }
 
-  get playbackCharts() {
-    return [
-      this.glideChartTarget?.chart,
-      this.speedChartTarget?.chart,
-      this.sepChartTarget?.chart
-    ]
-  }
-
   syncPosition(index, fraction, interpolated) {
     if (interpolated) {
       this.sideProjectionChart?.showCrosshairInterpolated(index, fraction)
@@ -854,9 +845,7 @@ export default class extends PlaybackController {
 
     const playerTime = this.currentPlayerTime
     if (this.hasCompare) {
-      this.updateComparePlaybackIndicators(this.comparePoints, playerTime, {
-        startAltitude: this.comparePoints[0].altitude
-      })
+      this.updateComparePlaybackIndicators(this.comparePoints, playerTime)
     }
 
     this.updateMapMarkers(index, fraction, playerTime)

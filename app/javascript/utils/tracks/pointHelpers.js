@@ -124,10 +124,14 @@ export const valueAtCrossing = (points, crossing, key) => {
   return lerp(curr[key], next[key], crossing.fraction)
 }
 
-export const interpolatePointByAltitude = (points, altitude) => {
+export const interpolatePointByAltitude = (
+  points,
+  altitude,
+  { descendingOnly = false } = {}
+) => {
   if (!points || points.length === 0) return null
 
-  const crossing = altitudeCrossing(points, altitude, { descendingOnly: false })
+  const crossing = altitudeCrossing(points, altitude, { descendingOnly })
   if (!crossing) return null
 
   const curr = points[crossing.index]

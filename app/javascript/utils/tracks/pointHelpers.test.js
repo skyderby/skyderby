@@ -111,6 +111,22 @@ describe('interpolatePointByAltitude', () => {
   test('returns the exact point on equality', () => {
     expect(interpolatePointByAltitude(points, 2800)).toBe(points[2])
   })
+
+  test('skips ascending crossings when descendingOnly is set', () => {
+    const climbThenDescend = [
+      { ...points[0], altitude: 2700 },
+      { ...points[1], altitude: 2900 },
+      ...points.slice(2)
+    ]
+    expect(interpolatePointByAltitude(climbThenDescend, 2750).gpsTime.getTime()).toBe(
+      base + 250
+    )
+    expect(
+      interpolatePointByAltitude(climbThenDescend, 2750, {
+        descendingOnly: true
+      }).gpsTime.getTime()
+    ).toBe(base + 2500)
+  })
 })
 
 describe('interpolatePointByTime', () => {

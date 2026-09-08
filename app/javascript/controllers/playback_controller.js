@@ -27,8 +27,19 @@ export default class extends Controller {
     return lerp(curr.playerTime, next.playerTime, this.currentFraction || 0)
   }
 
+  get playbackCharts() {
+    return [
+      this.glideChartTarget?.chart,
+      this.speedChartTarget?.chart,
+      this.sepChartTarget?.chart
+    ]
+  }
+
+  get startAltitude() {
+    return this.playbackPoints[0]?.altitude
+  }
+
   resetPlayback() {
-    this.playing = false
     this.currentIndex = 0
     this.currentFraction = 0
 
@@ -143,15 +154,14 @@ export default class extends Controller {
     const data = interpolateAtIndex(points, index, fraction)
     if (!data) return
 
-    if (this.startAltitude != null)
-      data.altitudeSpent = this.startAltitude - data.altitude
+    data.altitudeSpent = this.startAltitude - data.altitude
     controller.update(data, this.units)
 
     const acceleration = accelerationAt(points, index, fraction)
     if (acceleration) controller.updateAcceleration(acceleration)
   }
 
-  updateComparePlaybackIndicators(points, playerTime, { startAltitude = null } = {}) {
+  updateComparePlaybackIndicators(points, playerTime) {
     if (!this.hasComparePlaybackIndicatorsTarget || !points?.length) return
 
     const controller = this.indicatorsController(this.comparePlaybackIndicatorsTarget)
@@ -160,17 +170,19 @@ export default class extends Controller {
     const point = interpolateByPlayerTime(points, playerTime)
     if (!point) return
 
-    const data = {
-      altitude: point.altitude,
-      fullSpeed: point.fullSpeed,
-      hSpeed: point.hSpeed,
-      vSpeed: point.vSpeed,
-      glideRatio: point.glideRatio ?? 0
-    }
-    if (startAltitude != null) data.altitudeSpent = startAltitude - point.altitude
-    controller.update(data, this.units)
+    controller.update(
+      {
+        altitude: point.altitude,
+        altitudeSpent: points[0].altitude - point.altitude,
+        fullSpeed: point.fullSpeed,
+        hSpeed: point.hSpeed,
+        vSpeed: point.vSpeed,
+        glideRatio: point.glideRatio ?? 0
+      },
+      this.units
+    )
 
-    const acceleration = accelerationAtPlayerTime(points, playerTime)
+    const acceleration = accelerationAtPlayerTime(points, playerTime, point)
     if (acceleration) controller.updateAcceleration(acceleration)
   }
 }
