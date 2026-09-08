@@ -191,6 +191,20 @@ export const findLineCrossing = (points, line) => {
   return null
 }
 
+export const indexAtPlayerTime = (points, playerTime) => {
+  if (playerTime < points[0].playerTime) return { index: 0, fraction: 0 }
+
+  for (let i = 0; i < points.length - 1; i++) {
+    const curr = points[i].playerTime
+    const next = points[i + 1].playerTime
+    if (playerTime >= curr && playerTime < next) {
+      return { index: i, fraction: (playerTime - curr) / (next - curr) }
+    }
+  }
+
+  return { index: points.length - 1, fraction: 0 }
+}
+
 export const closestIndexByPlayerTime = (points, playerTime) => {
   let closestIndex = 0
   let minDiff = Infinity

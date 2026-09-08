@@ -1,5 +1,7 @@
 import PlaybackController from '../playback_controller'
-import { calculateBearing, findLineCrossing } from 'utils/tracks/pointHelpers'
+import { findLineCrossing, headingAtIndex } from 'utils/tracks/pointHelpers'
+import { syncCrosshairByIndex } from 'utils/tracks/playback/highchartsCrosshair'
+import ArrowMarker from 'utils/tracks/playback/ArrowMarker'
 import { initGlideChart, initSpeedsChart, initAccuracyChart } from 'charts'
 import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import initMapsApi from 'utils/google_maps_api'
@@ -34,9 +36,6 @@ export default class extends PlaybackController {
 
   connect() {
     if (isTurboPreview()) return
-
-    this.playing = false
-    this.currentIndex = 0
 
     Promise.all([
       fetchTrackPoints(this.pointsUrlValue, { convertSpeeds: true }),
@@ -133,16 +132,7 @@ export default class extends PlaybackController {
   }
 
   onSideProjectionHover(index) {
-    this.currentIndex = index
-    this.currentFraction = 0
-
-    if (this.hasPlaybackSliderTarget) {
-      this.playbackSliderTarget.value = index
-    }
-
-    this.updateHighchartsCrosshair(index)
-    this.updateIndicators(index, 0)
-    this.updateMapMarkerAtIndex(index)
+    this.seekTo(index)
   }
 
   onChartHover(event) {
@@ -158,9 +148,7 @@ export default class extends PlaybackController {
     const point = series.searchPoint(normalized, true)
     if (point == null || point.index == null) return
 
-    this.currentIndex = point.index
-    this.currentFraction = 0
-    this.updatePlaybackPosition()
+    this.seekTo(point.index)
   }
 
   chartForHover() {
@@ -311,219 +299,42 @@ export default class extends PlaybackController {
     if (!this.hasPlaybackSliderTarget) return
 
     this.startAltitude = this.points[0].altitude
-    this.playbackSliderTarget.max = this.points.length - 1
+    this.resetPlayback()
     this.createMapMarker()
   }
 
   createMapMarker() {
     if (!this.map) return
 
-    const img = document.createElement('img')
-    img.src = this.locationArrowUrlValue
-    img.style.width = '24px'
-    img.style.height = '24px'
-    img.style.transform = 'translateY(50%) rotate(-45deg)'
-
-    this.mapMarker = new google.maps.marker.AdvancedMarkerElement({
+    this.mapMarker = new ArrowMarker({
       map: this.map,
-      position: { lat: this.points[0].latitude, lng: this.points[0].longitude },
-      content: img
+      position: this.points[0],
+      imageUrl: this.locationArrowUrlValue
     })
-
-    this.markerElement = img
   }
 
-  get playbackPoints() {
-    return this.points
-  }
-
-  pointTime(point) {
-    return point.gpsTime.getTime()
-  }
-
-  onSliderInput() {
-    this.currentIndex = parseInt(this.playbackSliderTarget.value, 10)
-    this.currentFraction = 0
-    this.updatePlaybackPosition()
-  }
-
-  updatePlaybackPosition() {
-    if (this.hasPlaybackSliderTarget) {
-      this.playbackSliderTarget.value = this.currentIndex
-    }
-
-    if (this.sideProjectionChart) {
-      this.sideProjectionChart.showCrosshair(this.currentIndex)
-    }
-
-    this.updateHighchartsCrosshair(this.currentIndex)
-    this.updateIndicators(this.currentIndex, 0)
-    this.updateMapMarkerAtIndex(this.currentIndex)
-  }
-
-  updatePlaybackPositionInterpolated() {
-    if (this.hasPlaybackSliderTarget) {
-      this.playbackSliderTarget.value = this.currentIndex
-    }
-
-    if (this.sideProjectionChart) {
-      this.sideProjectionChart.showCrosshairInterpolated(
-        this.currentIndex,
-        this.currentFraction
-      )
-    }
-
-    this.updateHighchartsCrosshair(this.currentIndex)
-    this.updateIndicators(this.currentIndex, this.currentFraction)
-    this.updateMapMarkerInterpolated()
-  }
-
-  updateIndicators(index, fraction) {
-    const curr = this.points[index]
-    const next = this.points[Math.min(index + 1, this.points.length - 1)]
-
-    const interpolate = (a, b) => a + (b - a) * fraction
-
-    const altitude = interpolate(curr.altitude, next.altitude)
-    const altitudeSpent = this.startAltitude - altitude
-    const fullSpeed = interpolate(curr.fullSpeed, next.fullSpeed)
-    const hSpeed = interpolate(curr.hSpeed, next.hSpeed)
-    const vSpeed = interpolate(curr.vSpeed, next.vSpeed)
-    const glideRatio = interpolate(curr.glideRatio ?? 0, next.glideRatio ?? 0)
-
-    const controller = this.getPlaybackIndicatorsController()
-    if (controller) {
-      controller.update({
-        altitude,
-        altitudeSpent,
-        fullSpeed,
-        hSpeed,
-        vSpeed,
-        glideRatio
-      })
-    }
-
-    this.updateAccelerationIndicators(index, fraction)
-  }
-
-  updateAccelerationIndicators(index, fraction) {
-    const futureIndex = this.findFutureIndexFrom(index, 1000)
-    if (futureIndex === null) return
-
-    const curr = this.points[index]
-    const next = this.points[Math.min(index + 1, this.points.length - 1)]
-    const future = this.points[futureIndex]
-
-    const interpolate = (a, b) => a + (b - a) * fraction
-
-    const currFullSpeed = interpolate(curr.fullSpeed, next.fullSpeed) / 3.6
-    const currHSpeed = interpolate(curr.hSpeed, next.hSpeed) / 3.6
-    const currVSpeed = interpolate(curr.vSpeed, next.vSpeed) / 3.6
-    const futureFullSpeed = future.fullSpeed / 3.6
-    const futureHSpeed = future.hSpeed / 3.6
-    const futureVSpeed = future.vSpeed / 3.6
-
-    const currTime =
-      curr.gpsTime.getTime() +
-      fraction * (next.gpsTime.getTime() - curr.gpsTime.getTime())
-    const deltaTime = (future.gpsTime.getTime() - currTime) / 1000
-
-    const fullSpeedAccel = (futureFullSpeed - currFullSpeed) / deltaTime
-    const hSpeedAccel = (futureHSpeed - currHSpeed) / deltaTime
-    const vSpeedAccel = (futureVSpeed - currVSpeed) / deltaTime
-
-    const controller = this.getPlaybackIndicatorsController()
-    if (controller) {
-      controller.updateAcceleration({ fullSpeedAccel, hSpeedAccel, vSpeedAccel })
-    }
-  }
-
-  getPlaybackIndicatorsController() {
-    if (!this.hasPlaybackIndicatorsTarget) return null
-
-    return this.application.getControllerForElementAndIdentifier(
-      this.playbackIndicatorsTarget,
-      'playback-indicators'
-    )
-  }
-
-  findFutureIndexFrom(fromIndex, milliseconds) {
-    const currentTime = this.points[fromIndex].gpsTime.getTime()
-    const targetTime = currentTime + milliseconds
-
-    for (let i = fromIndex + 1; i < this.points.length; i++) {
-      if (this.points[i].gpsTime.getTime() >= targetTime) {
-        return i
-      }
-    }
-
-    return null
-  }
-
-  updateHighchartsCrosshair(index) {
-    const charts = [
+  get playbackCharts() {
+    return [
       this.glideChartTarget?.chart,
       this.speedChartTarget?.chart,
       this.sepChartTarget?.chart
-    ].filter(Boolean)
-
-    charts.forEach(chart => {
-      const points = chart.series
-        .filter(series => series.visible && series.enableMouseTracking !== false)
-        .map(series => series.points?.[index])
-        .filter(Boolean)
-
-      if (points.length === 0) return
-
-      points[0].onMouseOver()
-      chart.tooltip.refresh(points)
-      chart.xAxis[0].drawCrosshair(null, points[0])
-    })
+    ]
   }
 
-  updateMapMarkerAtIndex(index) {
-    if (!this.mapMarker || !this.markerElement) return
-
-    const point = this.points[index]
-    this.mapMarker.position = { lat: point.latitude, lng: point.longitude }
-
-    const targetIndex = this.findTargetIndexFrom(index)
-    const targetPoint = this.points[targetIndex]
-    const rotation = calculateBearing(point, targetPoint)
-
-    this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
-  }
-
-  updateMapMarkerInterpolated() {
-    if (!this.mapMarker || !this.markerElement) return
-
-    const curr = this.points[this.currentIndex]
-    const next = this.points[Math.min(this.currentIndex + 1, this.points.length - 1)]
-    const fraction = this.currentFraction
-
-    const lat = curr.latitude + (next.latitude - curr.latitude) * fraction
-    const lng = curr.longitude + (next.longitude - curr.longitude) * fraction
-
-    this.mapMarker.position = { lat, lng }
-
-    const targetIndex = this.findTargetIndexFrom(this.currentIndex)
-    const targetPoint = this.points[targetIndex]
-    const rotation = calculateBearing({ latitude: lat, longitude: lng }, targetPoint)
-
-    this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
-  }
-
-  findTargetIndexFrom(fromIndex) {
-    const currentTime = this.points[fromIndex].gpsTime.getTime()
-    const targetTime = currentTime + 3000
-
-    for (let i = fromIndex + 1; i < this.points.length; i++) {
-      if (this.points[i].gpsTime.getTime() >= targetTime) {
-        return i
-      }
+  syncPosition(index, fraction, interpolated) {
+    if (interpolated) {
+      this.sideProjectionChart?.showCrosshairInterpolated(index, fraction)
+    } else {
+      this.sideProjectionChart?.showCrosshair(index)
     }
 
-    return this.points.length - 1
+    syncCrosshairByIndex(this.playbackCharts, index)
+    this.updatePlaybackIndicators(index, fraction)
+
+    if (this.mapMarker) {
+      const { point, heading } = headingAtIndex(this.points, index, fraction)
+      this.mapMarker.setPosition(point, heading)
+    }
   }
 
   disconnect() {

@@ -22,12 +22,15 @@ import SkydivePerformanceSideView from 'utils/tracks/SkydivePerformanceSideView'
 import SkydivePerformancePolar from 'utils/tracks/SkydivePerformancePolar'
 import TrackMap from 'utils/tracks/map/TrackMap'
 import {
-  calculateBearing,
-  targetIndexFrom,
   closestIndexByPlayerTime,
-  interpolateByPlayerTime,
-  haversineDistance
+  haversineDistance,
+  headingAtIndex,
+  altitudeCrossing,
+  valueAtCrossing,
+  timeAtIndex,
+  nearestPointTo
 } from 'utils/tracks/pointHelpers'
+import { syncCrosshairByX } from 'utils/tracks/playback/highchartsCrosshair'
 import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
 import { get, post, patch } from '@rails/request.js'
 import I18n from 'i18n'
@@ -115,8 +118,6 @@ export default class extends PlaybackController {
   connect() {
     if (isTurboPreview()) return
 
-    this.playing = false
-    this.currentIndex = 0
     this.stage = 'segments'
     this.referencePointData = null
     this.comparePoints = null
@@ -584,9 +585,7 @@ export default class extends PlaybackController {
   }
 
   handleSideViewSeek(index) {
-    this.currentIndex = index
-    this.currentFraction = 0
-    this.updatePlaybackPosition()
+    this.seekTo(index)
   }
 
   calculateChartPoints() {
@@ -654,8 +653,7 @@ export default class extends PlaybackController {
     let distance = 0
 
     return points.map((point, index) => {
-      const gpsTime = point.gpsTime.getTime()
-      const playerTime = (gpsTime - startTime) / 1000
+      const playerTime = (point.gpsTime.getTime() - startTime) / 1000
       if (index > 0) {
         distance += haversineDistance(points[index - 1], point)
       }
@@ -670,7 +668,7 @@ export default class extends PlaybackController {
         vSpeed: point.vSpeed,
         fullSpeed: point.fullSpeed,
         glideRatio: point.glideRatio,
-        gpsTime
+        gpsTime: point.gpsTime
       }
     })
   }
@@ -683,8 +681,7 @@ export default class extends PlaybackController {
       if (index > 0) {
         distance += haversineDistance(this.comparePoints[index - 1], point)
       }
-      const srcGpsTime = point.gpsTime.getTime()
-      const gpsTime = srcGpsTime + this.compareTimeOffset
+      const gpsTime = point.gpsTime.getTime() + this.compareTimeOffset
 
       return {
         playerTime: (gpsTime - primaryStartTime) / 1000,
@@ -696,12 +693,12 @@ export default class extends PlaybackController {
         vSpeed: point.vSpeed,
         fullSpeed: point.fullSpeed,
         glideRatio: point.glideRatio,
-        gpsTime,
-        srcGpsTime
+        gpsTime: new Date(gpsTime),
+        srcGpsTime: point.gpsTime
       }
     })
 
-    const compareEntryDistance = this.findDistanceAtWindowEntry(points, this.fromValue)
+    const compareEntryDistance = this.valueAtWindowEntry(points, 'distance')
     const distanceOffset = primaryEntryDistance - compareEntryDistance
     points.forEach(point => {
       point.distance += distanceOffset
@@ -713,11 +710,8 @@ export default class extends PlaybackController {
   processCompareTrack() {
     if (!this.comparePoints || this.comparePoints.length === 0) return
 
-    const primaryWindowEntry = this.findWindowEntryTime(this.points, this.fromValue)
-    const compareWindowEntry = this.findWindowEntryTime(
-      this.comparePoints,
-      this.fromValue
-    )
+    const primaryWindowEntry = this.windowEntryTime(this.points)
+    const compareWindowEntry = this.windowEntryTime(this.comparePoints)
 
     if (!primaryWindowEntry || !compareWindowEntry) {
       this.compareChartPoints = []
@@ -751,23 +745,14 @@ export default class extends PlaybackController {
 
     this.compareChartPoints = compareChartPoints
 
-    const primaryEntryFlTime = this.findFlTimeAtWindowEntry(
-      this.chartPoints,
-      this.fromValue
-    )
-    const compareEntryFlTime = this.findFlTimeAtWindowEntry(
-      compareChartPoints,
-      this.fromValue
-    )
+    const primaryEntryFlTime = this.valueAtWindowEntry(this.chartPoints, 'flTime')
+    const compareEntryFlTime = this.valueAtWindowEntry(compareChartPoints, 'flTime')
     const primaryChartStartTime = this.chartPoints[0].flTime
     const primaryEntryX = primaryEntryFlTime - primaryChartStartTime
     const compareEntryX = compareEntryFlTime - compareChartPoints[0].flTime
     this.chartTimeOffset = primaryEntryX - compareEntryX
 
-    const primaryEntryDistance = this.findDistanceAtWindowEntry(
-      this.processedPoints,
-      this.fromValue
-    )
+    const primaryEntryDistance = this.valueAtWindowEntry(this.processedPoints, 'distance')
 
     this.compareProcessedPoints = this.buildCompareProcessedPoints(primaryEntryDistance)
 
@@ -785,63 +770,16 @@ export default class extends PlaybackController {
     }
   }
 
-  findFlTimeAtWindowEntry(points, windowAltitude) {
-    for (let i = 0; i < points.length - 1; i++) {
-      const curr = points[i]
-      const next = points[i + 1]
-
-      if (curr.altitude >= windowAltitude && next.altitude < windowAltitude) {
-        const fraction =
-          (curr.altitude - windowAltitude) / (curr.altitude - next.altitude)
-        return curr.flTime + (next.flTime - curr.flTime) * fraction
-      }
-    }
-    return points[0]?.flTime || 0
+  valueAtWindowEntry(points, key) {
+    const crossing = altitudeCrossing(points, this.fromValue)
+    return valueAtCrossing(points, crossing, key) ?? points[0]?.[key] ?? 0
   }
 
-  findDistanceAtWindowEntry(processedPoints, windowAltitude) {
-    for (let i = 0; i < processedPoints.length - 1; i++) {
-      const curr = processedPoints[i]
-      const next = processedPoints[i + 1]
+  windowEntryTime(points) {
+    const crossing = altitudeCrossing(points, this.fromValue)
+    if (!crossing) return null
 
-      if (curr.altitude >= windowAltitude && next.altitude < windowAltitude) {
-        const fraction =
-          (curr.altitude - windowAltitude) / (curr.altitude - next.altitude)
-        return curr.distance + (next.distance - curr.distance) * fraction
-      }
-    }
-    return processedPoints[0]?.distance || 0
-  }
-
-  findWindowEntryIndex(points, windowAltitude) {
-    for (let i = 0; i < points.length - 1; i++) {
-      const curr = points[i]
-      const next = points[i + 1]
-
-      if (curr.altitude >= windowAltitude && next.altitude < windowAltitude) {
-        const fraction =
-          (curr.altitude - windowAltitude) / (curr.altitude - next.altitude)
-        return { index: i, fraction }
-      }
-    }
-    return null
-  }
-
-  findWindowEntryTime(points, windowAltitude) {
-    for (let i = 0; i < points.length - 1; i++) {
-      const curr = points[i]
-      const next = points[i + 1]
-
-      if (curr.altitude >= windowAltitude && next.altitude < windowAltitude) {
-        const fraction =
-          (curr.altitude - windowAltitude) / (curr.altitude - next.altitude)
-        const entryTime =
-          curr.gpsTime.getTime() +
-          fraction * (next.gpsTime.getTime() - curr.gpsTime.getTime())
-        return entryTime
-      }
-    }
-    return null
+    return timeAtIndex(points, crossing.index, crossing.fraction)
   }
 
   get weather() {
@@ -870,9 +808,7 @@ export default class extends PlaybackController {
     )
     if (index < 0) return
 
-    this.currentIndex = index
-    this.currentFraction = 0
-    this.updatePlaybackPosition()
+    this.seekTo(index)
   }
 
   chartForHover() {
@@ -1321,7 +1257,7 @@ export default class extends PlaybackController {
     if (!this.hasMapTarget) return
 
     if (this.mapReady) {
-      this.updateMapMarkerAtIndex(this.currentIndex)
+      this.updatePlaybackPosition()
       return
     }
     if (this.mapLoading) return
@@ -1333,7 +1269,7 @@ export default class extends PlaybackController {
         this.mapLoading = false
         this.renderMap()
         this.initDesignatedLane()
-        this.updateMapMarkerAtIndex(this.currentIndex)
+        this.updatePlaybackPosition()
       })
       .catch(() => {
         this.mapLoading = false
@@ -1372,56 +1308,47 @@ export default class extends PlaybackController {
   }
 
   initPlayback() {
-    if (!this.hasPlaybackSliderTarget || this.processedPoints.length === 0) return
+    if (this.processedPoints.length === 0) return
 
-    this.playbackSliderTarget.max = this.processedPoints.length - 1
-    this.playbackSliderTarget.value = 0
-    this.currentIndex = 0
+    this.resetPlayback()
   }
 
   get playbackPoints() {
     return this.processedPoints
   }
 
-  pointTime(point) {
-    return point.gpsTime
+  get playbackCharts() {
+    return [
+      this.glideChartTarget?.chart,
+      this.speedChartTarget?.chart,
+      this.sepChartTarget?.chart
+    ]
   }
 
-  onSliderInput() {
-    this.currentIndex = parseInt(this.playbackSliderTarget.value, 10)
-    this.currentFraction = 0
-    this.updatePlaybackPosition()
-  }
+  syncPosition(index, fraction, interpolated) {
+    const point = this.processedPoints[index]
+    if (!point) return
 
-  updatePlaybackPosition() {
-    if (this.hasPlaybackSliderTarget) {
-      this.playbackSliderTarget.value = this.currentIndex
-    }
-
-    this.sideView?.setPosition(this.currentIndex, 0, false)
-    this.updateHighchartsCrosshair(this.currentIndex)
-    this.updatePlaybackIndicators(this.currentIndex, 0)
-    this.updateMapMarkerAtIndex(this.currentIndex)
+    this.sideView?.setPosition(index, fraction, interpolated)
+    syncCrosshairByX(this.playbackCharts, this.currentPlayerTime - this.chartXOffset)
+    this.updatePlaybackIndicators(index, fraction)
+    this.updateComparePlaybackIndicators(
+      this.compareProcessedPoints,
+      this.currentPlayerTime
+    )
     this.updatePolarMarker()
-  }
 
-  updatePlaybackPositionInterpolated() {
-    if (this.hasPlaybackSliderTarget) {
-      this.playbackSliderTarget.value = this.currentIndex
+    if (this.trackMap) {
+      const heading = headingAtIndex(this.processedPoints, index, fraction)
+      this.trackMap.setPosition(heading.point, heading.heading)
     }
-
-    this.sideView?.setPosition(this.currentIndex, this.currentFraction, true)
-    this.updateHighchartsCrosshair(this.currentIndex)
-    this.updatePlaybackIndicators(this.currentIndex, this.currentFraction)
-    this.updateMapMarkerInterpolated()
-    this.updatePolarMarker()
   }
 
   updatePolarMarker() {
     if (!this.polarView) return
 
     const point = this.processedPoints?.[this.currentIndex]
-    this.polarView.setMarker(point ? point.gpsTime : null)
+    this.polarView.setMarker(point ? point.gpsTime.getTime() : null)
 
     if (point && this.compareProcessedPoints?.length) {
       const index = closestIndexByPlayerTime(
@@ -1429,7 +1356,9 @@ export default class extends PlaybackController {
         point.playerTime
       )
       const comparePoint = this.compareProcessedPoints[index]
-      this.polarView.setCompareMarker(comparePoint ? comparePoint.srcGpsTime : null)
+      this.polarView.setCompareMarker(
+        comparePoint ? comparePoint.srcGpsTime.getTime() : null
+      )
     } else {
       this.polarView.setCompareMarker(null)
     }
@@ -1449,199 +1378,6 @@ export default class extends PlaybackController {
       element,
       'summary-indicators'
     )
-  }
-
-  updatePlaybackIndicators(index, fraction) {
-    const curr = this.processedPoints[index]
-    const next =
-      this.processedPoints[Math.min(index + 1, this.processedPoints.length - 1)]
-
-    const interpolate = (a, b) => a + (b - a) * fraction
-
-    const primaryData = {
-      altitude: interpolate(curr.altitude, next.altitude),
-      fullSpeed: interpolate(curr.fullSpeed, next.fullSpeed),
-      hSpeed: interpolate(curr.hSpeed, next.hSpeed),
-      vSpeed: interpolate(curr.vSpeed, next.vSpeed),
-      glideRatio: interpolate(curr.glideRatio ?? 0, next.glideRatio ?? 0)
-    }
-
-    if (this.hasPlaybackIndicatorsTarget) {
-      const controller = this.getPlaybackIndicatorsController(
-        this.playbackIndicatorsTarget
-      )
-      if (controller) controller.update(primaryData, this.units)
-    }
-
-    this.updateAccelerationIndicators(index, fraction)
-
-    if (this.hasComparePlaybackIndicatorsTarget && this.compareProcessedPoints?.length) {
-      const targetTime = curr.playerTime + (next.playerTime - curr.playerTime) * fraction
-      const compareData = interpolateByPlayerTime(this.compareProcessedPoints, targetTime)
-      if (compareData) {
-        const compareController = this.getPlaybackIndicatorsController(
-          this.comparePlaybackIndicatorsTarget
-        )
-        if (compareController) {
-          compareController.update(compareData, this.units)
-
-          const futureCompare = interpolateByPlayerTime(
-            this.compareProcessedPoints,
-            targetTime + 1
-          )
-          if (futureCompare) {
-            compareController.updateAcceleration({
-              fullSpeedAccel: (futureCompare.fullSpeed - compareData.fullSpeed) / 3.6,
-              hSpeedAccel: (futureCompare.hSpeed - compareData.hSpeed) / 3.6,
-              vSpeedAccel: (futureCompare.vSpeed - compareData.vSpeed) / 3.6
-            })
-          }
-        }
-      }
-    }
-  }
-
-  getPlaybackIndicatorsController(element) {
-    return this.application.getControllerForElementAndIdentifier(
-      element,
-      'playback-indicators'
-    )
-  }
-
-  updateAccelerationIndicators(index, fraction) {
-    if (!this.hasPlaybackIndicatorsTarget) return
-
-    const controller = this.getPlaybackIndicatorsController(this.playbackIndicatorsTarget)
-    if (!controller) return
-
-    const futureIndex = this.findFutureIndexFrom(index, 1000)
-    if (futureIndex === null) return
-
-    const curr = this.processedPoints[index]
-    const next =
-      this.processedPoints[Math.min(index + 1, this.processedPoints.length - 1)]
-    const future = this.processedPoints[futureIndex]
-
-    const interpolate = (a, b) => a + (b - a) * fraction
-
-    const currFullSpeed = interpolate(curr.fullSpeed, next.fullSpeed) / 3.6
-    const currHSpeed = interpolate(curr.hSpeed, next.hSpeed) / 3.6
-    const currVSpeed = interpolate(curr.vSpeed, next.vSpeed) / 3.6
-    const futureFullSpeed = future.fullSpeed / 3.6
-    const futureHSpeed = future.hSpeed / 3.6
-    const futureVSpeed = future.vSpeed / 3.6
-
-    const currTime = curr.gpsTime + fraction * (next.gpsTime - curr.gpsTime)
-    const deltaTime = (future.gpsTime - currTime) / 1000
-
-    controller.updateAcceleration({
-      fullSpeedAccel: (futureFullSpeed - currFullSpeed) / deltaTime,
-      hSpeedAccel: (futureHSpeed - currHSpeed) / deltaTime,
-      vSpeedAccel: (futureVSpeed - currVSpeed) / deltaTime
-    })
-  }
-
-  findFutureIndexFrom(fromIndex, milliseconds) {
-    const currentTime = this.processedPoints[fromIndex].gpsTime
-    const targetTime = currentTime + milliseconds
-
-    for (let i = fromIndex + 1; i < this.processedPoints.length; i++) {
-      if (this.processedPoints[i].gpsTime >= targetTime) {
-        return i
-      }
-    }
-
-    return null
-  }
-
-  updateHighchartsCrosshair(index) {
-    const point = this.processedPoints[index]
-    if (!point) return
-
-    const targetX = point.playerTime - this.chartXOffset
-
-    const charts = [
-      this.glideChartTarget?.chart,
-      this.speedChartTarget?.chart,
-      this.sepChartTarget?.chart
-    ].filter(Boolean)
-
-    charts.forEach(chart => {
-      const baseSeries = chart.series.find(
-        series => series.visible && series.points?.length
-      )
-      if (!baseSeries) return
-
-      const basePoints = baseSeries.points
-      const firstX = basePoints[0].x
-      const lastX = basePoints[basePoints.length - 1].x
-
-      if (targetX < firstX || targetX > lastX) {
-        chart.tooltip?.hide()
-        chart.xAxis[0]?.hideCrosshair()
-        return
-      }
-
-      const chartIndex = this.findNearestChartIndex(basePoints, targetX)
-      const points = chart.series
-        .filter(series => series.visible)
-        .map(series => series.points[chartIndex])
-        .filter(Boolean)
-
-      if (points.length > 0) {
-        points[0].onMouseOver()
-        chart.tooltip.refresh(points)
-        chart.xAxis[0].drawCrosshair(null, points[0])
-      }
-    })
-  }
-
-  findNearestChartIndex(points, targetX) {
-    let nearestIndex = 0
-    let minDiff = Infinity
-
-    points.forEach((point, index) => {
-      const diff = Math.abs(point.x - targetX)
-      if (diff < minDiff) {
-        minDiff = diff
-        nearestIndex = index
-      }
-    })
-
-    return nearestIndex
-  }
-
-  updateMapMarkerAtIndex(index) {
-    if (!this.trackMap) return
-
-    const point = this.processedPoints[index]
-    if (!point) return
-
-    const targetIndex = targetIndexFrom(this.processedPoints, index)
-    const heading = calculateBearing(point, this.processedPoints[targetIndex])
-
-    this.trackMap.setPosition(point, heading)
-  }
-
-  updateMapMarkerInterpolated() {
-    if (!this.trackMap) return
-
-    const curr = this.processedPoints[this.currentIndex]
-    const next =
-      this.processedPoints[
-        Math.min(this.currentIndex + 1, this.processedPoints.length - 1)
-      ]
-    const fraction = this.currentFraction
-
-    const point = {
-      latitude: curr.latitude + (next.latitude - curr.latitude) * fraction,
-      longitude: curr.longitude + (next.longitude - curr.longitude) * fraction
-    }
-
-    const targetIndex = targetIndexFrom(this.processedPoints, this.currentIndex)
-    const heading = calculateBearing(point, this.processedPoints[targetIndex])
-
-    this.trackMap.setPosition(point, heading)
   }
 
   toggleDesignatedLane() {
@@ -1706,22 +1442,8 @@ export default class extends PlaybackController {
     return interpolatePointByTime(this.points, this.exitTime + 9000)
   }
 
-  nearestTrackPoint(latitude, longitude) {
-    if (!this.points?.length) return null
-
-    const target = { latitude, longitude }
-    let best = null
-    let bestDistance = Infinity
-
-    this.points.forEach(point => {
-      const distance = haversineDistance(target, point)
-      if (distance < bestDistance) {
-        bestDistance = distance
-        best = point
-      }
-    })
-
-    return best
+  nearestTrackPoint({ lat, lng }) {
+    return nearestPointTo(this.points, { latitude: lat, longitude: lng })
   }
 
   altitudeLabelText(altitude) {
@@ -1786,7 +1508,7 @@ export default class extends PlaybackController {
       if (dragFrame) return
       dragFrame = requestAnimationFrame(() => {
         dragFrame = null
-        const nearest = this.nearestTrackPoint(marker.position.lat, marker.position.lng)
+        const nearest = this.nearestTrackPoint(marker.position)
         if (nearest) label.textContent = this.altitudeLabelText(nearest.altitude)
       })
     })
@@ -1797,7 +1519,7 @@ export default class extends PlaybackController {
         dragFrame = null
       }
 
-      const nearest = this.nearestTrackPoint(marker.position.lat, marker.position.lng)
+      const nearest = this.nearestTrackPoint(marker.position)
       if (!nearest) return
 
       this.designatedLaneStart = {

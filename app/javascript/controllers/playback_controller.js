@@ -1,6 +1,43 @@
 import { Controller } from '@hotwired/stimulus'
+import {
+  timeOf,
+  lerp,
+  indexAtTime,
+  interpolateAtIndex,
+  interpolateByPlayerTime
+} from 'utils/tracks/pointHelpers'
+import {
+  accelerationAt,
+  accelerationAtPlayerTime
+} from 'utils/tracks/playback/indicators'
 
 export default class extends Controller {
+  get playbackPoints() {
+    return this.points
+  }
+
+  pointTime(point) {
+    return timeOf(point)
+  }
+
+  get currentPlayerTime() {
+    const points = this.playbackPoints
+    const curr = points[this.currentIndex]
+    const next = points[Math.min(this.currentIndex + 1, points.length - 1)]
+    return lerp(curr.playerTime, next.playerTime, this.currentFraction || 0)
+  }
+
+  resetPlayback() {
+    this.playing = false
+    this.currentIndex = 0
+    this.currentFraction = 0
+
+    if (this.hasPlaybackSliderTarget) {
+      this.playbackSliderTarget.max = this.playbackPoints.length - 1
+      this.playbackSliderTarget.value = 0
+    }
+  }
+
   togglePlay() {
     this.playing = !this.playing
 
@@ -48,19 +85,7 @@ export default class extends Controller {
   }
 
   findPointAtTime(targetTime) {
-    const points = this.playbackPoints
-
-    for (let i = 0; i < points.length - 1; i++) {
-      const currTime = this.pointTime(points[i])
-      const nextTime = this.pointTime(points[i + 1])
-
-      if (targetTime >= currTime && targetTime < nextTime) {
-        const fraction = (targetTime - currTime) / (nextTime - currTime)
-        return { index: i, fraction }
-      }
-    }
-
-    return { index: points.length - 1, fraction: 0 }
+    return indexAtTime(this.playbackPoints, targetTime)
   }
 
   stopPlaybackLoop() {
@@ -68,5 +93,84 @@ export default class extends Controller {
       cancelAnimationFrame(this.animationFrame)
       this.animationFrame = null
     }
+  }
+
+  onSliderInput() {
+    this.seekTo(parseInt(this.playbackSliderTarget.value, 10))
+  }
+
+  seekTo(index) {
+    this.currentIndex = index
+    this.currentFraction = 0
+    this.updatePlaybackPosition()
+  }
+
+  updatePlaybackPosition() {
+    this.currentFraction = 0
+    this.syncSlider()
+    this.syncPosition(this.currentIndex, 0, false)
+  }
+
+  updatePlaybackPositionInterpolated() {
+    this.syncSlider()
+    this.syncPosition(this.currentIndex, this.currentFraction, true)
+  }
+
+  syncSlider() {
+    if (this.hasPlaybackSliderTarget) {
+      this.playbackSliderTarget.value = this.currentIndex
+    }
+  }
+
+  syncPosition() {}
+
+  indicatorsController(element) {
+    if (!element) return null
+
+    return this.application.getControllerForElementAndIdentifier(
+      element,
+      'playback-indicators'
+    )
+  }
+
+  updatePlaybackIndicators(index, fraction) {
+    if (!this.hasPlaybackIndicatorsTarget) return
+
+    const controller = this.indicatorsController(this.playbackIndicatorsTarget)
+    if (!controller) return
+
+    const points = this.playbackPoints
+    const data = interpolateAtIndex(points, index, fraction)
+    if (!data) return
+
+    if (this.startAltitude != null)
+      data.altitudeSpent = this.startAltitude - data.altitude
+    controller.update(data, this.units)
+
+    const acceleration = accelerationAt(points, index, fraction)
+    if (acceleration) controller.updateAcceleration(acceleration)
+  }
+
+  updateComparePlaybackIndicators(points, playerTime, { startAltitude = null } = {}) {
+    if (!this.hasComparePlaybackIndicatorsTarget || !points?.length) return
+
+    const controller = this.indicatorsController(this.comparePlaybackIndicatorsTarget)
+    if (!controller) return
+
+    const point = interpolateByPlayerTime(points, playerTime)
+    if (!point) return
+
+    const data = {
+      altitude: point.altitude,
+      fullSpeed: point.fullSpeed,
+      hSpeed: point.hSpeed,
+      vSpeed: point.vSpeed,
+      glideRatio: point.glideRatio ?? 0
+    }
+    if (startAltitude != null) data.altitudeSpent = startAltitude - point.altitude
+    controller.update(data, this.units)
+
+    const acceleration = accelerationAtPlayerTime(points, playerTime)
+    if (acceleration) controller.updateAcceleration(acceleration)
   }
 }

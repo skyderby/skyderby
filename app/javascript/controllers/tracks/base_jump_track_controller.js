@@ -8,10 +8,13 @@ import { acquireMap } from 'utils/maps/shared_map'
 import { isTurboPreview } from 'utils/turbo_preview'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
 import {
-  calculateBearing,
   findLineCrossing,
-  nearestIndexByTime
+  nearestIndexByTime,
+  headingAtIndex,
+  indexAtPlayerTime
 } from 'utils/tracks/pointHelpers'
+import { syncCrosshairByIndex } from 'utils/tracks/playback/highchartsCrosshair'
+import ArrowMarker from 'utils/tracks/playback/ArrowMarker'
 import { computeBaseJumpSummary } from 'utils/tracks/baseJumpSummary'
 import { convertLength, convertSpeed, lengthUnitLabel, speedUnitLabel } from 'utils/units'
 import { get, patch } from '@rails/request.js'
@@ -117,8 +120,6 @@ export default class extends PlaybackController {
     if (isTurboPreview()) return
     if (this.applyResultPreference()) return
 
-    this.playing = false
-    this.currentIndex = 0
     this.comparePoints = null
 
     const fetches = [
@@ -472,16 +473,7 @@ export default class extends PlaybackController {
   }
 
   onSideProjectionHover(index) {
-    this.currentIndex = index
-    this.currentFraction = 0
-
-    if (this.hasPlaybackSliderTarget) {
-      this.playbackSliderTarget.value = index
-    }
-
-    this.updateHighchartsCrosshair(index)
-    this.updateIndicators(index, 0)
-    this.updateMapMarkerAtIndex(index)
+    this.seekTo(index)
   }
 
   onChartHover(event) {
@@ -497,9 +489,7 @@ export default class extends PlaybackController {
     const point = series.searchPoint(normalized, true)
     if (point == null || point.index == null) return
 
-    this.currentIndex = point.index
-    this.currentFraction = 0
-    this.updatePlaybackPosition()
+    this.seekTo(point.index)
   }
 
   chartForHover() {
@@ -971,383 +961,74 @@ export default class extends PlaybackController {
     if (!this.hasPlaybackSliderTarget) return
 
     this.startAltitude = this.points[0].altitude
-    this.playbackSliderTarget.max = this.points.length - 1
-    this.createMapMarker()
-    if (this.showCompareOnMap) {
-      this.createCompareMapMarker()
-    }
+    this.resetPlayback()
+    this.createMapMarkers()
   }
 
-  createMapMarker() {
+  createMapMarkers() {
     if (!this.map) return
 
-    const img = document.createElement('img')
-    img.src = this.locationArrowUrlValue
-    img.style.width = '24px'
-    img.style.height = '24px'
-    img.style.transform = 'translateY(50%) rotate(-45deg)'
+    this.mapMarker = new ArrowMarker({
+      map: this.map,
+      position: this.points[0],
+      imageUrl: this.locationArrowUrlValue
+    })
+    this.sharedMap.add(this.mapMarker.marker)
 
-    this.mapMarker = this.sharedMap.add(
-      new google.maps.marker.AdvancedMarkerElement({
-        map: this.map,
-        position: { lat: this.points[0].latitude, lng: this.points[0].longitude },
-        content: img
-      })
-    )
+    if (!this.showCompareOnMap) return
 
-    this.markerElement = img
+    this.compareMapMarker = new ArrowMarker({
+      map: this.map,
+      position: this.comparePoints[0],
+      imageUrl: this.locationArrowUrlValue,
+      className: 'base-jump-map-marker--compare'
+    })
+    this.sharedMap.add(this.compareMapMarker.marker)
   }
 
-  createCompareMapMarker() {
-    if (!this.map) return
-
-    const arrow = document.createElement('div')
-    arrow.className = 'base-jump-map-marker--compare'
-    arrow.style.maskImage = `url(${this.locationArrowUrlValue})`
-    arrow.style.webkitMaskImage = `url(${this.locationArrowUrlValue})`
-    arrow.style.transform = 'translateY(50%) rotate(-45deg)'
-
-    this.compareMapMarker = this.sharedMap.add(
-      new google.maps.marker.AdvancedMarkerElement({
-        map: this.map,
-        position: {
-          lat: this.comparePoints[0].latitude,
-          lng: this.comparePoints[0].longitude
-        },
-        content: arrow
-      })
-    )
-
-    this.compareMarkerElement = arrow
-  }
-
-  updateCompareMapMarker(playerTime) {
-    if (!this.compareMapMarker || !this.compareMarkerElement) return
-
-    const position = this.interpolateCompareLatLng(playerTime)
-    if (!position) return
-
-    this.compareMapMarker.position = position
-
-    const rotation = this.compareBearingAt(playerTime)
-    this.compareMarkerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
-  }
-
-  compareBearingAt(playerTime) {
-    const points = this.comparePoints
-    let index = points.length - 1
-    for (let i = 0; i < points.length - 1; i++) {
-      if (playerTime >= points[i].playerTime && playerTime < points[i + 1].playerTime) {
-        index = i
-        break
-      }
-    }
-
-    const targetTime = points[index].playerTime + 3
-    let targetIndex = points.length - 1
-    for (let i = index + 1; i < points.length; i++) {
-      if (points[i].playerTime >= targetTime) {
-        targetIndex = i
-        break
-      }
-    }
-
-    return calculateBearing(points[index], points[targetIndex])
-  }
-
-  interpolateCompareLatLng(playerTime) {
-    const points = this.comparePoints
-    if (!points || points.length === 0) return null
-
-    for (let i = 0; i < points.length - 1; i++) {
-      const curr = points[i]
-      const next = points[i + 1]
-
-      if (playerTime >= curr.playerTime && playerTime < next.playerTime) {
-        const fraction =
-          (playerTime - curr.playerTime) / (next.playerTime - curr.playerTime)
-        return {
-          lat: curr.latitude + (next.latitude - curr.latitude) * fraction,
-          lng: curr.longitude + (next.longitude - curr.longitude) * fraction
-        }
-      }
-    }
-
-    if (playerTime < points[0].playerTime) {
-      return { lat: points[0].latitude, lng: points[0].longitude }
-    }
-
-    const last = points[points.length - 1]
-    return { lat: last.latitude, lng: last.longitude }
-  }
-
-  currentPlayerTime() {
-    const curr = this.points[this.currentIndex]
-    const next = this.points[Math.min(this.currentIndex + 1, this.points.length - 1)]
-    return (
-      curr.playerTime + (next.playerTime - curr.playerTime) * (this.currentFraction || 0)
-    )
-  }
-
-  get playbackPoints() {
-    return this.points
-  }
-
-  pointTime(point) {
-    return point.gpsTime.getTime()
-  }
-
-  onSliderInput() {
-    this.currentIndex = parseInt(this.playbackSliderTarget.value, 10)
-    this.currentFraction = 0
-    this.updatePlaybackPosition()
-  }
-
-  updatePlaybackPosition() {
-    if (this.hasPlaybackSliderTarget) {
-      this.playbackSliderTarget.value = this.currentIndex
-    }
-
-    if (this.sideProjectionChart) {
-      this.sideProjectionChart.showCrosshair(this.currentIndex)
-    }
-
-    this.updateHighchartsCrosshair(this.currentIndex)
-    this.updateIndicators(this.currentIndex, 0)
-    this.updateMapMarkerAtIndex(this.currentIndex)
-  }
-
-  updatePlaybackPositionInterpolated() {
-    if (this.hasPlaybackSliderTarget) {
-      this.playbackSliderTarget.value = this.currentIndex
-    }
-
-    if (this.sideProjectionChart) {
-      this.sideProjectionChart.showCrosshairInterpolated(
-        this.currentIndex,
-        this.currentFraction
-      )
-    }
-
-    this.updateHighchartsCrosshair(this.currentIndex)
-    this.updateIndicators(this.currentIndex, this.currentFraction)
-    this.updateMapMarkerInterpolated()
-  }
-
-  updateIndicators(index, fraction) {
-    const curr = this.points[index]
-    const next = this.points[Math.min(index + 1, this.points.length - 1)]
-
-    const interpolate = (a, b) => a + (b - a) * fraction
-
-    const altitude = interpolate(curr.altitude, next.altitude)
-    const altitudeSpent = this.startAltitude - altitude
-    const fullSpeed = interpolate(curr.fullSpeed, next.fullSpeed)
-    const hSpeed = interpolate(curr.hSpeed, next.hSpeed)
-    const vSpeed = interpolate(curr.vSpeed, next.vSpeed)
-    const glideRatio = interpolate(curr.glideRatio ?? 0, next.glideRatio ?? 0)
-
-    const controller = this.getPlaybackIndicatorsController()
-    if (controller) {
-      controller.update(
-        {
-          altitude,
-          altitudeSpent,
-          fullSpeed,
-          hSpeed,
-          vSpeed,
-          glideRatio
-        },
-        this.units
-      )
-    }
-
-    this.updateAccelerationIndicators(index, fraction)
-    this.updateCompareIndicators(this.currentPlayerTime())
-  }
-
-  updateCompareIndicators(playerTime) {
-    if (!this.hasCompare || !this.hasComparePlaybackIndicatorsTarget) return
-
-    const controller = this.application.getControllerForElementAndIdentifier(
-      this.comparePlaybackIndicatorsTarget,
-      'playback-indicators'
-    )
-    if (!controller) return
-
-    const point = this.interpolateCompareByPlayerTime(playerTime)
-    if (!point) return
-
-    controller.update(
-      {
-        altitude: point.altitude,
-        altitudeSpent: this.comparePoints[0].altitude - point.altitude,
-        fullSpeed: point.fullSpeed,
-        hSpeed: point.hSpeed,
-        vSpeed: point.vSpeed,
-        glideRatio: point.glideRatio ?? 0
-      },
-      this.units
-    )
-
-    const futurePoint = this.interpolateCompareByPlayerTime(playerTime + 1)
-    if (futurePoint) {
-      controller.updateAcceleration({
-        fullSpeedAccel: (futurePoint.fullSpeed - point.fullSpeed) / 3.6,
-        hSpeedAccel: (futurePoint.hSpeed - point.hSpeed) / 3.6,
-        vSpeedAccel: (futurePoint.vSpeed - point.vSpeed) / 3.6
-      })
-    }
-  }
-
-  interpolateCompareByPlayerTime(playerTime) {
-    const points = this.comparePoints
-    if (!points || points.length === 0) return null
-
-    const lerp = (a, b, f) => a + (b - a) * f
-
-    for (let i = 0; i < points.length - 1; i++) {
-      const curr = points[i]
-      const next = points[i + 1]
-
-      if (playerTime >= curr.playerTime && playerTime < next.playerTime) {
-        const f = (playerTime - curr.playerTime) / (next.playerTime - curr.playerTime)
-        return {
-          altitude: lerp(curr.altitude, next.altitude, f),
-          fullSpeed: lerp(curr.fullSpeed, next.fullSpeed, f),
-          hSpeed: lerp(curr.hSpeed, next.hSpeed, f),
-          vSpeed: lerp(curr.vSpeed, next.vSpeed, f),
-          glideRatio: lerp(curr.glideRatio ?? 0, next.glideRatio ?? 0, f)
-        }
-      }
-    }
-
-    if (playerTime < points[0].playerTime) return points[0]
-    return points[points.length - 1]
-  }
-
-  updateAccelerationIndicators(index, fraction) {
-    const futureIndex = this.findFutureIndexFrom(index, 1000)
-    if (futureIndex === null) return
-
-    const curr = this.points[index]
-    const next = this.points[Math.min(index + 1, this.points.length - 1)]
-    const future = this.points[futureIndex]
-
-    const interpolate = (a, b) => a + (b - a) * fraction
-
-    const currFullSpeed = interpolate(curr.fullSpeed, next.fullSpeed) / 3.6
-    const currHSpeed = interpolate(curr.hSpeed, next.hSpeed) / 3.6
-    const currVSpeed = interpolate(curr.vSpeed, next.vSpeed) / 3.6
-    const futureFullSpeed = future.fullSpeed / 3.6
-    const futureHSpeed = future.hSpeed / 3.6
-    const futureVSpeed = future.vSpeed / 3.6
-
-    const currTime =
-      curr.gpsTime.getTime() +
-      fraction * (next.gpsTime.getTime() - curr.gpsTime.getTime())
-    const deltaTime = (future.gpsTime.getTime() - currTime) / 1000
-
-    const fullSpeedAccel = (futureFullSpeed - currFullSpeed) / deltaTime
-    const hSpeedAccel = (futureHSpeed - currHSpeed) / deltaTime
-    const vSpeedAccel = (futureVSpeed - currVSpeed) / deltaTime
-
-    const controller = this.getPlaybackIndicatorsController()
-    if (controller) {
-      controller.updateAcceleration({ fullSpeedAccel, hSpeedAccel, vSpeedAccel })
-    }
-  }
-
-  getPlaybackIndicatorsController() {
-    if (!this.hasPlaybackIndicatorsTarget) return null
-
-    return this.application.getControllerForElementAndIdentifier(
-      this.playbackIndicatorsTarget,
-      'playback-indicators'
-    )
-  }
-
-  findFutureIndexFrom(fromIndex, milliseconds) {
-    const currentTime = this.points[fromIndex].gpsTime.getTime()
-    const targetTime = currentTime + milliseconds
-
-    for (let i = fromIndex + 1; i < this.points.length; i++) {
-      if (this.points[i].gpsTime.getTime() >= targetTime) {
-        return i
-      }
-    }
-
-    return null
-  }
-
-  updateHighchartsCrosshair(index) {
-    const charts = [
+  get playbackCharts() {
+    return [
       this.glideChartTarget?.chart,
       this.speedChartTarget?.chart,
       this.sepChartTarget?.chart
-    ].filter(Boolean)
-
-    charts.forEach(chart => {
-      const points = chart.series
-        .filter(series => series.visible && series.enableMouseTracking !== false)
-        .map(series => series.points?.[index])
-        .filter(Boolean)
-
-      if (points.length === 0) return
-
-      points[0].onMouseOver()
-      chart.tooltip.refresh(points)
-      chart.xAxis[0].drawCrosshair(null, points[0])
-    })
+    ]
   }
 
-  updateMapMarkerAtIndex(index) {
-    if (!this.mapMarker || !this.markerElement) return
-
-    const point = this.points[index]
-    this.mapMarker.position = { lat: point.latitude, lng: point.longitude }
-
-    const targetIndex = this.findTargetIndexFrom(index)
-    const targetPoint = this.points[targetIndex]
-    const rotation = calculateBearing(point, targetPoint)
-
-    this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
-
-    this.updateCompareMapMarker(this.currentPlayerTime())
-  }
-
-  updateMapMarkerInterpolated() {
-    if (!this.mapMarker || !this.markerElement) return
-
-    const curr = this.points[this.currentIndex]
-    const next = this.points[Math.min(this.currentIndex + 1, this.points.length - 1)]
-    const fraction = this.currentFraction
-
-    const lat = curr.latitude + (next.latitude - curr.latitude) * fraction
-    const lng = curr.longitude + (next.longitude - curr.longitude) * fraction
-
-    this.mapMarker.position = { lat, lng }
-
-    const targetIndex = this.findTargetIndexFrom(this.currentIndex)
-    const targetPoint = this.points[targetIndex]
-    const rotation = calculateBearing({ latitude: lat, longitude: lng }, targetPoint)
-
-    this.markerElement.style.transform = `translateY(50%) rotate(${rotation - 45}deg)`
-
-    this.updateCompareMapMarker(this.currentPlayerTime())
-  }
-
-  findTargetIndexFrom(fromIndex) {
-    const currentTime = this.points[fromIndex].gpsTime.getTime()
-    const targetTime = currentTime + 3000
-
-    for (let i = fromIndex + 1; i < this.points.length; i++) {
-      if (this.points[i].gpsTime.getTime() >= targetTime) {
-        return i
-      }
+  syncPosition(index, fraction, interpolated) {
+    if (interpolated) {
+      this.sideProjectionChart?.showCrosshairInterpolated(index, fraction)
+    } else {
+      this.sideProjectionChart?.showCrosshair(index)
     }
 
-    return this.points.length - 1
+    syncCrosshairByIndex(this.playbackCharts, index)
+    this.updatePlaybackIndicators(index, fraction)
+
+    const playerTime = this.currentPlayerTime
+    if (this.hasCompare) {
+      this.updateComparePlaybackIndicators(this.comparePoints, playerTime, {
+        startAltitude: this.comparePoints[0].altitude
+      })
+    }
+
+    this.updateMapMarkers(index, fraction, playerTime)
+  }
+
+  updateMapMarkers(index, fraction, playerTime) {
+    if (this.mapMarker) {
+      const { point, heading } = headingAtIndex(this.points, index, fraction)
+      this.mapMarker.setPosition(point, heading)
+    }
+
+    if (this.compareMapMarker) {
+      const compare = indexAtPlayerTime(this.comparePoints, playerTime)
+      const { point, heading } = headingAtIndex(
+        this.comparePoints,
+        compare.index,
+        compare.fraction
+      )
+      this.compareMapMarker.setPosition(point, heading)
+    }
   }
 
   compareModalTargetConnected(element) {

@@ -1,6 +1,6 @@
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
-import { LOCATION_ARROW_PATH } from 'utils/tracks/locationArrowPath'
+import ArrowMarker from 'utils/tracks/playback/ArrowMarker'
 
 const toLatLng = points =>
   points.map(p => ({ latitude: p.latitude, longitude: p.longitude, hSpeed: p.hSpeed }))
@@ -29,13 +29,7 @@ export default class TrackMap {
   }
 
   setPosition(point, heading) {
-    if (!this.marker || !this.markerElement) return
-
-    this.marker.position = { lat: point.latitude, lng: point.longitude }
-
-    if (heading !== undefined) {
-      this.markerElement.style.transform = `translateY(50%) rotate(${heading - 45}deg)`
-    }
+    this.marker?.setPosition(point, heading)
   }
 
   initMap() {
@@ -88,36 +82,12 @@ export default class TrackMap {
   createMarker(firstPoint) {
     if (!firstPoint) return
 
-    if (this.marker) {
-      this.marker.map = null
-    }
-
-    this.markerElement = this.buildMarkerElement()
-
-    this.marker = new google.maps.marker.AdvancedMarkerElement({
+    this.marker?.remove()
+    this.marker = new ArrowMarker({
       map: this._map,
-      position: { lat: firstPoint.latitude, lng: firstPoint.longitude },
-      content: this.markerElement
+      position: firstPoint,
+      color: this.markerColor,
+      imageUrl: this.markerImageUrl
     })
-  }
-
-  buildMarkerElement() {
-    if (this.markerColor) {
-      const wrapper = document.createElement('div')
-      wrapper.style.width = '24px'
-      wrapper.style.height = '24px'
-      wrapper.style.transform = 'translateY(50%) rotate(-45deg)'
-      wrapper.innerHTML =
-        '<svg viewBox="0 0 640 640" width="24" height="24">' +
-        `<path fill="${this.markerColor}" d="${LOCATION_ARROW_PATH}"/></svg>`
-      return wrapper
-    }
-
-    const img = document.createElement('img')
-    img.src = this.markerImageUrl
-    img.style.width = '24px'
-    img.style.height = '24px'
-    img.style.transform = 'translateY(50%) rotate(-45deg)'
-    return img
   }
 }
