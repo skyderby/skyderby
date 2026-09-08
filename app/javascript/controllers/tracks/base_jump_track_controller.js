@@ -41,7 +41,6 @@ export default class extends PlaybackController {
     'playbackSlider',
     'playbackIndicators',
     'comparePlaybackIndicators',
-    'compareModal',
     'expandMapToggle',
     'finishLineToggle',
     'resultOption',
@@ -52,7 +51,6 @@ export default class extends PlaybackController {
     pointsUrl: String,
     locationArrowUrl: String,
     defaultTerrainProfileId: Number,
-    trackId: Number,
     comparePointsUrl: String,
     compareTrackName: String,
     compareSamePlace: Boolean,
@@ -879,39 +877,6 @@ export default class extends PlaybackController {
       )
       this.compareMapMarker.setPosition(point, heading)
     }
-  }
-
-  compareModalTargetConnected(element) {
-    this.compareModalObserver = new MutationObserver(() => {
-      document.body.classList.toggle('overflow-hidden', element.open)
-    })
-    this.compareModalObserver.observe(element, { attributeFilter: ['open'] })
-  }
-
-  compareModalTargetDisconnected() {
-    this.compareModalObserver?.disconnect()
-    document.body.classList.remove('overflow-hidden')
-  }
-
-  openCompareModal() {
-    if (!this.hasCompareModalTarget) return
-
-    this.compareModalTarget.showModal()
-  }
-
-  selectCompareTrack(event) {
-    const item = event.target.closest('a.tracks-item')
-    if (!item) return
-
-    event.preventDefault()
-
-    const trackId = item.dataset.id
-    if (!trackId || Number(trackId) === this.trackIdValue) return
-
-    const url = new URL(window.location)
-    url.searchParams.set('compare_id', trackId)
-
-    Turbo.visit(url.toString())
   }
 
   disconnect() {

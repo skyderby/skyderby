@@ -15,11 +15,11 @@
   <% primary_point = show_result_point && base_result.primary_value ? base_result.primary_point : nil %>
   <% compare_point = show_result_point && base_result.compare_value ? base_result.compare_point : nil %>
   <div class="base-jump-page"
-       data-controller="tracks--base-jump-track"
+       data-controller="tracks--base-jump-track tracks--compare-modal"
        data-action="tracks--charts-units:change->tracks--base-jump-track#setUnits"
        data-tracks--base-jump-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
        data-tracks--base-jump-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
-       data-tracks--base-jump-track-track-id-value="<%= @track.id %>"
+       data-tracks--compare-modal-track-id-value="<%= @track.id %>"
        data-tracks--base-jump-track-charts-units-value="<%= Current.charts_units %>"
        data-tracks--base-jump-track-wingsuit-value="<%= @track.wingsuit? ? 'true' : 'false' %>"
        <% if @track.ff_start %>
@@ -127,7 +127,7 @@
         <% else %>
           <button type="button"
                   class="actions-bar-button"
-                  data-action="tracks--base-jump-track#openCompareModal">
+                  data-action="tracks--compare-modal#open">
             <%= icon_tag 'right-left' %>
             <%= t('tracks.comparison.compare_button') %>
           </button>
@@ -149,7 +149,7 @@
       </div>
     </div>
 
-    <%= render 'tracks/comparison_modal', controller: 'tracks--base-jump-track', kind: :base %>
+    <%= render 'tracks/comparison_modal', kind: :base %>
 
     <% terrain = capture do %>
       <div class="base-jump-terrain-select">

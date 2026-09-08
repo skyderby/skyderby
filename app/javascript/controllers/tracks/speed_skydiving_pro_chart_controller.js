@@ -18,21 +18,13 @@ const GAIN_PHASES = [
 ]
 
 export default class extends Controller {
-  static targets = [
-    'chart',
-    'summary',
-    'compare',
-    'axisButton',
-    'compareModal',
-    'tooltip'
-  ]
+  static targets = ['chart', 'summary', 'compare', 'axisButton', 'tooltip']
 
   static values = {
     pointsUrl: String,
     comparePointsUrl: String,
     trackName: String,
     compareName: String,
-    trackId: Number,
     windowEnd: Number,
     compareWindowEnd: Number,
     chartsUnits: { type: String, default: 'metric' }
@@ -91,24 +83,6 @@ export default class extends Controller {
     const asc = alts.slice().reverse()
     const tsAsc = ts.slice().reverse()
     return { alt: altitude, t: sampleAt(asc, tsAsc, altitude) }
-  }
-
-  openCompareModal() {
-    if (this.hasCompareModalTarget) this.compareModalTarget.showModal()
-  }
-
-  selectCompareTrack(event) {
-    const item = event.target.closest('a.tracks-item')
-    if (!item) return
-
-    event.preventDefault()
-
-    const trackId = item.dataset.id
-    if (!trackId || Number(trackId) === this.trackIdValue) return
-
-    const url = new URL(window.location)
-    url.searchParams.set('compare_id', trackId)
-    Turbo.visit(url.toString())
   }
 
   setAxis(event) {

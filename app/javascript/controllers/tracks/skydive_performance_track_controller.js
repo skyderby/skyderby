@@ -15,8 +15,6 @@ import cropPoints from 'utils/cropPoints'
 import downsamplePoints from 'utils/downsamplePoints'
 import calculateWindCancellation, { WeatherData } from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
-import { createDesignatedLane } from 'utils/laneValidation/designatedLane'
-import { interpolatePointByTime } from 'utils/laneValidation/utils'
 import { computeBestWindows } from 'utils/tracks/bestWindows'
 import SkydivePerformanceSideView from 'utils/tracks/SkydivePerformanceSideView'
 import SkydivePerformancePolar from 'utils/tracks/SkydivePerformancePolar'
@@ -24,16 +22,14 @@ import SegmentsPanel from 'utils/tracks/SegmentsPanel'
 import TrackMap from 'utils/tracks/map/TrackMap'
 import {
   closestIndexByPlayerTime,
-  haversineDistance,
   headingAtIndex,
-  altitudeCrossing,
-  valueAtCrossing,
-  timeAtIndex,
-  nearestPointTo
+  timeOf
 } from 'utils/tracks/pointHelpers'
+import { buildProcessedPoints, alignCompareTrack } from 'utils/tracks/compareAlignment'
+import DesignatedLaneEditor, { findExitPoint } from 'utils/tracks/DesignatedLaneEditor'
 import { syncCrosshairByX } from 'utils/tracks/playback/highchartsCrosshair'
 import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
-import { get, post, patch } from '@rails/request.js'
+import { get } from '@rails/request.js'
 import { readParam, updateParams } from 'utils/urlState'
 import I18n from 'i18n'
 
@@ -75,7 +71,6 @@ export default class extends PlaybackController {
     'combinedChart',
     'separateCharts',
     'chartsModeItem',
-    'compareModal',
     'paddingItem'
   ]
 
@@ -89,7 +84,6 @@ export default class extends PlaybackController {
     comparePointsUrl: String,
     compareWeatherUrl: String,
     compareTrackName: String,
-    trackId: Number,
     chartsUnits: { type: String, default: 'metric' }
   }
 
@@ -233,7 +227,7 @@ export default class extends PlaybackController {
   initDesignatedLane() {
     if (this.referencePointData?.reference_point && this.hasDesignatedLaneToggleTarget) {
       this.designatedLaneToggleTarget.checked = true
-      this.showDesignatedLane()
+      this.laneEditor?.show()
     }
   }
 
@@ -320,22 +314,7 @@ export default class extends PlaybackController {
       straightLine: this.straightLine
     })
     if (this.comparePoints) {
-      let compareWindowPoints = cropPoints(
-        this.comparePoints,
-        this.fromValue,
-        this.toValue
-      )
-      if (compareWindowPoints.length > 0) {
-        if (this.hasCompareWeatherData) {
-          compareWindowPoints = calculateWindCancellation(
-            compareWindowPoints,
-            this.compareWeatherData
-          )
-        }
-        this.compareRangeSummary = new RangeSummary(compareWindowPoints, {
-          straightLine: this.straightLine
-        })
-      }
+      this.compareRangeSummary = this.buildCompareRangeSummary()
     }
     this.updateSummaryIndicators()
     if (this.comparePoints) {
@@ -553,142 +532,46 @@ export default class extends PlaybackController {
       points = calculateWindCancellation(points, this.weatherData)
     }
 
-    return this.buildPoints(points, this.chartPoints[0])
-  }
-
-  buildPoints(points, timeAnchor) {
-    const startTime = timeAnchor.gpsTime.getTime()
-
-    let distance = 0
-
-    return points.map((point, index) => {
-      const playerTime = (point.gpsTime.getTime() - startTime) / 1000
-      if (index > 0) {
-        distance += haversineDistance(points[index - 1], point)
-      }
-
-      return {
-        playerTime,
-        altitude: point.altitude,
-        distance,
-        latitude: point.latitude,
-        longitude: point.longitude,
-        hSpeed: point.hSpeed,
-        vSpeed: point.vSpeed,
-        fullSpeed: point.fullSpeed,
-        glideRatio: point.glideRatio,
-        gpsTime: point.gpsTime
-      }
-    })
-  }
-
-  buildCompareProcessedPoints(primaryEntryDistance) {
-    const primaryStartTime = this.chartPoints[0].gpsTime.getTime()
-
-    let distance = 0
-    const points = this.comparePoints.map((point, index) => {
-      if (index > 0) {
-        distance += haversineDistance(this.comparePoints[index - 1], point)
-      }
-      const gpsTime = point.gpsTime.getTime() + this.compareTimeOffset
-
-      return {
-        playerTime: (gpsTime - primaryStartTime) / 1000,
-        altitude: point.altitude,
-        distance,
-        latitude: point.latitude,
-        longitude: point.longitude,
-        hSpeed: point.hSpeed,
-        vSpeed: point.vSpeed,
-        fullSpeed: point.fullSpeed,
-        glideRatio: point.glideRatio,
-        gpsTime: new Date(gpsTime),
-        srcGpsTime: point.gpsTime
-      }
-    })
-
-    const compareEntryDistance = this.valueAtWindowEntry(points, 'distance')
-    const distanceOffset = primaryEntryDistance - compareEntryDistance
-    points.forEach(point => {
-      point.distance += distanceOffset
-    })
-
-    return points
+    return buildProcessedPoints(points, { startTime: timeOf(this.chartPoints[0]) })
   }
 
   processCompareTrack() {
-    if (!this.comparePoints || this.comparePoints.length === 0) return
+    const alignment = alignCompareTrack({
+      points: this.points,
+      comparePoints: this.comparePoints,
+      chartPoints: this.chartPoints,
+      processedPoints: this.processedPoints,
+      windowFrom: this.fromValue,
+      windowStartTime: timeOf(this.windowPoints[0]),
+      windowEndTime: timeOf(this.windowPoints.at(-1))
+    })
 
-    const primaryWindowEntry = this.windowEntryTime(this.points)
-    const compareWindowEntry = this.windowEntryTime(this.comparePoints)
-
-    if (!primaryWindowEntry || !compareWindowEntry) {
+    if (!alignment) {
       this.compareChartPoints = []
       this.compareProcessedPoints = []
       this.compareRangeSummary = null
       return
     }
 
-    this.compareTimeOffset = primaryWindowEntry - compareWindowEntry
+    this.compareTimeOffset = alignment.timeOffset
+    this.chartTimeOffset = alignment.chartTimeOffset
+    this.compareChartPoints = alignment.compareChartPoints
+    this.compareProcessedPoints = alignment.compareProcessedPoints
+    this.compareRangeSummary = this.buildCompareRangeSummary()
+  }
 
-    const rangeStartTime = this.windowPoints[0].gpsTime.getTime()
-    const rangeEndTime = this.windowPoints.at(-1).gpsTime.getTime()
-    const bufferSeconds = 3
-
-    const adjustedStartTime =
-      rangeStartTime - this.compareTimeOffset - bufferSeconds * 1000
-    const adjustedEndTime = rangeEndTime - this.compareTimeOffset + bufferSeconds * 1000
-
-    let compareChartPoints = this.comparePoints.filter(
-      point =>
-        point.gpsTime.getTime() >= adjustedStartTime &&
-        point.gpsTime.getTime() <= adjustedEndTime
-    )
-
-    if (compareChartPoints.length === 0) {
-      this.compareChartPoints = []
-      this.compareProcessedPoints = []
-      this.compareRangeSummary = null
-      return
-    }
-
-    this.compareChartPoints = compareChartPoints
-
-    const primaryEntryFlTime = this.valueAtWindowEntry(this.chartPoints, 'flTime')
-    const compareEntryFlTime = this.valueAtWindowEntry(compareChartPoints, 'flTime')
-    const primaryChartStartTime = this.chartPoints[0].flTime
-    const primaryEntryX = primaryEntryFlTime - primaryChartStartTime
-    const compareEntryX = compareEntryFlTime - compareChartPoints[0].flTime
-    this.chartTimeOffset = primaryEntryX - compareEntryX
-
-    const primaryEntryDistance = this.valueAtWindowEntry(this.processedPoints, 'distance')
-
-    this.compareProcessedPoints = this.buildCompareProcessedPoints(primaryEntryDistance)
-
+  buildCompareRangeSummary() {
     let compareWindowPoints = cropPoints(this.comparePoints, this.fromValue, this.toValue)
-    if (compareWindowPoints.length > 0) {
-      if (this.hasCompareWeatherData) {
-        compareWindowPoints = calculateWindCancellation(
-          compareWindowPoints,
-          this.compareWeatherData
-        )
-      }
-      this.compareRangeSummary = new RangeSummary(compareWindowPoints, {
-        straightLine: this.straightLine
-      })
+    if (compareWindowPoints.length === 0) return null
+
+    if (this.hasCompareWeatherData) {
+      compareWindowPoints = calculateWindCancellation(
+        compareWindowPoints,
+        this.compareWeatherData
+      )
     }
-  }
 
-  valueAtWindowEntry(points, key) {
-    const crossing = altitudeCrossing(points, this.fromValue)
-    return valueAtCrossing(points, crossing, key) ?? points[0]?.[key] ?? 0
-  }
-
-  windowEntryTime(points) {
-    const crossing = altitudeCrossing(points, this.fromValue)
-    if (!crossing) return null
-
-    return timeAtIndex(points, crossing.index, crossing.fraction)
+    return new RangeSummary(compareWindowPoints, { straightLine: this.straightLine })
   }
 
   get weather() {
@@ -1054,264 +937,35 @@ export default class extends PlaybackController {
   }
 
   toggleDesignatedLane() {
-    const enabled = this.designatedLaneToggleTarget.checked
-
-    if (enabled) {
-      this.showDesignatedLane()
+    if (this.designatedLaneToggleTarget.checked) {
+      this.laneEditor?.show()
     } else {
-      this.hideDesignatedLane()
+      this.laneEditor?.hide()
     }
   }
 
-  showDesignatedLane() {
-    if (!this.map || !this.points.length) return
+  get laneEditor() {
+    if (!this.map || !this.points?.length) return null
 
-    this.clearDesignatedLane()
-
-    const startPoint = this.designatedLaneStart ?? this.defaultDesignatedLaneStart()
-    if (!startPoint) return
-
-    let referencePoint
-    if (this.referencePointData?.reference_point) {
-      referencePoint = {
-        latitude: this.referencePointData.reference_point.latitude,
-        longitude: this.referencePointData.reference_point.longitude
-      }
-    } else {
-      const lastPoint = this.points.at(-1)
-      referencePoint = {
-        latitude: lastPoint.latitude,
-        longitude: lastPoint.longitude
-      }
-    }
-
-    const isEditable = this.referencePointData?.editable ?? false
-
-    const windowEndPoint = this.points.at(-1)
-
-    this.designatedLane = createDesignatedLane(
-      this.map,
-      startPoint,
-      windowEndPoint,
-      windowEndPoint,
-      referencePoint,
-      this.points,
-      'window_end'
-    )
-
-    this.createReferenceMarker(referencePoint, isEditable)
-    this.createStartMarker(startPoint)
+    this._laneEditor ??= new DesignatedLaneEditor({
+      map: this.map,
+      points: this.points,
+      referencePointUrl: this.hasReferencePointUrlValue
+        ? this.referencePointUrlValue
+        : null,
+      referencePointData: this.referencePointData,
+      formatAltitude: altitude => this.altitudeLabelText(altitude)
+    })
+    return this._laneEditor
   }
 
   get exitTime() {
-    if (this._exitTime == null) {
-      this._exitTime =
-        this.findExitPoint()?.gpsTime.getTime() ?? this.points[0].gpsTime.getTime()
-    }
+    this._exitTime ??= timeOf(findExitPoint(this.points))
     return this._exitTime
-  }
-
-  defaultDesignatedLaneStart() {
-    return interpolatePointByTime(this.points, this.exitTime + 9000)
-  }
-
-  nearestTrackPoint({ lat, lng }) {
-    return nearestPointTo(this.points, { latitude: lat, longitude: lng })
   }
 
   altitudeLabelText(altitude) {
     return `${Math.round(convertLength(altitude, this.units))} ${lengthUnitLabel(this.units)}`
-  }
-
-  createStartMarker(startPoint) {
-    if (this.startPointMarker) {
-      this.startPointMarker.map = null
-    }
-
-    const pin = new google.maps.marker.PinElement({
-      background: '#2E7D32',
-      borderColor: '#1B5E20',
-      glyphColor: '#fff',
-      scale: 0.7
-    })
-
-    const content = document.createElement('div')
-    content.style.position = 'relative'
-    content.style.cursor = 'grab'
-
-    const label = document.createElement('div')
-    label.style.position = 'absolute'
-    label.style.bottom = '100%'
-    label.style.left = '50%'
-    label.style.transform = 'translate(-50%, -4px)'
-    label.style.padding = '2px 6px'
-    label.style.borderRadius = '4px'
-    label.style.background = 'rgba(46, 125, 50, 0.95)'
-    label.style.color = '#fff'
-    label.style.fontSize = '11px'
-    label.style.fontWeight = '600'
-    label.style.whiteSpace = 'nowrap'
-    label.style.pointerEvents = 'none'
-    label.textContent = this.altitudeLabelText(startPoint.altitude)
-    content.appendChild(label)
-
-    const hitArea = document.createElement('div')
-    hitArea.style.position = 'absolute'
-    hitArea.style.left = '50%'
-    hitArea.style.top = '50%'
-    hitArea.style.width = '48px'
-    hitArea.style.height = '48px'
-    hitArea.style.borderRadius = '50%'
-    hitArea.style.transform = 'translate(-50%, -50%)'
-    content.appendChild(hitArea)
-
-    content.appendChild(pin.element)
-
-    const marker = new google.maps.marker.AdvancedMarkerElement({
-      map: this.map,
-      position: new google.maps.LatLng(startPoint.latitude, startPoint.longitude),
-      content,
-      gmpDraggable: true,
-      zIndex: 1000
-    })
-    marker.pin = pin
-
-    let dragFrame = null
-    marker.addListener('drag', () => {
-      if (dragFrame) return
-      dragFrame = requestAnimationFrame(() => {
-        dragFrame = null
-        const nearest = this.nearestTrackPoint(marker.position)
-        if (nearest) label.textContent = this.altitudeLabelText(nearest.altitude)
-      })
-    })
-
-    marker.addListener('dragend', () => {
-      if (dragFrame) {
-        cancelAnimationFrame(dragFrame)
-        dragFrame = null
-      }
-
-      const nearest = this.nearestTrackPoint(marker.position)
-      if (!nearest) return
-
-      this.designatedLaneStart = {
-        latitude: nearest.latitude,
-        longitude: nearest.longitude,
-        altitude: nearest.altitude,
-        gpsTime: nearest.gpsTime
-      }
-      this.showDesignatedLane()
-    })
-
-    this.startPointMarker = marker
-  }
-
-  findExitPoint() {
-    const verticalSpeedThreshold = 10 * 3.6
-    const consecutiveRequired = 15
-
-    for (let i = 0; i <= this.points.length - consecutiveRequired; i++) {
-      const range = this.points.slice(i, i + consecutiveRequired)
-      const allAboveThreshold = range.every(
-        point => point.vSpeed > verticalSpeedThreshold
-      )
-
-      if (allAboveThreshold) {
-        return this.points[i]
-      }
-    }
-
-    return this.points[0]
-  }
-
-  createReferenceMarker(referencePoint, isEditable) {
-    if (this.referencePointMarker) {
-      this.referencePointMarker.map = null
-    }
-
-    const pin = new google.maps.marker.PinElement({
-      background: '#FF5722',
-      borderColor: '#E64A19',
-      glyphColor: '#fff',
-      scale: 0.7
-    })
-
-    const content = document.createElement('div')
-    content.style.position = 'relative'
-    if (isEditable) content.style.cursor = 'grab'
-
-    if (isEditable) {
-      const hitArea = document.createElement('div')
-      hitArea.style.position = 'absolute'
-      hitArea.style.left = '50%'
-      hitArea.style.top = '50%'
-      hitArea.style.width = '48px'
-      hitArea.style.height = '48px'
-      hitArea.style.borderRadius = '50%'
-      hitArea.style.transform = 'translate(-50%, -50%)'
-      content.appendChild(hitArea)
-    }
-
-    content.appendChild(pin.element)
-
-    const marker = new google.maps.marker.AdvancedMarkerElement({
-      map: this.map,
-      position: new google.maps.LatLng(referencePoint.latitude, referencePoint.longitude),
-      content,
-      gmpDraggable: isEditable,
-      zIndex: 1000
-    })
-    marker.pin = pin
-
-    marker.addListener('dragend', () => {
-      this.saveReferencePoint()
-    })
-
-    this.referencePointMarker = marker
-  }
-
-  hideDesignatedLane() {
-    this.clearDesignatedLane()
-    if (this.referencePointMarker) {
-      this.referencePointMarker.map = null
-    }
-    if (this.startPointMarker) {
-      this.startPointMarker.map = null
-    }
-  }
-
-  clearDesignatedLane() {
-    if (this.designatedLane) {
-      this.designatedLane.cleanup()
-      this.designatedLane = null
-    }
-  }
-
-  saveReferencePoint() {
-    if (!this.referencePointMarker || !this.hasReferencePointUrlValue) return
-
-    const position = this.referencePointMarker.position
-    const hasExisting = this.referencePointData?.reference_point
-
-    const request = hasExisting ? patch : post
-
-    request(this.referencePointUrlValue, {
-      body: JSON.stringify({
-        reference_point: {
-          latitude: position.lat,
-          longitude: position.lng
-        }
-      }),
-      responseKind: 'json'
-    })
-      .then(response => response.json)
-      .then(data => {
-        this.referencePointData = data
-        if (this.designatedLaneToggleTarget.checked) {
-          this.showDesignatedLane()
-        }
-      })
   }
 
   updateCompareSummaryIndicators() {
@@ -1323,46 +977,9 @@ export default class extends PlaybackController {
     )
   }
 
-  compareModalTargetConnected(element) {
-    this.compareModalObserver = new MutationObserver(() => {
-      document.body.classList.toggle('overflow-hidden', element.open)
-    })
-    this.compareModalObserver.observe(element, { attributeFilter: ['open'] })
-  }
-
-  compareModalTargetDisconnected() {
-    this.compareModalObserver?.disconnect()
-    document.body.classList.remove('overflow-hidden')
-  }
-
-  openCompareModal() {
-    if (!this.hasCompareModalTarget) return
-
-    this.compareModalTarget.showModal()
-  }
-
-  selectCompareTrack(event) {
-    const item = event.target.closest('a.tracks-item')
-    if (!item) return
-
-    event.preventDefault()
-
-    const trackId = item.dataset.id
-    if (!trackId || Number(trackId) === this.trackIdValue) return
-
-    const url = new URL(window.location)
-    url.searchParams.set('compare_id', trackId)
-
-    if (!url.searchParams.has('f') && !url.searchParams.has('t')) {
-      url.searchParams.set('f', 2500)
-      url.searchParams.set('t', 1500)
-    }
-
-    Turbo.visit(url.toString())
-  }
-
   disconnect() {
     this.stopPlaybackLoop()
+    this._laneEditor?.destroy()
     this.sideView?.destroy()
     this.polarView?.destroy()
     this.destroyCharts()

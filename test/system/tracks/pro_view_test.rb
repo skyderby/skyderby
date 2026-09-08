@@ -31,6 +31,9 @@ class ProViewTest < ApplicationSystemTestCase
     end
     assert_selector '.sps-seg [data-slot="lengthUnit"]', text: I18n.t('units.ft')
     assert_equal 'imperial', User::Setting.find_by!(user: @user).default_units
+
+    find('[data-action="tracks--compare-modal#open"]').click
+    assert_selector 'dialog.comparison-dialog[open]'
   end
 
   test 'base jump pro view renders summary tiles and playback' do

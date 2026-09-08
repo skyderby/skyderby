@@ -1,6 +1,5 @@
-<%# locals: (controller: 'tracks--skydive-performance-track', kind: :skydive) %>
-<dialog class="comparison-dialog"
-        data-<%= controller %>-target="compareModal">
+<%# locals: (kind: :skydive) %>
+<dialog class="comparison-dialog" data-tracks--compare-modal-target="dialog">
   <form method="dialog" class="comparison-dialog-backdrop">
     <button type="submit" tabindex="-1" aria-label="<%= t('general.close') %>"></button>
   </form>
@@ -31,7 +30,7 @@
       </turbo-frame>
 
       <div class="comparison-explorer-list"
-           data-action="click-><%= controller %>#selectCompareTrack">
+           data-action="click->tracks--compare-modal#select">
         <turbo-frame id="tracks-list" loading="lazy"></turbo-frame>
       </div>
     </div>

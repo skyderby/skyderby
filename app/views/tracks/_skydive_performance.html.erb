@@ -7,12 +7,13 @@
   <%= render partial: 'header', locals: { track: @track } %>
 
   <div class="skydive-performance-page"
-       data-controller="tracks--skydive-performance-track"
+       data-controller="tracks--skydive-performance-track tracks--compare-modal"
        data-tracks--skydive-performance-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 5, seconds_after_end: 10 }) %>"
        data-tracks--skydive-performance-track-weather-url-value="<%= track_weather_data_path(@track) %>"
        data-tracks--skydive-performance-track-reference-point-url-value="<%= track_reference_point_path(@track) %>"
        data-tracks--skydive-performance-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
-       data-tracks--skydive-performance-track-track-id-value="<%= @track.id %>"
+       data-tracks--compare-modal-track-id-value="<%= @track.id %>"
+       data-tracks--compare-modal-defaults-value="<%= { f: 2500, t: 1500 }.to_json %>"
        data-tracks--skydive-performance-track-charts-units-value="<%= Current.charts_units %>"
        <% if @compare_track %>
        data-tracks--skydive-performance-track-compare-points-url-value="<%= track_points_path(@compare_track, original_frequency: true, trimmed: { seconds_before_start: 5, seconds_after_end: 10 }) %>"
@@ -46,7 +47,7 @@
         <% else %>
           <button type="button"
                   class="actions-bar-button"
-                  data-action="tracks--skydive-performance-track#openCompareModal">
+                  data-action="tracks--compare-modal#open">
             <%= icon_tag 'right-left' %>
             <%= t('tracks.comparison.compare_button') %>
           </button>
