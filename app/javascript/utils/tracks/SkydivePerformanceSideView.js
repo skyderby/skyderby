@@ -3,47 +3,20 @@ import {
   calculateBearing,
   targetIndexFrom,
   closestIndexByPlayerTime,
-  interpolateByPlayerTime
+  interpolateByPlayerTime,
+  interpolateAtIndex
 } from 'utils/tracks/pointHelpers'
 import { LOCATION_ARROW_PATH } from 'utils/tracks/locationArrowPath'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
-
-const SVG_NS = 'http://www.w3.org/2000/svg'
-
-const PRIMARY_COLOR = '#2196F3'
-const COMPARE_COLOR = '#9C27B0'
-
-function formatAxisLength(meters, units) {
-  const value = convertLength(meters, units)
-  if (units === 'imperial') {
-    return value === 0 ? '0' : `${(value / 1000).toFixed(1)}k`
-  }
-  return String(Math.round(value))
-}
-
-function deltaCellHtml(a, b, digits = 0, cap = null) {
-  if (a == null || b == null || Number.isNaN(a) || Number.isNaN(b)) return ''
-
-  const diff = Number((a - b).toFixed(digits))
-  const denom = Math.max(Math.abs(a), Math.abs(b)) || 1
-  const width = Math.min(50, (Math.abs(diff) / denom) * 50)
-  const primaryLeads = diff >= 0
-
-  const radius = primaryLeads ? '2px 0 0 2px' : '0 2px 2px 0'
-  const fillStyle = primaryLeads
-    ? `right:50%;left:auto;width:${width}%;border-radius:${radius};background:${PRIMARY_COLOR}`
-    : `left:50%;right:auto;width:${width}%;border-radius:${radius};background:${COMPARE_COLOR}`
-  const valueClass = primaryLeads ? 'is-primary' : 'is-compare'
-
-  let valueText
-  if (cap != null && Math.abs(diff) > cap) {
-    valueText = diff > 0 ? `≥${cap}` : `≤-${cap}`
-  } else {
-    valueText = `${diff > 0 ? '+' : ''}${diff.toFixed(digits)}`
-  }
-
-  return `<span class="side-tt-delta"><span class="side-tt-delta__bar"><span class="side-tt-delta__mark"></span><span class="side-tt-delta__fill" style="${fillStyle}"></span></span><span class="side-tt-delta__val ${valueClass}">${valueText}</span></span>`
-}
+import { SVG_NS, svgEl } from 'charts/svg/elements'
+import { formatAxisLength, deltaCellHtml } from 'charts/svg/format'
+import Crosshair from 'charts/svg/Crosshair'
+import {
+  distanceLineStep,
+  distanceLabelStep,
+  renderDistanceGrid,
+  renderWindowLines
+} from 'charts/svg/distanceGrid'
 
 const CHART_PADDING = { left: 100, right: 20, top: 10, bottom: 45 }
 
@@ -202,35 +175,16 @@ export default class SkydivePerformanceSideView {
     const windowStartY = altitudeToY(this.fromValue)
     const windowEndY = altitudeToY(this.toValue)
 
-    const startLine = document.createElementNS(SVG_NS, 'line')
-    startLine.setAttribute('x1', left)
-    startLine.setAttribute('y1', windowStartY)
-    startLine.setAttribute('x2', width - right)
-    startLine.setAttribute('y2', windowStartY)
-    startLine.setAttribute('class', 'grid-line-window-start')
-    grid.appendChild(startLine)
-
-    const startLabel = document.createElementNS(SVG_NS, 'text')
-    startLabel.setAttribute('x', left - 10)
-    startLabel.setAttribute('y', windowStartY + 4)
-    startLabel.setAttribute('class', 'grid-label grid-label-window')
-    startLabel.textContent = formatAxisLength(this.fromValue, this.units)
-    grid.appendChild(startLabel)
-
-    const endLine = document.createElementNS(SVG_NS, 'line')
-    endLine.setAttribute('x1', left)
-    endLine.setAttribute('y1', windowEndY)
-    endLine.setAttribute('x2', width - right)
-    endLine.setAttribute('y2', windowEndY)
-    endLine.setAttribute('class', 'grid-line-window-end')
-    grid.appendChild(endLine)
-
-    const endLabel = document.createElementNS(SVG_NS, 'text')
-    endLabel.setAttribute('x', left - 10)
-    endLabel.setAttribute('y', windowEndY + 4)
-    endLabel.setAttribute('class', 'grid-label grid-label-window')
-    endLabel.textContent = formatAxisLength(this.toValue, this.units)
-    grid.appendChild(endLabel)
+    const plot = { left, top, width: plotWidth, height: plotHeight }
+    renderWindowLines(grid, {
+      plot,
+      startY: windowStartY,
+      endY: windowEndY,
+      labels: {
+        start: formatAxisLength(this.fromValue, this.units),
+        end: formatAxisLength(this.toValue, this.units)
+      }
+    })
 
     const altitudeStep = 250
     const labelGap = 30
@@ -246,77 +200,28 @@ export default class SkydivePerformanceSideView {
         continue
       }
 
-      const line = document.createElementNS(SVG_NS, 'line')
-      line.setAttribute('x1', left)
-      line.setAttribute('y1', y)
-      line.setAttribute('x2', width - right)
-      line.setAttribute('y2', y)
-      line.setAttribute('class', 'grid-line')
-      grid.appendChild(line)
-
-      const label = document.createElementNS(SVG_NS, 'text')
-      label.setAttribute('x', left - 10)
-      label.setAttribute('y', y + 4)
-      label.setAttribute('class', 'grid-label')
-      label.textContent = formatAxisLength(altitude, this.units)
-      grid.appendChild(label)
+      grid.appendChild(
+        svgEl('line', { x1: left, y1: y, x2: width - right, y2: y, class: 'grid-line' })
+      )
+      grid.appendChild(
+        svgEl(
+          'text',
+          { x: left - 10, y: y + 4, class: 'grid-label' },
+          formatAxisLength(altitude, this.units)
+        )
+      )
     }
 
-    this.renderDistanceGrid(grid, width, height, left, right, top, bottom)
-  }
-
-  renderDistanceGrid(grid, width, height, left, right, top, bottom) {
-    const plotWidth = width - left - right
-    const lineStep = this.calculateLineStep()
-    const labelStep = this.calculateLabelStep(plotWidth, lineStep)
-
-    const minDist = Math.ceil(this.distanceRange.min / lineStep) * lineStep
-    const maxDist = Math.floor(this.distanceRange.max / lineStep) * lineStep
-
-    for (let dist = Math.max(0, minDist); dist <= maxDist; dist += lineStep) {
-      const x =
-        left +
-        ((dist - this.distanceRange.min) /
-          (this.distanceRange.max - this.distanceRange.min)) *
-          plotWidth
-
-      const line = document.createElementNS(SVG_NS, 'line')
-      line.setAttribute('x1', x)
-      line.setAttribute('y1', top)
-      line.setAttribute('x2', x)
-      line.setAttribute('y2', height - bottom)
-      line.setAttribute('class', 'grid-line-vertical')
-      grid.appendChild(line)
-
-      if (dist % labelStep !== 0) continue
-
-      const label = document.createElementNS(SVG_NS, 'text')
-      label.setAttribute('x', x)
-      label.setAttribute('y', height - bottom + 20)
-      label.setAttribute('class', 'grid-label-distance')
-      label.textContent = formatAxisLength(dist, this.units)
-      grid.appendChild(label)
-    }
-  }
-
-  calculateLineStep() {
-    const range = this.distanceRange.max - this.distanceRange.min
-    if (range > 3000) return 500
-    if (range > 1500) return 250
-    if (range > 500) return 100
-    return 50
-  }
-
-  calculateLabelStep(plotWidth, lineStep) {
-    const range = this.distanceRange.max - this.distanceRange.min
-    const minLabelSpacing = 110
-    const minStep = (range / plotWidth) * minLabelSpacing
-
-    const niceSteps = [50, 100, 250, 500, 1000, 2000, 2500, 5000, 10000]
-    return (
-      niceSteps.find(step => step >= minStep && step % lineStep === 0) ||
-      niceSteps[niceSteps.length - 1]
-    )
+    const range = this.distanceRange
+    const lineStep = distanceLineStep(range.max - range.min)
+    renderDistanceGrid(grid, {
+      range,
+      plot,
+      lineStep,
+      labelStep: distanceLabelStep(range.max - range.min, plotWidth, lineStep),
+      fromZero: true,
+      format: value => formatAxisLength(value, this.units)
+    })
   }
 
   renderTrajectoryContent() {
@@ -662,100 +567,61 @@ export default class SkydivePerformanceSideView {
   }
 
   createCrosshair() {
-    if (this.crosshairGroup) {
-      this.crosshairGroup.remove()
-    }
+    this.crosshair?.remove()
 
     const contentGroup = this.svg.querySelector('#trajectory-content')
     if (!contentGroup) return
 
-    this.crosshairGroup = document.createElementNS(SVG_NS, 'g')
-    this.crosshairGroup.setAttribute('class', 'crosshair-group')
-    this.crosshairGroup.style.display = 'none'
+    this.crosshair = new Crosshair(contentGroup, {
+      markerRadius: 6,
+      compare: Boolean(this.compareProcessedPoints?.length)
+    })
 
-    this.crosshairVLine = document.createElementNS(SVG_NS, 'line')
-    this.crosshairVLine.setAttribute('class', 'crosshair')
-    this.crosshairGroup.appendChild(this.crosshairVLine)
-
-    this.crosshairHLine = document.createElementNS(SVG_NS, 'line')
-    this.crosshairHLine.setAttribute('class', 'crosshair')
-    this.crosshairGroup.appendChild(this.crosshairHLine)
-
-    this.crosshairMarker = document.createElementNS(SVG_NS, 'circle')
-    this.crosshairMarker.setAttribute('class', 'crosshair-marker')
-    this.crosshairMarker.setAttribute('r', '6')
-    this.crosshairGroup.appendChild(this.crosshairMarker)
-
-    if (this.compareProcessedPoints?.length) {
-      this.compareCrosshairMarker = document.createElementNS(SVG_NS, 'circle')
-      this.compareCrosshairMarker.setAttribute('class', 'crosshair-marker--compare')
-      this.compareCrosshairMarker.setAttribute('r', '5')
-      this.crosshairGroup.appendChild(this.compareCrosshairMarker)
-    }
-
-    contentGroup.appendChild(this.crosshairGroup)
+    const { width, height } = this.chartDimensions
+    const { left, right, top, bottom } = CHART_PADDING
+    this.crosshair.setBounds({
+      x1: left,
+      x2: width - right,
+      y1: top,
+      y2: height - bottom
+    })
   }
 
   showCrosshair(index) {
-    if (!this.crosshairGroup || index < 0 || index >= this.processedPoints.length) return
-
     const point = this.processedPoints[index]
+    if (!this.crosshair || !point) return
+
     this.showCrosshairAtPosition(point, point.playerTime)
   }
 
   showCrosshairInterpolated(index, fraction) {
-    if (!this.crosshairGroup || index < 0 || index >= this.processedPoints.length) return
+    if (!this.crosshair || index < 0 || index >= this.processedPoints.length) return
 
-    const curr = this.processedPoints[index]
-    const next =
-      this.processedPoints[Math.min(index + 1, this.processedPoints.length - 1)]
-
-    const interpolatedPoint = {
-      distance: curr.distance + (next.distance - curr.distance) * fraction,
-      altitude: curr.altitude + (next.altitude - curr.altitude) * fraction,
-      playerTime: curr.playerTime + (next.playerTime - curr.playerTime) * fraction
-    }
-
-    this.showCrosshairAtPosition(interpolatedPoint, interpolatedPoint.playerTime)
+    const point = interpolateAtIndex(this.processedPoints, index, fraction, [
+      'distance',
+      'altitude',
+      'playerTime'
+    ])
+    this.showCrosshairAtPosition(point, point.playerTime)
   }
 
   showCrosshairAtPosition(point, playerTime) {
     const { x, y } = this.getChartCoordinates(point)
-    const { width, height } = this.chartDimensions
-    const { left, right, top, bottom } = CHART_PADDING
-
-    this.crosshairVLine.setAttribute('x1', x)
-    this.crosshairVLine.setAttribute('y1', top)
-    this.crosshairVLine.setAttribute('x2', x)
-    this.crosshairVLine.setAttribute('y2', height - bottom)
-
-    this.crosshairHLine.setAttribute('x1', left)
-    this.crosshairHLine.setAttribute('y1', y)
-    this.crosshairHLine.setAttribute('x2', width - right)
-    this.crosshairHLine.setAttribute('y2', y)
-
-    this.crosshairMarker.setAttribute('cx', x)
-    this.crosshairMarker.setAttribute('cy', y)
-
-    this.crosshairGroup.style.display = ''
-
+    this.crosshair.show(x, y)
     this.updateComparisonCrosshair(playerTime)
   }
 
   updateComparisonCrosshair(playerTime) {
-    if (!this.compareCrosshairMarker || !this.compareProcessedPoints?.length) return
+    if (!this.compareProcessedPoints?.length) return
 
     const comparePoint = interpolateByPlayerTime(this.compareProcessedPoints, playerTime)
     if (!comparePoint) {
-      this.compareCrosshairMarker.style.display = 'none'
+      this.crosshair.hideCompare()
       return
     }
 
-    const { x: compareX, y: compareY } = this.getChartCoordinates(comparePoint)
-
-    this.compareCrosshairMarker.setAttribute('cx', compareX)
-    this.compareCrosshairMarker.setAttribute('cy', compareY)
-    this.compareCrosshairMarker.style.display = ''
+    const { x, y } = this.getChartCoordinates(comparePoint)
+    this.crosshair.showCompare(x, y)
   }
 
   showTooltip(index, event) {

@@ -5,6 +5,8 @@ import {
   interpolatePointByTime
 } from 'utils/tracks/pointHelpers'
 import { crossTrackDistance, haversineDistance } from 'utils/geo'
+import { svgEl } from 'charts/svg/elements'
+import { renderDistanceGrid, renderWindowLines } from 'charts/svg/distanceGrid'
 import amplitude from 'utils/amplitude'
 
 const COLORS = ['#470FF4', '#F24C00', '#AA3E98', '#247BA0']
@@ -365,21 +367,8 @@ export default class extends Controller {
     const windowStartY = altitudeToY(this.windowStartValue)
     const windowEndY = altitudeToY(this.windowEndValue)
 
-    const startLine = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-    startLine.setAttribute('x1', left)
-    startLine.setAttribute('y1', windowStartY)
-    startLine.setAttribute('x2', width - right)
-    startLine.setAttribute('y2', windowStartY)
-    startLine.setAttribute('class', 'grid-line-window-start')
-    grid.appendChild(startLine)
-
-    const endLine = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-    endLine.setAttribute('x1', left)
-    endLine.setAttribute('y1', windowEndY)
-    endLine.setAttribute('x2', width - right)
-    endLine.setAttribute('y2', windowEndY)
-    endLine.setAttribute('class', 'grid-line-window-end')
-    grid.appendChild(endLine)
+    const plot = { left, top, width: plotWidth, height: plotHeight }
+    renderWindowLines(grid, { plot, startY: windowStartY, endY: windowEndY })
 
     const gridLines = 5
     for (let i = 0; i <= gridLines; i++) {
@@ -389,55 +378,26 @@ export default class extends Controller {
       const y = altitudeToY(altitude)
 
       if (i > 0 && i < gridLines) {
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-        line.setAttribute('x1', left)
-        line.setAttribute('y1', y)
-        line.setAttribute('x2', width - right)
-        line.setAttribute('y2', y)
-        line.setAttribute('class', 'grid-line')
-        grid.appendChild(line)
+        grid.appendChild(
+          svgEl('line', { x1: left, y1: y, x2: width - right, y2: y, class: 'grid-line' })
+        )
       }
 
-      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-      label.setAttribute('x', left - 10)
-      label.setAttribute('y', y + 4)
-      label.setAttribute('class', 'grid-label')
-      label.textContent = Math.round(altitude)
-      grid.appendChild(label)
+      grid.appendChild(
+        svgEl(
+          'text',
+          { x: left - 10, y: y + 4, class: 'grid-label' },
+          Math.round(altitude)
+        )
+      )
     }
 
-    this.renderDistanceGrid(grid, width, height, left, right, top, bottom)
-  }
-
-  renderDistanceGrid(grid, width, height, left, right, top, bottom) {
-    const plotWidth = width - left - right
-    const distanceStep = 500
-
-    const minDist = Math.ceil(this.distanceRange.min / distanceStep) * distanceStep
-    const maxDist = Math.floor(this.distanceRange.max / distanceStep) * distanceStep
-
-    for (let dist = minDist; dist <= maxDist; dist += distanceStep) {
-      const x =
-        left +
-        ((dist - this.distanceRange.min) /
-          (this.distanceRange.max - this.distanceRange.min)) *
-          plotWidth
-
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-      line.setAttribute('x1', x)
-      line.setAttribute('y1', top)
-      line.setAttribute('x2', x)
-      line.setAttribute('y2', height - bottom)
-      line.setAttribute('class', 'grid-line-vertical')
-      grid.appendChild(line)
-
-      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-      label.setAttribute('x', x)
-      label.setAttribute('y', height - bottom + 15)
-      label.setAttribute('class', 'grid-label-distance')
-      label.textContent = dist
-      grid.appendChild(label)
-    }
+    renderDistanceGrid(grid, {
+      range: this.distanceRange,
+      plot,
+      lineStep: 500,
+      labelOffset: 15
+    })
   }
 
   startPlayback() {

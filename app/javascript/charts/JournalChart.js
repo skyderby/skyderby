@@ -1,12 +1,6 @@
-const SVG_NS = 'http://www.w3.org/2000/svg'
+import { svgEl } from 'charts/svg/elements'
 const MARGIN = { top: 12, right: 14, bottom: 26, left: 44 }
 const SERIES_COUNT = 6
-
-const svgEl = (tag, attrs = {}) => {
-  const node = document.createElementNS(SVG_NS, tag)
-  for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value)
-  return node
-}
 
 const escapeHtml = value =>
   String(value).replace(

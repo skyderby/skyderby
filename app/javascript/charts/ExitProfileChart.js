@@ -1,4 +1,4 @@
-const SVG_NS = 'http://www.w3.org/2000/svg'
+import { svgEl } from 'charts/svg/elements'
 const MARGIN = { top: 24, right: 18, bottom: 44, left: 46 }
 const PALETTE = [
   '--blue-70',
@@ -10,12 +10,6 @@ const PALETTE = [
 ]
 const TERRAIN_COLOR = '#b88e8d'
 const MAX_PLOT_HEIGHT = 520
-
-const svgEl = (tag, attrs = {}) => {
-  const node = document.createElementNS(SVG_NS, tag)
-  for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value)
-  return node
-}
 
 const escapeHtml = value =>
   String(value).replace(

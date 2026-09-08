@@ -2,48 +2,15 @@ import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
 import I18n from 'i18n'
 import { detectFlares, drawFlares } from './flareDetection'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
+import { SVG_NS } from 'charts/svg/elements'
+import { formatAxisLength, deltaCellHtml } from 'charts/svg/format'
+import Crosshair from 'charts/svg/Crosshair'
 
-const SVG_NS = 'http://www.w3.org/2000/svg'
-
-const PRIMARY_COLOR = '#2196F3'
-const COMPARE_COLOR = '#9C27B0'
 const MAX_ZOOM = 20
 
 let clipSeq = 0
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value))
-
-function formatAxisLength(meters, units) {
-  const value = convertLength(meters, units)
-  if (units === 'imperial') {
-    return value === 0 ? '0' : `${(value / 1000).toFixed(1)}k`
-  }
-  return String(Math.round(value))
-}
-
-function deltaCellHtml(a, b, digits = 0, cap = null) {
-  if (a == null || b == null || Number.isNaN(a) || Number.isNaN(b)) return ''
-
-  const diff = Number((a - b).toFixed(digits))
-  const denom = Math.max(Math.abs(a), Math.abs(b)) || 1
-  const width = Math.min(50, (Math.abs(diff) / denom) * 50)
-  const primaryLeads = diff >= 0
-
-  const radius = primaryLeads ? '2px 0 0 2px' : '0 2px 2px 0'
-  const fillStyle = primaryLeads
-    ? `right:50%;left:auto;width:${width}%;border-radius:${radius};background:${PRIMARY_COLOR}`
-    : `left:50%;right:auto;width:${width}%;border-radius:${radius};background:${COMPARE_COLOR}`
-  const valueClass = primaryLeads ? 'is-primary' : 'is-compare'
-
-  let valueText
-  if (cap != null && Math.abs(diff) > cap) {
-    valueText = diff > 0 ? `≥${cap}` : `≤-${cap}`
-  } else {
-    valueText = `${diff > 0 ? '+' : ''}${diff.toFixed(digits)}`
-  }
-
-  return `<span class="side-tt-delta"><span class="side-tt-delta__bar"><span class="side-tt-delta__mark"></span><span class="side-tt-delta__fill" style="${fillStyle}"></span></span><span class="side-tt-delta__val ${valueClass}">${valueText}</span></span>`
-}
 
 export default class SideProjectionChart {
   constructor(container, options = {}) {
@@ -1254,42 +1221,28 @@ export default class SideProjectionChart {
   }
 
   createCrosshair() {
-    this.crosshairGroup = document.createElementNS(SVG_NS, 'g')
-    this.crosshairGroup.setAttribute('class', 'crosshair-group')
-    this.crosshairGroup.style.display = 'none'
+    this.crosshair = new Crosshair(this.crosshairLayer, {
+      compare: this.compareFlightProfile.length > 0
+    })
 
-    this.crosshairVLine = document.createElementNS(SVG_NS, 'line')
-    this.crosshairVLine.setAttribute('class', 'crosshair')
-    this.crosshairGroup.appendChild(this.crosshairVLine)
-
-    this.crosshairHLine = document.createElementNS(SVG_NS, 'line')
-    this.crosshairHLine.setAttribute('class', 'crosshair')
-    this.crosshairGroup.appendChild(this.crosshairHLine)
-
-    this.crosshairMarker = document.createElementNS(SVG_NS, 'circle')
-    this.crosshairMarker.setAttribute('class', 'crosshair-marker')
-    this.crosshairMarker.setAttribute('r', '5')
-    this.crosshairGroup.appendChild(this.crosshairMarker)
-
-    if (this.compareFlightProfile.length) {
-      this.compareCrosshairMarker = document.createElementNS(SVG_NS, 'circle')
-      this.compareCrosshairMarker.setAttribute('class', 'crosshair-marker--compare')
-      this.compareCrosshairMarker.setAttribute('r', '5')
-      this.crosshairGroup.appendChild(this.compareCrosshairMarker)
-    }
-
-    this.crosshairLayer.appendChild(this.crosshairGroup)
+    const { padding } = this.options
+    this.crosshair.setBounds({
+      x1: padding.left,
+      x2: this.width - padding.right,
+      y1: padding.top,
+      y2: this.height - padding.bottom
+    })
   }
 
   showCrosshair(index) {
-    if (!this.crosshairGroup || index < 0 || index >= this.flightProfile.length) return
+    if (!this.crosshair || index < 0 || index >= this.flightProfile.length) return
 
     const point = this.flightProfile[index]
     this.showCrosshairAtPosition(point.x, point.y, point.playerTime)
   }
 
   showCrosshairInterpolated(index, fraction) {
-    if (!this.crosshairGroup || index < 0 || index >= this.flightProfile.length) return
+    if (!this.crosshair || index < 0 || index >= this.flightProfile.length) return
 
     const curr = this.flightProfile[index]
     const next = this.flightProfile[Math.min(index + 1, this.flightProfile.length - 1)]
@@ -1302,47 +1255,23 @@ export default class SideProjectionChart {
   }
 
   showCrosshairAtPosition(posX, posY, playerTime) {
-    const x = this.scaleX(posX)
-    const y = this.scaleY(posY)
-    const { padding } = this.options
-
-    this.crosshairVLine.setAttribute('x1', x)
-    this.crosshairVLine.setAttribute('y1', padding.top)
-    this.crosshairVLine.setAttribute('x2', x)
-    this.crosshairVLine.setAttribute('y2', this.height - padding.bottom)
-
-    this.crosshairHLine.setAttribute('x1', padding.left)
-    this.crosshairHLine.setAttribute('y1', y)
-    this.crosshairHLine.setAttribute('x2', this.width - padding.right)
-    this.crosshairHLine.setAttribute('y2', y)
-
-    this.crosshairMarker.setAttribute('cx', x)
-    this.crosshairMarker.setAttribute('cy', y)
-
-    this.crosshairGroup.style.display = ''
-
+    this.crosshair.show(this.scaleX(posX), this.scaleY(posY))
     this.updateCompareCrosshairMarker(playerTime)
   }
 
   updateCompareCrosshairMarker(playerTime) {
-    if (!this.compareCrosshairMarker) return
-
     const comparePoint =
       playerTime == null ? null : this.interpolateCompareProfile(playerTime)
     if (!comparePoint) {
-      this.compareCrosshairMarker.style.display = 'none'
+      this.crosshair.hideCompare()
       return
     }
 
-    this.compareCrosshairMarker.setAttribute('cx', this.scaleX(comparePoint.x))
-    this.compareCrosshairMarker.setAttribute('cy', this.scaleY(comparePoint.y))
-    this.compareCrosshairMarker.style.display = ''
+    this.crosshair.showCompare(this.scaleX(comparePoint.x), this.scaleY(comparePoint.y))
   }
 
   hideCrosshair() {
-    if (this.crosshairGroup) {
-      this.crosshairGroup.style.display = 'none'
-    }
+    this.crosshair?.hide()
   }
 
   destroy() {
