@@ -1,0 +1,28 @@
+<div class="base-jump-summary" hidden data-tracks--base-jump-track-target="summary">
+  <% %w[one_to_one first_drop glide speed].each do |key| %>
+    <div class="bjs-tile" data-summary-tile="<%= key %>">
+      <div class="bjs-tile__label">
+        <span data-slot="label"><%= t("tracks.base_pro.summary.#{key}", drop: '') %></span>
+        <span class="bjs-help" tabindex="0" role="button" aria-label="<%= t("tracks.base_pro.tooltip.#{key}", drop: '') %>">?<span class="bjs-help__bubble" data-slot="help"><%= t("tracks.base_pro.tooltip.#{key}", drop: '') %></span></span>
+      </div>
+      <div class="bjs-tile__body">
+        <div class="bjs-tile__figures">
+          <div class="bjs-tile__value"><span data-slot="value"></span><span class="bjs-unit" data-slot="unit"></span></div>
+          <div class="bjs-tile__cmp" data-slot="compare" hidden><span class="bjs-dot"></span><span data-slot="compareValue"></span></div>
+        </div>
+        <div class="bjs-hist" data-slot="histogram" hidden></div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<template data-tracks--base-jump-track-target="histogramRowTemplate">
+  <div class="bjs-hist__row">
+    <span class="bjs-hist__band" data-slot="band"></span>
+    <span class="bjs-hist__track">
+      <span class="bjs-hist__fill" data-slot="bar"></span>
+      <span class="bjs-hist__fill is-compare" data-slot="compareBar" hidden></span>
+    </span>
+    <span class="bjs-hist__value"><span data-slot="value"></span><span class="bjs-hist__sep" data-slot="sep" hidden>|</span><span class="bjs-hist__value-cmp" data-slot="compareValue"></span><span class="bjs-unit" data-slot="unit"></span></span>
+  </div>
+</template>

@@ -1,0 +1,115 @@
+<div class="skydive-performance-segments"
+     data-tracks--skydive-performance-track-target="segmentsContent"></div>
+
+<template data-tracks--skydive-performance-track-target="segmentsEntryTemplate">
+  <div class="sps-entry">
+    <div class="sps-entry__chip">
+      <span class="sps-entry__label"><%= t('tracks.show.segments.top_speed') %></span>
+      <span class="sps-entry__value"><span data-slot="topSpeed"></span><i class="sps-unit" data-slot="speedUnit"></i></span>
+    </div>
+    <div class="sps-entry__chip">
+      <span class="sps-entry__label"><%= t('tracks.show.segments.entry_label') %></span>
+      <span class="sps-entry__value"><span data-slot="components"></span><i class="sps-unit" data-slot="speedUnit"></i></span>
+    </div>
+    <div class="sps-entry__chip">
+      <span class="sps-entry__label"><%= t('tracks.show.segments.energy_loss') %></span>
+      <span class="sps-entry__value">
+        <span class="sps-delta" data-slot="loss"><span data-slot="lossSpeed"></span><i class="sps-unit" data-slot="speedUnit"></i> / <span data-slot="lossEnergy"></span><i class="sps-unit"><%= t('tracks.show.segments.energy_unit') %></i></span>
+      </span>
+    </div>
+  </div>
+</template>
+
+<template data-tracks--skydive-performance-track-target="segmentsEntryCompareTemplate">
+  <div class="sps-entry sps-entry--compare">
+    <div class="sps-entry__chip sps-entry__chip--compare">
+      <span class="sps-entry__label"><%= t('tracks.show.segments.top_speed') %></span>
+      <span class="sps-entry__value sps-entry__value--a"><span data-slot="topSpeedA"></span><i class="sps-unit" data-slot="speedUnit"></i></span>
+      <span class="sps-entry__value sps-entry__value--b"><span data-slot="topSpeedB"></span><i class="sps-unit" data-slot="speedUnit"></i></span>
+    </div>
+    <div class="sps-entry__chip sps-entry__chip--compare">
+      <span class="sps-entry__label"><%= t('tracks.show.segments.entry_label') %></span>
+      <span class="sps-entry__value sps-entry__value--a"><span data-slot="componentsA"></span><i class="sps-unit" data-slot="speedUnit"></i></span>
+      <span class="sps-entry__value sps-entry__value--b"><span data-slot="componentsB"></span><i class="sps-unit" data-slot="speedUnit"></i></span>
+    </div>
+    <div class="sps-entry__chip sps-entry__chip--compare">
+      <span class="sps-entry__label"><%= t('tracks.show.segments.energy_loss') %></span>
+      <span class="sps-entry__value sps-entry__value--a"><span data-slot="lossSpeedA"></span><i class="sps-unit" data-slot="speedUnit"></i> / <span data-slot="lossEnergyA"></span><i class="sps-unit"><%= t('tracks.show.segments.energy_unit') %></i></span>
+      <span class="sps-entry__value sps-entry__value--b"><span data-slot="lossSpeedB"></span><i class="sps-unit" data-slot="speedUnit"></i> / <span data-slot="lossEnergyB"></span><i class="sps-unit"><%= t('tracks.show.segments.energy_unit') %></i></span>
+    </div>
+  </div>
+</template>
+
+<template data-tracks--skydive-performance-track-target="segmentsColumnsTemplate">
+  <div class="sps-cols">
+    <span><span class="sps-dot is-a"></span><%= t('tracks.show.segments.col_track') %></span>
+    <span><%= t('tracks.show.segments.col_comparison') %><span class="sps-dot is-b sps-dot--trail"></span></span>
+  </div>
+</template>
+
+<template data-tracks--skydive-performance-track-target="segmentTemplate">
+  <div class="sps-seg">
+    <div class="sps-seg__side">
+      <span class="sps-seg__badge" data-slot="badge"></span>
+      <span class="sps-seg__drop" data-slot="drop"></span>
+    </div>
+    <div class="sps-seg__rows">
+      <div class="sps-row">
+        <span class="sps-row__name"><%= t('tracks.show.segments.metric_distance') %></span>
+        <span class="sps-bar"><span class="sps-bar__fill" data-slot="distanceBar"></span></span>
+        <span class="sps-row__val"><span data-slot="distance"></span><i class="sps-unit" data-slot="lengthUnit"></i></span>
+      </div>
+      <div class="sps-row">
+        <span class="sps-row__name"><%= t('tracks.show.segments.metric_time') %></span>
+        <span class="sps-bar"><span class="sps-bar__fill" data-slot="timeBar"></span></span>
+        <span class="sps-row__val"><span data-slot="time"></span><i class="sps-unit"><%= t('units.sec') %></i></span>
+      </div>
+      <div class="sps-row">
+        <span class="sps-row__name"><%= t('tracks.show.segments.metric_energy') %></span>
+        <span class="sps-bar sps-bar--diverging">
+          <span class="sps-bar__mid"></span>
+          <span class="sps-bar__fill" data-slot="energyBar"></span>
+        </span>
+        <span class="sps-row__val">
+          <span class="sps-delta" data-slot="energyDelta"><span data-slot="deltaSpeed"></span><i class="sps-unit" data-slot="speedUnit"></i></span>
+          <span class="sps-row__sub"><span data-slot="deltaEnergy"></span><i class="sps-unit"><%= t('tracks.show.segments.energy_unit') %></i></span>
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template data-tracks--skydive-performance-track-target="segmentCompareTemplate">
+  <div class="sps-seg">
+    <div class="sps-seg__side">
+      <span class="sps-seg__badge" data-slot="badge"></span>
+      <span class="sps-seg__drop" data-slot="drop"></span>
+    </div>
+    <div class="sps-seg__rows">
+      <div class="sps-cmp__row">
+        <span class="sps-cmp__val"><span data-slot="distanceA"></span><i class="sps-unit" data-slot="lengthUnit"></i></span>
+        <span class="sps-cmp__mid">
+          <span class="sps-cmp__name"><%= t('tracks.show.segments.metric_distance') %></span>
+          <span class="sps-bar"><span class="sps-bar__mid"></span><span class="sps-bar__fill" data-slot="distanceBar"></span></span>
+        </span>
+        <span class="sps-cmp__val"><span data-slot="distanceB"></span><i class="sps-unit" data-slot="lengthUnit"></i></span>
+      </div>
+      <div class="sps-cmp__row">
+        <span class="sps-cmp__val"><span data-slot="timeA"></span><i class="sps-unit"><%= t('units.sec') %></i></span>
+        <span class="sps-cmp__mid">
+          <span class="sps-cmp__name"><%= t('tracks.show.segments.metric_time') %></span>
+          <span class="sps-bar"><span class="sps-bar__mid"></span><span class="sps-bar__fill" data-slot="timeBar"></span></span>
+        </span>
+        <span class="sps-cmp__val"><span data-slot="timeB"></span><i class="sps-unit"><%= t('units.sec') %></i></span>
+      </div>
+      <div class="sps-cmp__row">
+        <span class="sps-cmp__val"><span data-slot="energyA"></span><i class="sps-unit" data-slot="speedUnit"></i></span>
+        <span class="sps-cmp__mid">
+          <span class="sps-cmp__name"><%= t('tracks.show.segments.metric_energy') %></span>
+          <span class="sps-bar"><span class="sps-bar__mid"></span><span class="sps-bar__fill" data-slot="energyBar"></span></span>
+        </span>
+        <span class="sps-cmp__val"><span data-slot="energyB"></span><i class="sps-unit" data-slot="speedUnit"></i></span>
+      </div>
+    </div>
+  </div>
+</template>

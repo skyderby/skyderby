@@ -607,7 +607,7 @@ td.side-tt-delta-cell {
   }
 }
 
-.base-jump-summary:empty {
+.base-jump-summary[hidden] {
   display: none;
 }
 
