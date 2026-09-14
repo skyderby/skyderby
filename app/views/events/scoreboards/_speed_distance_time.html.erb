@@ -1,4 +1,4 @@
-<% can_update = @scoreboard.event.editable? && !@scoreboard.event.finished? && !request.variant.include?(:mobile) %>
+<% can_update = @scoreboard.event.editable? && !@scoreboard.event.finished? && !mobile? %>
 
 <% cache ['scoreboard', I18n.locale, @scoreboard.event, can_update] do %>
   <div class="<%= class_names 'scoreboard-container', (@scoreboard.rounds.size > 6 && 'scoreboard-container-fluid') %>"

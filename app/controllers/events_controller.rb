@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   def index
-    rows_per_page = request.variant.include?(:mobile) ? 5 : 10
+    rows_per_page = mobile? ? 5 : 10
 
     @events =
       EventList

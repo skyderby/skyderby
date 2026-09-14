@@ -3,7 +3,7 @@
 <%= turbo_stream_from @tournament, :qualification, editable ? :editable : :read_only %>
 
 <div class="show-page">
-  <%= render partial: 'tournaments/header', variants: [], locals: { editable: } %>
+  <%= render 'tournaments/header', editable: %>
 
   <div class="show-page-content"
        data-controller="track-compare"
