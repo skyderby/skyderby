@@ -22,7 +22,6 @@ class Boogie::Round < ApplicationRecord
 
   before_create :set_number
 
-  after_update :set_tracks_visibility, if: :saved_change_to_completed_at?
   after_update :queue_gps_recordings_archive, if: :saved_change_to_completed_at?
 
   def completed = completed_at.present?
@@ -31,8 +30,6 @@ class Boogie::Round < ApplicationRecord
     round_competed = ActiveModel::Type::Boolean.new.cast(status)
     self.completed_at = round_competed ? Time.zone.now : nil
   end
-
-  def tracks_visibility = completed ? event.tracks_visibility : Track.visibilities[:private_track]
 
   def presentation = "#{discipline.humanize} #{number}"
 
@@ -45,10 +42,6 @@ class Boogie::Round < ApplicationRecord
       event.rounds.where(discipline: discipline.to_sym).maximum(:number) || 0
 
     self.number = current_number + 1
-  end
-
-  def set_tracks_visibility
-    tracks.find_each { |track| track.update!(visibility: tracks_visibility) }
   end
 
   def queue_gps_recordings_archive

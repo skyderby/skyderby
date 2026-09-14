@@ -16,7 +16,7 @@ class Boogie::Result < ApplicationRecord
   delegate :event, :event_id, :range_from, :range_to, to: :round
   delegate :discipline, :number, to: :round, prefix: true
   delegate :category, to: :competitor
-  delegate :tracks_visibility, to: :round
+  delegate :tracks_visibility, to: :event
 
   def penalty_sizes = [10, 20, 50, 100]
 
