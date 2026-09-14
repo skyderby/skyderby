@@ -49,13 +49,13 @@
 
     <% indicators = capture do %>
       <div class="comparison-competitor">
-        <div class="comparison-competitor__name"><%= main.competitor_name %></div>
+        <div class="comparison-competitor__name"><%= link_to(main.competitor_name, profile_path(main.competitor.profile_id), class: 'link-subtle') if main.competitor %></div>
         <%= render 'tracks/playback_indicators', data: { 'tracks--base-jump-track-target': 'playbackIndicators' } %>
       </div>
 
       <% if compare %>
         <div class="comparison-competitor comparison-competitor--compare">
-          <div class="comparison-competitor__name"><%= compare.competitor_name %></div>
+          <div class="comparison-competitor__name"><%= link_to(compare.competitor_name, profile_path(compare.competitor.profile_id), class: 'link-subtle') if compare.competitor %></div>
           <%= render 'tracks/playback_indicators', compare: true, data: { 'tracks--base-jump-track-target': 'comparePlaybackIndicators' } %>
         </div>
       <% end %>

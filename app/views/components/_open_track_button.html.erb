@@ -1,0 +1,8 @@
+<%# locals: (track_id:) %>
+
+<% if track_id %>
+  <%= link_to track_path(track_id), class: 'button button--ghost button--sm', target: '_blank' do %>
+    <%= icon_tag 'up-right-from-square' %>
+    <%= t('general.open_track') %>
+  <% end %>
+<% end %>

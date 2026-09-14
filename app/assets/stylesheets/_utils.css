@@ -186,4 +186,15 @@
   .rounded {
     border-radius: 9999px;
   }
+
+  .link-subtle {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .link-subtle:hover {
+    color: color-mix(in srgb, currentColor 60%, var(--blue-80));
+    text-decoration: underline;
+  }
 }

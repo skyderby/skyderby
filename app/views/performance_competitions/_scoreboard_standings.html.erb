@@ -11,7 +11,7 @@
   <% previous_rank = show_delta ? standings.previous_rank(row.competitor) : nil %>
   <tr data-competitor-id="<%= row.competitor.id %>"
       class="<%= class_names('scoreboard-competitor', 'competitor-row', 'scoreboard-row--striped' => index.even?, "podium-row--#{row.rank}" => on_podium) %>">
-    <%= render 'scoreboards/pinned_competitor_cell', name: row.competitor.name %>
+    <%= render 'scoreboards/pinned_competitor_cell', name: row.competitor.name, url: profile_path(row.competitor.profile_id) %>
     <td class="text-center rank-cell" data-rank>
       <% if on_podium %>
         <span class="rank-badge rank-badge--<%= row.rank %>"><%= row.rank %></span>

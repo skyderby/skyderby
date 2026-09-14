@@ -5,6 +5,7 @@
     <%= render partial: 'map',
                layout: 'components/dialog',
                locals: {
+                 header_actions: render('components/open_track_button', track_id: @result.track_id),
                  title: event_result_presentation(@result),
                  dialog_size: 'lg',
                  modal: true,
@@ -12,7 +13,7 @@
                  editable:
                } %>
   <% else %>
-    <%= render layout: 'components/dialog', locals: { title: event_result_presentation(@result), dialog_size: 'lg' } do %>
+    <%= render layout: 'components/dialog', locals: { title: event_result_presentation(@result), dialog_size: 'lg', header_actions: render('components/open_track_button', track_id: @result.track_id) } do %>
       <div class="sd-container">
         <%= render 'performance_competitions/results/navbar', result: @result, modal: true %>
         <%= render 'components/maps_auth_wall' %>

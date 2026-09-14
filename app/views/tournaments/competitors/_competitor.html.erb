@@ -1,13 +1,13 @@
 <tr id="<%= dom_id(competitor) %>">
   <td><%= competitor_counter + 1 %></td>
-  <td><%= competitor.name %></td>
+  <td><%= link_to competitor.name, profile_path(competitor.profile_id), class: 'link-subtle' %></td>
   <td class="text-center text-muted">
     <span class="dotted-underline" data-controller="tooltip">
       <%= competitor.country_code %>
       <span class="for-screen-reader"><%= competitor.country_name %></span>
     </span>
   </td>
-  <td><%= competitor.suit_name %></td>
+  <td><%= link_to competitor.suit_name, suit_path(competitor.suit_id), class: 'link-subtle' %></td>
   <td>
     <%= link_to edit_tournament_competitor_path(@tournament, competitor), data: { turbo_stream: true } do %>
       <%= icon_tag 'pencil-solid', class: 'text-muted' %>

@@ -4,6 +4,7 @@
   <%= render partial: 'tournaments/matches/slots/results/result',
              layout: 'components/dialog',
              locals: {
+               header_actions: render('components/open_track_button', track_id: @slot.track_id),
                title: match_slot_presentation(@slot),
                dialog_size: 'lg',
                slot: @slot,

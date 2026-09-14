@@ -6,7 +6,7 @@
 <tr class="<%= class_names('scoreboard-competitor',
                            'scoreboard-row--striped' => row.rank.even?,
                            "podium-row--#{row.rank}" => on_podium) %>">
-  <%= render 'scoreboards/pinned_competitor_cell', name: row.profile.name.titleize %>
+  <%= render 'scoreboards/pinned_competitor_cell', name: row.profile.name.titleize, url: profile_path(row.profile) %>
 
   <td class="text-center rank-cell">
     <% if on_podium %>

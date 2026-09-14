@@ -40,13 +40,13 @@
       <% if score.suit %>
         <span class="vc-scoreboard__suit">
           <%= icon_tag 'wingsuit' %>
-          <%= suit_presentation(score.suit) %>
+          <%= suit_link(score.suit) %>
         </span>
       <% end %>
       <% if competition.worldwide? %>
         <span class="vc-scoreboard__place">
           <%= icon_tag 'location-dot-solid' %>
-          <%= track_place(score.track) %>
+          <%= track_place_link(score.track) %>
         </span>
       <% end %>
     </div>

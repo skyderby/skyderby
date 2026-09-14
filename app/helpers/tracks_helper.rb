@@ -23,6 +23,10 @@ module TracksHelper
     track.place ? place_presentation(track.place) : track.location
   end
 
+  def track_place_link(track)
+    track.place ? place_link(track.place) : track.location
+  end
+
   def track_place_name(track)
     track.place ? track.place_name : track.location
   end

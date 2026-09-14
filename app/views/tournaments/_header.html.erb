@@ -6,8 +6,12 @@
   </h1>
 
   <div class="show-page-info">
-    <%= icon_tag 'location-dot-solid' %>
-    <%= place_presentation(@tournament.place) %>
+    <% if @tournament.place %>
+      <%= link_to place_path(@tournament.place), class: 'place-link' do %>
+        <%= icon_tag 'location-dot-solid' %>
+        <%= place_presentation(@tournament.place) %>
+      <% end %>
+    <% end %>
     <%= render 'events/started_at', event: @tournament %>
   </div>
 

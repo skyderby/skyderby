@@ -5,6 +5,12 @@ module SuitsHelper
     Suit.find_by(id: id)&.name
   end
 
+  def suit_link(suit)
+    return unless suit
+
+    link_to suit_presentation(suit), suit_path(suit), class: 'link-subtle'
+  end
+
   def suit_presentation(suit)
     return unless suit
 

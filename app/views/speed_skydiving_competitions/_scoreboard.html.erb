@@ -50,7 +50,7 @@
           <% competitor_results = editable ? row[:all_results] : row[:accountable_results] %>
           <% on_podium = at_least_one_round_completed && row[:total].positive? && row[:rank] <= 3 %>
           <tr data-competitor-id="<%= competitor.id %>" class="<%= class_names('competitor-row', ("podium-row--#{row[:rank]}" if on_podium)) %>">
-            <%= render 'scoreboards/pinned_competitor_cell', name: competitor.name %>
+            <%= render 'scoreboards/pinned_competitor_cell', name: competitor.name, url: profile_path(competitor.profile_id) %>
             <td data-rank class="text-center rank-cell">
               <% if on_podium %>
                 <span class="rank-badge rank-badge--<%= row[:rank] %>"><%= row[:rank] %></span>

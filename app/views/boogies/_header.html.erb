@@ -12,8 +12,12 @@
     </small>
   </h1>
   <div class="show-page-info">
-    <%= icon_tag 'location-dot-solid' %>
-    <%= place_presentation(@event.place) %>
+    <% if @event.place %>
+      <%= link_to place_path(@event.place), class: 'place-link' do %>
+        <%= icon_tag 'location-dot-solid' %>
+        <%= place_presentation(@event.place) %>
+      <% end %>
+    <% end %>
     <% if @event.place_msl %>
       <span>(MSL: <%= @event.place_msl %> <%= t('units.m') %>)</span>
     <% end %>

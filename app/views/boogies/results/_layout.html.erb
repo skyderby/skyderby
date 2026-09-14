@@ -11,7 +11,7 @@
   <div class="content-block content-block--bordered sd-container">
     <div class="event-result__title-bar">
       <%= image_tag @result.competitor.profile.userpic_url(:thumb) %>
-      <%= @result.competitor.name %>
+      <%= link_to @result.competitor.name, profile_path(@result.competitor.profile_id), class: 'link-subtle' %>
       |
       <%= "#{t('disciplines.' + @result.round_discipline)} - #{@result.round_number}" %>
     </div>

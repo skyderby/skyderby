@@ -4,6 +4,7 @@
   <%= render partial: 'boogies/results/result',
              layout: 'components/dialog',
              locals: {
+               header_actions: render('components/open_track_button', track_id: @result.track_id),
                title: event_result_presentation(@result),
                dialog_size: 'lg',
                result: @result,

@@ -11,11 +11,13 @@
       <td class="competitor-cell">
         <%= link_to row.competitor.name.titleize, profile_path(row.competitor.profile), class: 'competitor-name' %>
         <div class="competitor-suit text-gray">
-          <%= row.competitor.suit.manufacturer_code %>
-          <%= row.competitor.suit.name %>
+          <%= link_to suit_path(row.competitor.suit), class: 'link-subtle' do %>
+            <%= row.competitor.suit.manufacturer_code %>
+            <%= row.competitor.suit.name %>
+          <% end %>
 
           <%= icon_tag 'location-dot-solid' %>
-          <%= row.competitor.place.name %>
+          <%= link_to row.competitor.place.name, place_path(row.competitor.place), class: 'link-subtle' %>
         </div>
       </td>
       <td class="text-center">

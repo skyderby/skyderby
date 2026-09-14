@@ -8,7 +8,7 @@
       <div>
         <%= t('virtual_competitions.place') %>
         <% if @competition.place %>
-          <%= place_presentation(@competition.place) %>
+          <%= place_link(@competition.place) %>
         <% else %>
           <%= t('virtual_competitions.worldwide') %>
         <% end %>

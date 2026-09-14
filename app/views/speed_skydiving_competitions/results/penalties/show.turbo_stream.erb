@@ -1,5 +1,6 @@
 <%= turbo_stream.update 'modal-root' do %>
   <%= render partial: 'penalties', layout: 'components/dialog', locals: {
+    header_actions: render('components/open_track_button', track_id: @result.track_id),
     title: "Result: #{@result.competitor.name} - Round #{@result.round.number}",
     dialog_size: 'lg',
     event: @event,

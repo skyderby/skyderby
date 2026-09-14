@@ -1,6 +1,10 @@
-<%# locals: (name:) %>
+<%# locals: (name:, url: nil) %>
 <td class="pinned-competitor-cell">
   <span class="pinned-competitor">
-    <span class="pinned-competitor__text"><%= name %></span>
+    <% if url %>
+      <%= link_to name, url, class: 'pinned-competitor__text link-subtle' %>
+    <% else %>
+      <span class="pinned-competitor__text"><%= name %></span>
+    <% end %>
   </span>
 </td>

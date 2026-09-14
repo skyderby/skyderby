@@ -9,8 +9,10 @@
   <% end %>
 
   <div class="competitor-suit text-gray">
-    <%= competitor.suit.manufacturer_code %>
-    <%= competitor.suit_name %>
+    <%= link_to suit_path(competitor.suit_id), class: 'link-subtle' do %>
+      <%= competitor.suit.manufacturer_code %>
+      <%= competitor.suit_name %>
+    <% end %>
   </div>
 
   <% if editable %>

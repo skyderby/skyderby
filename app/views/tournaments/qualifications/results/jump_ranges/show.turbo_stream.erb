@@ -1,5 +1,6 @@
 <%= turbo_stream.update 'modal-root' do %>
   <%= render partial: 'jump_range_form', layout: 'components/dialog', locals: {
+    header_actions: render('components/open_track_button', track_id: @result.track_id),
     title: qualification_jump_presentation(@result),
     dialog_size: 'lg',
     show_cancel: true

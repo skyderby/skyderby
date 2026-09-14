@@ -71,7 +71,7 @@
     <% scoreboard.competitors.each do |competitor| %>
       <% on_podium = podium && competitor.ranked? && competitor.rank <= 3 %>
       <tr class="<%= class_names('scoreboard-competitor', ("podium-row--#{competitor.rank}" if on_podium)) %>">
-        <%= render 'scoreboards/pinned_competitor_cell', name: competitor.name %>
+        <%= render 'scoreboards/pinned_competitor_cell', name: competitor.name, url: profile_path(competitor.profile_id) %>
         <td class="text-center rank-cell">
           <% if !competitor.ranked? %>
             –
@@ -87,8 +87,10 @@
             <span class="text-danger" data-controller="tooltip">(DQ)<span class="for-screen-reader"><%= competitor.disqualification_reason %></span></span>
           <% end %>
           <div class="competitor-suit text-gray">
-            <%= competitor.suit.manufacturer_code %>
-            <%= competitor.suit_name %>
+            <%= link_to suit_path(competitor.suit_id), class: 'link-subtle' do %>
+              <%= competitor.suit.manufacturer_code %>
+              <%= competitor.suit_name %>
+            <% end %>
           </div>
 
           <% if editable %>

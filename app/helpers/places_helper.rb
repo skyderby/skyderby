@@ -5,6 +5,12 @@ module PlacesHelper
     Place.find_by(id: id)&.name
   end
 
+  def place_link(place)
+    return unless place
+
+    link_to place_presentation(place), place_path(place), class: 'link-subtle'
+  end
+
   def place_presentation(place)
     return unless place
 
