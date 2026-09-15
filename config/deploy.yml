@@ -43,6 +43,7 @@ builder:
   cache:
     type: registry
     options: mode=max
+    image: skyderby/app:build-cache
 
 aliases:
   console: app exec --interactive --reuse "bin/rails console"
