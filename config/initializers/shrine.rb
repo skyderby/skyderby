@@ -2,12 +2,15 @@ require 'shrine'
 require 'shrine/storage/file_system'
 require 'shrine/storage/s3'
 
+aws = Rails.application.credentials.aws || {}
+aws_region = aws[:region] || ENV.fetch('AWS_REGION', nil)
+
 s3_options = {
-  bucket: ENV.fetch('SHRINE_S3_BUCKET', nil),
-  region: ENV.fetch('AWS_REGION', nil),
-  access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID', nil),
-  secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY', nil),
-  endpoint: "https://s3.#{ENV.fetch('AWS_REGION', nil)}.amazonaws.com"
+  bucket: aws[:shrine_bucket] || ENV.fetch('SHRINE_S3_BUCKET', nil),
+  region: aws_region,
+  access_key_id: aws[:access_key_id] || ENV.fetch('AWS_ACCESS_KEY_ID', nil),
+  secret_access_key: aws[:secret_access_key] || ENV.fetch('AWS_SECRET_ACCESS_KEY', nil),
+  endpoint: "https://s3.#{aws_region}.amazonaws.com"
 }
 
 Shrine.storages[:cache] = Shrine::Storage::FileSystem.new('public', prefix: 'system')

@@ -232,8 +232,8 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :google_oauth2,
-                  ENV.fetch('GOOGLE_CLIENT_ID', nil),
-                  ENV.fetch('GOOGLE_CLIENT_SECRET', nil),
+                  Rails.application.credentials.dig(:google, :client_id) || ENV.fetch('GOOGLE_CLIENT_ID', nil),
+                  Rails.application.credentials.dig(:google, :client_secret) || ENV.fetch('GOOGLE_CLIENT_SECRET', nil),
                   {
                     scope: 'userinfo.email,userinfo.profile',
                     prompt: 'select_account',

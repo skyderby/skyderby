@@ -1,10 +1,10 @@
 production: &default
   adapter: postgresql
-  database: <%= ENV['DB_NAME'] %>
-  host:     <%= ENV['DB_HOST'] %>
+  database: <%= Rails.application.credentials.dig(:database, :name) || ENV['DB_NAME'] %>
+  host:     <%= Rails.application.credentials.dig(:database, :host) || ENV['DB_HOST'] %>
   port:     <%= ENV['DB_PORT'] || 5432 %>
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
+  username: <%= Rails.application.credentials.dig(:database, :username) || ENV['DB_USERNAME'] %>
+  password: <%= Rails.application.credentials.dig(:database, :password) || ENV['DB_PASSWORD'] %>
   encoding: utf8
   timeout: 2000
 

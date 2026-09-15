@@ -1,5 +1,5 @@
 ---
-api_key: ENV.fetch('HONEYBADGER_API_KEY', nil)
+api_key: <%= Rails.application.credentials.dig(:honeybadger, :api_key) || ENV.fetch('HONEYBADGER_API_KEY', nil) %>
 
 sidekiq:
   insights:

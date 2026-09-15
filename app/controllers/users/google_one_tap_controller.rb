@@ -30,7 +30,7 @@ module Users
     def verify_google_token(credential)
       Google::Auth::IDTokens.verify_oidc(
         credential,
-        aud: ENV.fetch('GOOGLE_CLIENT_ID', nil)
+        aud: Rails.application.credentials.dig(:google, :client_id) || ENV.fetch('GOOGLE_CLIENT_ID', nil)
       )
     rescue Google::Auth::IDTokens::VerificationError
       nil

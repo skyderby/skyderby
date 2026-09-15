@@ -9,14 +9,18 @@ module ApplicationHelper
     tag.span class: class_names("icon icon--#{name}", options.delete(:class)), 'aria-hidden': true, **options
   end
 
-  def maps_api_key = ENV.fetch('MAPS_API_KEY', nil)
+  def maps_api_key = Rails.application.credentials.dig(:maps, :api_key) || ENV.fetch('MAPS_API_KEY', nil)
 
-  def turnstile_enabled? = !Rails.env.test? && ENV['TURNSTILE_SITE_KEY'].present?
+  def turnstile_site_key
+    Rails.application.credentials.dig(:turnstile, :site_key) || ENV.fetch('TURNSTILE_SITE_KEY', nil)
+  end
+
+  def turnstile_enabled? = !Rails.env.test? && turnstile_site_key.present?
 
   def turnstile_tag
     return unless turnstile_enabled?
 
-    tag.div data: { controller: 'turnstile', 'turnstile-sitekey-value': ENV.fetch('TURNSTILE_SITE_KEY', nil) }
+    tag.div data: { controller: 'turnstile', 'turnstile-sitekey-value': turnstile_site_key }
   end
 
   def merge_query_params(src, params)

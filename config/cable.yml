@@ -6,4 +6,4 @@ test:
 
 production:
   adapter: redis
-  url: <%= "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}/#{ENV['REDIS_CABLE_DB']}" %>
+  url: <%= "redis://#{Rails.application.credentials.dig(:redis, :host) || ENV['REDIS_HOST']}:#{Rails.application.credentials.dig(:redis, :port) || ENV['REDIS_PORT']}/#{ENV['REDIS_CABLE_DB']}" %>

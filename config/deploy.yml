@@ -29,36 +29,8 @@ env:
     RAILS_SERVE_STATIC_FILES: 1
     REDIS_DB: 12
     REDIS_CABLE_DB: 11
-  secret: &secrets
+  secret:
     - RAILS_MASTER_KEY
-    - SECRET_KEY_BASE
-    - DB_HOST
-    - DB_NAME
-    - DB_USERNAME
-    - DB_PASSWORD
-    - MAILER_ASSET_HOST
-    - MAILER_URL_HOST
-    - SMTP_SERVER
-    - SMTP_USERNAME
-    - SMTP_PASSWORD
-    - REDIS_HOST
-    - REDIS_PORT
-    - MAPS_API_KEY
-    - CESIUM_API_TOKEN
-    - HONEYBADGER_API_KEY
-    - SKYLIGHT_AUTHENTICATION
-    - GOOGLE_CLIENT_ID
-    - GOOGLE_CLIENT_SECRET
-    - SHRINE_S3_BUCKET
-    - AWS_ACCESS_KEY_ID
-    - AWS_SECRET_ACCESS_KEY
-    - AWS_REGION
-    - AMPLITUDE_API_KEY
-    - STRIPE_PUBLIC_KEY
-    - STRIPE_PRIVATE_KEY
-    - STRIPE_SIGNING_SECRET
-    - TURNSTILE_SITE_KEY
-    - TURNSTILE_SECRET_KEY
 
 registry: &registry
   server: ghcr.io
@@ -68,6 +40,9 @@ registry: &registry
 
 builder:
   arch: amd64
+  cache:
+    type: registry
+    options: mode=max
 
 aliases:
   console: app exec --interactive --reuse "bin/rails console"

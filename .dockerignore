@@ -12,3 +12,8 @@ public/assets
 /log/*.log
 /tmp
 node_modules
+
+# Secrets
+/.env
+/config/master.key
+/config/credentials/*.key

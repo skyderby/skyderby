@@ -7,14 +7,14 @@ module TurnstileVerification
 
   def verify_turnstile
     return true if Rails.env.test?
-    return true if ENV['TURNSTILE_SECRET_KEY'].blank?
+    return true if turnstile_secret_key.blank?
 
     token = params['cf_turnstile_response']
     return false if token.blank?
 
     response = Net::HTTP.post_form(
       URI(TURNSTILE_VERIFY_URL),
-      secret: ENV.fetch('TURNSTILE_SECRET_KEY', nil),
+      secret: turnstile_secret_key,
       response: token,
       remoteip: request.remote_ip
     )
@@ -22,5 +22,9 @@ module TurnstileVerification
     JSON.parse(response.body)['success']
   rescue StandardError
     false
+  end
+
+  def turnstile_secret_key
+    Rails.application.credentials.dig(:turnstile, :secret_key) || ENV.fetch('TURNSTILE_SECRET_KEY', nil)
   end
 end

@@ -60,15 +60,17 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.asset_host = ENV.fetch('MAILER_ASSET_HOST', nil)
-  config.action_mailer.default_url_options = { host: ENV.fetch('MAILER_URL_HOST', nil) }
+  config.action_mailer.asset_host = credentials.dig(:mailer, :asset_host) || ENV.fetch('MAILER_ASSET_HOST', nil)
+  config.action_mailer.default_url_options = {
+    host: credentials.dig(:mailer, :url_host) || ENV.fetch('MAILER_URL_HOST', nil)
+  }
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    user_name: ENV.fetch('SMTP_USERNAME', nil),
-    password: ENV.fetch('SMTP_PASSWORD', nil),
-    address: ENV.fetch('SMTP_SERVER', nil),
+    user_name: credentials.dig(:smtp, :username) || ENV.fetch('SMTP_USERNAME', nil),
+    password: credentials.dig(:smtp, :password) || ENV.fetch('SMTP_PASSWORD', nil),
+    address: credentials.dig(:smtp, :server) || ENV.fetch('SMTP_SERVER', nil),
     port: 587,
     authentication: :plain,
     enable_starttls_auto: true

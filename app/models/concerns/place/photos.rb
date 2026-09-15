@@ -24,7 +24,7 @@ module Place::Photos
       size: '640x250',
       scale: 2,
       markers: "color:red|#{center}",
-      key: ENV.fetch('MAPS_API_KEY', nil)
+      key: Rails.application.credentials.dig(:maps, :api_key) || ENV.fetch('MAPS_API_KEY', nil)
     }.to_param
   end
 end

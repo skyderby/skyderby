@@ -23,7 +23,6 @@
 
 .env
 .env.local
-.kamal/secrets
 Procfile.local
 
 # Ignore application configuration

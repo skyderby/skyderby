@@ -7,11 +7,11 @@
 
 <meta name="default-locale" content="<%= I18n.default_locale %>">
 <meta name="locale" content="<%= I18n.locale %>">
-<meta name="maps-api-key" content="<%= ENV.fetch('MAPS_API_KEY', nil) %>">
-<meta name="cesium-api-key" content="<%= ENV.fetch('CESIUM_API_TOKEN', nil) %>">
-<meta name="hb-api-key" content="<%= ENV.fetch('HONEYBADGER_API_KEY', nil) %>">
-<meta name="amplitude-api-key" content="<%= ENV.fetch('AMPLITUDE_API_KEY', nil) %>">
-<meta name="google-client-id" content="<%= ENV.fetch('GOOGLE_CLIENT_ID', nil) %>">
+<meta name="maps-api-key" content="<%= maps_api_key %>">
+<meta name="cesium-api-key" content="<%= Rails.application.credentials.dig(:cesium, :api_token) || ENV.fetch('CESIUM_API_TOKEN', nil) %>">
+<meta name="hb-api-key" content="<%= Rails.application.credentials.dig(:honeybadger, :api_key) || ENV.fetch('HONEYBADGER_API_KEY', nil) %>">
+<meta name="amplitude-api-key" content="<%= Rails.application.credentials.dig(:amplitude, :api_key) || ENV.fetch('AMPLITUDE_API_KEY', nil) %>">
+<meta name="google-client-id" content="<%= Rails.application.credentials.dig(:google, :client_id) || ENV.fetch('GOOGLE_CLIENT_ID', nil) %>">
 <meta name="current-env" content="<%= Rails.env %>">
 <% if user_signed_in? %>
   <meta name="current-user-id" content="<%= current_user.id %>">
