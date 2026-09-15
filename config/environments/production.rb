@@ -1,5 +1,5 @@
 Rails.application.configure do
-  config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'amazon').to_sym
+  config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'amazon_to_r2').to_sym
 
   # Settings specified here will take precedence over those in config/application.rb.
 

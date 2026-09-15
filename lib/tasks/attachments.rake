@@ -17,7 +17,7 @@ namespace :attachments do
     scope = ActiveStorage::Attachment.joins(:blob)
                                      .where(name: %w[userpic image logo photo sponsor_logo])
                                      .where("active_storage_blobs.metadata LIKE '%shrine_import%'")
-                                     .includes(:blob, :record)
+                                     .preload(:blob, :record)
 
     count = 0
     scope.find_each do |attachment|
