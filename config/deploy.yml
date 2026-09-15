@@ -34,7 +34,7 @@ env:
 
 registry: &registry
   server: ghcr.io
-  username: skyksandr
+  username: <%= ENV.fetch('KAMAL_REGISTRY_USERNAME', 'skyksandr') %>
   password:
     - KAMAL_REGISTRY_PASSWORD
 
