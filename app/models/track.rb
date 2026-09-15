@@ -33,6 +33,8 @@
 #
 
 class Track < ApplicationRecord
+  self.ignored_columns += %w[file_file_name file_content_type file_file_size file_updated_at]
+
   include Ownerable, WeatherData
   include Track::Permissions
 

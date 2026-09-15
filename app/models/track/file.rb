@@ -12,6 +12,8 @@
 #
 
 class Track::File < ApplicationRecord
+  self.ignored_columns += %w[file_file_name file_content_type file_file_size file_updated_at]
+
   include TrackUploader::Attachment.new(:file)
 
   attr_accessor :track_attributes

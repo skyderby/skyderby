@@ -75,11 +75,11 @@
       </div>
     <% end %>
 
-    <% if @track.track_file %>
+    <% if @track.track_file&.file %>
       <div class="grid">
         <label class="form-label col-4">Download file</label>
         <div class="col-8">
-          <%= link_to @track.track_file.file&.original_filename || @track.track_file.file_file_name,
+          <%= link_to @track.track_file.file.original_filename,
                       track_download_path(@track), data: { turbo: false } %>
         </div>
       </div>
