@@ -95,7 +95,7 @@
           <%= t('application.header.tracks') %>
         <% end %>
       </li>
-      <li class="main-menu__item <%= 'active' if ['events', 'performance_competitions', 'speed_skydiving_competitions', 'tournaments'].include? root_controller %>">
+      <li class="main-menu__item <%= 'active' if %w[events boogies performance_competitions performance_competition_series speed_skydiving_competitions speed_skydiving_competition_series tournaments].include? root_controller %>">
         <%= link_to events_path do %>
           <%= icon_tag 'trophy-solid' %>
           <%= t('application.header.competitions') %>
@@ -136,7 +136,7 @@
         <% end %>
       </li>
 
-      <li class="main-menu__item <%= 'active' if root_controller == 'places' %>">
+      <li class="main-menu__item <%= 'active' if root_controller == 'suits' %>">
         <%= link_to suits_path do %>
           <%= icon_tag 'wingsuit' %>
           <%= t('application.header.suits') %>
