@@ -110,7 +110,10 @@ export default class extends PlaybackController {
 
     const fetches = [
       fetchTrackPoints(this.pointsUrlValue, { convertSpeeds: true }),
-      initMapsApi()
+      initMapsApi().then(
+        () => true,
+        () => false
+      )
     ]
     if (this.hasComparePointsUrlValue) {
       fetches.push(
@@ -121,8 +124,10 @@ export default class extends PlaybackController {
     }
 
     Promise.all(fetches)
-      .then(([pointsData, , compareData]) => {
+      .then(([pointsData, mapsReady, compareData]) => {
         if (!this.element.isConnected) return
+
+        this.mapsReady = mapsReady
 
         if (!pointsData.points || pointsData.points.length === 0) {
           this.showEmptyState('no_data')
@@ -685,7 +690,7 @@ export default class extends PlaybackController {
   }
 
   renderMap() {
-    if (!this.hasMapTarget) return
+    if (!this.hasMapTarget || !this.mapsReady) return
 
     this.initMap()
     this.drawTrajectory(this.points)

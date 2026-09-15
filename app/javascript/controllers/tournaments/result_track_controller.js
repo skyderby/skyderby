@@ -39,10 +39,15 @@ export default class extends PlaybackController {
 
     Promise.all([
       fetchTrackPoints(this.pointsUrlValue, { convertSpeeds: true }),
-      initMapsApi()
+      initMapsApi().then(
+        () => true,
+        () => false
+      )
     ])
-      .then(([pointsData]) => {
+      .then(([pointsData, mapsReady]) => {
         if (!pointsData.points || pointsData.points.length === 0) return
+
+        this.mapsReady = mapsReady
 
         this.points = pointsData.points
         this.findFinishLineCrossing()
@@ -215,7 +220,7 @@ export default class extends PlaybackController {
   }
 
   renderMap() {
-    if (!this.hasMapTarget) return
+    if (!this.hasMapTarget || !this.mapsReady) return
 
     this.initMap()
     this.drawTrajectory()
