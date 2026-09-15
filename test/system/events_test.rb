@@ -5,8 +5,6 @@ class EventsTest < ApplicationSystemTestCase
     user = users(:regular_user)
     sign_in user
 
-    create :place, name: 'Awesome DZ', msl: 27, latitude: 28.21975954, longitude: -82.15107322
-
     create_competition
     assert_selector('.show-page-title', text: 'TEST EVENT')
 
@@ -46,7 +44,7 @@ class EventsTest < ApplicationSystemTestCase
     fill_in :performance_competition_range_from, with: 3000
     fill_in :performance_competition_range_to, with: 2000
 
-    hot_select 'Awesome DZ', from: 'place_id'
+    hot_select 'Zephyrhills', from: 'place_id'
     click_button I18n.t('general.save')
   end
 
