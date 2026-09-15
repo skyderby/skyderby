@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_31_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_15_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -797,11 +797,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_000000) do
 
   create_table "track_files", id: :serial, force: :cascade do |t|
     t.timestamptz "created_at", null: false
-    t.string "file_content_type", limit: 510
     t.jsonb "file_data"
-    t.string "file_file_name", limit: 510
-    t.integer "file_file_size"
-    t.timestamptz "file_updated_at"
     t.timestamptz "updated_at", null: false
   end
 
@@ -845,10 +841,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_000000) do
     t.timestamptz "exited_at"
     t.integer "ff_end"
     t.integer "ff_start"
-    t.string "file_content_type", limit: 510
-    t.string "file_file_name", limit: 510
-    t.integer "file_file_size"
-    t.timestamptz "file_updated_at"
     t.json "flares"
     t.boolean "ge_enabled", default: true
     t.integer "gps_type", default: 0

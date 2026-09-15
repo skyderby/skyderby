@@ -19,10 +19,6 @@
 #  profile_id                            :integer
 #  place_id                              :integer
 #  gps_type                              :integer          default("gpx")
-#  file_file_name                        :string(510)
-#  file_content_type                     :string(510)
-#  file_file_size                        :integer
-#  file_updated_at                       :datetime
 #  track_file_id                         :integer
 #  ground_level                          :decimal(5, 1)    default(0.0)
 #  recorded_at                           :datetime

@@ -3,17 +3,11 @@
 # Table name: track_files
 #
 #  id                :integer          not null, primary key
-#  file_file_name    :string(510)
-#  file_content_type :string(510)
-#  file_file_size    :integer
-#  file_updated_at   :datetime
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #
 
 class Track::File < ApplicationRecord
-  self.ignored_columns += %w[file_file_name file_content_type file_file_size file_updated_at]
-
   include TrackUploader::Attachment.new(:file)
 
   attr_accessor :track_attributes
