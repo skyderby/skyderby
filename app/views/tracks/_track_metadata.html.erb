@@ -23,10 +23,10 @@
     <%= render 'tracks/track_point', label: t("tracks.metadata.#{name}"), point: %>
   <% end %>
 
-  <% if @track.track_file %>
+  <% if @track.track_file&.file&.attached? %>
     <small>
       Download file:
-      <%= link_to @track.track_file.file.original_filename, track_download_path(@track), 'data-turbo': false %>
+      <%= link_to @track.track_file.file.filename, track_download_path(@track), 'data-turbo': false %>
     </small>
   <% end %>
 <% end %>

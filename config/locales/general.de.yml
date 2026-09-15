@@ -1,4 +1,8 @@
 de:
+  errors:
+    messages:
+      file_too_large: "muss kleiner als %{size} sein"
+      file_type_invalid: "hat einen nicht unterstützten Dateityp"
   general:
     play: Abspielen
     pause: Pause

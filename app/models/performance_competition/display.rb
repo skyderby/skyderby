@@ -95,7 +95,7 @@ class PerformanceCompetition::Display < SimpleDelegator
     def suit = [competitor.suit&.manufacturer_code, competitor.suit_name].compact.join(' ')
 
     def photo_url
-      competitor.photo_url(:medium) if competitor.photo
+      competitor.photo_url(:medium)
     end
 
     def discipline_scores

@@ -12,10 +12,10 @@ module AcceptsNestedTrack
     private
 
     def find_duplicate(result, track_file)
-      result.event.results.joins(track: :track_file)
+      result.event.results.joins(track: { track_file: { file_attachment: :blob } })
             .includes(competitor: :profile)
-            .where("file_data->'metadata'->>'md5' = ?", track_file.file.metadata['md5'])
-            .where.not(id: track_file.id)
+            .where(active_storage_blobs: { checksum: track_file.file.checksum })
+            .where.not(track_files: { id: track_file.id })
             .first
     end
   end

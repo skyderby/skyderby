@@ -41,7 +41,6 @@ gem 'kramdown'
 # Files attachments
 gem 'aws-sdk-s3'
 gem 'image_processing', '~> 1.12'
-gem 'shrine', '~> 3.0'
 
 # XML
 gem 'nokogiri', '~> 1.19'

@@ -32,7 +32,7 @@ class CreateTrackService::ActivityDataLookupTest < ActiveSupport::TestCase
 
   def points(track_file, segment: 0)
     @points ||= read_points_from_file(
-      file: track_file.file,
+      file: track_file.source,
       segment: segment,
       format: track_file.file_format
     )

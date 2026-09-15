@@ -7,8 +7,8 @@ class SpeedSkydivingCompetitions::Downloads::GpsRecordingsController < Applicati
   def show
     archive = @event.gps_recordings_archive
 
-    if archive&.complete? && archive.file
-      redirect_to archive.file.url, allow_other_host: true
+    if archive&.complete? && archive.file.attached?
+      redirect_to rails_blob_path(archive.file, disposition: :attachment)
     else
       render turbo_stream: turbo_stream.append(
         :toasts,

@@ -21,7 +21,7 @@ class ProfilesController < ApplicationController
       )
       .left_joins(:tracks)
       .group('profiles.id')
-      .includes(:country, :owner, :badges, :contributions)
+      .includes(:country, :owner, :badges, :contributions, userpic_attachment: :blob)
   end
 
   def show

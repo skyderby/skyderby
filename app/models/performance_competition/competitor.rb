@@ -2,7 +2,7 @@ class PerformanceCompetition::Competitor < ApplicationRecord
   self.table_name = :event_competitors
 
   include EventOngoingValidation, CompetitorCountry, CompetitorAlias
-  include PhotoUploader::Attachment(:photo)
+  include CompetitorPhoto
 
   belongs_to :event, class_name: 'PerformanceCompetition', touch: true
   belongs_to :category, foreign_key: :section_id, inverse_of: :competitors
@@ -12,8 +12,6 @@ class PerformanceCompetition::Competitor < ApplicationRecord
 
   has_many :results, dependent: :restrict_with_error
   has_many :reference_point_assignments, dependent: :delete_all
-
-  after_validation { photo_derivatives! if photo_changed? }
 
   scope :ordered,
         -> { left_joins(:profile, :competitor_alias).order(Arel.sql('COALESCE(profile_aliases.name, profiles.name)')) }

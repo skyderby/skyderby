@@ -9,6 +9,10 @@ module ApplicationHelper
     tag.span class: class_names("icon icon--#{name}", options.delete(:class)), 'aria-hidden': true, **options
   end
 
+  def stored_file_url(path)
+    path&.start_with?(ActiveStorage.routes_prefix) ? asset_url(path) : path
+  end
+
   def maps_api_key = Rails.application.credentials.dig(:maps, :api_key) || ENV.fetch('MAPS_API_KEY', nil)
 
   def turnstile_site_key

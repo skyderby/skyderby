@@ -1,5 +1,8 @@
 it:
   errors:
+    messages:
+      file_too_large: "deve essere inferiore a %{size}"
+      file_type_invalid: "ha un tipo di file non supportato"
     attributes:
       base:
         event_finished: Non puoi effettuare modifiche perché l'evento è concluso.

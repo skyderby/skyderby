@@ -11,7 +11,7 @@ class SponsorsCopyService
   def copy(sponsor)
     new_sponsor = sponsor.dup
     new_sponsor.sponsorable = target
-    new_sponsor.logo = sponsor.logo
+    new_sponsor.logo = sponsor.logo.blob
     new_sponsor.save
     new_sponsor.errors
   end

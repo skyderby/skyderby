@@ -1,6 +1,6 @@
 <div class="bracket" id="tournament-scoreboard">
   <% editable = policy(@tournament).update? %>
-  <% rounds = @tournament.rounds.order(:order).includes(matches: { slots: [{ competitor: :profile }, :track] }) %>
+  <% rounds = @tournament.rounds.order(:order).includes(matches: { slots: [{ competitor: { profile: { userpic_attachment: :blob } } }, :track] }) %>
   <% rounds.each_with_index do |round, i| %>
     <% next_round = rounds[i + 1] %>
     <% connector = if next_round.nil?

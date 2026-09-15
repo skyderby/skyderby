@@ -21,7 +21,7 @@ class PerformanceCompetition::Display
     def suit = [competitor.suit&.manufacturer_code, competitor.suit_name].compact.join(' ')
 
     def photo_url
-      competitor.photo_url(:medium) if competitor.photo
+      competitor.photo_url(:medium)
     end
 
     def result = @result.formatted_result

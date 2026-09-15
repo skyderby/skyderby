@@ -17,7 +17,7 @@ module AcceptsNestedTrack
 
   private
 
-  def create_track_from_file # rubocop:disable Metrics/AbcSize
+  def create_track_from_file
     return if track_attributes.blank?
 
     if track_attributes&.fetch(:file).blank?
@@ -32,7 +32,7 @@ module AcceptsNestedTrack
     params = track_attributes.merge(
       owner: track_owner,
       kind: track_activity,
-      track_file_id: track_file.id,
+      track_file:,
       profile_id: competitor.profile_id,
       suit_id:,
       visibility: tracks_visibility,

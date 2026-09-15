@@ -4,6 +4,8 @@ fr:
       base:
         event_finished: Les modifications ne sont plus possibles car la compétition est finie
     messages:
+      file_too_large: "doit être inférieur à %{size}"
+      file_type_invalid: "a un type de fichier non pris en charge"
       duplicate_file: "Fichier déjà utilisé. Pilot: %{pilot_name}, round: %{round}"
   general:
     play: Lecture

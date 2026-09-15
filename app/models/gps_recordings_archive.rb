@@ -1,9 +1,15 @@
 class GpsRecordingsArchive < ApplicationRecord
-  include ArchiveUploader::Attachment.new(:file)
+  include HasAttachments
+
+  self.ignored_columns += %w[file_data]
+
+  has_one_attached :file
 
   belongs_to :event, polymorphic: true
 
   enum :status, { idle: 0, in_progress: 1, complete: 2 }
+
+  validates_attachment :file, extensions: %w[zip]
 
   def create_archive!
     update!(status: :in_progress)
@@ -13,13 +19,9 @@ class GpsRecordingsArchive < ApplicationRecord
 
     filename = "gps-recordings-#{event.name.parameterize}-#{Time.current.to_i}.zip"
 
-    file_io = StringIO.new(zip_content)
-    file_io.define_singleton_method(:original_filename) { filename }
-    file_io.define_singleton_method(:content_type) { 'application/zip' }
-
-    self.file = file_io
+    self.file = { io: StringIO.new(zip_content), filename:, content_type: 'application/zip' }
+    self.status = :complete
     save!
-    update!(status: :complete)
   end
 
   private
@@ -35,9 +37,9 @@ class GpsRecordingsArchive < ApplicationRecord
 
   def write_files_to_archive(zip)
     results.find_each do |result|
-      next unless result.track&.track_file&.file
+      file = result.track&.track_file&.file
+      next unless file&.attached?
 
-      file = result.track.track_file.file
       competitor = result.competitor
       round = result.round
 
@@ -55,7 +57,7 @@ class GpsRecordingsArchive < ApplicationRecord
       competitor.assigned_number,
       competitor.name.tr(' ', '_'),
       round.code,
-      file.metadata['filename'] || 'track.csv'
+      file.filename.to_s.presence || 'track.csv'
     ].compact_blank.join('_')
   end
 
@@ -63,7 +65,7 @@ class GpsRecordingsArchive < ApplicationRecord
     event.results.includes(
       :round,
       competitor: :profile,
-      track: :track_file
+      track: { track_file: { file_attachment: :blob } }
     )
   end
 end

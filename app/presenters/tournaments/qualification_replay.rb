@@ -35,7 +35,7 @@ module Tournaments
           country_code: competitor.country_code,
           country_name: competitor.country_name,
           suit: [competitor.suit&.manufacturer_code, competitor.suit_name].compact.join(' '),
-          photo_url: (competitor.photo_url(:medium) if competitor.photo),
+          photo_url: competitor.photo_url(:medium),
           color: COLORS[index],
           result: jump.result&.to_f,
           sync_fl_time: race_start_fl_time(jump),

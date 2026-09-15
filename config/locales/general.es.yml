@@ -1,5 +1,8 @@
 es:
   errors:
+    messages:
+      file_too_large: "debe ser menor que %{size}"
+      file_type_invalid: "tiene un tipo de archivo no admitido"
     attributes:
       base:
         event_finished: La competencia está terminada

@@ -56,7 +56,7 @@ class Profile < ApplicationRecord
       self.owner = another.owner if change_owner
 
       self.country ||= another.country
-      self.userpic = another.userpic if another.userpic.present?
+      self.userpic = another.userpic.blob if another.userpic.attached?
     end
 
     def replace_reference_in_associations(another)

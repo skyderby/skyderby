@@ -5,8 +5,8 @@
 <div class="display-slide" data-slideshow-target="slide" data-slideshow-duration="11">
   <%= render 'statusbar', tournament: tournament %>
 
-  <div class="display-participant-photo <%= 'is-empty' unless competitor.photo %>">
-    <% if competitor.photo %>
+  <div class="display-participant-photo <%= 'is-empty' unless competitor.photo.attached? %>">
+    <% if competitor.photo.attached? %>
       <%= image_tag competitor.photo_url(:medium), alt: competitor.name %>
     <% end %>
   </div>
@@ -91,7 +91,7 @@
       <% end %>
     </div>
 
-    <% if competitor.sponsor_logo %>
+    <% if competitor.sponsor_logo.attached? %>
       <div class="display-psponsors">
         <span class="display-psponsors-label"><%= t('tournaments.qualifications.display.sponsors') %></span>
         <div class="display-psponsors-list">

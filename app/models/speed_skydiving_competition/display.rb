@@ -101,7 +101,7 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
         bib: row[:rank],
         country_code: competitor.country_code,
         country_name: competitor.country_name,
-        photo_url: (competitor.photo_url(:medium) if competitor.photo),
+        photo_url: competitor.photo_url(:medium),
         color: color,
         result: result.final_result.round(2),
         points: points

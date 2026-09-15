@@ -40,8 +40,8 @@ module EventTracks
     def duplicate
       @duplicate ||=
         Track::File
-        .joins(track: [event_result: [round: :event]])
-        .where("file_data->'metadata'->>'md5' = ?", track_file.file.metadata['md5'])
+        .joins(:file_blob, track: [event_result: [round: :event]])
+        .where(active_storage_blobs: { checksum: track_file.file.checksum })
         .where('events.id' => result.event_id)
         .where.not(id: track_file.id)
         .first

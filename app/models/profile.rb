@@ -18,7 +18,9 @@
 
 class Profile < ApplicationRecord
   include Ownerable, Mergeable, Permissions
-  include AvatarUploader::Attachment(:userpic)
+  include HasAttachments
+
+  self.ignored_columns += %w[userpic_data]
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :require_country
 
@@ -72,7 +74,16 @@ class Profile < ApplicationRecord
   has_many :contribution_details, class_name: 'Contribution::Detail', dependent: :restrict_with_error
   has_many :contributions, through: :contribution_details
 
-  after_validation { userpic_derivatives! if userpic_changed? }
+  has_one_attached :userpic do |attachable|
+    attachable.variant :thumb, resize_to_fill: [40, 40], format: :webp, preprocessed: true
+    attachable.variant :medium, resize_to_fill: [150, 150], format: :webp, preprocessed: true
+    attachable.variant :large, resize_to_limit: [500, 500], format: :webp, preprocessed: true
+  end
+
+  attachment_url :userpic, default: ->(variant) { "/images/#{variant || 'original'}/missing.png" }
+  validates_attachment :userpic, max_size: 10.megabytes, content_types: HasAttachments::IMAGE_CONTENT_TYPES
+
+  before_save :crop_userpic, if: :cropping?
 
   delegate :name, to: :country, prefix: true, allow_nil: true
   delegate :code, to: :country, prefix: true, allow_nil: true
@@ -159,5 +170,18 @@ class Profile < ApplicationRecord
                        profile.country_name, profile.country_code)
       end
     end
+  end
+
+  private
+
+  def crop_userpic
+    io = pending_attachment_io(:userpic)
+    return unless io
+
+    source = io.respond_to?(:path) && io.path ? io.path : Vips::Image.new_from_buffer(io.read, '')
+    cropped = ImageProcessing::Vips.source(source)
+                                   .crop(crop_x.to_i, crop_y.to_i, crop_w.to_i, crop_h.to_i)
+                                   .call
+    self.userpic = { io: cropped, filename: userpic.filename.to_s, content_type: userpic.content_type }
   end
 end

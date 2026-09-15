@@ -61,7 +61,9 @@ class Place < ApplicationRecord
 
   def visited_profiles_sample(limit: 10)
     accessible_profiles
-      .order(Arel.sql('userpic_data IS NOT NULL DESC'), Arel.sql('RANDOM()'))
+      .left_joins(:userpic_attachment)
+      .includes(userpic_attachment: :blob)
+      .order(Arel.sql('active_storage_attachments.id IS NOT NULL DESC'), Arel.sql('RANDOM()'))
       .limit(limit)
   end
 

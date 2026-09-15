@@ -12,12 +12,10 @@ task :download_competition_files, [:event_id, :path] => [:environment] do |task,
     file = result.track.track_file.file
     competitor = result.competitor
     round = result.round
-    filename = "#{competitor.assigned_number}_#{round.discipline.capitalize}_#{round.number}_#{file.original_filename}"
+    filename = "#{competitor.assigned_number}_#{round.discipline.capitalize}_#{round.number}_#{file.filename}"
 
-    local_file = file.download
     puts "- Downloading #{filename}"
-    FileUtils.cp(local_file.path, File.join(target_folder, filename))
-    local_file.close!
+    File.binwrite(File.join(target_folder, filename), file.download)
   end
 
   puts "## Downloading complete"

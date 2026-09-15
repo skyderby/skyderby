@@ -56,7 +56,7 @@ class Boogie::Display < SimpleDelegator
 
     def suit = [competitor.suit&.manufacturer_code, competitor.suit_name].compact.join(' ')
 
-    def photo_url = (competitor.photo_url(:medium) if competitor.photo)
+    def photo_url = competitor.photo_url(:medium)
 
     def best = scored_results.max_by(&:scored_result)
 

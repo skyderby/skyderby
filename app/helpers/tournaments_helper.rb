@@ -32,7 +32,7 @@ module TournamentsHelper
   def tournament_competitor_avatar(competitor)
     profile = competitor.profile
 
-    if profile.userpic.present?
+    if profile.userpic.attached?
       image_tag profile.userpic_url(:thumb), class: 'bracket-avatar', alt: competitor.name
     else
       content_tag :span,

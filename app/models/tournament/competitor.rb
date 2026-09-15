@@ -13,8 +13,17 @@
 #
 
 class Tournament::Competitor < ApplicationRecord
-  include PhotoUploader::Attachment(:photo)
-  include SponsorLogoUploader::Attachment(:sponsor_logo)
+  include CompetitorPhoto
+
+  self.ignored_columns += %w[sponsor_logo_data]
+
+  has_one_attached :sponsor_logo do |attachable|
+    attachable.variant :medium, resize_to_limit: [400, 200], preprocessed: true
+  end
+
+  attachment_url :sponsor_logo
+  validates_attachment :sponsor_logo, max_size: 2.megabytes,
+                                      content_types: HasAttachments::IMAGE_CONTENT_TYPES + %w[image/svg+xml]
   include CompetitorAlias
 
   belongs_to :tournament
@@ -30,9 +39,6 @@ class Tournament::Competitor < ApplicationRecord
   delegate :country_name, to: :profile, allow_nil: true
   delegate :country_code, to: :profile, allow_nil: true
   delegate :name, to: :suit, prefix: true, allow_nil: true
-
-  after_validation { photo_derivatives! if photo_changed? }
-  after_validation { sponsor_logo_derivatives! if sponsor_logo_changed? }
 
   def profile_attributes=(attrs)
     attrs[:require_country] = attrs.key?(:country_id)

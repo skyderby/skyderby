@@ -26,17 +26,7 @@ class PlacePhotoFromMapJob < ApplicationJob
   end
 
   def create_photo(place, image_data)
-    tempfile = Tempfile.new(['static_map', '.png'])
-    tempfile.binmode
-    tempfile.write(image_data)
-    tempfile.rewind
-
-    photo = place.photos.new
-    photo.image = tempfile
-    photo.save!
-
-    tempfile.close
-    tempfile.unlink
+    place.photos.create!(image: { io: StringIO.new(image_data), filename: 'static_map.png', content_type: 'image/png' })
   rescue StandardError => e
     Rails.logger.error "Failed to create photo from static map: #{e.message}"
   end
