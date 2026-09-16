@@ -50,9 +50,6 @@ aliases:
   runner: app exec --interactive --reuse "bin/rails runner"
   logs: app logs -f
 
-volumes:
- - app_storage:/app/public/system
-
 #asset_path: /app/public/assets
 
 # Configure rolling deploys by setting a wait time between batches of restarts.
