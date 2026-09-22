@@ -27,5 +27,6 @@ fr:
       change_language: Changer de langue
       current_language: "Langue actuelle: %{language}"
       notifications: Notifications
+      main_menu: Menu principal
       open_menu: Ouvrir le menu
       close_menu: Fermer le menu

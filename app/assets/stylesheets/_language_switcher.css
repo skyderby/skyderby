@@ -1,0 +1,13 @@
+.language-switcher .dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.language-switcher .flag {
+  flex: none;
+}
+
+.language-switcher--sheet .dropdown-toggle {
+  min-height: 2.75rem;
+}

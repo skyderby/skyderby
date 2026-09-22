@@ -1,4 +1,4 @@
-<header class="app-navbar" data-controller="mobile--header">
+<header class="app-navbar" data-controller="mobile--header" data-action="keydown.esc@document->mobile--header#close_menu">
   <%= render 'layouts/header/navigation' %>
 
   <ul class="nav-menu nav-menu--right nav-menu--desktop">
@@ -56,7 +56,12 @@
       </li>
     <% end %>
     <li class="nav-menu-item">
-      <button class="app-navbar-button" data-action="click->mobile--header#open_menu" aria-label="<%= t('application.accessibility.open_menu') %>">
+      <button class="app-navbar-button"
+              data-mobile--header-target="toggle"
+              data-action="click->mobile--header#open_menu"
+              aria-controls="main-menu"
+              aria-expanded="false"
+              aria-label="<%= t('application.accessibility.open_menu') %>">
         <%= icon_tag 'bars-solid' %>
       </button>
     </li>
@@ -64,7 +69,12 @@
 
   <div class="header__page-overlay overlay--hidden" data-mobile--header-target="overlay" data-action="click->mobile--header#close_menu"></div>
 
-  <div class="main-menu" data-mobile--header-target="menu">
+  <div class="main-menu"
+       id="main-menu"
+       role="dialog"
+       aria-modal="true"
+       aria-label="<%= t('application.accessibility.main_menu') %>"
+       data-mobile--header-target="menu">
     <div class="main-menu-header">
       <% if user_signed_in? %>
         <%= link_to profile_path(current_user.profile), class: 'main-menu__profile' do %>
@@ -81,13 +91,13 @@
             <%= icon_tag 'right-from-bracket-solid' %>
           <% end %>
         <% end %>
-        <button class="app-navbar-button main-menu__close" data-action="click->mobile--header#close_menu" aria-label="<%= t('application.accessibility.close_menu') %>">
+        <button class="app-navbar-button main-menu__close" data-mobile--header-target="closeButton" data-action="click->mobile--header#close_menu" aria-label="<%= t('application.accessibility.close_menu') %>">
           <%= icon_tag 'xmark' %>
         </button>
       </div>
     </div>
 
-    <ul class="main-menu-body">
+    <ul class="main-menu-body" data-action="click->mobile--header#close_menu">
       <% root_controller = controller.controller_path.split('/').first %>
       <li class="main-menu__item <%= 'active' if root_controller == 'tracks' %>">
         <%= link_to tracks_path do %>

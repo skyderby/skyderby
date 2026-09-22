@@ -277,7 +277,9 @@ li:has(.upload-track-button) {
 }
 
 .main-menu {
-  height: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  max-width: 20rem;
   position: fixed;
   top: 0;
   right: 0;
@@ -288,7 +290,14 @@ li:has(.upload-track-button) {
   z-index: 100;
   transition: transform 200ms ease-in-out, opacity 200ms ease-in-out, visibility 200ms ease-in-out;
   display: grid;
-  grid-template-rows: 60px 1fr min-content;
+  grid-template-rows: 60px minmax(0, 1fr) min-content;
+  padding-right: env(safe-area-inset-right);
+}
+
+@media (max-width: 22.5rem) {
+  .main-menu {
+    max-width: calc(100vw - 3rem);
+  }
 }
 
 .main-menu.active {
@@ -361,12 +370,17 @@ li:has(.upload-track-button) {
   padding: 0;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .main-menu-footer {
   background: var(--blue-gray-80);
   padding: 1rem;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
   justify-content: flex-end;
 }
 
@@ -410,6 +424,12 @@ li:has(.upload-track-button) {
   margin-top: 50px;
   border-bottom: none;
   text-align: center;
+}
+
+.main-menu__item a,
+.main-menu__bar-action,
+.main-menu__profile {
+  min-height: 2.75rem;
 }
 
 .main-menu--login a {

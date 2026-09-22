@@ -28,5 +28,6 @@ ru:
       change_language: Сменить язык
       current_language: "Текущий язык: %{language}"
       notifications: Уведомления
+      main_menu: Главное меню
       open_menu: Открыть меню
       close_menu: Закрыть меню

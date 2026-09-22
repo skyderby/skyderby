@@ -27,5 +27,6 @@ it:
       change_language: Cambia lingua
       current_language: "Lingua attuale: %{language}"
       notifications: Notifiche
+      main_menu: Menu principale
       open_menu: Apri menu
       close_menu: Chiudi menu
