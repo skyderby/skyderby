@@ -389,14 +389,22 @@ li:has(.upload-track-button) {
   justify-content: space-between;
 }
 
-.main-menu-footer .dropdown-toggle {
-  color: var(--white);
-  border: solid 1px var(--blue-gray-70);
-  padding: 0.5rem;
+.main-menu-footer .button {
+  --button-bg: transparent;
+  --button-color: var(--white);
+  --button-border-color: var(--blue-gray-70);
+  --button-border-size: 1px;
+  --button-padding: 0.5rem 0.75rem;
+  --button-font-size: 0.875rem;
+
+  min-height: 2.75rem;
 }
 
-.main-menu-footer .dropdown-toggle:hover {
-  background-color: var(--blue-gray-70);
+@media (any-hover: hover) {
+  .main-menu-footer .button:hover:not(:disabled) {
+    filter: none;
+    background-color: var(--blue-gray-70);
+  }
 }
 
 .main-menu-bottom {
