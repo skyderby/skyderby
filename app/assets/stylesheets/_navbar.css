@@ -378,7 +378,7 @@ li:has(.upload-track-button) {
 .main-menu-footer {
   background: var(--blue-gray-80);
   padding: 1rem;
-  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  padding-bottom: var(--safe-bottom-gap);
   display: flex;
   align-items: center;
   gap: 0.5rem;

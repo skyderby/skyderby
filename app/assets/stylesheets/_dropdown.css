@@ -103,7 +103,7 @@
   overscroll-behavior: contain;
   border: 0;
   border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
-  padding-bottom: calc(0.25rem + env(safe-area-inset-bottom));
+  padding-bottom: var(--safe-bottom-gap);
   opacity: 0;
   transform: translateY(100%);
   transition: opacity 0.2s ease, transform 0.2s ease, display 0.2s ease allow-discrete,
