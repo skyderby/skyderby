@@ -307,7 +307,8 @@ li:has(.upload-track-button) {
   box-shadow: rgba(0, 0, 0, 0.08) -6px 0 16px 0,
               rgba(0, 0, 0, 0.12) -3px 0 6px -4px,
               rgba(0, 0, 0, 0.05) -9px 0 28px 8px;
-  transition-delay: 100ms;
+  transition: transform 200ms ease-in-out 100ms, opacity 200ms ease-in-out 100ms,
+    visibility 0s;
 }
 
 .main-menu-header {
