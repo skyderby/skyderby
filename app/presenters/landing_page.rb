@@ -6,7 +6,7 @@ class LandingPage
   end
 
   def tracks_count
-    fetch(:tracks_count) { "#{Track.last.id.floor(-3)}+" }
+    fetch(:tracks_count) { "#{Track.maximum(:id).to_i.floor(-3)}+" }
   end
 
   private
