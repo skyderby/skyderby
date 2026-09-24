@@ -9,19 +9,25 @@
       it: 'Italiano',
       es: 'Español'
     }
+
+  sheet = variant == :mobile
+  menu_id = "language-menu-#{variant}"
 %>
 
-<div class="language-switcher" data-controller="dropdown">
-  <button class="dropdown-toggle button button--ghost button--sm" popovertarget="language-menu-<%= variant %>" aria-label="<%= t('application.accessibility.current_language', language: locale_local_names[I18n.locale]) %>">
+<div class="language-switcher <%= 'language-switcher--sheet' if sheet %>" data-controller="dropdown">
+  <button class="dropdown-toggle button button--ghost button--sm" popovertarget="<%= menu_id %>" aria-label="<%= t('application.accessibility.current_language', language: locale_local_names[I18n.locale]) %>">
     <%= image_tag asset_path('blank.gif'), class: "flag flag-#{I18n.locale}", alt: "" %>
-    <%= icon_tag 'angle-up-solid' %>
+    <%= icon_tag 'angle-up-solid' unless sheet %>
   </button>
 
-  <div id="language-menu-<%= variant %>" popover class="sd-dropdown-menu" data-dropdown-target="menu">
+  <div id="<%= menu_id %>" popover class="<%= class_names('sd-dropdown-menu', sheet ? 'sd-dropdown-menu--sheet' : 'sd-dropdown-menu--up') %>" data-dropdown-target="menu">
+    <% if sheet %>
+      <div class="dropdown-header"><%= t('application.accessibility.change_language') %></div>
+    <% end %>
     <% I18n.available_locales.each do |locale| %>
       <% active = I18n.locale == locale %>
-      <%= link_to( {locale: }, rel: 'nofollow', data: { 'turbo-prefetch': 'false' }, class: class_names('dropdown-item', active && 'active')) do %>
-        <div class="active-indicator"></div>
+      <%= link_to( {locale: }, rel: 'nofollow', data: { 'turbo-prefetch': 'false' }, class: class_names('dropdown-item', active && 'active'), aria: { current: active ? 'true' : nil }) do %>
+        <%= image_tag asset_path('blank.gif'), class: "flag flag-#{locale}", alt: "" %>
         <%= locale_local_names[locale] %>
       <% end %>
     <% end %>

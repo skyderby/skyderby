@@ -103,6 +103,7 @@
   --outline-opacity: 0;
   --header-height: 3.75rem;
   --footer-height: 2rem;
+  --safe-bottom-gap: calc(2rem + env(safe-area-inset-bottom));
 
   --font-sans: "Adwaita Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --font-serif: ui-serif, serif;

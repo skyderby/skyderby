@@ -277,7 +277,10 @@ li:has(.upload-track-button) {
 }
 
 .main-menu {
-  height: 100%;
+  --drawer-inline-gap: 1.5rem;
+  height: 100dvh;
+  max-height: 100dvh;
+  max-width: 20rem;
   position: fixed;
   top: 0;
   right: 0;
@@ -288,7 +291,14 @@ li:has(.upload-track-button) {
   z-index: 100;
   transition: transform 200ms ease-in-out, opacity 200ms ease-in-out, visibility 200ms ease-in-out;
   display: grid;
-  grid-template-rows: 60px 1fr min-content;
+  grid-template-rows: 60px minmax(0, 1fr) min-content;
+  padding-right: env(safe-area-inset-right);
+}
+
+@media (max-width: 22.5rem) {
+  .main-menu {
+    max-width: calc(100vw - 3rem);
+  }
 }
 
 .main-menu.active {
@@ -298,7 +308,8 @@ li:has(.upload-track-button) {
   box-shadow: rgba(0, 0, 0, 0.08) -6px 0 16px 0,
               rgba(0, 0, 0, 0.12) -3px 0 6px -4px,
               rgba(0, 0, 0, 0.05) -9px 0 28px 8px;
-  transition-delay: 100ms;
+  transition: transform 200ms ease-in-out 100ms, opacity 200ms ease-in-out 100ms,
+    visibility 0s;
 }
 
 .main-menu-header {
@@ -306,7 +317,9 @@ li:has(.upload-track-button) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--blue-gray-80);
+  background: var(--blue-gray-90);
+  border-bottom: 1px solid var(--blue-gray-80);
+  padding-inline: var(--drawer-inline-gap);
   gap: 1rem;
 }
 
@@ -322,7 +335,7 @@ li:has(.upload-track-button) {
   height: 40px;
   display: block;
   padding: 0;
-  margin: 0 20px;
+  margin: 0 1rem 0 0;
   border-radius: 100%;
 }
 
@@ -339,8 +352,8 @@ li:has(.upload-track-button) {
   display: flex;
   align-items: baseline;
   list-style: none;
-  padding-right: 1.25rem;
-  margin: 0;
+  padding: 0;
+  margin-inline-end: -0.75rem;
   gap: 0.5rem;
 }
 
@@ -361,23 +374,37 @@ li:has(.upload-track-button) {
   padding: 0;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .main-menu-footer {
-  background: var(--blue-gray-80);
-  padding: 1rem;
+  background: var(--blue-gray-90);
+  border-top: 1px solid var(--blue-gray-80);
+  padding: 1rem var(--drawer-inline-gap);
+  padding-bottom: var(--safe-bottom-gap);
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: space-between;
 }
 
-.main-menu-footer .dropdown-toggle {
-  color: var(--white);
-  border: solid 1px var(--blue-gray-70);
-  padding: 0.5rem;
+.main-menu-footer .button {
+  --button-bg: transparent;
+  --button-color: var(--white);
+  --button-border-color: var(--blue-gray-70);
+  --button-border-size: 1px;
+  --button-padding: 0.5rem 0.75rem;
+  --button-font-size: 0.875rem;
+
+  min-height: 2.75rem;
 }
 
-.main-menu-footer .dropdown-toggle:hover {
-  background-color: var(--blue-gray-70);
+@media (any-hover: hover) {
+  .main-menu-footer .button:hover:not(:disabled) {
+    filter: none;
+    background-color: var(--blue-gray-70);
+  }
 }
 
 .main-menu-bottom {
@@ -402,7 +429,7 @@ li:has(.upload-track-button) {
   white-space: nowrap;
   align-items: center;
   position: relative;
-  padding: 0 1.25rem;
+  padding: 0 var(--drawer-inline-gap);
   gap: 1.25rem;
 }
 
@@ -410,6 +437,12 @@ li:has(.upload-track-button) {
   margin-top: 50px;
   border-bottom: none;
   text-align: center;
+}
+
+.main-menu__item a,
+.main-menu__bar-action,
+.main-menu__profile {
+  min-height: 2.75rem;
 }
 
 .main-menu--login a {

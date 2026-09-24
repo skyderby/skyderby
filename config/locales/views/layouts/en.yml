@@ -28,5 +28,6 @@ en:
       change_language: Change language
       current_language: "Current language: %{language}"
       notifications: Notifications
+      main_menu: Main menu
       open_menu: Open menu
       close_menu: Close menu
