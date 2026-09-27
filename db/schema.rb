@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_16_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -91,7 +91,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_000000) do
     t.timestamptz "created_at"
     t.integer "event_id"
     t.string "name", limit: 510
-    t.jsonb "photo_data"
     t.integer "profile_id"
     t.integer "rank"
     t.integer "section_id"
@@ -238,7 +237,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_000000) do
     t.datetime "created_at", null: false
     t.bigint "event_id", null: false
     t.string "event_type", null: false
-    t.jsonb "file_data"
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.index ["event_type", "event_id"], name: "index_gps_recordings_archives_on_event"
@@ -447,7 +445,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_000000) do
 
   create_table "place_photos", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
-    t.jsonb "image_data"
     t.bigint "place_id"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["place_id"], name: "index_place_photos_on_place_id"
@@ -537,7 +534,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_000000) do
     t.integer "owner_id"
     t.string "owner_type"
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.jsonb "userpic_data"
     t.index ["country_id"], name: "index_profiles_on_country_id"
     t.index ["country_id"], name: "user_profiles_country_id_idx"
     t.index ["owner_type", "owner_id"], name: "index_profiles_on_owner_type_and_owner_id"
@@ -580,7 +576,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_000000) do
     t.bigint "category_id"
     t.datetime "created_at", null: false
     t.bigint "event_id"
-    t.jsonb "photo_data"
     t.bigint "profile_id"
     t.integer "rank"
     t.bigint "team_id"
@@ -684,7 +679,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_000000) do
 
   create_table "sponsors", id: :serial, force: :cascade do |t|
     t.timestamptz "created_at", null: false
-    t.jsonb "logo_data"
     t.string "name", limit: 510
     t.integer "sponsorable_id"
     t.string "sponsorable_type"
@@ -749,9 +743,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_000000) do
     t.timestamptz "created_at", null: false
     t.string "disqualification_reason"
     t.boolean "is_disqualified"
-    t.jsonb "photo_data"
     t.integer "profile_id"
-    t.jsonb "sponsor_logo_data"
     t.integer "suit_id"
     t.integer "tournament_id"
     t.timestamptz "updated_at", null: false
@@ -826,7 +818,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_000000) do
 
   create_table "track_files", id: :serial, force: :cascade do |t|
     t.timestamptz "created_at", null: false
-    t.jsonb "file_data"
     t.timestamptz "updated_at", null: false
   end
 

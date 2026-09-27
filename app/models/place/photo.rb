@@ -2,8 +2,6 @@ class Place::Photo < ApplicationRecord
   include Place::Namespace
   include HasAttachments
 
-  self.ignored_columns += %w[image_data]
-
   has_one_attached :image do |attachable|
     attachable.variant :thumb, resize_to_fill: [200, 120], preprocessed: true
     attachable.variant :large, resize_to_fill: [1000, 300], preprocessed: true

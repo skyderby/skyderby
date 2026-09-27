@@ -1,8 +1,6 @@
 class GpsRecordingsArchive < ApplicationRecord
   include HasAttachments
 
-  self.ignored_columns += %w[file_data]
-
   has_one_attached :file
 
   belongs_to :event, polymorphic: true

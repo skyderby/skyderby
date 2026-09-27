@@ -1,8 +1,6 @@
 class Sponsor < ApplicationRecord
   include HasAttachments
 
-  self.ignored_columns += %w[logo_data]
-
   has_one_attached :logo do |attachable|
     attachable.variant :medium, resize_to_limit: [300, 120], preprocessed: true
   end

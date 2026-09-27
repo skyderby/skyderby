@@ -10,8 +10,6 @@
 class Track::File < ApplicationRecord
   include HasAttachments
 
-  self.ignored_columns += %w[file_data]
-
   EXTENSIONS = %w[csv gpx tes kml].freeze
 
   attr_accessor :track_attributes
