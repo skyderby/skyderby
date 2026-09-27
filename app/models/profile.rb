@@ -20,8 +20,6 @@ class Profile < ApplicationRecord
   include Ownerable, Mergeable, Permissions
   include HasAttachments
 
-  self.ignored_columns += %w[userpic_data]
-
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :require_country
 
   NameOption = Data.define(:profile_id, :alias_id, :name, :country_id, :country_name, :country_code)

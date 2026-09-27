@@ -15,8 +15,6 @@
 class Tournament::Competitor < ApplicationRecord
   include CompetitorPhoto
 
-  self.ignored_columns += %w[sponsor_logo_data]
-
   has_one_attached :sponsor_logo do |attachable|
     attachable.variant :medium, resize_to_limit: [400, 200], preprocessed: true
   end

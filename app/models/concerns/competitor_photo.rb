@@ -4,8 +4,6 @@ module CompetitorPhoto
   included do
     include HasAttachments
 
-    self.ignored_columns += %w[photo_data]
-
     has_one_attached :photo do |attachable|
       attachable.variant :medium, resize_to_limit: [800, 1000], preprocessed: true
     end
