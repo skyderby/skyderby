@@ -11,6 +11,7 @@
   inset: unset;
   margin: 0;
   border-radius: var(--border-radius-md);
+  position-anchor: auto;
   top: calc(anchor(bottom) + 0.5rem);
   right: anchor(right);
   position-try-fallbacks: flip-block;
