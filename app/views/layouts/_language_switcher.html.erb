@@ -10,26 +10,45 @@
       es: 'Español'
     }
 
-  sheet = variant == :mobile
+  current_language_label = t('application.accessibility.current_language', language: locale_local_names[I18n.locale])
+  current_flag = image_tag(asset_path('blank.gif'), class: "flag flag-#{I18n.locale}", alt: "")
   menu_id = "language-menu-#{variant}"
+
+  locale_links = capture do
+    I18n.available_locales.each do |locale|
+      active = I18n.locale == locale
+      concat(
+        link_to({ locale: }, rel: 'nofollow', data: { 'turbo-prefetch': 'false' }, class: class_names('dropdown-item', active && 'active'), aria: { current: active ? 'true' : nil }) do
+          safe_join([image_tag(asset_path('blank.gif'), class: "flag flag-#{locale}", alt: ""), locale_local_names[locale]])
+        end
+      )
+    end
+  end
 %>
 
-<div class="language-switcher <%= 'language-switcher--sheet' if sheet %>" data-controller="dropdown">
-  <button class="dropdown-toggle button button--ghost button--sm" popovertarget="<%= menu_id %>" aria-label="<%= t('application.accessibility.current_language', language: locale_local_names[I18n.locale]) %>">
-    <%= image_tag asset_path('blank.gif'), class: "flag flag-#{I18n.locale}", alt: "" %>
-    <%= icon_tag 'angle-up-solid' unless sheet %>
-  </button>
+<% if variant == :mobile %>
+  <div class="language-switcher">
+    <button type="button" class="dropdown-toggle button button--ghost button--sm" aria-haspopup="dialog" aria-label="<%= current_language_label %>" data-controller="modal-trigger" data-template-id="<%= menu_id %>" data-action="modal-trigger#open">
+      <%= current_flag %>
+    </button>
 
-  <div id="<%= menu_id %>" popover class="<%= class_names('sd-dropdown-menu', sheet ? 'sd-dropdown-menu--sheet' : 'sd-dropdown-menu--up') %>" data-dropdown-target="menu">
-    <% if sheet %>
-      <div class="dropdown-header"><%= t('application.accessibility.change_language') %></div>
-    <% end %>
-    <% I18n.available_locales.each do |locale| %>
-      <% active = I18n.locale == locale %>
-      <%= link_to( {locale: }, rel: 'nofollow', data: { 'turbo-prefetch': 'false' }, class: class_names('dropdown-item', active && 'active'), aria: { current: active ? 'true' : nil }) do %>
-        <%= image_tag asset_path('blank.gif'), class: "flag flag-#{locale}", alt: "" %>
-        <%= locale_local_names[locale] %>
+    <template id="<%= menu_id %>">
+      <%= render layout: 'components/dialog', locals: { title: t('application.accessibility.change_language') } do %>
+        <nav class="sd-dropdown-menu sd-dropdown-menu--embedded">
+          <%= locale_links %>
+        </nav>
       <% end %>
-    <% end %>
+    </template>
   </div>
-</div>
+<% else %>
+  <div class="language-switcher" data-controller="dropdown">
+    <button class="dropdown-toggle button button--ghost button--sm" popovertarget="<%= menu_id %>" aria-label="<%= current_language_label %>">
+      <%= current_flag %>
+      <%= icon_tag 'angle-up-solid' %>
+    </button>
+
+    <div id="<%= menu_id %>" popover class="sd-dropdown-menu sd-dropdown-menu--up" data-dropdown-target="menu">
+      <%= locale_links %>
+    </div>
+  </div>
+<% end %>
