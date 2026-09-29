@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_29_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -53,6 +53,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "app_store_purchases", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "environment", null: false
+    t.datetime "expires_at"
+    t.string "original_transaction_id", null: false
+    t.string "product_id", null: false
+    t.datetime "purchased_at", null: false
+    t.datetime "revoked_at"
+    t.string "transaction_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["original_transaction_id"], name: "index_app_store_purchases_on_original_transaction_id", unique: true
+    t.index ["user_id"], name: "index_app_store_purchases_on_user_id"
+  end
+
   create_table "badges", id: :serial, force: :cascade do |t|
     t.date "achieved_at"
     t.integer "category", default: 0, null: false
@@ -81,8 +96,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
 
   create_table "countries", id: :serial, force: :cascade do |t|
     t.string "code", limit: 510
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "name", limit: 510
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["code"], name: "index_countries_on_code", unique: true
+    t.index ["updated_at", "id"], name: "index_countries_on_updated_at_and_id"
   end
 
   create_table "event_competitors", id: :serial, force: :cascade do |t|
@@ -243,11 +261,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
     t.index ["event_type", "event_id"], name: "index_gps_recordings_archives_on_event_type_and_event_id", unique: true
   end
 
+  create_table "impersonations", force: :cascade do |t|
+    t.bigint "access_token_id"
+    t.integer "admin_user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "ended_at"
+    t.datetime "started_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["access_token_id"], name: "index_impersonations_on_access_token_id", unique: true
+    t.index ["admin_user_id"], name: "index_impersonations_on_admin_user_id"
+    t.index ["user_id"], name: "index_impersonations_on_user_id"
+  end
+
   create_table "manufacturers", id: :serial, force: :cascade do |t|
     t.boolean "active", default: false, null: false
     t.string "code", limit: 510
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "name", limit: 510
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["code"], name: "index_manufacturers_on_code", unique: true
+    t.index ["updated_at", "id"], name: "index_manufacturers_on_updated_at_and_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -441,6 +475,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
     t.decimal "start_longitude", precision: 15, scale: 10
     t.datetime "updated_at", precision: nil, null: false
     t.index ["place_id"], name: "index_place_finish_lines_on_place_id"
+    t.index ["updated_at", "id"], name: "index_place_finish_lines_on_updated_at_and_id"
   end
 
   create_table "place_photos", force: :cascade do |t|
@@ -481,6 +516,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
     t.decimal "msl", precision: 5, scale: 1
     t.string "name", limit: 510
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["updated_at", "id"], name: "index_places_on_updated_at_and_id"
   end
 
   create_table "points", id: :serial, force: :cascade do |t|
@@ -707,6 +743,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
     t.string "name", limit: 510
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["manufacturer_id"], name: "index_suits_on_manufacturer_id"
+    t.index ["updated_at", "id"], name: "index_suits_on_updated_at_and_id"
+  end
+
+  create_table "sync_tombstones", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "record_id", null: false
+    t.string "resource", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_sync_tombstones_on_deleted_at"
+    t.index ["resource", "deleted_at"], name: "index_sync_tombstones_on_resource_and_deleted_at"
   end
 
   create_table "terrain_profile_measurements", force: :cascade do |t|
@@ -853,6 +900,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
   end
 
   create_table "tracks", id: :serial, force: :cascade do |t|
+    t.uuid "client_uuid"
     t.text "comment"
     t.timestamptz "created_at"
     t.decimal "data_frequency", precision: 3, scale: 1
@@ -883,6 +931,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
     t.integer "user_id"
     t.integer "visibility", default: 0
     t.index ["id", "ff_start", "ff_end"], name: "index_tracks_on_id_and_ff_start_and_ff_end"
+    t.index ["owner_type", "owner_id", "client_uuid"], name: "index_tracks_on_owner_type_and_owner_id_and_client_uuid", unique: true, where: "(client_uuid IS NOT NULL)"
     t.index ["owner_type", "owner_id"], name: "index_tracks_on_owner_type_and_owner_id"
     t.index ["place_id"], name: "index_tracks_on_place_id"
     t.index ["profile_id"], name: "index_tracks_on_profile_id"
@@ -1000,6 +1049,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "app_store_purchases", "users"
   add_foreign_key "badges", "profiles"
   add_foreign_key "contribution_details", "contributions"
   add_foreign_key "contribution_details", "profiles"
@@ -1013,6 +1063,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_27_000000) do
   add_foreign_key "free_pro_views", "users"
   add_foreign_key "gifted_subscriptions", "users"
   add_foreign_key "gifted_subscriptions", "users", column: "granted_by_id"
+  add_foreign_key "impersonations", "oauth_access_tokens", column: "access_token_id", on_delete: :nullify
+  add_foreign_key "impersonations", "users", column: "admin_user_id", on_delete: :cascade
+  add_foreign_key "impersonations", "users", on_delete: :cascade
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"

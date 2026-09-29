@@ -129,6 +129,43 @@
 
       <div class="subscription-admin__section">
         <div class="subscription-admin__header">
+          <h3 class="subscription-admin__title">App Store Purchases</h3>
+        </div>
+
+        <% if @profile.app_store_purchases.any? %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Product</th>
+                <th>Purchased At</th>
+                <th>Expires At</th>
+                <th>Environment</th>
+                <th>Original Transaction ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @profile.app_store_purchases.each do |purchase| %>
+                <tr>
+                  <td><%= subscription_status_badge(purchase) %></td>
+                  <td><%= purchase.product_id %></td>
+                  <td><%= l(purchase.purchased_at.to_date) %></td>
+                  <td><%= purchase.expires_at ? l(purchase.expires_at.to_date) : '-' %></td>
+                  <td><%= purchase.environment %></td>
+                  <td><code><%= purchase.original_transaction_id %></code></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <div class="subscription-admin__empty">
+            <p>No App Store purchases</p>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="subscription-admin__section">
+        <div class="subscription-admin__header">
           <h3 class="subscription-admin__title">Donations</h3>
           <% if @profile.donations.any? %>
             <div class="subscription-admin__summary">

@@ -1,0 +1,11 @@
+json.type type
+json.discipline nil
+json.prefix nil
+json.label t("dashboard.#{type}")
+json.value value
+json.formatted_value value.to_s
+json.unit nil
+json.delta nil
+json.formatted_delta nil
+json.track_id nil
+json.competition_id nil

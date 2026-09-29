@@ -4,6 +4,7 @@ module SubscriptionsHelper
     'active' => 'green',
     'expired' => 'gray',
     'past_due' => 'red',
+    'revoked' => 'red',
     'trialing' => 'purple'
   }.freeze
 

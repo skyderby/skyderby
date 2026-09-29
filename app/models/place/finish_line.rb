@@ -1,5 +1,5 @@
 class Place::FinishLine < ApplicationRecord
-  include Permissions
+  include Permissions, Syncable
 
   belongs_to :place
   has_many :virtual_competitions, dependent: :restrict_with_error

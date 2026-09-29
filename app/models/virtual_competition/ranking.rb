@@ -10,7 +10,7 @@ class VirtualCompetition
       @competition = competition
       @base_scores = scores
       @page_param = page
-      @jump_kind = jump_kind if jump_kind_selector? && JUMP_KINDS.include?(jump_kind)
+      @jump_kind = jump_kind if competition.jump_kind_filterable? && JUMP_KINDS.include?(jump_kind)
       @gender = gender if GENDERS.include?(gender)
     end
 
@@ -24,9 +24,7 @@ class VirtualCompetition
 
     def all_scores = @all_scores ||= filtered? ? filter_and_rank(@base_scores) : @base_scores
 
-    def jump_kind_options = jump_kind_selector? ? [nil, *JUMP_KINDS] : []
-
-    def gender_options = [nil, *GENDERS]
+    delegate :jump_kind_options, :gender_options, to: :competition
 
     def rank_change_for(_score) = nil
 
@@ -51,8 +49,6 @@ class VirtualCompetition
         collection.page(page).per(PER_PAGE)
       end
     end
-
-    def jump_kind_selector? = competition.flare? && competition.jumps_kind.nil?
 
     def filter_and_rank(scores)
       ranked = scores.select { |score| match?(score) }.sort_by(&:result)

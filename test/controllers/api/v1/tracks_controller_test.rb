@@ -1,25 +1,100 @@
 require 'test_helper'
 
 class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
+  include ApiAuthHelper
+  include ActiveJob::TestHelper
+
   setup do
     @user = users(:regular_user)
-    @application = Doorkeeper::Application.create!(
-      name: 'Test App',
-      redirect_uri: 'urn:ietf:wg:oauth:2.0:oob',
-      scopes: 'read write'
-    )
-    @token = Doorkeeper::AccessToken.create!(
-      application: @application,
-      resource_owner_id: @user.id,
-      resource_owner_type: 'User',
-      scopes: 'read write'
-    )
-    @read_only_token = Doorkeeper::AccessToken.create!(
-      application: @application,
-      resource_owner_id: @user.id,
-      resource_owner_type: 'User',
-      scopes: 'read'
-    )
+    @track = tracks(:hellesylt)
+  end
+
+  test '#index returns paginated public tracks for guests' do
+    tracks(:boogie_track_1).private_track!
+
+    get api_v1_tracks_path, params: { per: 2 }
+
+    assert_response :success
+    body = response.parsed_body
+    assert_equal 2, body['items'].size
+    assert_equal 1, body['page']
+    assert_equal 2, body['perPage']
+    assert_equal Track.public_track.count, body['totalCount']
+    assert_equal (Track.public_track.count / 2.0).ceil, body['totalPages']
+    assert_not_includes body['items'].pluck('id'), tracks(:boogie_track_1).id
+  end
+
+  test '#index renders track list items' do
+    get api_v1_tracks_path, params: { kind: 'base' }
+
+    assert_response :success
+    item = response.parsed_body['items'].find { |track| track['id'] == @track.id }
+    assert_equal 'base', item['kind']
+    assert_equal 'public_track', item['visibility']
+    assert_equal({ 'id' => profiles(:regular_user).id, 'name' => 'Regular user', 'countryCode' => nil }, item['pilot'])
+    assert_equal 'Hellesylt', item.dig('place', 'name')
+    assert_equal 'NOR', item.dig('place', 'countryCode')
+    assert_equal({ 'distance' => nil, 'speed' => nil, 'time' => nil }, item['results'])
+    assert_not item['hasVideo']
+    assert_not item['owned']
+    assert_equal %w[base], response.parsed_body['items'].pluck('kind').uniq
+  end
+
+  test '#index caps per page' do
+    get api_v1_tracks_path, params: { per: 1000 }
+
+    assert_equal 100, response.parsed_body['perPage']
+  end
+
+  test '#index includes own private tracks for token owner' do
+    @track.private_track!
+
+    get api_v1_tracks_path, headers: bearer(:regular_user_write)
+
+    assert_includes response.parsed_body['items'].pluck('id'), @track.id
+  end
+
+  test '#index rejects invalid tokens' do
+    get api_v1_tracks_path, headers: bearer(:expired)
+
+    assert_response :unauthorized
+    assert_predicate response.parsed_body['errors'], :present?
+  end
+
+  test '#show renders track detail' do
+    @track.update!(owner: @user)
+
+    get api_v1_track_path(@track), headers: bearer(:regular_user_read)
+
+    assert_response :success
+    body = response.parsed_body
+    assert_equal @track.id, body['id']
+    assert_equal 0, body['ffStart']
+    assert_equal 33, body['ffEnd']
+    assert body['editable']
+    assert body['owned']
+    assert body['absAltitude']
+    assert_not body['proViewAvailable']
+    assert_equal @track.updated_at.to_i.to_s, body['pointsVersion']
+    assert_in_delta 62.057917, body.dig('place', 'latitude')
+    assert_empty body['onlineCompetitionResults']
+    assert_equal 'performance_competition', body.dig('eventResult', 'eventKind')
+    assert_nil body['video']
+  end
+
+  test '#show returns 404 for private track of someone else' do
+    @track.private_track!
+
+    get api_v1_track_path(@track)
+
+    assert_response :not_found
+    assert_equal ['Not found'], response.parsed_body['errors']
+  end
+
+  test '#show returns 404 for missing track' do
+    get api_v1_track_path(id: 0)
+
+    assert_response :not_found
   end
 
   test '#create requires authentication' do
@@ -31,7 +106,7 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
   test '#create requires write scope' do
     post api_v1_tracks_path,
          params: { file: fixture_file_upload('tracks/one_track.gpx', 'application/gpx+xml') },
-         headers: { 'Authorization' => "Bearer #{@read_only_token.token}" }
+         headers: bearer(:regular_user_read)
 
     assert_response :forbidden
   end
@@ -44,7 +119,7 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
              kind: 'skydive',
              visibility: 'public_track'
            },
-           headers: { 'Authorization' => "Bearer #{@token.token}" }
+           headers: bearer(:regular_user_write)
     end
 
     assert_response :created
@@ -52,17 +127,130 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_predicate response_json['id'], :present?
     assert_predicate response_json['url'], :present?
+    assert_not response_json['firstLook']
 
     track = Track.find(response_json['id'])
     assert_equal @user, track.owner
     assert_equal 'skydive', track.kind
   end
 
+  test '#create is idempotent by client uuid' do
+    client_uuid = SecureRandom.uuid
+    params = { file: fixture_file_upload('tracks/one_track.gpx', 'application/gpx+xml'), clientUuid: client_uuid }
+
+    post api_v1_tracks_path, params:, headers: bearer(:regular_user_write)
+    assert_response :created
+    track_id = response.parsed_body['id']
+
+    assert_no_difference 'Track.count' do
+      post api_v1_tracks_path,
+           params: { file: fixture_file_upload('tracks/one_track.gpx', 'application/gpx+xml'),
+                     clientUuid: client_uuid },
+           headers: bearer(:regular_user_write)
+    end
+
+    assert_response :ok
+    assert_equal track_id, response.parsed_body['id']
+    assert_equal client_uuid, Track.find(track_id).client_uuid
+  end
+
+  test '#create rejects malformed client uuid' do
+    post api_v1_tracks_path,
+         params: { file: fixture_file_upload('tracks/one_track.gpx', 'application/gpx+xml'), clientUuid: 'nope' },
+         headers: bearer(:regular_user_write)
+
+    assert_response :unprocessable_content
+  end
+
   test '#create without file returns error' do
     post api_v1_tracks_path,
          params: { kind: 'skydive' },
-         headers: { 'Authorization' => "Bearer #{@token.token}" }
+         headers: bearer(:regular_user_write)
 
     assert_response :unprocessable_content
+    assert_equal ['File is required'], response.parsed_body['errors']
+  end
+
+  test '#update changes editable track and enqueues processing jobs' do
+    @track.update!(owner: @user)
+
+    patch api_v1_track_path(@track),
+          params: { comment: 'Updated', jumpRange: '5;30', visibility: 'unlisted_track' },
+          headers: bearer(:regular_user_write)
+
+    assert_response :success
+    assert_equal 'Updated', response.parsed_body['comment']
+    assert_equal 5, response.parsed_body['ffStart']
+    assert_equal 30, @track.reload.ff_end
+    assert_enqueued_with job: ResultsJob, args: [@track.id]
+    assert_enqueued_with job: ExitProfileJob, args: [@track.id]
+  end
+
+  test '#update accepts nested track params' do
+    @track.update!(owner: @user)
+
+    patch api_v1_track_path(@track), params: { track: { comment: 'Nested' } }, headers: bearer(:regular_user_write)
+
+    assert_response :success
+    assert_equal 'Nested', @track.reload.comment
+  end
+
+  test '#update forbidden for tracks of other users' do
+    patch api_v1_track_path(@track), params: { comment: 'Nope' }, headers: bearer(:regular_user_write)
+
+    assert_response :forbidden
+    assert_equal ['Forbidden'], response.parsed_body['errors']
+  end
+
+  test '#update returns validation errors' do
+    @track.update!(owner: @user, pilot: nil, name: 'Pilot')
+
+    patch api_v1_track_path(@track), params: { name: '' }, headers: bearer(:regular_user_write)
+
+    assert_response :unprocessable_content
+    assert_predicate response.parsed_body['errors'], :present?
+  end
+
+  test '#update requires write scope' do
+    @track.update!(owner: @user)
+
+    patch api_v1_track_path(@track), params: { comment: 'Nope' }, headers: bearer(:regular_user_read)
+
+    assert_response :forbidden
+  end
+
+  test '#destroy removes editable track' do
+    track = Track.create!(owner: @user, pilot: profiles(:regular_user), kind: :skydive)
+
+    assert_difference 'Track.count', -1 do
+      delete api_v1_track_path(track), headers: bearer(:regular_user_write)
+    end
+
+    assert_response :no_content
+  end
+
+  test '#destroy returns errors when track is used in competition' do
+    @track.update!(owner: @user)
+
+    assert_no_difference 'Track.count' do
+      delete api_v1_track_path(@track), headers: bearer(:regular_user_write)
+    end
+
+    assert_response :unprocessable_content
+    assert_predicate response.parsed_body['errors'], :present?
+  end
+
+  test '#destroy requires authentication' do
+    delete api_v1_track_path(@track)
+
+    assert_response :unauthorized
+  end
+
+  test '#destroy forbidden for tracks of other users' do
+    assert_no_difference 'Track.count' do
+      delete api_v1_track_path(@track), headers: bearer(:regular_user_write)
+    end
+
+    assert_response :forbidden
   end
 end

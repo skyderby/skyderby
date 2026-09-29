@@ -111,7 +111,7 @@ class VirtualCompetition::Group
       scores
         .where(virtual_competition_id: competitions.map(&:id))
         .wind_cancellation(wind_cancellation)
-        .includes(:track, :suit, profile: %i[country owner])
+        .includes(:track, :suit, profile: [:country, :owner, { userpic_attachment: :blob }])
         .group_by(&:virtual_competition_id)
     end
   end

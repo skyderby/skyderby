@@ -1,5 +1,5 @@
 class Place < ApplicationRecord
-  include Permissions, Photos, Stats, WeatherData
+  include Permissions, Photos, Stats, WeatherData, Syncable
 
   enum :kind, { skydive: 0, base: 1 }
 
@@ -50,13 +50,10 @@ class Place < ApplicationRecord
       .first
   end
 
+  def accessible_tracks = Track.accessible.where(place_id: id)
+
   def accessible_profiles
-    Profile.where(
-      id: Track.accessible
-               .where(place_id: id)
-               .select(:profile_id)
-               .distinct
-    )
+    Profile.where(id: accessible_tracks.select(:profile_id).distinct)
   end
 
   def visited_profiles_sample(limit: 10)

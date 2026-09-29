@@ -14,6 +14,10 @@ module Profiles
       @charges ||= pay_customer&.charges&.order(created_at: :desc) || []
     end
 
+    def app_store_purchases
+      @app_store_purchases ||= owner.app_store_purchases.order(created_at: :desc)
+    end
+
     def donations
       @donations ||= contributions.order(received_at: :desc)
     end

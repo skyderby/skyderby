@@ -29,6 +29,12 @@ module DashboardHelper
     content_tag(:a, class: classes, href: track_link, data: { turbo_frame: '_top' }, &)
   end
 
+  def dashboard_delta_magnitude(value)
+    magnitude = value.abs
+    precision = magnitude < 10 && magnitude != magnitude.round ? 1 : 0
+    number_with_precision(magnitude, precision:, strip_insignificant_zeros: true)
+  end
+
   def dashboard_discipline_label(competition)
     case competition.discipline
     when 'distance_in_time'

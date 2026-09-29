@@ -10,6 +10,8 @@
 #
 
 class Suit < ApplicationRecord
+  include Syncable
+
   attr_accessor :photo
 
   enum :kind, SuitTypes
@@ -29,8 +31,10 @@ class Suit < ApplicationRecord
   delegate :name, to: :manufacturer, prefix: true, allow_nil: true
   delegate :code, to: :manufacturer, prefix: true, allow_nil: true
 
+  def accessible_tracks = tracks.unscope(:order).accessible
+
   def accessible_profiles
-    Profile.where(id: tracks.unscope(:order).accessible.select(:profile_id).distinct)
+    Profile.where(id: accessible_tracks.select(:profile_id).distinct)
   end
 
   class << self

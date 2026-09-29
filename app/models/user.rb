@@ -31,6 +31,7 @@ class User < ApplicationRecord
   has_one :setting, class_name: 'User::Setting', dependent: :destroy, inverse_of: :user
   has_many :gifted_subscriptions, dependent: :destroy
   has_many :free_pro_views, dependent: :delete_all
+  has_many :app_store_purchases, dependent: :destroy
   has_many :terrain_profiles, dependent: :nullify
 
   scope :admins, -> { where('? = ANY(roles)', 'admin') }
@@ -61,13 +62,22 @@ class User < ApplicationRecord
     return true if admin?
 
     gifted_subscription_active? ||
-      stripe_processor&.subscription&.active? ||
+      stripe_subscription_active? ||
       lifetime_subscription? ||
+      app_store_subscription_active? ||
       false
   end
 
+  def subscription = @subscription ||= User::Subscription.new(self)
+
   def gifted_subscription_active?
     gifted_subscriptions.active.exists?
+  end
+
+  def stripe_subscription_active? = stripe_processor&.subscription&.active? || false
+
+  def app_store_subscription_active?
+    app_store_purchases.active.exists?
   end
 
   def lifetime_subscription?

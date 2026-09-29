@@ -1,0 +1,6 @@
+skyderby_apple:
+  name: Skyderby Apple
+  uid: skyderby-apple-test-uid
+  redirect_uri: io.skyderby.app://oauth/callback
+  scopes: read write
+  confidential: false

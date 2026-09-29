@@ -18,6 +18,10 @@ module Api
           format.json
         end
       end
+
+      def show
+        @suit = Suit.includes(:manufacturer, :exit_performance).find(params[:id])
+      end
     end
   end
 end

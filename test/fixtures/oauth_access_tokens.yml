@@ -1,0 +1,43 @@
+regular_user_write:
+  application: skyderby_apple
+  resource_owner_id: <%= ActiveRecord::FixtureSet.identify(:regular_user) %>
+  resource_owner_type: User
+  token: regular-user-write-token
+  scopes: read write
+
+regular_user_read:
+  application: skyderby_apple
+  resource_owner_id: <%= ActiveRecord::FixtureSet.identify(:regular_user) %>
+  resource_owner_type: User
+  token: regular-user-read-token
+  scopes: read
+
+admin_write:
+  application: skyderby_apple
+  resource_owner_id: <%= ActiveRecord::FixtureSet.identify(:admin) %>
+  resource_owner_type: User
+  token: admin-write-token
+  scopes: read write
+
+event_responsible_write:
+  application: skyderby_apple
+  resource_owner_id: <%= ActiveRecord::FixtureSet.identify(:event_responsible) %>
+  resource_owner_type: User
+  token: event-responsible-write-token
+  scopes: read write
+
+expired:
+  application: skyderby_apple
+  resource_owner_id: <%= ActiveRecord::FixtureSet.identify(:regular_user) %>
+  resource_owner_type: User
+  token: expired-token
+  scopes: read write
+  expires_in: 60
+  created_at: <%= 1.day.ago.to_fs(:db) %>
+
+admin_read:
+  application: skyderby_apple
+  resource_owner_id: <%= ActiveRecord::FixtureSet.identify(:admin) %>
+  resource_owner_type: User
+  token: admin-read-token
+  scopes: read

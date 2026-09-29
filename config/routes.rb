@@ -99,15 +99,47 @@ Skyderby::Application.routes.draw do
           end
         end
       end
-      resources :virtual_competitions
-      resources :places
+      resources :virtual_competitions, only: %i[index show] do
+        scope module: :virtual_competitions do
+          collection do
+            resources :groups, only: :show, as: :virtual_competition_groups do
+              scope module: :groups do
+                resources :categories, only: :show, param: :suit_kind
+              end
+            end
+          end
+          resource :overall, only: :show
+          resources :years, only: :show, param: :year
+          resources :periods, only: :show
+          resources :person_details, only: :show, param: :profile_id
+        end
+      end
+      resource :dashboard, only: %i[show update]
+      resources :places, only: :show
+      resources :terrain_profiles, only: :show
+      resources :suits, only: %i[index show]
+      resources :manufacturers, only: :show
+      resources :sync, only: :show, param: :resource
 
-      resources :suits, only: :index
-
-      resources :tracks, only: [:create] do
+      resources :tracks, only: %i[index show create update destroy] do
         scope module: :tracks do
           resource :points, only: :show
+          resource :point_series, only: :show
+          resource :pro_view, only: :create
+          resource :weather_data, only: :show
         end
+      end
+
+      resources :impersonations, only: :create
+      resource :impersonation, only: :destroy
+
+      namespace :admin do
+        resources :users, only: :index
+      end
+
+      namespace :app_store do
+        resources :transactions, only: :create
+        resources :notifications, only: :create
       end
 
       resources :events, only: :show do
@@ -125,6 +157,44 @@ Skyderby::Application.routes.draw do
           resources :teams, only: %i[index create update destroy]
         end
       end
+
+      resources :competitions, only: :index
+
+      resources :performance_competitions, only: :show do
+        scope module: :performance_competitions do
+          resource :scoreboard, only: :show
+          resource :open_scoreboard, only: :show
+          resources :task_scoreboards, only: :show, param: :discipline
+          resource :team_scoreboard, only: :show
+          resources :results, only: :show
+        end
+      end
+
+      resources :boogies, only: :show do
+        resource :scoreboard, only: :show, module: :boogies
+      end
+
+      resources :speed_skydiving_competitions, only: :show do
+        scope module: :speed_skydiving_competitions do
+          resource :scoreboard, only: :show
+          resource :open_scoreboard, only: :show
+          resource :team_scoreboard, only: :show
+          resources :results, only: :show
+        end
+      end
+
+      resources :tournaments, only: :show do
+        scope module: :tournaments do
+          resource :bracket, only: :show
+          resource :qualification, only: :show
+        end
+      end
+
+      resources :performance_competition_series, only: :show do
+        resource :scoreboard, only: :show, module: :performance_competition_series
+      end
+
+      resources :speed_skydiving_competition_series, only: :show
 
       namespace :stats, module: :stats do
         resources :registrations, only: :index

@@ -15,9 +15,10 @@ module Profiles
 
     LIVE_COMPETITIONS_PERIOD = 2.weeks
 
-    def initialize(profile, user: nil, mode: nil, rankings_gender: nil)
+    def initialize(profile, user: nil, mode: nil, rankings_gender: nil, modes: MODES)
       super(profile)
       @user = user
+      @modes = modes
       @requested_mode = mode.presence&.to_sym
       @requested_gender = rankings_gender.presence&.to_sym
     end
@@ -29,7 +30,7 @@ module Profiles
     end
 
     def available_modes
-      @available_modes ||= MODES.select { |mode| mode_available?(mode) }
+      @available_modes ||= @modes.select { |mode| mode_available?(mode) }
     end
 
     def any_modes? = available_modes.any?
@@ -138,6 +139,10 @@ module Profiles
     end
 
     def recent_badges(limit = 3) = badges.first(limit)
+
+    def journal(period = nil)
+      @journal ||= Journal.new(profile, user: @user, mode: current_mode, period:)
+    end
 
     def pro? = @user&.subscription_active? || false
 

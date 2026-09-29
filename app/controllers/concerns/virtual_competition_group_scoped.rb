@@ -11,7 +11,7 @@ module VirtualCompetitionGroupScoped
     group.scoreboard(
       year: params[:year],
       gender: params[:gender],
-      wind_cancellation: params[:wind].present?,
+      wind_cancellation: ActiveModel::Type::Boolean.new.cast(params[:wind].presence) || false,
       pages:
     )
   end

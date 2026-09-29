@@ -8,6 +8,8 @@
 #
 
 class Country < ApplicationRecord
+  include Syncable
+
   has_many :places, dependent: :restrict_with_error
   has_many :profiles, dependent: :restrict_with_error
 

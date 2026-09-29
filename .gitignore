@@ -43,3 +43,8 @@ yarn-error.log
 /storage/*
 !/storage/.keep
 /tmp/storage/*
+
+/apple/**/.build/
+/apple/**/.swiftpm/
+/apple/**/xcuserdata/
+/apple/**/DerivedData/

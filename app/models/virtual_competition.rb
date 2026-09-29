@@ -74,6 +74,12 @@ class VirtualCompetition < ApplicationRecord
     !flare? && !vertical_speed?
   end
 
+  def jump_kind_filterable? = flare? && jumps_kind.nil?
+
+  def jump_kind_options = jump_kind_filterable? ? [nil, *Ranking::JUMP_KINDS] : []
+
+  def gender_options = [nil, *Ranking::GENDERS]
+
   def overall_ranking(scores, **) = Ranking.new(self, scores, **)
 
   def annual_ranking(scores, year:, **) = Ranking::Annual.new(self, scores, year:, **)

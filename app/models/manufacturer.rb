@@ -1,4 +1,6 @@
 class Manufacturer < ApplicationRecord
+  include Syncable
+
   has_many :suits, dependent: :restrict_with_error
 
   validates :name, presence: true

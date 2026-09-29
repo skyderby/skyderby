@@ -1,4 +1,6 @@
 class VirtualCompetition::PersonDetails
+  TRACK_ASSOCIATIONS = [{ suit: :manufacturer }, { place: :country }, :video].freeze
+
   def initialize(virtual_competition_id:, profile_id:)
     @virtual_competition_id = virtual_competition_id
     @profile_id = profile_id
@@ -8,20 +10,25 @@ class VirtualCompetition::PersonDetails
     @top_results ||=
       competition
       .results
+      .wind_cancellation(false)
       .joins(:track)
       .where(tracks: { profile_id: profile_id })
+      .includes(track: TRACK_ASSOCIATIONS)
       .order(results_order)
       .limit(results_count)
   end
 
-  def chart_data
-    ordered_results = top_results.sort_by { |x| x.track.recorded_at }
-    ordered_results.map do |record|
-      [record.track.recorded_at, record.result]
-    end.to_json.html_safe # rubocop:disable Rails/OutputSafety
+  def chart_points
+    top_results
+      .sort_by { |record| record.track.recorded_at }
+      .map { |record| [record.track.recorded_at, record.result] }
   end
 
+  def chart_data = chart_points.to_json.html_safe # rubocop:disable Rails/OutputSafety
+
   def competition = @competition ||= VirtualCompetition.find(virtual_competition_id)
+
+  def profile = @profile ||= Profile.find(profile_id)
 
   private
 

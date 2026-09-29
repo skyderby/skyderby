@@ -9,7 +9,8 @@ class SubscriptionStatusJob < ApplicationJob
   private
 
   def subscribed_user_ids
-    @subscribed_user_ids ||= stripe_subscribers + gifted_subscribers + lifetime_subscribers + admin_ids
+    @subscribed_user_ids ||=
+      stripe_subscribers + gifted_subscribers + lifetime_subscribers + app_store_subscribers + admin_ids
   end
 
   def stripe_subscribers
@@ -30,6 +31,10 @@ class SubscriptionStatusJob < ApplicationJob
       .where(pay_customers: { owner_type: 'User' })
       .where("pay_charges.metadata->>'type' = 'lifetime'")
       .pluck('pay_customers.owner_id')
+  end
+
+  def app_store_subscribers
+    AppStorePurchase.active.pluck(:user_id)
   end
 
   def admin_ids

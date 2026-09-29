@@ -27,8 +27,11 @@ Doorkeeper.configure do
 
   allow_blank_redirect_uri false
 
+  force_pkce
+
   skip_authorization do |_resource_owner, client|
-    client.application.scopes.blank?
+    client.application.scopes.blank? ||
+      (!client.application.confidential? && client.application.uid == 'skyderby-apple')
   end
 
   handle_auth_errors :render

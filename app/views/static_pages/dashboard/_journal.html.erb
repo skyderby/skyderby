@@ -1,6 +1,6 @@
 <%# locals: (dashboard:) %>
 
-<% journal = Profiles::Journal.new(dashboard.profile, user: Current.user, mode: dashboard.current_mode) %>
+<% journal = dashboard.journal %>
 
 <section class="dashboard-section panel dashboard-journal"
          data-controller="journal track-compare"

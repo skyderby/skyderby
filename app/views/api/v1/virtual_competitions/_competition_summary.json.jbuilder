@@ -1,0 +1,14 @@
+json.id competition.id
+json.name competition.name
+json.title competition.title
+json.group_id competition.group_id
+json.discipline competition.discipline
+json.discipline_parameter competition.discipline_parameter
+json.jumps_kind competition.jumps_kind
+json.suits_kind competition.suits_kind
+json.badge competition_badge(competition)
+json.icon competition_icon(competition)
+json.location competition_location(competition)
+json.worldwide competition.worldwide?
+json.finished competition.finished?
+json.athlete_count athlete_count

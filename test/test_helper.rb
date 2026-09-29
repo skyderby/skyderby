@@ -25,6 +25,8 @@ module ActiveSupport
     set_fixture_class 'event/rounds' => PerformanceCompetition::Round
     set_fixture_class 'event/sections' => PerformanceCompetition::Category
     set_fixture_class 'events' => PerformanceCompetition
+    set_fixture_class 'oauth_applications' => Doorkeeper::Application
+    set_fixture_class 'oauth_access_tokens' => Doorkeeper::AccessToken
 
     fixtures :all
 

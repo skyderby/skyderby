@@ -5,6 +5,10 @@ module Place::Photos
     has_many :photos, dependent: :destroy
   end
 
+  def attached_photos = photos.select { |photo| photo.image.attached? }
+
+  def cover_photo = attached_photos.first
+
   def cover_image_url
     if photos.any?
       photos.first.image_url(:large)
