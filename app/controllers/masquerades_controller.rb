@@ -20,6 +20,6 @@ class MasqueradesController < ApplicationController
   private
 
   def authorize_admin
-    current_user.admin? || masquerading?
+    head :forbidden unless current_user.admin? || masquerading?
   end
 end
