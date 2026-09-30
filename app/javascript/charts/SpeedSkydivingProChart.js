@@ -408,13 +408,17 @@ const makeCanvas = (h, xDom, opts) => {
 }
 
 const ACCEL_H = 106
+const POSITION_H = 84
+const POSITION_GAP = 10
 const SEP_THRESHOLD = 3
 const VALIDATION_H = 1000
 const SEP_PX = 34
 const SEP_FULL = 7
 
 export const renderChart = (svg, { profiles, axis, labels, units = 'metric' }) => {
-  const H = 518
+  const hasPosition = profiles.some(p => p.position && p.position.length)
+  const positionSpace = hasPosition ? POSITION_H + POSITION_GAP : 0
+  const H = 518 + positionSpace
   const fmtAltU = v => `${(convertLength(v, units) / 1000).toFixed(1)}k`
   const dom = xDomain(profiles, axis)
   let vmax = 0
@@ -429,12 +433,16 @@ export const renderChart = (svg, { profiles, axis, labels, units = 'metric' }) =
 
   const cv = makeCanvas(H, dom, { padR: axis === 'time' ? 54 : 16 })
   const { x0, x1, y0, y1, sx } = cv
-  const ySplit = y1 - ACCEL_H
+  const accelBottom = y1 - positionSpace
+  const ySplit = accelBottom - ACCEL_H
   const sV = v => ySplit - (v / vmax) * (ySplit - y0)
   const sA = a => {
     const c = Math.max(-G, Math.min(G, a))
-    return ySplit + (c / G) * (y1 - ySplit)
+    return ySplit + (c / G) * (accelBottom - ySplit)
   }
+  const positionTop = accelBottom + POSITION_GAP
+  const sP = v =>
+    positionTop + ((90 - Math.max(-90, Math.min(90, v))) / 180) * (y1 - positionTop)
   const sApos = a => sA(Math.max(0, a))
   const sAlt = a =>
     altMax === altMin
@@ -442,7 +450,8 @@ export const renderChart = (svg, { profiles, axis, labels, units = 'metric' }) =
       : ySplit - ((a - altMin) / (altMax - altMin)) * (ySplit - y0)
   const softOp = 0.16
 
-  cv.rect(x0, ySplit, x1 - x0, y1 - ySplit, 'var(--ssp-band)')
+  cv.rect(x0, ySplit, x1 - x0, accelBottom - ySplit, 'var(--ssp-band)')
+  if (hasPosition) cv.rect(x0, positionTop, x1 - x0, y1 - positionTop, 'var(--ssp-band)')
   for (const v of niceTicks(0, vmax, 4)) {
     const y = sV(v)
     cv.line(x0, y, x1, y, COLORS.grid)
@@ -471,7 +480,13 @@ export const renderChart = (svg, { profiles, axis, labels, units = 'metric' }) =
   }
   cv.line(x0, ySplit, x1, ySplit, COLORS.muted, 1.2, null, 0.85)
   cv.txt(x0 - 7, ySplit + 3.5, '0', 'end', 10.5, COLORS.muted)
-  cv.txt(x0 - 7, y1 + 0.5, 'g', 'end', 10.5, COLORS.muted)
+  cv.txt(x0 - 7, accelBottom + 0.5, 'g', 'end', 10.5, COLORS.muted)
+  if (hasPosition) {
+    for (const v of [90, 0, -90]) {
+      cv.line(x0, sP(v), x1, sP(v), COLORS.grid)
+      cv.txt(x0 - 7, sP(v) + 3.5, `${v > 0 ? '+' : ''}${v}°`, 'end', 10.5, COLORS.muted)
+    }
+  }
 
   profiles.forEach((p, i) => {
     const vzCol = i === 0 ? COLORS.a : COLORS.b
@@ -494,8 +509,15 @@ export const renderChart = (svg, { profiles, axis, labels, units = 'metric' }) =
     cv.areaBetween(serS, 'vterm', 'vz', sV, vzCol, softOp)
     if (axis === 'time') cv.path(serAlt, 'alt', sAlt, COLORS.alt, 2.3, altDash, 0.9)
     cv.path(serS, 'vterm', sV, vzCol, 1.3, '5 4')
-    cv.areaBase(serA, 'az', sApos, ySplit, accelCol, 0.18, ySplit, y1)
-    cv.pathClip(serA, 'az', sA, accelCol, 1.6, y0, y1)
+    cv.areaBase(serA, 'az', sApos, ySplit, accelCol, 0.18, ySplit, accelBottom)
+    cv.pathClip(serA, 'az', sA, accelCol, 1.6, y0, accelBottom)
+    if (p.position) {
+      const serP = p.position.map(d => ({
+        x: axis === 'time' ? d.t : d.alt,
+        pitch: d.pitch
+      }))
+      cv.path(serP, 'pitch', sP, vzCol, 1.6)
+    }
     cv.path(serS, 'vz', sV, vzCol, 2.3)
     cv.dot(axis === 'time' ? su.tPeak : su.hPeak, su.scoreVz, sV, vzCol, 3.6)
   })
@@ -531,6 +553,8 @@ export const renderChart = (svg, { profiles, axis, labels, units = 'metric' }) =
 
   cv.txt(x0 + 7, y0 + 13, labels.speedAxis, 'start', 10, COLORS.muted)
   cv.txt(x0 + 7, ySplit + 14, labels.accelAxis, 'start', 10, COLORS.muted)
+  if (hasPosition)
+    cv.txt(x0 + 7, positionTop + 14, labels.positionAxis, 'start', 10, COLORS.muted)
 
   svg.setAttribute('viewBox', `0 0 ${cv.W} ${H}`)
   svg.dataset.x0 = x0

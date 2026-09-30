@@ -3,6 +3,8 @@ class Track::HeadUpCheck
   CANOPY_SAMPLE_DURATION = 60
   MIN_SPECIFIC_FORCE = 0.5
   MAX_ANGLE = 70
+  POSITION_STEP = 0.5
+  POSITION_MARGIN = 5
 
   def initialize(track)
     @track = track
@@ -21,6 +23,17 @@ class Track::HeadUpCheck
 
     mean = normalize(vectors.transpose.map(&:sum))
     Math.acos(dot(mean, reference).clamp(-1.0, 1.0)) * 180 / Math::PI
+  end
+
+  def positions
+    return [] if reference.nil? || track.exited_at.nil?
+
+    from = track.exited_at.to_f - POSITION_MARGIN
+    to = track.deployed_at.to_f + POSITION_MARGIN
+    (from...to).step(POSITION_STEP).filter_map do |time|
+      angle = angle_between(time, time + POSITION_STEP)
+      { gps_time: Time.zone.at(time + (POSITION_STEP / 2)), pitch: 90 - angle } if angle
+    end
   end
 
   private

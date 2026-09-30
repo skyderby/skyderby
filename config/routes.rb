@@ -354,6 +354,7 @@ Skyderby::Application.routes.draw do
       resource :altitude_data, only: :show
       resource :weather_data
       resource :points, only: :show
+      resource :head_position, only: :show
       resource :pro_view, only: :create
       resource :reference_point, only: [:show, :create, :update, :destroy]
       resource :place, only: [:new, :create]

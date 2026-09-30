@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 import I18n from 'i18n'
-import { fetchTrackPoints } from 'utils/tracks/trackData'
+import { fetchTrackPoints, fetchHeadPositions } from 'utils/tracks/trackData'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 import {
   analyzeTrack,
@@ -11,6 +11,7 @@ import {
 
 const SVG_NS = 'http://www.w3.org/2000/svg'
 const VB_W = 1000
+const POSITION_GAP_SEC = 1
 const GAIN_PHASES = [
   [0, 6, 'gain1'],
   [6, 12, 'gain2'],
@@ -23,6 +24,8 @@ export default class extends Controller {
   static values = {
     pointsUrl: String,
     comparePointsUrl: String,
+    positionsUrl: String,
+    comparePositionsUrl: String,
     trackName: String,
     compareName: String,
     windowEnd: Number,
@@ -49,10 +52,16 @@ export default class extends Controller {
   }
 
   async load() {
-    const requests = [this.fetchProfile(this.pointsUrlValue, this.windowEndValue)]
+    const requests = [
+      this.fetchProfile(this.pointsUrlValue, this.windowEndValue, this.positionsUrlValue)
+    ]
     if (this.hasComparePointsUrlValue && this.comparePointsUrlValue)
       requests.push(
-        this.fetchProfile(this.comparePointsUrlValue, this.compareWindowEndValue)
+        this.fetchProfile(
+          this.comparePointsUrlValue,
+          this.compareWindowEndValue,
+          this.comparePositionsUrlValue
+        )
       )
 
     const [a, b] = await Promise.all(requests)
@@ -61,10 +70,14 @@ export default class extends Controller {
     this.render()
   }
 
-  async fetchProfile(url, windowEndAltitude) {
-    const data = await fetchTrackPoints(url, { convertSpeeds: false })
+  async fetchProfile(url, windowEndAltitude, positionsUrl) {
+    const [data, positions] = await Promise.all([
+      fetchTrackPoints(url, { convertSpeeds: false }),
+      positionsUrl ? fetchHeadPositions(positionsUrl) : []
+    ])
     const profile = analyzeTrack(data.points)
     if (!profile) return null
+    profile.position = this.positionSeries(profile, data.points, positions)
     profile.window = this.windowFor(profile, windowEndAltitude)
     if (profile.window)
       profile.s.forEach(d => {
@@ -74,6 +87,23 @@ export default class extends Controller {
         }
       })
     return profile
+  }
+
+  positionSeries(profile, points, positions) {
+    if (!positions.length) return null
+    const startTime = points[0].gpsTime.getTime() / 1000
+    const ts = profile.s.map(d => d.t)
+    const alts = profile.s.map(d => d.alt)
+    const series = []
+    let previous = null
+    for (const position of positions) {
+      const t = new Date(position.gpsTime).getTime() / 1000 - startTime + profile.s[0].t
+      if (previous != null && t - previous > POSITION_GAP_SEC)
+        series.push({ t, alt: sampleAt(ts, alts, t), pitch: null })
+      series.push({ t, alt: sampleAt(ts, alts, t), pitch: position.pitch })
+      previous = t
+    }
+    return series
   }
 
   windowFor(profile, altitude) {
@@ -126,6 +156,7 @@ export default class extends Controller {
         ? I18n.t('tracks.speed_pro.chart.kft_msl')
         : I18n.t('tracks.speed_pro.chart.km_msl'),
       windowEnd: I18n.t('tracks.speed_pro.chart.window_end'),
+      positionAxis: I18n.t('tracks.speed_pro.chart.position_axis'),
       sep: I18n.t('tracks.speed_pro.chart.sep')
     }
   }
@@ -217,8 +248,7 @@ export default class extends Controller {
     line.setAttribute('opacity', '1')
   }
 
-  valueAt(profile, xVal, key) {
-    const pts = profile.s
+  valueAt(profile, xVal, key, pts = profile.s) {
     const xOf = d => (this.axis === 'time' ? d.t : d.alt)
     for (let i = 1; i < pts.length; i++) {
       const xa = xOf(pts[i - 1])
@@ -280,6 +310,14 @@ export default class extends Controller {
         alert: v => v >= 3
       }
     ]
+    if (this.profileA.position || this.profileB?.position)
+      rows.splice(rows.length - 1, 0, {
+        key: 'position',
+        get: p => (p.position ? this.valueAt(p, xVal, 'pitch', p.position) : null),
+        ref: 45,
+        fmt: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`,
+        dfmt: signed0
+      })
     if (this.axis === 'time')
       rows.splice(2, 0, {
         key: 'altitude',

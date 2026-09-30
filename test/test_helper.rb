@@ -19,6 +19,7 @@ module ActiveSupport
     include FactoryBot::Syntax::Methods
     include ActionDispatch::TestProcess
     include CreateTrackHelper
+    include SensorDataHelper
 
     set_fixture_class 'event/competitors' => PerformanceCompetition::Competitor
     set_fixture_class 'event/results' => PerformanceCompetition::Result
