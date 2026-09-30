@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_29_130000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_30_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -888,6 +888,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_130000) do
     t.index ["track_id"], name: "index_track_results_on_track_id"
   end
 
+  create_table "track_sensor_samples", force: :cascade do |t|
+    t.float "ax", null: false
+    t.float "ay", null: false
+    t.float "az", null: false
+    t.decimal "gps_time_in_seconds", precision: 17, scale: 3, null: false
+    t.integer "track_id", null: false
+    t.index ["track_id", "gps_time_in_seconds"], name: "index_track_sensor_samples_on_track_id_and_gps_time_in_seconds"
+  end
+
   create_table "track_videos", id: :serial, force: :cascade do |t|
     t.timestamptz "created_at"
     t.integer "track_id"
@@ -1103,6 +1112,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_130000) do
   add_foreign_key "tournaments", "place_finish_lines", column: "finish_line_id"
   add_foreign_key "tournaments", "profiles"
   add_foreign_key "track_reference_points", "tracks"
+  add_foreign_key "track_sensor_samples", "tracks", on_delete: :cascade
   add_foreign_key "tracks", "profiles"
   add_foreign_key "user_settings", "users"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"

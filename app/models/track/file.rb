@@ -24,7 +24,7 @@ class Track::File < ApplicationRecord
 
   validates :file, presence: true
   validates_attachment :file, max_size: 3.megabytes, extensions: EXTENSIONS
-  validates_attachment :sensor_file, max_size: 50.megabytes, extensions: %w[csv]
+  validates_attachment :sensor_file, max_size: 50.megabytes, extensions: %w[gz]
   validate :validate_files_selection
   validate :validate_sensor_file_pairing
 
@@ -36,7 +36,7 @@ class Track::File < ApplicationRecord
     sensors, tracks = Array(uploads).compact_blank.partition { |upload| SensorParser::Flysight2.sensor_file?(upload) }
     @selected_files_count = { track: tracks.size, sensor: sensors.size }
     self.file = tracks.first if tracks.any?
-    self.sensor_file = sensors.first if sensors.any?
+    self.sensor_upload = sensors.first if sensors.any?
   end
 
   def segments
@@ -57,6 +57,16 @@ class Track::File < ApplicationRecord
 
   private
 
+  def sensor_upload=(upload)
+    content = upload.read
+    @sensor_session_id = SensorParser::Flysight2.session_id(StringIO.new(content))
+    self.sensor_file = {
+      io: StringIO.new(Zlib.gzip(content)),
+      filename: "#{upload.try(:original_filename) || ::File.basename(upload.path)}.gz",
+      content_type: 'application/gzip'
+    }
+  end
+
   def validate_files_selection
     return unless @selected_files_count
 
@@ -65,12 +75,11 @@ class Track::File < ApplicationRecord
   end
 
   def validate_sensor_file_pairing
-    sensor_io = pending_attachment_io(:sensor_file)
-    return unless file.attached? && sensor_io
+    return unless file.attached? && defined?(@sensor_session_id)
 
     if file_format != 'flysight2'
       errors.add(:sensor_file, :requires_flysight2)
-    elsif SensorParser::Flysight2.session_id(sensor_io) != SensorParser::Flysight2.session_id(source.open)
+    elsif @sensor_session_id != SensorParser::Flysight2.session_id(source.open)
       errors.add(:sensor_file, :session_mismatch)
     end
   end

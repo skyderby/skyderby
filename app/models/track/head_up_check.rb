@@ -73,14 +73,10 @@ class Track::HeadUpCheck
 
   def samples
     @samples ||=
-      if sensor_file&.attached?
-        SensorParser::Flysight2.new(StringIO.new(sensor_file.download)).samples
-      else
-        []
+      track.sensor_samples.order(:gps_time_in_seconds).pluck(:gps_time_in_seconds, :ax, :ay, :az).map do |time, ax, ay, az|
+        SensorParser::Flysight2::Sample.new(gps_time: time.to_f, ax:, ay:, az:)
       end
   end
-
-  def sensor_file = track.track_file&.sensor_file
 
   def dot(left, right) = left.zip(right).sum { |x, y| x * y }
 

@@ -71,6 +71,7 @@ class Track < ApplicationRecord
           dependent: :destroy
 
   has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all, inverse_of: :track
+  has_many :sensor_samples, class_name: 'Track::SensorSample', dependent: :delete_all, inverse_of: :track
   has_many :results, dependent: :destroy
   has_many :virtual_competition_results,
            -> { wind_cancellation(false) },

@@ -20,7 +20,7 @@ class Track::FileTest < ActiveSupport::TestCase
 
     assert_predicate track_file, :valid?
     assert_equal 'fs2-track.csv', track_file.file.filename.to_s
-    assert_equal 'fs2-sensor.csv', track_file.sensor_file.filename.to_s
+    assert_equal 'fs2-sensor.csv.gz', track_file.sensor_file.filename.to_s
   end
 
   test 'is invalid with only a sensor file' do

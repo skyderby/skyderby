@@ -115,6 +115,7 @@ class CreateTrackService
     [ResultsJob, OnlineCompetitionJob, MissingWeatherFetchingJob, ExitProfileJob].each do |job|
       job.perform_later(track.id)
     end
+    SensorSamplesJob.perform_later(track.id) if track_file.sensor_file.attached?
   end
 
   def search_radius

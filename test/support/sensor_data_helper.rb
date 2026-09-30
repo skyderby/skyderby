@@ -12,9 +12,10 @@ module SensorDataHelper
   end
 
   def attach_sensor_file(track_file, content)
-    blob = ActiveStorage::Blob.create_and_upload!(io: StringIO.new(content), filename: 'SENSOR.CSV')
+    blob = ActiveStorage::Blob.create_and_upload!(io: StringIO.new(Zlib.gzip(content)), filename: 'SENSOR.CSV.gz')
     ActiveStorage::Attachment.create!(name: 'sensor_file', record: track_file, blob:)
     track_file.reload
+    Track::SensorSample.import(track_file.track)
   end
 
   def sensor_header(start)
