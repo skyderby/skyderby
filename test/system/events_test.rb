@@ -117,6 +117,8 @@ class EventsTest < ApplicationSystemTestCase
     fill_in 'penalty[penalty_reason]', with: 'Some reason'
 
     click_button I18n.t('general.save')
+
+    assert_selector 'sup.text-danger', text: '-50%'
   end
 
   def competitor_row(competitor_name)
