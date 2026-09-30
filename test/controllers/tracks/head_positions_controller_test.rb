@@ -9,8 +9,6 @@ class Tracks::HeadPositionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test '#show returns head position from +90 head-up to -90 head-down' do
-    FreeProView.create!(user: @user, track: @track)
-
     get track_head_position_path(@track), as: :json
 
     assert_response :success
@@ -19,7 +17,9 @@ class Tracks::HeadPositionsControllerTest < ActionDispatch::IntegrationTest
     assert_in_delta(-90, pitches.find { |time, _| time > @track.exited_at + 12 }.last, 1)
   end
 
-  test '#show is forbidden without pro view access' do
+  test '#show is forbidden for a private track of another pilot' do
+    @track.update!(visibility: :private_track)
+
     get track_head_position_path(@track), as: :json
 
     assert_response :forbidden

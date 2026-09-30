@@ -23,6 +23,9 @@
            data-exit-altitude="<%= result.exit_altitude %>"
            data-window-start="<%= result.window_start_time&.iso8601 %>"
            data-window-end="<%= result.window_end_time&.iso8601 %>"
+           <% if @track.track_file&.sensor_file&.attached? %>
+           data-positions-url="<%= track_head_position_path(@track) %>"
+           <% end %>
       >
       </div>
     <% else %>
