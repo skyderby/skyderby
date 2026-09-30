@@ -42,5 +42,7 @@ if dashboard.any_modes?
     json.exit_performances []
   end
 
-  json.journal { json.partial! 'api/v1/dashboards/journal', journal: dashboard.journal(params[:journal_period]) }
+  unless @public_overview
+    json.journal { json.partial! 'api/v1/dashboards/journal', journal: dashboard.journal(params[:journal_period]) }
+  end
 end

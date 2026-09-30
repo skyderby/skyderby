@@ -92,11 +92,12 @@ Skyderby::Application.routes.draw do
 
   namespace :api, module: :api, defaults: { format: :json } do
     namespace :v1, module: :v1 do
-      resources :profiles, only: :show do
+      resources :profiles, only: %i[index show] do
         scope module: :profiles do
           collection do
             resource :current, only: :show
           end
+          resource :overview, only: :show
         end
       end
       resources :virtual_competitions, only: %i[index show] do
@@ -116,7 +117,7 @@ Skyderby::Application.routes.draw do
       end
       resource :dashboard, only: %i[show update]
       resources :places, only: :show
-      resources :terrain_profiles, only: :show
+      resources :terrain_profiles, only: %i[index show create update destroy]
       resources :suits, only: %i[index show]
       resources :manufacturers, only: :show
       resources :sync, only: :show, param: :resource
