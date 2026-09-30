@@ -73,9 +73,10 @@ class Track::HeadUpCheck
 
   def samples
     @samples ||=
-      track.sensor_samples.order(:gps_time_in_seconds).pluck(:gps_time_in_seconds, :ax, :ay, :az).map do |time, ax, ay, az|
-        SensorParser::Flysight2::Sample.new(gps_time: time.to_f, ax:, ay:, az:)
-      end
+      track.sensor_samples
+           .order(:gps_time_in_seconds)
+           .pluck(:gps_time_in_seconds, :ax, :ay, :az)
+           .map { |time, ax, ay, az| SensorParser::Flysight2::Sample.new(gps_time: time.to_f, ax:, ay:, az:) }
   end
 
   def dot(left, right) = left.zip(right).sum { |x, y| x * y }
