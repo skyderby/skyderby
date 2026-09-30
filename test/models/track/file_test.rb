@@ -29,4 +29,40 @@ class Track::FileTest < ActiveSupport::TestCase
     assert_not track_file.valid?
     assert_includes track_file.errors[:file], "can't be blank"
   end
+
+  test 'is invalid with several track files' do
+    track_file = Track::File.new(files: [fixture('fs2-track.csv'), fixture('flysight.csv')])
+
+    assert_not track_file.valid?
+    assert_not_empty track_file.errors.where(:file, :multiple_tracks)
+  end
+
+  test 'is invalid with several sensor files' do
+    uploads = [fixture('fs2-track.csv'), fixture('fs2-sensor.csv'), fixture('fs2-sensor.csv')]
+    track_file = Track::File.new(files: uploads)
+
+    assert_not track_file.valid?
+    assert_not_empty track_file.errors.where(:sensor_file, :multiple_sensors)
+  end
+
+  test 'is invalid with sensor file for non FlySight 2 track' do
+    track_file = Track::File.new(files: [fixture('flysight.csv'), fixture('fs2-sensor.csv')])
+
+    assert_not track_file.valid?
+    assert_not_empty track_file.errors.where(:sensor_file, :requires_flysight2)
+  end
+
+  test 'is invalid with sensor file from another recording' do
+    content = file_fixture('tracks/fs2-sensor.csv').read.sub('6381f8666b441b94a67fb637', 'a' * 24)
+    sensor = StringIO.new(content)
+    upload = Rack::Test::UploadedFile.new(sensor, 'text/csv', original_filename: 'SENSOR.CSV')
+    track_file = Track::File.new(files: [fixture('fs2-track.csv'), upload])
+
+    assert_not track_file.valid?
+    assert_not_empty track_file.errors.where(:sensor_file, :session_mismatch)
+  end
+
+  private
+
+  def fixture(name) = File.open(file_fixture("tracks/#{name}"))
 end

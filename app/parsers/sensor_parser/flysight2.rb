@@ -7,10 +7,14 @@ module SensorParser
       def vector = [ax, ay, az]
     end
 
-    def self.sensor_file?(io)
+    def self.sensor_file?(io) = header(io).include?('$COL,IMU')
+
+    def self.session_id(io) = header(io)[/^\$VAR,SESSION_ID,(\w+)/, 1]
+
+    def self.header(io)
       head = io.read(4.kilobytes).to_s
       io.rewind
-      head.include?('$COL,IMU')
+      head
     end
 
     def initialize(io)

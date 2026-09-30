@@ -4,3 +4,13 @@ en:
       track_file:
         file: File with track
         sensor_file: "FlySight 2 sensor file"
+    errors:
+      models:
+        track_file:
+          attributes:
+            file:
+              multiple_tracks: "several track files are selected, choose one"
+            sensor_file:
+              multiple_sensors: "several sensor files are selected, choose one"
+              requires_flysight2: "can be uploaded only together with FlySight 2 TRACK.CSV"
+              session_mismatch: "is from a different jump than the track file"
