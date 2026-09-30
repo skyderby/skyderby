@@ -219,8 +219,7 @@ class OnlineCompetitionsServiceTest < ActiveSupport::TestCase
   end
 
   def sensor_header(start)
-    gps_seconds = start - SensorParser::Flysight2::GPS_EPOCH + SensorParser::Flysight2::GPS_UTC_LEAP_SECONDS
-    week, tow = gps_seconds.divmod(SensorParser::Flysight2::SECONDS_IN_WEEK)
+    week, tow = (start - SensorParser::Flysight2::GPS_EPOCH).divmod(SensorParser::Flysight2::SECONDS_IN_WEEK)
 
     [
       '$COL,IMU,time,wx,wy,wz,ax,ay,az,temperature',

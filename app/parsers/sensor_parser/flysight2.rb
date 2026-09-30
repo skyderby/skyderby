@@ -2,7 +2,6 @@ module SensorParser
   class Flysight2
     GPS_EPOCH = Time.utc(1980, 1, 6).to_i
     SECONDS_IN_WEEK = 604_800
-    GPS_UTC_LEAP_SECONDS = 18
 
     Sample = Data.define(:gps_time, :ax, :ay, :az) do
       def vector = [ax, ay, az]
@@ -57,7 +56,7 @@ module SensorParser
 
     def clock_offset(row, columns)
       time, tow, week = %w[time tow week].map { |name| row[columns.index(name) + 1].to_f }
-      GPS_EPOCH + (week * SECONDS_IN_WEEK) + tow - GPS_UTC_LEAP_SECONDS - time
+      GPS_EPOCH + (week * SECONDS_IN_WEEK) + tow - time
     end
   end
 end
