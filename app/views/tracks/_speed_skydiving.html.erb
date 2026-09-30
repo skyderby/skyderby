@@ -16,8 +16,7 @@
     <hr class="top-buffer">
 
     <% if result.scored? %>
-      <div class="speed-skydiving-chart"
-           data-controller="speed-skydiving-chart"
+      <div data-controller="speed-skydiving-chart"
            data-track-id="<%= result.track_id %>"
            data-result="<%= result.result %>"
            data-exit-altitude="<%= result.exit_altitude %>"
@@ -27,6 +26,17 @@
            data-positions-url="<%= track_head_position_path(@track) %>"
            <% end %>
       >
+        <% if @track.track_file&.sensor_file&.attached? %>
+          <div class="flex justify-end">
+            <%= render 'components/switch',
+                       label_text: t('tracks.speed_pro.metrics.position'),
+                       data: {
+                         action: 'change->speed-skydiving-chart#togglePositions',
+                         'speed-skydiving-chart-target': 'positionsSwitch'
+                       } %>
+          </div>
+        <% end %>
+        <div class="speed-skydiving-chart" data-speed-skydiving-chart-target="chart"></div>
       </div>
     <% else %>
       <p class="text-center text-muted"><%= t('tracks.show.no_speed_skydiving_result') %></p>

@@ -20,6 +20,24 @@ const breakoffAltitude = 1707 // 5600 ft
 const windowHeight = 2256 // 7400 ft
 const validationWindowHeight = 1000
 const chartName = 'SpeedSkydivingCombinedChart'
+const positionsStorageKey = `${chartName}/head_position_panel`
+
+const readPositionsPreference = () => {
+  try {
+    return localStorage.getItem(positionsStorageKey) === 'true'
+  } catch {
+    return false
+  }
+}
+
+const savePositionsPreference = visible => {
+  try {
+    localStorage.setItem(positionsStorageKey, String(visible))
+    return true
+  } catch {
+    return false
+  }
+}
 
 const accuracySeries = (points, windowEndAltitude) => {
   const validationWindowStart = windowEndAltitude + validationWindowHeight
@@ -85,6 +103,8 @@ const positionSeries = (points, positions) => {
 }
 
 export default class SpeedSkydivingChart extends Controller {
+  static targets = ['chart', 'positionsSwitch']
+
   connect() {
     this.trackId = this.element.getAttribute('data-track-id')
     this.result = Number(this.element.getAttribute('data-result'))
@@ -92,13 +112,38 @@ export default class SpeedSkydivingChart extends Controller {
     this.windowStartTime = new Date(this.element.getAttribute('data-window-start'))
     this.windowEndTime = new Date(this.element.getAttribute('data-window-end'))
     this.positionsUrl = this.element.getAttribute('data-positions-url')
+    this.showPositions = Boolean(this.positionsUrl) && readPositionsPreference()
+    if (this.hasPositionsSwitchTarget)
+      this.positionsSwitchTarget.checked = this.showPositions
 
-    Promise.all([
-      this.fetchPoints(this.trackId),
-      this.positionsUrl ? fetchHeadPositions(this.positionsUrl) : []
-    ])
-      .then(([data, positions]) => this.initChart(data, positions))
+    Promise.all([this.fetchPoints(this.trackId), this.loadPositions()])
+      .then(([data]) => {
+        this.trackData = data
+        this.render()
+      })
       .catch(error => console.error('Failed to load speed skydiving chart', error))
+  }
+
+  get chartElement() {
+    return this.hasChartTarget ? this.chartTarget : this.element
+  }
+
+  async loadPositions() {
+    if (!this.showPositions || this.positions) return
+    this.positions = await fetchHeadPositions(this.positionsUrl)
+  }
+
+  async togglePositions(event) {
+    this.showPositions = event.currentTarget.checked
+    savePositionsPreference(this.showPositions)
+    await this.loadPositions()
+    this.render()
+  }
+
+  render() {
+    if (!this.trackData) return
+    this.chartElement.chart?.destroy()
+    this.initChart(this.trackData, this.showPositions ? this.positions || [] : [])
   }
 
   fetchPoints(trackId) {
@@ -256,6 +301,6 @@ export default class SpeedSkydivingChart extends Controller {
       ].filter(Boolean)
     }
 
-    this.element.chart = Highcharts.chart(this.element, chartOptions)
+    this.chartElement.chart = Highcharts.chart(this.chartElement, chartOptions)
   }
 }
