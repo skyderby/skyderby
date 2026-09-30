@@ -136,6 +136,11 @@ class Track < ApplicationRecord
 
   def speed_skydiving_result = @speed_skydiving_result ||= Tracks::SpeedSkydivingResult.new(self)
 
+  def head_up_speed_result
+    @head_up_speed_result ||=
+      Tracks::SpeedSkydivingResult.new(self, range_filter: head_up_check.method(:head_up_range?))
+  end
+
   def head_up_check = @head_up_check ||= Track::HeadUpCheck.new(self)
 
   def competitive? = event_result.present?

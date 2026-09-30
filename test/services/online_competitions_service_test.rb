@@ -167,7 +167,7 @@ class OnlineCompetitionsServiceTest < ActiveSupport::TestCase
   test 'Head-up speed competition scores head-up jumps' do
     competition = virtual_competitions(:head_up_speed)
     track = create_speed_skydiving_track
-    attach_sensor_data(track, freefall: [0.05, 0.1, 0.99])
+    attach_sensor_data(track) { [0.05, 0.1, 0.99] }
 
     OnlineCompetitionsService.score_track(track)
 
@@ -179,12 +179,29 @@ class OnlineCompetitionsServiceTest < ActiveSupport::TestCase
   test 'Head-up speed competition skips head-down jumps' do
     competition = virtual_competitions(:head_up_speed)
     track = create_speed_skydiving_track
-    attach_sensor_data(track, freefall: [0.05, 0.1, -0.99])
+    attach_sensor_data(track) { [0.05, 0.1, -0.99] }
 
     OnlineCompetitionsService.score_track(track)
 
     assert_equal 0, competition.results.where(track: track).count
     assert_equal 1, virtual_competitions(:speed_skydiving).results.where(track: track).count
+  end
+
+  test 'Head-up speed competition ignores ranges flown on belly or head-down' do
+    competition = virtual_competitions(:head_up_speed)
+    track = create_speed_skydiving_track
+    best = track.speed_skydiving_result
+    belly = (best.window_start_time - 1)..(best.window_end_time + 1)
+    attach_sensor_data(track) { |time| belly.cover?(time) ? [0.99, 0.1, 0.05] : [0.05, 0.1, 0.99] }
+
+    OnlineCompetitionsService.score_track(track)
+
+    results = competition.results.where(track: track)
+    assert_equal 1, results.count
+    assert_operator results.first.result, :<, best.result
+
+    head_up = Track.find(track.id).head_up_speed_result
+    assert_not belly.overlap?(head_up.window_start_time..head_up.window_end_time)
   end
 
   test 'Head-up speed competition skips tracks without sensor data' do
@@ -207,11 +224,12 @@ class OnlineCompetitionsServiceTest < ActiveSupport::TestCase
     )
   end
 
-  def attach_sensor_data(track, freefall:, canopy: [0.0, 0.0, 1.0])
+  def attach_sensor_data(track, canopy: [0.0, 0.0, 1.0])
     start = track.exited_at.to_f - 30
     rows = sensor_header(start)
     (0..(track.deployed_at.to_f + 90 - start)).step(0.2).each do |time|
-      vector = start + time < track.deployed_at.to_f ? freefall : canopy
+      at = Time.zone.at(start + time)
+      vector = at < track.deployed_at ? yield(at) : canopy
       rows << "$IMU,#{format('%.3f', time)},0,0,0,#{vector.join(',')},20.0"
     end
 

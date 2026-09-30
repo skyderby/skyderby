@@ -2,38 +2,36 @@ class Track::HeadUpCheck
   CANOPY_SETTLE_TIME = 15
   CANOPY_SAMPLE_DURATION = 60
   MIN_SPECIFIC_FORCE = 0.5
-  MAX_DEVIATION_ANGLE = 90
-  MIN_HEAD_UP_FRACTION = 0.9
+  MAX_ANGLE = 70
 
   def initialize(track)
     @track = track
   end
 
-  def passed? = head_up_fraction >= MIN_HEAD_UP_FRACTION
+  def head_up_range?(range) = head_up_between?(range[:start_point][:gps_time], range[:end_point][:gps_time])
 
-  def head_up_fraction
-    return 0.0 if reference.nil? || freefall_vectors.empty?
+  def head_up_between?(from, to)
+    angle = angle_between(from, to)
+    angle.present? && angle <= MAX_ANGLE
+  end
 
-    freefall_vectors.count { |vector| head_up?(vector) }.fdiv(freefall_vectors.size)
+  def angle_between(from, to)
+    vectors = vectors_between(from, to)
+    return if reference.nil? || vectors.empty?
+
+    mean = normalize(vectors.transpose.map(&:sum))
+    Math.acos(dot(mean, reference).clamp(-1.0, 1.0)) * 180 / Math::PI
   end
 
   private
 
   attr_reader :track
 
-  def head_up?(vector)
-    dot(vector, reference) / norm(vector) >= Math.cos(MAX_DEVIATION_ANGLE * Math::PI / 180)
-  end
-
   def reference
     return @reference if defined?(@reference)
 
     vectors = vectors_between(canopy_start, canopy_end)
     @reference = vectors.empty? ? nil : normalize(vectors.transpose.map(&:sum))
-  end
-
-  def freefall_vectors
-    @freefall_vectors ||= vectors_between(track.exited_at, track.speed_skydiving_result.window_end_time)
   end
 
   def canopy_start = track.deployed_at && (track.deployed_at + CANOPY_SETTLE_TIME)
@@ -47,11 +45,17 @@ class Track::HeadUpCheck
   def vectors_between(from, to)
     return [] unless from && to
 
-    range = from.to_f..to.to_f
-    samples
-      .select { |sample| range.cover?(sample.gps_time) }
+    samples[first_index_from(from)...first_index_after(to)]
       .map(&:vector)
       .select { |vector| norm(vector) >= MIN_SPECIFIC_FORCE }
+  end
+
+  def first_index_from(time)
+    samples.bsearch_index { |sample| sample.gps_time >= time.to_f } || samples.size
+  end
+
+  def first_index_after(time)
+    samples.bsearch_index { |sample| sample.gps_time > time.to_f } || samples.size
   end
 
   def samples

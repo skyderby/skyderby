@@ -30,7 +30,7 @@ module SensorParser
       return [] if clock_offsets.empty?
 
       offset = clock_offsets.sort[clock_offsets.size / 2]
-      imu_rows.map { |time, ax, ay, az| Sample.new(gps_time: time + offset, ax:, ay:, az:) }
+      imu_rows.sort_by(&:first).map { |time, ax, ay, az| Sample.new(gps_time: time + offset, ax:, ay:, az:) }
     end
 
     def read_rows
