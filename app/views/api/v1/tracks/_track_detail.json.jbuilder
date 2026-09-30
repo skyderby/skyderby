@@ -35,11 +35,12 @@ json.online_competition_results(
   json.wind_cancelled result.wind_cancelled
 end
 
-if track.event_result
+event = track.event_result&.round&.event
+if event
   json.event_result do
-    json.event_id track.event_result.event_id
-    json.event_name track.event_result.event.name
-    json.event_kind track.event_result.event.model_name.element
+    json.event_id event.id
+    json.event_name event.name
+    json.event_kind event.model_name.element
   end
 else
   json.event_result nil

@@ -82,6 +82,15 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
     assert_nil body['video']
   end
 
+  test '#show omits event result when its event is gone' do
+    @track.event_result.round.update_column(:event_id, nil)
+
+    get api_v1_track_path(@track)
+
+    assert_response :success
+    assert_nil response.parsed_body['eventResult']
+  end
+
   test '#show returns 404 for private track of someone else' do
     @track.private_track!
 
