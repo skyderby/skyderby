@@ -126,6 +126,8 @@ Skyderby::Application.routes.draw do
           resource :points, only: :show
           resource :point_series, only: :show
           resource :pro_view, only: :create
+          resource :reference_point, only: %i[show update destroy]
+          resource :results, only: :show
           resource :weather_data, only: :show
         end
       end
