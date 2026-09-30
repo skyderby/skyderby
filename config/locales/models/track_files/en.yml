@@ -3,3 +3,4 @@ en:
     attributes:
       track_file:
         file: File with track
+        sensor_file: "FlySight 2 sensor file"

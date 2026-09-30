@@ -85,5 +85,6 @@ ru:
         suit_plh: Модель вингсьюта
         location_plh: ДЗ, горы, и т.д.
         help: Поддерживаются файлы в формате csv, gpx, tes и kml
+        sensor_help: "Для соревнований head-up выберите одновременно TRACK.CSV и SENSOR.CSV с FlySight 2"
         comment_plh: Пара слов о Вашем полете
         submit: Загрузить

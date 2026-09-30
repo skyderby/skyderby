@@ -15,6 +15,7 @@ class Track::File < ApplicationRecord
   attr_accessor :track_attributes
 
   has_one_attached :file
+  has_one_attached :sensor_file
 
   has_one :track,
           foreign_key: :track_file_id,
@@ -23,10 +24,21 @@ class Track::File < ApplicationRecord
 
   validates :file, presence: true
   validates_attachment :file, max_size: 3.megabytes, extensions: EXTENSIONS
+  validates_attachment :sensor_file, max_size: 50.megabytes, extensions: %w[csv]
 
   delegate :empty?, to: :segments, prefix: true
 
   def source = @source ||= Source.new(self)
+
+  def files=(uploads)
+    Array(uploads).compact_blank.each do |upload|
+      if SensorParser::Flysight2.sensor_file?(upload)
+        self.sensor_file = upload
+      else
+        self.file = upload
+      end
+    end
+  end
 
   def segments
     @segments ||= SegmentParser.for(file_format).new(source).segments

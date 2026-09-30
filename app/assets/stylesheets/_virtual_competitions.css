@@ -184,7 +184,8 @@
   --accent-bg: var(--green-10);
 }
 
-.vc-card--vertical-speed {
+.vc-card--vertical-speed,
+.vc-card--head-up-speed {
   --accent: var(--red-70);
   --accent-bg: var(--red-10);
 }

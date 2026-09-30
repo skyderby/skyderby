@@ -86,5 +86,6 @@ de:
         suit_plh: Wingsuit Modell
         location_plh: Flugplatz, Absprungstelle, etc
         help: "Unterstützte Formate: csv (Columbus, FlySight), gpx, tes und kml"
+        sensor_help: "Für Head-up-Wettbewerbe wähle TRACK.CSV und SENSOR.CSV vom FlySight 2 zusammen aus"
         comment_plh: Gib einen Kommentar zu deinem Flug ein
         submit: Hochladen

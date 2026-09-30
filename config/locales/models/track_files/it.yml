@@ -3,3 +3,4 @@ it:
     attributes:
       track_file:
         file: File con traccia
+        sensor_file: "File dei sensori FlySight 2"

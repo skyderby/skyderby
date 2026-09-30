@@ -28,6 +28,8 @@ class OnlineCompetitionsService
       score_flare
     elsif competition.vertical_speed?
       score_speed_skydiving
+    elsif competition.head_up_speed?
+      score_head_up_speed
     else
       score_performance
       score_performance_wind_cancelled if track.skydive?
@@ -47,6 +49,12 @@ class OnlineCompetitionsService
     competition.results.create! \
       track: track,
       result: result.result
+  end
+
+  def score_head_up_speed
+    return unless track.head_up_check.passed?
+
+    score_speed_skydiving
   end
 
   def score_flare

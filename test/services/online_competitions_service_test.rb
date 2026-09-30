@@ -163,4 +163,70 @@ class OnlineCompetitionsServiceTest < ActiveSupport::TestCase
     record = results.first
     assert_in_delta 2847, record.result, 1
   end
+
+  test 'Head-up speed competition scores head-up jumps' do
+    competition = virtual_competitions(:head_up_speed)
+    track = create_speed_skydiving_track
+    attach_sensor_data(track, freefall: [0.05, 0.1, 0.99])
+
+    OnlineCompetitionsService.score_track(track)
+
+    results = competition.results.where(track: track)
+    assert_equal 1, results.count
+    assert_in_delta 411, results.first.result, 1
+  end
+
+  test 'Head-up speed competition skips head-down jumps' do
+    competition = virtual_competitions(:head_up_speed)
+    track = create_speed_skydiving_track
+    attach_sensor_data(track, freefall: [0.05, 0.1, -0.99])
+
+    OnlineCompetitionsService.score_track(track)
+
+    assert_equal 0, competition.results.where(track: track).count
+    assert_equal 1, virtual_competitions(:speed_skydiving).results.where(track: track).count
+  end
+
+  test 'Head-up speed competition skips tracks without sensor data' do
+    competition = virtual_competitions(:head_up_speed)
+    track = create_speed_skydiving_track
+
+    OnlineCompetitionsService.score_track(track)
+
+    assert_equal 0, competition.results.where(track: track).count
+  end
+
+  private
+
+  def create_speed_skydiving_track
+    create_track_from_file(
+      'speed_skydiving_411.csv',
+      kind: :speed_skydiving,
+      suit: nil,
+      recorded_at: Date.parse('2024-01-01')
+    )
+  end
+
+  def attach_sensor_data(track, freefall:, canopy: [0.0, 0.0, 1.0])
+    start = track.exited_at.to_f - 30
+    rows = sensor_header(start)
+    (0..(track.deployed_at.to_f + 90 - start)).step(0.2).each do |time|
+      vector = start + time < track.deployed_at.to_f ? freefall : canopy
+      rows << "$IMU,#{format('%.3f', time)},0,0,0,#{vector.join(',')},20.0"
+    end
+
+    track.track_file.sensor_file.attach(io: StringIO.new(rows.join("\n")), filename: 'SENSOR.CSV')
+  end
+
+  def sensor_header(start)
+    gps_seconds = start - SensorParser::Flysight2::GPS_EPOCH + SensorParser::Flysight2::GPS_UTC_LEAP_SECONDS
+    week, tow = gps_seconds.divmod(SensorParser::Flysight2::SECONDS_IN_WEEK)
+
+    [
+      '$COL,IMU,time,wx,wy,wz,ax,ay,az,temperature',
+      '$COL,TIME,time,tow,week',
+      '$DATA',
+      "$TIME,0.000,#{format('%.3f', tow)},#{week}"
+    ]
+  end
 end

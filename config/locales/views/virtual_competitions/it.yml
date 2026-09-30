@@ -35,6 +35,7 @@ it:
     badges:
       speed: Velocità
       vertical_speed: Velocità
+      head_up_speed: Velocità head-up
       distance: Distanza
       distance_in_time: "Distanza · %{parameter} sec"
       distance_in_altitude: "Distanza · %{parameter} m"
@@ -62,6 +63,7 @@ it:
     navbar:
       overall: Generale
     tasks:
+      head_up_speed: "L'obiettivo è raggiungere la massima velocità verticale, mediata sui 3 secondi più veloci nella finestra di punteggio, in posizione a testa in su. Carica TRACK.CSV insieme a SENSOR.CSV del FlySight 2"
       speed: L'obbiettivo è di volare con la maggior velocità orizzontale possibile, misurata rispetto al terreno, attraverso la finestra di competizione (3000 - 2000 m e tra 2500 - 1500 metri a partire da Gennaio 2020)
       distance: L'obbiettivo è di volare più distante possibile attraverso la finestra di competizione (3000 - 2000 m e tra 2500 - 1500 metri a partire da Gennaio 2020)
       distance_in_time: L'obbiettivo è di volare il più distante possibile in un periodo di tempo di %{parameter} sec

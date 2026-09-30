@@ -35,6 +35,7 @@ de:
     badges:
       speed: Geschwindigkeit
       vertical_speed: Geschwindigkeit
+      head_up_speed: Head-up-Geschwindigkeit
       distance: Distanz
       distance_in_time: "Distanz · %{parameter} Sek"
       distance_in_altitude: "Distanz · %{parameter} m"
@@ -58,6 +59,7 @@ de:
       rank_down: "↓%{change} seit letzter Woche"
       rank_new: "Neu diese Woche"
     tasks:
+      head_up_speed: "Aufgabe ist es, in Kopf-oben-Position die höchste vertikale Geschwindigkeit zu erreichen, gemittelt über die schnellsten 3 Sekunden im Wertungsfenster. Lade TRACK.CSV zusammen mit SENSOR.CSV vom FlySight 2 hoch"
       speed: Aufgabe ist es, horizontal so schnell wie möglich durch das Wettkampffenster (3000 - 2000 m bzw. seit Januar 2020 2500 - 1500 m) zu fliegen.
       distance: Aufgabe ist es, innerhalb des Wettkampffensters (3000 - 2000 m bzw. seit Januar 2020 2500 - 1500 m) so weit wie möglich zu fliegen bzw. die größtmögliche Strecke über Grund zurückzulegen.
       straightline_distance_in_time: Aufgabe ist es, innerhalb von %{parameter} Sekunden so weit wie möglich zu fliegen bzw. die größtmögliche Strecke über Grund zurückzulegen. 

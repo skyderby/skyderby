@@ -45,12 +45,15 @@ es:
     badges:
       speed: Velocidad
       vertical_speed: Velocidad
+      head_up_speed: Velocidad head-up
       distance: Distancia
       distance_in_time: "Distancia · %{parameter} seg"
       distance_in_altitude: "Distancia · %{parameter} m"
       time: Tiempo
       flare: Flare
       base_race: Base Race
+    tasks:
+      head_up_speed: "El objetivo es alcanzar la mayor velocidad vertical, promediada en los 3 segundos más rápidos dentro de la ventana de puntuación, en posición cabeza arriba. Sube TRACK.CSV junto con SENSOR.CSV del FlySight 2"
     show:
       jump_kinds:
         all: Todos

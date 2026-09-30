@@ -60,8 +60,9 @@
     <div class="grid">
       <label class="form-label col-4"><%= t('activerecord.attributes.track_file.file') %></label>
       <div class="col-8">
-        <%= f.file_field :file, class: 'form-input', accept: '.csv,.gpx,.tes,.kml' %>
+        <%= f.file_field :files, multiple: true, class: 'form-input', accept: '.csv,.gpx,.tes,.kml' %>
         <div class="form-hint"><%= t('static_pages.index.track_form.help') %></div>
+        <div class="form-hint"><%= t('static_pages.index.track_form.sensor_help') %></div>
       </div>
     </div>
 
