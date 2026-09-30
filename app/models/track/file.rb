@@ -11,6 +11,7 @@ class Track::File < ApplicationRecord
   include HasAttachments
 
   EXTENSIONS = %w[csv gpx tes kml].freeze
+  MAX_SENSOR_FILE_SIZE = 50.megabytes
 
   attr_accessor :track_attributes
 
@@ -24,7 +25,7 @@ class Track::File < ApplicationRecord
 
   validates :file, presence: true
   validates_attachment :file, max_size: 3.megabytes, extensions: EXTENSIONS
-  validates_attachment :sensor_file, max_size: 50.megabytes, extensions: %w[gz]
+  validates_attachment :sensor_file, extensions: %w[gz]
   validate :validate_files_selection
   validate :validate_sensor_file_pairing
 
@@ -58,6 +59,9 @@ class Track::File < ApplicationRecord
   private
 
   def sensor_upload=(upload)
+    @sensor_file_too_large = upload.size > MAX_SENSOR_FILE_SIZE
+    return if @sensor_file_too_large
+
     content = upload.read
     @sensor_session_id = SensorParser::Flysight2.session_id(StringIO.new(content))
     self.sensor_file = {
@@ -72,6 +76,9 @@ class Track::File < ApplicationRecord
 
     errors.add(:file, :multiple_tracks) if @selected_files_count[:track] > 1
     errors.add(:sensor_file, :multiple_sensors) if @selected_files_count[:sensor] > 1
+    return unless @sensor_file_too_large
+
+    errors.add(:sensor_file, :file_too_large, size: ActiveSupport::NumberHelper.number_to_human_size(MAX_SENSOR_FILE_SIZE))
   end
 
   def validate_sensor_file_pairing

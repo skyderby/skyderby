@@ -62,6 +62,16 @@ class Track::FileTest < ActiveSupport::TestCase
     assert_not_empty track_file.errors.where(:sensor_file, :session_mismatch)
   end
 
+  test 'is invalid with too large sensor file' do
+    sensor = fixture('fs2-sensor.csv')
+    sensor.define_singleton_method(:size) { Track::File::MAX_SENSOR_FILE_SIZE + 1 }
+    track_file = Track::File.new(files: [fixture('fs2-track.csv'), sensor])
+
+    assert_not track_file.valid?
+    assert_not_empty track_file.errors.where(:sensor_file, :file_too_large)
+    assert_not_predicate track_file.sensor_file, :attached?
+  end
+
   private
 
   def fixture(name) = File.open(file_fixture("tracks/#{name}"))

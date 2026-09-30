@@ -17,6 +17,13 @@ class CreateTrackTest < ApplicationSystemTestCase
     assert_selector 'a.page-tab-active', text: I18n.t('tracks.show.charts').upcase
   end
 
+  test 'Flysight2 track with sensor file' do
+    upload_track 'fs2-track.csv', 'fs2-sensor.csv'
+
+    assert_selector 'a.page-tab-active', text: I18n.t('tracks.show.charts').upcase
+    assert_predicate Track.last.track_file.sensor_file, :attached?
+  end
+
   test 'Columbus file' do
     upload_track 'columbus.csv'
 
@@ -56,7 +63,7 @@ class CreateTrackTest < ApplicationSystemTestCase
     assert_selector 'a.page-tab-active', text: I18n.t('tracks.show.charts').upcase
   end
 
-  def upload_track(file_name)
+  def upload_track(*file_names)
     visit root_path
     click_button I18n.t('application.header.upload_track')
     assert_selector '.dialog-title', text: I18n.t('static_pages.index.track_form.title')
@@ -67,14 +74,14 @@ class CreateTrackTest < ApplicationSystemTestCase
 
       fill_in 'track_file[track_attributes][location]', with: 'Africa'
 
-      fill_track_file file_name
+      fill_track_file file_names
 
       click_button I18n.t('static_pages.index.track_form.submit')
     end
   end
 
-  def fill_track_file(file_name)
-    file = file_fixture("tracks/#{file_name}")
-    attach_file 'track_file[file]', file, make_visible: true
+  def fill_track_file(file_names)
+    files = file_names.map { |file_name| file_fixture("tracks/#{file_name}") }
+    attach_file 'track_file[files][]', files, make_visible: true
   end
 end

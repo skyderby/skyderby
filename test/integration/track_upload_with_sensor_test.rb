@@ -4,7 +4,7 @@ class TrackUploadWithSensorTest < ActionDispatch::IntegrationTest
   test 'uploads FlySight 2 track together with sensor file' do
     sign_in users(:regular_user)
 
-    assert_enqueued_with(job: SensorSamplesJob) do
+    assert_enqueued_jobs 1, only: OnlineCompetitionJob do
       upload_track_with_sensor
     end
 
