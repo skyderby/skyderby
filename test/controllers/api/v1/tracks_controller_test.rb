@@ -248,6 +248,26 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
     assert_predicate response.parsed_body['errors'], :present?
   end
 
+  test '#update ignores disqualification from non admins' do
+    @track.update!(owner: @user, disqualified_from_online_competitions: true)
+
+    patch api_v1_track_path(@track),
+          params: { disqualifiedFromOnlineCompetitions: false },
+          headers: bearer(:regular_user_write)
+
+    assert_response :success
+    assert @track.reload.disqualified_from_online_competitions
+  end
+
+  test '#update lets admins change disqualification' do
+    patch api_v1_track_path(@track),
+          params: { disqualifiedFromOnlineCompetitions: true },
+          headers: bearer(:admin_write)
+
+    assert_response :success
+    assert @track.reload.disqualified_from_online_competitions
+  end
+
   test '#update requires write scope' do
     @track.update!(owner: @user)
 

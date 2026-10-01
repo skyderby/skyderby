@@ -60,4 +60,16 @@ class Api::V1::PerformanceCompetitionsControllerTest < ActionDispatch::Integrati
 
     assert_response :not_modified
   end
+
+  test '#show changes etag when a reference point changes' do
+    get api_v1_performance_competition_path(@event)
+    etag = response.headers['ETag']
+
+    travel 1.minute do
+      @event.reference_points.create!(name: 'Exit', latitude: 61.0, longitude: 7.0)
+    end
+    get api_v1_performance_competition_path(@event), headers: { 'If-None-Match' => etag }
+
+    assert_response :success
+  end
 end

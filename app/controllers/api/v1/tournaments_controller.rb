@@ -14,7 +14,12 @@ module Api
           .find(params[:id])
         raise ActiveRecord::RecordNotFound unless @tournament.viewable?
 
-        fresh_when etag: [@tournament, @tournament.competitors.map(&:updated_at).max, @tournament.rounds.exists?]
+        fresh_when etag: [
+          @tournament,
+          @tournament.competitors.map(&:updated_at).max,
+          @tournament.competitors.size,
+          @tournament.rounds.exists?
+        ]
       end
     end
   end

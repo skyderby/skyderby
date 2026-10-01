@@ -22,7 +22,10 @@ module Api
         end
 
         def show_params
-          params.permit(:freq_1Hz, trimmed: {}).to_h.symbolize_keys
+          permitted = params.permit(:freq_1_hz, trimmed: {}).to_h.symbolize_keys
+          return permitted unless permitted.key?(:freq_1_hz)
+
+          permitted.merge(freq_1hz: ActiveModel::Type::Boolean.new.cast(permitted.delete(:freq_1_hz)))
         end
 
         def default_options

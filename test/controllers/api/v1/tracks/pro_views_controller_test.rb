@@ -14,9 +14,17 @@ class Api::V1::Tracks::ProViewsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+  test '#create requires write scope' do
+    assert_no_difference -> { FreeProView.count } do
+      post api_v1_track_pro_view_path(@track), headers: bearer(:regular_user_read)
+    end
+
+    assert_response :forbidden
+  end
+
   test '#create grants free pro view' do
     assert_difference -> { FreeProView.where(user: @user).count }, 1 do
-      post api_v1_track_pro_view_path(@track), headers: bearer(:regular_user_read)
+      post api_v1_track_pro_view_path(@track), headers: bearer(:regular_user_write)
     end
 
     assert_response :success
@@ -31,7 +39,7 @@ class Api::V1::Tracks::ProViewsControllerTest < ActionDispatch::IntegrationTest
   test '#create reports already granted track' do
     FreeProView.create!(user: @user, track: @track)
 
-    post api_v1_track_pro_view_path(@track), headers: bearer(:regular_user_read)
+    post api_v1_track_pro_view_path(@track), headers: bearer(:regular_user_write)
 
     assert_equal 'already', response.parsed_body['status']
   end
@@ -41,7 +49,7 @@ class Api::V1::Tracks::ProViewsControllerTest < ActionDispatch::IntegrationTest
       FreeProView.create!(user: @user, track:)
     end
 
-    post api_v1_track_pro_view_path(@track), headers: bearer(:regular_user_read)
+    post api_v1_track_pro_view_path(@track), headers: bearer(:regular_user_write)
 
     body = response.parsed_body
     assert_equal 'limit_reached', body['status']

@@ -120,7 +120,7 @@ class TracksController < ApplicationController
   end
 
   def track_params
-    params.require(:track).permit(
+    permitted = params.require(:track).permit(
       :name,
       :kind,
       :location,
@@ -140,6 +140,7 @@ class TracksController < ApplicationController
       :profile_id,
       :disqualified_from_online_competitions
     )
+    current_user.admin? ? permitted : permitted.except(:disqualified_from_online_competitions)
   end
 
   def index_params

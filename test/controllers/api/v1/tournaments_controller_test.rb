@@ -19,6 +19,18 @@ class Api::V1::TournamentsControllerTest < ActionDispatch::IntegrationTest
     assert_not body['competitors'].first['isDisqualified']
   end
 
+  test '#show changes etag when an older competitor is deleted' do
+    tournament = tournaments(:world_base_race)
+    older = tournament.competitors.create!(profile: profiles(:john), suit: suits(:apache), updated_at: 1.day.ago)
+    get api_v1_tournament_path(tournament)
+    etag = response.headers['ETag']
+
+    older.delete
+    get api_v1_tournament_path(tournament), headers: { 'If-None-Match' => etag }
+
+    assert_response :success
+  end
+
   test '#show hides private tournaments from non participants' do
     tournaments(:world_base_race).update_column(:visibility, :private_event)
 

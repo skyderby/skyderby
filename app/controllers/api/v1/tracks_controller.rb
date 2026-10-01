@@ -38,6 +38,7 @@ module Api
         create_track
         render :show, status: :created
       rescue ActiveRecord::RecordNotUnique
+        @track_file&.destroy
         @track = existing_client_track
         render :show
       rescue CreateTrackService::MissingActivityData
@@ -96,7 +97,7 @@ module Api
       end
 
       def track_params
-        params.fetch(:track, params).permit(
+        permitted = params.fetch(:track, params).permit(
           :name,
           :kind,
           :location,
@@ -110,6 +111,7 @@ module Api
           :visibility,
           :disqualified_from_online_competitions
         )
+        current_user.admin? ? permitted : permitted.except(:disqualified_from_online_competitions)
       end
 
       def index_params

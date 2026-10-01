@@ -2,6 +2,7 @@ module Api
   module V1
     module Tracks
       class ProViewsController < Api::ApplicationController
+        before_action -> { doorkeeper_authorize! :write }
         before_action :require_registered_user!
 
         def create

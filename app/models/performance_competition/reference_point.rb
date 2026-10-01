@@ -3,7 +3,7 @@ class PerformanceCompetition::ReferencePoint < ApplicationRecord
 
   include CsvImportable
 
-  belongs_to :event
+  belongs_to :event, class_name: 'PerformanceCompetition', touch: true
   has_many :assignments, class_name: 'PerformanceCompetition::ReferencePointAssignment', dependent: :restrict_with_error
   validate :restrict_update_if_assigned_to_competitors
 
