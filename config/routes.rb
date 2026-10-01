@@ -2,6 +2,7 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
 Skyderby::Application.routes.draw do
+  get '/.well-known/apple-app-site-association', to: 'apple_app_site_associations#show', as: :apple_app_site_association
   mount ActionCable.server, at: '/cable'
 
   use_doorkeeper
