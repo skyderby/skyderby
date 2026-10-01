@@ -12,10 +12,31 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  check:
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    outputs:
+      latest: ${{ steps.head.outputs.latest }}
+    steps:
+      - name: Skip commits superseded on main
+        id: head
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+        run: |
+          main_sha=$(gh api repos/${{ github.repository }}/commits/main --jq .sha)
+          if [ "$main_sha" = "$SHA" ]; then
+            echo "latest=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Skipping deploy of $SHA, main is at $main_sha"
+            echo "latest=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy:
+    needs: check
+    if: needs.check.outputs.latest == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment: production
