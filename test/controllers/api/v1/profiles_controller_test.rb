@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Api::V1::ProfilesControllerTest < ActionDispatch::IntegrationTest
+  include ApiAuthHelper
+
   setup do
     @profile = profiles(:alex)
   end
@@ -13,6 +15,7 @@ class Api::V1::ProfilesControllerTest < ActionDispatch::IntegrationTest
         id: @profile.id,
         name: @profile.name,
         countryId: nil,
+        gender: @profile.gender,
         countryCode: nil,
         tracksCount: { skydive: 0, base: 0, speedSkydiving: 0 },
         contributor: false,
@@ -44,5 +47,25 @@ class Api::V1::ProfilesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_kind_of Array, response.parsed_body['items']
+  end
+
+  test '#update lets the owner change name, country and gender' do
+    profile = profiles(:regular_user)
+
+    patch api_v1_profile_url(profile),
+          params: { profile: { name: 'New Name', country_id: countries(:norway).id, gender: 'female' } },
+          headers: bearer(:regular_user_write)
+
+    assert_response :success
+    assert_equal 'New Name', profile.reload.name
+    assert_equal countries(:norway), profile.country
+    assert_equal 'female', response.parsed_body['gender']
+  end
+
+  test '#update forbids editing someone else\'s profile' do
+    patch api_v1_profile_url(profiles(:admin)), params: { profile: { name: 'Nope' } },
+                                                headers: bearer(:regular_user_write)
+
+    assert_response :forbidden
   end
 end

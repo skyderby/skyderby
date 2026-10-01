@@ -1,6 +1,6 @@
 json.key_format! camelize: :lower
 
-json.extract! @profile, :id, :name, :country_id
+json.extract! @profile, :id, :name, :country_id, :gender
 json.country_code @profile.country&.code
 json.tracks_count do
   json.skydive @track_counts['skydive'].to_i

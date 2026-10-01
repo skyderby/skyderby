@@ -6,6 +6,11 @@ json.profile do
   json.extract! dashboard.profile, :id, :name
   json.country_code dashboard.country&.code
   json.country_name dashboard.country&.name
+  json.country_id dashboard.country&.id
+  json.gender dashboard.profile.gender
+  json.editable current_user.registered? && dashboard.profile.editable?(current_user)
+  json.impersonatable current_user.registered? && current_user.admin? && impersonation.nil? &&
+                      dashboard.profile.owner_type == 'User' && dashboard.profile.owner_id != current_user.id
   json.photo { json.partial! 'api/v1/profiles/photo', profile: dashboard.profile }
 end
 
@@ -28,17 +33,21 @@ if dashboard.any_modes?
   json.competitions dashboard.competitions, partial: 'api/v1/dashboards/competition', as: :entry
   json.live_competitions dashboard.live_competitions, partial: 'api/v1/dashboards/live_competition', as: :entry
 
-  recent_tracks = dashboard.recent_tracks.includes(:video, pilot: %i[country owner], suit: :manufacturer,
-                                                           place: :country)
-  json.recent_tracks recent_tracks,
-                     partial: 'api/v1/tracks/track', as: :track
+  if @public_overview
+    json.recent_tracks []
+  else
+    recent_tracks = dashboard.recent_tracks.includes(:video, pilot: %i[country owner], suit: :manufacturer,
+                                                             place: :country)
+    json.recent_tracks recent_tracks,
+                       partial: 'api/v1/tracks/track', as: :track
+  end
 
   json.badges dashboard.badges do |badge|
     json.extract! badge, :id, :name, :category, :kind, :comment
     json.achieved_at badge.achieved_at&.iso8601
   end
 
-  if dashboard.current_mode == :base
+  if dashboard.current_mode == :base && !@public_overview
     json.exit_performances dashboard.exit_performances, partial: 'api/v1/dashboards/exit_performance', as: :performance
   else
     json.exit_performances []
