@@ -36,7 +36,6 @@ gem 'kaminari'
 
 # Template engines
 gem 'jbuilder', '~> 2.6'
-gem 'kramdown'
 
 # Files attachments
 gem 'aws-sdk-s3'
