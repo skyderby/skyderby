@@ -87,6 +87,7 @@ class VirtualCompetitionsController < ApplicationController
       :discipline,
       :discipline_parameter,
       :display_on_start_page,
+      :featured,
       :display_highest_speed,
       :display_highest_gr,
       :default_view

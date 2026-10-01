@@ -1,6 +1,5 @@
 fr:
   terrain_profiles:
-    draft: "Brouillon"
     index:
       title: "Profils de terrain"
       shared: "Publics"

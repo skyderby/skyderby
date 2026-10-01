@@ -22,10 +22,6 @@
 
   <% if terrain_profile.removable_by? %>
     <span class="terrain-profile-item-actions">
-      <% unless terrain_profile.published? %>
-        <span class="pill pill-blue-gray"><%= t('terrain_profiles.draft') %></span>
-      <% end %>
-
       <div class="terrain-profile-item-menu" data-controller="dropdown">
         <button class="dropdown-toggle button button--ghost button--sm"
                 popovertarget="<%= menu_id %>"

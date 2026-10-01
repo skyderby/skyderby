@@ -28,7 +28,9 @@ if dashboard.any_modes?
   json.competitions dashboard.competitions, partial: 'api/v1/dashboards/competition', as: :entry
   json.live_competitions dashboard.live_competitions, partial: 'api/v1/dashboards/live_competition', as: :entry
 
-  json.recent_tracks dashboard.recent_tracks.includes(:video, pilot: :country, suit: :manufacturer, place: :country),
+  recent_tracks = dashboard.recent_tracks.includes(:video, pilot: %i[country owner], suit: :manufacturer,
+                                                           place: :country)
+  json.recent_tracks recent_tracks,
                      partial: 'api/v1/tracks/track', as: :track
 
   json.badges dashboard.badges do |badge|

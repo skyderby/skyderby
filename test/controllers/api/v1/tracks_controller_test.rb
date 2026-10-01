@@ -31,7 +31,9 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
     item = response.parsed_body['items'].find { |track| track['id'] == @track.id }
     assert_equal 'base', item['kind']
     assert_equal 'public_track', item['visibility']
-    assert_equal({ 'id' => profiles(:regular_user).id, 'name' => 'Regular user', 'countryCode' => nil }, item['pilot'])
+    pilot = { 'id' => profiles(:regular_user).id, 'name' => 'Regular user', 'countryCode' => nil,
+              'contributor' => false }
+    assert_equal pilot, item['pilot']
     assert_equal 'Hellesylt', item.dig('place', 'name')
     assert_equal 'NOR', item.dig('place', 'countryCode')
     assert_equal({ 'distance' => nil, 'speed' => nil, 'time' => nil }, item['results'])
@@ -141,6 +143,32 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
     track = Track.find(response_json['id'])
     assert_equal @user, track.owner
     assert_equal 'skydive', track.kind
+  end
+
+  test '#create stores a FlySight 2 sensor file next to the track' do
+    post api_v1_tracks_path,
+         params: {
+           file: fixture_file_upload('tracks/fs2-track.csv'),
+           sensor_file: fixture_file_upload('tracks/fs2-sensor.csv'),
+           kind: 'speed_skydiving'
+         },
+         headers: bearer(:regular_user_write)
+
+    assert_response :created
+    track_file = Track.find(response.parsed_body['id']).track_file
+    assert_equal 'fs2-track.csv', track_file.file.filename.to_s
+    assert_equal 'fs2-sensor.csv.gz', track_file.sensor_file.filename.to_s
+  end
+
+  test '#create rejects a sensor file from another session' do
+    post api_v1_tracks_path,
+         params: {
+           file: fixture_file_upload('tracks/one_track.gpx', 'application/gpx+xml'),
+           sensor_file: fixture_file_upload('tracks/fs2-sensor.csv')
+         },
+         headers: bearer(:regular_user_write)
+
+    assert_response :unprocessable_content
   end
 
   test '#create is idempotent by client uuid' do

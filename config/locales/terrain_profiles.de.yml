@@ -1,6 +1,5 @@
 de:
   terrain_profiles:
-    draft: "Entwurf"
     index:
       title: "Geländeprofile"
       shared: "Öffentlich"

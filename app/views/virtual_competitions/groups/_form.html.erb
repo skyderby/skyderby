@@ -6,6 +6,15 @@
     </div>
   </div>
 
+  <div class="form-row">
+    <div class="col-sm-offset-2 col-sm-5">
+      <label class="form-checkbox">
+        <%= f.check_box :featured %>
+        Combined scoreboard featured in the app by default
+      </label>
+    </div>
+  </div>
+
   <div class="col-sm-offset-2 col-sm-5">
     <%= f.submit nil, class: 'button button--primary' %>
     <%= link_to t('general.cancel'), virtual_competition_groups_path, class: 'button' %>

@@ -1,6 +1,5 @@
 en:
   terrain_profiles:
-    draft: "Draft"
     index:
       title: "Terrain profiles"
       shared: "Public"

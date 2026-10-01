@@ -1,6 +1,5 @@
 it:
   terrain_profiles:
-    draft: "Bozza"
     index:
       title: "Profili del terreno"
       shared: "Pubblici"

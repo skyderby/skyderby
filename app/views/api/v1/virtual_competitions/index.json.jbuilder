@@ -13,6 +13,7 @@ json.sections sections do |section|
     json.id group.id
     json.name group.name
     json.competitions_count group.size
+    json.featured group.featured
 
     if group.combined_scoreboard?
       json.combined do

@@ -27,6 +27,17 @@ class Api::V1::VirtualCompetitionsControllerTest < ActionDispatch::IntegrationTe
     assert_equal 'Cumulative - Wingsuit distance', competition['title']
   end
 
+  test '#index exposes featured flags for competitions and groups' do
+    @competition.update!(featured: true)
+    @competition.group.update!(featured: true)
+
+    get api_v1_virtual_competitions_url
+
+    group = response.parsed_body['sections'].first['groups'].find { |g| g['id'] == @competition.group_id }
+    assert group['featured']
+    assert(group['competitions'].find { |c| c['id'] == @competition.id }['featured'])
+  end
+
   test '#index includes archived section on request' do
     get api_v1_virtual_competitions_url(include_archived: 'true')
 

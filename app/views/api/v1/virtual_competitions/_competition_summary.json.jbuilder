@@ -11,4 +11,5 @@ json.icon competition_icon(competition)
 json.location competition_location(competition)
 json.worldwide competition.worldwide?
 json.finished competition.finished?
+json.featured competition.featured
 json.athlete_count athlete_count

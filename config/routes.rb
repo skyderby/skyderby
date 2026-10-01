@@ -117,7 +117,12 @@ Skyderby::Application.routes.draw do
       end
       resource :dashboard, only: %i[show update]
       resources :places, only: :show
-      resources :terrain_profiles, only: %i[index show create update destroy]
+      resources :terrain_profiles, only: %i[index show create update destroy] do
+        scope module: :terrain_profiles do
+          resources :shares, only: %i[index create destroy]
+        end
+      end
+      resources :users, only: :index
       resources :suits, only: %i[index show]
       resources :manufacturers, only: :show
       resources :sync, only: :show, param: :resource

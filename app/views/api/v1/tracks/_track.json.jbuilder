@@ -8,6 +8,7 @@ if track.pilot
   json.pilot do
     json.extract! track.pilot, :id, :name
     json.country_code track.pilot.country&.code
+    json.contributor track.pilot.contributor?
   end
 else
   json.pilot nil

@@ -1,6 +1,5 @@
 es:
   terrain_profiles:
-    draft: "Borrador"
     index:
       title: "Perfiles de terreno"
       shared: "Públicos"

@@ -1,6 +1,5 @@
 ru:
   terrain_profiles:
-    draft: "Черновик"
     index:
       title: "Профили рельефа"
       shared: "Общие"

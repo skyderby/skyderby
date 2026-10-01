@@ -17,7 +17,7 @@ module Api
                      .sorted(*order_params)
                      .includes(
                        :video, :distance, :speed, :time,
-                       place: :country, pilot: :country, suit: :manufacturer
+                       place: :country, pilot: %i[country owner], suit: :manufacturer
                      )
                      .page(page)
                      .per(per_page)
@@ -32,7 +32,7 @@ module Api
         @track = existing_client_track
         return render :show if @track
 
-        @track_file = Track::File.new(file: params[:file])
+        @track_file = Track::File.new(files: [params[:file], params[:sensor_file]].compact_blank)
         return render_errors(@track_file.errors.full_messages, status: :unprocessable_content) unless @track_file.save
 
         create_track

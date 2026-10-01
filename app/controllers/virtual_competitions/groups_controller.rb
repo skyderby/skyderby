@@ -71,7 +71,7 @@ module VirtualCompetitions
     end
 
     def group_params
-      params.require(:virtual_competition_group).permit(:name, :display_on_start_page)
+      params.require(:virtual_competition_group).permit(:name, :display_on_start_page, :featured)
     end
   end
 end
