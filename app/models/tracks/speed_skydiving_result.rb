@@ -4,8 +4,9 @@ class Tracks::SpeedSkydivingResult
 
   delegate :id, to: :track, prefix: true
 
-  def initialize(track)
+  def initialize(track, range_filter: nil)
     @track = track
+    @range_filter = range_filter
   end
 
   def scored? = !best_range.nil?
@@ -44,7 +45,7 @@ class Tracks::SpeedSkydivingResult
 
   private
 
-  attr_reader :track
+  attr_reader :track, :range_filter
 
   def scoring = @scoring ||= SpeedSkydivingCompetition::ResultScore.new(track)
 
@@ -57,6 +58,6 @@ class Tracks::SpeedSkydivingResult
   def best_range
     return @best_range if defined?(@best_range)
 
-    @best_range = scoring.calculate
+    @best_range = scoring.calculate(&range_filter)
   end
 end

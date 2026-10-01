@@ -71,6 +71,7 @@ class Track < ApplicationRecord
           dependent: :destroy
 
   has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all, inverse_of: :track
+  has_many :sensor_samples, class_name: 'Track::SensorSample', dependent: :delete_all, inverse_of: :track
   has_many :results, dependent: :destroy
   has_many :virtual_competition_results,
            -> { wind_cancellation(false) },
@@ -135,6 +136,13 @@ class Track < ApplicationRecord
   def duration = (points.last.gps_time_in_seconds - points.first.gps_time_in_seconds).to_i
 
   def speed_skydiving_result = @speed_skydiving_result ||= Tracks::SpeedSkydivingResult.new(self)
+
+  def head_up_speed_result
+    @head_up_speed_result ||=
+      Tracks::SpeedSkydivingResult.new(self, range_filter: head_up_check.method(:head_up_range?))
+  end
+
+  def head_up_check = @head_up_check ||= Track::HeadUpCheck.new(self)
 
   def competitive? = event_result.present?
 

@@ -75,7 +75,7 @@ class ProViewTest < ApplicationSystemTestCase
       click_link I18n.t('tracks.form.toggle_suit_link')
       fill_in 'track_file[track_attributes][missing_suit_name]', with: 'Horus'
       fill_in 'track_file[track_attributes][location]', with: 'Africa'
-      attach_file 'track_file[file]', file_fixture("tracks/#{file_name}"), make_visible: true
+      attach_file 'track_file[files][]', file_fixture("tracks/#{file_name}"), make_visible: true
       click_button I18n.t('static_pages.index.track_form.submit')
     end
 

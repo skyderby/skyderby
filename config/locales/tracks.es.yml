@@ -1,5 +1,10 @@
 es:
   tracks:
+    speed_pro:
+      chart:
+        position_axis: "POSICIÓN  +90° cabeza arriba · 0° boca abajo · −90° cabeza abajo"
+      metrics:
+        position: Posición
     places:
       missing: "Ubicación no encontrada"
       new:

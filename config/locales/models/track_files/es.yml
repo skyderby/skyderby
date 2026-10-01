@@ -3,3 +3,14 @@ es:
     attributes:
       track_file:
         file: El archivo de la pista
+        sensor_file: "Archivo de sensores de FlySight 2"
+    errors:
+      models:
+        track_file:
+          attributes:
+            file:
+              multiple_tracks: "se seleccionaron varios archivos de pista, elige uno"
+            sensor_file:
+              multiple_sensors: "se seleccionaron varios archivos de sensores, elige uno"
+              requires_flysight2: "solo se puede subir junto con TRACK.CSV de FlySight 2"
+              session_mismatch: "pertenece a un salto distinto al del archivo de la pista"

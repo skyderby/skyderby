@@ -100,6 +100,7 @@ ru:
         kft_msl: kft MSL
         window_end: конец окна
         sep: SEP
+        position_axis: "ПОЛОЖЕНИЕ  +90° головой вверх · 0° на животе · −90° головой вниз"
       metrics:
         vspeed: Вертикальная скорость
         ceiling: Потолок
@@ -107,6 +108,7 @@ ru:
         altitude: Высота
         bc: BC m/CdA
         sep: SEP
+        position: Положение
       col_track: Трек
       col_comparison: Сравнение
       waterfall:

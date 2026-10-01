@@ -87,5 +87,6 @@ es:
         suit_plh: El modelo del traje aéreo
         location_plh: Zona de salto, montañas
         help: Los archivos se abren en los formatos csv, tes, gpx y kml
+        sensor_help: "Para las competiciones head-up selecciona a la vez TRACK.CSV y SENSOR.CSV del FlySight 2"
         comment_plh: Deje un comentario sobre tu vuelo
         submit: Descargar

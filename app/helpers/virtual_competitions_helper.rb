@@ -8,7 +8,8 @@ module VirtualCompetitionsHelper
       time: t('units.t_unit'),
       base_race: t('units.t_unit'),
       speed: t('units.kmh'),
-      vertical_speed: t('units.kmh')
+      vertical_speed: t('units.kmh'),
+      head_up_speed: t('units.kmh')
     }.with_indifferent_access
 
     untis_for_discipline[competition.discipline]
@@ -20,6 +21,7 @@ module VirtualCompetitionsHelper
       time: t('virtual_competitions.tasks.time'),
       speed: t('virtual_competitions.tasks.speed'),
       vertical_speed: t('virtual_competitions.tasks.vertical_speed'),
+      head_up_speed: t('virtual_competitions.tasks.head_up_speed'),
       flare: t('virtual_competitions.tasks.flare'),
       base_race: t('virtual_competitions.tasks.base_race'),
       distance_in_time:
@@ -67,7 +69,8 @@ module VirtualCompetitionsHelper
     'time' => 'stopwatch',
     'base_race' => 'flag',
     'speed' => 'gauge-high',
-    'vertical_speed' => 'gauge-high'
+    'vertical_speed' => 'gauge-high',
+    'head_up_speed' => 'gauge-high'
   }.freeze
 
   def competition_icon(competition)

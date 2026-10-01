@@ -35,7 +35,8 @@ class VirtualCompetition < ApplicationRecord
     distance_in_altitude: 4,
     flare: 5,
     base_race: 6,
-    vertical_speed: 7
+    vertical_speed: 7,
+    head_up_speed: 8
   }
   enum :default_view, { default_overall: 0, default_last_year: 1 }
 
@@ -57,6 +58,8 @@ class VirtualCompetition < ApplicationRecord
       'distance'
     elsif discipline == 'base_race'
       'time'
+    elsif discipline == 'head_up_speed'
+      'vertical_speed'
     else
       discipline
     end
@@ -71,7 +74,7 @@ class VirtualCompetition < ApplicationRecord
   def comparable_in_pro_view?
     return true if speed_skydiving?
 
-    !flare? && !vertical_speed?
+    !flare? && !vertical_speed? && !head_up_speed?
   end
 
   def jump_kind_filterable? = flare? && jumps_kind.nil?

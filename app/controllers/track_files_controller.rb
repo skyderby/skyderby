@@ -47,6 +47,7 @@ class TrackFilesController < ApplicationController
   def track_file_params
     params.require(:track_file).permit(
       :file,
+      files: [],
       track_attributes: [
         :name,
         :kind,

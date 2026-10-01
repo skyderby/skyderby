@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 import { differenceInMilliseconds } from 'utils/date'
 import I18n from 'i18n'
-import { fetchTrackPoints } from 'utils/tracks/trackData'
+import { fetchTrackPoints, fetchHeadPositions } from 'utils/tracks/trackData'
 import {
   saveSeriesVisibility,
   restoreSeriesVisibility,
@@ -20,6 +20,24 @@ const breakoffAltitude = 1707 // 5600 ft
 const windowHeight = 2256 // 7400 ft
 const validationWindowHeight = 1000
 const chartName = 'SpeedSkydivingCombinedChart'
+const positionsStorageKey = `${chartName}/head_position_panel`
+
+const readPositionsPreference = () => {
+  try {
+    return localStorage.getItem(positionsStorageKey) === 'true'
+  } catch {
+    return false
+  }
+}
+
+const savePositionsPreference = visible => {
+  try {
+    localStorage.setItem(positionsStorageKey, String(visible))
+    return true
+  } catch {
+    return false
+  }
+}
 
 const accuracySeries = (points, windowEndAltitude) => {
   const validationWindowStart = windowEndAltitude + validationWindowHeight
@@ -47,17 +65,85 @@ const accuracySeries = (points, windowEndAltitude) => {
   }
 }
 
+const positionSeries = (points, positions) => {
+  const startTime = points[0].gpsTime.getTime()
+  const data = []
+  let pointIndex = 0
+  let previousX = null
+
+  positions.forEach(position => {
+    const x = (new Date(position.gpsTime).getTime() - startTime) / 1000
+    while (
+      pointIndex < points.length - 1 &&
+      points[pointIndex + 1].flTime - points[0].flTime <= x
+    )
+      pointIndex++
+
+    if (previousX !== null && x - previousX > 1) data.push({ x, y: null })
+    data.push({
+      x,
+      y: position.pitch,
+      custom: {
+        altitude: Math.round(points[pointIndex].altitude),
+        tooltipValue: `${position.pitch > 0 ? '+' : ''}${Math.round(position.pitch)}°`
+      }
+    })
+    previousX = x
+  })
+
+  return {
+    name: I18n.t('tracks.speed_pro.metrics.position'),
+    custom: { code: 'head_position' },
+    type: 'line',
+    yAxis: 4,
+    color: '#7b4fb0',
+    lineWidth: 1.5,
+    data
+  }
+}
+
 export default class SpeedSkydivingChart extends Controller {
+  static targets = ['chart', 'positionsSwitch']
+
   connect() {
     this.trackId = this.element.getAttribute('data-track-id')
     this.result = Number(this.element.getAttribute('data-result'))
     this.exitAltitude = Number(this.element.getAttribute('data-exit-altitude'))
     this.windowStartTime = new Date(this.element.getAttribute('data-window-start'))
     this.windowEndTime = new Date(this.element.getAttribute('data-window-end'))
+    this.positionsUrl = this.element.getAttribute('data-positions-url')
+    this.showPositions = Boolean(this.positionsUrl) && readPositionsPreference()
+    if (this.hasPositionsSwitchTarget)
+      this.positionsSwitchTarget.checked = this.showPositions
 
-    this.fetchPoints(this.trackId)
-      .then(this.initChart.bind(this))
+    Promise.all([this.fetchPoints(this.trackId), this.loadPositions()])
+      .then(([data]) => {
+        this.trackData = data
+        this.render()
+      })
       .catch(error => console.error('Failed to load speed skydiving chart', error))
+  }
+
+  get chartElement() {
+    return this.hasChartTarget ? this.chartTarget : this.element
+  }
+
+  async loadPositions() {
+    if (!this.showPositions || this.positions) return
+    this.positions = await fetchHeadPositions(this.positionsUrl)
+  }
+
+  async togglePositions(event) {
+    this.showPositions = event.currentTarget.checked
+    savePositionsPreference(this.showPositions)
+    await this.loadPositions()
+    this.render()
+  }
+
+  render() {
+    if (!this.trackData) return
+    this.chartElement.chart?.destroy()
+    this.initChart(this.trackData, this.showPositions ? this.positions || [] : [])
   }
 
   fetchPoints(trackId) {
@@ -67,10 +153,12 @@ export default class SpeedSkydivingChart extends Controller {
     })
   }
 
-  initChart({ points, windCancellation }) {
+  initChart({ points, windCancellation }, positions = []) {
     const windowEndAltitude = Math.max(this.exitAltitude - windowHeight, breakoffAltitude)
 
     const plotLineValue = findPositionForAltitude(points, windowEndAltitude)
+    const hasPositions = positions.length > 0
+    const mainAxisHeight = hasPositions ? '76%' : '100%'
 
     const chartOptions = {
       chart: {
@@ -139,17 +227,20 @@ export default class SpeedSkydivingChart extends Controller {
           title: {
             text: I18n.t('charts.all_data.series.height')
           },
+          height: mainAxisHeight,
           tickInterval: 200
         },
         {
           title: {
             text: I18n.t('charts.all_data.axis.speed')
           },
+          height: mainAxisHeight,
           min: 0,
           gridLineWidth: 0,
           opposite: true
         },
         {
+          height: mainAxisHeight,
           min: 0,
           max: 7,
           startOnTick: false,
@@ -168,9 +259,25 @@ export default class SpeedSkydivingChart extends Controller {
           opposite: true
         },
         {
+          height: mainAxisHeight,
           min: 0,
           max: 50,
           visible: false
+        },
+        {
+          top: '80%',
+          height: '20%',
+          offset: 0,
+          min: -90,
+          max: 90,
+          tickPositions: [-90, 0, 90],
+          visible: hasPositions,
+          title: {
+            text: I18n.t('tracks.speed_pro.metrics.position')
+          },
+          labels: {
+            format: '{value}°'
+          }
         }
       ],
       tooltip: {
@@ -189,10 +296,11 @@ export default class SpeedSkydivingChart extends Controller {
         windCancellation && zeroWindSpeedSeries(points, { yAxis: 1 }),
         glideRatioSeries(points, { yAxis: 2 }),
         windCancellation && zeroWindGlideRatioSeries(points, { yAxis: 2 }),
-        accuracySeries(points, windowEndAltitude)
+        accuracySeries(points, windowEndAltitude),
+        hasPositions && positionSeries(points, positions)
       ].filter(Boolean)
     }
 
-    this.element.chart = Highcharts.chart(this.element, chartOptions)
+    this.chartElement.chart = Highcharts.chart(this.chartElement, chartOptions)
   }
 }

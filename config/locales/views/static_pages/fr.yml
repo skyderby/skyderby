@@ -87,5 +87,6 @@ fr:
         suit_plh: Combinaison
         location_plh: Quelques DZ, quelques falaises, etc
         help: Supporte les format csv (Columbus, FlySight), gpx, tes et kml
+        sensor_help: "Pour les compétitions head-up, sélectionnez ensemble TRACK.CSV et SENSOR.CSV du FlySight 2"
         comment_plh: Quelques mots à propos de votre vol
         submit: Télécharger

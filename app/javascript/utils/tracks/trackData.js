@@ -54,6 +54,15 @@ export const fetchTrackPoints = async (
 export const fetchTrackAltitude = async (url, { params = {} } = {}) =>
   requestJson(url, { params })
 
+export const fetchHeadPositions = async url => {
+  try {
+    const data = await requestJson(url)
+    return data.positions
+  } catch {
+    return []
+  }
+}
+
 export const fetchTrackWeather = async (url, { params = {} } = {}) => {
   try {
     return await requestJson(url, { params })

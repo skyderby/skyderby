@@ -3,3 +3,14 @@ fr:
     attributes:
       track_file:
         file: Fichier de l'enregistrement
+        sensor_file: "Fichier des capteurs FlySight 2"
+    errors:
+      models:
+        track_file:
+          attributes:
+            file:
+              multiple_tracks: "plusieurs fichiers d'enregistrement sont sélectionnés, choisissez-en un"
+            sensor_file:
+              multiple_sensors: "plusieurs fichiers de capteurs sont sélectionnés, choisissez-en un"
+              requires_flysight2: "ne peut être téléversé qu'avec le TRACK.CSV du FlySight 2"
+              session_mismatch: "provient d'un autre saut que le fichier d'enregistrement"

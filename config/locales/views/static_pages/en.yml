@@ -86,5 +86,6 @@ en:
         suit_plh: Wingsuit model
         location_plh: Some DZ, some cliffs, etc
         help: Supported csv (Columbus, FlySight), gpx, tes and kml format
+        sensor_help: "For head-up competitions select TRACK.CSV and SENSOR.CSV from FlySight 2 together"
         comment_plh: Share a few words about your flight
         submit: Upload

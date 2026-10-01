@@ -3,6 +3,7 @@ class OnlineCompetitionJob < ApplicationJob
     @track = Track.find_by(id: track_id)
     return unless @track
 
+    Track::SensorSample.import(@track)
     calculate_results
     send_verify_mail
   end

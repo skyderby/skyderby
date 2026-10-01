@@ -3,3 +3,14 @@ ru:
     attributes:
       track_file:
         file: Файл трека
+        sensor_file: "Файл сенсоров FlySight 2"
+    errors:
+      models:
+        track_file:
+          attributes:
+            file:
+              multiple_tracks: "выбрано несколько файлов трека, выберите один"
+            sensor_file:
+              multiple_sensors: "выбрано несколько файлов сенсоров, выберите один"
+              requires_flysight2: "можно загрузить только вместе с TRACK.CSV от FlySight 2"
+              session_mismatch: "относится к другому прыжку, чем файл трека"

@@ -98,6 +98,7 @@ en:
         kft_msl: kft MSL
         window_end: window end
         sep: SEP
+        position_axis: "POSITION  +90° head up · 0° belly · −90° head down"
       metrics:
         vspeed: Vertical speed
         ceiling: Ceiling
@@ -105,6 +106,7 @@ en:
         altitude: Altitude
         bc: BC m/CdA
         sep: SEP
+        position: Position
       col_track: Track
       col_comparison: Comparison
       waterfall:

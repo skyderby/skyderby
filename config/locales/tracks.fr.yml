@@ -1,5 +1,10 @@
 fr:
   tracks:
+    speed_pro:
+      chart:
+        position_axis: "POSITION  +90° tête en haut · 0° à plat ventre · −90° tête en bas"
+      metrics:
+        position: Position
     places:
       missing: "Lieu introuvable"
       new:

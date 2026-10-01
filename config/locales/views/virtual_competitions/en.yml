@@ -43,6 +43,7 @@ en:
     badges:
       speed: Speed
       vertical_speed: Speed
+      head_up_speed: Head-up speed
       distance: Distance
       distance_in_time: "Distance · %{parameter} sec"
       distance_in_altitude: "Distance · %{parameter} m"
@@ -62,6 +63,7 @@ en:
     navbar:
       overall: Overall
     tasks:
+      head_up_speed: "Task is to reach the highest vertical speed averaged over the fastest 3 seconds within the scoring window while flying head-up. Upload TRACK.CSV together with SENSOR.CSV from FlySight 2"
       speed: Task is to fly as fast as possible horizontally over the ground through the competition window 3000 - 2000 m and 2500 - 1500 m (starting Jan 2020)
       distance: Task is to fly as far as possible through the competition window 3000 - 2000 m and 2500 - 1500 m (starting Jan 2020)
       distance_in_time: Task is to fly as far as possible in %{parameter} sec

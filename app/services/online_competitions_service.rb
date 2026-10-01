@@ -28,6 +28,8 @@ class OnlineCompetitionsService
       score_flare
     elsif competition.vertical_speed?
       score_speed_skydiving
+    elsif competition.head_up_speed?
+      score_head_up_speed
     else
       score_performance
       score_performance_wind_cancelled if track.skydive?
@@ -38,9 +40,7 @@ class OnlineCompetitionsService
 
   attr_reader :track, :competition
 
-  def score_speed_skydiving
-    result = track.speed_skydiving_result
-
+  def score_speed_skydiving(result = track.speed_skydiving_result)
     return unless result.scored?
     return unless result.accuracy_valid?
 
@@ -48,6 +48,8 @@ class OnlineCompetitionsService
       track: track,
       result: result.result
   end
+
+  def score_head_up_speed = score_speed_skydiving(track.head_up_speed_result)
 
   def score_flare
     flares = Tracks::FlaresDetector.call(track_points)

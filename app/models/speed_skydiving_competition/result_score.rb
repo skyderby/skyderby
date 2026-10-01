@@ -8,8 +8,9 @@ class SpeedSkydivingCompetition::ResultScore
     @track = track
   end
 
-  def calculate
-    ranges.max_by { |range| range[:speed] }
+  def calculate(&)
+    candidates = block_given? ? ranges.select(&) : ranges
+    candidates.max_by { |range| range[:speed] }
   end
 
   def exit_altitude = exit_point&.dig(:altitude)

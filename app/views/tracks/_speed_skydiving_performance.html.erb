@@ -16,10 +16,16 @@
        data-tracks--speed-skydiving-pro-chart-track-name-value="<%= @track.pilot&.name || @track.name %>"
        data-tracks--speed-skydiving-pro-chart-window-end-value="<%= result.scoring_window_end_altitude_msl %>"
        data-tracks--speed-skydiving-pro-chart-charts-units-value="<%= Current.charts_units %>"
+       <% if @track.track_file&.sensor_file&.attached? %>
+       data-tracks--speed-skydiving-pro-chart-positions-url-value="<%= track_head_position_path(@track) %>"
+       <% end %>
        <% if @compare_track %>
        data-tracks--speed-skydiving-pro-chart-compare-points-url-value="<%= track_points_path(@compare_track, original_frequency: true, trimmed: { seconds_before_start: 5, seconds_after_end: 5 }) %>"
        data-tracks--speed-skydiving-pro-chart-compare-name-value="<%= @compare_track.pilot&.name || @compare_track.name %>"
        data-tracks--speed-skydiving-pro-chart-compare-window-end-value="<%= compare_result&.scoring_window_end_altitude_msl %>"
+       <% if @compare_track.track_file&.sensor_file&.attached? %>
+       data-tracks--speed-skydiving-pro-chart-compare-positions-url-value="<%= track_head_position_path(@compare_track) %>"
+       <% end %>
        <% end %>
   >
     <div class="card actions-bar speed-pro__actions">

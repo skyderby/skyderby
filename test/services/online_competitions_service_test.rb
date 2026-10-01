@@ -163,4 +163,64 @@ class OnlineCompetitionsServiceTest < ActiveSupport::TestCase
     record = results.first
     assert_in_delta 2847, record.result, 1
   end
+
+  test 'Head-up speed competition scores head-up jumps' do
+    competition = virtual_competitions(:head_up_speed)
+    track = create_speed_skydiving_track
+    attach_sensor_data(track) { [0.05, 0.1, 0.99] }
+
+    OnlineCompetitionsService.score_track(track)
+
+    results = competition.results.where(track: track)
+    assert_equal 1, results.count
+    assert_in_delta 411, results.first.result, 1
+  end
+
+  test 'Head-up speed competition skips head-down jumps' do
+    competition = virtual_competitions(:head_up_speed)
+    track = create_speed_skydiving_track
+    attach_sensor_data(track) { [0.05, 0.1, -0.99] }
+
+    OnlineCompetitionsService.score_track(track)
+
+    assert_equal 0, competition.results.where(track: track).count
+    assert_equal 1, virtual_competitions(:speed_skydiving).results.where(track: track).count
+  end
+
+  test 'Head-up speed competition ignores ranges flown on belly or head-down' do
+    competition = virtual_competitions(:head_up_speed)
+    track = create_speed_skydiving_track
+    best = track.speed_skydiving_result
+    belly = (best.window_start_time - 1)..(best.window_end_time + 1)
+    attach_sensor_data(track) { |time| belly.cover?(time) ? [0.99, 0.1, 0.05] : [0.05, 0.1, 0.99] }
+
+    OnlineCompetitionsService.score_track(track)
+
+    results = competition.results.where(track: track)
+    assert_equal 1, results.count
+    assert_operator results.first.result, :<, best.result
+
+    head_up = Track.find(track.id).head_up_speed_result
+    assert_not belly.overlap?(head_up.window_start_time..head_up.window_end_time)
+  end
+
+  test 'Head-up speed competition skips tracks without sensor data' do
+    competition = virtual_competitions(:head_up_speed)
+    track = create_speed_skydiving_track
+
+    OnlineCompetitionsService.score_track(track)
+
+    assert_equal 0, competition.results.where(track: track).count
+  end
+
+  private
+
+  def create_speed_skydiving_track
+    create_track_from_file(
+      'speed_skydiving_411.csv',
+      kind: :speed_skydiving,
+      suit: nil,
+      recorded_at: Date.parse('2024-01-01')
+    )
+  end
 end
