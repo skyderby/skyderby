@@ -11,7 +11,6 @@ class ApplicationController < ActionController::Base
   include ProtectFromForgery
   include Internationalization
 
-  include CurrentAnnouncements
   include OrderParams
 
   layout :layout_by_resource
