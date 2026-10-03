@@ -133,6 +133,7 @@ Skyderby::Application.routes.draw do
           resource :points, only: :show
           resource :point_series, only: :show
           resource :pro_view, only: :create
+          resource :place, only: %i[new create]
           resource :reference_point, only: %i[show update destroy]
           resource :results, only: :show
           resource :weather_data, only: :show
@@ -169,33 +170,103 @@ Skyderby::Application.routes.draw do
 
       resources :competitions, only: :index
 
-      resources :performance_competitions, only: :show do
+      resources :performance_competitions, only: %i[show create update] do
         scope module: :performance_competitions do
           resource :scoreboard, only: :show
           resource :open_scoreboard, only: :show
           resources :task_scoreboards, only: :show, param: :discipline
           resource :team_scoreboard, only: :show
-          resources :results, only: :show
+          resource :deletion, only: :create
+          resources :organizers, only: %i[create destroy]
+          resources :categories, only: %i[create update destroy] do
+            resource :position, only: :update, module: :categories
+          end
+          resources :competitors, only: %i[create update destroy]
+          resource :competitors_copy, only: :create
+          resource :results_copy, only: :create
+          resources :rounds, only: %i[create update destroy]
+          resources :results, only: %i[show create update destroy] do
+            scope module: :results do
+              resource :jump_range, only: :update
+              resource :penalty, only: :update
+              resource :validation, only: :update
+            end
+          end
+          resource :track_upload, only: :create
+          resources :reference_points, only: %i[create update destroy]
+          resource :reference_points_import, only: :create
+          resources :reference_point_assignments, only: :create
+          resources :teams, only: %i[create update destroy]
+          resources :lane_validations, only: :show
         end
       end
 
-      resources :boogies, only: :show do
-        resource :scoreboard, only: :show, module: :boogies
+      resources :boogies, only: %i[show create update] do
+        scope module: :boogies do
+          resource :scoreboard, only: :show
+          resource :deletion, only: :create
+          resources :organizers, only: %i[create destroy]
+          resources :categories, only: %i[create update destroy] do
+            resource :position, only: :update, module: :categories
+          end
+          resources :competitors, only: %i[create update destroy]
+          resources :rounds, only: %i[create destroy]
+          resources :results, only: %i[create update destroy] do
+            scope module: :results do
+              resource :jump_range, only: :update
+              resource :penalty, only: :update
+            end
+          end
+        end
       end
 
-      resources :speed_skydiving_competitions, only: :show do
+      resources :speed_skydiving_competitions, only: %i[show create update] do
         scope module: :speed_skydiving_competitions do
           resource :scoreboard, only: :show
           resource :open_scoreboard, only: :show
           resource :team_scoreboard, only: :show
-          resources :results, only: :show
+          resources :organizers, only: %i[create destroy]
+          resources :categories, only: %i[create update destroy] do
+            resource :position, only: :update, module: :categories
+          end
+          resources :competitors, only: %i[create update destroy]
+          resources :rounds, only: %i[create update destroy]
+          resources :results, only: %i[show create destroy] do
+            scope module: :results do
+              resource :jump_range, only: :update
+              resource :penalties, only: :update
+            end
+          end
+          resource :track_upload, only: :create
+          resources :teams, only: %i[create update destroy]
         end
       end
 
-      resources :tournaments, only: :show do
+      resources :tournaments, only: %i[show create update] do
         scope module: :tournaments do
           resource :bracket, only: :show
           resource :qualification, only: :show
+          resources :organizers, only: %i[create destroy]
+          resources :competitors, only: %i[create update destroy]
+          resource :competitors_copy, only: :create
+          resources :qualification_rounds, only: %i[create update destroy]
+          resources :qualification_results, only: %i[create destroy] do
+            resource :jump_range, only: :update, module: :qualification_results
+          end
+          resources :rounds, only: %i[create destroy] do
+            resources :matches, only: :create, module: :rounds
+          end
+          resources :matches, only: %i[update destroy] do
+            scope module: :matches do
+              resource :position, only: :update
+              resources :slots, only: [] do
+                scope module: :slots do
+                  resource :result, only: %i[create destroy]
+                  resource :jump_range, only: :update
+                end
+              end
+            end
+          end
         end
       end
 

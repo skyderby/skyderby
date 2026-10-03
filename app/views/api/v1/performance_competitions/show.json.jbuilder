@@ -9,6 +9,7 @@ competitors = preload_competitors(categories.flat_map(&:competitors), :event)
 
 json.partial! 'api/v1/competitions/event', event: event
 json.rules event.rules
+json.deletable event.deletable?
 json.window do
   json.from event.range_from
   json.to event.range_to
@@ -72,6 +73,7 @@ end
 json.competitors competitors do |competitor|
   json.partial! 'api/v1/competitions/competitor', competitor: competitor
   json.category_id competitor.section_id
+  json.country_id competitor.country_id
   json.team_id competitor.team_id
 end
 

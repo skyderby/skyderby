@@ -95,4 +95,16 @@ class EventTest < ActiveSupport::TestCase
     assert_predicate event, :destroyed?
     assert_empty Track.where(id: track_ids)
   end
+
+  test 'permanently_delete removes a finished event with teams' do
+    event = events(:nationals)
+    team = event.teams.create!(name: 'Team')
+    event.competitors.first.update!(team:)
+    event.update!(status: :finished)
+
+    event.permanently_delete
+
+    assert_predicate event, :destroyed?
+    assert_empty PerformanceCompetition::Team.where(event:)
+  end
 end

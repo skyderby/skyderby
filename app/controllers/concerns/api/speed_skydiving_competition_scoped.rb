@@ -18,11 +18,12 @@ module Api
     def scoreboard_etag
       results = @event.results
       penalties = SpeedSkydivingCompetition::Result::Penalty.where(result_id: results.select(:id))
-      [
-        @event,
-        results.pick(Arel.sql('MAX(updated_at)'), Arel.sql('COUNT(*)')),
-        penalties.pick(Arel.sql('MAX(updated_at)'), Arel.sql('COUNT(*)'))
-      ]
+      [@event, change_marker(results), change_marker(penalties)]
+    end
+
+    def change_marker(relation)
+      updated_at, count = relation.pick(Arel.sql('MAX(updated_at)'), Arel.sql('COUNT(*)'))
+      [updated_at&.utc&.iso8601(6), count]
     end
   end
 end

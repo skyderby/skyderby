@@ -46,6 +46,7 @@ json.competitors competitors do |competitor|
   json.partial! 'api/v1/competitions/competitor', competitor: competitor
   json.category_id competitor.category_id
   json.team_id competitor.team_id
+  json.country_id competitor.country_id
 end
 
 json.teams event.teams.sort_by(&:name) do |team|

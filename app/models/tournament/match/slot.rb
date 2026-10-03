@@ -25,12 +25,16 @@ class Tournament::Match::Slot < ApplicationRecord
   belongs_to :match
   belongs_to :track, optional: true
 
+  before_validation :create_track_from_file, on: :update, if: -> { track_attributes&.dig(:file).present? }
   before_save :replace_nan_with_zero
 
   delegate :tournament, :start_time, :round, to: :match
+  delegate :suit_id, to: :competitor, allow_nil: true
   delegate :tracks_visibility, to: :tournament
   delegate :name, to: :competitor, prefix: true, allow_nil: true
   delegate :order, to: :round, prefix: true, allow_nil: true
+
+  def event = tournament
 
   private
 

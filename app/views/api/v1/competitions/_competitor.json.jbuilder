@@ -10,3 +10,5 @@ if (suit = competitor.try(:suit))
 else
   json.suit nil
 end
+json.profile_owned_by_event competitor_profile_owned_by_event?(competitor)
+json.country_id competitor.profile&.country_id

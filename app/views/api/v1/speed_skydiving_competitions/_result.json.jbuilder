@@ -10,6 +10,7 @@ json.penalized result.penalized?
 json.penalty_size result.penalty_size.to_f.round(2)
 json.penalty_reason result.penalized? ? result.penalty_reason : nil
 json.penalties result.penalties do |penalty|
+  json.id penalty.id
   json.percent penalty.percent
   json.reason penalty.reason
 end

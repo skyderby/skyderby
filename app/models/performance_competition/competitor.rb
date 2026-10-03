@@ -21,11 +21,19 @@ class PerformanceCompetition::Competitor < ApplicationRecord
   delegate :name, to: :suit, prefix: true, allow_nil: true
   delegate :place, to: :event
 
+  before_validation :assign_profile_owner, if: -> { profile&.new_record? }
+
   def profile_attributes=(attrs)
     attrs[:id] = profile_id if profile && profile.owner == event
     attrs[:owner] = event
     attrs[:require_country] = attrs[:id].blank? && attrs.key?(:country_id)
 
     super(attrs)
+  end
+
+  private
+
+  def assign_profile_owner
+    profile.owner ||= event
   end
 end

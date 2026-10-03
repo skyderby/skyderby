@@ -35,6 +35,7 @@ class Boogie < ApplicationRecord
 
   def permanently_delete(including_tracks: false)
     transaction do
+      update!(status: :published) if finished?
       tracks_to_delete = tracks.to_a
 
       results.to_a.each(&:destroy!)

@@ -11,6 +11,11 @@ module CompetitionsApiHelper
     records
   end
 
+  def competitor_profile_owned_by_event?(competitor)
+    owner = competitor.profile&.owner
+    owner.present? && !owner.is_a?(User)
+  end
+
   def competition_type(record) = record.class.name.underscore
 
   def discipline_label(discipline) = t("disciplines.#{discipline}")

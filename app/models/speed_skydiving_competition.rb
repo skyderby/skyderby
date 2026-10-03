@@ -49,6 +49,21 @@ class SpeedSkydivingCompetition < ApplicationRecord
 
   def team_standings = TeamStandings.new(self)
 
+  def upload_track(round:, competitors:, file:)
+    uploaded = []
+
+    transaction do
+      competitors.each do |competitor|
+        track_source = uploaded.empty? ? { track_attributes: { file: } } : { track: uploaded.first.track }
+        result = results.new(round:, competitor:, **track_source)
+        uploaded << result
+        raise ActiveRecord::Rollback unless result.save
+      end
+    end
+
+    uploaded
+  end
+
   def team_standings_code = "skyderby-speed-skydiving-#{id}-teams"
 
   def open_standings_code = "skyderby-speed-skydiving-open-#{id}"

@@ -22,7 +22,7 @@ class Api::V1::SpeedSkydivingCompetitions::ScoreboardsControllerTest < ActionDis
 
   test '#show totals completed rounds with penalties' do
     speed_skydiving_competition_rounds(:nationals_round_1).update_column(:completed_at, Time.zone.now)
-    @result.penalties.create!(percent: 10, reason: 'Exit')
+    penalty = @result.penalties.create!(percent: 10, reason: 'Exit')
 
     get api_v1_speed_skydiving_competition_scoreboard_path(@event)
 
@@ -36,7 +36,7 @@ class Api::V1::SpeedSkydivingCompetitions::ScoreboardsControllerTest < ActionDis
     assert_equal 'final', result['status']
     assert_in_delta 350.0, result['result']
     assert_in_delta 315.0, result['finalResult']
-    assert_equal [{ 'percent' => 10, 'reason' => 'Exit' }], result['penalties']
+    assert_equal [{ 'id' => penalty.id, 'percent' => 10, 'reason' => 'Exit' }], result['penalties']
     assert_equal tracks(:speed_skydiving_track).id, result['trackId']
   end
 

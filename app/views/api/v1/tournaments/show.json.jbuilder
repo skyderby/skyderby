@@ -46,6 +46,13 @@ json.boards do
   end
 end
 
+json.rounds tournament.qualification_rounds.sort_by(&:order) do |round|
+  json.id round.id
+  json.number round.order
+  json.label t('tournaments.qualifications.scoreboard.round', number: round.order)
+  json.completed round.completed
+end
+
 json.competitors competitors do |competitor|
   json.partial! 'api/v1/competitions/competitor', competitor: competitor
   json.is_disqualified competitor.is_disqualified || false

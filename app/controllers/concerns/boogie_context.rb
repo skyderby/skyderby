@@ -1,6 +1,8 @@
 module BoogieContext
   extend ActiveSupport::Concern
 
+  include BoogieScoreboardBroadcasts
+
   def respond_with_scoreboard
     respond_to do |format|
       format.turbo_stream { render template: 'boogies/update_scoreboard' }
@@ -20,21 +22,5 @@ module BoogieContext
       Boogie
       .includes(organizers: [{ user: :profile }], sponsors: :sponsorable)
       .find(params[:boogie_id])
-  end
-
-  def broadcast_scoreboards
-    Turbo::StreamsChannel.broadcast_replace_later_to(
-      [@event, :scoreboard, :editable],
-      target: 'scoreboard',
-      partial: 'boogies/scoreboard',
-      locals: { event: @event, editable: !@event.finished? }
-    )
-
-    Turbo::StreamsChannel.broadcast_replace_later_to(
-      [@event, :scoreboard, :read_only],
-      target: 'scoreboard',
-      partial: 'boogies/scoreboard',
-      locals: { event: @event, editable: false }
-    )
   end
 end

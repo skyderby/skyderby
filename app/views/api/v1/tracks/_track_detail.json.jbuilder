@@ -5,6 +5,8 @@ json.data_frequency track.data_frequency&.to_f
 json.exited_at track.exited_at&.iso8601
 json.deployed_at track.deployed_at&.iso8601
 json.landed_at track.landed_at&.iso8601
+json.landing_fl_time track.landing_fl_time&.to_f
+json.disqualified_from_online_competitions track.disqualified_from_online_competitions
 json.ground_level track.ground_level&.to_f
 json.msl_offset track.msl_offset.to_f
 json.abs_altitude track.abs_altitude?

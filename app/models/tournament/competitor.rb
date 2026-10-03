@@ -33,14 +33,23 @@ class Tournament::Competitor < ApplicationRecord
 
   accepts_nested_attributes_for :profile
 
+  before_validation :assign_profile_owner, if: -> { profile&.new_record? }
+
   delegate :country_id, to: :profile, allow_nil: true
   delegate :country_name, to: :profile, allow_nil: true
   delegate :country_code, to: :profile, allow_nil: true
   delegate :name, to: :suit, prefix: true, allow_nil: true
 
   def profile_attributes=(attrs)
-    attrs[:require_country] = attrs.key?(:country_id)
+    attrs[:id] = profile_id if profile && profile.owner == tournament
+    attrs[:require_country] = attrs[:id].blank? && attrs.key?(:country_id)
 
     super(attrs)
+  end
+
+  private
+
+  def assign_profile_owner
+    profile.owner ||= tournament
   end
 end

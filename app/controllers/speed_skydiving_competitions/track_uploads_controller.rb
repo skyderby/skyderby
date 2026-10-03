@@ -18,7 +18,7 @@ class SpeedSkydivingCompetitions::TrackUploadsController < ApplicationController
       )
     end
 
-    failed = upload_track_to(round, competitors)
+    failed = upload_failure(round, competitors)
     return render_feedback(failed.errors.full_messages) if failed
 
     broadcast_scoreboard
@@ -34,29 +34,8 @@ class SpeedSkydivingCompetitions::TrackUploadsController < ApplicationController
     @event.competitors.where(assigned_number: number).ordered
   end
 
-  def upload_track_to(round, competitors)
-    first, *rest = competitors.to_a
-    failed = nil
-
-    ActiveRecord::Base.transaction do
-      first_result = @event.results.new(
-        round:, competitor: first, track_attributes: { file: params[:file] }
-      )
-      unless first_result.save
-        failed = first_result
-        raise ActiveRecord::Rollback
-      end
-
-      rest.each do |competitor|
-        result = @event.results.new(round:, competitor:, track: first_result.track)
-        next if result.save
-
-        failed = result
-        raise ActiveRecord::Rollback
-      end
-    end
-
-    failed
+  def upload_failure(round, competitors)
+    @event.upload_track(round:, competitors:, file: params[:file]).find { |result| result.errors.any? }
   end
 
   def render_feedback(messages)

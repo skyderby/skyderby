@@ -232,6 +232,21 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'Nested', @track.reload.comment
   end
 
+  test '#update clears place and suit with explicit nulls' do
+    @track.update!(owner: @user)
+
+    patch api_v1_track_path(@track),
+          params: { track: { place_id: nil, location: 'Somewhere', suit_id: nil, missing_suit_name: 'Custom' } },
+          headers: bearer(:regular_user_write), as: :json
+
+    assert_response :success
+    @track.reload
+    assert_nil @track.place_id
+    assert_nil @track.suit_id
+    assert_equal 'Somewhere', @track.location
+    assert_equal 'Custom', response.parsed_body['missingSuitName']
+  end
+
   test '#update forbidden for tracks of other users' do
     patch api_v1_track_path(@track), params: { comment: 'Nope' }, headers: bearer(:regular_user_write)
 
