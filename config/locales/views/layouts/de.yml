@@ -21,6 +21,9 @@ de:
       upload_track: Track hochladen
     footer:
       text: Gemacht mit ❤️ von Aleksandr Kunin
+      support: Support
+      privacy: Datenschutz
+      terms: Nutzungsbedingungen
     accessibility:
       user_menu: Benutzermenü
       profile_picture: Profilbild

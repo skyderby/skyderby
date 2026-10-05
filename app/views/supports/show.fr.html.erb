@@ -1,0 +1,44 @@
+<% provide :title, 'Assistance' %>
+
+<article class="text-page">
+  <h1>Assistance</h1>
+
+  <p>
+    Quelque chose ne marche pas, une question sur une trace ou une compétition, ou une idée pour Skyderby ?
+    Écrivez à <a href="mailto:aleksandr@skyderby.io">aleksandr@skyderby.io</a> – vous aurez une réponse d'une personne qui développe Skyderby, en général sous quelques jours.
+  </p>
+  <p>Si c'est à propos d'une trace ou d'une compétition précise, ajoutez le lien – ça aide beaucoup.</p>
+
+  <h2>Envoyer des traces</h2>
+  <ul>
+    <li>Skyderby lit les fichiers CSV de FlySight 1 et 2, ainsi que les formats GPX, KML et d'autres formats GPS courants.</li>
+    <li>Pour FlySight 2, envoyez TRACK.CSV – l'app récupérera aussi SENSOR.CSV dans le même dossier.</li>
+    <li>Sur le site, utilisez <em>Envoyer une trace</em> ; dans l'app, touchez <em>+</em> sur l'écran Tracks, ouvrez un fichier depuis l'app Fichiers ou connectez votre FlySight.</li>
+  </ul>
+
+  <h2>Connecter FlySight</h2>
+  <ul>
+    <li>FlySight 2 se connecte en Bluetooth : ouvrez FlySight sur l'écran Accueil, puis appuyez deux fois sur le bouton d'alimentation de l'appareil pour que sa LED se mette à clignoter.</li>
+    <li>Sur Mac, vous pouvez aussi brancher FlySight avec un câble – Skyderby le détectera et proposera d'importer les nouveaux sauts.</li>
+    <li>Depuis l'écran FlySight, vous pouvez télécharger les sauts et modifier les réglages de l'appareil.</li>
+  </ul>
+
+  <h2>Skyderby Pro</h2>
+  <ul>
+    <li>Pro acheté sur le site ou dans l'app fonctionne sur tous vos appareils – il suffit de vous connecter au même compte.</li>
+    <li>Si Pro n'apparaît pas dans l'app après l'achat, ouvrez Compte et touchez <em>Restaurer les achats</em>.</li>
+    <li>Pour résilier un abonnement acheté dans l'app : Réglages → identifiant Apple → Abonnements sur votre iPhone, iPad ou Mac.</li>
+    <li>Pour résilier un abonnement acheté sur le site : ouvrez la page d'abonnement dans votre compte sur skyderby.io.</li>
+  </ul>
+
+  <h2>Compétitions</h2>
+  <p>Vous organisez une compétition et voulez utiliser Skyderby pour le calcul des scores, ou vous avez besoin d'aide pour le jugement ? Écrivez-nous – nous serons ravis de vous aider à tout mettre en place.</p>
+
+  <h2>Supprimer votre compte</h2>
+  <p>Dans l'app : Compte → Supprimer le compte. Sur le site : Modifier le profil → Supprimer le compte. Pour savoir ce qui arrive à vos données, consultez notre <%= link_to 'Politique de confidentialité', privacy_path %>.</p>
+
+  <div class="text-page__links">
+    <%= link_to 'Confidentialité', privacy_path %>
+    <%= link_to "Conditions d'utilisation", terms_path %>
+  </div>
+</article>

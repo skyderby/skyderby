@@ -1,0 +1,44 @@
+<% provide :title, 'Soporte' %>
+
+<article class="text-page">
+  <h1>Soporte</h1>
+
+  <p>
+    ¿Algo no funciona, tienes una pregunta sobre un track o una competición, o una idea para Skyderby?
+    Escribe a <a href="mailto:aleksandr@skyderby.io">aleksandr@skyderby.io</a> – te responderá una persona que desarrolla Skyderby, normalmente en un par de días.
+  </p>
+  <p>Si es sobre un track o una competición concretos, incluye el enlace: ayuda mucho.</p>
+
+  <h2>Subir tracks</h2>
+  <ul>
+    <li>Skyderby lee archivos CSV de FlySight 1 y 2, además de GPX, KML y otros formatos GPS habituales.</li>
+    <li>Con FlySight 2, sube TRACK.CSV: la app también cogerá SENSOR.CSV de la misma carpeta.</li>
+    <li>En la web usa <em>Subir track</em>; en la app toca <em>+</em> en la pantalla Lista de pistas, abre un archivo desde la app Archivos o conecta tu FlySight.</li>
+  </ul>
+
+  <h2>Conectar FlySight</h2>
+  <ul>
+    <li>FlySight 2 se conecta por Bluetooth: abre FlySight en la pantalla Inicio y luego pulsa dos veces el botón de encendido del dispositivo para que su LED empiece a parpadear.</li>
+    <li>En un Mac también puedes conectar FlySight con un cable: Skyderby lo detectará y te ofrecerá importar los saltos nuevos.</li>
+    <li>Desde la pantalla de FlySight puedes descargar saltos y cambiar los ajustes del dispositivo.</li>
+  </ul>
+
+  <h2>Skyderby Pro</h2>
+  <ul>
+    <li>Pro comprado en la web o en la app funciona en todos tus dispositivos: solo tienes que iniciar sesión con la misma cuenta.</li>
+    <li>Si Pro no aparece en la app después de comprarlo, abre Cuenta y toca <em>Restaurar compras</em>.</li>
+    <li>Para cancelar una suscripción comprada en la app: Ajustes → ID de Apple → Suscripciones en tu iPhone, iPad o Mac.</li>
+    <li>Para cancelar una suscripción comprada en la web: abre la página de suscripción en tu cuenta de skyderby.io.</li>
+  </ul>
+
+  <h2>Competiciones</h2>
+  <p>¿Organizas una competición y quieres usar Skyderby para las puntuaciones, o necesitas ayuda con el juicio? Escríbenos: te ayudamos encantados a prepararlo.</p>
+
+  <h2>Eliminar tu cuenta</h2>
+  <p>En la app: Cuenta → Eliminar cuenta. En la web: Editar perfil → Eliminar cuenta. Consulta nuestra <%= link_to 'Política de privacidad', privacy_path %> para saber qué pasa con tus datos.</p>
+
+  <div class="text-page__links">
+    <%= link_to 'Política de privacidad', privacy_path %>
+    <%= link_to 'Condiciones de uso', terms_path %>
+  </div>
+</article>

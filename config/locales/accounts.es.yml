@@ -1,0 +1,12 @@
+es:
+  accounts:
+    deletion:
+      title: "Eliminar cuenta"
+      hint: "Tu cuenta de Skyderby se eliminará de forma permanente. Se eliminan los tracks que no se usan en competiciones y tu perfil. Los resultados de competiciones se conservan como un registro anónimo de atleta."
+      app_store: "Si te suscribiste a través de la App Store, cancela la suscripción en los ajustes de tu ID de Apple."
+      button: "Eliminar cuenta"
+      confirm: "¿Eliminar tu cuenta de forma permanente? Esta acción no se puede deshacer."
+      deleted: "Tu cuenta ha sido eliminada."
+    identities:
+      last_identity: "Establece una contraseña antes de eliminar tu único método de inicio de sesión."
+      linked_to_another_account: "Este ID de Apple ya está vinculado a otra cuenta de Skyderby."

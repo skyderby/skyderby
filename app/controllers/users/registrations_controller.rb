@@ -34,6 +34,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def destroy
+    resource.delete_account!
+    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+    redirect_to after_sign_out_path_for(resource_name), notice: t('accounts.deletion.deleted'), status: :see_other
+  end
+
   protected
 
   def configure_sign_up_params

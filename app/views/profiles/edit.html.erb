@@ -108,7 +108,7 @@
           <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-input' %>
         </div>
 
-        <% if @profile.owner.uid.nil? %>
+        <% unless @profile.owner.identity?(User::Identity::GOOGLE) %>
           <div class="profile-edit__provider">
             <%= icon_tag 'google-icon' %>
             <span class="profile-edit__provider-text"><%= t('users.profile.edit.connect_google_hint') %></span>
@@ -126,5 +126,23 @@
         <%= f.submit t('general.update'), class: 'button button--primary' %>
       </div>
     <% end %>
+  <% end %>
+
+  <% if @profile.owner == current_user %>
+    <div class="panel profile-edit__panel">
+      <div class="profile-edit__panel-head">
+        <h2 class="profile-edit__panel-title"><%= t('accounts.deletion.title') %></h2>
+        <p class="profile-edit__panel-hint"><%= t('accounts.deletion.hint') %></p>
+        <p class="profile-edit__panel-hint"><%= t('accounts.deletion.app_store') %></p>
+      </div>
+
+      <div class="profile-edit__actions top-buffer">
+        <%= button_to t('accounts.deletion.button'),
+                      registration_path(:user),
+                      method: :delete,
+                      form: { data: { turbo_confirm: t('accounts.deletion.confirm') } },
+                      class: 'button button--outline button--danger' %>
+      </div>
+    </div>
   <% end %>
 </div>

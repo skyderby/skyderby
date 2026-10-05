@@ -21,6 +21,9 @@ es:
       profiles: Atletas
     footer:
       text: Hecho con amor ❤️ por Alejandro Kunin
+      support: Soporte
+      privacy: Privacidad
+      terms: Términos
     accessibility:
       user_menu: Menú de usuario
       profile_picture: Foto de perfil

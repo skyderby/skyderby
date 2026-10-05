@@ -1,5 +1,10 @@
 <footer>
-  <div>© 2014-<%= Time.now.year %> SKYDERBY</div>
+  <div>
+    © 2014-<%= Time.now.year %> SKYDERBY
+    <%= link_to t('application.footer.support'), support_path %>
+    <%= link_to t('application.footer.privacy'), privacy_path %>
+    <%= link_to t('application.footer.terms'), terms_path %>
+  </div>
   <div>
     <%= t('application.footer.text') %>
     <%= render 'layouts/language_switcher', variant: :desktop %>

@@ -117,6 +117,9 @@ Skyderby::Application.routes.draw do
         end
       end
       resource :dashboard, only: %i[show update]
+      resource :apple_session, only: :create
+      resources :identities, only: %i[index create destroy]
+      resource :account, only: :destroy
       resources :places, only: :show
       resources :terrain_profiles, only: %i[index show create update destroy] do
         scope module: :terrain_profiles do
@@ -613,6 +616,10 @@ Skyderby::Application.routes.draw do
     resources :featured_tracks, only: :show, param: :key
     resource  :leaderboard,     only: :show
   end
+
+  resource :support, only: :show
+  resource :privacy, only: :show
+  resource :terms, only: :show
 
   root 'static_pages#index'
 end

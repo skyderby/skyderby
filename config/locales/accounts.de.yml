@@ -1,0 +1,12 @@
+de:
+  accounts:
+    deletion:
+      title: "Konto löschen"
+      hint: "Dein Skyderby-Konto wird dauerhaft gelöscht. Tracks, die nicht in Wettbewerben verwendet werden, und dein Profil werden gelöscht. Wettbewerbsergebnisse bleiben als anonymer Athleteneintrag erhalten."
+      app_store: "Wenn du über den App Store abonniert hast, kündige das Abo in deinen Apple-ID-Einstellungen."
+      button: "Konto löschen"
+      confirm: "Konto dauerhaft löschen? Dies kann nicht rückgängig gemacht werden."
+      deleted: "Dein Konto wurde gelöscht."
+    identities:
+      last_identity: "Lege ein Passwort fest, bevor du deine einzige Anmeldemethode entfernst."
+      linked_to_another_account: "Diese Apple-ID ist bereits mit einem anderen Skyderby-Konto verknüpft."

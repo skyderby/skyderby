@@ -1,0 +1,12 @@
+en:
+  accounts:
+    deletion:
+      title: "Delete account"
+      hint: "Permanently delete your Skyderby account. Tracks that are not used in competitions and your profile are deleted. Competition results stay as an anonymous athlete record."
+      app_store: "If you subscribed through the App Store, cancel the subscription in your Apple ID settings."
+      button: "Delete account"
+      confirm: "Delete your account permanently? This cannot be undone."
+      deleted: "Your account has been deleted."
+    identities:
+      last_identity: "Set a password before removing your only sign-in method."
+      linked_to_another_account: "This Apple ID is already linked to another Skyderby account."

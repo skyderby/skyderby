@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_05_120100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -939,6 +939,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
     t.index ["user_id"], name: "index_tracks_on_user_id"
   end
 
+  create_table "user_identities", force: :cascade do |t|
+    t.string "apple_refresh_token"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.boolean "private_email", default: false, null: false
+    t.string "provider", null: false
+    t.string "uid", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["provider", "uid"], name: "index_user_identities_on_provider_and_uid", unique: true
+    t.index ["user_id"], name: "index_user_identities_on_user_id"
+  end
+
   create_table "user_settings", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "dashboard_female_rankings", default: false, null: false
@@ -963,6 +976,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
     t.string "encrypted_password", limit: 510, default: "", null: false
     t.timestamptz "last_sign_in_at"
     t.string "last_sign_in_ip", limit: 510
+    t.boolean "password_set", default: false, null: false
     t.string "provider"
     t.timestamptz "remember_created_at"
     t.timestamptz "reset_password_sent_at"
@@ -1105,6 +1119,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
   add_foreign_key "track_reference_points", "tracks"
   add_foreign_key "track_sensor_samples", "tracks", on_delete: :cascade
   add_foreign_key "tracks", "profiles"
+  add_foreign_key "user_identities", "users", on_delete: :cascade
   add_foreign_key "user_settings", "users"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
 end

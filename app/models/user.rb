@@ -24,11 +24,13 @@
 class User < ApplicationRecord
   include ParticipantOfEvents
   include User::Omniauth
+  include User::AccountDeletion
 
   pay_customer default_payment_processor: :stripe
 
   has_one :profile, as: :owner, dependent: :nullify, inverse_of: :owner
   has_one :setting, class_name: 'User::Setting', dependent: :destroy, inverse_of: :user
+  has_many :identities, class_name: 'User::Identity', dependent: :destroy, inverse_of: :user
   has_many :gifted_subscriptions, dependent: :destroy
   has_many :free_pro_views, dependent: :delete_all
   has_many :app_store_purchases, dependent: :destroy

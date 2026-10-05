@@ -22,6 +22,9 @@ ru:
       profiles: Спортсмены
     footer:
       text: Сделано с ❤️ Александром Куниным
+      support: Поддержка
+      privacy: Конфиденциальность
+      terms: Условия
     accessibility:
       user_menu: Меню пользователя
       profile_picture: Фото профиля

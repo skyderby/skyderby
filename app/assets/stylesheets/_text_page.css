@@ -1,0 +1,46 @@
+.text-page {
+  background-color: var(--white);
+  color: var(--gray-90);
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 46rem;
+  padding: 2rem 1rem 4rem;
+  width: 100%;
+}
+
+.text-page h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+}
+
+.text-page h2 {
+  font-size: 1.25rem;
+  margin: 2rem 0 0.5rem;
+}
+
+.text-page p,
+.text-page ul {
+  margin: 0 0 0.75rem;
+}
+
+.text-page ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+.text-page li {
+  margin-bottom: 0.25rem;
+}
+
+.text-page__updated {
+  color: var(--gray-60);
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+
+.text-page__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}

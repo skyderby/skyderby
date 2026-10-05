@@ -1,0 +1,44 @@
+<% provide :title, 'Support' %>
+
+<article class="text-page">
+  <h1>Support</h1>
+
+  <p>
+    Something not working, a question about a track or a competition, or an idea for Skyderby?
+    Write to <a href="mailto:aleksandr@skyderby.io">aleksandr@skyderby.io</a> — you'll get an answer from a person who builds Skyderby, usually within a couple of days.
+  </p>
+  <p>If it's about a specific track or competition, include the link — it helps a lot.</p>
+
+  <h2>Uploading tracks</h2>
+  <ul>
+    <li>Skyderby reads FlySight 1 and 2 CSV files, as well as GPX, KML and other common GPS formats.</li>
+    <li>For FlySight 2, upload TRACK.CSV — the app will also pick up SENSOR.CSV from the same folder.</li>
+    <li>On the website use <em>Upload track</em>; in the app use <em>+</em> on the Tracks screen, open a file from the Files app, or connect your FlySight.</li>
+  </ul>
+
+  <h2>Connecting FlySight</h2>
+  <ul>
+    <li>FlySight 2 connects over Bluetooth: open FlySight on the Home screen, then double-press the power button on the device so its LED starts pulsing.</li>
+    <li>On a Mac you can also plug FlySight in with a cable — Skyderby will notice it and offer to import new jumps.</li>
+    <li>From the FlySight screen you can download jumps and change the device settings.</li>
+  </ul>
+
+  <h2>Skyderby Pro</h2>
+  <ul>
+    <li>Pro bought on the website or in the app works on all your devices — just sign in to the same account.</li>
+    <li>If Pro doesn't show up in the app after buying, open Account and tap <em>Restore purchases</em>.</li>
+    <li>To cancel a subscription bought in the app: Settings → Apple ID → Subscriptions on your iPhone, iPad or Mac.</li>
+    <li>To cancel a subscription bought on the website: open the subscription page in your account on skyderby.io.</li>
+  </ul>
+
+  <h2>Competitions</h2>
+  <p>Running a competition and want to use Skyderby for scoring, or need help with judging? Write to us — we're happy to help set it up.</p>
+
+  <h2>Deleting your account</h2>
+  <p>In the app: Account → Delete account. On the website: Edit profile → Delete account. See our <%= link_to 'Privacy Policy', privacy_path %> for what happens to your data.</p>
+
+  <div class="text-page__links">
+    <%= link_to 'Privacy Policy', privacy_path %>
+    <%= link_to 'Terms of Use', terms_path %>
+  </div>
+</article>

@@ -1,0 +1,44 @@
+<% provide :title, 'Assistenza' %>
+
+<article class="text-page">
+  <h1>Assistenza</h1>
+
+  <p>
+    Qualcosa non funziona, hai una domanda su una traccia o una competizione, o un'idea per Skyderby?
+    Scrivi a <a href="mailto:aleksandr@skyderby.io">aleksandr@skyderby.io</a> – ti risponderà una persona che sviluppa Skyderby, di solito entro un paio di giorni.
+  </p>
+  <p>Se riguarda una traccia o una competizione precisa, aggiungi il link: aiuta molto.</p>
+
+  <h2>Caricare le tracce</h2>
+  <ul>
+    <li>Skyderby legge i file CSV di FlySight 1 e 2, oltre a GPX, KML e altri formati GPS comuni.</li>
+    <li>Per FlySight 2 carica TRACK.CSV: l'app prenderà anche SENSOR.CSV dalla stessa cartella.</li>
+    <li>Sul sito usa <em>Carica traccia</em>; nell'app tocca <em>+</em> nella schermata Tracce, apri un file dall'app File oppure collega il tuo FlySight.</li>
+  </ul>
+
+  <h2>Collegare FlySight</h2>
+  <ul>
+    <li>FlySight 2 si collega via Bluetooth: apri FlySight nella schermata Home, poi premi due volte il pulsante di accensione del dispositivo finché il LED non inizia a pulsare.</li>
+    <li>Su Mac puoi anche collegare FlySight con un cavo: Skyderby se ne accorge e ti propone di importare i nuovi salti.</li>
+    <li>Dalla schermata FlySight puoi scaricare i salti e cambiare le impostazioni del dispositivo.</li>
+  </ul>
+
+  <h2>Skyderby Pro</h2>
+  <ul>
+    <li>Pro acquistato sul sito o nell'app funziona su tutti i tuoi dispositivi: basta accedere con lo stesso account.</li>
+    <li>Se dopo l'acquisto Pro non compare nell'app, apri Account e tocca <em>Ripristina acquisti</em>.</li>
+    <li>Per annullare un abbonamento acquistato nell'app: Impostazioni → ID Apple → Abbonamenti sul tuo iPhone, iPad o Mac.</li>
+    <li>Per annullare un abbonamento acquistato sul sito: apri la pagina dell'abbonamento nel tuo account su skyderby.io.</li>
+  </ul>
+
+  <h2>Competizioni</h2>
+  <p>Organizzi una competizione e vuoi usare Skyderby per i punteggi, o ti serve aiuto con il giudizio? Scrivici: ti aiutiamo volentieri a configurare tutto.</p>
+
+  <h2>Eliminare l'account</h2>
+  <p>Nell'app: Account → Elimina account. Sul sito: Modifica profilo → Elimina account. Cosa succede ai tuoi dati lo trovi nella nostra <%= link_to 'Informativa sulla privacy', privacy_path %>.</p>
+
+  <div class="text-page__links">
+    <%= link_to 'Privacy', privacy_path %>
+    <%= link_to 'Termini di utilizzo', terms_path %>
+  </div>
+</article>

@@ -1,0 +1,44 @@
+<% provide :title, 'Support' %>
+
+<article class="text-page">
+  <h1>Support</h1>
+
+  <p>
+    Etwas funktioniert nicht, du hast eine Frage zu einem Track oder Wettbewerb oder eine Idee für Skyderby?
+    Schreib an <a href="mailto:aleksandr@skyderby.io">aleksandr@skyderby.io</a> – du bekommst eine Antwort von einem Menschen, der Skyderby entwickelt, meist innerhalb von ein paar Tagen.
+  </p>
+  <p>Wenn es um einen bestimmten Track oder Wettbewerb geht, schick den Link mit – das hilft sehr.</p>
+
+  <h2>Tracks hochladen</h2>
+  <ul>
+    <li>Skyderby liest CSV-Dateien von FlySight 1 und 2 sowie GPX, KML und andere gängige GPS-Formate.</li>
+    <li>Bei FlySight 2 lade TRACK.CSV hoch – die App nimmt SENSOR.CSV aus demselben Ordner automatisch mit.</li>
+    <li>Auf der Website nutze <em>Track hochladen</em>; in der App tippe auf <em>+</em> im Bildschirm „Trackliste“, öffne eine Datei aus der Dateien-App oder verbinde deinen FlySight.</li>
+  </ul>
+
+  <h2>FlySight verbinden</h2>
+  <ul>
+    <li>FlySight 2 verbindet sich über Bluetooth: öffne FlySight im Bereich „Start“ und drück dann zweimal auf den Einschaltknopf am Gerät, bis die LED zu pulsieren beginnt.</li>
+    <li>Am Mac kannst du FlySight auch per Kabel anschließen – Skyderby erkennt es und bietet an, neue Sprünge zu importieren.</li>
+    <li>Im FlySight-Bildschirm kannst du Sprünge herunterladen und die Geräteeinstellungen ändern.</li>
+  </ul>
+
+  <h2>Skyderby Pro</h2>
+  <ul>
+    <li>Pro, das du auf der Website oder in der App gekauft hast, funktioniert auf all deinen Geräten – melde dich einfach mit demselben Konto an.</li>
+    <li>Wenn Pro nach dem Kauf in der App nicht auftaucht, öffne Konto und tippe auf <em>Käufe wiederherstellen</em>.</li>
+    <li>Ein in der App gekauftes Abo kündigst du unter Einstellungen → Apple-ID → Abonnements auf deinem iPhone, iPad oder Mac.</li>
+    <li>Ein auf der Website gekauftes Abo kündigst du auf der Abo-Seite in deinem Konto auf skyderby.io.</li>
+  </ul>
+
+  <h2>Wettbewerbe</h2>
+  <p>Du richtest einen Wettbewerb aus und möchtest Skyderby für die Wertung nutzen, oder brauchst Hilfe beim Bewerten? Schreib uns – wir helfen gern beim Einrichten.</p>
+
+  <h2>Konto löschen</h2>
+  <p>In der App: Konto → Konto löschen. Auf der Website: Profil bearbeiten → Konto löschen. Was mit deinen Daten passiert, steht in unserer <%= link_to 'Datenschutzerklärung', privacy_path %>.</p>
+
+  <div class="text-page__links">
+    <%= link_to 'Datenschutz', privacy_path %>
+    <%= link_to 'Nutzungsbedingungen', terms_path %>
+  </div>
+</article>

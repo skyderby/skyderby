@@ -22,6 +22,9 @@ en:
       profiles: Athletes
     footer:
       text: Made with ❤️ by Aleksandr Kunin
+      support: Support
+      privacy: Privacy
+      terms: Terms
     accessibility:
       user_menu: User menu
       profile_picture: Profile picture
