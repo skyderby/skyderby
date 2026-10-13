@@ -1,6 +1,4 @@
-import { describe, test, expect, vi } from 'vitest'
-
-vi.mock('i18n', () => ({ default: { t: () => '' } }))
+import { describe, test, expect } from 'vitest'
 
 import { findPositionForAltitude } from './utils'
 

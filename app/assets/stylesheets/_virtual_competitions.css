@@ -876,3 +876,7 @@
   display: flex;
   justify-content: center;
 }
+
+.person-details-chart {
+  height: 200px;
+}

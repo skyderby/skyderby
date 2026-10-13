@@ -1,22 +1,24 @@
-import { Controller } from '@hotwired/stimulus'
+import LabeledController from 'controllers/labeled_controller'
+import { findPositionForAltitude } from 'charts'
 import {
-  findPositionForAltitude,
-  initAccuracyChart,
-  initGlideChart,
-  initSpeedsChart,
-  initAltitudeDistanceChart,
-  initCombinedChart
-} from 'charts'
+  buildSepChart,
+  buildGlideChart,
+  buildSpeedChart,
+  buildAltitudeDistanceChart,
+  buildCombinedChart
+} from 'charts/timeSeriesCharts'
+import ChartGroup from 'charts/ChartGroup'
 import cropPoints from 'utils/cropPoints'
 import downsamplePoints from 'utils/downsamplePoints'
 import calculateWindCancellation from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
 import { convertSpeed, convertLength, lengthUnitLabel } from 'utils/units'
 import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
-import I18n from 'i18n'
 import { readParam, updateParams } from 'utils/urlState'
 
-export default class extends Controller {
+const ALTITUDE_LINE_COLOR = '#999'
+
+export default class extends LabeledController {
   static targets = [
     'accuracyChart',
     'glideChart',
@@ -65,6 +67,7 @@ export default class extends Controller {
   }
 
   connect() {
+    this.chartGroup = new ChartGroup(() => this.charts)
     this.initializeStraightLine()
 
     Promise.all([
@@ -90,7 +93,7 @@ export default class extends Controller {
   showEmptyState(messageKey) {
     if (!this.hasEmptyStateTarget) return
 
-    this.emptyStateTarget.textContent = I18n.t(`tracks.show.${messageKey}`)
+    this.emptyStateTarget.textContent = this.labels.t(`tracks.show.${messageKey}`)
     this.emptyStateTarget.classList.remove('hidden')
   }
 
@@ -240,16 +243,40 @@ export default class extends Controller {
     ]
   }
 
-  destroyCharts() {
-    const charts = [
-      this.hasAccuracyChartTarget && this.accuracyChartTarget.chart,
-      this.hasGlideChartTarget && this.glideChartTarget.chart,
-      this.hasSpeedChartTarget && this.speedChartTarget.chart,
-      this.hasAltitudeDistanceChartTarget && this.altitudeDistanceChartTarget.chart,
-      this.hasCombinedChartTarget && this.combinedChartTarget.chart
-    ]
+  get chartHosts() {
+    return [
+      this.hasAccuracyChartTarget && this.accuracyChartTarget,
+      this.hasGlideChartTarget && this.glideChartTarget,
+      this.hasSpeedChartTarget && this.speedChartTarget,
+      this.hasAltitudeDistanceChartTarget && this.altitudeDistanceChartTarget,
+      this.hasCombinedChartTarget && this.combinedChartTarget
+    ].filter(Boolean)
+  }
 
-    charts.filter(Boolean).forEach(chart => chart.destroy())
+  get charts() {
+    return this.chartHosts.map(target => target.chart)
+  }
+
+  destroyCharts() {
+    this.chartHosts.forEach(target => {
+      target.chart?.destroy()
+      target.chart = null
+    })
+  }
+
+  disconnect() {
+    this.chartGroup.cancelHide()
+    this.destroyCharts()
+  }
+
+  get chartOptions() {
+    return {
+      plotBands: this.bufferPlotBands(),
+      units: this.units,
+      labels: this.labels,
+      onHover: (_index, time) => this.chartGroup.showTime(time),
+      onLeave: () => this.chartGroup.scheduleHide()
+    }
   }
 
   initSeparateCharts() {
@@ -378,69 +405,64 @@ export default class extends Controller {
   }
 
   initCombinedChart() {
-    this.combinedChartTarget.chart = initCombinedChart(
+    this.combinedChartTarget.chart = buildCombinedChart(
       this.combinedChartTarget,
       this.downsampledChartPoints,
       {
+        ...this.chartOptions,
         plotLines: this.altitudePlotLines({ includeLabels: true }),
-        plotBands: this.bufferPlotBands(),
         windCancellation: this.hasWeatherData,
         straightLine: this.straightLine,
         rangeStartPosition: this.bufferStartPosition / 1000,
-        chartName: 'TrackCombinedChart',
-        units: this.units
+        chartName: 'TrackCombinedChart'
       }
     )
   }
 
   initAccuracyChart() {
-    this.accuracyChartTarget.chart = initAccuracyChart(
+    this.accuracyChartTarget.chart = buildSepChart(
       this.accuracyChartTarget,
       this.downsampledChartPoints,
-      {
-        plotLines: this.altitudePlotLines(),
-        plotBands: this.bufferPlotBands(),
-        units: this.units
-      }
+      { ...this.chartOptions, plotLines: this.altitudePlotLines() }
     )
   }
 
   initGlideChart() {
-    this.glideChartTarget.chart = initGlideChart(
+    this.glideChartTarget.chart = buildGlideChart(
       this.glideChartTarget,
       this.downsampledChartPoints,
       {
+        ...this.chartOptions,
         plotLines: this.altitudePlotLines({ includeLabels: true }),
-        plotBands: this.bufferPlotBands(),
         windCancellation: this.hasWeatherData,
-        units: this.units
+        title: true,
+        legend: true
       }
     )
   }
 
   initSpeedsChart() {
-    this.speedChartTarget.chart = initSpeedsChart(
+    this.speedChartTarget.chart = buildSpeedChart(
       this.speedChartTarget,
       this.downsampledChartPoints,
       {
+        ...this.chartOptions,
         plotLines: this.altitudePlotLines(),
-        plotBands: this.bufferPlotBands(),
         windCancellation: this.hasWeatherData,
-        units: this.units
+        title: true
       }
     )
   }
 
   initAltitudeDistanceChart() {
-    this.altitudeDistanceChartTarget.chart = initAltitudeDistanceChart(
+    this.altitudeDistanceChartTarget.chart = buildAltitudeDistanceChart(
       this.altitudeDistanceChartTarget,
       this.downsampledChartPoints,
       {
+        ...this.chartOptions,
         plotLines: this.altitudePlotLines(),
-        plotBands: this.bufferPlotBands(),
         straightLine: this.straightLine,
-        rangeStartPosition: this.bufferStartPosition / 1000,
-        units: this.units
+        rangeStartPosition: this.bufferStartPosition / 1000
       }
     )
   }
@@ -462,20 +484,12 @@ export default class extends Controller {
       positions.push([altitude, position])
     }
 
-    return positions.map(([altitude, position], idx) => ({
-      id: `altitude-plot-line-${idx}`,
+    return positions.map(([altitude, position]) => ({
       value: position,
-      width: 1,
-      color: '#999',
-      ...(includeLabels
-        ? {
-            label: {
-              text: `${altitude} ${lengthUnitLabel('metric')}`,
-              style: { color: '#999' },
-              y: 10
-            }
-          }
-        : {})
+      color: ALTITUDE_LINE_COLOR,
+      label: includeLabels
+        ? `${altitude} ${lengthUnitLabel('metric', this.labels)}`
+        : null
     }))
   }
 }

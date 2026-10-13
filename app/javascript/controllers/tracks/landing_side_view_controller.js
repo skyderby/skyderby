@@ -1,4 +1,4 @@
-import { Controller } from '@hotwired/stimulus'
+import LabeledController from 'controllers/labeled_controller'
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
 import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
@@ -8,7 +8,7 @@ const SYNC_VERTICAL_SPEED = 10
 const WINDOW_SECONDS = 30
 const TOOLTIP_SECONDS = 10
 
-export default class extends Controller {
+export default class extends LabeledController {
   static targets = ['chart']
   static values = {
     pointsUrl: String,
@@ -34,6 +34,7 @@ export default class extends Controller {
 
         this.chart = new SideProjectionChart(this.chartTarget, {
           units: this.unitsValue,
+          labels: this.labels,
           syncVerticalSpeed: SYNC_VERTICAL_SPEED,
           persistentTooltip: true,
           persistentTooltipIndex: this.crossingAt(primary.points, TOOLTIP_SECONDS)?.index
@@ -73,7 +74,7 @@ export default class extends Controller {
       new LatLon(lerp(prev.latitude, curr.latitude), lerp(prev.longitude, curr.longitude))
     )
 
-    return `${Math.round(convertLength(distance, this.unitsValue))} ${lengthUnitLabel(this.unitsValue)}`
+    return `${Math.round(convertLength(distance, this.unitsValue))} ${lengthUnitLabel(this.unitsValue, this.labels)}`
   }
 
   syncIndex(points) {

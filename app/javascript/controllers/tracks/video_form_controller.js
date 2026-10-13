@@ -1,31 +1,31 @@
-import { Controller } from '@hotwired/stimulus'
+import LabeledController from 'controllers/labeled_controller'
 import { get } from '@rails/request.js'
 import { initYoutubeApi, videoCodeFromUrl, defaultPlayerOptions } from 'utils/youtube'
 import smoothScroll from 'utils/smooth_scroll'
-import I18n from 'i18n'
+import TimeSeriesChart from 'charts/TimeSeriesChart'
 
 const HEADER_HEIGHT = 71
+const ALTITUDE_COLOR = '#7cb5ec'
+const GROUND_SPEED_COLOR = '#52A964'
+const VERTICAL_SPEED_COLOR = '#A7414E'
+const TRACK_OFFSET_COLOR = '#FF0000'
 
-export default class extends Controller {
+export default class extends LabeledController {
   static targets = ['player', 'chart', 'url', 'videoOffset', 'trackOffset']
 
   connect() {
     initYoutubeApi()
-    this.initChart()
     this.fetchChartData()
+  }
+
+  disconnect() {
+    this.trackChart?.destroy()
   }
 
   fetchChartData() {
     get(this.element.getAttribute('data-url'), { responseKind: 'json' })
       .then(response => response.json)
-      .then(data => {
-        const chart = this.highchart
-
-        chart.series[0].setData(data.altitude)
-        chart.series[1].setData(data.h_speed)
-        chart.series[2].setData(data.v_speed)
-        chart.hideLoading()
-      })
+      .then(data => this.initChart(data))
   }
 
   onYoutubeApiReady() {
@@ -71,16 +71,13 @@ export default class extends Controller {
   }
 
   updatePlotLine() {
-    this.highchart.xAxis[0].removePlotLine('plot-line-track-offset')
+    this.trackChart?.setPlotLines(this.trackOffsetPlotLines)
+  }
 
-    if (!this.trackOffset) return
-
-    this.highchart.xAxis[0].addPlotLine({
-      value: this.trackOffset,
-      color: '#FF0000',
-      width: 2,
-      id: 'plot-line-track-offset'
-    })
+  get trackOffsetPlotLines() {
+    return this.trackOffset
+      ? [{ value: this.trackOffset, color: TRACK_OFFSET_COLOR }]
+      : []
   }
 
   initPlayer() {
@@ -98,10 +95,48 @@ export default class extends Controller {
     )
   }
 
-  initChart() {
-    this.chart.highcharts = new Highcharts.Chart(this.chart, this.chartOptions)
-    this.highchart.showLoading()
-    this.updatePlotLine()
+  initChart(data) {
+    this.trackChart = new TimeSeriesChart(this.chart, {
+      title: this.labels.t('tracks.edit.elev_chart'),
+      series: [
+        this.series(data.altitude, {
+          code: 'altitude',
+          name: this.labels.t('tracks.edit.elevation'),
+          color: ALTITUDE_COLOR,
+          axis: 'altitude',
+          unit: this.labels.t('units.m')
+        }),
+        this.series(data.h_speed, {
+          code: 'ground_speed',
+          name: this.labels.t('charts.spd.series.ground'),
+          color: GROUND_SPEED_COLOR,
+          axis: 'speed',
+          unit: this.labels.t('units.kmh')
+        }),
+        this.series(data.v_speed, {
+          code: 'vertical_speed',
+          name: this.labels.t('charts.spd.series.vertical'),
+          color: VERTICAL_SPEED_COLOR,
+          axis: 'speed',
+          unit: this.labels.t('units.kmh')
+        })
+      ],
+      yAxes: [
+        { id: 'altitude', min: 0 },
+        { id: 'speed', min: 0, position: 'right', grid: false }
+      ],
+      plotLines: this.trackOffsetPlotLines,
+      onClick: time => this.setTrackOffset(time)
+    })
+  }
+
+  series(pairs, { unit, ...options }) {
+    return {
+      ...options,
+      xs: pairs.map(([x]) => x),
+      ys: pairs.map(([, y]) => y),
+      value: i => `${Math.round(pairs[i][1])} ${unit}`
+    }
   }
 
   get videoCode() {
@@ -124,10 +159,6 @@ export default class extends Controller {
     return this.chart.getBoundingClientRect().top + pageYOffset
   }
 
-  get highchart() {
-    return this.chart.highcharts
-  }
-
   set videoOffset(value) {
     this.videoOffsetTarget.value = value.toFixed(1)
   }
@@ -138,91 +169,5 @@ export default class extends Controller {
 
   set trackOffset(value) {
     this.trackOffsetTarget.value = value.toFixed(1)
-  }
-
-  get chartOptions() {
-    return {
-      chart: {
-        type: 'spline',
-        marginLeft: 0,
-        marginRight: 0,
-        zoomType: 'x',
-        events: {
-          click: event => {
-            if (event.target.textContent) return
-            this.setTrackOffset(event.xAxis[0].value)
-          }
-        }
-      },
-      title: {
-        floating: true,
-        text: I18n.t('tracks.edit.elev_chart'),
-        y: 26
-      },
-      legend: {
-        enabled: false
-      },
-      plotOptions: {
-        series: {
-          marker: {
-            radius: 1
-          },
-          point: {
-            events: {
-              click: event => {
-                this.setTrackOffset(event.point.x)
-              }
-            }
-          }
-        }
-      },
-      yAxis: [
-        {
-          title: {
-            text: I18n.t('tracks.edit.elevation') + ', ' + I18n.t('units.m')
-          },
-          min: 0,
-          opposite: true
-        },
-        {
-          min: 0,
-          opposite: true
-        }
-      ],
-      tooltip: {
-        crosshairs: true,
-        shared: true,
-        valueDecimals: 0
-      },
-      credits: {
-        enabled: false
-      },
-      series: [
-        {
-          name: I18n.t('tracks.edit.elevation'),
-          yAxis: 0,
-          pointInterval: 10,
-          tooltip: {
-            valueSuffix: ' ' + I18n.t('units.m')
-          }
-        },
-        {
-          name: I18n.t('charts.spd.series.ground'),
-          yAxis: 1,
-          color: '#52A964',
-          tooltip: {
-            valueSuffix: ' ' + I18n.t('units.kmh')
-          }
-        },
-        {
-          name: I18n.t('charts.spd.series.vertical'),
-          yAxis: 1,
-          color: '#A7414E',
-          tooltip: {
-            valueSuffix: ' ' + I18n.t('units.kmh')
-          }
-        }
-      ]
-    }
   }
 }

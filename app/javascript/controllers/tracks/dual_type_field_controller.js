@@ -5,6 +5,12 @@ const TEXT = 'text'
 
 export default class extends Controller {
   static targets = ['link', 'caption', 'text', 'select']
+  static values = {
+    selectLink: String,
+    selectCaption: String,
+    textLink: String,
+    textCaption: String
+  }
 
   connect() {
     this.mode = this.element.getAttribute('data-mode')
@@ -35,16 +41,16 @@ export default class extends Controller {
     this.suitSelectVisibility = true
     this.suitNameVisibility = false
 
-    this.linkText = this.selectModeLinkText
-    this.caption = this.selectModeCaption
+    this.linkText = this.selectLinkValue
+    this.caption = this.selectCaptionValue
   }
 
   setTextMode() {
     this.suitSelectVisibility = false
     this.suitNameVisibility = true
 
-    this.linkText = this.textModeLinkText
-    this.caption = this.textModeCaption
+    this.linkText = this.textLinkValue
+    this.caption = this.textCaptionValue
   }
 
   set suitSelectVisibility(visible) {

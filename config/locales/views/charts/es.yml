@@ -1,5 +1,35 @@
 es:
   charts:
+    donations:
+      people: "Donantes"
+      amount: "Importe"
+    popularity:
+      title: "Horas populares"
+      tracks: "Tracks registrados"
+      people: "Personas que visitaron"
+    person_details:
+      result: "Resultado"
+    suits_popularity:
+      title: "Popularidad de los trajes en el último año"
+      manufacturers: "Cuota del fabricante"
+      suits: "Cuota del traje"
+    winds:
+      title: "Vientos en altura"
+      altitude: "Altitud"
+      speed: "Velocidad"
+      direction: "Dirección"
+    speed_skydiving:
+      accuracy: 'Precisión de velocidad'
+      end_of_window: 'Fin de ventana - %{altitude}'
+      best_speed: 'Mejor velocidad: %{speed}'
+    compare:
+      default_name: 'Comparación'
+      ground_suffix: 'H'
+      vertical_suffix: 'V'
+      full_suffix: 'Total'
+    sep:
+      series:
+        sep50: 'SEP 50'
     polar:
       title: Polar de resistencia
       subtitle: Reconstruida de la aceleración · coeficiente de sustentación vs resistencia

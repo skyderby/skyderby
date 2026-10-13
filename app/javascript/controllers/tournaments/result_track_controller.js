@@ -1,14 +1,16 @@
 import PlaybackController from '../playback_controller'
 import { findLineCrossing, headingAtIndex } from 'utils/tracks/pointHelpers'
-import { syncCrosshairByIndex } from 'utils/tracks/playback/highchartsCrosshair'
 import ArrowMarker from 'utils/tracks/playback/ArrowMarker'
-import { initGlideChart, initSpeedsChart, initAccuracyChart } from 'charts'
+import { buildGlideChart, buildSpeedChart, buildSepChart } from 'charts/timeSeriesCharts'
+import ChartGroup from 'charts/ChartGroup'
 import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import initMapsApi from 'utils/google_maps_api'
 import { isTurboPreview } from 'utils/turbo_preview'
 import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
+
+const FINISH_LINE_COLOR = '#f44336'
 
 export default class extends PlaybackController {
   static targets = [
@@ -121,7 +123,8 @@ export default class extends PlaybackController {
     if (!this.hasSideProjectionTarget) return
 
     this.sideProjectionChart = new SideProjectionChart(this.sideProjectionTarget, {
-      onPointHover: index => this.onSideProjectionHover(index)
+      onPointHover: index => this.onSideProjectionHover(index),
+      labels: this.labels
     })
     this.sideProjectionChart.setFlightProfile(this.points)
 
@@ -140,83 +143,58 @@ export default class extends PlaybackController {
     this.seekTo(index)
   }
 
-  onChartHover(event) {
-    if (!this.points || this.points.length === 0) return
-
-    const chart = this.chartForHover()
-    if (!chart?.pointer) return
-
-    const normalized = chart.pointer.normalize(event)
-    const series = chart.series.find(item => item.visible && item.points?.length)
-    if (!series) return
-
-    const point = series.searchPoint(normalized, true)
-    if (point == null || point.index == null) return
-
-    this.seekTo(point.index)
+  get chartGroup() {
+    this._chartGroup ||= new ChartGroup(() => this.playbackCharts)
+    return this._chartGroup
   }
 
-  chartForHover() {
-    return (
-      (this.hasGlideChartTarget && this.glideChartTarget.chart) ||
-      (this.hasSpeedChartTarget && this.speedChartTarget.chart) ||
-      (this.hasSepChartTarget && this.sepChartTarget.chart)
-    )
+  get chartOptions() {
+    return {
+      labels: this.labels,
+      plotLines: this.finishPlotLines,
+      onHover: index => this.seekTo(index),
+      onLeave: () => this.chartGroup.scheduleHide()
+    }
+  }
+
+  get finishPlotLines() {
+    if (this.finishCrossingIndex === undefined) return []
+
+    const prev = this.points[this.finishCrossingIndex - 1] || this.points[0]
+    const curr = this.points[this.finishCrossingIndex]
+    const crossingFlTime =
+      prev.flTime + (curr.flTime - prev.flTime) * (this.finishCrossingFraction || 0)
+
+    return [{ value: crossingFlTime - this.points[0].flTime, color: FINISH_LINE_COLOR }]
   }
 
   initGlideChart() {
     if (!this.hasGlideChartTarget) return
 
-    const plotLines = this.finishCrossingIndex
-      ? [{ value: this.finishCrossingIndex, color: '#f44336', width: 2 }]
-      : []
-
-    this.glideChartTarget.chart = initGlideChart(this.glideChartTarget, this.points, {
-      windCancellation: false,
-      showTitle: false,
-      legend: this.floatingLegend,
-      plotLines
+    this.glideChartTarget.chart = buildGlideChart(this.glideChartTarget, this.points, {
+      ...this.chartOptions,
+      legend: true
     })
   }
 
   initSpeedsChart() {
     if (!this.hasSpeedChartTarget) return
 
-    const plotLines = this.finishCrossingIndex
-      ? [{ value: this.finishCrossingIndex, color: '#f44336', width: 2 }]
-      : []
-
-    this.speedChartTarget.chart = initSpeedsChart(this.speedChartTarget, this.points, {
-      windCancellation: false,
-      showTitle: false,
-      legend: this.floatingLegend,
-      plotLines
-    })
-  }
-
-  get floatingLegend() {
-    return {
-      enabled: true,
-      floating: true,
-      align: 'right',
-      verticalAlign: 'top',
-      layout: 'horizontal',
-      x: -10,
-      y: -6,
-      padding: 4
-    }
+    this.speedChartTarget.chart = buildSpeedChart(
+      this.speedChartTarget,
+      this.points,
+      this.chartOptions
+    )
   }
 
   initSepChart() {
     if (!this.hasSepChartTarget) return
 
-    const plotLines = this.finishCrossingIndex
-      ? [{ value: this.finishCrossingIndex, color: '#f44336', width: 2 }]
-      : []
-
-    this.sepChartTarget.chart = initAccuracyChart(this.sepChartTarget, this.points, {
-      plotLines
-    })
+    this.sepChartTarget.chart = buildSepChart(
+      this.sepChartTarget,
+      this.points,
+      this.chartOptions
+    )
   }
 
   renderMap() {
@@ -324,7 +302,7 @@ export default class extends PlaybackController {
       this.sideProjectionChart?.showCrosshair(index)
     }
 
-    syncCrosshairByIndex(this.playbackCharts, index)
+    this.chartGroup.showIndex(index)
     this.updatePlaybackIndicators(index, fraction)
 
     if (this.mapMarker) {
@@ -335,6 +313,7 @@ export default class extends PlaybackController {
 
   disconnect() {
     this.stopPlaybackLoop()
+    this._chartGroup?.cancelHide()
     if (this.sideProjectionChart) {
       this.sideProjectionChart.destroy()
     }

@@ -1,0 +1,227 @@
+.ts-chart-host {
+  height: 400px;
+}
+
+.ts-chart {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.ts-chart__title {
+  padding: 4px 0 2px;
+  color: var(--gray-80);
+  font-size: 16px;
+  text-align: center;
+}
+
+.ts-chart__plot {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  touch-action: pan-y;
+}
+
+.ts-chart__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.ts-chart__grid {
+  stroke: var(--gray-20);
+  stroke-width: 1;
+}
+
+.ts-chart__axis {
+  stroke: var(--gray-30);
+  stroke-width: 1;
+}
+
+.ts-chart__label {
+  fill: var(--gray-60);
+  font-size: 11px;
+  paint-order: stroke;
+  stroke: var(--white);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.ts-chart__label--x {
+  text-anchor: middle;
+}
+
+.ts-chart__line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.ts-chart__area {
+  fill-opacity: 0.75;
+}
+
+.ts-chart__line--thin {
+  stroke-width: 1;
+}
+
+.ts-chart__range {
+  stroke: none;
+}
+
+.ts-chart__column {
+  fill: none;
+  stroke-linecap: butt;
+}
+
+.ts-chart__band-label {
+  fill: var(--gray-70);
+  font-size: 11px;
+}
+
+.ts-chart__plot-line {
+  stroke-width: 1;
+}
+
+.ts-chart__plot-line-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.ts-chart__cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  margin-left: -0.5px;
+  background: var(--gray-50);
+  pointer-events: none;
+  will-change: transform;
+  z-index: 2;
+}
+
+.ts-chart__dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border: 1px solid var(--white);
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
+  z-index: 3;
+}
+
+.ts-chart__tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--gray-30);
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  color: var(--gray-90);
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: nowrap;
+  pointer-events: none;
+  will-change: transform;
+  z-index: 4;
+}
+
+.ts-chart__cursor[hidden],
+.ts-chart__dot[hidden],
+.ts-chart__tooltip[hidden] {
+  display: none;
+}
+
+.ts-chart__tooltip-header {
+  color: var(--gray-70);
+}
+
+.ts-chart__tooltip-swatch {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+}
+
+.ts-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+  padding-top: 6px;
+}
+
+.ts-chart__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gray-90);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ts-chart__legend-item[aria-pressed='false'] {
+  color: var(--gray-40);
+}
+
+.ts-chart__legend-swatch {
+  width: 16px;
+  border-top: 2px solid var(--swatch-color);
+}
+
+.ts-chart__legend-swatch--dashed {
+  border-top-style: dashed;
+}
+
+.ts-chart__legend-item[aria-pressed='false'] .ts-chart__legend-swatch {
+  border-top-color: var(--gray-30);
+}
+
+.category-chart__highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--gray-10);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.category-chart__highlight[hidden] {
+  display: none;
+}
+
+.donut-chart__slice {
+  stroke: var(--white);
+  stroke-width: 1;
+}
+
+.donut-chart__label {
+  fill: var(--gray-80);
+  font-size: 11px;
+}
+
+.donut-chart__label--inside {
+  fill: var(--white);
+  font-weight: 700;
+}
+
+.polar-chart__point {
+  stroke: var(--white);
+  stroke-width: 1;
+}

@@ -1,86 +1,53 @@
 import { Controller } from '@hotwired/stimulus'
 import { get } from '@rails/request.js'
+import CategoryChart from 'charts/CategoryChart'
+
+const TRACKS_COLOR = '#2caffe'
+const PEOPLE_COLOR = '#91e8e1'
+const MONTHS = Array.from({ length: 12 }, (_value, index) => index)
 
 export default class PopularityChart extends Controller {
+  static values = {
+    url: String,
+    title: String,
+    tracksLabel: String,
+    peopleLabel: String
+  }
+
   connect() {
-    this.placeId = this.element.getAttribute('data-place-id')
     this.fetchData().then(data => this.initChart(data))
   }
 
+  disconnect() {
+    this.chart?.destroy()
+  }
+
   async fetchData() {
-    const response = await get(`/places/${this.placeId}/stats`, {
-      responseKind: 'json'
-    })
+    const response = await get(this.urlValue, { responseKind: 'json' })
     return response.json
   }
 
-  initChart(data) {
-    const { popularTimes } = data
+  initChart({ popularTimes }) {
+    if (!this.element.isConnected) return
 
     const formatter = new Intl.DateTimeFormat(undefined, { month: 'short' })
-    const categories = new Array(12).fill(undefined).map((_val, idx) => {
-      const date = new Date()
-      date.setMonth(idx)
-      return formatter.format(date)
-    })
+    const month = index => popularTimes[String(index + 1)]
 
-    const chartOptions = {
-      chart: {
-        type: 'column',
-        height: 200
-      },
-      title: {
-        text: 'Popular times'
-      },
-      xAxis: {
-        categories,
-        crosshair: true
-      },
-      yAxis: [
-        { title: { text: null }, visible: false },
-        { title: { text: null }, visible: false },
-        {
-          title: { text: null },
-          min: 0,
-          max: 200,
-          tickAmount: 4,
-          labels: { enabled: false }
-        }
-      ],
-      tooltip: {
-        shared: true
-      },
-      plotOptions: {
-        column: {
-          borderRadius: 8,
-          pointWidth: 16
-        }
-      },
+    this.chart = new CategoryChart(this.element, {
+      title: this.titleValue,
+      categories: MONTHS.map(index => formatter.format(new Date(2000, index, 1))),
       series: [
         {
-          name: 'Tracks recorded',
-          type: 'column',
-          yAxis: 0,
-          color: '#2caffe',
-          data: new Array(12)
-            .fill(undefined)
-            .map((_val, idx) => popularTimes[String(idx + 1)].trackCount)
+          name: this.tracksLabelValue,
+          color: TRACKS_COLOR,
+          values: MONTHS.map(index => month(index).trackCount)
         },
         {
-          name: 'People visited',
-          type: 'column',
-          yAxis: 1,
-          color: '#91e8e1',
-          data: new Array(12)
-            .fill(undefined)
-            .map((_val, idx) => popularTimes[String(idx + 1)].peopleCount)
+          name: this.peopleLabelValue,
+          color: PEOPLE_COLOR,
+          values: MONTHS.map(index => month(index).peopleCount)
         }
-      ],
-      credits: {
-        enabled: false
-      }
-    }
-
-    this.element.chart = Highcharts.chart(this.element, chartOptions)
+      ]
+    })
   }
 }

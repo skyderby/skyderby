@@ -1,4 +1,4 @@
-import { Controller } from '@hotwired/stimulus'
+import LabeledController from 'controllers/labeled_controller'
 import { post, put } from '@rails/request.js'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
 import {
@@ -15,11 +15,14 @@ import {
   calculateDesignatedLaneStart,
   fitMapBounds
 } from 'utils/laneValidation/controllerUtils'
-import { initAccuracyChart, findPositionForAltitude, sep50Series } from 'charts'
+import { findPositionForAltitude } from 'charts'
+import { buildSepChart } from 'charts/timeSeriesCharts'
 import cropPoints from 'utils/cropPoints'
 import { checkProximityViolation } from 'utils/laneValidation/proximityCheck'
 
-export default class extends Controller {
+const WINDOW_LINE_COLOR = 'red'
+
+export default class extends LabeledController {
   static targets = [
     'referencePoints',
     'map',
@@ -64,10 +67,19 @@ export default class extends Controller {
   initializeSepChart() {
     if (!this.hasSepChartTarget) return
 
-    this.sepChart = initAccuracyChart(this.sepChartTarget, [], [])
+    this.renderSepChart([])
+  }
+
+  renderSepChart(points, plotLines = []) {
+    this.sepChart?.destroy()
+    this.sepChart = buildSepChart(this.sepChartTarget, points, {
+      plotLines,
+      labels: this.labels
+    })
   }
 
   disconnect() {
+    this.sepChart?.destroy()
     this.trackGraphics.forEach(graphics => {
       graphics.polylines.forEach(polyline => polyline.setMap(null))
       graphics.windowMarkers.forEach(marker => marker.setMap(null))
@@ -138,9 +150,7 @@ export default class extends Controller {
       checkbox.checked = false
     })
 
-    if (this.sepChart) {
-      this.sepChart.series[0].setData([])
-    }
+    if (this.sepChart) this.renderSepChart([])
 
     if (this.hasSepCheckTarget) this.sepCheckTarget.replaceChildren()
     if (this.hasExitCheckTarget) this.exitCheckTarget.replaceChildren()
@@ -493,15 +503,7 @@ export default class extends Controller {
       }
     }
 
-    const windowPlotLines = this.getWindowPlotLines(displayPoints)
-
-    this.sepChart.xAxis[0].update({
-      plotLines: windowPlotLines
-    })
-
-    const seriesData = sep50Series(displayPoints)
-    this.sepChart.series[0].setData([])
-    this.sepChart.series[0].update(seriesData, true)
+    this.renderSepChart(displayPoints, this.getWindowPlotLines(displayPoints))
 
     this.updateSepCheckIndicator(displayPoints)
   }
@@ -511,11 +513,7 @@ export default class extends Controller {
       findPositionForAltitude(points, altitude)
     )
 
-    return positions.map(position => ({
-      value: position,
-      width: 1,
-      color: 'red'
-    }))
+    return positions.map(position => ({ value: position, color: WINDOW_LINE_COLOR }))
   }
 
   updateSepCheckIndicator(points) {

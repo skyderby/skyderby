@@ -1,12 +1,11 @@
-import { Controller } from '@hotwired/stimulus'
+import LabeledController from 'controllers/labeled_controller'
 import { get } from '@rails/request.js'
 import { calculateFlightProfile, calculateTerrainClearance } from 'utils/flightProfiles'
-import I18n from 'i18n'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
 import FlightProfileChart from 'charts/FlightProfileChart'
 import amplitude from 'utils/amplitude'
 
-export default class FlightProfilesController extends Controller {
+export default class FlightProfilesController extends LabeledController {
   static targets = [
     'tracksList',
     'profileHost',
@@ -19,7 +18,10 @@ export default class FlightProfilesController extends Controller {
     'proCtaLabel'
   ]
 
-  static values = { terrainProfilesUrl: String, measurementsUrlTemplate: String }
+  static values = {
+    terrainProfilesUrl: String,
+    measurementsUrlTemplate: String
+  }
 
   connect() {
     this.selectedTracks = new Set(this.getSelectedTracksFromUrl())
@@ -39,9 +41,9 @@ export default class FlightProfilesController extends Controller {
         terrain: this.terrainTooltip
       },
       labels: {
-        resetZoom: I18n.t('flight_profiles.reset_zoom'),
+        resetZoom: this.labels.t('flight_profiles.reset_zoom'),
         zoomTo: meters =>
-          I18n.t('flight_profiles.zoom_to_first', { distance: Math.round(meters) })
+          this.labels.t('flight_profiles.zoom_to_first', { distance: Math.round(meters) })
       }
     })
 
@@ -345,14 +347,14 @@ export default class FlightProfilesController extends Controller {
     return `
       <div class="fp-tooltip-row">
         <span class="fp-tooltip-name" style="color: var(${track.colorVar})">${track.name}</span>
-        <span>↓${Math.round(sample.y)} ${I18n.t('units.m')}
-          →${Math.round(sample.x)} ${I18n.t('units.m')}</span>
-        <span><b>${I18n.t('flight_profiles.full_speed')}:</b>
-          ${custom.fullSpeed} ${I18n.t('units.kmh')}</span>
-        <span><b>${I18n.t('flight_profiles.ground_speed')}:</b>
-          ${custom.hSpeed} ${I18n.t('units.kmh')}</span>
-        <span><b>${I18n.t('flight_profiles.vertical_speed')}:</b>
-          ${custom.vSpeed} ${I18n.t('units.kmh')}</span>
+        <span>↓${Math.round(sample.y)} ${this.labels.t('units.m')}
+          →${Math.round(sample.x)} ${this.labels.t('units.m')}</span>
+        <span><b>${this.labels.t('flight_profiles.full_speed')}:</b>
+          ${custom.fullSpeed} ${this.labels.t('units.kmh')}</span>
+        <span><b>${this.labels.t('flight_profiles.ground_speed')}:</b>
+          ${custom.hSpeed} ${this.labels.t('units.kmh')}</span>
+        <span><b>${this.labels.t('flight_profiles.vertical_speed')}:</b>
+          ${custom.vSpeed} ${this.labels.t('units.kmh')}</span>
       </div>
     `
   }
@@ -362,10 +364,10 @@ export default class FlightProfilesController extends Controller {
     return `
       <div class="fp-tooltip-row">
         <span class="fp-tooltip-name" style="color: var(${track.colorVar})">${track.name}</span>
-        <span><b>${I18n.t('flight_profiles.distance_traveled')}:</b>
-          ${Math.round(sample.x)} ${I18n.t('units.m')}</span>
-        <span><b>${I18n.t('flight_profiles.distance_to_terrain')}:</b>
-          ${custom.presentation} ${I18n.t('units.m')}</span>
+        <span><b>${this.labels.t('flight_profiles.distance_traveled')}:</b>
+          ${Math.round(sample.x)} ${this.labels.t('units.m')}</span>
+        <span><b>${this.labels.t('flight_profiles.distance_to_terrain')}:</b>
+          ${custom.presentation} ${this.labels.t('units.m')}</span>
       </div>
     `
   }
@@ -374,8 +376,8 @@ export default class FlightProfilesController extends Controller {
     return `
       <div class="fp-tooltip-row">
         <span class="fp-tooltip-name fp-tooltip-name--terrain">${terrain.name}</span>
-        <span>↓${Math.round(sample.y)} ${I18n.t('units.m')}
-          →${Math.round(sample.x)} ${I18n.t('units.m')}</span>
+        <span>↓${Math.round(sample.y)} ${this.labels.t('units.m')}
+          →${Math.round(sample.x)} ${this.labels.t('units.m')}</span>
       </div>
     `
   }

@@ -1,5 +1,35 @@
 fr:
   charts:
+    donations:
+      people: "Donateurs"
+      amount: "Montant"
+    popularity:
+      title: "Périodes fréquentées"
+      tracks: "Traces enregistrées"
+      people: "Visiteurs"
+    person_details:
+      result: "Résultat"
+    suits_popularity:
+      title: "Popularité des combinaisons sur la dernière année"
+      manufacturers: "Part du fabricant"
+      suits: "Part de la combinaison"
+    winds:
+      title: "Vents en altitude"
+      altitude: "Altitude"
+      speed: "Vitesse"
+      direction: "Direction"
+    speed_skydiving:
+      accuracy: 'Précision de vitesse'
+      end_of_window: 'Fin de fenêtre - %{altitude}'
+      best_speed: 'Meilleure vitesse : %{speed}'
+    compare:
+      default_name: 'Comparaison'
+      ground_suffix: 'H'
+      vertical_suffix: 'V'
+      full_suffix: 'Totale'
+    sep:
+      series:
+        sep50: 'SEP 50'
     polar:
       title: Polaire de traînée
       subtitle: Reconstruite à partir de l'accélération · coefficient de portance vs traînée

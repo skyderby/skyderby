@@ -23,7 +23,7 @@
     <h1 class="text-muted text-center">Data will appear after the round is marked as completed</h1>
   <% else %>
     <section class="card lane-validation"
-             data-controller="lane-validation"
+             data-controller="lane-validation" data-lane-validation-labels-value="<%= js_labels(:units, :charts) %>"
              data-lane-validation-dl-start-value="<%= @event.designated_lane_start %>"
              data-lane-validation-event-id-value="<%= @event.id %>"
              data-lane-validation-window-start-value="<%= @event.range_from %>"

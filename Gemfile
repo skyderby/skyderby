@@ -63,8 +63,6 @@ gem 'amplitude-api'
 
 # Internalization
 gem 'http_accept_language'
-gem 'i18n-js'
-gem 'listen'
 
 gem 'browser'
 

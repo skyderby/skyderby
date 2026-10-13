@@ -1,7 +1,7 @@
-import { Controller } from '@hotwired/stimulus'
+import LabeledController from 'controllers/labeled_controller'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 
-export default class extends Controller {
+export default class extends LabeledController {
   static targets = [
     'altitude',
     'altitudeSpent',
@@ -66,10 +66,10 @@ export default class extends Controller {
 
   applyUnitLabels(units) {
     this.element.querySelectorAll('[data-unit="speed"]').forEach(el => {
-      el.textContent = speedUnitLabel(units)
+      el.textContent = speedUnitLabel(units, this.labels)
     })
     this.element.querySelectorAll('[data-unit="length"]').forEach(el => {
-      el.textContent = lengthUnitLabel(units)
+      el.textContent = lengthUnitLabel(units, this.labels)
     })
   }
 

@@ -47,7 +47,7 @@ export default class extends Controller {
       deploy: this.deployLabelValue,
       landing: this.landingLabelValue
     }
-    this.handleEls = []
+    this.handleEls = {}
     this.tickEls = []
 
     this.chart = new RangeChart(this.chartTarget, this.minimapTarget, {
@@ -98,16 +98,22 @@ export default class extends Controller {
   }
 
   renderHandles() {
-    this.handleEls.forEach(el => el.remove())
-    this.handleEls = []
-
     PHASES.forEach(phase => {
       const value = this.moments[phase]
-      if (value == null || !this.chart.isInView(value)) return
-      const el = this.buildHandle(phase)
+      const visible = value != null && this.chart.isInView(value)
+      let el = this.handleEls[phase]
+
+      if (!visible) {
+        if (el) el.hidden = true
+        return
+      }
+
+      if (!el) {
+        el = this.handleEls[phase] = this.buildHandle(phase)
+        this.chartTarget.appendChild(el)
+      }
+      el.hidden = false
       this.placeHandle(el, phase)
-      this.chartTarget.appendChild(el)
-      this.handleEls.push(el)
     })
   }
 
@@ -146,9 +152,12 @@ export default class extends Controller {
     event.stopPropagation()
     const el = event.currentTarget
     const phase = el.dataset.phase
+    let frame = null
+    let lastX = this.pointerX(event)
 
-    const move = ev => {
-      const time = this.chart.clientXToTime(this.pointerX(ev))
+    const apply = () => {
+      frame = null
+      const time = this.chart.clientXToTime(lastX)
       this.moments[phase] = this.clamp(time, ...this.handleBounds(phase))
       if (phase === 'deploy') this.followLandingToDeploy()
       this.placeHandle(el, phase)
@@ -157,7 +166,16 @@ export default class extends Controller {
       this.updateTick(phase)
     }
 
+    const move = ev => {
+      lastX = this.pointerX(ev)
+      if (!frame) frame = requestAnimationFrame(apply)
+    }
+
     const up = () => {
+      if (frame) {
+        cancelAnimationFrame(frame)
+        apply()
+      }
       document.removeEventListener('pointermove', move)
       document.removeEventListener('pointerup', up)
       this.renderHandles()
@@ -173,8 +191,8 @@ export default class extends Controller {
     if (this.moments.landing >= minLanding) return
 
     this.moments.landing = Math.min(minLanding, this.maxT)
-    const landingEl = this.chartTarget.querySelector('.range-editor__handle--landing')
-    if (landingEl) this.placeHandle(landingEl, 'landing')
+    const landingEl = this.handleEls.landing
+    if (landingEl && !landingEl.hidden) this.placeHandle(landingEl, 'landing')
     this.updateTick('landing')
   }
 
@@ -231,14 +249,29 @@ export default class extends Controller {
   }
 
   renderTimes() {
-    this.timesTarget.innerHTML = PHASES.map(phase => {
+    if (!this.timeEls) this.buildTimes()
+
+    PHASES.forEach(phase => {
       const value = this.moments[phase]
       const time = value == null ? '—' : this.formatUtc(value)
-      return (
-        `<div class="range-editor__time range-editor__time--${phase}">` +
-        `<dt>${this.labels[phase]}</dt><dd>${time}</dd></div>`
-      )
-    }).join('')
+      if (this.timeEls[phase].textContent !== time) this.timeEls[phase].textContent = time
+    })
+  }
+
+  buildTimes() {
+    this.timeEls = {}
+    this.timesTarget.replaceChildren(
+      ...PHASES.map(phase => {
+        const row = document.createElement('div')
+        row.className = `range-editor__time range-editor__time--${phase}`
+        const dt = document.createElement('dt')
+        dt.textContent = this.labels[phase]
+        const dd = document.createElement('dd')
+        row.append(dt, dd)
+        this.timeEls[phase] = dd
+        return row
+      })
+    )
   }
 
   syncInputs() {

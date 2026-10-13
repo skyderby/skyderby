@@ -1,5 +1,35 @@
 it:
   charts:
+    donations:
+      people: "Donatori"
+      amount: "Importo"
+    popularity:
+      title: "Periodi più frequentati"
+      tracks: "Tracce registrate"
+      people: "Persone in visita"
+    person_details:
+      result: "Risultato"
+    suits_popularity:
+      title: "Popolarità delle tute nell'ultimo anno"
+      manufacturers: "Quota produttore"
+      suits: "Quota tuta"
+    winds:
+      title: "Venti in quota"
+      altitude: "Altitudine"
+      speed: "Velocità"
+      direction: "Direzione"
+    speed_skydiving:
+      accuracy: 'Precisione velocità'
+      end_of_window: 'Fine finestra - %{altitude}'
+      best_speed: 'Velocità migliore: %{speed}'
+    compare:
+      default_name: 'Confronto'
+      ground_suffix: 'O'
+      vertical_suffix: 'V'
+      full_suffix: 'Totale'
+    sep:
+      series:
+        sep50: 'SEP 50'
     polar:
       title: Polare di resistenza
       subtitle: Ricostruita dall'accelerazione · coefficiente di portanza vs resistenza

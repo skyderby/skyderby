@@ -9,6 +9,7 @@ const SAMPLE_LIMIT = 1400
 const FLIP_THRESHOLD = 60
 const SPEED_MIN = -50
 const SPEED_MAX = 350
+const SERIES = ['area', 'alt', 'hspeed', 'vspeed']
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value))
 const pointerX = event => (event.touches ? event.touches[0].clientX : event.clientX)
@@ -30,7 +31,9 @@ export default class RangeChart {
     this.maxT = MIN_WINDOW
     this.viewStart = 0
     this.windowLen = MIN_WINDOW
-    this.axisEls = []
+    this.hoverX = null
+    this.hoverFrame = null
+    this.hoverSample = null
 
     this.chartEl.classList.add('range-editor__plot')
     this.minimapEl.classList.add('range-editor__overview')
@@ -39,13 +42,21 @@ export default class RangeChart {
     this.cursorEl.hidden = true
     this.tooltipEl = el('div', 'range-editor__tooltip')
     this.tooltipEl.hidden = true
-    this.chartEl.append(this.cursorEl, this.tooltipEl)
+    this.altTopEl = this.axis('top')
+    this.altBottomEl = this.axis('bottom')
+    this.chartEl.append(this.cursorEl, this.tooltipEl, this.altTopEl, this.altBottomEl)
+
+    this.mainSvg = this.buildSvg(CHART_W, CHART_H, CHART_PAD_BOTTOM)
+    this.chartEl.prepend(this.mainSvg.svg)
 
     this.brushEl = el('div', 'range-editor__brush')
     this.brushEl.innerHTML =
       '<span class="range-editor__brush-edge range-editor__brush-edge--left"></span>' +
       '<span class="range-editor__brush-edge range-editor__brush-edge--right"></span>'
     this.minimapEl.appendChild(this.brushEl)
+
+    this.overviewSvg = this.buildSvg(MINI_W, MINI_H, 0)
+    this.minimapEl.prepend(this.overviewSvg.svg)
 
     this.chartEl.addEventListener('pointermove', this.onHover)
     this.chartEl.addEventListener('pointerleave', this.onLeave)
@@ -54,6 +65,7 @@ export default class RangeChart {
   }
 
   destroy() {
+    cancelAnimationFrame(this.hoverFrame)
     this.chartEl.removeEventListener('pointermove', this.onHover)
     this.chartEl.removeEventListener('pointerleave', this.onLeave)
     this.brushEl.removeEventListener('pointerdown', this.onBrushDown)
@@ -100,30 +112,14 @@ export default class RangeChart {
   }
 
   renderMain() {
-    const svg = this.seriesSvg(
-      CHART_W,
-      CHART_H,
-      this.viewStart,
-      this.viewEnd,
-      CHART_PAD_BOTTOM
-    )
-    if (this.mainSvg) this.mainSvg.replaceWith(svg)
-    else this.chartEl.prepend(svg)
-    this.mainSvg = svg
-
-    this.axisEls.forEach(node => node.remove())
-    this.axisEls = [
-      this.axis(`${Math.round(this.aHi)} m`, 'top'),
-      this.axis(`${Math.round(this.aLo)} m`, 'bottom')
-    ]
-    this.axisEls.forEach(node => this.chartEl.appendChild(node))
+    this.drawSeries(this.mainSvg, this.viewStart, this.viewEnd)
+    this.altTopEl.textContent = `${Math.round(this.aHi)} m`
+    this.altBottomEl.textContent = `${Math.round(this.aLo)} m`
+    this.hideHover()
   }
 
   renderOverview() {
-    const svg = this.seriesSvg(MINI_W, MINI_H, 0, this.maxT, 0)
-    if (this.overviewSvg) this.overviewSvg.replaceWith(svg)
-    else this.minimapEl.prepend(svg)
-    this.overviewSvg = svg
+    this.drawSeries(this.overviewSvg, 0, this.maxT)
     this.positionBrush()
   }
 
@@ -141,111 +137,162 @@ export default class RangeChart {
     this.sHi = SPEED_MAX
   }
 
-  seriesSvg(width, height, t0, t1, padBottom) {
+  buildSvg(width, height, padBottom) {
     const plot = height - padBottom
-    const span = Math.max(t1 - t0, 1e-6)
-    const x = t => (width * (t - t0)) / span
-    const yA = a => plot * (1 - (a - this.aLo) / (this.aHi - this.aLo))
-    const yS = v =>
-      plot * (1 - (clamp(v, this.sLo, this.sHi) - this.sLo) / (this.sHi - this.sLo))
-
-    const points = this.windowSamples(t0, t1)
-    if (points.length < 2) return this.emptySvg(width, height)
-
-    const path = accessor => {
-      let d = `M${x(points[0].t).toFixed(1)} ${accessor(points[0]).toFixed(1)}`
-      for (let i = 1; i < points.length; i++) {
-        d += ` L${x(points[i].t).toFixed(1)} ${accessor(points[i]).toFixed(1)}`
-      }
-      return d
-    }
-
-    const altPath = path(p => yA(p.alt))
-    const last = points[points.length - 1]
-    const area = `${altPath} L${x(last.t).toFixed(1)} ${plot} L${x(points[0].t).toFixed(1)} ${plot} Z`
-
     const svg = document.createElementNS(SVG_NS, 'svg')
     svg.setAttribute('viewBox', `0 0 ${width} ${height}`)
     svg.setAttribute('preserveAspectRatio', 'none')
-    svg.classList.add('range-editor__svg')
+    svg.classList.add('range-editor__svg', 'amp-block')
 
-    let grid = ''
     for (let i = 1; i < 4; i++) {
+      const line = document.createElementNS(SVG_NS, 'line')
       const gy = (plot * i) / 4
-      grid += `<line x1="0" y1="${gy}" x2="${width}" y2="${gy}" class="range-editor__grid"/>`
+      line.setAttribute('x1', 0)
+      line.setAttribute('y1', gy)
+      line.setAttribute('x2', width)
+      line.setAttribute('y2', gy)
+      line.classList.add('range-editor__grid')
+      svg.appendChild(line)
     }
 
-    svg.innerHTML =
-      grid +
-      `<path d="${area}" class="range-editor__area"/>` +
-      `<path d="${altPath}" class="range-editor__alt"/>` +
-      `<path d="${path(p => yS(p.h))}" class="range-editor__hspeed"/>` +
-      `<path d="${path(p => yS(p.v))}" class="range-editor__vspeed"/>`
+    const path = className => {
+      const node = document.createElementNS(SVG_NS, 'path')
+      node.classList.add(className)
+      svg.appendChild(node)
+      return node
+    }
 
-    return svg
+    return {
+      svg,
+      width,
+      plot,
+      area: path('range-editor__area'),
+      alt: path('range-editor__alt'),
+      hspeed: path('range-editor__hspeed'),
+      vspeed: path('range-editor__vspeed')
+    }
+  }
+
+  drawSeries(target, t0, t1) {
+    const { width, plot } = target
+    const points = this.windowSamples(t0, t1)
+
+    if (points.length < 2) {
+      SERIES.forEach(key => target[key].removeAttribute('d'))
+      return
+    }
+
+    const span = Math.max(t1 - t0, 1e-6)
+    const aSpan = this.aHi - this.aLo
+    const sSpan = this.sHi - this.sLo
+    const x = t => ((width * (t - t0)) / span).toFixed(1)
+    const yA = a => (plot * (1 - (a - this.aLo) / aSpan)).toFixed(1)
+    const yS = v =>
+      (plot * (1 - (clamp(v, this.sLo, this.sHi) - this.sLo) / sSpan)).toFixed(1)
+
+    const alt = new Array(points.length)
+    const h = new Array(points.length)
+    const v = new Array(points.length)
+    for (let i = 0; i < points.length; i++) {
+      const p = points[i]
+      const px = x(p.t)
+      alt[i] = `${px} ${yA(p.alt)}`
+      h[i] = `${px} ${yS(p.h)}`
+      v[i] = `${px} ${yS(p.v)}`
+    }
+
+    const altPath = `M${alt.join('L')}`
+    const firstX = x(points[0].t)
+    const lastX = x(points[points.length - 1].t)
+
+    target.area.setAttribute('d', `${altPath}L${lastX} ${plot}L${firstX} ${plot}Z`)
+    target.alt.setAttribute('d', altPath)
+    target.hspeed.setAttribute('d', `M${h.join('L')}`)
+    target.vspeed.setAttribute('d', `M${v.join('L')}`)
   }
 
   windowSamples(t0, t1) {
-    const inside = this.samples.filter(s => s.t >= t0 && s.t <= t1)
-    if (inside.length <= SAMPLE_LIMIT) return inside
-    const step = Math.ceil(inside.length / SAMPLE_LIMIT)
-    return inside.filter((_, i) => i % step === 0 || i === inside.length - 1)
+    const from = this.indexAt(t0)
+    let to = this.indexAt(t1)
+    if (to < this.samples.length && this.samples[to].t <= t1) to++
+    const count = to - from
+    if (count <= SAMPLE_LIMIT) return this.samples.slice(from, to)
+
+    const step = Math.ceil(count / SAMPLE_LIMIT)
+    const result = []
+    for (let i = from; i < to; i += step) result.push(this.samples[i])
+    if ((count - 1) % step !== 0) result.push(this.samples[to - 1])
+    return result
   }
 
-  emptySvg(width, height) {
-    const svg = document.createElementNS(SVG_NS, 'svg')
-    svg.setAttribute('viewBox', `0 0 ${width} ${height}`)
-    svg.setAttribute('preserveAspectRatio', 'none')
-    svg.classList.add('range-editor__svg')
-    return svg
+  indexAt(t) {
+    const samples = this.samples
+    let lo = 0
+    let hi = samples.length
+    while (lo < hi) {
+      const mid = (lo + hi) >> 1
+      if (samples[mid].t < t) lo = mid + 1
+      else hi = mid
+    }
+    return lo
   }
 
-  axis(text, position) {
-    const node = el(
+  axis(position) {
+    return el(
       'div',
       `range-editor__axis range-editor__axis--${position} range-editor__axis--alt`
     )
-    node.textContent = text
-    return node
   }
 
   onHover = event => {
-    if (!this.samples.length) return
+    this.hoverX = event.clientX
+    if (this.hoverFrame) return
+    this.hoverFrame = requestAnimationFrame(this.drawHover)
+  }
+
+  drawHover = () => {
+    this.hoverFrame = null
+    if (!this.samples.length || this.hoverX == null) return
 
     const rect = this.chartEl.getBoundingClientRect()
-    const ratio = (event.clientX - rect.left) / rect.width
-    if (ratio < 0 || ratio > 1) return this.onLeave()
+    const ratio = (this.hoverX - rect.left) / rect.width
+    if (ratio < 0 || ratio > 1) return this.hideHover()
 
     const sample = this.sampleAt(this.viewStart + ratio * this.windowLen)
-    if (!sample) return this.onLeave()
+    if (!sample) return this.hideHover()
+    if (sample === this.hoverSample && !this.cursorEl.hidden) return
+    this.hoverSample = sample
 
     const pct = this.viewPct(sample.t)
+    const offset = `translate3d(${((pct * rect.width) / 100).toFixed(1)}px, 0, 0)`
+    const flip = pct > FLIP_THRESHOLD
+
     this.cursorEl.hidden = false
-    this.cursorEl.style.left = `${pct}%`
+    this.cursorEl.style.transform = offset
 
     this.tooltipEl.hidden = false
     this.tooltipEl.innerHTML = this.tooltipFormatter(sample)
-    this.tooltipEl.classList.toggle('range-editor__tooltip--flip', pct > FLIP_THRESHOLD)
-    this.tooltipEl.style.left = `${pct}%`
+    this.tooltipEl.classList.toggle('range-editor__tooltip--flip', flip)
+    this.tooltipEl.style.transform = flip ? `${offset} translateX(-100%)` : offset
   }
 
   onLeave = () => {
+    this.hoverX = null
+    this.hideHover()
+  }
+
+  hideHover() {
+    this.hoverSample = null
     this.cursorEl.hidden = true
     this.tooltipEl.hidden = true
   }
 
   sampleAt(t) {
     const samples = this.samples
-    let lo = 0
-    let hi = samples.length - 1
-    while (lo < hi) {
-      const mid = (lo + hi) >> 1
-      if (samples[mid].t < t) lo = mid + 1
-      else hi = mid
-    }
-    const prev = samples[lo - 1]
-    if (prev && Math.abs(prev.t - t) < Math.abs(samples[lo].t - t)) return prev
-    return samples[lo]
+    const index = Math.min(this.indexAt(t), samples.length - 1)
+    const prev = samples[index - 1]
+    if (prev && Math.abs(prev.t - t) < Math.abs(samples[index].t - t)) return prev
+    return samples[index]
   }
 
   onBrushDown = event => {
@@ -260,9 +307,12 @@ export default class RangeChart {
     const startX = pointerX(event)
     const startView = this.viewStart
     const startLen = this.windowLen
+    let frame = null
+    let lastX = startX
 
-    const move = ev => {
-      const deltaT = ((pointerX(ev) - startX) / rect.width) * this.maxT
+    const apply = () => {
+      frame = null
+      const deltaT = ((lastX - startX) / rect.width) * this.maxT
       if (edge === 'left') {
         const newStart = clamp(startView + deltaT, 0, startView + startLen - MIN_WINDOW)
         this.windowLen = startView + startLen - newStart
@@ -277,7 +327,16 @@ export default class RangeChart {
       this.onViewChange()
     }
 
+    const move = ev => {
+      lastX = pointerX(ev)
+      if (!frame) frame = requestAnimationFrame(apply)
+    }
+
     const up = () => {
+      if (frame) {
+        cancelAnimationFrame(frame)
+        apply()
+      }
       document.removeEventListener('pointermove', move)
       document.removeEventListener('pointerup', up)
     }

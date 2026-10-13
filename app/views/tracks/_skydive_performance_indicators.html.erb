@@ -1,6 +1,6 @@
 <%# locals: (compare: false, **attributes) %>
 <div class="track-indicators<%= ' track-indicators--compare' if compare %>"
-     data-controller="summary-indicators"
+     data-controller="summary-indicators" data-summary-indicators-labels-value="<%= js_labels(:units) %>"
      <%= tag.attributes(attributes) %>>
   <div class="track-indicator" data-value="distance">
     <div class="track-indicator-title"><%= t('tracks.indicators.distance') %></div>

@@ -10,8 +10,9 @@ const signOf = value => (value >= 0 ? '+' : '−')
 const maxAbs = values => Math.max(...values.map(Math.abs), MIN_RATIO)
 
 export default class SegmentsPanel {
-  constructor({ container, templates }) {
+  constructor({ container, templates, labels }) {
     this.container = container
+    this.labels = labels
     this.templates = templates
   }
 
@@ -33,11 +34,11 @@ export default class SegmentsPanel {
   }
 
   get speedUnit() {
-    return speedUnitLabel(this.units)
+    return speedUnitLabel(this.units, this.labels)
   }
 
   get lengthUnit() {
-    return lengthUnitLabel(this.units)
+    return lengthUnitLabel(this.units, this.labels)
   }
 
   length(meters) {

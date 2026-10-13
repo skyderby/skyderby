@@ -7,13 +7,13 @@ class SpeedSkydivingPositionTest < ApplicationSystemTestCase
     position = I18n.t('tracks.speed_pro.metrics.position')
 
     visit track_path(track)
-    assert_selector '.speed-skydiving-chart .highcharts-root', wait: 30
-    assert_no_selector '.highcharts-legend-item', text: position
+    assert_selector '.speed-skydiving-chart .ts-chart__svg', wait: 30
+    assert_no_selector '.ts-chart__legend-item', text: position
 
     find('.switch-label', text: position).click
-    assert_selector '.highcharts-legend-item', text: position
+    assert_selector '.ts-chart__legend-item', text: position
 
     visit track_path(track)
-    assert_selector '.highcharts-legend-item', text: position, wait: 30
+    assert_selector '.ts-chart__legend-item', text: position, wait: 30
   end
 end

@@ -7,7 +7,7 @@
   <%= render partial: 'header', locals: { track: @track } %>
 
   <div class="track-show-content"
-       data-controller="tracks--skydive-track"
+       data-controller="tracks--skydive-track" data-tracks--skydive-track-labels-value="<%= js_labels(:units, :charts, :track_show) %>"
        data-tracks--skydive-track-points-url-value="<%= track_points_path(@track, original_frequency: true) %>"
        data-tracks--skydive-track-weather-url-value="<%= track_weather_data_path(@track) %>"
        data-tracks--skydive-track-chart-type-value="<%= Current.charts_mode %>"
@@ -57,17 +57,11 @@
     </div>
 
     <% if Current.charts_mode.separate? %>
-      <div class="performance-flying-separate-charts"
-           data-controller="synchronized-charts"
-           data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip">
-        <div data-tracks--skydive-track-target="accuracyChart"
-             data-synchronized-charts-target="chart"></div>
-        <div data-tracks--skydive-track-target="glideChart"
-             data-synchronized-charts-target="chart"></div>
-        <div data-tracks--skydive-track-target="speedChart"
-             data-synchronized-charts-target="chart"></div>
-        <div data-tracks--skydive-track-target="altitudeDistanceChart"
-             data-synchronized-charts-target="chart"></div>
+      <div class="performance-flying-separate-charts">
+        <div data-tracks--skydive-track-target="accuracyChart"></div>
+        <div data-tracks--skydive-track-target="glideChart"></div>
+        <div data-tracks--skydive-track-target="speedChart"></div>
+        <div data-tracks--skydive-track-target="altitudeDistanceChart"></div>
       </div>
     <% else %>
       <div class="performance-flying-combined-chart">

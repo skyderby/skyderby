@@ -1,11 +1,10 @@
-import { Controller } from '@hotwired/stimulus'
-import I18n from 'i18n'
+import LabeledController from 'controllers/labeled_controller'
 import FlightProfileChart from 'charts/FlightProfileChart'
 import { parseTerrainCsv, withExitPoint } from 'utils/terrainProfiles'
 
 const MEASUREMENT_LINE = /^(-?\d+(?:[.,]\d+)?)[\s,;]+(-?\d+(?:[.,]\d+)?)$/
 
-export default class extends Controller {
+export default class extends LabeledController {
   static targets = [
     'publishedCheckbox',
     'publicationFields',
@@ -95,7 +94,9 @@ export default class extends Controller {
   }
 
   showImportError() {
-    this.importErrorTarget.textContent = I18n.t('terrain_profiles.form.import_csv_failed')
+    this.importErrorTarget.textContent = this.labels.t(
+      'terrain_profiles.form.import_csv_failed'
+    )
     this.importErrorTarget.classList.remove('hide')
   }
 
@@ -182,8 +183,8 @@ export default class extends Controller {
 
   previewTooltip = sample => `
     <div class="fp-tooltip-row">
-      <span>↑${Math.round(sample.y)} ${I18n.t('units.m')}
-        →${Math.round(sample.x)} ${I18n.t('units.m')}</span>
+      <span>↑${Math.round(sample.y)} ${this.labels.t('units.m')}
+        →${Math.round(sample.x)} ${this.labels.t('units.m')}</span>
     </div>
   `
 }

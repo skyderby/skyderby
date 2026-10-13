@@ -1,7 +1,7 @@
-import { Controller } from '@hotwired/stimulus'
+import LabeledController from 'controllers/labeled_controller'
 import { convertSpeed, speedUnitLabel } from 'utils/units'
 
-export default class extends Controller {
+export default class extends LabeledController {
   static targets = ['value', 'label', 'option']
 
   connect() {
@@ -53,7 +53,7 @@ export default class extends Controller {
     if (speed === null) return
 
     const value = speed.toFixed(this.precisionFor(target))
-    target.dataset.result = `${value} ${speedUnitLabel(this.units)}`
+    target.dataset.result = `${value} ${speedUnitLabel(this.units, this.labels)}`
   }
 
   speedFor(target) {

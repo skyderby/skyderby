@@ -13,7 +13,15 @@
         <div class="track-map-wrapper col-sm-12">
           <div id="track-map" data-tracks--map-target="map"></div>
           <% if @track.weather_data.exists? %>
-            <div id="track-map-polar-chart" data-controller="tracks--wind-chart">
+            <div id="track-map-polar-chart"
+                 class="bg-white"
+                 data-controller="tracks--wind-chart"
+                 data-tracks--wind-chart-title-value="<%= t('charts.winds.title') %>"
+                 data-tracks--wind-chart-altitude-label-value="<%= t('charts.winds.altitude') %>"
+                 data-tracks--wind-chart-speed-label-value="<%= t('charts.winds.speed') %>"
+                 data-tracks--wind-chart-direction-label-value="<%= t('charts.winds.direction') %>"
+                 data-tracks--wind-chart-altitude-unit-value="<%= t('units.m') %>"
+                 data-tracks--wind-chart-speed-unit-value="<%= t('units.ms') %>">
               <script type="application/json" data-tracks--wind-chart-target="data">
                 <%= raw render partial: 'tracks/weather_data/weather_data', locals: { weather_data: @track.weather_data }, formats: [:json] %>
               </script>

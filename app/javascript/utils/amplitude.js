@@ -59,7 +59,7 @@ const initializeAmplitude = () => {
     }
 
     amplitude.init(apiKey, userId, options)
-    amplitude.add(sessionReplay.plugin({ sampleRate: 1 }))
+    amplitude.add(sessionReplay.plugin({ sampleRate: 1, useWebWorker: true }))
     amplitude.add(trackPageEnrichmentPlugin())
     initialized = true
   }

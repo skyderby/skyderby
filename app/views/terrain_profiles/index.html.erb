@@ -2,7 +2,7 @@
 <% provide :page_class, 'fullscreen' %>
 
 <div class="explorer"
-     data-controller="terrain-profiles"
+     data-controller="terrain-profiles" data-terrain-profiles-labels-value="<%= js_labels(:units, :flight_profiles) %>"
      data-terrain-profiles-measurements-url-template-value="<%= terrain_profile_measurements_path('__ID__') %>">
   <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
     <div class="explorer-search">

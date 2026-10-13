@@ -1,19 +1,21 @@
-import { Controller } from '@hotwired/stimulus'
-import I18n from 'i18n'
+import LabeledController from 'controllers/labeled_controller'
 import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
+import { findPositionForAltitude } from 'charts'
 import {
-  findPositionForAltitude,
-  initAccuracyChart,
-  initGlideChart,
-  initSpeedsChart,
-  initAltitudeDistanceChart,
-  initCombinedChart
-} from 'charts'
+  buildSepChart,
+  buildGlideChart,
+  buildSpeedChart,
+  buildAltitudeDistanceChart,
+  buildCombinedChart
+} from 'charts/timeSeriesCharts'
+import ChartGroup from 'charts/ChartGroup'
 import cropPoints from 'utils/cropPoints'
 import calculateWindCancellation from 'utils/windCancellation'
 import RangeSummary from 'charts/RangeSummary'
 
-export default class PerformanceFlyingChartsController extends Controller {
+const WINDOW_LINE_COLOR = 'red'
+
+export default class PerformanceFlyingChartsController extends LabeledController {
   static targets = [
     'accuracyChart',
     'glideChart',
@@ -52,6 +54,7 @@ export default class PerformanceFlyingChartsController extends Controller {
   ]
 
   connect() {
+    this.chartGroup = new ChartGroup(() => this.charts)
     this.result = Number(this.element.dataset.result)
     this.exitAltitude = Number(this.element.dataset.exitAltitude)
     this.windowStartAltitude = Number(this.element.dataset.windowStart)
@@ -84,6 +87,29 @@ export default class PerformanceFlyingChartsController extends Controller {
         this.updateTrackIndicators()
       })
       .catch(error => console.error('Failed to load performance flying charts', error))
+  }
+
+  disconnect() {
+    this.chartGroup.cancelHide()
+    this.charts.forEach(chart => chart.destroy())
+  }
+
+  get charts() {
+    return [
+      this.hasAccuracyChartTarget && this.accuracyChartTarget.chart,
+      this.hasGlideChartTarget && this.glideChartTarget.chart,
+      this.hasSpeedChartTarget && this.speedChartTarget.chart,
+      this.hasAltitudeDistanceChartTarget && this.altitudeDistanceChartTarget.chart,
+      this.hasCombinedChartTarget && this.combinedChartTarget.chart
+    ].filter(Boolean)
+  }
+
+  get chartOptions() {
+    return {
+      labels: this.labels,
+      onHover: (_index, time) => this.chartGroup.showTime(time),
+      onLeave: () => this.chartGroup.scheduleHide()
+    }
   }
 
   get hasWeatherData() {
@@ -186,10 +212,11 @@ export default class PerformanceFlyingChartsController extends Controller {
   }
 
   initCombinedCharts() {
-    this.combinedChartTarget.chart = initCombinedChart(
+    this.combinedChartTarget.chart = buildCombinedChart(
       this.combinedChartTarget,
       this.points,
       {
+        ...this.chartOptions,
         plotLines: this.windowPlotLines({ includeLabels: true }),
         windCancellation: this.hasWeatherData,
         straightLine: true,
@@ -199,32 +226,40 @@ export default class PerformanceFlyingChartsController extends Controller {
   }
 
   initAccuracyChart() {
-    this.accuracyChartTarget.chart = initAccuracyChart(
+    this.accuracyChartTarget.chart = buildSepChart(
       this.accuracyChartTarget,
       this.points,
-      { plotLines: this.windowPlotLines() }
+      {
+        ...this.chartOptions,
+        plotLines: this.windowPlotLines()
+      }
     )
   }
 
   initGlideChart() {
-    this.glideChartTarget.chart = initGlideChart(this.glideChartTarget, this.points, {
+    this.glideChartTarget.chart = buildGlideChart(this.glideChartTarget, this.points, {
+      ...this.chartOptions,
       plotLines: this.windowPlotLines({ includeLabels: true }),
-      windCancellation: this.hasWeatherData
+      windCancellation: this.hasWeatherData,
+      title: true,
+      legend: true
     })
   }
 
   initSpeedsChart() {
-    this.speedChartTarget.chart = initSpeedsChart(this.speedChartTarget, this.points, {
+    this.speedChartTarget.chart = buildSpeedChart(this.speedChartTarget, this.points, {
+      ...this.chartOptions,
       plotLines: this.windowPlotLines(),
-      windCancellation: this.hasWeatherData
+      windCancellation: this.hasWeatherData,
+      title: true
     })
   }
 
   initAltitudeDistanceChart() {
-    this.altitudeDistanceChartTarget.chart = initAltitudeDistanceChart(
+    this.altitudeDistanceChartTarget.chart = buildAltitudeDistanceChart(
       this.altitudeDistanceChartTarget,
       this.points,
-      { plotLines: this.windowPlotLines(), straightLine: true }
+      { ...this.chartOptions, plotLines: this.windowPlotLines(), straightLine: true }
     )
   }
 
@@ -242,17 +277,8 @@ export default class PerformanceFlyingChartsController extends Controller {
 
     return this.windowPlotLinePositions.map(([altitude, position]) => ({
       value: position,
-      width: 1,
-      color: 'red',
-      ...(includeLabels
-        ? {
-            label: {
-              text: `${altitude.toFixed()} ${I18n.t('units.m')}`,
-              style: { color: 'red' },
-              y: 10
-            }
-          }
-        : {})
+      color: WINDOW_LINE_COLOR,
+      label: includeLabels ? `${altitude.toFixed()} ${this.labels.t('units.m')}` : null
     }))
   }
 }

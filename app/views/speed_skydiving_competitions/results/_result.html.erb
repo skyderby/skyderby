@@ -8,7 +8,7 @@
   <%= render 'indicators', result: %>
 
   <div class="speed-skydiving-chart"
-       data-controller="speed-skydiving-chart"
+       data-controller="speed-skydiving-chart" data-speed-skydiving-chart-labels-value="<%= js_labels(:units, :charts) %>"
        data-track-id="<%= result.track_id %>"
        data-result="<%= result.result %>"
        data-exit-altitude="<%= result.exit_altitude %>"

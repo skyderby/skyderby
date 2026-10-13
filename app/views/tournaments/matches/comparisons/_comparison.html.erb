@@ -7,7 +7,7 @@
 <% if main.nil? %>
   <p class="text-muted"><%= t('tournaments.results.no_track_data') %></p>
 <% else %>
-  <div data-controller="tracks--base-jump-track"
+  <div data-controller="tracks--base-jump-track" data-tracks--base-jump-track-labels-value="<%= js_labels(:units, :charts, :track_show, :side_view, :base_summary) %>"
        data-tracks--base-jump-track-points-url-value="<%= track_points_path(main.track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
        data-tracks--base-jump-track-location-arrow-url-value="<%= asset_path('icons/location-arrow.svg') %>"
        data-tracks--base-jump-track-track-id-value="<%= main.track_id %>"

@@ -1,5 +1,4 @@
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
-import I18n from 'i18n'
 import { detectFlares, drawFlares } from './flareDetection'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 import { SVG_NS } from 'charts/svg/elements'
@@ -233,6 +232,10 @@ export default class SideProjectionChart {
     return this
   }
 
+  get labels() {
+    return this.options.labels
+  }
+
   showPersistentTooltip() {
     if (!this.flightProfile.length) return
 
@@ -401,7 +404,7 @@ export default class SideProjectionChart {
     xAxisLabel.setAttribute('text-anchor', 'middle')
     xAxisLabel.setAttribute('font-size', '12')
     xAxisLabel.setAttribute('fill', '#333')
-    xAxisLabel.textContent = `Distance (${lengthUnitLabel(this.options.units)})`
+    xAxisLabel.textContent = `Distance (${lengthUnitLabel(this.options.units, this.labels)})`
     gridGroup.appendChild(xAxisLabel)
 
     const yAxisLabel = document.createElementNS(SVG_NS, 'text')
@@ -411,7 +414,7 @@ export default class SideProjectionChart {
     yAxisLabel.setAttribute('font-size', '12')
     yAxisLabel.setAttribute('fill', '#333')
     yAxisLabel.setAttribute('transform', `rotate(-90, 12, ${this.height / 2})`)
-    yAxisLabel.textContent = `Altitude drop (${lengthUnitLabel(this.options.units)})`
+    yAxisLabel.textContent = `Altitude drop (${lengthUnitLabel(this.options.units, this.labels)})`
     gridGroup.appendChild(yAxisLabel)
 
     this.svg.appendChild(gridGroup)
@@ -625,7 +628,7 @@ export default class SideProjectionChart {
     label.setAttribute('text-anchor', 'middle')
     label.setAttribute('font-size', '11')
     label.setAttribute('font-weight', '600')
-    label.textContent = `${Math.round(convertSpeed(maxPoint.fullSpeed, this.options.units))} ${speedUnitLabel(this.options.units)}`
+    label.textContent = `${Math.round(convertSpeed(maxPoint.fullSpeed, this.options.units))} ${speedUnitLabel(this.options.units, this.labels)}`
     group.appendChild(label)
 
     this.annotations.appendChild(group)
@@ -662,7 +665,7 @@ export default class SideProjectionChart {
     label.setAttribute('text-anchor', 'middle')
     label.setAttribute('font-size', '11')
     label.setAttribute('fill', '#f00')
-    label.textContent = `1:1 ${Math.round(convertLength(intersection.x, this.options.units))}${lengthUnitLabel(this.options.units)}`
+    label.textContent = `1:1 ${Math.round(convertLength(intersection.x, this.options.units))}${lengthUnitLabel(this.options.units, this.labels)}`
     this.annotations.appendChild(label)
   }
 
@@ -761,10 +764,15 @@ export default class SideProjectionChart {
     const startAltitude = this.points[0].altitude
     const scaleY = altitude => this.scaleY(startAltitude - altitude)
 
-    drawFlares(this.annotations, flares, this.scaleX, scaleY, 12, this.options.units)
+    drawFlares(this.annotations, flares, this.scaleX, scaleY, {
+      units: this.options.units,
+      labels: this.labels
+    })
   }
 
   setupInteraction() {
+    this.crosshairIndex = null
+    this.tooltipIndex = null
     this.tooltip = document.createElement('div')
     this.tooltip.className = 'side-projection-tooltip'
     this.tooltip.style.cssText = `
@@ -792,20 +800,16 @@ export default class SideProjectionChart {
     this.interactionOverlay.style.cursor = 'crosshair'
     this.svg.appendChild(this.interactionOverlay)
 
-    this.interactionOverlay.addEventListener('mousemove', e => this.handleInteraction(e))
+    this.interactionOverlay.addEventListener('mousemove', this.queueInteraction)
     this.interactionOverlay.addEventListener('mouseleave', () =>
       this.handleInteractionEnd()
     )
-    this.interactionOverlay.addEventListener(
-      'touchstart',
-      e => this.handleInteraction(e),
-      { passive: true }
-    )
-    this.interactionOverlay.addEventListener(
-      'touchmove',
-      e => this.handleInteraction(e),
-      { passive: true }
-    )
+    this.interactionOverlay.addEventListener('touchstart', this.queueInteraction, {
+      passive: true
+    })
+    this.interactionOverlay.addEventListener('touchmove', this.queueInteraction, {
+      passive: true
+    })
     this.interactionOverlay.addEventListener('touchend', () =>
       this.handleInteractionEnd()
     )
@@ -826,7 +830,7 @@ export default class SideProjectionChart {
     this.resetZoomButton = document.createElement('button')
     this.resetZoomButton.type = 'button'
     this.resetZoomButton.className = 'button side-projection-reset-zoom'
-    this.resetZoomButton.textContent = I18n.t('tracks.side_view.reset_zoom')
+    this.resetZoomButton.textContent = this.labels.t('tracks.side_view.reset_zoom')
     this.resetZoomButton.hidden = this.zoom <= 1
     this.resetZoomButton.addEventListener('click', () => this.resetZoom())
 
@@ -885,9 +889,9 @@ export default class SideProjectionChart {
   zoomToLabel(meters) {
     const units = this.options.units
 
-    return I18n.t('tracks.side_view.zoom_to_exit', {
+    return this.labels.t('tracks.side_view.zoom_to_exit', {
       distance: Math.round(convertLength(meters, units)),
-      unit: lengthUnitLabel(units)
+      unit: lengthUnitLabel(units, this.labels)
     })
   }
 
@@ -995,11 +999,27 @@ export default class SideProjectionChart {
     window.removeEventListener('blur', this.onSelectCancel)
   }
 
-  handleInteraction(e) {
+  queueInteraction = e => {
     const touch = e.touches?.[0]
-    const clientX = touch ? touch.clientX : e.clientX
-    const clientY = touch ? touch.clientY : e.clientY
+    this.pointer = touch
+      ? { clientX: touch.clientX, clientY: touch.clientY }
+      : { clientX: e.clientX, clientY: e.clientY }
 
+    if (this.interactionFrame) return
+    this.interactionFrame = requestAnimationFrame(() => {
+      this.interactionFrame = null
+      this.handleInteraction(this.pointer)
+    })
+  }
+
+  cancelInteraction() {
+    if (!this.interactionFrame) return
+
+    cancelAnimationFrame(this.interactionFrame)
+    this.interactionFrame = null
+  }
+
+  handleInteraction({ clientX, clientY }) {
     const point = this.svgPoint(clientX, clientY)
 
     const { padding } = this.options
@@ -1013,18 +1033,22 @@ export default class SideProjectionChart {
     const cursor = { x: clientX - containerRect.left, y: clientY - containerRect.top }
 
     const result = this.findClosestPoint(x, y)
-    if (result) {
-      if (this.selecting && this.selectionMoved) this.hideTooltip()
-      else this.showTooltip(result.point, cursor)
-      this.showCrosshair(result.index)
+    if (!result) return
 
-      if (this.options.onPointHover) {
-        this.options.onPointHover(result.index)
-      }
+    if (this.selecting && this.selectionMoved) this.hideTooltip()
+    else if (result.index === this.tooltipIndex) this.positionTooltipAtCursor(cursor)
+    else this.showTooltip(result.point, cursor, result.index)
+
+    if (result.index === this.crosshairIndex) return
+    this.showCrosshair(result.index)
+
+    if (this.options.onPointHover) {
+      this.options.onPointHover(result.index)
     }
   }
 
   handleInteractionEnd() {
+    this.cancelInteraction()
     if (this.options.persistentTooltip) return
 
     this.hideTooltip()
@@ -1048,7 +1072,7 @@ export default class SideProjectionChart {
     return closestIndex >= 0 ? { point: closestPoint, index: closestIndex } : null
   }
 
-  showTooltip(point, anchor = null) {
+  showTooltip(point, anchor = null, index = null) {
     const terrainAlt = this.getTerrainAltitudeAt(point.x)
     const clearance = terrainAlt !== null ? Math.round(terrainAlt - point.y) : null
 
@@ -1058,8 +1082,8 @@ export default class SideProjectionChart {
       const units = this.options.units
       const speed = value => Math.round(convertSpeed(value, units))
       const length = value => Math.round(convertLength(value, units))
-      const speedU = speedUnitLabel(units)
-      const lengthU = lengthUnitLabel(units)
+      const speedU = speedUnitLabel(units, this.labels)
+      const lengthU = lengthUnitLabel(units, this.labels)
 
       let clearanceHtml = ''
       if (clearance !== null) {
@@ -1084,16 +1108,21 @@ export default class SideProjectionChart {
       `
     }
 
+    this.tooltipIndex = index
+    this.tooltipBox = null
+    this.tooltip.style.display = 'block'
+
     if (anchor) this.positionTooltipAtCursor(anchor)
     else this.positionTooltipAtPoint(point)
-
-    this.tooltip.style.display = 'block'
   }
 
   tooltipSize() {
-    const rect = this.tooltip.getBoundingClientRect()
+    if (!this.tooltipBox) {
+      const rect = this.tooltip.getBoundingClientRect()
+      this.tooltipBox = { width: rect.width || 150, height: rect.height || 100 }
+    }
 
-    return { width: rect.width || 150, height: rect.height || 100 }
+    return this.tooltipBox
   }
 
   positionTooltipAtCursor(cursor) {
@@ -1133,8 +1162,8 @@ export default class SideProjectionChart {
     const units = this.options.units
     const speed = value => convertSpeed(value, units)
     const length = value => convertLength(value, units)
-    const speedU = speedUnitLabel(units)
-    const lengthU = lengthUnitLabel(units)
+    const speedU = speedUnitLabel(units, this.labels)
+    const lengthU = lengthUnitLabel(units, this.labels)
 
     const fmt = value => (value == null || Number.isNaN(value) ? '—' : value)
     const num = (value, digits = 0) =>
@@ -1215,6 +1244,7 @@ export default class SideProjectionChart {
   }
 
   hideTooltip() {
+    this.tooltipIndex = null
     if (this.tooltip) {
       this.tooltip.style.display = 'none'
     }
@@ -1238,12 +1268,14 @@ export default class SideProjectionChart {
     if (!this.crosshair || index < 0 || index >= this.flightProfile.length) return
 
     const point = this.flightProfile[index]
+    this.crosshairIndex = index
     this.showCrosshairAtPosition(point.x, point.y, point.playerTime)
   }
 
   showCrosshairInterpolated(index, fraction) {
     if (!this.crosshair || index < 0 || index >= this.flightProfile.length) return
 
+    this.crosshairIndex = index
     const curr = this.flightProfile[index]
     const next = this.flightProfile[Math.min(index + 1, this.flightProfile.length - 1)]
 
@@ -1275,6 +1307,7 @@ export default class SideProjectionChart {
   }
 
   destroy() {
+    this.cancelInteraction()
     this.stopSelecting()
     this.clear()
     this.points = []

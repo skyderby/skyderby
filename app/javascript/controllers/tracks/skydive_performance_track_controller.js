@@ -1,12 +1,13 @@
 import PlaybackController from '../playback_controller'
+import { findPositionForAltitude } from 'charts'
 import {
-  initGlideChart,
-  initSpeedsChart,
-  initAccuracyChart,
-  initAltitudeDistanceChart,
-  initCombinedChart,
-  findPositionForAltitude
-} from 'charts'
+  buildGlideChart,
+  buildSpeedChart,
+  buildSepChart,
+  buildAltitudeDistanceChart,
+  buildCombinedChart
+} from 'charts/timeSeriesCharts'
+import ChartGroup from 'charts/ChartGroup'
 import { convertLength, lengthUnitLabel, convertSpeed, speedUnitLabel } from 'utils/units'
 import { computeSegmentAnalysis } from 'utils/tracks/skydiveSegments'
 import initMapsApi from 'utils/google_maps_api'
@@ -27,11 +28,11 @@ import {
 } from 'utils/tracks/pointHelpers'
 import { buildProcessedPoints, alignCompareTrack } from 'utils/tracks/compareAlignment'
 import DesignatedLaneEditor, { findExitPoint } from 'utils/tracks/DesignatedLaneEditor'
-import { syncCrosshairByX } from 'utils/tracks/playback/highchartsCrosshair'
 import { fetchTrackPoints, fetchTrackWeather } from 'utils/tracks/trackData'
 import { get } from '@rails/request.js'
 import { readParam, updateParams } from 'utils/urlState'
-import I18n from 'i18n'
+
+const ALTITUDE_LINE_COLOR = '#999'
 
 export default class extends PlaybackController {
   static targets = [
@@ -160,7 +161,7 @@ export default class extends PlaybackController {
   showEmptyState(messageKey = 'no_data') {
     if (!this.hasEmptyStateTarget) return
 
-    this.emptyStateTarget.textContent = I18n.t(`tracks.show.${messageKey}`)
+    this.emptyStateTarget.textContent = this.labels.t(`tracks.show.${messageKey}`)
     this.emptyStateTarget.classList.remove('hidden')
   }
 
@@ -192,13 +193,13 @@ export default class extends PlaybackController {
       {
         target: this.hasBestSpeedTarget && this.bestSpeedTarget,
         window: result.speed,
-        unit: speedUnitLabel(this.units),
+        unit: speedUnitLabel(this.units, this.labels),
         value: convertSpeed(result.speed.value, this.units).toFixed(0)
       },
       {
         target: this.hasBestDistanceTarget && this.bestDistanceTarget,
         window: result.distance,
-        unit: lengthUnitLabel(this.units),
+        unit: lengthUnitLabel(this.units, this.labels),
         value: String(Math.floor(convertLength(result.distance.value, this.units)))
       },
       {
@@ -451,7 +452,8 @@ export default class extends PlaybackController {
       svg: this.sideProjectionTarget,
       grid: this.gridTarget,
       trajectory: this.trajectoryTarget,
-      onSeek: index => this.handleSideViewSeek(index)
+      onSeek: index => this.handleSideViewSeek(index),
+      labels: this.labels
     })
   }
 
@@ -581,36 +583,45 @@ export default class extends PlaybackController {
     return this._weather
   }
 
-  onChartHover(event) {
-    if (!this.processedPoints || this.processedPoints.length === 0) return
-
-    const chart = this.chartForHover()
-    if (!chart?.pointer) return
-
-    const normalized = chart.pointer.normalize(event)
-    const series = chart.series.find(item => item.visible && item.points?.length)
-    if (!series) return
-
-    const point = series.searchPoint(normalized, true)
-    if (!point) return
-
-    const index = closestIndexByPlayerTime(
-      this.processedPoints,
-      point.x + this.chartXOffset
-    )
-    if (index < 0) return
-
-    this.seekTo(index)
+  get chartGroup() {
+    this._chartGroup ||= new ChartGroup(() => this.playbackCharts)
+    return this._chartGroup
   }
 
-  chartForHover() {
-    return (
-      (this.hasGlideChartTarget && this.glideChartTarget.chart) ||
-      (this.hasSpeedChartTarget && this.speedChartTarget.chart) ||
-      (this.hasAltitudeDistanceChartTarget && this.altitudeDistanceChartTarget.chart) ||
-      (this.hasSepChartTarget && this.sepChartTarget.chart) ||
-      (this.hasCombinedChartTarget && this.combinedChartTarget.chart)
-    )
+  get playbackCharts() {
+    return [
+      this.hasGlideChartTarget && this.glideChartTarget.chart,
+      this.hasSpeedChartTarget && this.speedChartTarget.chart,
+      this.hasAltitudeDistanceChartTarget && this.altitudeDistanceChartTarget.chart,
+      this.hasSepChartTarget && this.sepChartTarget.chart,
+      this.hasCombinedChartTarget && this.combinedChartTarget.chart
+    ]
+  }
+
+  onChartHover(time) {
+    if (!this.processedPoints?.length) return
+
+    const index = closestIndexByPlayerTime(this.processedPoints, time + this.chartXOffset)
+    if (index >= 0) this.seekTo(index)
+  }
+
+  get chartOptions() {
+    return {
+      plotBands: this.bufferPlotBands(),
+      xOffset: this.chartXOffset,
+      units: this.units,
+      labels: this.labels,
+      onHover: (_index, time) => this.onChartHover(time),
+      onLeave: () => this.chartGroup.scheduleHide()
+    }
+  }
+
+  get compareChartOptions() {
+    return {
+      comparePoints: downsamplePoints(this.compareChartPoints),
+      compareTimeOffset: this.chartTimeOffset,
+      compareTrackName: this.compareTrackNameValue
+    }
   }
 
   get chartXOffset() {
@@ -620,20 +631,14 @@ export default class extends PlaybackController {
   initGlideChart() {
     if (!this.hasGlideChartTarget) return
 
-    this.glideChartTarget.chart = initGlideChart(
+    this.glideChartTarget.chart = buildGlideChart(
       this.glideChartTarget,
       this.downsampledChartPoints,
       {
+        ...this.chartOptions,
+        ...this.compareChartOptions,
         plotLines: this.altitudePlotLines({ includeLabels: true }),
-        plotBands: this.bufferPlotBands(),
-        windCancellation: this.hasWeatherData,
-        showTitle: false,
-        showLegend: false,
-        comparePoints: downsamplePoints(this.compareChartPoints),
-        compareTimeOffset: this.chartTimeOffset,
-        compareTrackName: this.compareTrackNameValue,
-        xOffset: this.chartXOffset,
-        units: this.units
+        windCancellation: this.hasWeatherData
       }
     )
   }
@@ -641,18 +646,15 @@ export default class extends PlaybackController {
   initSpeedsChart() {
     if (!this.hasSpeedChartTarget) return
 
-    this.speedChartTarget.chart = initSpeedsChart(
+    this.speedChartTarget.chart = buildSpeedChart(
       this.speedChartTarget,
       this.downsampledChartPoints,
       {
+        ...this.chartOptions,
+        ...this.compareChartOptions,
         plotLines: this.altitudePlotLines(),
-        plotBands: this.bufferPlotBands(),
         windCancellation: this.hasWeatherData,
-        comparePoints: downsamplePoints(this.compareChartPoints),
-        compareTimeOffset: this.chartTimeOffset,
-        compareTrackName: this.compareTrackNameValue,
-        xOffset: this.chartXOffset,
-        units: this.units
+        title: true
       }
     )
   }
@@ -660,16 +662,14 @@ export default class extends PlaybackController {
   initAltitudeDistanceChart() {
     if (!this.hasAltitudeDistanceChartTarget) return
 
-    this.altitudeDistanceChartTarget.chart = initAltitudeDistanceChart(
+    this.altitudeDistanceChartTarget.chart = buildAltitudeDistanceChart(
       this.altitudeDistanceChartTarget,
       this.downsampledChartPoints,
       {
+        ...this.chartOptions,
         plotLines: this.altitudePlotLines(),
-        plotBands: this.bufferPlotBands(),
         straightLine: this.straightLine,
-        rangeStartPosition: this.bufferStartPosition / 1000,
-        xOffset: this.chartXOffset,
-        units: this.units
+        rangeStartPosition: this.bufferStartPosition / 1000
       }
     )
   }
@@ -677,32 +677,26 @@ export default class extends PlaybackController {
   initSepChart() {
     if (!this.hasSepChartTarget) return
 
-    this.sepChartTarget.chart = initAccuracyChart(
+    this.sepChartTarget.chart = buildSepChart(
       this.sepChartTarget,
       this.downsampledChartPoints,
-      {
-        plotBands: this.bufferPlotBands(),
-        xOffset: this.chartXOffset,
-        units: this.units
-      }
+      this.chartOptions
     )
   }
 
   initCombinedChart() {
     if (!this.hasCombinedChartTarget) return
 
-    this.combinedChartTarget.chart = initCombinedChart(
+    this.combinedChartTarget.chart = buildCombinedChart(
       this.combinedChartTarget,
       this.downsampledChartPoints,
       {
+        ...this.chartOptions,
         plotLines: this.altitudePlotLines({ includeLabels: true }),
-        plotBands: this.bufferPlotBands(),
         windCancellation: this.hasWeatherData,
         straightLine: this.straightLine,
         rangeStartPosition: this.bufferStartPosition / 1000,
-        chartName: 'SkydivePerformanceCombinedChart',
-        xOffset: this.chartXOffset,
-        units: this.units
+        chartName: 'SkydivePerformanceCombinedChart'
       }
     )
   }
@@ -720,27 +714,20 @@ export default class extends PlaybackController {
       if (position != null) positions.push([altitude, position])
     }
 
-    return positions.map(([altitude, position], idx) => ({
-      id: `altitude-plot-line-${idx}`,
+    return positions.map(([altitude, position]) => ({
       value: position,
-      width: 1,
-      color: '#999',
-      ...(includeLabels
-        ? {
-            label: {
-              text: this.altitudeLabelText(altitude),
-              style: { color: '#999' },
-              y: 10
-            }
-          }
-        : {})
+      color: ALTITUDE_LINE_COLOR,
+      label: includeLabels ? this.altitudeLabelText(altitude) : null
     }))
   }
 
   initPolarView() {
     if (!this.hasPolarChartTarget) return
 
-    this.polarView = new SkydivePerformancePolar({ svg: this.polarChartTarget })
+    this.polarView = new SkydivePerformancePolar({
+      svg: this.polarChartTarget,
+      labels: this.labels
+    })
   }
 
   renderPolarChart() {
@@ -771,6 +758,7 @@ export default class extends PlaybackController {
   get segmentsPanel() {
     this._segmentsPanel ??= new SegmentsPanel({
       container: this.segmentsContentTarget,
+      labels: this.labels,
       templates: {
         entry: this.segmentsEntryTemplateTarget,
         entryCompare: this.segmentsEntryCompareTemplateTarget,
@@ -878,7 +866,7 @@ export default class extends PlaybackController {
     if (!point) return
 
     this.sideView?.setPosition(index, fraction, interpolated)
-    syncCrosshairByX(this.playbackCharts, this.currentPlayerTime - this.chartXOffset)
+    this.chartGroup.showTime(this.currentPlayerTime - this.chartXOffset)
     this.updatePlaybackIndicators(index, fraction)
     this.updateComparePlaybackIndicators(
       this.compareProcessedPoints,
@@ -957,7 +945,7 @@ export default class extends PlaybackController {
   }
 
   altitudeLabelText(altitude) {
-    return `${Math.round(convertLength(altitude, this.units))} ${lengthUnitLabel(this.units)}`
+    return `${Math.round(convertLength(altitude, this.units))} ${lengthUnitLabel(this.units, this.labels)}`
   }
 
   updateCompareSummaryIndicators() {
@@ -971,6 +959,7 @@ export default class extends PlaybackController {
 
   disconnect() {
     this.stopPlaybackLoop()
+    this._chartGroup?.cancelHide()
     this._laneEditor?.destroy()
     this.sideView?.destroy()
     this.polarView?.destroy()

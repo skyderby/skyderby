@@ -1,57 +1,32 @@
 import { Controller } from '@hotwired/stimulus'
+import CategoryChart from 'charts/CategoryChart'
+
+const RESULT_COLOR = '#2caffe'
 
 export default class extends Controller {
   static targets = ['chart', 'data']
+  static values = { resultLabel: String }
 
   connect() {
-    this.renderChart()
-  }
-
-  renderChart() {
     const data = JSON.parse(this.dataTarget.textContent)
+    const formatter = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' })
 
-    Highcharts.chart(this.chartTarget, {
-      chart: {
-        type: 'column',
-        height: 200
-      },
-      title: {
-        text: ''
-      },
-      xAxis: {
-        type: 'datetime',
-        labels: {
-          enabled: false
-        },
-        title: {
-          text: ''
-        }
-      },
-      yAxis: {
-        title: {
-          text: ''
-        },
-        min: 0
-      },
-      plotOptions: {
-        spline: {
-          marker: {
-            enabled: true
-          }
-        }
-      },
-      credits: {
-        enabled: false
-      },
-      legend: {
-        enabled: false
-      },
+    this.chart = new CategoryChart(this.chartTarget, {
+      categories: data.map(([recordedAt]) => formatter.format(new Date(recordedAt))),
       series: [
         {
-          name: 'Result',
-          data: data
+          name: this.resultLabelValue,
+          color: RESULT_COLOR,
+          values: data.map(([, result]) => result),
+          format: value => String(Math.round(value * 100) / 100)
         }
-      ]
+      ],
+      xLabels: false,
+      yLabels: true
     })
+  }
+
+  disconnect() {
+    this.chart?.destroy()
   }
 }

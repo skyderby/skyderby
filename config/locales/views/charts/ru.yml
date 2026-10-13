@@ -1,5 +1,35 @@
 ru:
   charts:
+    donations:
+      people: "Пожертвовали"
+      amount: "Сумма"
+    popularity:
+      title: "Популярное время"
+      tracks: "Записано треков"
+      people: "Посетило людей"
+    person_details:
+      result: "Результат"
+    suits_popularity:
+      title: "Популярность костюмов за последний год"
+      manufacturers: "Доля производителя"
+      suits: "Доля костюма"
+    winds:
+      title: "Ветер на высотах"
+      altitude: "Высота"
+      speed: "Скорость"
+      direction: "Направление"
+    speed_skydiving:
+      accuracy: 'Точность скорости'
+      end_of_window: 'Конец окна - %{altitude}'
+      best_speed: 'Лучшая скорость: %{speed}'
+    compare:
+      default_name: 'Сравнение'
+      ground_suffix: 'Г'
+      vertical_suffix: 'В'
+      full_suffix: 'Полн.'
+    sep:
+      series:
+        sep50: 'SEP 50'
     polar:
       title: Поляра сопротивления
       subtitle: Реконструкция из ускорения · коэффициенты подъёмной силы и сопротивления

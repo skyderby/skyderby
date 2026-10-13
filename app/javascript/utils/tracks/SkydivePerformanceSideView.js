@@ -21,7 +21,8 @@ import {
 const CHART_PADDING = { left: 100, right: 20, top: 10, bottom: 45 }
 
 export default class SkydivePerformanceSideView {
-  constructor({ svg, grid, trajectory, onSeek }) {
+  constructor({ svg, grid, trajectory, onSeek, labels }) {
+    this.labels = labels
     this.svg = svg
     this.grid = grid
     this.trajectory = trajectory
@@ -31,9 +32,11 @@ export default class SkydivePerformanceSideView {
     this.compareProcessedPoints = null
     this.currentIndex = 0
 
+    this.tooltipIndex = null
+
     this.handleInteraction = this.handleInteraction.bind(this)
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
-    this.svg.addEventListener('mousemove', this.handleInteraction)
+    this.svg.addEventListener('mousemove', this.queueInteraction)
     this.svg.addEventListener('click', this.handleInteraction)
     this.svg.addEventListener('mouseleave', this.handleMouseLeave)
 
@@ -41,7 +44,8 @@ export default class SkydivePerformanceSideView {
   }
 
   destroy() {
-    this.svg.removeEventListener('mousemove', this.handleInteraction)
+    this.cancelInteraction()
+    this.svg.removeEventListener('mousemove', this.queueInteraction)
     this.svg.removeEventListener('click', this.handleInteraction)
     this.svg.removeEventListener('mouseleave', this.handleMouseLeave)
     this.tooltip?.remove()
@@ -69,6 +73,7 @@ export default class SkydivePerformanceSideView {
     compareReferenceTime,
     units = 'metric'
   }) {
+    this.tooltipIndex = null
     this.processedPoints = processedPoints || []
     this.compareProcessedPoints = compareProcessedPoints || null
     this.units = units
@@ -285,7 +290,11 @@ export default class SkydivePerformanceSideView {
       return top + ((this.altitudeRange.top - altitude) / totalAltitudeRange) * plotHeight
     }
 
-    drawFlares(container, flares, scaleX, scaleY, this.viewBoxFontSize(14), this.units)
+    drawFlares(container, flares, scaleX, scaleY, {
+      fontSize: this.viewBoxFontSize(14),
+      units: this.units,
+      labels: this.labels
+    })
   }
 
   renderMaxSpeedMarker() {
@@ -321,7 +330,7 @@ export default class SkydivePerformanceSideView {
     label.setAttribute('y', y - fontSize * 0.7)
     label.setAttribute('text-anchor', 'middle')
     label.setAttribute('font-size', fontSize)
-    label.textContent = `${Math.round(convertSpeed(maxPoint.fullSpeed, this.units))} ${speedUnitLabel(this.units)}`
+    label.textContent = `${Math.round(convertSpeed(maxPoint.fullSpeed, this.units))} ${speedUnitLabel(this.units, this.labels)}`
     group.appendChild(label)
 
     this.trajectory.appendChild(group)
@@ -490,7 +499,7 @@ export default class SkydivePerformanceSideView {
     indicator.leftText.textContent = side < 0 ? `${-side}` : ''
     indicator.rightText.textContent = side > 0 ? `${side}` : ''
     indicator.totalText.textContent =
-      total > 0 ? `${total} ${speedUnitLabel(this.units)}` : ''
+      total > 0 ? `${total} ${speedUnitLabel(this.units, this.labels)}` : ''
   }
 
   viewBoxFontSize(remPx) {
@@ -522,6 +531,23 @@ export default class SkydivePerformanceSideView {
     }
   }
 
+  queueInteraction = e => {
+    this.pointer = { clientX: e.clientX, clientY: e.clientY }
+    if (this.interactionFrame) return
+
+    this.interactionFrame = requestAnimationFrame(() => {
+      this.interactionFrame = null
+      this.handleInteraction(this.pointer)
+    })
+  }
+
+  cancelInteraction() {
+    if (!this.interactionFrame) return
+
+    cancelAnimationFrame(this.interactionFrame)
+    this.interactionFrame = null
+  }
+
   handleInteraction(e) {
     const ctm = this.svg.getScreenCTM()
     if (!ctm) return
@@ -541,13 +567,17 @@ export default class SkydivePerformanceSideView {
       distanceRatio * (this.distanceRange.max - this.distanceRange.min)
 
     const closestIndex = this.findClosestPointByDistance(distance)
-    if (closestIndex >= 0) {
-      this.onSeek(closestIndex)
-      this.showTooltip(closestIndex, e)
-    }
+    if (closestIndex < 0) return
+
+    if (closestIndex !== this.currentIndex) this.onSeek(closestIndex)
+
+    if (closestIndex === this.tooltipIndex) this.positionTooltip(e)
+    else this.showTooltip(closestIndex, e)
   }
 
   handleMouseLeave() {
+    this.cancelInteraction()
+    this.tooltipIndex = null
     if (this.tooltip) this.tooltip.style.display = 'none'
   }
 
@@ -635,8 +665,10 @@ export default class SkydivePerformanceSideView {
       : null
 
     this.tooltip.innerHTML = this.buildTooltipHtml(point, comparePoint)
-    this.positionTooltip(event)
     this.tooltip.style.display = 'block'
+    this.tooltipIndex = index
+    this.tooltipBox = null
+    this.positionTooltip(event)
   }
 
   buildTooltipHtml(point, comparePoint) {
@@ -647,8 +679,8 @@ export default class SkydivePerformanceSideView {
     const time = Math.round(point.playerTime - entryTime)
     const speed = value => convertSpeed(value, this.units)
     const length = value => convertLength(value, this.units)
-    const speedU = speedUnitLabel(this.units)
-    const lengthU = lengthUnitLabel(this.units)
+    const speedU = speedUnitLabel(this.units, this.labels)
+    const lengthU = lengthUnitLabel(this.units, this.labels)
     const distance = value => Math.round(length(value - entryDistance))
 
     if (!comparePoint) {
@@ -715,7 +747,7 @@ export default class SkydivePerformanceSideView {
   }
 
   relativeSummaryHtml(point, comparePoint) {
-    const lengthU = lengthUnitLabel(this.units)
+    const lengthU = lengthUnitLabel(this.units, this.labels)
     const altDiff = point.altitude - comparePoint.altitude
     const distDiff = point.distance - comparePoint.distance
     const length = value => Math.abs(Math.round(convertLength(value, this.units)))
@@ -739,9 +771,11 @@ export default class SkydivePerformanceSideView {
     const cursorX = event.clientX - containerRect.left
     const cursorY = event.clientY - containerRect.top
 
-    const tipRect = this.tooltip.getBoundingClientRect()
-    const tipWidth = tipRect.width || 170
-    const tipHeight = tipRect.height || 130
+    if (!this.tooltipBox) {
+      const tipRect = this.tooltip.getBoundingClientRect()
+      this.tooltipBox = { width: tipRect.width || 170, height: tipRect.height || 130 }
+    }
+    const { width: tipWidth, height: tipHeight } = this.tooltipBox
     const offset = 14
 
     let left = cursorX + offset

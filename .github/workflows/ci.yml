@@ -114,7 +114,6 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Install packages
         run: yarn install
-      - run: bundle exec i18n export
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
       - run: bundle exec rails test
@@ -198,7 +197,6 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Install packages
         run: yarn install
-      - run: bundle exec i18n export
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
       - run: bundle exec rails test:system

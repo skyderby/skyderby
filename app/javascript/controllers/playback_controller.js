@@ -1,4 +1,4 @@
-import { Controller } from '@hotwired/stimulus'
+import LabeledController from './labeled_controller'
 import {
   timeOf,
   lerp,
@@ -11,7 +11,7 @@ import {
   accelerationAtPlayerTime
 } from 'utils/tracks/playback/indicators'
 
-export default class extends Controller {
+export default class extends LabeledController {
   get playbackPoints() {
     return this.points
   }

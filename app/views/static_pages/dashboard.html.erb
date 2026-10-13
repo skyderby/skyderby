@@ -11,13 +11,16 @@
       <div class="dashboard-value"><%= @dashboard.last_30_days_donations %>$</div>
       <div class="dashboard-label">in past 30 days</div>
     </div>
-    <div class="dashboard-chart" data-controller="donation-stats">
+    <div class="dashboard-chart"
+         data-controller="donation-stats"
+         data-donation-stats-people-label-value="<%= t('charts.donations.people') %>"
+         data-donation-stats-amount-label-value="<%= t('charts.donations.amount') %>">
       <script type="application/json" data-donation-stats-target="data">
         <%= raw render partial: 'static_pages/donation_stats',
                        locals: { donations: @dashboard.donation_stats },
                        formats: [:json] %>
       </script>
-      <div data-donation-stats-target="chart"></div>
+      <div class="h-full" data-donation-stats-target="chart"></div>
     </div>
   </div>
 </div>

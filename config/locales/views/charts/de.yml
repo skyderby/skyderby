@@ -1,5 +1,35 @@
 de:
   charts:
+    donations:
+      people: "Spender"
+      amount: "Betrag"
+    popularity:
+      title: "Beliebte Zeiten"
+      tracks: "Aufgezeichnete Tracks"
+      people: "Besucher"
+    person_details:
+      result: "Ergebnis"
+    suits_popularity:
+      title: "Beliebtheit der Anzüge im letzten Jahr"
+      manufacturers: "Anteil Hersteller"
+      suits: "Anteil Anzug"
+    winds:
+      title: "Höhenwinde"
+      altitude: "Höhe"
+      speed: "Geschwindigkeit"
+      direction: "Richtung"
+    speed_skydiving:
+      accuracy: 'Geschwindigkeitsgenauigkeit'
+      end_of_window: 'Fensterende - %{altitude}'
+      best_speed: 'Beste Geschwindigkeit: %{speed}'
+    compare:
+      default_name: 'Vergleich'
+      ground_suffix: 'H'
+      vertical_suffix: 'V'
+      full_suffix: 'Gesamt'
+    sep:
+      series:
+        sep50: 'SEP 50'
     polar:
       title: Widerstandspolare
       subtitle: Rekonstruiert aus Beschleunigung · Auftriebs- vs. Widerstandsbeiwert

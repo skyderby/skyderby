@@ -2,7 +2,8 @@
              url: track_video_path,
              html: { 'data-controller': 'tracks--video-form',
                      'data-action': 'youtube_api:ready@window->tracks--video-form#onYoutubeApiReady',
-                     'data-url': track_video_chart_data_path(@video.track_id) } do |f| %>
+                     'data-url': track_video_chart_data_path(@video.track_id),
+                     'data-tracks--video-form-labels-value': js_labels(:units, :video_form) } do |f| %>
   <div class="row">
     <div class="col-sm-4">
       <h3><%= t 'activerecord.attributes.track_videos.url' %></h3>
@@ -47,7 +48,7 @@
       <p><%= t '.track_offset_description' %></p>
     </div>
     <div class="col-sm-8">
-      <div id="chart" data-tracks--video-form-target="chart"></div>
+      <div id="chart" class="ts-chart-host" data-tracks--video-form-target="chart"></div>
     </div>
     <div class="col-sm-3 col-sm-offset-4">
       <div class="input-group">

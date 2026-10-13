@@ -7,7 +7,7 @@
   <%= render partial: 'header', locals: { track: @track } %>
 
   <div class="skydive-performance-page"
-       data-controller="tracks--skydive-performance-track tracks--compare-modal"
+       data-controller="tracks--skydive-performance-track tracks--compare-modal" data-tracks--skydive-performance-track-labels-value="<%= js_labels(:units, :charts, :track_show, :polar) %>"
        data-tracks--skydive-performance-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 5, seconds_after_end: 10 }) %>"
        data-tracks--skydive-performance-track-weather-url-value="<%= track_weather_data_path(@track) %>"
        data-tracks--skydive-performance-track-reference-point-url-value="<%= track_reference_point_path(@track) %>"
@@ -283,23 +283,16 @@
         <% end %>
       </div>
 
-      <div class="skydive-performance-charts"
-           data-controller="synchronized-charts"
-           data-action="mousemove->synchronized-charts#refreshTooltip touchmove->synchronized-charts#refreshTooltip touchstart->synchronized-charts#refreshTooltip mousemove->tracks--skydive-performance-track#onChartHover touchmove->tracks--skydive-performance-track#onChartHover">
+      <div class="skydive-performance-charts">
         <div class="skydive-performance-separate-charts"
              data-tracks--skydive-performance-track-target="separateCharts">
-          <div data-tracks--skydive-performance-track-target="glideChart"
-               data-synchronized-charts-target="chart"></div>
-          <div data-tracks--skydive-performance-track-target="speedChart"
-               data-synchronized-charts-target="chart"></div>
-          <div data-tracks--skydive-performance-track-target="altitudeDistanceChart"
-               data-synchronized-charts-target="chart"></div>
-          <div data-tracks--skydive-performance-track-target="sepChart"
-               data-synchronized-charts-target="chart"></div>
+          <div data-tracks--skydive-performance-track-target="glideChart"></div>
+          <div data-tracks--skydive-performance-track-target="speedChart"></div>
+          <div data-tracks--skydive-performance-track-target="altitudeDistanceChart"></div>
+          <div data-tracks--skydive-performance-track-target="sepChart"></div>
         </div>
         <div class="skydive-performance-combined-chart hidden"
-             data-tracks--skydive-performance-track-target="combinedChart"
-             data-synchronized-charts-target="chart"></div>
+             data-tracks--skydive-performance-track-target="combinedChart"></div>
       </div>
     </div>
 

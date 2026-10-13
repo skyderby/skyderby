@@ -1,5 +1,35 @@
 en:
   charts:
+    donations:
+      people: "People donated"
+      amount: "Amount"
+    popularity:
+      title: "Popular times"
+      tracks: "Tracks recorded"
+      people: "People visited"
+    person_details:
+      result: "Result"
+    suits_popularity:
+      title: "Suits popularity among people for last year"
+      manufacturers: "Manufacturer share"
+      suits: "Suit share"
+    winds:
+      title: "Winds aloft"
+      altitude: "Altitude"
+      speed: "Speed"
+      direction: "Direction"
+    speed_skydiving:
+      accuracy: 'Speed accuracy'
+      end_of_window: 'End of window - %{altitude}'
+      best_speed: 'Best speed: %{speed}'
+    compare:
+      default_name: 'Comparison'
+      ground_suffix: 'H'
+      vertical_suffix: 'V'
+      full_suffix: 'Full'
+    sep:
+      series:
+        sep50: 'SEP 50'
     polar:
       title: Drag polar
       subtitle: Reconstructed from acceleration · lift vs drag coefficient

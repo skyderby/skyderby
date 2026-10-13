@@ -16,8 +16,7 @@ const options = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
-      jquery: 'jquery',
-      Highcharts: 'highcharts'
+      jquery: 'jquery'
     })
   ]
 }

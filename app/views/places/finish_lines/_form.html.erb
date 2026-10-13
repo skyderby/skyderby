@@ -1,5 +1,6 @@
 <% url = @finish_line.new_record? ? place_finish_lines_path(@place) : place_finish_line_path(@place, @finish_line) %>
-<%= form_with model: @finish_line, url: url, data: { controller: 'places--finish-line-map' } do |f| %>
+<%= form_with model: @finish_line, url: url, data: { controller: 'places--finish-line-map',
+                                                                'places--finish-line-map-labels-value': js_labels(:units) } do |f| %>
   <div class="col-sm-7">
     <div class="form-row">
       <div class="col-sm-12">

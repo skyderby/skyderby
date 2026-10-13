@@ -84,6 +84,10 @@
   z-index: 1;
 }
 
+.range-editor__axis:empty {
+  display: none;
+}
+
 .range-editor__axis--top {
   top: 3px;
 }
@@ -102,6 +106,7 @@
 .range-editor__cursor {
   position: absolute;
   top: 0;
+  left: 0;
   bottom: 26px;
   width: 1px;
   margin-left: -0.5px;
@@ -109,11 +114,13 @@
   opacity: 0.6;
   pointer-events: none;
   z-index: 2;
+  will-change: transform;
 }
 
 .range-editor__tooltip {
   position: absolute;
   top: 6px;
+  left: 0;
   margin-left: 10px;
   min-width: 118px;
   padding: 6px 8px;
@@ -125,10 +132,10 @@
   line-height: 1.5;
   pointer-events: none;
   z-index: 4;
+  will-change: transform;
 }
 
 .range-editor__tooltip--flip {
-  transform: translateX(-100%);
   margin-left: -10px;
 }
 
@@ -173,6 +180,7 @@
   margin-left: -8px;
   cursor: ew-resize;
   z-index: 3;
+  will-change: transform;
 }
 
 .range-editor__handle--exit {

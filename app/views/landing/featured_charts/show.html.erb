@@ -6,7 +6,7 @@
     </figcaption>
 
     <div class="lp-proview__body"
-         data-controller="tracks--landing-side-view"
+         data-controller="tracks--landing-side-view" data-tracks--landing-side-view-labels-value="<%= js_labels(:units, :side_view) %>"
          data-tracks--landing-side-view-points-url-value="<%= landing_featured_track_path('primary', format: :json) %>"
          data-tracks--landing-side-view-compare-points-url-value="<%= landing_featured_track_path('compare', format: :json) %>"
          data-tracks--landing-side-view-units-value="metric">

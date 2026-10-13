@@ -6,7 +6,7 @@
   <%= render 'indicators', result: %>
   <hr />
 
-  <div data-controller="performance-flying-charts"
+  <div data-controller="performance-flying-charts" data-performance-flying-charts-labels-value="<%= js_labels(:units, :charts) %>"
        data-result="<%= result.result %>"
        data-window-start="<%= result.event.range_from %>"
        data-window-end="<%= result.event.range_to %>"

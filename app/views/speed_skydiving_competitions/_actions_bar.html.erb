@@ -57,7 +57,7 @@
       </div>
     <% end %>
 
-    <div data-controller="dropdown speed-units">
+    <div data-controller="dropdown speed-units" data-speed-units-labels-value="<%= js_labels(:units) %>">
       <button class="actions-bar-button" popovertarget="speed-units-menu-<%= event.id %>" type="button" aria-label="<%= t('general.settings') %>">
         <%= icon_tag 'gear-solid' %>
       </button>

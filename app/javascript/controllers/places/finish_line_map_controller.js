@@ -1,10 +1,9 @@
-import { Controller } from '@hotwired/stimulus'
+import LabeledController from 'controllers/labeled_controller'
 import { get } from '@rails/request.js'
 import Geospatial from 'utils/geospatial'
 import init_maps_api from 'utils/google_maps_api'
-import I18n from 'i18n'
 
-export default class extends Controller {
+export default class extends LabeledController {
   static targets = [
     'map',
     'finish_start_lat',
@@ -285,12 +284,12 @@ export default class extends Controller {
   }
 
   set length(value) {
-    this.lengthTarget.innerText = `${value} ${I18n.t('units.m')}`
+    this.lengthTarget.innerText = `${value} ${this.labels.t('units.m')}`
     this.lengthTarget.value = value
   }
 
   set distance(value) {
-    this.distanceTarget.innerText = `${value.toFixed()} ${I18n.t('units.m')}`
+    this.distanceTarget.innerText = `${value.toFixed()} ${this.labels.t('units.m')}`
   }
 
   get map() {

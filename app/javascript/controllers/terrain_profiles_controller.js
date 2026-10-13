@@ -1,10 +1,9 @@
-import { Controller } from '@hotwired/stimulus'
+import LabeledController from 'controllers/labeled_controller'
 import { get } from '@rails/request.js'
-import I18n from 'i18n'
 import FlightProfileChart from 'charts/FlightProfileChart'
 import { withExitPoint } from 'utils/terrainProfiles'
 
-export default class TerrainProfilesController extends Controller {
+export default class TerrainProfilesController extends LabeledController {
   static targets = [
     'item',
     'scope',
@@ -25,9 +24,9 @@ export default class TerrainProfilesController extends Controller {
       profileHost: this.chartHostTarget,
       formatters: { profile: this.profileTooltip },
       labels: {
-        resetZoom: I18n.t('flight_profiles.reset_zoom'),
+        resetZoom: this.labels.t('flight_profiles.reset_zoom'),
         zoomTo: meters =>
-          I18n.t('flight_profiles.zoom_to_first', { distance: Math.round(meters) })
+          this.labels.t('flight_profiles.zoom_to_first', { distance: Math.round(meters) })
       }
     })
 
@@ -182,8 +181,8 @@ export default class TerrainProfilesController extends Controller {
       <span class="fp-tooltip-name" style="color: var(${profile.colorVar})">
         ${profile.name}
       </span>
-      <span>↑${Math.round(sample.y)} ${I18n.t('units.m')}
-        →${Math.round(sample.x)} ${I18n.t('units.m')}</span>
+      <span>↑${Math.round(sample.y)} ${this.labels.t('units.m')}
+        →${Math.round(sample.x)} ${this.labels.t('units.m')}</span>
     </div>
   `
 }

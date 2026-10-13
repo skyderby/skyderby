@@ -12,14 +12,14 @@
 
     <% suit = @form.suit %>
     <% suit_options = suit ? options_for_select([[suit.name, suit.id]], suit.id) : [] %>
-    <div class="grid" data-controller="tracks--suit-field" data-mode="select">
+    <div class="grid" data-controller="tracks--dual-type-field" <%= dual_type_field_labels(:suit) %> data-mode="select">
       <label class="form-label col-4"><%= t('activerecord.attributes.track.suit') %></label>
       <div class="col-8">
         <%= f.fields_for :track_attributes do |builder| %>
-          <div data-tracks--suit-field-target="select" class="col-8">
+          <div data-tracks--dual-type-field-target="select" class="col-8">
             <%= render 'hot_select/select', form: builder, name: :suit_id, src: suits_select_options_path,
                        placeholder: t('tracks.form.suit_select_placeholder'), options: suit_options,
-                       select: { data: { 'tracks--suit-field-target': 'select' } } do %>
+                       select: { data: { 'tracks--dual-type-field-target': 'select' } } do %>
               <% if suit %>
                 <div class="hot-select-option" data-value="<%= suit.id %>" aria-selected="true">
                   <%= suit_presentation(suit) %>
@@ -30,11 +30,11 @@
           <%= builder.text_field :missing_suit_name,
             class: 'form-input col-8',
             placeholder: t('tracks.form.suit_text_placeholder'),
-            data: { 'tracks--suit-field-target': 'text' }
+            data: { 'tracks--dual-type-field-target': 'text' }
           %>
           <div class="form-hint">
-            <span data-tracks--suit-field-target="caption"><%= t('tracks.form.toggle_suit_caption') %></span>
-            <a href="#" data-tracks--suit-field-target="link" data-action="tracks--suit-field#trigger"><%= t('tracks.form.toggle_suit_link') %></a>
+            <span data-tracks--dual-type-field-target="caption"><%= t('tracks.form.toggle_suit_caption') %></span>
+            <a href="#" data-tracks--dual-type-field-target="link" data-action="tracks--dual-type-field#trigger"><%= t('tracks.form.toggle_suit_link') %></a>
           </div>
         <% end %>
       </div>

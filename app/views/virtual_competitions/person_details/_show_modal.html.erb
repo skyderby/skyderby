@@ -1,6 +1,7 @@
 <%= render 'components/dialog', title: t('virtual_competitions.person_details.modal_title'), dialog_size: 'lg' do %>
-  <div data-controller="person-details-chart">
-    <div data-person-details-chart-target="chart" style="height: 200px;"></div>
+  <div data-controller="person-details-chart"
+       data-person-details-chart-result-label-value="<%= t('charts.person_details.result') %>">
+    <div class="person-details-chart" data-person-details-chart-target="chart"></div>
     <script type="application/json" data-person-details-chart-target="data">
       <%= @details.chart_data %>
     </script>

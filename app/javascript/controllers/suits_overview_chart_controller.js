@@ -1,127 +1,89 @@
 import { Controller } from '@hotwired/stimulus'
+import DonutChart from 'charts/DonutChart'
+
+const PALETTE = [
+  '#7cb5ec',
+  '#434348',
+  '#90ed7d',
+  '#f7a35c',
+  '#8085e9',
+  '#f15c80',
+  '#e4d354',
+  '#2b908f',
+  '#f45b5b',
+  '#91e8e1'
+]
+const MANUFACTURER_LABEL_MIN = 5
+const SUIT_LABEL_MIN = 1
+
+const brighten = (hex, amount) => {
+  const channels = [1, 3, 5].map(start => parseInt(hex.slice(start, start + 2), 16))
+  const shifted = channels.map(value =>
+    Math.min(255, Math.max(0, Math.round(value + amount * 255)))
+  )
+  return `rgb(${shifted.join(', ')})`
+}
 
 export default class extends Controller {
   static targets = ['chart', 'data']
+  static values = { title: String, manufacturersLabel: String, suitsLabel: String }
 
   connect() {
-    this.renderChart()
-
-    this.resizeCharts = this.resizeCharts.bind(this)
-
-    window.addEventListener('resize', this.resizeCharts, { passive: true })
-
-    this.resizeCharts()
-  }
-
-  disconnect() {
-    window.removeEventListener('resize', this.resizeCharts)
-  }
-
-  resizeCharts() {
-    const chartElement = this.chartTarget
-
-    const parent = chartElement.parentElement
-
-    const parentBoundingRect = parent.getBoundingClientRect()
-    if (!parentBoundingRect) return
-
-    chartElement.chart.setSize(parentBoundingRect.width, parentBoundingRect.height, false)
-  }
-
-  renderChart() {
     const data = JSON.parse(this.dataTarget.textContent)
-    this.prepareChartData(data)
-  }
+    const { manufacturers, suits } = this.groupData(data)
 
-  prepareChartData(data) {
-    const manufacturersData = []
-    const suitsData = []
-
-    const groupedData = data.reduce((rv, x) => {
-      ;(rv[x.manufacturer_name] = rv[x.manufacturer_name] || []).push(x)
-      return rv
-    }, {})
-
-    let colorIndex = 0
-
-    for (const manufacturer in groupedData) {
-      const manufacturerData = groupedData[manufacturer]
-      const sum = manufacturerData.reduce((memo, x) => memo + parseFloat(x.popularity), 0)
-
-      const color = Highcharts.getOptions().colors[colorIndex]
-
-      manufacturersData.push({
-        name: manufacturer,
-        y: sum,
-        color: color
-      })
-
-      const dataLength = manufacturerData.length
-      for (let i = 0; i < dataLength; i++) {
-        const brightness = 0.2 - i / dataLength / 5
-        const suit = manufacturerData[i]
-
-        suitsData.push({
-          name: suit.name,
-          y: parseFloat(suit.popularity),
-          color: new Highcharts.Color(color).brighten(brightness).get()
-        })
-      }
-
-      colorIndex += 1
-    }
-
-    this.createChart(manufacturersData, suitsData)
-  }
-
-  createChart(manufacturersData, suitsData) {
-    const chartElement = this.chartTarget
-
-    chartElement.chart = Highcharts.chart(chartElement, {
-      chart: {
-        type: 'pie',
-        reflow: true
-      },
-      title: {
-        text: 'Suits popularity among people for last year'
-      },
-      plotOptions: {
-        pie: {
-          shadow: false,
-          center: ['50%', '50%']
-        }
-      },
-      tooltip: {
-        valueSuffix: '%'
-      },
-      credits: {
-        enabled: false
-      },
-      series: [
+    this.chart = new DonutChart(this.chartTarget, {
+      title: this.titleValue,
+      valueSuffix: '%',
+      rings: [
         {
-          name: 'Manufacturer share',
-          size: '60%',
-          data: manufacturersData,
-          dataLabels: {
-            formatter: function () {
-              return this.y > 5 ? this.point.name : null
-            },
-            color: '#ffffff',
-            distance: -30
-          }
+          name: this.manufacturersLabelValue,
+          inner: 0,
+          outer: 0.6,
+          data: manufacturers,
+          labelInside: true,
+          label: item => (item.value > MANUFACTURER_LABEL_MIN ? item.name : null)
         },
         {
-          name: 'Suit share',
-          data: suitsData,
-          size: '80%',
-          innerSize: '60%',
-          dataLabels: {
-            formatter: function () {
-              return this.y > 1 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null
-            }
-          }
+          name: this.suitsLabelValue,
+          inner: 0.6,
+          outer: 0.8,
+          data: suits,
+          label: item =>
+            item.value > SUIT_LABEL_MIN ? `${item.name}: ${item.value}%` : null
         }
       ]
     })
+  }
+
+  disconnect() {
+    this.chart?.destroy()
+  }
+
+  groupData(data) {
+    const groups = new Map()
+    data.forEach(suit => {
+      if (!groups.has(suit.manufacturer_name)) groups.set(suit.manufacturer_name, [])
+      groups.get(suit.manufacturer_name).push(suit)
+    })
+
+    const manufacturers = []
+    const suits = []
+
+    Array.from(groups.entries()).forEach(([name, items], index) => {
+      const color = PALETTE[index % PALETTE.length]
+      const total = items.reduce((sum, suit) => sum + parseFloat(suit.popularity), 0)
+      manufacturers.push({ name, value: Math.round(total * 100) / 100, color })
+
+      items.forEach((suit, i) => {
+        suits.push({
+          name: suit.name,
+          value: parseFloat(suit.popularity),
+          color: brighten(color, 0.2 - i / items.length / 5)
+        })
+      })
+    })
+
+    return { manufacturers, suits }
   }
 }

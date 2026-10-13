@@ -11,10 +11,10 @@
 
     <div class="form-divider"></div>
 
-    <div class="grid" data-controller="tracks--suit-field" data-mode="<%= @track.suit ? 'select' : 'text' %>">
+    <div class="grid" data-controller="tracks--dual-type-field" <%= dual_type_field_labels(:suit) %> data-mode="<%= @track.suit ? 'select' : 'text' %>">
       <label class="form-label col-4"><%= t('activerecord.attributes.track.suit') %></label>
       <div class="col-8">
-        <div data-tracks--suit-field-target="select">
+        <div data-tracks--dual-type-field-target="select">
           <%= render 'hot_select/select', form: f, name: :suit_id, src: suits_select_options_path,
                      placeholder: t('tracks.form.suit_select_placeholder'),
                      options: options_for_select([([@track.suit_name, @track.suit_id] if @track.suit)], @track.suit_id) %>
@@ -23,19 +23,19 @@
         <%= f.text_field :missing_suit_name,
                          class: 'form-input',
                          placeholder: t('tracks.form.suit_text_placeholder'),
-                         data: { 'tracks--suit-field-target': 'text' } %>
+                         data: { 'tracks--dual-type-field-target': 'text' } %>
 
         <div class="form-hint">
-          <span data-tracks--suit-field-target="caption"><%= t('tracks.form.toggle_suit_caption') %></span>
-          <a href="#" data-tracks--suit-field-target="link" data-action="tracks--suit-field#trigger"><%= t('tracks.form.toggle_suit_link') %></a>
+          <span data-tracks--dual-type-field-target="caption"><%= t('tracks.form.toggle_suit_caption') %></span>
+          <a href="#" data-tracks--dual-type-field-target="link" data-action="tracks--dual-type-field#trigger"><%= t('tracks.form.toggle_suit_link') %></a>
         </div>
       </div>
     </div>
 
-    <div class="grid" data-controller="tracks--place-field" data-mode="<%= @track.place ? 'select' : 'text' %>">
+    <div class="grid" data-controller="tracks--dual-type-field" <%= dual_type_field_labels(:place) %> data-mode="<%= @track.place ? 'select' : 'text' %>">
       <label class="form-label col-4"><%= t('activerecord.attributes.track.place') %></label>
       <div class="col-8">
-        <div data-tracks--place-field-target="select">
+        <div data-tracks--dual-type-field-target="select">
           <%= render 'hot_select/select', form: f, name: :place_id, src: places_select_options_path,
                      placeholder: t('tracks.form.place_select_placeholder'),
                      options: options_for_select([([@track.place_name, @track.place_id] if @track.place)], @track.place_id) %>
@@ -44,11 +44,11 @@
         <%= f.text_field :location,
                          class: 'form-input',
                          placeholder: t('static_pages.index.track_form.location_plh'),
-                         data: { 'tracks--place-field-target': 'text' } %>
+                         data: { 'tracks--dual-type-field-target': 'text' } %>
 
         <div class="form-hint">
-          <span data-tracks--place-field-target="caption"></span>
-          <a href="#" data-tracks--place-field-target="link" data-action="tracks--place-field#trigger"></a>
+          <span data-tracks--dual-type-field-target="caption"></span>
+          <a href="#" data-tracks--dual-type-field-target="link" data-action="tracks--dual-type-field#trigger"></a>
         </div>
       </div>
     </div>

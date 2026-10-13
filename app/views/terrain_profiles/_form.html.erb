@@ -4,7 +4,8 @@
               url:,
               html: { role: 'form', class: 'panel form-page-panel', id: "#{action_name}_terrain_profile_form" },
               data: { controller: 'terrain-profiles--form',
-                      action: 'submit->terrain-profiles--form#validatePublication' } do |f| %>
+                      action: 'submit->terrain-profiles--form#validatePublication',
+                      'terrain-profiles--form-labels-value': js_labels(:units, :terrain_profile_form) } do |f| %>
   <section class="form-section">
     <h2 class="form-section-title"><%= t('.general') %></h2>
 

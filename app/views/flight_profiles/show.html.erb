@@ -1,7 +1,7 @@
 <% provide :title, page_title(t('flight_profiles.title')) %>
 <% provide :page_class, 'fullscreen' %>
 
-<div class="explorer" data-controller="flight-profiles"
+<div class="explorer" data-controller="flight-profiles" data-flight-profiles-labels-value="<%= js_labels(:units, :flight_profiles) %>"
      data-flight-profiles-terrain-profiles-url-value="<%= terrain_profiles_select_options_path %>"
      data-flight-profiles-measurements-url-template-value="<%= terrain_profile_measurements_path('__ID__') %>">
   <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">

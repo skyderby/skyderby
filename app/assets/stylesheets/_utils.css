@@ -197,4 +197,12 @@
     color: color-mix(in srgb, currentColor 60%, var(--blue-80));
     text-decoration: underline;
   }
+
+  .h-full {
+    height: 100%;
+  }
+
+  .bg-white {
+    background-color: var(--white);
+  }
 }

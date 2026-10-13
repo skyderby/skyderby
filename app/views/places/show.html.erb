@@ -6,7 +6,12 @@
 
   <div class="show-page-content">
     <div class="card">
-      <div class="place-popular-times" data-controller="places--popularity-chart" data-place-id="<%= @place.id %>"></div>
+      <div class="place-popular-times"
+           data-controller="places--popularity-chart"
+           data-places--popularity-chart-url-value="<%= place_stats_path(@place) %>"
+           data-places--popularity-chart-title-value="<%= t('charts.popularity.title') %>"
+           data-places--popularity-chart-tracks-label-value="<%= t('charts.popularity.tracks') %>"
+           data-places--popularity-chart-people-label-value="<%= t('charts.popularity.people') %>"></div>
 
       <% if @visited_profiles.any? %>
         <div class="visited-by top-buffer">

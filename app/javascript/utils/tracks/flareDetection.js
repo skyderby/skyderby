@@ -52,11 +52,17 @@ export function detectFlares(points) {
   return flares
 }
 
-export function drawFlares(svg, flares, scaleX, scaleY, fontSize = 12, units = 'metric') {
+export function drawFlares(
+  svg,
+  flares,
+  scaleX,
+  scaleY,
+  { fontSize = 12, units = 'metric', labels }
+) {
   if (!flares.length) return
 
-  const speedU = speedUnitLabel(units)
-  const lengthU = lengthUnitLabel(units)
+  const speedU = speedUnitLabel(units, labels)
+  const lengthU = lengthUnitLabel(units, labels)
 
   const flareGroup = document.createElementNS(SVG_NS, 'g')
   flareGroup.setAttribute('class', 'flare-annotations')

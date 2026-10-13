@@ -1,5 +1,6 @@
 import PlaybackController from '../playback_controller'
-import { initGlideChart, initSpeedsChart, initAccuracyChart } from 'charts'
+import { buildGlideChart, buildSpeedChart, buildSepChart } from 'charts/timeSeriesCharts'
+import ChartGroup from 'charts/ChartGroup'
 import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import initMapsApi from 'utils/google_maps_api'
 import Trajectory from 'utils/tracks/map/trajectory'
@@ -13,12 +14,10 @@ import {
   headingAtIndex,
   indexAtPlayerTime
 } from 'utils/tracks/pointHelpers'
-import { syncCrosshairByIndex } from 'utils/tracks/playback/highchartsCrosshair'
 import ArrowMarker from 'utils/tracks/playback/ArrowMarker'
 import { computeBaseJumpSummary } from 'utils/tracks/baseJumpSummary'
 import BaseJumpSummaryPanel from 'utils/tracks/BaseJumpSummaryPanel'
 import { get } from '@rails/request.js'
-import I18n from 'i18n'
 
 const SYNC_VERTICAL_SPEED = 10
 const FINISH_LINE_COLOR = '#8b0000'
@@ -98,6 +97,7 @@ export default class extends PlaybackController {
     this.initSpeedsChart()
     this.initSepChart()
     this.initSideProjection()
+    if (this.finishLineVisible != null) this.applyFinishLineVisibility()
     this.renderSummary()
     this.updatePlaybackPosition()
   }
@@ -240,7 +240,7 @@ export default class extends PlaybackController {
   showEmptyState(messageKey) {
     if (!this.hasEmptyStateTarget) return
 
-    this.emptyStateTarget.textContent = I18n.t(`tracks.show.${messageKey}`)
+    this.emptyStateTarget.textContent = this.labels.t(`tracks.show.${messageKey}`)
     this.emptyStateTarget.classList.remove('hidden')
   }
 
@@ -309,57 +309,35 @@ export default class extends PlaybackController {
         ? this.compareResultTime
         : this.compareFinishTime()
       : null
-    const primaryLabel = this.plotLineLabel(finishTime, this.resultLabelValue)
-    const compareLabel = this.plotLineLabel(compareTime, this.resultCompareLabelValue)
-    const charts = [this.speedChartTarget?.chart, this.glideChartTarget?.chart]
-    charts.forEach(chart => {
-      if (!chart) return
+    const plotLines = []
 
-      chart.xAxis[0].removePlotLine('finish-line')
-      chart.xAxis[0].removePlotLine('finish-line-compare')
+    if (this.finishLineVisible && finishTime != null) {
+      plotLines.push({
+        value: finishTime,
+        color: FINISH_LINE_COLOR,
+        dash: 'dash',
+        label: this.plotLineLabel(finishTime, this.resultLabelValue),
+        labelPosition: 'top'
+      })
+    }
 
-      if (this.finishLineVisible && finishTime != null) {
-        chart.xAxis[0].addPlotLine({
-          id: 'finish-line',
-          value: finishTime,
-          color: FINISH_LINE_COLOR,
-          width: 1,
-          dashStyle: 'Dash',
-          zIndex: 5,
-          label: this.plotLineLabelConfig(primaryLabel, FINISH_LINE_COLOR, 'top', 12)
-        })
-      }
+    if (this.finishLineVisible && compareTime != null) {
+      plotLines.push({
+        value: compareTime,
+        color: COMPARE_LINE_COLOR,
+        dash: 'dot',
+        label: this.plotLineLabel(compareTime, this.resultCompareLabelValue),
+        labelPosition: 'bottom'
+      })
+    }
 
-      if (this.finishLineVisible && compareTime != null) {
-        chart.xAxis[0].addPlotLine({
-          id: 'finish-line-compare',
-          value: compareTime,
-          color: COMPARE_LINE_COLOR,
-          width: 1,
-          dashStyle: 'Dot',
-          zIndex: 6,
-          label: this.plotLineLabelConfig(compareLabel, COMPARE_LINE_COLOR, 'bottom', -6)
-        })
-      }
-    })
+    this.speedChartTarget?.chart?.setPlotLines(plotLines)
+    this.glideChartTarget?.chart?.setPlotLines(plotLines)
   }
 
   plotLineLabel(time, resultLabel) {
     if (this.hasResultPoint) return resultLabel
     return time != null ? `${time.toFixed(1)}s` : null
-  }
-
-  plotLineLabelConfig(text, color, verticalAlign, y) {
-    if (!text) return undefined
-
-    return {
-      text,
-      verticalAlign,
-      y,
-      align: 'center',
-      rotation: 0,
-      style: { color, fontSize: '10px', fontWeight: 'bold' }
-    }
   }
 
   primaryFinishTime() {
@@ -434,7 +412,8 @@ export default class extends PlaybackController {
     this.sideProjectionChart = new SideProjectionChart(this.sideProjectionTarget, {
       onPointHover: index => this.onSideProjectionHover(index),
       syncVerticalSpeed: SYNC_VERTICAL_SPEED,
-      units: this.units
+      units: this.units,
+      labels: this.labels
     })
     this.sideProjectionChart.setFlightProfile(this.points)
 
@@ -467,53 +446,40 @@ export default class extends PlaybackController {
     this.seekTo(index)
   }
 
-  onChartHover(event) {
-    if (!this.points || this.points.length === 0) return
-
-    const chart = this.chartForHover()
-    if (!chart?.pointer) return
-
-    const normalized = chart.pointer.normalize(event)
-    const series = chart.series.find(item => item.visible && item.points?.length)
-    if (!series) return
-
-    const point = series.searchPoint(normalized, true)
-    if (point == null || point.index == null) return
-
-    this.seekTo(point.index)
-  }
-
-  chartForHover() {
-    return (
-      (this.hasGlideChartTarget && this.glideChartTarget.chart) ||
-      (this.hasSpeedChartTarget && this.speedChartTarget.chart) ||
-      (this.hasSepChartTarget && this.sepChartTarget.chart)
-    )
-  }
-
   initGlideChart() {
     if (!this.hasGlideChartTarget) return
 
-    this.glideChartTarget.chart = initGlideChart(this.glideChartTarget, this.points, {
-      windCancellation: false,
-      showTitle: false,
-      showLegend: false,
-      xOffset: this.chartXOffset,
-      units: this.units,
-      ...this.compareChartOptions
-    })
+    this.glideChartTarget.chart = buildGlideChart(
+      this.glideChartTarget,
+      this.points,
+      this.timeSeriesOptions
+    )
   }
 
   initSpeedsChart() {
     if (!this.hasSpeedChartTarget) return
 
-    this.speedChartTarget.chart = initSpeedsChart(this.speedChartTarget, this.points, {
-      windCancellation: false,
-      showTitle: false,
+    this.speedChartTarget.chart = buildSpeedChart(
+      this.speedChartTarget,
+      this.points,
+      this.timeSeriesOptions
+    )
+  }
+
+  get timeSeriesOptions() {
+    return {
       xOffset: this.chartXOffset,
       units: this.units,
+      labels: this.labels,
+      onHover: index => this.seekTo(index),
+      onLeave: () => this.chartGroup.scheduleHide(),
       ...this.compareChartOptions
-    })
+    }
+  }
+
+  get chartGroup() {
+    this._chartGroup ||= new ChartGroup(() => this.playbackCharts)
+    return this._chartGroup
   }
 
   get chartXOffset() {
@@ -535,10 +501,11 @@ export default class extends PlaybackController {
   initSepChart() {
     if (!this.hasSepChartTarget) return
 
-    this.sepChartTarget.chart = initAccuracyChart(this.sepChartTarget, this.points, {
-      xOffset: this.chartXOffset,
-      units: this.units
-    })
+    this.sepChartTarget.chart = buildSepChart(
+      this.sepChartTarget,
+      this.points,
+      this.timeSeriesOptions
+    )
   }
 
   renderSummary() {
@@ -565,7 +532,8 @@ export default class extends PlaybackController {
   get summaryPanel() {
     this._summaryPanel ??= new BaseJumpSummaryPanel({
       container: this.summaryTarget,
-      rowTemplate: this.histogramRowTemplateTarget
+      rowTemplate: this.histogramRowTemplateTarget,
+      labels: this.labels
     })
     return this._summaryPanel
   }
@@ -845,7 +813,7 @@ export default class extends PlaybackController {
       this.sideProjectionChart?.showCrosshair(index)
     }
 
-    syncCrosshairByIndex(this.playbackCharts, index)
+    this.chartGroup.showIndex(index)
     this.updatePlaybackIndicators(index, fraction)
 
     const playerTime = this.currentPlayerTime
@@ -875,6 +843,7 @@ export default class extends PlaybackController {
 
   disconnect() {
     this.stopPlaybackLoop()
+    this._chartGroup?.cancelHide()
 
     this.sharedMap?.release()
     this.sharedMap = null

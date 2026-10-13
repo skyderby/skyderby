@@ -9,8 +9,12 @@
         <%= link_to 'B.A.S.E.', suits_path(activity: 'base'), class: ['tab-bar-item', ('active' if params[:activity] == 'base')] %>
       </div>
     </div>
-    <div class="suits-overview-chart" data-controller="suits-overview-chart">
-      <div data-suits-overview-chart-target="chart"></div>
+    <div class="suits-overview-chart"
+         data-controller="suits-overview-chart"
+         data-suits-overview-chart-title-value="<%= t('charts.suits_popularity.title') %>"
+         data-suits-overview-chart-manufacturers-label-value="<%= t('charts.suits_popularity.manufacturers') %>"
+         data-suits-overview-chart-suits-label-value="<%= t('charts.suits_popularity.suits') %>">
+      <div class="h-full" data-suits-overview-chart-target="chart"></div>
       <script type="application/json" data-suits-overview-chart-target="data">
         <%= raw @suits_popularity.to_json %>
       </script>

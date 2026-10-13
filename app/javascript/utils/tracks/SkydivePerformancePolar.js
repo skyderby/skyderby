@@ -1,5 +1,3 @@
-import I18n from 'i18n'
-
 const SVG_NS = 'http://www.w3.org/2000/svg'
 
 const VIEWBOX = { width: 1000, height: 600 }
@@ -101,7 +99,8 @@ const fitDragPolar = points => {
 }
 
 export default class SkydivePerformancePolar {
-  constructor({ svg }) {
+  constructor({ svg, labels }) {
+    this.labels = labels
     this.svg = svg
   }
 
@@ -286,7 +285,7 @@ export default class SkydivePerformancePolar {
       group,
       PADDING.left,
       24,
-      I18n.t('charts.polar.title'),
+      this.labels.t('charts.polar.title'),
       'polar-title',
       {
         anchor: 'start',
@@ -297,7 +296,7 @@ export default class SkydivePerformancePolar {
       group,
       PADDING.left,
       44,
-      I18n.t('charts.polar.subtitle'),
+      this.labels.t('charts.polar.subtitle'),
       'polar-subtitle',
       { anchor: 'start', size: 15 }
     )
@@ -353,7 +352,7 @@ export default class SkydivePerformancePolar {
       group,
       left + this.plot.width / 2,
       VIEWBOX.height - 14,
-      I18n.t('charts.polar.axis.drag'),
+      this.labels.t('charts.polar.axis.drag'),
       'polar-axis-title',
       { size: 18 }
     )
@@ -363,7 +362,7 @@ export default class SkydivePerformancePolar {
       group,
       22,
       cy,
-      I18n.t('charts.polar.axis.lift'),
+      this.labels.t('charts.polar.axis.lift'),
       'polar-axis-title',
       { size: 18 }
     )
@@ -462,7 +461,7 @@ export default class SkydivePerformancePolar {
         this.svg,
         right,
         y,
-        I18n.t('charts.polar.max_ld', { value: this.fit.maxLD.toFixed(2) }),
+        this.labels.t('charts.polar.max_ld', { value: this.fit.maxLD.toFixed(2) }),
         'polar-stat',
         { anchor: 'end', size: 22 }
       )
@@ -474,7 +473,7 @@ export default class SkydivePerformancePolar {
         this.svg,
         right,
         y,
-        I18n.t('charts.polar.max_ld', { value: this.compareFit.maxLD.toFixed(2) }),
+        this.labels.t('charts.polar.max_ld', { value: this.compareFit.maxLD.toFixed(2) }),
         'polar-stat-compare',
         { anchor: 'end', size: 22 }
       )
@@ -639,7 +638,7 @@ export default class SkydivePerformancePolar {
     this.positionCrosshair(this.primaryCrosshair, sample)
 
     if (this.markerLabel) {
-      this.markerLabel.textContent = I18n.t('charts.polar.current_ld', {
+      this.markerLabel.textContent = this.labels.t('charts.polar.current_ld', {
         value: sample.ld.toFixed(1)
       })
     }
@@ -662,7 +661,7 @@ export default class SkydivePerformancePolar {
     this.positionCrosshair(this.compareCrosshair, sample)
 
     if (this.compareMarkerLabel) {
-      this.compareMarkerLabel.textContent = I18n.t('charts.polar.current_ld', {
+      this.compareMarkerLabel.textContent = this.labels.t('charts.polar.current_ld', {
         value: sample.ld.toFixed(1)
       })
     }

@@ -1,4 +1,3 @@
-import I18n from 'i18n'
 import { cloneTemplate, fillSlots, slot } from 'utils/templates'
 import { convertLength, convertSpeed, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 
@@ -7,8 +6,9 @@ const EMPTY = '—'
 const seconds = value => (value >= 10 ? Math.round(value) : Number(value.toFixed(1)))
 
 export default class BaseJumpSummaryPanel {
-  constructor({ container, rowTemplate }) {
+  constructor({ container, rowTemplate, labels }) {
     this.container = container
+    this.labels = labels
     this.rowTemplate = rowTemplate
   }
 
@@ -20,8 +20,8 @@ export default class BaseJumpSummaryPanel {
       value == null ? null : Math.round(convertLength(value, units))
     const speed = value => (value == null ? null : Math.round(convertSpeed(value, units)))
     const glide = value => (value == null ? null : value.toFixed(2))
-    const lengthUnit = lengthUnitLabel(units)
-    const secondsUnit = I18n.t('units.sec')
+    const lengthUnit = lengthUnitLabel(units, this.labels)
+    const secondsUnit = this.labels.t('units.sec')
     const drop = `${length(summary.referenceDrop)} ${lengthUnit}`
 
     this.tile('one_to_one', {
@@ -61,7 +61,7 @@ export default class BaseJumpSummaryPanel {
     this.tile('speed', {
       value: speed(summary.speed.value),
       compare: compare && speed(compare.speed.value),
-      unit: speedUnitLabel(units),
+      unit: speedUnitLabel(units, this.labels),
       rows: this.rows(
         summary.speed.buckets,
         compare?.speed.buckets,
@@ -81,8 +81,8 @@ export default class BaseJumpSummaryPanel {
 
     if (labelArgs) {
       fillSlots(tile, {
-        label: I18n.t(`tracks.base_pro.summary.${key}`, labelArgs),
-        help: I18n.t(`tracks.base_pro.tooltip.${key}`, labelArgs)
+        label: this.labels.t(`tracks.base_pro.summary.${key}`, labelArgs),
+        help: this.labels.t(`tracks.base_pro.tooltip.${key}`, labelArgs)
       })
       slot(tile, 'help')?.parentElement?.setAttribute(
         'aria-label',

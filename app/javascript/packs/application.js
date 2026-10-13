@@ -17,17 +17,8 @@ if (currentEnvMeta && honeybadgerApiKeyMeta && currentEnvMeta.content === 'produ
   })
 }
 
-import Highcharts from 'highcharts'
-import HighchartsMore from 'highcharts/highcharts-more'
-
-window.Highcharts = Highcharts
-window.HighchartsMore = HighchartsMore
-
-HighchartsMore(Highcharts)
-
 import 'utils/google_maps_api'
 import 'utils/cesium_api'
-import 'utils/chartSeriesSettings'
 // Look for controllers inside app/javascripts/packs/controllers/
 const application = Application.start()
 

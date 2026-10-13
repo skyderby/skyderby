@@ -1,7 +1,7 @@
 <%# locals: (show_altitude_spent: true, compare: false, **attributes) %>
 
 <div class="video-indicators<%= ' video-indicators--compare' if compare %>"
-     data-controller="playback-indicators"
+     data-controller="playback-indicators" data-playback-indicators-labels-value="<%= js_labels(:units) %>"
      <%= tag.attributes(attributes) %>>
   <div class="video-indicator-value-container">
     <div>

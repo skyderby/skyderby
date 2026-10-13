@@ -1,5 +1,4 @@
-import { Controller } from '@hotwired/stimulus'
-import I18n from 'i18n'
+import LabeledController from 'controllers/labeled_controller'
 import { fetchTrackPoints, fetchHeadPositions } from 'utils/tracks/trackData'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 import {
@@ -18,7 +17,7 @@ const GAIN_PHASES = [
   [12, 18, 'gain3']
 ]
 
-export default class extends Controller {
+export default class extends LabeledController {
   static targets = ['chart', 'summary', 'compare', 'axisButton', 'tooltip']
 
   static values = {
@@ -150,14 +149,14 @@ export default class extends Controller {
   chartLabels() {
     const imperial = this.units === 'imperial'
     return {
-      speedAxis: `${I18n.t('tracks.speed_pro.chart.speed_axis')}  ${I18n.t(imperial ? 'units.mph' : 'units.ms')}`,
-      accelAxis: I18n.t('tracks.speed_pro.chart.accel_axis'),
+      speedAxis: `${this.labels.t('tracks.speed_pro.chart.speed_axis')}  ${this.labels.t(imperial ? 'units.mph' : 'units.ms')}`,
+      accelAxis: this.labels.t('tracks.speed_pro.chart.accel_axis'),
       kmMsl: imperial
-        ? I18n.t('tracks.speed_pro.chart.kft_msl')
-        : I18n.t('tracks.speed_pro.chart.km_msl'),
-      windowEnd: I18n.t('tracks.speed_pro.chart.window_end'),
-      positionAxis: I18n.t('tracks.speed_pro.chart.position_axis'),
-      sep: I18n.t('tracks.speed_pro.chart.sep')
+        ? this.labels.t('tracks.speed_pro.chart.kft_msl')
+        : this.labels.t('tracks.speed_pro.chart.km_msl'),
+      windowEnd: this.labels.t('tracks.speed_pro.chart.window_end'),
+      positionAxis: this.labels.t('tracks.speed_pro.chart.position_axis'),
+      sep: this.labels.t('tracks.speed_pro.chart.sep')
     }
   }
 
@@ -337,17 +336,17 @@ export default class extends Controller {
     const compare = !!this.profileB
     const xLabel =
       this.axis === 'time'
-        ? `${xVal.toFixed(1)} ${I18n.t('units.sec')}`
-        : `${Math.round(convertLength(xVal, this.units))} ${lengthUnitLabel(this.units)} MSL`
+        ? `${xVal.toFixed(1)} ${this.labels.t('units.sec')}`
+        : `${Math.round(convertLength(xVal, this.units))} ${lengthUnitLabel(this.units, this.labels)} MSL`
 
-    let head = `<th></th><th><span class="ssp-dot is-a"></span>${I18n.t('tracks.speed_pro.col_track')}</th>`
+    let head = `<th></th><th><span class="ssp-dot is-a"></span>${this.labels.t('tracks.speed_pro.col_track')}</th>`
     if (compare)
-      head += `<th><span class="ssp-dot is-b"></span>${I18n.t('tracks.speed_pro.col_comparison')}</th><th></th>`
+      head += `<th><span class="ssp-dot is-b"></span>${this.labels.t('tracks.speed_pro.col_comparison')}</th><th></th>`
 
     const body = this.metricRows(xVal)
       .map(m => {
         const va = m.get(this.profileA)
-        const label = I18n.t(`tracks.speed_pro.metrics.${m.key}`)
+        const label = this.labels.t(`tracks.speed_pro.metrics.${m.key}`)
         if (m.trackOnly) {
           const alert = va != null && m.alert && m.alert(va)
           const cls = alert ? ' class="ssp-tt__alert"' : ''
@@ -390,8 +389,8 @@ export default class extends Controller {
   }
 
   summaryHtml() {
-    const speedU = speedUnitLabel(this.units)
-    const lengthU = lengthUnitLabel(this.units)
+    const speedU = speedUnitLabel(this.units, this.labels)
+    const lengthU = lengthUnitLabel(this.units, this.labels)
     const unit = u => `<span class="ssp-unit">${u}</span>`
     const speed = s => `${convertSpeed(s.scoreKmh, this.units).toFixed(1)}${unit(speedU)}`
     const alt = s => `${Math.round(convertLength(s.hPeak, this.units))}${unit(lengthU)}`
@@ -409,8 +408,8 @@ export default class extends Controller {
         t => `
         <div class="ssp-tile">
           <div class="ssp-tile__label">
-            ${I18n.t(`tracks.speed_pro.summary.${t.key}`)}
-            ${this.helpHtml(I18n.t(`tracks.speed_pro.tooltip.${t.key}`))}
+            ${this.labels.t(`tracks.speed_pro.summary.${t.key}`)}
+            ${this.helpHtml(this.labels.t(`tracks.speed_pro.tooltip.${t.key}`))}
           </div>
           <div class="ssp-tile__value">${t.fmt(this.profileA.summary)}</div>
           ${c ? `<div class="ssp-tile__cmp"><span class="ssp-dot is-b"></span>${t.fmt(c)}</div>` : ''}
@@ -432,8 +431,8 @@ export default class extends Controller {
   waterfallHtml(dc) {
     const a = this.profileA.summary
     const b = this.profileB.summary
-    const speedU = speedUnitLabel(this.units)
-    const lengthU = lengthUnitLabel(this.units)
+    const speedU = speedUnitLabel(this.units, this.labels)
+    const lengthU = lengthUnitLabel(this.units, this.labels)
     const gainRows = GAIN_PHASES.map(([t0, t1, key]) => {
       const ga = this.speedGain(this.profileA, t0, t1)
       const gb = this.speedGain(this.profileB, t0, t1)
@@ -469,7 +468,7 @@ export default class extends Controller {
           <div class="ssp-cmp__row">
             <div class="ssp-cmp__val ${pos ? 'is-lead' : ''}">${r.valA}${unit}</div>
             <div class="ssp-cmp__mid">
-              <div class="ssp-cmp__name">${I18n.t(`tracks.speed_pro.waterfall.${r.key}`)}</div>
+              <div class="ssp-cmp__name">${this.labels.t(`tracks.speed_pro.waterfall.${r.key}`)}</div>
               <div class="ssp-cmp__bar"><span class="ssp-cmp__mark"></span><span class="ssp-cmp__fill" style="${style}"></span></div>
             </div>
             <div class="ssp-cmp__val ${pos ? '' : 'is-lead'}">${r.valB}${unit}</div>
@@ -478,8 +477,8 @@ export default class extends Controller {
       .join('')
     return `
       <div class="ssp-cmp__cols">
-        <span><span class="ssp-dot is-a"></span>${I18n.t('tracks.speed_pro.col_track')}</span>
-        <span>${I18n.t('tracks.speed_pro.col_comparison')}<span class="ssp-dot is-b ssp-dot--trail"></span></span>
+        <span><span class="ssp-dot is-a"></span>${this.labels.t('tracks.speed_pro.col_track')}</span>
+        <span>${this.labels.t('tracks.speed_pro.col_comparison')}<span class="ssp-dot is-b ssp-dot--trail"></span></span>
       </div>
       <div class="ssp-cmp__rows">${rowsHtml}</div>`
   }
