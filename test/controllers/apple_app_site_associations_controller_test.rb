@@ -7,7 +7,7 @@ class AppleAppSiteAssociationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal 'application/json', response.media_type
     details = response.parsed_body.dig('applinks', 'details').first
-    assert_includes details['appIDs'], 'RT5237MTWU.io.skyderby.app'
+    assert_includes details['appIDs'], 'C54KA5H42F.io.skyderby.app'
     assert_includes details['components'], { '/' => '/tracks/*' }
   end
 end

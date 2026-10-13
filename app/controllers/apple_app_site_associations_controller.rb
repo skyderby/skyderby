@@ -1,5 +1,5 @@
 class AppleAppSiteAssociationsController < ApplicationController
-  APP_IDS = %w[RT5237MTWU.io.skyderby.app RT5237MTWU.io.skyderby.app.dev].freeze
+  APP_IDS = %w[C54KA5H42F.io.skyderby.app].freeze
   PATHS = %w[
     /tracks/*
     /events/*
@@ -15,7 +15,8 @@ class AppleAppSiteAssociationsController < ApplicationController
     render json: {
       applinks: {
         details: [{ appIDs: APP_IDS, components: PATHS.map { |path| { '/' => path } } }]
-      }
+      },
+      webcredentials: { apps: APP_IDS }
     }
   end
 end
