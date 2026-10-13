@@ -6,6 +6,14 @@ json.competition_id competition.id
 json.profile { json.partial! 'api/v1/virtual_competitions/profile', profile: @details.profile }
 json.unit competition_unit(competition)
 json.worldwide competition.worldwide?
+if @details.counted_score
+  json.counted do
+    json.track_id @details.counted_score.track_id
+    json.result @details.counted_score.result
+  end
+else
+  json.counted nil
+end
 json.chart @details.chart_points do |(recorded_at, result)|
   json.recorded_at recorded_at&.utc&.iso8601
   json.result result

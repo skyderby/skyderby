@@ -1,9 +1,11 @@
 es:
   virtual_competitions:
     person_details:
+      personal_total: "Puntos propios"
+      counted_jump: "Puntúa: %{points} %{unit}"
       modal_title: "Mejores resultados en la competición"
       best_jump: "Mejor salto"
-      multi_discipline_hint: "Los puntos son relativos al mejor resultado propio de este piloto en cada disciplina."
+      multi_discipline_hint: "Los puntos son relativos al mejor resultado propio de este piloto en cada disciplina. El salto resaltado cuenta en el ranking, donde los puntos son relativos a los saltos válidos de los demás pilotos."
     form:
       disciplines_hint: "Déjalo vacío para un ranking de una sola disciplina. Añade dos o más para puntuar cada salto en todas a la vez."
     units:

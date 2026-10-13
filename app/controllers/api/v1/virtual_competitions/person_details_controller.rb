@@ -8,7 +8,9 @@ module Api
 
           @details = VirtualCompetition::PersonDetails.new(
             virtual_competition_id: params[:virtual_competition_id],
-            profile_id: params[:profile_id]
+            profile_id: params[:profile_id],
+            year: params[:year],
+            period: params[:period]
           )
         end
       end

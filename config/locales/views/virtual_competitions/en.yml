@@ -83,8 +83,10 @@ en:
       time: Time
       base_race: Base Race
     person_details:
+      personal_total: "Personal points"
+      counted_jump: "Counted: %{points} %{unit}"
       best_jump: "Best jump"
-      multi_discipline_hint: "Points are relative to this pilot's own best result in each discipline."
+      multi_discipline_hint: "Points are relative to this pilot's own best result in each discipline. The highlighted jump counts in the ranking, where points are relative to the other pilots' counted jumps."
       modal_title: Best results in competition
     scoreboard:
       total: "Total"

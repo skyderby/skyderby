@@ -42,6 +42,29 @@ class VirtualCompetition::MultiDisciplineStandingsTest < ActiveSupport::TestCase
     assert_equal [100.0, 50.0], maynard.entries.map(&:points)
   end
 
+  test 'counts the earlier jump when totals tie' do
+    earlier = add_jump profiles(:john), distance: 100, flare: nil, recorded_at: Time.zone.parse('2025-03-01')
+    add_jump profiles(:john), distance: nil, flare: 20, recorded_at: Time.zone.parse('2025-04-01')
+
+    5.times do
+      assert_equal earlier, @competition.multi_discipline_standings.overall.sole.track
+    end
+  end
+
+  test 'lists the pilot jumps for a period with the counted jump first' do
+    add_jump profiles(:john), distance: 100, flare: 10, recorded_at: Time.zone.parse('2024-06-01')
+    counted = add_jump profiles(:john), distance: 50, flare: 20, recorded_at: Time.zone.parse('2025-06-01')
+    add_jump profiles(:john), distance: 40, flare: nil, recorded_at: Time.zone.parse('2025-07-01')
+    standings = @competition.multi_discipline_standings
+    period = VirtualCompetition::MultiDisciplineStandings.period_for(year: 2025)
+
+    jumps = standings.jumps_of(profiles(:john).id, period:)
+
+    assert_equal 2, jumps.size
+    assert_equal counted, jumps.first.track
+    assert_equal counted, standings.counted_score(profiles(:john).id, period:).track
+  end
+
   test 'limits scores to the requested year' do
     add_jump profiles(:john), distance: 100, flare: 10, recorded_at: Time.zone.parse('2024-06-01')
     add_jump profiles(:maynard), distance: 50, flare: 20, recorded_at: Time.zone.parse('2025-06-01')

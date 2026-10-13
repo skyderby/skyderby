@@ -83,8 +83,10 @@ it:
         open: Open
         female: Donne
     person_details:
+      personal_total: "Punti personali"
+      counted_jump: "In classifica: %{points} %{unit}"
       best_jump: "Salto migliore"
-      multi_discipline_hint: "I punti sono relativi al miglior risultato di questo pilota in ogni disciplina."
+      multi_discipline_hint: "I punti sono relativi al miglior risultato di questo pilota in ogni disciplina. Il salto evidenziato conta in classifica, dove i punti sono relativi ai salti validi degli altri piloti."
       modal_title: Migliori risultati in competizione
     scoreboard:
       total: "Totale"

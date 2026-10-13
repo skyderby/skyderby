@@ -3,7 +3,7 @@
 <% grid_style = multi ? "--disciplines: #{competition.disciplines.size}" : nil %>
 <% grid_class = class_names('vc-md-grid vc-md-grid--jumps', 'vc-md-grid--single' => !multi) %>
 
-<%= render 'components/dialog', title: @details.profile.name, dialog_size: 'lg' do %>
+<%= render 'components/dialog', title: @details.profile.name.titleize, dialog_size: 'lg' do %>
   <div class="vc-jumps">
     <p class="vc-jumps__caption">
       <%= t('virtual_competitions.person_details.modal_title') %>
@@ -27,14 +27,15 @@
           <% competition.disciplines.each do |discipline| %>
             <span class="vc-md-header__cell"><%= competition_badge(discipline) %></span>
           <% end %>
-          <span class="vc-md-header__cell"><%= t('virtual_competitions.scoreboard.total') %></span>
+          <span class="vc-md-header__cell"><%= t('virtual_competitions.person_details.personal_total') %></span>
         <% else %>
           <span class="vc-md-header__cell"><%= t('virtual_competitions.scoreboard.result') %></span>
         <% end %>
       </div>
 
-      <% @details.top_results.each_with_index do |record, index| %>
-        <div class="<%= class_names(grid_class, 'vc-jumps__row', 'vc-jumps__row--best' => index.zero?) %>" style="<%= grid_style %>">
+      <% @details.top_results.each do |record| %>
+        <% best = @details.best?(record) %>
+        <div class="<%= class_names(grid_class, 'vc-jumps__row', 'vc-jumps__row--best' => best) %>" style="<%= grid_style %>">
           <div class="vc-md-cell--main vc-jumps__main">
             <span class="vc-jumps__date"><%= record.track.recorded_at&.strftime('%d.%m.%Y') %></span>
             <div class="vc-scoreboard__meta">
@@ -66,7 +67,14 @@
               <%= format_result(record.result, competition) %>
               <span class="vc-md-value__unit"><%= competition_unit(competition) %></span>
             <% end %>
-            <% if index.zero? %>
+            <% if best && @details.counted_score %>
+              <span class="vc-md-detail">
+                <span class="vc-md-detail__best">
+                  <%= t('virtual_competitions.person_details.counted_jump',
+                        points: format('%.1f', @details.counted_score.result), unit: competition_unit(competition)) %>
+                </span>
+              </span>
+            <% elsif best %>
               <span class="vc-md-detail"><span class="vc-md-detail__best"><%= t('virtual_competitions.person_details.best_jump') %></span></span>
             <% end %>
           </div>

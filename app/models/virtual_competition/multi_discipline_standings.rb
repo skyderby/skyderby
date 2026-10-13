@@ -37,15 +37,23 @@ class VirtualCompetition::MultiDisciplineStandings
     @competition = competition
   end
 
+  def self.period_for(year: nil, interval: nil)
+    if year
+      Date.new(year.to_i).all_year
+    elsif interval
+      interval.period_from..interval.period_to
+    end
+  end
+
   def overall = scores_for(nil)
 
-  def for_year(year) = scores_for(Date.new(year).all_year)
+  def for_year(year) = scores_for(self.class.period_for(year:))
 
-  def for_interval(interval) = scores_for(interval && (interval.period_from..interval.period_to))
+  def for_interval(interval) = scores_for(self.class.period_for(interval:))
 
-  def tracks_of(profile_id)
-    track_scores(results(nil).where(tracks: { profile_id: }).to_a).sort_by { |score| -score.result }
-  end
+  def jumps_of(profile_id, period: nil) = ranked_jumps(results(period).where(tracks: { profile_id: }).to_a)
+
+  def counted_score(profile_id, period: nil) = scores_for(period).find { |score| score.profile_id == profile_id }
 
   private
 
@@ -55,14 +63,18 @@ class VirtualCompetition::MultiDisciplineStandings
     jumps_by_pilot = results(period).to_a.group_by { |record| record.track.profile_id }.values
 
     track_scores(jumps_by_pilot.flat_map { |records| counted_jump(records) })
-      .sort_by { |score| -score.result }
+      .sort_by { |score| ranking_key(score) }
       .each.with_index(1) { |score, rank| score.rank = rank }
   end
 
   def counted_jump(records)
-    best = track_scores(records).max_by(&:result)
+    best = ranked_jumps(records).first
     records.select { |record| record.track_id == best.track_id }
   end
+
+  def ranked_jumps(records) = track_scores(records).sort_by { |score| ranking_key(score) }
+
+  def ranking_key(score) = [-score.result, score.recorded_at.to_i, score.track_id]
 
   def track_scores(records)
     bests = best_results(records)

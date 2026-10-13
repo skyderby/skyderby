@@ -1,9 +1,11 @@
 de:
   virtual_competitions:
     person_details:
+      personal_total: "Eigene Punkte"
+      counted_jump: "Gewertet: %{points} %{unit}"
       modal_title: "Beste Ergebnisse im Wettbewerb"
       best_jump: "Bester Sprung"
-      multi_discipline_hint: "Punkte beziehen sich auf das beste eigene Ergebnis dieses Piloten in jeder Disziplin."
+      multi_discipline_hint: "Punkte beziehen sich auf das beste eigene Ergebnis dieses Piloten in jeder Disziplin. Der markierte Sprung zählt im Ranking, wo Punkte relativ zu den gewerteten Sprüngen der anderen Piloten berechnet werden."
     form:
       disciplines_hint: "Leer lassen für ein Ranking mit einer Disziplin. Füge zwei oder mehr hinzu, um jeden Sprung in allen gleichzeitig zu werten."
     units:

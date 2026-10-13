@@ -83,8 +83,10 @@ fr:
         open: Open
         female: Femmes
     person_details:
+      personal_total: "Points personnels"
+      counted_jump: "Retenu : %{points} %{unit}"
       best_jump: "Meilleur saut"
-      multi_discipline_hint: "Les points sont calculés par rapport au meilleur résultat de ce pilote dans chaque discipline."
+      multi_discipline_hint: "Les points sont calculés par rapport au meilleur résultat de ce pilote dans chaque discipline. Le saut mis en avant compte au classement, où les points sont calculés par rapport aux sauts retenus des autres pilotes."
       modal_title: Meilleurs résultats en compétition
     scoreboard:
       total: "Total"
