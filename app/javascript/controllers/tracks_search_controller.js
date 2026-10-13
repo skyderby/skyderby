@@ -6,7 +6,7 @@ export default class TracksSearchController extends Controller {
   connect() {
     this.params = ['year[]', 'profile_id[]', 'suit_id[]', 'place_id[]']
     this.restoreFilters()
-    this.form.requestSubmit()
+    this.frame.src = this.searchUrl
   }
 
   handleFilterAdd(event) {
@@ -116,5 +116,15 @@ export default class TracksSearchController extends Controller {
 
   get form() {
     return this.element.closest('form')
+  }
+
+  get frame() {
+    return document.getElementById(this.form.dataset.turboFrame)
+  }
+
+  get searchUrl() {
+    const url = new URL(this.form.action)
+    new FormData(this.form).forEach((value, key) => url.searchParams.append(key, value))
+    return url.toString()
   }
 }
