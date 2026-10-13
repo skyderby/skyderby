@@ -88,9 +88,7 @@ class VirtualCompetition < ApplicationRecord
 
   def overall_ranking(scores, **) = Ranking.new(self, scores, **)
 
-  def annual_ranking(scores, year:, **)
-    multi_discipline? ? Ranking.new(self, scores, **) : Ranking::Annual.new(self, scores, year:, **)
-  end
+  def annual_ranking(scores, year:, **) = Ranking::Annual.new(self, scores, year:, **)
 
   def period_ranking(scores, **) = Ranking.new(self, scores, **)
 

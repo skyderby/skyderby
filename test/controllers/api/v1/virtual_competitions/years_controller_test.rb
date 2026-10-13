@@ -46,6 +46,22 @@ class Api::V1::VirtualCompetitions::YearsControllerTest < ActionDispatch::Integr
     assert_response :not_found
   end
 
+  test 'returns the year of a multi-discipline ranking' do
+    competition = virtual_competitions(:feather_challenge)
+    track = create :empty_track, kind: Track.kinds[:base], pilot: profiles(:regular_user),
+                                 recorded_at: Date.new(2024, 6, 1)
+    virtual_competition_disciplines(:feather_challenge_distance).results.create!(track:, result: 120)
+    virtual_competition_disciplines(:feather_challenge_flare).results.create!(track:, result: 15)
+
+    get api_v1_virtual_competition_year_url(competition, 2024),
+        headers: { 'Authorization' => 'Bearer regular-user-read-token' }
+
+    assert_response :success
+    body = response.parsed_body
+    assert_equal({ 'type' => 'year', 'year' => 2024 }, body['scope'])
+    assert_equal([profiles(:regular_user).id], body['scores'].map { |s| s['profile']['id'] })
+  end
+
   private
 
   def score(profile, result, recorded_at)

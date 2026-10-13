@@ -8,7 +8,7 @@ class VirtualCompetition
         super(competition, scores, **)
       end
 
-      def show_rank_changes? = year == Date.current.year
+      def show_rank_changes? = year == Date.current.year && !competition.multi_discipline?
 
       def rank_change_for(score)
         previous = previous_week_scores[score.profile_id]
