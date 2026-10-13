@@ -14,12 +14,12 @@
   border-bottom: 2px solid var(--gray-30);
 
   @media (min-width: 768px) {
-    --podium-avatar: 5.5rem;
-    --podium-avatar-first: 7rem;
-    --podium-step: 1.75rem;
-    --podium-base: 4.75rem;
+    --podium-avatar: 4.25rem;
+    --podium-avatar-first: 5.5rem;
+    --podium-step: 1.25rem;
+    --podium-base: 3.25rem;
 
-    padding-top: 1rem;
+    padding-top: 0.25rem;
   }
 }
 
@@ -55,7 +55,7 @@
   display: block;
   width: var(--podium-avatar);
   height: var(--podium-avatar);
-  margin-bottom: 0.625rem;
+  margin-bottom: 0.5rem;
 }
 
 .vc-podium__place--1 .vc-podium__avatar {
@@ -96,25 +96,24 @@
   box-shadow: 0 0 0 3px var(--white), inset 0 -1px 1px rgba(0, 0, 0, 0.15);
 
   @media (min-width: 768px) {
-    width: 2rem;
-    height: 2rem;
-    font-size: 0.9375rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.875rem;
   }
 }
 
 .vc-podium__place--1 .vc-podium__medal.rank-badge {
   @media (min-width: 768px) {
-    width: 2.375rem;
-    height: 2.375rem;
-    font-size: 1.0625rem;
+    width: 2.125rem;
+    height: 2.125rem;
+    font-size: 1rem;
   }
 }
 
 .vc-podium__name {
   display: -webkit-box;
   max-width: 100%;
-  min-height: 2.5em;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
   padding: 0 0.25rem;
   overflow: hidden;
   -webkit-line-clamp: 2;
@@ -124,7 +123,6 @@
   line-height: 1.25;
   color: var(--gray-90);
   overflow-wrap: anywhere;
-  align-content: end;
 
   &:hover {
     color: var(--blue-70);
@@ -154,7 +152,7 @@
   }
 
   @media (min-width: 768px) {
-    padding-top: 0.875rem;
+    padding-top: 0.625rem;
   }
 }
 
@@ -180,7 +178,7 @@
   line-height: 1;
 
   @media (min-width: 768px) {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -188,7 +186,7 @@
   font-size: 1.5rem;
 
   @media (min-width: 768px) {
-    font-size: 2.25rem;
+    font-size: 1.875rem;
   }
 }
 
