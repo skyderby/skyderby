@@ -1,4 +1,9 @@
-import LatLon from 'geodesy/latlon-nvector-spherical'
+import {
+  vincentyBearing,
+  vincentyDestination,
+  vincentyDistance,
+  vincentyMidpoint
+} from '../geo'
 import getLaneViolation from 'utils/checkLaneViolation'
 import { calculateBearing } from 'utils/laneValidation/trackGraphics'
 
@@ -227,17 +232,14 @@ function getLaneParams(startPoint, endPoint) {
     }
   }
 
-  const startCoordinate = new LatLon(startPoint.latitude, startPoint.longitude)
-  const endCoordinate = new LatLon(endPoint.latitude, endPoint.longitude)
-
-  const length = startCoordinate.distanceTo(endCoordinate) * 1.3
-  const center = startCoordinate.midpointTo(endCoordinate)
+  const length = vincentyDistance(startPoint, endPoint) * 1.3
+  const center = vincentyMidpoint(startPoint, endPoint)
 
   return {
-    top: center.destinationPoint(length / 2, 0),
-    bottom: center.destinationPoint(length / 2, 180),
-    right: center.destinationPoint(width / 2, 90),
-    left: center.destinationPoint(width / 2, 270),
-    bearing: startCoordinate.initialBearingTo(endCoordinate)
+    top: vincentyDestination(center, length / 2, 0),
+    bottom: vincentyDestination(center, length / 2, 180),
+    right: vincentyDestination(center, width / 2, 90),
+    left: vincentyDestination(center, width / 2, 270),
+    bearing: vincentyBearing(startPoint, endPoint)
   }
 }

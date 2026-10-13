@@ -8,10 +8,6 @@
 
     <%= csrf_meta_tags %>
 
-    <meta name="default-locale" content="<%= I18n.default_locale %>">
-    <meta name="locale" content="<%= I18n.locale %>">
-    <meta name="current-env" content="<%= Rails.env %>">
-    <meta name="hb-api-key" content="<%= Rails.application.credentials.dig(:honeybadger, :api_key) || ENV.fetch('HONEYBADGER_API_KEY', nil) %>">
     <meta name="turbo-refresh-method" content="morph">
     <meta name="robots" content="noindex, nofollow">
 

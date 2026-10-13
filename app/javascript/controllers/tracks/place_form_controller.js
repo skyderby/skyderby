@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 import { get } from '@rails/request.js'
-import throttle from 'lodash.throttle'
+import { throttle } from 'utils/timing'
 import initMapsApi from 'utils/google_maps_api'
 
 const COUNTRY_LOOKUP_INTERVAL = 5000

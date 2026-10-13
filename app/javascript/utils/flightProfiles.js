@@ -1,13 +1,8 @@
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import { vincentyDistance } from './geo'
 
 const msToKmh = value => value * 3.6
 
-const calculateDistance = (first, second) => {
-  const firstPosition = new LatLon(first.latitude, first.longitude)
-  const secondPosition = new LatLon(second.latitude, second.longitude)
-
-  return firstPosition.distanceTo(secondPosition)
-}
+const calculateDistance = (first, second) => vincentyDistance(first, second)
 
 const getTerrainElevation = (measurements, distance) => {
   for (let idx = 0; idx < measurements.length - 1; idx++) {

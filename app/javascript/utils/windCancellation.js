@@ -1,4 +1,4 @@
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import { vincentyDistance } from './geo'
 
 const EARTH_RADIUS_M = 6371000
 const RAD_PER_DEG = Math.PI / 180
@@ -8,11 +8,11 @@ const degToRad = angle => angle * RAD_PER_DEG
 const radToDeg = angle => angle * DEG_PER_RAD
 const normalizeAngle = angle => ((angle + 540) % 360) - 180
 
-const distanceBetween = (lat1, lon1, lat2, lon2) => {
-  const p1 = new LatLon(lat1, lon1)
-  const p2 = new LatLon(lat2, lon2)
-  return p1.distanceTo(p2)
-}
+const distanceBetween = (lat1, lon1, lat2, lon2) =>
+  vincentyDistance(
+    { latitude: lat1, longitude: lon1 },
+    { latitude: lat2, longitude: lon2 }
+  )
 
 const shiftPosition = (origLatDeg, origLonDeg, distance, bearing) => {
   const origLatRad = degToRad(origLatDeg)

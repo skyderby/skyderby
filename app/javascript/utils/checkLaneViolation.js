@@ -1,4 +1,4 @@
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import { vincentyDistance } from './geo'
 
 const maxAllowedDeviationUntilExitWindow = 300
 const maxAllowedDeviationAfterExitWindow = 600
@@ -12,9 +12,10 @@ const mostDistantPoint = (
 ) => {
   if (!startPoint || !referencePoint) return
 
-  const laneEnter = new LatLon(laneEnterPoint.latitude, laneEnterPoint.longitude)
-  const refPointCoordinate = new LatLon(referencePoint.latitude, referencePoint.longitude)
-  const distanceFromLaneEnterToReferencePoint = laneEnter.distanceTo(refPointCoordinate)
+  const distanceFromLaneEnterToReferencePoint = vincentyDistance(
+    laneEnterPoint,
+    referencePoint
+  )
 
   const startTime = startPoint.gpsTime
   const endTime = endPoint.gpsTime
@@ -25,10 +26,8 @@ const mostDistantPoint = (
       return { ...point, distance: 0 }
     }
 
-    const coordinates = new LatLon(point.latitude, point.longitude)
-
-    const distanceFromEnterLane = coordinates.distanceTo(laneEnter)
-    const distanceToReferencePoint = coordinates.distanceTo(refPointCoordinate)
+    const distanceFromEnterLane = vincentyDistance(point, laneEnterPoint)
+    const distanceToReferencePoint = vincentyDistance(point, referencePoint)
 
     const halfPerimeter =
       (distanceFromLaneEnterToReferencePoint +

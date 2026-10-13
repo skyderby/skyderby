@@ -1,4 +1,4 @@
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import { vincentyDistance } from '../geo'
 import { detectFlares, drawFlares } from './flareDetection'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 import { SVG_NS } from 'charts/svg/elements'
@@ -176,9 +176,7 @@ export default class SideProjectionChart {
   }
 
   calculateDistance(first, second) {
-    const firstPosition = new LatLon(first.latitude, first.longitude)
-    const secondPosition = new LatLon(second.latitude, second.longitude)
-    return firstPosition.distanceTo(secondPosition)
+    return vincentyDistance(first, second)
   }
 
   findIntersectionPoint() {

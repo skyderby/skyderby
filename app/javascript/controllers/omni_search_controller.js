@@ -1,5 +1,5 @@
 import PopoverSelectController from './popover_select_controller'
-import debounce from 'lodash.debounce'
+import { debounce } from 'utils/timing'
 
 let anchorCounter = 0
 

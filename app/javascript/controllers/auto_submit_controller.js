@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import debounce from 'lodash.debounce'
+import { debounce } from 'utils/timing'
 
 export default class AutoSubmit extends Controller {
   initialize() {

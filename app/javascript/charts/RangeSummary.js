@@ -1,4 +1,9 @@
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import { vincentyDistance } from '../utils/geo'
+
+const zerowindPosition = point => ({
+  latitude: point.zerowindLatitude,
+  longitude: point.zerowindLongitude
+})
 
 const emptyValueWithAvgMinMax = {
   avg: null,
@@ -30,10 +35,7 @@ export default class RangeSummary {
     const startPoint = this.points[0]
     const endPoint = this.points.at(-1)
 
-    const startPosition = new LatLon(startPoint.latitude, startPoint.longitude)
-    const endPosition = new LatLon(endPoint.latitude, endPoint.longitude)
-
-    return startPosition.distanceTo(endPosition)
+    return vincentyDistance(startPoint, endPoint)
   }
 
   get zerowindStraightLineDistance() {
@@ -42,13 +44,7 @@ export default class RangeSummary {
     const startPoint = this.points[0]
     const endPoint = this.points.at(-1)
 
-    const startPosition = new LatLon(
-      startPoint.zerowindLatitude,
-      startPoint.zerowindLongitude
-    )
-    const endPosition = new LatLon(endPoint.zerowindLatitude, endPoint.zerowindLongitude)
-
-    return startPosition.distanceTo(endPosition)
+    return vincentyDistance(zerowindPosition(startPoint), zerowindPosition(endPoint))
   }
 
   get trajectoryDistance() {
@@ -57,11 +53,7 @@ export default class RangeSummary {
     return this.points.reduce((acc, point, idx) => {
       if (idx === 0) return acc
 
-      const prevPoint = this.points[idx - 1]
-      const currentPosition = new LatLon(point.latitude, point.longitude)
-      const prevPosition = new LatLon(prevPoint.latitude, prevPoint.longitude)
-
-      return acc + currentPosition.distanceTo(prevPosition)
+      return acc + vincentyDistance(point, this.points[idx - 1])
     }, 0)
   }
 
@@ -71,14 +63,10 @@ export default class RangeSummary {
     return this.points.reduce((acc, point, idx) => {
       if (idx === 0) return acc
 
-      const prevPoint = this.points[idx - 1]
-      const currentPosition = new LatLon(point.zerowindLatitude, point.zerowindLongitude)
-      const prevPosition = new LatLon(
-        prevPoint.zerowindLatitude,
-        prevPoint.zerowindLongitude
+      return (
+        acc +
+        vincentyDistance(zerowindPosition(point), zerowindPosition(this.points[idx - 1]))
       )
-
-      return acc + currentPosition.distanceTo(prevPosition)
     }, 0)
   }
 

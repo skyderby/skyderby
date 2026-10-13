@@ -1,4 +1,4 @@
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import { vincentyDistance } from '../geo'
 
 export const WINDOW_START = 10
 export const REFERENCE_DROP = 200
@@ -23,10 +23,7 @@ export const glideBuckets = wingsuit =>
 
 export const speedBuckets = () => buildBuckets(SPEED_EDGES)
 
-const horizontalDistance = (from, to) =>
-  new LatLon(from.latitude, from.longitude).distanceTo(
-    new LatLon(to.latitude, to.longitude)
-  )
+const horizontalDistance = (from, to) => vincentyDistance(from, to)
 
 const buildProfile = points => {
   const first = points[0]

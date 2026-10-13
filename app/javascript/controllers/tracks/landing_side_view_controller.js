@@ -1,5 +1,5 @@
 import LabeledController from 'controllers/labeled_controller'
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import { vincentyDistance } from 'utils/geo'
 import SideProjectionChart from 'utils/tracks/SideProjectionChart'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
 import { convertLength, lengthUnitLabel } from 'utils/units'
@@ -70,9 +70,10 @@ export default class extends LabeledController {
     const curr = points[crossing.index]
     const lerp = (a, b) => a + (b - a) * crossing.fraction
 
-    const distance = new LatLon(start.latitude, start.longitude).distanceTo(
-      new LatLon(lerp(prev.latitude, curr.latitude), lerp(prev.longitude, curr.longitude))
-    )
+    const distance = vincentyDistance(start, {
+      latitude: lerp(prev.latitude, curr.latitude),
+      longitude: lerp(prev.longitude, curr.longitude)
+    })
 
     return `${Math.round(convertLength(distance, this.unitsValue))} ${lengthUnitLabel(this.unitsValue, this.labels)}`
   }

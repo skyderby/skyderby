@@ -3,20 +3,6 @@ import { definitionsFromContext } from '@hotwired/stimulus-webpack-helpers'
 import '@hotwired/turbo-rails'
 import 'utils/amplitude'
 
-import Honeybadger from '@honeybadger-io/js'
-const currentEnvMeta = document.querySelector('meta[name="current-env"]')
-const honeybadgerApiKeyMeta = document.querySelector('meta[name="hb-api-key"]')
-if (currentEnvMeta && honeybadgerApiKeyMeta && currentEnvMeta.content === 'production') {
-  Honeybadger.configure({
-    apiKey: honeybadgerApiKeyMeta.content,
-    environment: currentEnvMeta.content,
-    ignorePatterns: [
-      /The browser supports WebGL, but initialization failed/i,
-      /Failed to fetch/i
-    ]
-  })
-}
-
 import 'utils/google_maps_api'
 import 'utils/cesium_api'
 // Look for controllers inside app/javascripts/packs/controllers/

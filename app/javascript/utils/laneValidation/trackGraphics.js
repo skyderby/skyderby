@@ -1,4 +1,4 @@
-import LatLon from 'geodesy/latlon-nvector-spherical'
+import { vincentyBearing } from '../geo'
 import { interpolatePointByAltitude, interpolatePointByTime } from './utils'
 
 const afterExitColor = 'rgb(18, 78, 120)'
@@ -194,8 +194,5 @@ export function createWindowMarker(point, text, color, bearing, map) {
 }
 
 export function calculateBearing(startPoint, endPoint) {
-  const startCoordinate = new LatLon(startPoint.latitude, startPoint.longitude)
-  const endCoordinate = new LatLon(endPoint.latitude, endPoint.longitude)
-
-  return startCoordinate.initialBearingTo(endCoordinate)
+  return vincentyBearing(startPoint, endPoint)
 }

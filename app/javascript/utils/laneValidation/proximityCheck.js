@@ -1,11 +1,9 @@
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import { vincentyDistance } from '../geo'
 
 export const proximityThreshold = 150
 
 export function calculateDistance(point1, point2) {
-  const coord1 = new LatLon(point1.latitude, point1.longitude)
-  const coord2 = new LatLon(point2.latitude, point2.longitude)
-  return coord1.distanceTo(coord2)
+  return vincentyDistance(point1, point2)
 }
 
 export function distance3D(point1, point2) {

@@ -1,4 +1,4 @@
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import { vincentyDistance } from '../utils/geo'
 
 export const calculateCumulativeDistance = (
   points,
@@ -13,7 +13,6 @@ export const calculateCumulativeDistance = (
   if (rangeStartIndex === -1) rangeStartIndex = 0
 
   const rangeStartPoint = points[rangeStartIndex]
-  const rangeStartCoords = new LatLon(rangeStartPoint.latitude, rangeStartPoint.longitude)
   const rangeStartAltitude = rangeStartPoint.altitude
   let cumulativeDistance = 0
 
@@ -21,14 +20,10 @@ export const calculateCumulativeDistance = (
     const elevation = Math.max(0, rangeStartAltitude - point.altitude)
 
     if (index > rangeStartIndex) {
-      const currentCoords = new LatLon(point.latitude, point.longitude)
-
       if (straightLine) {
-        cumulativeDistance = rangeStartCoords.distanceTo(currentCoords)
+        cumulativeDistance = vincentyDistance(rangeStartPoint, point)
       } else {
-        const prevPoint = points[index - 1]
-        const prevCoords = new LatLon(prevPoint.latitude, prevPoint.longitude)
-        cumulativeDistance += prevCoords.distanceTo(currentCoords)
+        cumulativeDistance += vincentyDistance(points[index - 1], point)
       }
     }
     return { ...point, cumulativeDistance, elevation }
