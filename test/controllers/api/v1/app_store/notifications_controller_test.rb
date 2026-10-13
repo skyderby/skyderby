@@ -8,7 +8,7 @@ class Api::V1::AppStore::NotificationsControllerTest < ActionDispatch::Integrati
     @user = users(:regular_user)
     @purchase = AppStorePurchase.create!(
       user: @user, original_transaction_id: '2000000000000001', transaction_id: '2000000000000001',
-      product_id: 'io.skyderby.pro.monthly', environment: 'Sandbox',
+      product_id: 'io.skyderby.pro.monthly', environment: 'Production',
       purchased_at: 40.days.ago, expires_at: 10.days.ago
     )
   end

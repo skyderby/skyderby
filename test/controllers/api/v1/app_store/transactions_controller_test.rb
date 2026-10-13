@@ -7,6 +7,18 @@ class Api::V1::AppStore::TransactionsControllerTest < ActionDispatch::Integratio
   setup { use_test_app_store_root }
   teardown { restore_app_store_root }
 
+  test '#create records a sandbox purchase without giving Pro' do
+    post api_v1_app_store_transactions_path,
+         params: { signedTransaction: sign_app_store_payload(app_store_transaction_payload(environment: 'Sandbox')) },
+         headers: bearer(:regular_user_write),
+         as: :json
+
+    assert_response :success
+    assert_equal 'Sandbox', AppStorePurchase.find_by!(original_transaction_id: '2000000000000001').environment
+    assert_not users(:regular_user).reload.subscribed?
+    assert_not response.parsed_body.dig('subscription', 'active')
+  end
+
   test '#create records verified purchase and returns subscription' do
     payload = app_store_transaction_payload
 
@@ -19,7 +31,7 @@ class Api::V1::AppStore::TransactionsControllerTest < ActionDispatch::Integratio
     purchase = AppStorePurchase.find_by!(original_transaction_id: '2000000000000001')
     assert_equal users(:regular_user), purchase.user
     assert_equal 'io.skyderby.pro.monthly', purchase.product_id
-    assert_equal 'Sandbox', purchase.environment
+    assert_equal 'Production', purchase.environment
     assert_equal Time.zone.at(payload[:expiresDate] / 1000), purchase.expires_at
     assert_predicate users(:regular_user).reload, :subscribed?
     assert_equal(

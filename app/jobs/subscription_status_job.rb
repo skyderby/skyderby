@@ -34,7 +34,7 @@ class SubscriptionStatusJob < ApplicationJob
   end
 
   def app_store_subscribers
-    AppStorePurchase.active.pluck(:user_id)
+    AppStorePurchase.entitling.pluck(:user_id)
   end
 
   def admin_ids

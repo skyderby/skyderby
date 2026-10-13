@@ -24,6 +24,15 @@ class AppStorePurchaseTest < ActiveSupport::TestCase
     assert_equal 'app_store', @user.subscription.source
   end
 
+  test 'a sandbox purchase does not give Pro' do
+    create_purchase(original_transaction_id: '1', product_id: 'io.skyderby.pro.lifetime', expires_at: nil,
+                    environment: 'Sandbox')
+
+    assert_not @user.reload.subscription_active?
+    assert_not @user.subscribed?
+    assert_empty AppStorePurchase.entitling
+  end
+
   test 'status reflects purchase state' do
     assert_equal 'lifetime', AppStorePurchase.new(expires_at: nil).status
     assert_equal 'active', AppStorePurchase.new(expires_at: 1.day.from_now).status

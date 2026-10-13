@@ -2,6 +2,7 @@ class AppStorePurchase < ApplicationRecord
   BUNDLE_ID = 'io.skyderby.app'.freeze
   LIFETIME_PRODUCT_ID = 'io.skyderby.pro.lifetime'.freeze
   PRODUCT_IDS = %w[io.skyderby.pro.monthly io.skyderby.pro.annual io.skyderby.pro.lifetime].freeze
+  PRODUCTION = 'Production'.freeze
 
   belongs_to :user
 
@@ -13,6 +14,8 @@ class AppStorePurchase < ApplicationRecord
     where(revoked_at: nil).where('app_store_purchases.expires_at IS NULL OR app_store_purchases.expires_at > ?',
                                  Time.current)
   }
+
+  scope :entitling, -> { active.where(environment: PRODUCTION) }
 
   after_commit :update_subscribed_status, on: %i[create update destroy]
 

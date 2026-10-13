@@ -79,7 +79,7 @@ class User < ApplicationRecord
   def stripe_subscription_active? = stripe_processor&.subscription&.active? || false
 
   def app_store_subscription_active?
-    app_store_purchases.active.exists?
+    app_store_purchases.entitling.exists?
   end
 
   def lifetime_subscription?

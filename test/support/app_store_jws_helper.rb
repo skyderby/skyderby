@@ -49,7 +49,7 @@ module AppStoreJwsHelper
       productId: 'io.skyderby.pro.monthly',
       transactionId: '2000000000000002',
       originalTransactionId: '2000000000000001',
-      environment: 'Sandbox',
+      environment: 'Production',
       purchaseDate: 1.day.ago.to_i * 1000,
       expiresDate: 29.days.from_now.to_i * 1000
     }.merge(overrides)

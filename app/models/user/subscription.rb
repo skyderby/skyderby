@@ -37,7 +37,7 @@ class User::Subscription
     stripe_subscription&.ends_at || stripe_subscription&.current_period_end
   end
 
-  def app_store_purchases = @app_store_purchases ||= user.app_store_purchases.active.to_a
+  def app_store_purchases = @app_store_purchases ||= user.app_store_purchases.entitling.to_a
 
   def gifted_subscriptions = @gifted_subscriptions ||= user.gifted_subscriptions.active.to_a
 
