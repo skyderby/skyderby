@@ -5,6 +5,8 @@ module Tournaments
         include TournamentScoped
         include ResultScoped, RespondWithScoreboard
 
+        before_action { authorize @tournament, :update? }
+
         def show
           respond_to do |format|
             format.html

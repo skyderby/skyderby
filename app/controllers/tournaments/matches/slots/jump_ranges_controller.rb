@@ -5,10 +5,9 @@ module Tournaments
         include TournamentScoped
 
         before_action :set_match, :set_slot
+        before_action { authorize @tournament, :update? }
 
         def show
-          authorize @tournament, :update?
-
           respond_to do |format|
             format.turbo_stream
           end
