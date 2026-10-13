@@ -81,7 +81,10 @@ describe('vincenty', () => {
   })
 
   test('measures short track segments', () => {
-    expect(vincentyDistance(p(53.62, -114.22), p(53.62005, -114.22))).toBeCloseTo(5.5649, 3)
+    expect(vincentyDistance(p(53.62, -114.22), p(53.62005, -114.22))).toBeCloseTo(
+      5.5649,
+      3
+    )
   })
 
   test('midpoint is equidistant from both ends', () => {
