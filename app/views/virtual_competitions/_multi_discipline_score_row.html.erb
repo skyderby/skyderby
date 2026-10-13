@@ -41,27 +41,7 @@
 
   <div class="vc-md-disciplines">
     <% score.entries.each do |entry| %>
-      <% discipline = entry.discipline %>
-      <div class="vc-md-cell">
-        <span class="vc-md-value">
-          <%= icon_tag competition_icon(discipline), class: 'vc-md-value__icon' %>
-          <span class="for-screen-reader"><%= competition_badge(discipline) %></span>
-          <% if entry.result %>
-            <%= format_result(entry.result, discipline) %>
-            <span class="vc-md-value__unit"><%= competition_unit(discipline) %></span>
-          <% else %>
-            —
-          <% end %>
-        </span>
-        <span class="vc-md-detail">
-          <% if entry.best? %>
-            <span class="vc-md-detail__best"><%= t('virtual_competitions.scoreboard.best') %></span>
-          <% elsif entry.gap %>
-            <span><%= format_gap(entry.gap, discipline) %> <%= competition_unit(discipline) %></span>
-          <% end %>
-          <span class="vc-md-detail__points"><%= format('%.1f', entry.points) %> <%= points_unit %></span>
-        </span>
-      </div>
+      <%= render 'virtual_competitions/multi_discipline_entry', entry: %>
     <% end %>
   </div>
 

@@ -83,6 +83,8 @@ it:
         open: Open
         female: Donne
     person_details:
+      best_jump: "Salto migliore"
+      multi_discipline_hint: "I punti sono relativi al miglior risultato di questo pilota in ogni disciplina."
       modal_title: Migliori risultati in competizione
     scoreboard:
       total: "Totale"

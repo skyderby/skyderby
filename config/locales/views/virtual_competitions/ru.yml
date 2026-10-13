@@ -87,6 +87,8 @@ ru:
       time: Время
       base_race: Бэйс-рейс
     person_details:
+      best_jump: "Лучший прыжок"
+      multi_discipline_hint: "Очки считаются от лучшего результата этого пилота в каждой дисциплине."
       modal_title: Лучшие результаты в соревновании
     scoreboard:
       total: "Сумма"

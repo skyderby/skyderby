@@ -44,9 +44,7 @@ class VirtualCompetition::MultiDisciplineStandings
   def for_interval(interval) = scores_for(interval && (interval.period_from..interval.period_to))
 
   def tracks_of(profile_id)
-    track_scores(results(nil).to_a)
-      .select { |score| score.profile_id == profile_id }
-      .sort_by { |score| -score.result }
+    track_scores(results(nil).where(tracks: { profile_id: }).to_a).sort_by { |score| -score.result }
   end
 
   private
@@ -54,17 +52,22 @@ class VirtualCompetition::MultiDisciplineStandings
   attr_reader :competition
 
   def scores_for(period)
-    personal_bests(track_scores(results(period).to_a))
+    jumps_by_pilot = results(period).to_a.group_by { |record| record.track.profile_id }.values
+
+    track_scores(jumps_by_pilot.flat_map { |records| counted_jump(records) })
       .sort_by { |score| -score.result }
       .each.with_index(1) { |score, rank| score.rank = rank }
+  end
+
+  def counted_jump(records)
+    best = track_scores(records).max_by(&:result)
+    records.select { |record| record.track_id == best.track_id }
   end
 
   def track_scores(records)
     bests = best_results(records)
     records.group_by(&:track).map { |track, track_records| build_score(track, track_records, bests) }
   end
-
-  def personal_bests(scores) = scores.group_by(&:profile_id).values.map { |group| group.max_by(&:result) }
 
   def build_score(track, records, bests)
     by_discipline = records.index_by(&:discipline_id)

@@ -1,5 +1,9 @@
 es:
   virtual_competitions:
+    person_details:
+      modal_title: "Mejores resultados en la competición"
+      best_jump: "Mejor salto"
+      multi_discipline_hint: "Los puntos son relativos al mejor resultado propio de este piloto en cada disciplina."
     form:
       disciplines_hint: "Déjalo vacío para un ranking de una sola disciplina. Añade dos o más para puntuar cada salto en todas a la vez."
     units:

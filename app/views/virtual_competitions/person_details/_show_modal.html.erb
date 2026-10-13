@@ -1,56 +1,77 @@
-<%= render 'components/dialog', title: t('virtual_competitions.person_details.modal_title'), dialog_size: 'lg' do %>
-  <div data-controller="person-details-chart"
-       data-person-details-chart-result-label-value="<%= t('charts.person_details.result') %>">
-    <div class="person-details-chart" data-person-details-chart-target="chart"></div>
-    <script type="application/json" data-person-details-chart-target="data">
-      <%= @details.chart_data %>
-    </script>
-  </div>
+<% competition = @details.competition %>
+<% multi = competition.multi_discipline? %>
+<% grid_style = multi ? "--disciplines: #{competition.disciplines.size}" : nil %>
+<% grid_class = class_names('vc-md-grid vc-md-grid--jumps', 'vc-md-grid--single' => !multi) %>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th><%= t('activerecord.attributes.track.suit') %></th>
-        <% if @details.competition.worldwide? %>
-          <th><%= t('activerecord.attributes.track.place') %></th>
-        <% end %>
-        <% if @details.competition.multi_discipline? %>
-          <% @details.competition.disciplines.each do |discipline| %>
-            <th class="text-right"><%= competition_badge(discipline) %></th>
-          <% end %>
-        <% end %>
-        <th class="text-right"><%= t('virtual_competitions.scoreboard.result') %></th>
-        <th class="text-right"><%= t('activerecord.attributes.track.recorded_at') %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @details.top_results.each do |record| %>
-        <tr>
-          <td><%= suit_link(record.suit) %></td>
-          <% if @details.competition.worldwide? %>
-            <td><%= track_place_link(record.track) %></td>
-          <% end %>
-          <% if @details.competition.multi_discipline? %>
-            <% record.entries.each do |entry| %>
-              <td class="text-right">
-                <% if entry.result %>
-                  <%= format_result(entry.result, entry.discipline) %> <%= competition_unit(entry.discipline) %>
-                <% else %>
-                  —
-                <% end %>
-                <div class="text-gray"><%= format('%.1f', entry.points) %> <%= t('virtual_competitions.units.points') %></div>
-              </td>
-            <% end %>
-          <% end %>
-          <td class="text-right">
-            <%= link_to format_result(record.result, @details.competition), record.track, class: 'dotted-underline' %>
-            <% if @details.competition.multi_discipline? %>
-              <%= competition_unit(@details.competition) %>
-            <% end %>
-          </td>
-          <td class="text-right"><%= record.track.recorded_at&.strftime('%d.%m.%Y') %></td>
-        </tr>
+<%= render 'components/dialog', title: @details.profile.name, dialog_size: 'lg' do %>
+  <div class="vc-jumps">
+    <p class="vc-jumps__caption">
+      <%= t('virtual_competitions.person_details.modal_title') %>
+      <% if multi %>
+        <span class="vc-jumps__hint"><%= t('virtual_competitions.person_details.multi_discipline_hint') %></span>
       <% end %>
-    </tbody>
-  </table>
+    </p>
+
+    <div data-controller="person-details-chart"
+         data-person-details-chart-result-label-value="<%= t('charts.person_details.result') %>">
+      <div class="person-details-chart" data-person-details-chart-target="chart"></div>
+      <script type="application/json" data-person-details-chart-target="data">
+        <%= @details.chart_data %>
+      </script>
+    </div>
+
+    <div class="vc-jumps__list">
+      <div class="<%= grid_class %> vc-md-header" style="<%= grid_style %>" aria-hidden="true">
+        <span></span>
+        <% if multi %>
+          <% competition.disciplines.each do |discipline| %>
+            <span class="vc-md-header__cell"><%= competition_badge(discipline) %></span>
+          <% end %>
+          <span class="vc-md-header__cell"><%= t('virtual_competitions.scoreboard.total') %></span>
+        <% else %>
+          <span class="vc-md-header__cell"><%= t('virtual_competitions.scoreboard.result') %></span>
+        <% end %>
+      </div>
+
+      <% @details.top_results.each_with_index do |record, index| %>
+        <div class="<%= class_names(grid_class, 'vc-jumps__row', 'vc-jumps__row--best' => index.zero?) %>" style="<%= grid_style %>">
+          <div class="vc-md-cell--main vc-jumps__main">
+            <span class="vc-jumps__date"><%= record.track.recorded_at&.strftime('%d.%m.%Y') %></span>
+            <div class="vc-scoreboard__meta">
+              <% if record.suit %>
+                <span class="vc-scoreboard__suit">
+                  <%= icon_tag 'wingsuit' %>
+                  <%= suit_link(record.suit) %>
+                </span>
+              <% end %>
+              <% if record.track.place %>
+                <span class="vc-scoreboard__place">
+                  <%= icon_tag 'location-dot-solid' %>
+                  <%= track_place_link(record.track) %>
+                </span>
+              <% end %>
+            </div>
+          </div>
+
+          <% if multi %>
+            <div class="vc-md-disciplines">
+              <% record.entries.each do |entry| %>
+                <%= render 'virtual_competitions/multi_discipline_entry', entry: %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <div class="vc-md-cell vc-md-cell--total">
+            <%= link_to record.track, class: 'vc-md-value vc-md-value--link' do %>
+              <%= format_result(record.result, competition) %>
+              <span class="vc-md-value__unit"><%= competition_unit(competition) %></span>
+            <% end %>
+            <% if index.zero? %>
+              <span class="vc-md-detail"><span class="vc-md-detail__best"><%= t('virtual_competitions.person_details.best_jump') %></span></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 <% end %>

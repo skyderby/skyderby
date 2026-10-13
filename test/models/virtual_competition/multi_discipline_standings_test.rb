@@ -27,7 +27,19 @@ class VirtualCompetition::MultiDisciplineStandingsTest < ActiveSupport::TestCase
     score = @competition.multi_discipline_standings.overall.sole
 
     assert_equal best, score.track
-    assert_in_delta 180, score.result
+    assert_in_delta 200, score.result
+  end
+
+  test 'scores the table only against counted jumps, not against every jump' do
+    add_jump profiles(:john), distance: 100, flare: nil
+    counted = add_jump profiles(:john), distance: 50, flare: 10
+    add_jump profiles(:maynard), distance: 80, flare: 5
+
+    john, maynard = @competition.multi_discipline_standings.overall
+
+    assert_equal counted, john.track
+    assert_equal [62.5, 100.0], john.entries.map(&:points)
+    assert_equal [100.0, 50.0], maynard.entries.map(&:points)
   end
 
   test 'limits scores to the requested year' do

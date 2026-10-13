@@ -1005,3 +1005,75 @@ a.vc-md-value--link {
   color: var(--green-90);
   font-weight: 600;
 }
+
+.vc-md-grid--jumps {
+  grid-template-columns: minmax(0, 1fr) auto;
+
+  @media (max-width: 767px) {
+    grid-template-areas:
+      'main total'
+      'disciplines disciplines';
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: minmax(0, 1fr) repeat(var(--disciplines), 8.5rem) 6.5rem;
+  }
+}
+
+.vc-md-grid--jumps.vc-md-grid--single {
+  @media (min-width: 768px) {
+    grid-template-columns: minmax(0, 1fr) 8rem;
+  }
+}
+
+.vc-jumps {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vc-jumps__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  font-weight: 600;
+  color: var(--gray-90);
+}
+
+.vc-jumps__hint {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--gray-60);
+}
+
+.vc-jumps__list .vc-md-header {
+  padding: 0 12px 8px;
+}
+
+.vc-jumps__row {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--gray-20);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.vc-jumps__row--best {
+  background: var(--blue-10);
+  border-radius: var(--border-radius-md);
+}
+
+.vc-jumps__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.vc-jumps__date {
+  font-weight: 500;
+  color: var(--gray-90);
+  font-variant-numeric: tabular-nums;
+}
