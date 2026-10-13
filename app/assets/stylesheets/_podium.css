@@ -1,0 +1,202 @@
+.vc-podium {
+  --podium-avatar: 3.75rem;
+  --podium-avatar-first: 5rem;
+  --podium-step: 1.25rem;
+  --podium-base: 3.5rem;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  max-width: 42.5rem;
+  margin: 0 auto;
+  padding: 0.5rem 0 0;
+  list-style: none;
+  border-bottom: 2px solid var(--gray-30);
+
+  @media (min-width: 768px) {
+    --podium-avatar: 5.5rem;
+    --podium-avatar-first: 7rem;
+    --podium-step: 1.75rem;
+    --podium-base: 4.75rem;
+
+    padding-top: 1rem;
+  }
+}
+
+.vc-podium__place {
+  --medal: #aab3bc;
+  --medal-surface: #eef1f4;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  text-align: center;
+}
+
+.vc-podium__place--1 {
+  --medal: #dca52f;
+  --medal-surface: #fdf3d6;
+
+  order: 2;
+}
+
+.vc-podium__place--2 { order: 1; }
+
+.vc-podium__place--3 {
+  --medal: #c98444;
+  --medal-surface: #f8e8d8;
+
+  order: 3;
+}
+
+.vc-podium__avatar {
+  position: relative;
+  display: block;
+  width: var(--podium-avatar);
+  height: var(--podium-avatar);
+  margin-bottom: 0.625rem;
+}
+
+.vc-podium__place--1 .vc-podium__avatar {
+  width: var(--podium-avatar-first);
+  height: var(--podium-avatar-first);
+}
+
+.vc-podium__photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 3px var(--white), 0 0 0 5px var(--medal);
+}
+
+.vc-podium__photo.avatar-initials {
+  background: var(--medal-surface);
+  color: var(--gray-70);
+  font-size: calc(var(--podium-avatar) * 0.34);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.vc-podium__place--1 .vc-podium__photo.avatar-initials {
+  font-size: calc(var(--podium-avatar-first) * 0.34);
+}
+
+.vc-podium__medal.rank-badge {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 1.625rem;
+  height: 1.625rem;
+  font-size: 0.8125rem;
+  box-shadow: 0 0 0 3px var(--white), inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+
+  @media (min-width: 768px) {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.9375rem;
+  }
+}
+
+.vc-podium__place--1 .vc-podium__medal.rank-badge {
+  @media (min-width: 768px) {
+    width: 2.375rem;
+    height: 2.375rem;
+    font-size: 1.0625rem;
+  }
+}
+
+.vc-podium__name {
+  display: -webkit-box;
+  max-width: 100%;
+  min-height: 2.5em;
+  margin-bottom: 0.5rem;
+  padding: 0 0.25rem;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--gray-90);
+  overflow-wrap: anywhere;
+  align-content: end;
+
+  &:hover {
+    color: var(--blue-70);
+  }
+
+  @media (min-width: 768px) {
+    font-size: 1.0625rem;
+  }
+}
+
+.vc-podium__plinth {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 100%;
+  height: var(--podium-base);
+  padding-top: 0.625rem;
+  background: linear-gradient(180deg, var(--medal-surface), var(--white));
+  border-top: 4px solid var(--medal);
+  color: var(--gray-90);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--blue-70);
+  }
+
+  @media (min-width: 768px) {
+    padding-top: 0.875rem;
+  }
+}
+
+.vc-podium__place--2 .vc-podium__plinth {
+  height: calc(var(--podium-base) + var(--podium-step));
+  border-top-left-radius: var(--border-radius-md);
+}
+
+.vc-podium__place--1 .vc-podium__plinth {
+  height: calc(var(--podium-base) + var(--podium-step) * 2);
+  border-top-left-radius: var(--border-radius-md);
+  border-top-right-radius: var(--border-radius-md);
+  box-shadow: 0 -2px 12px rgba(220, 165, 47, 0.18);
+}
+
+.vc-podium__place--3 .vc-podium__plinth {
+  border-top-right-radius: var(--border-radius-md);
+}
+
+.vc-podium__value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1;
+
+  @media (min-width: 768px) {
+    font-size: 1.75rem;
+  }
+}
+
+.vc-podium__place--1 .vc-podium__value {
+  font-size: 1.5rem;
+
+  @media (min-width: 768px) {
+    font-size: 2.25rem;
+  }
+}
+
+.vc-podium__unit {
+  font-size: 0.75rem;
+  color: var(--gray-60);
+
+  @media (min-width: 768px) {
+    font-size: 0.875rem;
+  }
+}

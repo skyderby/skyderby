@@ -543,11 +543,7 @@
 }
 
 .vc-scoreboard__leaderboard {
-  display: none;
-
-  @media (min-width: 768px) {
-    display: block;
-  }
+  margin-bottom: 1.5rem;
 }
 
 .vc-scoreboard__list {

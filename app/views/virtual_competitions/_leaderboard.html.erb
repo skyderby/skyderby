@@ -1,8 +1,7 @@
-<% orientation ||= 'horizontal' %>
-<% orientation_class = "online-competition-leaderboard--#{orientation}" %>
+<%# locals: (leaders:) %>
 
-<div class="online-competition-leaderboard <%= orientation_class %>">
-  <% leaders.each do |leader_result| %>
-    <%= render 'virtual_competitions/winner', result: leader_result %>
+<ol class="vc-podium">
+  <% leaders.each.with_index(1) do |leader, place| %>
+    <%= render 'virtual_competitions/winner', result: leader, place: %>
   <% end %>
-</div>
+</ol>
