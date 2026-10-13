@@ -1,5 +1,37 @@
 it:
   virtual_competitions:
+    form:
+      disciplines_hint: "Lascia vuoto per una classifica a disciplina singola. Aggiungine due o più per valutare ogni salto in tutte contemporaneamente."
+    units:
+      points: "pt"
+    visibilities:
+      public_competition: "Pubblico"
+      unlisted_competition: "Non in elenco"
+      private_competition: "Privato"
+    participants:
+      participants:
+        title: "Partecipanti"
+        hint: "Vengono valutate solo le tracce dei partecipanti. Gli amministratori possono invitare piloti e cambiare i ruoli."
+        add: "Aggiungi partecipante"
+        empty: "Aggiungi il primo pilota per avviare la classifica."
+      participant:
+        scanning: "Controllo delle tracce…"
+        rank: "%{rank}° posto"
+        tracks:
+          one: "%{count} traccia valutata"
+          other: "%{count} tracce valutate"
+        no_tracks: "Ancora nessuna traccia valutata"
+        remove: "Rimuovi"
+        remove_confirmation: "Rimuovere %{name} e i suoi risultati dalla classifica?"
+      roles:
+        participant: "Partecipante"
+        admin: "Amministratore"
+      form:
+        title: "Aggiungi partecipante"
+        pilot: "Pilota"
+        search: "Cerca un pilota per nome"
+        admin_hint: "Può invitare piloti e cambiare i ruoli."
+        submit: "Aggiungi"
     suit_kinds:
       wingsuit: 'Wingsuit'
       monotrack: 'Monotrack'
@@ -33,14 +65,14 @@ it:
         one: "%{formatted} atleta"
         other: "%{formatted} atleti"
     badges:
+      distance: Distanza
+      flare: Flare
       speed: Velocità
       vertical_speed: Velocità
       head_up_speed: Velocità head-up
-      distance: Distanza
       distance_in_time: "Distanza · %{parameter} sec"
       distance_in_altitude: "Distanza · %{parameter} m"
       time: Tempo
-      flare: Flare
       base_race: Base Race
     show:
       jump_kinds:
@@ -53,6 +85,7 @@ it:
     person_details:
       modal_title: Migliori risultati in competizione
     scoreboard:
+      total: "Totale"
       best: migliore
       result: Risultato
       show_details: Clicca il dettaglio della traccia
@@ -61,16 +94,18 @@ it:
       rank_down: "↓%{change} dalla settimana scorsa"
       rank_new: "Nuovo questa settimana"
     navbar:
+      participants: "Partecipanti"
       overall: Generale
     tasks:
+      distance: L'obbiettivo è di volare più distante possibile attraverso la finestra di competizione (3000 - 2000 m e tra 2500 - 1500 metri a partire da Gennaio 2020)
+      flare: L'obbiettivo è di guadagnare la quantità maggiore di quota possibile
+      multi_discipline: "Ogni salto viene valutato contemporaneamente in tutte le discipline. Ogni disciplina vale fino a 100 punti rispetto al miglior risultato, conta il salto con il totale più alto."
       head_up_speed: "L'obiettivo è raggiungere la massima velocità verticale, mediata sui 3 secondi più veloci nella finestra di punteggio, in posizione a testa in su. Carica TRACK.CSV insieme a SENSOR.CSV del FlySight 2"
       speed: L'obbiettivo è di volare con la maggior velocità orizzontale possibile, misurata rispetto al terreno, attraverso la finestra di competizione (3000 - 2000 m e tra 2500 - 1500 metri a partire da Gennaio 2020)
-      distance: L'obbiettivo è di volare più distante possibile attraverso la finestra di competizione (3000 - 2000 m e tra 2500 - 1500 metri a partire da Gennaio 2020)
       distance_in_time: L'obbiettivo è di volare il più distante possibile in un periodo di tempo di %{parameter} sec
       distance_in_altitude: L'obbiettivo è di volare il più distante possibile utilizzando %{parameter} mettri di altitudine per la planata
       straightline_distance_in_time: L'obbiettivo è di volare il più distante possibile in un periodo di tempo di %{parameter} sec. La distanza è misurata in linea retta.
       time: L'obbiettivo è di volare con il minor rateo di discesa possibile attraverso la finestra di competizione (3000 - 2000 m e tra 2500 - 1500 metri a partire da Gennaio 2020)
-      flare: L'obbiettivo è di guadagnare la quantità maggiore di quota possibile
     place: 'Luogo:'
     worldwide: mondiale
     suit: 'tipo di Tuta: %{suit}'

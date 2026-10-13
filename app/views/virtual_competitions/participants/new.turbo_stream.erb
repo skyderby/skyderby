@@ -1,0 +1,4 @@
+<%= turbo_stream.update 'modal-root' do %>
+  <%= render partial: 'form', layout: 'components/dialog',
+             locals: { participant: @participant, title: t('virtual_competitions.participants.form.title') } %>
+<% end %>

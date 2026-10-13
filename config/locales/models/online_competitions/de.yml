@@ -3,7 +3,22 @@ de:
     models:
       virtual_competition: Online Wettbewerbe
     attributes:
+      virtual_competition/participant:
+        admin: "Rolle"
+      virtual_competition/discipline:
+        discipline: "Disziplin"
+        parameter: "Parameter"
       virtual_competition:
+        disciplines: "Disziplinen"
+        visibility: "Sichtbarkeit"
         name: Name
         location: Ort
         task: Disziplin
+    errors:
+      models:
+        virtual_competition/participant:
+          admin_without_account: "Nur Piloten mit Konto können Administratoren sein"
+        virtual_competition:
+          attributes:
+            disciplines:
+              single: "braucht mindestens zwei Disziplinen oder keine, um die Hauptdisziplin zu nutzen"

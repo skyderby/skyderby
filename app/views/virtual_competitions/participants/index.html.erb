@@ -1,0 +1,16 @@
+<% provide :title, @competition.title %>
+
+<div class="show-page">
+  <div class="show-page-header">
+    <h1 class="show-page-title"><%= @competition.title %></h1>
+    <%= render 'virtual_competitions/navbar', editable: policy(@competition).edit? %>
+  </div>
+
+  <div class="show-page-content">
+    <%= turbo_stream_from @competition, :participants %>
+
+    <div class="card">
+      <%= render 'participants', roster: @roster %>
+    </div>
+  </div>
+</div>

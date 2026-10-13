@@ -1,0 +1,49 @@
+<%# locals: (participant:, roster:) %>
+
+<% competition = roster.competition %>
+<% profile = participant.profile %>
+<% standing = roster.standing_for(participant) %>
+
+<li id="<%= dom_id(participant) %>" class="roster__item">
+  <%= image_tag profile.userpic_url(:thumb), class: 'avatar avatar--sm', alt: '' %>
+
+  <div class="roster__body">
+    <div class="roster__name">
+      <%= link_to profile.name, profile_path(profile) %>
+      <% if profile.country %>
+        <span class="roster__country"><%= profile.country.code.upcase %></span>
+      <% end %>
+    </div>
+
+    <div class="roster__status">
+      <% if !participant.tracks_scanned? %>
+        <span class="roster__pending"><%= t('virtual_competitions.participants.participant.scanning') %></span>
+      <% elsif standing %>
+        <span><%= t('virtual_competitions.participants.participant.rank', rank: standing.rank) %></span>
+        <span><%= format_result(standing.result, competition) %> <%= competition_unit(competition) %></span>
+        <span><%= t('virtual_competitions.participants.participant.tracks', count: roster.scored_tracks_count(participant)) %></span>
+      <% else %>
+        <span><%= t('virtual_competitions.participants.participant.no_tracks') %></span>
+      <% end %>
+    </div>
+  </div>
+
+  <%= form_with model: participant, scope: :participant, url: virtual_competition_participant_path(competition, participant),
+                class: 'roster__role', data: { controller: 'auto-submit', delay: 0 } do |f| %>
+    <%= f.select :admin,
+                 [[t('virtual_competitions.participants.roles.participant'), false],
+                  [t('virtual_competitions.participants.roles.admin'), true]],
+                 {},
+                 class: 'form-input', 'aria-label': VirtualCompetition::Participant.human_attribute_name(:admin),
+                 data: { action: 'change->auto-submit#submit' } %>
+  <% end %>
+
+  <%= button_to virtual_competition_participant_path(competition, participant),
+                method: :delete,
+                class: 'button button--ghost roster__remove',
+                title: t('virtual_competitions.participants.participant.remove'),
+                form: { data: { turbo_confirm: t('virtual_competitions.participants.participant.remove_confirmation', name: profile.name) } } do %>
+    <%= icon_tag 'xmark' %>
+    <span class="for-screen-reader"><%= t('virtual_competitions.participants.participant.remove') %></span>
+  <% end %>
+</li>

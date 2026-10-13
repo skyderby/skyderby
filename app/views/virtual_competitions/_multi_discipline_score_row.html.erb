@@ -1,0 +1,89 @@
+<%# locals: (score:, ranking:, current_user_row: false) %>
+
+<% competition = ranking.competition %>
+<% on_podium = score.rank <= 3 %>
+<% points_unit = t('virtual_competitions.units.points') %>
+<% total_gap = score.result - ranking.all_scores.first.result %>
+
+<div class="<%= class_names('vc-scoreboard__row vc-md-grid', on_podium && "vc-scoreboard__row--place-#{score.rank}", current_user_row && 'vc-scoreboard__row--current') %>"
+     style="--disciplines: <%= score.entries.size %>"
+     data-rank="<%= score.rank %>"
+     data-track-compare-target="row"
+     data-action="click->track-compare#selectRow"
+     data-track-id="<%= score.track.id %>"
+     data-pilot="<%= score.profile.name.titleize %>"
+     data-result="<%= "#{format('%.1f', score.result)} #{points_unit}" %>"
+     data-kind="<%= score.track.kind %>">
+  <div class="vc-scoreboard__rank vc-md-cell--rank">
+    <span class="<%= class_names('vc-scoreboard__rank-number', on_podium && "rank-badge rank-badge--#{score.rank}") %>"><%= score.rank %></span>
+    <%= icon_tag 'check-solid', class: 'vc-scoreboard__rank-check' %>
+  </div>
+
+  <div class="vc-scoreboard__main vc-md-cell--main">
+    <div class="vc-scoreboard__name">
+      <%= link_to profile_path(score.profile), class: 'dotted-underline' do %>
+        <span class="<%= 'contributor' if score.profile.contributor? %>"><%= score.profile.name.titleize %></span>
+      <% end %>
+    </div>
+    <div class="vc-scoreboard__meta">
+      <% if score.suit %>
+        <span class="vc-scoreboard__suit">
+          <%= icon_tag 'wingsuit' %>
+          <%= suit_link(score.suit) %>
+        </span>
+      <% end %>
+      <span class="vc-scoreboard__place">
+        <%= icon_tag 'location-dot-solid' %>
+        <%= track_place_link(score.track) %>
+      </span>
+    </div>
+  </div>
+
+  <div class="vc-md-disciplines">
+    <% score.entries.each do |entry| %>
+      <% discipline = entry.discipline %>
+      <div class="vc-md-cell">
+        <span class="vc-md-value">
+          <%= icon_tag competition_icon(discipline), class: 'vc-md-value__icon' %>
+          <span class="for-screen-reader"><%= competition_badge(discipline) %></span>
+          <% if entry.result %>
+            <%= format_result(entry.result, discipline) %>
+            <span class="vc-md-value__unit"><%= competition_unit(discipline) %></span>
+          <% else %>
+            —
+          <% end %>
+        </span>
+        <span class="vc-md-detail">
+          <% if entry.best? %>
+            <span class="vc-md-detail__best"><%= t('virtual_competitions.scoreboard.best') %></span>
+          <% elsif entry.gap %>
+            <span><%= format_gap(entry.gap, discipline) %> <%= competition_unit(discipline) %></span>
+          <% end %>
+          <span class="vc-md-detail__points"><%= format('%.1f', entry.points) %> <%= points_unit %></span>
+        </span>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="vc-md-cell vc-md-cell--total">
+    <%= link_to score.track, class: 'vc-md-value vc-md-value--link' do %>
+      <span class="for-screen-reader"><%= t('virtual_competitions.scoreboard.total') %></span>
+      <%= format('%.1f', score.result) %>
+      <span class="vc-md-value__unit"><%= points_unit %></span>
+    <% end %>
+    <% if total_gap.negative? %>
+      <span class="vc-md-detail"><span><%= format('%.1f', total_gap) %></span></span>
+    <% end %>
+  </div>
+
+  <div class="vc-scoreboard__date">
+    <%= score.recorded_at&.strftime('%d.%m.%Y') %>
+  </div>
+
+  <div class="vc-scoreboard__actions">
+    <%= link_to virtual_competition_person_details_path(competition, profile_id: score.profile),
+                class: 'vc-scoreboard__action', data: { turbo_stream: true } do %>
+      <%= icon_tag 'list-ul-solid' %>
+    <% end %>
+  </div>
+</div>

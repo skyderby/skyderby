@@ -25,7 +25,9 @@ class VirtualCompetition::Group < ApplicationRecord
 
   def combined_scoreboard? = combined_categories.any?
 
-  def combined_categories = @combined_categories ||= Scoreboard.categorize(virtual_competitions)
+  def combined_categories
+    @combined_categories ||= Scoreboard.categorize(virtual_competitions.select(&:public_competition?))
+  end
 
   def combined_competitions = combined_categories.values.flat_map(&:values)
 end

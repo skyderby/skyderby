@@ -59,6 +59,7 @@ module Tracks
     def representative_rows
       @track
         .all_virtual_competition_results
+        .where(virtual_competition_id: VirtualCompetition.listed.select(:id), discipline_id: nil)
         .includes(virtual_competition: :group)
         .to_a
         .group_by(&:virtual_competition_id)

@@ -13,3 +13,10 @@ json.worldwide competition.worldwide?
 json.finished competition.finished?
 json.featured competition.featured
 json.athlete_count athlete_count
+json.visibility competition.visibility
+json.disciplines(competition.multi_discipline? ? competition.disciplines : []) do |discipline|
+  json.discipline discipline.discipline
+  json.parameter discipline.parameter
+  json.badge competition_badge(discipline)
+  json.unit competition_unit(discipline)
+end

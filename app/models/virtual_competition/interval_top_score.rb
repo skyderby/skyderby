@@ -37,6 +37,7 @@ class VirtualCompetition::IntervalTopScore < ApplicationRecord
           INNER JOIN virtual_competition_custom_intervals intervals
             ON intervals.virtual_competition_id = competitions.id
             AND tracks.recorded_at BETWEEN intervals.period_from AND intervals.period_to
+        WHERE results.discipline_id IS NULL
         ORDER BY
           results.virtual_competition_id,
           tracks.profile_id,

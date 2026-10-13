@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_05_120100) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_13_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -1006,6 +1006,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_05_120100) do
     t.index ["virtual_competition_id"], name: "index_custom_intervals_on_virtual_competition_id"
   end
 
+  create_table "virtual_competition_disciplines", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "discipline", null: false
+    t.integer "parameter", default: 0, null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.integer "virtual_competition_id", null: false
+    t.index ["virtual_competition_id"], name: "index_vc_disciplines_on_competition"
+  end
+
   create_table "virtual_competition_groups", id: :serial, force: :cascade do |t|
     t.timestamptz "created_at"
     t.boolean "cumulative", default: false, null: false
@@ -1014,8 +1024,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_05_120100) do
     t.timestamptz "updated_at"
   end
 
+  create_table "virtual_competition_participants", force: :cascade do |t|
+    t.boolean "admin", default: false, null: false
+    t.datetime "created_at", null: false
+    t.integer "profile_id", null: false
+    t.datetime "tracks_scanned_at"
+    t.datetime "updated_at", null: false
+    t.integer "virtual_competition_id", null: false
+    t.index ["profile_id"], name: "index_virtual_competition_participants_on_profile_id"
+    t.index ["virtual_competition_id", "profile_id"], name: "index_vc_participants_on_competition_and_profile", unique: true
+  end
+
   create_table "virtual_competition_results", id: :serial, force: :cascade do |t|
     t.timestamptz "created_at"
+    t.bigint "discipline_id"
     t.float "highest_gr", default: 0.0
     t.float "highest_speed", default: 0.0
     t.float "result", default: 0.0
@@ -1024,7 +1046,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_05_120100) do
     t.integer "virtual_competition_id"
     t.boolean "wind_cancelled", default: false, null: false
     t.index ["track_id"], name: "index_virtual_competition_results_on_track_id"
-    t.index ["virtual_competition_id", "track_id", "wind_cancelled"], name: "index_results_on_competition_track_wind_cancelled", unique: true
+    t.index ["virtual_competition_id", "track_id", "discipline_id", "wind_cancelled"], name: "index_results_on_competition_track_discipline", unique: true, nulls_not_distinct: true
     t.index ["virtual_competition_id"], name: "index_virtual_competition_results_on_virtual_competition_id"
   end
 
@@ -1050,6 +1072,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_05_120100) do
     t.string "results_sort_order", default: "descending", null: false
     t.integer "suits_kind"
     t.timestamptz "updated_at"
+    t.integer "visibility", default: 0, null: false
     t.index ["finish_line_id"], name: "index_virtual_competitions_on_finish_line_id"
     t.index ["place_id"], name: "index_virtual_competitions_on_place_id"
   end
@@ -1121,5 +1144,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_05_120100) do
   add_foreign_key "tracks", "profiles"
   add_foreign_key "user_identities", "users", on_delete: :cascade
   add_foreign_key "user_settings", "users"
+  add_foreign_key "virtual_competition_disciplines", "virtual_competitions"
+  add_foreign_key "virtual_competition_participants", "profiles"
+  add_foreign_key "virtual_competition_participants", "virtual_competitions"
+  add_foreign_key "virtual_competition_results", "virtual_competition_disciplines", column: "discipline_id"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
 end

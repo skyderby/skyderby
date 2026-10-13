@@ -880,3 +880,128 @@
 .person-details-chart {
   height: 200px;
 }
+
+.vc-md-grid {
+  --disciplines: 2;
+
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 8px;
+
+  @media (max-width: 767px) {
+    grid-template-areas:
+      'rank main total'
+      '.    disciplines disciplines';
+
+    .vc-md-cell--rank { grid-area: rank; }
+    .vc-md-cell--main { grid-area: main; }
+    .vc-md-cell--total { grid-area: total; }
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: 32px minmax(0, 1fr) repeat(var(--disciplines), 9.5rem) 7rem 80px 28px;
+    column-gap: 16px;
+  }
+}
+
+.vc-md-disciplines {
+  grid-area: disciplines;
+  display: grid;
+  grid-template-columns: repeat(var(--disciplines), minmax(0, 1fr));
+  column-gap: 12px;
+
+  @media (min-width: 768px) {
+    display: contents;
+  }
+}
+
+.vc-md-header {
+  display: none;
+
+  @media (min-width: 768px) {
+    display: grid;
+    padding: 0 20px 8px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--gray-30);
+  }
+}
+
+.vc-md-header__cell {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gray-70);
+  text-align: right;
+}
+
+.vc-md-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+
+  @media (min-width: 768px) {
+    align-items: flex-end;
+  }
+}
+
+.vc-md-cell--total {
+  align-items: flex-end;
+}
+
+.vc-md-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--gray-90);
+  white-space: nowrap;
+}
+
+a.vc-md-value--link {
+  color: var(--gray-90);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--blue-70);
+  }
+}
+
+.vc-md-value__icon {
+  width: 12px;
+  height: 12px;
+  align-self: center;
+  color: var(--gray-50);
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.vc-md-value__unit {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--gray-60);
+}
+
+.vc-md-detail {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 8px;
+  font-size: 0.75rem;
+  color: var(--gray-50);
+  white-space: nowrap;
+}
+
+.vc-md-detail__points {
+  color: var(--gray-70);
+}
+
+.vc-md-detail__best {
+  color: var(--green-90);
+  font-weight: 600;
+}

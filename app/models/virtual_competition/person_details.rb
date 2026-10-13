@@ -7,15 +7,7 @@ class VirtualCompetition::PersonDetails
   end
 
   def top_results
-    @top_results ||=
-      competition
-      .results
-      .wind_cancellation(false)
-      .joins(:track)
-      .where(tracks: { profile_id: profile_id })
-      .includes(track: TRACK_ASSOCIATIONS)
-      .order(results_order)
-      .limit(results_count)
+    @top_results ||= competition.multi_discipline? ? top_multi_discipline_results : top_single_discipline_results
   end
 
   def chart_points
@@ -31,6 +23,21 @@ class VirtualCompetition::PersonDetails
   def profile = @profile ||= Profile.find(profile_id)
 
   private
+
+  def top_multi_discipline_results
+    competition.multi_discipline_standings.tracks_of(profile_id.to_i).first(results_count)
+  end
+
+  def top_single_discipline_results
+    competition
+      .results
+      .wind_cancellation(false)
+      .joins(:track)
+      .where(tracks: { profile_id: profile_id })
+      .includes(track: TRACK_ASSOCIATIONS)
+      .order(results_order)
+      .limit(results_count)
+  end
 
   attr_reader :virtual_competition_id, :profile_id
 

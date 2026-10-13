@@ -14,17 +14,21 @@
     </div>
   <% end %>
 
+  <% row_partial = ranking.competition.multi_discipline? ? 'multi_discipline_score_row' : 'score_row' %>
   <% list_data = ranking.highlight_profile_id ? { controller: 'highlight-scroll' } : {} %>
   <div class="vc-scoreboard__list" <%= tag.attributes(data: list_data) %>>
+    <% if ranking.competition.multi_discipline? && ranking.scores.any? %>
+      <%= render 'multi_discipline_header', competition: ranking.competition %>
+    <% end %>
     <% ranking.scores.each do |score| %>
-      <%= render 'score_row', score: score, ranking: ranking, current_user_row: focused_profile_id && score.profile_id == focused_profile_id %>
+      <%= render row_partial, score: score, ranking: ranking, current_user_row: focused_profile_id && score.profile_id == focused_profile_id %>
     <% end %>
 
     <% if focused_score && !focused_on_page %>
       <div class="vc-scoreboard__separator">
         <span class="vc-scoreboard__ellipsis"></span>
       </div>
-      <%= render 'score_row', score: focused_score, ranking: ranking, current_user_row: true %>
+      <%= render row_partial, score: focused_score, ranking: ranking, current_user_row: true %>
     <% end %>
   </div>
 

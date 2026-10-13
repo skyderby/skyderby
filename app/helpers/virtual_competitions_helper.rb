@@ -1,5 +1,7 @@
 module VirtualCompetitionsHelper
   def competition_unit(competition)
+    return t('virtual_competitions.units.points') if competition.multi_discipline?
+
     untis_for_discipline = {
       distance: t('units.m'),
       distance_in_time: t('units.m'),
@@ -16,6 +18,8 @@ module VirtualCompetitionsHelper
   end
 
   def competition_task(competition)
+    return multi_discipline_task(competition) if competition.multi_discipline?
+
     task_descriptions = {
       distance: t('virtual_competitions.tasks.distance'),
       time: t('virtual_competitions.tasks.time'),
@@ -31,6 +35,11 @@ module VirtualCompetitionsHelper
     }.with_indifferent_access
 
     task_descriptions[competition.discipline]
+  end
+
+  def multi_discipline_task(competition)
+    tasks = competition.disciplines.map { |discipline| "#{competition_task(discipline).delete_suffix('.')}." }
+    safe_join([*tasks, t('virtual_competitions.tasks.multi_discipline')], ' ')
   end
 
   def competition_place(competition)
@@ -50,11 +59,8 @@ module VirtualCompetitionsHelper
   end
 
   def format_result(result, competition)
-    if competition.distance? || competition.distance_in_time? || competition.distance_in_altitude?
-      result.round
-    else
-      result.round(1)
-    end
+    whole_meters = competition.distance? || competition.distance_in_time? || competition.distance_in_altitude?
+    whole_meters && !competition.multi_discipline? ? result.round : result.round(1)
   end
 
   def format_gap(gap, competition)
@@ -78,7 +84,13 @@ module VirtualCompetitionsHelper
   end
 
   def competition_badge(competition)
+    return multi_discipline_badge(competition) if competition.multi_discipline?
+
     t("virtual_competitions.badges.#{competition.discipline}", parameter: competition.discipline_parameter)
+  end
+
+  def multi_discipline_badge(competition)
+    competition.disciplines.map { |discipline| competition_badge(discipline) }.join(' + ')
   end
 
   def competition_location(competition)

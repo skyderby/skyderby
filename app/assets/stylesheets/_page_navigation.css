@@ -62,6 +62,10 @@
   margin-left: auto;
 }
 
+.page-tab-right + .page-tab-right {
+  margin-left: 0;
+}
+
 @media print {
   .page-nav {
     display: none;

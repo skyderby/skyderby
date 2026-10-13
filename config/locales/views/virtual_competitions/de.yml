@@ -1,5 +1,39 @@
 de:
   virtual_competitions:
+    form:
+      disciplines_hint: "Leer lassen für ein Ranking mit einer Disziplin. Füge zwei oder mehr hinzu, um jeden Sprung in allen gleichzeitig zu werten."
+    units:
+      points: "Pkt."
+    visibilities:
+      public_competition: "Öffentlich"
+      unlisted_competition: "Nicht gelistet"
+      private_competition: "Privat"
+    participants:
+      participants:
+        title: "Teilnehmer"
+        hint: "Nur Tracks der Teilnehmer werden gewertet. Administratoren können Piloten einladen und Rollen ändern."
+        add: "Teilnehmer hinzufügen"
+        empty: "Füge den ersten Piloten hinzu, um das Ranking zu starten."
+      participant:
+        scanning: "Tracks werden geprüft…"
+        rank: "Platz %{rank}"
+        tracks:
+          one: "%{count} Track gewertet"
+          other: "%{count} Tracks gewertet"
+        no_tracks: "Noch keine gewerteten Tracks"
+        remove: "Entfernen"
+        remove_confirmation: "%{name} und seine Ergebnisse aus dem Ranking entfernen?"
+      roles:
+        participant: "Teilnehmer"
+        admin: "Administrator"
+      form:
+        title: "Teilnehmer hinzufügen"
+        pilot: "Pilot"
+        search: "Pilot nach Namen suchen"
+        admin_hint: "Kann Piloten einladen und Rollen ändern."
+        submit: "Hinzufügen"
+    navbar:
+      participants: "Teilnehmer"
     suit_kinds:
       wingsuit: 'Wingsuit'
       monotrack: 'Monotrack'
@@ -33,14 +67,14 @@ de:
         one: "%{formatted} Teilnehmer"
         other: "%{formatted} Teilnehmer"
     badges:
+      distance: Distanz
+      flare: Flare
       speed: Geschwindigkeit
       vertical_speed: Geschwindigkeit
       head_up_speed: Head-up-Geschwindigkeit
-      distance: Distanz
       distance_in_time: "Distanz · %{parameter} Sek"
       distance_in_altitude: "Distanz · %{parameter} m"
       time: Zeit
-      flare: Flare
       base_race: Base Race
     show:
       jump_kinds:
@@ -51,6 +85,7 @@ de:
         open: Offen
         female: Frauen
     scoreboard:
+      total: "Summe"
       best: bester
       result: Ergebnis
       show_details: 'Klicke hier für Trackdetails'
@@ -59,13 +94,14 @@ de:
       rank_down: "↓%{change} seit letzter Woche"
       rank_new: "Neu diese Woche"
     tasks:
+      distance: Aufgabe ist es, innerhalb des Wettkampffensters (3000 - 2000 m bzw. seit Januar 2020 2500 - 1500 m) so weit wie möglich zu fliegen bzw. die größtmögliche Strecke über Grund zurückzulegen.
+      flare: Aufgabe ist es, (durch einen Flare) so viel an Höhe zu gewinnen wie möglich.
+      multi_discipline: "Jeder Sprung wird gleichzeitig in allen Disziplinen gewertet. Jede Disziplin bringt bis zu 100 Punkte im Verhältnis zum besten Ergebnis, es zählt der Sprung mit der höchsten Summe."
       head_up_speed: "Aufgabe ist es, in Kopf-oben-Position die höchste vertikale Geschwindigkeit zu erreichen, gemittelt über die schnellsten 3 Sekunden im Wertungsfenster. Lade TRACK.CSV zusammen mit SENSOR.CSV vom FlySight 2 hoch"
       speed: Aufgabe ist es, horizontal so schnell wie möglich durch das Wettkampffenster (3000 - 2000 m bzw. seit Januar 2020 2500 - 1500 m) zu fliegen.
-      distance: Aufgabe ist es, innerhalb des Wettkampffensters (3000 - 2000 m bzw. seit Januar 2020 2500 - 1500 m) so weit wie möglich zu fliegen bzw. die größtmögliche Strecke über Grund zurückzulegen.
       straightline_distance_in_time: Aufgabe ist es, innerhalb von %{parameter} Sekunden so weit wie möglich zu fliegen bzw. die größtmögliche Strecke über Grund zurückzulegen. 
       distance_in_altitude: Aufgabe ist es, innerhalb eines Freifallfensters von %{parameter} Metern so weit wie möglich zu fliegen bzw. die größtmögliche Strecke über Grund zurückzulegen.
       time: Aufgabe ist es, das Wettkampffenster (3000 - 2000 m bzw. seit Januar 2020 2500 - 1500 m) mit der geringstmöglichen Fallrate zu durchfliegen.
-      flare: Aufgabe ist es, (durch einen Flare) so viel an Höhe zu gewinnen wie möglich.
     place: 'Ort:'
     worldwide: Weltweit
     suit: 'Suit Modell: %{suit}'

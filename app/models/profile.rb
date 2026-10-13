@@ -65,10 +65,14 @@ class Profile < ApplicationRecord
            source: :event,
            dependent: :restrict_with_error
   has_many :personal_top_scores,
-           -> { wind_cancellation(false) },
+           -> { wind_cancellation(false).where(virtual_competition_id: VirtualCompetition.listed.select(:id)) },
            inverse_of: :profile,
            class_name: 'VirtualCompetition::PersonalTopScore',
            dependent: :restrict_with_error
+  has_many :virtual_competition_participations,
+           class_name: 'VirtualCompetition::Participant',
+           inverse_of: :profile,
+           dependent: :delete_all
   has_many :contribution_details, class_name: 'Contribution::Detail', dependent: :restrict_with_error
   has_many :contributions, through: :contribution_details
 

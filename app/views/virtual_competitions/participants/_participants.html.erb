@@ -1,0 +1,20 @@
+<%# locals: (roster:) %>
+
+<section id="participants" class="roster">
+  <header class="roster__header">
+    <div class="roster__heading">
+      <h2 class="roster__title">
+        <%= t('.title') %>
+        <span class="roster__count"><%= roster.participants.size %></span>
+      </h2>
+      <%= button_to new_virtual_competition_participant_path(roster.competition),
+                    method: :get, form: { data: { turbo_stream: true } }, class: 'button button--primary' do %>
+        <%= icon_tag 'plus-solid' %>
+        <%= t('.add') %>
+      <% end %>
+    </div>
+    <p class="roster__hint"><%= t('.hint') %></p>
+  </header>
+
+  <%= render 'virtual_competitions/participants/list', roster: %>
+</section>

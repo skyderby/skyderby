@@ -36,6 +36,7 @@ class VirtualCompetition < ApplicationRecord
                           .by_suit_type(track.suit_kind)
                           .for_place(track.place)
                           .for_date(track.recorded_at)
+                          .open_to_profile(track.profile_id)
       end
 
       def available_for_scoring(track)

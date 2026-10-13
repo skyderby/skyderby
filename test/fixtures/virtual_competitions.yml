@@ -77,3 +77,15 @@ head_up_speed:
   discipline: head_up_speed
   period_from: 2015-01-01
   period_to: 2026-01-01
+
+feather_challenge:
+  name: Feather Challenge
+  group: main
+  jumps_kind: base
+  suits_kind: wingsuit
+  interval_type: annual
+  discipline: distance_in_altitude
+  discipline_parameter: 200
+  visibility: private_competition
+  period_from: 2015-01-01
+  period_to: 2030-01-01

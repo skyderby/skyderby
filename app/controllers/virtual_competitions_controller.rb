@@ -4,7 +4,7 @@ class VirtualCompetitionsController < ApplicationController
   def index
     authorize VirtualCompetition
 
-    @index = VirtualCompetitions::Index.new(include_archived: params[:include_archived] == 'true')
+    @index = VirtualCompetitions::Index.new(include_archived: params[:include_archived] == 'true', user: current_user)
   end
 
   def new
@@ -40,7 +40,7 @@ class VirtualCompetitionsController < ApplicationController
     if @competition.save
       redirect_to @competition, notice: 'Competition was successfully created.'
     else
-      render action: 'new'
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -50,7 +50,7 @@ class VirtualCompetitionsController < ApplicationController
     if @competition.update competition_params
       redirect_to @competition, notice: 'Данные успешно обновлены.'
     else
-      redirect_to @competition, notice: 'При сохранении произошла ошибка.'
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -90,7 +90,9 @@ class VirtualCompetitionsController < ApplicationController
       :featured,
       :display_highest_speed,
       :display_highest_gr,
-      :default_view
+      :default_view,
+      :visibility,
+      disciplines_attributes: %i[id discipline parameter position _destroy]
     )
   end
 end

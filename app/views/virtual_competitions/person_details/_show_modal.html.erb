@@ -14,7 +14,12 @@
         <% if @details.competition.worldwide? %>
           <th><%= t('activerecord.attributes.track.place') %></th>
         <% end %>
-        <th class="text-right">Result</th>
+        <% if @details.competition.multi_discipline? %>
+          <% @details.competition.disciplines.each do |discipline| %>
+            <th class="text-right"><%= competition_badge(discipline) %></th>
+          <% end %>
+        <% end %>
+        <th class="text-right"><%= t('virtual_competitions.scoreboard.result') %></th>
         <th class="text-right"><%= t('activerecord.attributes.track.recorded_at') %></th>
       </tr>
     </thead>
@@ -25,8 +30,23 @@
           <% if @details.competition.worldwide? %>
             <td><%= track_place_link(record.track) %></td>
           <% end %>
+          <% if @details.competition.multi_discipline? %>
+            <% record.entries.each do |entry| %>
+              <td class="text-right">
+                <% if entry.result %>
+                  <%= format_result(entry.result, entry.discipline) %> <%= competition_unit(entry.discipline) %>
+                <% else %>
+                  —
+                <% end %>
+                <div class="text-gray"><%= format('%.1f', entry.points) %> <%= t('virtual_competitions.units.points') %></div>
+              </td>
+            <% end %>
+          <% end %>
           <td class="text-right">
             <%= link_to format_result(record.result, @details.competition), record.track, class: 'dotted-underline' %>
+            <% if @details.competition.multi_discipline? %>
+              <%= competition_unit(@details.competition) %>
+            <% end %>
           </td>
           <td class="text-right"><%= record.track.recorded_at&.strftime('%d.%m.%Y') %></td>
         </tr>

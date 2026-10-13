@@ -1,0 +1,34 @@
+<%# locals: (participant:, **) %>
+
+<%= form_with model: participant, scope: :participant, url: virtual_competition_participants_path(participant.virtual_competition),
+              id: 'participant_form',
+              data: { controller: 'modal-form', action: 'form:submit-success->dialog#close' } do |f| %>
+  <div class="sd-form">
+    <% if participant.errors.any? %>
+      <p class="form-error"><%= participant.errors.full_messages.to_sentence %></p>
+    <% end %>
+
+    <div class="grid">
+      <%= f.label :profile_id, t('virtual_competitions.participants.form.pilot'), class: 'form-label col-3' %>
+      <% options = participant.profile ? options_for_select([[participant.profile.name, participant.profile_id]], participant.profile_id) : [] %>
+      <%= render 'hot_select/select', form: f, name: :profile_id, src: profiles_select_options_path, options:,
+                                      class: 'col-9', placeholder: t('virtual_competitions.participants.form.search') %>
+    </div>
+
+    <div class="grid">
+      <div class="col-3"></div>
+      <label class="form-checkbox roster__admin-option col-9">
+        <%= f.check_box :admin %>
+        <span>
+          <%= t('virtual_competitions.participants.roles.admin') %>
+          <span class="form-hint"><%= t('virtual_competitions.participants.form.admin_hint') %></span>
+        </span>
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit t('virtual_competitions.participants.form.submit'), class: 'button button--primary' %>
+      <button type="button" class="button" data-action="dialog#close"><%= t('general.cancel') %></button>
+    </div>
+  </div>
+<% end %>

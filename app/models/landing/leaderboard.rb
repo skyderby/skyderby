@@ -15,6 +15,7 @@ module Landing
 
     def competitions
       VirtualCompetition
+        .listed
         .where(display_on_start_page: true)
         .sort_by { |competition| [kind_position(competition), competition.name.downcase] }
     end

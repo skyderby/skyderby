@@ -1,0 +1,13 @@
+<%# locals: (roster:) %>
+
+<div id="participants_list">
+  <% if roster.participants.any? %>
+    <ul class="roster__list">
+      <% roster.participants.each do |participant| %>
+        <%= render 'virtual_competitions/participants/participant', participant:, roster: %>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="roster__empty"><%= t('virtual_competitions.participants.participants.empty') %></p>
+  <% end %>
+</div>

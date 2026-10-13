@@ -552,6 +552,7 @@ Skyderby::Application.routes.draw do
       resource :comparison, only: :create
       resources :year, only: :show, param: :year
       resources :periods, only: :show
+      resources :participants, except: %i[show edit]
     end
   end
   resources :virtual_comp_results

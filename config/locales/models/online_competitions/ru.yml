@@ -3,7 +3,22 @@ ru:
     models:
       virtual_competition: Онлайн соревнование
     attributes:
+      virtual_competition/participant:
+        admin: "Роль"
+      virtual_competition/discipline:
+        discipline: "Дисциплина"
+        parameter: "Параметр"
       virtual_competition:
+        disciplines: "Дисциплины"
+        visibility: "Видимость"
         name: Название
         location: Локация
         task: Цель
+    errors:
+      models:
+        virtual_competition/participant:
+          admin_without_account: "Администратором может быть только пилот с аккаунтом"
+        virtual_competition:
+          attributes:
+            disciplines:
+              single: "нужно минимум две дисциплины или ни одной, чтобы использовать основную"

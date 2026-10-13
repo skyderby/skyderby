@@ -1,5 +1,37 @@
 en:
   virtual_competitions:
+    form:
+      disciplines_hint: "Leave empty for a single-discipline ranking. Add two or more to score each jump in all of them at once."
+    units:
+      points: "pts"
+    visibilities:
+      public_competition: "Public"
+      unlisted_competition: "Unlisted"
+      private_competition: "Private"
+    participants:
+      participants:
+        title: "Participants"
+        hint: "Only participants' tracks are scored. Administrators can invite pilots and change roles."
+        add: "Add participant"
+        empty: "Add the first pilot to start the ranking."
+      participant:
+        scanning: "Checking tracks…"
+        rank: "Rank %{rank}"
+        tracks:
+          one: "%{count} track scored"
+          other: "%{count} tracks scored"
+        no_tracks: "No scored tracks yet"
+        remove: "Remove"
+        remove_confirmation: "Remove %{name} and their results from the ranking?"
+      roles:
+        participant: "Participant"
+        admin: "Administrator"
+      form:
+        title: "Add participant"
+        pilot: "Pilot"
+        search: "Find a pilot by name"
+        admin_hint: "Can invite pilots and change roles."
+        submit: "Add"
     suit_kinds:
       wingsuit: 'Wingsuit'
       monotrack: 'Monotrack'
@@ -41,18 +73,19 @@ en:
         one: "%{formatted} athlete"
         other: "%{formatted} athletes"
     badges:
+      distance: Distance
+      flare: Flare
       speed: Speed
       vertical_speed: Speed
       head_up_speed: Head-up speed
-      distance: Distance
       distance_in_time: "Distance · %{parameter} sec"
       distance_in_altitude: "Distance · %{parameter} m"
       time: Time
-      flare: Flare
       base_race: Base Race
     person_details:
       modal_title: Best results in competition
     scoreboard:
+      total: "Total"
       best: best
       result: Result
       show_details: Click to view track details
@@ -61,16 +94,18 @@ en:
       rank_down: "↓%{change} from last week"
       rank_new: "New this week"
     navbar:
+      participants: "Participants"
       overall: Overall
     tasks:
+      distance: Task is to fly as far as possible through the competition window 3000 - 2000 m and 2500 - 1500 m (starting Jan 2020)
+      flare: Task is to gain as much altitude as possible
+      multi_discipline: "Every jump is scored in all disciplines at once. Each discipline gives up to 100 points relative to the best result, and the jump with the highest total counts."
       head_up_speed: "Task is to reach the highest vertical speed averaged over the fastest 3 seconds within the scoring window while flying head-up. Upload TRACK.CSV together with SENSOR.CSV from FlySight 2"
       speed: Task is to fly as fast as possible horizontally over the ground through the competition window 3000 - 2000 m and 2500 - 1500 m (starting Jan 2020)
-      distance: Task is to fly as far as possible through the competition window 3000 - 2000 m and 2500 - 1500 m (starting Jan 2020)
       distance_in_time: Task is to fly as far as possible in %{parameter} sec
       distance_in_altitude: Task is to fly as far as possible using %{parameter} meters of altitude
       straightline_distance_in_time: Task is to fly as far as possible in %{parameter} sec. Distance measuring as a straight-line.
       time: Task is to fly with the slowest fall rate possible through the competition window 3000 - 2000 m and 2500 - 1500 m (starting Jan 2020)
-      flare: Task is to gain as much altitude as possible
       base_race: Task is to cross finish line as fast as possible
       vertical_speed: Task is to reach the highest vertical speed averaged over the fastest 3 seconds within the scoring window
     place: 'Location:'

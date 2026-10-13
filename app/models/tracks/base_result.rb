@@ -71,6 +71,7 @@ module Tracks
 
     def virtual_competitions
       VirtualCompetition
+        .listed
         .where(id: @track.virtual_competition_results.select(:virtual_competition_id))
         .where(discipline: DISCIPLINES.map { |name| VirtualCompetition.disciplines[name] })
         .distinct

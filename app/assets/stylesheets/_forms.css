@@ -51,6 +51,12 @@
   border-color: var(--red-60);
 }
 
+.form-error {
+  margin: 0;
+  color: var(--red-70);
+  font-size: 0.875rem;
+}
+
 .form-static {
   min-height: 34px;
   padding-top: 7px;

@@ -13,6 +13,11 @@ end
 json.results @details.top_results do |record|
   json.result record.result
   json.result_formatted format_result(record.result, competition).to_s
+  if competition.multi_discipline?
+    json.disciplines record.entries do |entry|
+      json.partial! 'api/v1/virtual_competitions/discipline_entry', entry:
+    end
+  end
   json.recorded_at record.track.recorded_at&.utc&.iso8601
   if record.track.suit
     json.suit { json.partial! 'api/v1/virtual_competitions/suit', suit: record.track.suit }

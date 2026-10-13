@@ -53,6 +53,7 @@ class VirtualCompetition::AnnualTopScore < ApplicationRecord
         JOIN virtual_competitions vc ON vc.id = vcr.virtual_competition_id
         WHERE t.recorded_at < :snapshot_at
           AND vcr.wind_cancelled = :wind_cancelled
+          AND vcr.discipline_id IS NULL
           #{'AND t.suit_id = :suit_id' if suit_id}
         ORDER BY vcr.virtual_competition_id, EXTRACT(YEAR FROM t.recorded_at), t.profile_id,
           CASE WHEN vc.results_sort_order = 'descending' THEN vcr.result ELSE -vcr.result END DESC

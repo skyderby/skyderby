@@ -31,6 +31,31 @@ class VirtualCompetitions::OverallsControllerTest < ActionDispatch::IntegrationT
     assert_select '.vc-scoreboard__row', 1
   end
 
+  test 'private ranking is forbidden for non participants' do
+    get virtual_competition_overall_path(virtual_competition_id: virtual_competitions(:feather_challenge).id)
+
+    assert_response :forbidden
+  end
+
+  test 'multi-discipline ranking shows every discipline of the counted jump' do
+    competition = virtual_competitions(:feather_challenge)
+    track = create :empty_track, kind: Track.kinds[:base], pilot: profiles(:regular_user)
+    virtual_competition_disciplines(:feather_challenge_distance).results.create!(track:, result: 120)
+    virtual_competition_disciplines(:feather_challenge_flare).results.create!(track:, result: 15)
+    sign_in users(:regular_user)
+
+    get virtual_competition_overall_path(virtual_competition_id: competition.id)
+
+    assert_response :success
+    assert_select '.vc-scoreboard__row', 1
+    assert_select '.vc-md-header', 1
+    assert_select '.vc-scoreboard__row .vc-md-disciplines .vc-md-value' do |values|
+      assert_match(/120\s+m/, values[0].text)
+      assert_match(/15\.0\s+m/, values[1].text)
+    end
+    assert_select '.vc-scoreboard__row .vc-md-cell--total .vc-md-value', text: /200\.0/
+  end
+
   private
 
   def add_score(profile, kind, result)

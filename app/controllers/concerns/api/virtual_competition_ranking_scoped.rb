@@ -15,7 +15,10 @@ module Api
     private
 
     def competition
-      @competition ||= VirtualCompetition.includes(:group, place: :country).find(params[:virtual_competition_id])
+      @competition ||=
+        VirtualCompetition.includes(:group, place: :country).find(params[:virtual_competition_id]).tap do |record|
+          raise ActiveRecord::RecordNotFound unless record.viewable?(current_user)
+        end
     end
 
     def ranking_params = { page: params[:page], jump_kind: params[:jump_kind], gender: params[:gender] }

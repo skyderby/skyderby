@@ -1,0 +1,10 @@
+feather_challenge_distance:
+  virtual_competition: feather_challenge
+  discipline: distance_in_altitude
+  parameter: 200
+  position: 0
+
+feather_challenge_flare:
+  virtual_competition: feather_challenge
+  discipline: flare
+  position: 1

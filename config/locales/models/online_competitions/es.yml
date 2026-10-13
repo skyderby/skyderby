@@ -1,0 +1,18 @@
+es:
+  activerecord:
+    attributes:
+      virtual_competition/participant:
+        admin: "Rol"
+      virtual_competition/discipline:
+        discipline: "Disciplina"
+        parameter: "Parámetro"
+      virtual_competition:
+        disciplines: "Disciplinas"
+    errors:
+      models:
+        virtual_competition/participant:
+          admin_without_account: "Solo los pilotos con cuenta pueden ser administradores"
+        virtual_competition:
+          attributes:
+            disciplines:
+              single: "se necesitan al menos dos disciplinas, o ninguna para usar la principal"

@@ -1,0 +1,10 @@
+<%# locals: (competition:) %>
+
+<div class="vc-md-grid vc-md-header" style="--disciplines: <%= competition.disciplines.size %>" aria-hidden="true">
+  <span></span>
+  <span></span>
+  <% competition.disciplines.each do |discipline| %>
+    <span class="vc-md-header__cell"><%= competition_badge(discipline) %></span>
+  <% end %>
+  <span class="vc-md-header__cell"><%= t('virtual_competitions.scoreboard.total') %></span>
+</div>

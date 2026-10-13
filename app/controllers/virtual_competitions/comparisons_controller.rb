@@ -2,6 +2,8 @@ module VirtualCompetitions
   class ComparisonsController < ApplicationController
     def create
       return redirect_to_sign_in unless Current.user.registered?
+
+      authorize competition, :show?
       return head :unprocessable_content unless comparable?
 
       if FreeProView.grant(user: Current.user, track: track_a) == :limit_reached

@@ -1,6 +1,8 @@
 module VirtualCompetitions
   class PersonDetailsController < ApplicationController
     def show
+      authorize VirtualCompetition.find(details_params[:virtual_competition_id]), :show?
+
       @details = VirtualCompetition::PersonDetails.new(
         virtual_competition_id: details_params[:virtual_competition_id],
         profile_id: details_params[:profile_id]

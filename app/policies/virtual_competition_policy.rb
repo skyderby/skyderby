@@ -8,11 +8,15 @@ class VirtualCompetitionPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    record.viewable?(user)
   end
 
   def update?
     admin?
+  end
+
+  def manage_participants?
+    record.manageable_by?(user)
   end
 
   def destroy?

@@ -1,0 +1,8 @@
+regular_user_in_feather_challenge:
+  virtual_competition: feather_challenge
+  profile: regular_user
+
+event_responsible_admin_in_feather_challenge:
+  virtual_competition: feather_challenge
+  profile: event_responsible
+  admin: true

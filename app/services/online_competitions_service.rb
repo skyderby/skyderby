@@ -7,9 +7,21 @@ class OnlineCompetitionsService
 
       competitions = VirtualCompetition.suitable_for(track)
       competitions.each do |competition|
-        new(track, competition).score
+        score_competition(track, competition)
       end
     end
+  end
+
+  def self.rescore(track, competition)
+    Track.transaction do
+      competition.results.where(track:).delete_all
+      score_competition(track, competition) if VirtualCompetition.suitable_for(track).exists?(competition.id)
+    end
+  end
+
+  def self.score_competition(track, competition)
+    scorables = competition.multi_discipline? ? competition.disciplines : [competition]
+    scorables.each { |scorable| new(track, scorable).score }
   end
 
   def initialize(track, competition)

@@ -72,6 +72,28 @@ class Api::V1::VirtualCompetitions::OverallsControllerTest < ActionDispatch::Int
     assert body['scores'].first['focused']
   end
 
+  test 'hides private ranking from non participants' do
+    get api_v1_virtual_competition_overall_url(virtual_competitions(:feather_challenge))
+
+    assert_response :not_found
+  end
+
+  test 'returns points per discipline for participants of a multi-discipline ranking' do
+    competition = virtual_competitions(:feather_challenge)
+    track = create :empty_track, kind: Track.kinds[:base], pilot: profiles(:regular_user)
+    virtual_competition_disciplines(:feather_challenge_distance).results.create!(track:, result: 120)
+    virtual_competition_disciplines(:feather_challenge_flare).results.create!(track:, result: 15)
+
+    get api_v1_virtual_competition_overall_url(competition),
+        headers: { 'Authorization' => 'Bearer regular-user-read-token' }
+
+    assert_response :success
+    leader = response.parsed_body['scores'].sole
+    assert_in_delta 200.0, leader['result']
+    assert_in_delta 0.0, leader['totalGap']
+    assert_equal [[120.0, 100.0], [15.0, 100.0]], leader['disciplines'].pluck('result', 'points')
+  end
+
   private
 
   def score(profile, result)

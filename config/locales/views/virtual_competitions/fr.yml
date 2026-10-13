@@ -1,5 +1,37 @@
 fr:
   virtual_competitions:
+    form:
+      disciplines_hint: "Laissez vide pour un classement à une seule discipline. Ajoutez-en deux ou plus pour noter chaque saut dans toutes à la fois."
+    units:
+      points: "pts"
+    visibilities:
+      public_competition: "Public"
+      unlisted_competition: "Non répertorié"
+      private_competition: "Privé"
+    participants:
+      participants:
+        title: "Participants"
+        hint: "Seules les traces des participants sont notées. Les administrateurs peuvent inviter des pilotes et changer les rôles."
+        add: "Ajouter un participant"
+        empty: "Ajoutez le premier pilote pour lancer le classement."
+      participant:
+        scanning: "Vérification des traces…"
+        rank: "%{rank}e place"
+        tracks:
+          one: "%{count} trace notée"
+          other: "%{count} traces notées"
+        no_tracks: "Aucune trace notée pour l'instant"
+        remove: "Retirer"
+        remove_confirmation: "Retirer %{name} et ses résultats du classement ?"
+      roles:
+        participant: "Participant"
+        admin: "Administrateur"
+      form:
+        title: "Ajouter un participant"
+        pilot: "Pilote"
+        search: "Rechercher un pilote"
+        admin_hint: "Peut inviter des pilotes et changer les rôles."
+        submit: "Ajouter"
     suit_kinds:
       wingsuit: 'Wingsuit'
       monotrack: 'Monotrack'
@@ -33,14 +65,14 @@ fr:
         one: "%{formatted} athlète"
         other: "%{formatted} athlètes"
     badges:
+      distance: Distance
+      flare: Flare
       speed: Vitesse
       vertical_speed: Vitesse
       head_up_speed: Vitesse head-up
-      distance: Distance
       distance_in_time: "Distance · %{parameter} sec"
       distance_in_altitude: "Distance · %{parameter} m"
       time: Temps
-      flare: Flare
       base_race: Base Race
     show:
       jump_kinds:
@@ -53,6 +85,7 @@ fr:
     person_details:
       modal_title: Meilleurs résultats en compétition
     scoreboard:
+      total: "Total"
       best: meilleur
       result: Résultat
       show_details: Cliquer pour voir les détails de l'enregistrement
@@ -61,16 +94,18 @@ fr:
       rank_down: "↓%{change} depuis la semaine dernière"
       rank_new: "Nouveau cette semaine"
     navbar:
+      participants: "Participants"
       overall: Vue d'ensemble
     tasks:
+      distance: Le but est de voler le plus loin possible durant la fenêtre de compétition (3000 - 2000 m avant 2020, 2500 - 1500 m à partir de Janvier 2020)
+      flare: Le but est d'avoir le plus gros gain d'altitude possible
+      multi_discipline: "Chaque saut est noté simultanément dans toutes les disciplines. Chaque discipline rapporte jusqu'à 100 points par rapport au meilleur résultat, et le saut avec le total le plus élevé compte."
       head_up_speed: "L'objectif est d'atteindre la vitesse verticale la plus élevée, moyennée sur les 3 secondes les plus rapides de la fenêtre de score, en position tête en haut. Téléversez TRACK.CSV avec SENSOR.CSV du FlySight 2"
       speed: Le but est de d'avoir la vitesse horizontale la plus élevée possible durant la fenêtre de compétition (3000 - 2000 m avant 2020, 2500 - 1500 m à partir de Janvier 2020)
-      distance: Le but est de voler le plus loin possible durant la fenêtre de compétition (3000 - 2000 m avant 2020, 2500 - 1500 m à partir de Janvier 2020)
       distance_in_time: Le but est de voler le plus loin possible en %{parameter} sec
       distance_in_altitude: Le but est de voler le plus loin possible en utilisant %{parameter} metres d'altitude
       straightline_distance_in_time: Le but est de voler le plus loin possible en %{parameter} sec. Distance mesurée en ligne droite.
       time: Le but est de voler avec la vitesse verticale la plus basse durant la fenêtre de compétition (3000 - 2000 m avant 2020, 2500 - 1500 m à partir de Janvier 2020)
-      flare: Le but est d'avoir le plus gros gain d'altitude possible
     place: 'Lieu:'
     worldwide: Monde entier
     suit: 'Type de combinaison: %{suit}'

@@ -20,14 +20,15 @@
 #  display_highest_gr    :boolean
 #  display_on_start_page :boolean
 #  default_view          :integer          default("default_overall"), not null
+#  visibility            :integer          default("public_competition"), not null
 #
 
 class VirtualCompetition < ApplicationRecord
-  include Intervals, Results, SuitableFinder
+  include Intervals, Results, SuitableFinder, Membership, MultiDiscipline
 
   enum :jumps_kind, { skydive: 0, base: 1, speed_skydiving: 2 }
   enum :suits_kind, SuitTypes
-  enum :discipline, {
+  DISCIPLINES = {
     time: 0,
     distance: 1,
     speed: 2,
@@ -37,7 +38,10 @@ class VirtualCompetition < ApplicationRecord
     base_race: 6,
     vertical_speed: 7,
     head_up_speed: 8
-  }
+  }.freeze
+
+  enum :discipline, DISCIPLINES
+  enum :visibility, { public_competition: 0, unlisted_competition: 1, private_competition: 2 }
   enum :default_view, { default_overall: 0, default_last_year: 1 }
 
   belongs_to :place, optional: true
@@ -53,17 +57,16 @@ class VirtualCompetition < ApplicationRecord
   delegate :name, to: :finish_line, prefix: true, allow_nil: true
   delegate :name, to: :group, prefix: true, allow_nil: true
 
-  def task
-    if %w[distance_in_time distance_in_altitude].include? discipline
-      'distance'
-    elsif discipline == 'base_race'
-      'time'
-    elsif discipline == 'head_up_speed'
-      'vertical_speed'
-    else
-      discipline
+  def self.task_for(discipline)
+    case discipline
+    when 'distance_in_time', 'distance_in_altitude' then 'distance'
+    when 'base_race' then 'time'
+    when 'head_up_speed' then 'vertical_speed'
+    else discipline
     end
   end
+
+  def task = self.class.task_for(discipline)
 
   def title = [group&.name, name].compact.join(' - ')
 
@@ -74,7 +77,7 @@ class VirtualCompetition < ApplicationRecord
   def comparable_in_pro_view?
     return true if speed_skydiving?
 
-    !flare? && !vertical_speed? && !head_up_speed?
+    !flare? && !vertical_speed? && !head_up_speed? && !multi_discipline?
   end
 
   def jump_kind_filterable? = flare? && jumps_kind.nil?
@@ -85,7 +88,9 @@ class VirtualCompetition < ApplicationRecord
 
   def overall_ranking(scores, **) = Ranking.new(self, scores, **)
 
-  def annual_ranking(scores, year:, **) = Ranking::Annual.new(self, scores, year:, **)
+  def annual_ranking(scores, year:, **)
+    multi_discipline? ? Ranking.new(self, scores, **) : Ranking::Annual.new(self, scores, year:, **)
+  end
 
   def period_ranking(scores, **) = Ranking.new(self, scores, **)
 

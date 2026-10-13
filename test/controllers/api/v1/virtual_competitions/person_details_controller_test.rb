@@ -23,6 +23,26 @@ class Api::V1::VirtualCompetitions::PersonDetailsControllerTest < ActionDispatch
     assert_equal '2023-06-01T00:00:00Z', body['chart'].first['recordedAt']
   end
 
+  test 'lists tracks of a multi-discipline ranking by total points with every discipline' do
+    competition = virtual_competitions(:feather_challenge)
+    best = Track.create!(pilot: profiles(:regular_user), kind: :base, visibility: :public_track,
+                         suit: suits(:apache), recorded_at: Date.new(2025, 6, 1))
+    other = Track.create!(pilot: profiles(:regular_user), kind: :base, visibility: :public_track,
+                          suit: suits(:apache), recorded_at: Date.new(2025, 7, 1))
+    virtual_competition_disciplines(:feather_challenge_distance).results.create!(track: best, result: 120)
+    virtual_competition_disciplines(:feather_challenge_flare).results.create!(track: best, result: 15)
+    virtual_competition_disciplines(:feather_challenge_distance).results.create!(track: other, result: 60)
+
+    get api_v1_virtual_competition_person_detail_url(competition, profiles(:regular_user)),
+        headers: { 'Authorization' => 'Bearer regular-user-read-token' }
+
+    assert_response :success
+    results = response.parsed_body['results']
+    assert_equal [best.id, other.id], results.pluck('track').pluck('id')
+    assert_equal [200.0, 50.0], results.pluck('result')
+    assert_equal([[120.0, 15.0], [60.0, nil]], results.pluck('disciplines').map { |entries| entries.pluck('result') })
+  end
+
   test 'responds with not found for unknown profile' do
     get api_v1_virtual_competition_person_detail_url(@competition, profile_id: 0)
 

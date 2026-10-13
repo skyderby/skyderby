@@ -89,8 +89,49 @@
     </div>
 
     <div class="grid">
+      <%= f.label :visibility, class: 'form-label col-3' %>
+      <div class="col-9">
+        <div class="tab-bar">
+          <% VirtualCompetition.visibilities.each_key do |visibility| %>
+            <label class="tab-bar-item">
+              <%= f.radio_button 'visibility', visibility, checked: @competition.visibility == visibility, class: 'tab-bar-radio' %>
+              <span><%= t("virtual_competitions.visibilities.#{visibility}") %></span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
       <%= f.label :discipline_parameter, class: 'form-label col-3' %>
       <%= f.text_field :discipline_parameter, class: 'form-input col-9' %>
+    </div>
+
+    <div class="grid">
+      <%= f.label :disciplines, class: 'form-label col-3' %>
+      <div class="col-9 stack stack--xs">
+        <p class="form-hint"><%= t('virtual_competitions.form.disciplines_hint') %></p>
+        <% if @competition.errors[:disciplines].any? %>
+          <p class="form-error"><%= @competition.errors.full_messages_for(:disciplines).to_sentence %></p>
+        <% end %>
+        <% disciplines = @competition.disciplines.to_a + Array.new(2) { VirtualCompetition::Discipline.new } %>
+        <%= f.fields_for :disciplines, disciplines do |df| %>
+          <div class="grid">
+            <%= df.select :discipline,
+                          VirtualCompetition.disciplines.keys.map { |key| [key.humanize, key] },
+                          { include_blank: true },
+                          class: 'form-input col-5', 'aria-label': VirtualCompetition::Discipline.human_attribute_name(:discipline) %>
+            <%= df.number_field :parameter, class: 'form-input col-3', 'aria-label': VirtualCompetition::Discipline.human_attribute_name(:parameter) %>
+            <%= df.hidden_field :position, value: df.index %>
+            <% if df.object.persisted? %>
+              <label class="form-checkbox col-4">
+                <%= df.check_box :_destroy %>
+                <%= t('general.delete') %>
+              </label>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     </div>
 
     <div class="grid">

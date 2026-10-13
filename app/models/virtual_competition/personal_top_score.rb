@@ -33,7 +33,8 @@ class VirtualCompetition::PersonalTopScore < ApplicationRecord
         FROM virtual_competition_results AS results
           INNER JOIN virtual_competitions competitions ON results.virtual_competition_id = competitions.id
           LEFT JOIN tracks AS tracks ON tracks.id = results.track_id
-        #{'WHERE tracks.suit_id = :suit_id' if suit_id}
+        WHERE results.discipline_id IS NULL
+        #{'AND tracks.suit_id = :suit_id' if suit_id}
         ORDER BY
           results.virtual_competition_id,
           results.wind_cancelled,

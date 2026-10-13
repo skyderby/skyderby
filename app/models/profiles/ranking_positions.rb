@@ -25,8 +25,10 @@ module Profiles
     def results
       VirtualCompetition::AnnualTopScore
         .includes(:profile, :virtual_competition)
+        .where(virtual_competition_id: VirtualCompetition.listed.select(:id))
         .for_year(current_year)
         .joins(profile_scores_join)
+        .order(:virtual_competition_id, :rank)
     end
 
     def profile_scores_join

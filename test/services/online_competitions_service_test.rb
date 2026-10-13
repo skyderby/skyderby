@@ -17,6 +17,29 @@ class OnlineCompetitionsServiceTest < ActiveSupport::TestCase
     assert_in_delta 203, record.highest_speed, 1
   end
 
+  test 'Multi-discipline competition scores each discipline of the track for participants' do
+    competition = virtual_competitions(:feather_challenge)
+
+    track = create_track_from_file '06-38-21_SimonP.CSV', kind: :base, pilot: profiles(:regular_user)
+
+    OnlineCompetitionsService.score_track(track)
+
+    distance = virtual_competition_disciplines(:feather_challenge_distance).results.find_by!(track:)
+    assert_equal competition, distance.virtual_competition
+    assert_operator distance.result, :>, 0
+    assert_empty competition.results.where(track:, discipline_id: nil)
+  end
+
+  test 'Multi-discipline competition ignores tracks of non participants' do
+    competition = virtual_competitions(:feather_challenge)
+
+    track = create_track_from_file '06-38-21_SimonP.CSV', kind: :base
+
+    OnlineCompetitionsService.score_track(track)
+
+    assert_empty competition.results.where(track:)
+  end
+
   test 'BASE Race' do
     competition = virtual_competitions(:base_race)
 
