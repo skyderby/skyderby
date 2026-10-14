@@ -1,0 +1,16 @@
+<% provide :title, t('.title') %>
+
+<article class="text-page" data-controller="flysight-config">
+  <h1><%= t('.title') %> <span data-flysight-config-target="name"></span></h1>
+
+  <p><%= t('.intro') %></p>
+
+  <div data-flysight-config-target="content" hidden>
+    <p>
+      <button type="button" class="button" data-action="flysight-config#download"><%= t('.download') %></button>
+    </p>
+    <pre data-flysight-config-target="text"></pre>
+  </div>
+
+  <p data-flysight-config-target="error" hidden><%= t('.broken') %></p>
+</article>

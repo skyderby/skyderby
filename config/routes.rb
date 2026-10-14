@@ -674,6 +674,7 @@ Skyderby::Application.routes.draw do
 
   resource :support, only: :show
   resource :privacy, only: :show
+  resource :flysight_config, only: :show, path: 'flysight-config'
   resource :terms, only: :show
 
   root 'static_pages#index'

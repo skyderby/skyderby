@@ -1,0 +1,7 @@
+ru:
+  flysight_configs:
+    show:
+      title: "Настройки FlySight"
+      intro: "С вами поделились настройками FlySight. Откройте ссылку на iPhone или iPad с приложением Skyderby — оно покажет, что делают эти настройки, и запишет их на ваш FlySight в одно касание. Или скачайте CONFIG.TXT и скопируйте его на SD-карту FlySight."
+      download: "Скачать CONFIG.TXT"
+      broken: "В этой ссылке не удалось прочитать настройки."
