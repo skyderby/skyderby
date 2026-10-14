@@ -14,8 +14,9 @@ class VirtualCompetition::PersonDetails
 
   def counted_score
     return unless competition.multi_discipline?
+    return @counted_score if defined?(@counted_score)
 
-    @counted_score ||= standings.counted_score(profile_id.to_i, period:)
+    @counted_score = competition.standings(year: @year, interval:).find_by(profile_id:)
   end
 
   def best?(record) = counted_score ? record.track_id == counted_score.track_id : record == top_results.first
@@ -36,14 +37,22 @@ class VirtualCompetition::PersonDetails
 
   attr_reader :virtual_competition_id, :profile_id
 
-  def standings = @standings ||= competition.multi_discipline_standings
+  def interval
+    return @interval if defined?(@interval)
 
-  def period
-    interval = @period_slug && competition.intervals.find_by(slug: @period_slug)
-    VirtualCompetition::MultiDisciplineStandings.period_for(year: @year, interval:)
+    @interval = @period_slug && competition.intervals.find_by(slug: @period_slug)
   end
 
-  def multi_discipline_jumps = standings.jumps_of(profile_id.to_i, period:)
+  def multi_discipline_jumps
+    VirtualCompetition::Standing
+      .personal_jumps(competition_ids: [competition.id], period:)
+      .where(profile_id:)
+      .includes(:suit, track: TRACK_ASSOCIATIONS, virtual_competition: :disciplines)
+      .order(sort_value: :desc, recorded_at: :asc, track_id: :asc)
+      .to_a
+  end
+
+  def period = VirtualCompetition::Standing.period(year: @year, interval:)
 
   def top_single_discipline_results
     competition

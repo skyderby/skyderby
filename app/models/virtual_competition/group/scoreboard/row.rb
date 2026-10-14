@@ -36,18 +36,9 @@ class VirtualCompetition::Group::Scoreboard
     private
 
     def points_in(discipline)
-      result = score(discipline)&.result
-      best = best_results[discipline]
-      return 0.0 if result.blank? || result.zero? || best.blank? || best.zero?
-
-      points =
-        if competitions[discipline].results_sort_order == 'ascending'
-          best / result * 100
-        else
-          result / best * 100
-        end
-
-      points.round(1)
+      VirtualCompetition::Standing::Entry.new(
+        discipline: competitions[discipline], result: score(discipline)&.result, best: best_results[discipline]
+      ).points.round(1)
     end
   end
 end

@@ -11,7 +11,7 @@ end
 json.result score.result
 json.result_formatted format_result(score.result, competition).to_s
 if competition.multi_discipline?
-  json.total_gap score.result - ranking.all_scores.first.result
+  json.total_gap score.result - ranking.leader.result
   json.disciplines score.entries do |entry|
     json.partial! 'api/v1/virtual_competitions/discipline_entry', entry:
   end

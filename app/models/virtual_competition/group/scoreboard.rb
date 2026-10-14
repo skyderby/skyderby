@@ -74,43 +74,30 @@ class VirtualCompetition::Group
       Standings.new(
         competitions_by_discipline,
         top_scores(competitions_by_discipline.values),
-        previous_scores(competitions_by_discipline.values),
-        gender:
+        previous_scores(competitions_by_discipline.values)
       )
     end
 
     def page_for(suit_kind) = [@pages[suit_kind].to_s.to_i, 1].max
 
-    def top_scores(competitions)
-      scores =
-        if year
-          VirtualCompetition::AnnualTopScore
-            .with_wind_cancellation(wind_cancellation, suit_id: suit&.id)
-            .for_year(year)
-        elsif suit
-          VirtualCompetition::PersonalTopScore.for_suit(suit.id)
-        else
-          VirtualCompetition::PersonalTopScore.all
-        end
-
-      load_scores(scores, competitions)
-    end
+    def top_scores(competitions) = load_scores(competitions)
 
     def previous_scores(competitions)
       return {} unless show_rank_changes?
 
-      scores =
-        VirtualCompetition::AnnualTopScore
-        .at_snapshot(SNAPSHOT_AGE.ago, suit_id: suit&.id)
-        .for_year(year)
-
-      load_scores(scores, competitions)
+      load_scores(competitions, snapshot_at: SNAPSHOT_AGE.ago)
     end
 
-    def load_scores(scores, competitions)
-      scores
-        .where(virtual_competition_id: competitions.map(&:id))
-        .wind_cancellation(wind_cancellation)
+    def load_scores(competitions, snapshot_at: nil)
+      VirtualCompetition::Standing
+        .ranked(
+          competition_ids: competitions.map(&:id),
+          period: VirtualCompetition::Standing.period(year:),
+          wind_cancelled: wind_cancellation,
+          suit_id: suit&.id,
+          gender:,
+          snapshot_at:
+        )
         .includes(:track, :suit, profile: [:country, :owner, { userpic_attachment: :blob }])
         .group_by(&:virtual_competition_id)
     end

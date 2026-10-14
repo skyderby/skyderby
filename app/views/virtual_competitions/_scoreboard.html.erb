@@ -3,14 +3,14 @@
 <%
   current_profile_id = current_user.profile.id if current_user.registered?
   focused_profile_id = ranking.highlight_profile_id || current_profile_id
-  focused_score = focused_profile_id && ranking.all_scores.find { |s| s.profile_id == focused_profile_id }
+  focused_score = ranking.score_for(focused_profile_id)
   focused_on_page = focused_score && ranking.scores.any? { |s| s.profile_id == focused_profile_id }
 %>
 
 <div class="vc-scoreboard">
-  <% if ranking.all_scores.size > 2 %>
+  <% if ranking.podium.any? %>
     <div class="vc-scoreboard__leaderboard">
-      <%= render 'leaderboard', leaders: ranking.all_scores.take(3) %>
+      <%= render 'leaderboard', leaders: ranking.podium %>
     </div>
   <% end %>
 

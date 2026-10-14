@@ -4,7 +4,7 @@ competition = @competition
 
 json.competition do
   json.partial! 'api/v1/virtual_competitions/competition_summary',
-                competition:, athlete_count: competition.personal_top_scores.wind_cancellation(false).count
+                competition:, athlete_count: competition.standings.count
 
   json.group do
     json.id competition.group.id

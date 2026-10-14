@@ -6,11 +6,11 @@ class VirtualCompetition::Discipline < ApplicationRecord
 
   delegate :finish_line, to: :virtual_competition
 
+  before_save { self.results_sort_order = VirtualCompetition.results_sort_order_for(discipline) }
+
   def discipline_parameter = parameter
 
   def multi_discipline? = false
 
   def task = VirtualCompetition.task_for(discipline)
-
-  def results_sort_order = base_race? ? 'ascending' : 'descending'
 end

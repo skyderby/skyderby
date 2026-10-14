@@ -1,6 +1,6 @@
 class EventList < ApplicationRecord
   # Not backed by a table of its own: it is a UNION over the different event
-  # types, built inline (like VirtualCompetition::AnnualTopScore) instead of a
+  # types, built inline (like VirtualCompetition::Standing) instead of a
   # database view. `events` provides the column types (status/visibility enums,
   # timestamps); STI is disabled since we are not instantiating events here.
   self.table_name = 'events'

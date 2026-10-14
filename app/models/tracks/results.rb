@@ -67,17 +67,16 @@ module Tracks
     end
 
     def participant_totals(competition_ids)
-      VirtualCompetition::PersonalTopScore
-        .wind_cancellation(false)
-        .where(virtual_competition_id: competition_ids)
+      VirtualCompetition::Standing
+        .ranked(competition_ids:)
         .group(:virtual_competition_id)
         .count
     end
 
     def personal_scores_by_competition(competition_ids)
-      VirtualCompetition::PersonalTopScore
-        .wind_cancellation(false)
-        .where(virtual_competition_id: competition_ids, profile_id: @track.profile_id)
+      VirtualCompetition::Standing
+        .ranked(competition_ids:)
+        .where(profile_id: @track.profile_id)
         .index_by(&:virtual_competition_id)
     end
 

@@ -1,12 +1,11 @@
 class VirtualCompetition::Group::Scoreboard
   class Standings
-    attr_reader :competitions, :scores_by_competition, :previous_scores_by_competition, :gender
+    attr_reader :competitions, :scores_by_competition, :previous_scores_by_competition
 
-    def initialize(competitions, scores_by_competition, previous_scores_by_competition = {}, gender: nil)
+    def initialize(competitions, scores_by_competition, previous_scores_by_competition = {})
       @competitions = competitions
       @scores_by_competition = scores_by_competition
       @previous_scores_by_competition = previous_scores_by_competition
-      @gender = gender
     end
 
     def rows = @rows ||= build_rows(qualified_scores(scores_by_competition))
@@ -49,16 +48,10 @@ class VirtualCompetition::Group::Scoreboard
         end
       end
 
-      by_profile.select { |_profile_id, scores| complete?(scores) && matching_gender?(scores) }
+      by_profile.select { |_profile_id, scores| complete?(scores) }
     end
 
     def complete?(scores) = competitions.keys.all? { |discipline| scores.key?(discipline) }
-
-    def matching_gender?(scores)
-      return true if gender.blank?
-
-      scores.each_value.first.profile&.gender == gender
-    end
 
     def calculate_best_results(qualified)
       competitions.keys.index_with do |discipline|

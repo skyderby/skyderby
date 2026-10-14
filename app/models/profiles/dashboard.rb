@@ -256,31 +256,37 @@ module Profiles
     end
 
     def build_rankings
-      competition_ids = activity_scores.map(&:virtual_competition_id).uniq
-      return [] if competition_ids.empty?
+      competitions = activity_scores.map(&:virtual_competition).uniq
+      return [] if competitions.empty?
 
-      current = competition_scores(VirtualCompetition::AnnualTopScore.for_year(current_year), competition_ids)
-      previous = competition_scores(VirtualCompetition::AnnualTopScore.at_snapshot(1.week.ago).for_year(current_year),
-                                    competition_ids)
-      rankings_from(competition_ids, current, previous).sort_by(&:rank)
+      current = competition_scores(competitions)
+      previous = competition_scores(competitions, snapshot_at: 1.week.ago)
+      competitions.filter_map do |competition|
+        ranking_in(competition, current[competition.id] || [], previous[competition.id] || [])
+      end.sort_by(&:rank)
     end
 
-    def competition_scores(relation, competition_ids)
-      associations = female_rankings? ? %i[track profile] : %i[track]
-      relation.where(virtual_competition_id: competition_ids)
-              .includes(associations).to_a.group_by(&:virtual_competition_id)
+    def competition_scores(competitions, snapshot_at: nil)
+      by_kind_filter = competitions.partition { |competition| jump_kind_filtered?(competition) }
+
+      by_kind_filter.zip([current_activity, nil]).flat_map do |group, jump_kind|
+        next [] if group.empty?
+
+        VirtualCompetition::Standing
+          .ranked(
+            competition_ids: group.map(&:id),
+            period: VirtualCompetition::Standing.period(year: current_year),
+            jump_kind:,
+            gender: (:female if female_rankings?),
+            snapshot_at:,
+            multi_discipline: false
+          )
+          .order(:rank)
+          .to_a
+      end.group_by(&:virtual_competition_id)
     end
 
-    def rankings_from(competition_ids, current, previous)
-      competitions = VirtualCompetition.where(id: competition_ids).index_by(&:id)
-
-      competition_ids.filter_map do |competition_id|
-        ranking_in(competitions[competition_id], current[competition_id] || [], previous[competition_id] || [])
-      end
-    end
-
-    def ranking_in(competition, current_siblings, previous_siblings)
-      ranked = rank_candidates(competition, current_siblings)
+    def ranking_in(competition, ranked, previous)
       position = ranked.index { |score| score.profile_id == id }
       return unless position
 
@@ -289,31 +295,15 @@ module Profiles
         result: ranked[position].result,
         rank: position + 1,
         total: ranked.size,
-        rank_delta: previous_rank_delta(competition, previous_siblings, position + 1),
+        rank_delta: previous_rank_delta(previous, position + 1),
         result_ahead: position.zero? ? nil : ranked[position - 1].result,
         result_behind: ranked[position + 1]&.result
       )
     end
 
-    def previous_rank_delta(competition, previous_siblings, rank)
-      position = rank_candidates(competition, previous_siblings).index { |score| score.profile_id == id }
-      position && (position + 1 - rank)
-    end
-
-    def rank_candidates(competition, siblings)
-      candidates = jump_kind_filtered?(competition) ? same_kind(siblings) : siblings
-      candidates = only_female(candidates) if female_rankings?
-      candidates = candidates.sort_by(&:result)
-      candidates.reverse! if competition.results_sort_order == 'descending'
-      candidates
-    end
-
-    def same_kind(siblings)
-      siblings.select { |score| score.track&.kind == current_activity.to_s }
-    end
-
-    def only_female(siblings)
-      siblings.select { |score| score.profile&.female? }
+    def previous_rank_delta(previous, rank)
+      previous_rank = previous.find { |score| score.profile_id == id }&.rank
+      previous_rank && (previous_rank - rank)
     end
 
     def jump_kind_filtered?(competition)

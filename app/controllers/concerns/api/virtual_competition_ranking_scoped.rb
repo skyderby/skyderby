@@ -2,12 +2,6 @@ module Api
   module VirtualCompetitionRankingScoped
     extend ActiveSupport::Concern
 
-    ASSOCIATIONS = [
-      { suit: :manufacturer },
-      { track: [{ place: :country }, :video] },
-      { profile: [:country, :owner, { userpic_attachment: :blob }] }
-    ].freeze
-
     included do
       helper_method :focused_profile_id
     end

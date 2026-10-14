@@ -65,9 +65,9 @@ class Profile < ApplicationRecord
            source: :event,
            dependent: :restrict_with_error
   has_many :personal_top_scores,
-           -> { wind_cancellation(false).where(virtual_competition_id: VirtualCompetition.listed.select(:id)) },
+           -> { single_discipline_rankings.where(virtual_competition_id: VirtualCompetition.listed.select(:id)) },
            inverse_of: :profile,
-           class_name: 'VirtualCompetition::PersonalTopScore',
+           class_name: 'VirtualCompetition::Standing',
            dependent: :restrict_with_error
   has_many :virtual_competition_participations,
            class_name: 'VirtualCompetition::Participant',

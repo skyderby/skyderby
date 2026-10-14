@@ -22,15 +22,7 @@ class VirtualCompetition::ParticipantsRoster
   private
 
   def standings
-    @standings ||= begin
-      scores =
-        if competition.multi_discipline?
-          competition.multi_discipline_standings.overall
-        else
-          competition.personal_top_scores.wind_cancellation(false).to_a
-        end
-      scores.index_by(&:profile_id)
-    end
+    @standings ||= competition.standings.index_by(&:profile_id)
   end
 
   def scored_tracks_counts

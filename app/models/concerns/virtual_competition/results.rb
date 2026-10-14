@@ -4,9 +4,6 @@ class VirtualCompetition < ApplicationRecord
 
     included do
       has_many :results, dependent: :delete_all
-      has_many :personal_top_scores  # rubocop:disable Rails/HasManyOrHasOneDependent
-      has_many :annual_top_scores    # rubocop:disable Rails/HasManyOrHasOneDependent
-      has_many :interval_top_scores  # rubocop:disable Rails/HasManyOrHasOneDependent
 
       before_save :set_results_sort_order
     end
@@ -14,7 +11,7 @@ class VirtualCompetition < ApplicationRecord
     private
 
     def set_results_sort_order
-      self.results_sort_order = base_race? ? :ascending : :descending
+      self.results_sort_order = VirtualCompetition.results_sort_order_for(discipline)
     end
   end
 end

@@ -23,27 +23,29 @@ module Profiles
     end
 
     def results
-      VirtualCompetition::AnnualTopScore
+      standings
         .includes(:profile, :virtual_competition)
-        .where(virtual_competition_id: VirtualCompetition.listed.select(:id))
-        .for_year(current_year)
         .joins(profile_scores_join)
         .order(:virtual_competition_id, :rank)
     end
 
-    def profile_scores_join
-      profile_scores_sql = VirtualCompetition::AnnualTopScore.where(profile_id: profile.id).to_sql
-
-      <<~SQL.squish
-        INNER JOIN (#{profile_scores_sql}) AS profile_scores
-        ON profile_scores.virtual_competition_id = #{VirtualCompetition::AnnualTopScore.table_name}.virtual_competition_id
-        AND profile_scores.year = #{VirtualCompetition::AnnualTopScore.table_name}.year
-        AND #{VirtualCompetition::AnnualTopScore.table_name}.rank BETWEEN profile_scores.rank - 2 AND profile_scores.rank + 2
-      SQL
+    def standings
+      VirtualCompetition::Standing
+        .ranked(
+          competition_ids: VirtualCompetition.listed.ids,
+          period: VirtualCompetition::Standing.period(year: Time.zone.now.year),
+          multi_discipline: false
+        )
     end
 
-    def current_year
-      Time.zone.now.year
+    def profile_scores_join
+      table = VirtualCompetition::Standing.table_name
+
+      <<~SQL.squish
+        INNER JOIN (#{standings.where(profile_id: profile.id).to_sql}) AS profile_scores
+        ON profile_scores.virtual_competition_id = #{table}.virtual_competition_id
+        AND #{table}.rank BETWEEN profile_scores.rank - 2 AND profile_scores.rank + 2
+      SQL
     end
   end
 end

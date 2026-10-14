@@ -14,8 +14,6 @@ class VirtualCompetition < ApplicationRecord
 
     def multi_discipline? = disciplines.load.size > 1
 
-    def multi_discipline_standings = MultiDisciplineStandings.new(self)
-
     private
 
     def several_disciplines_or_none

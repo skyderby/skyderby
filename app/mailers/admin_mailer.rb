@@ -3,11 +3,13 @@ class AdminMailer < ApplicationMailer
 
   def verify_online_competition_result(track)
     @track = track
-    @scores = VirtualCompetition::PersonalTopScore.where(track: track).where('rank <= 3')
+    @scores = VirtualCompetition::Standing.podium_places_of(track)
+    return if @scores.empty?
+
     @competitions_top =
-      VirtualCompetition::PersonalTopScore
-      .where(virtual_competition: @scores.map(&:virtual_competition_id))
-      .where('rank <= 3')
+      VirtualCompetition::Standing
+      .ranked(competition_ids: @scores.map(&:virtual_competition_id).uniq, multi_discipline: false)
+      .where(rank: ..VirtualCompetition::Ranking::PODIUM_SIZE)
       .group_by(&:virtual_competition)
 
     mail(subject: 'New online competition result requires verification')

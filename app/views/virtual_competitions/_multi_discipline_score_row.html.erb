@@ -3,7 +3,7 @@
 <% competition = ranking.competition %>
 <% on_podium = score.rank <= 3 %>
 <% points_unit = t('virtual_competitions.units.points') %>
-<% total_gap = score.result - ranking.all_scores.first.result %>
+<% total_gap = score.result - ranking.leader.result %>
 
 <div class="<%= class_names('vc-scoreboard__row vc-md-grid', on_podium && "vc-scoreboard__row--place-#{score.rank}", current_user_row && 'vc-scoreboard__row--current') %>"
      style="--disciplines: <%= score.entries.size %>"

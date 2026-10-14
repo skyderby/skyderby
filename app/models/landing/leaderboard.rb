@@ -6,10 +6,10 @@ module Landing
     delegate :any?, to: :boards
 
     def boards
-      @boards ||= competitions.map do |competition|
-        VirtualCompetition::Ranking.new(competition, top_scores_for(competition))
-      end
+      @boards ||= competitions.map(&:ranking)
     end
+
+    def top_scores(ranking) = ranking.all_scores.limit(TOP_SCORES)
 
     private
 
@@ -22,14 +22,6 @@ module Landing
 
     def kind_position(competition)
       KIND_ORDER.index(competition.jumps_kind) || KIND_ORDER.size
-    end
-
-    def top_scores_for(competition)
-      competition
-        .personal_top_scores
-        .wind_cancellation(false)
-        .includes(:profile, :suit, :track)
-        .first(TOP_SCORES)
     end
   end
 end

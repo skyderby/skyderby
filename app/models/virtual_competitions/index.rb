@@ -42,19 +42,7 @@ module VirtualCompetitions
     end
 
     def athlete_counts
-      @athlete_counts ||=
-        VirtualCompetition::PersonalTopScore.wind_cancellation(false).group(:virtual_competition_id).count
-                                            .merge(multi_discipline_athlete_counts)
-    end
-
-    def multi_discipline_athlete_counts
-      VirtualCompetition::Result
-        .wind_cancellation(false)
-        .where.not(discipline_id: nil)
-        .joins(:track)
-        .group(:virtual_competition_id)
-        .distinct
-        .count('tracks.profile_id')
+      @athlete_counts ||= VirtualCompetition::Standing.group(:virtual_competition_id).count
     end
 
     def combined_athlete_counts
@@ -68,10 +56,9 @@ module VirtualCompetitions
       ids = groups.flat_map { |group| group.combined_competitions.map(&:id) }
       return {} if ids.empty?
 
-      VirtualCompetition::PersonalTopScore
-        .wind_cancellation(false)
+      VirtualCompetition::Standing
+        .ranked(competition_ids: ids)
         .joins(:virtual_competition)
-        .where(virtual_competition_id: ids)
         .group('virtual_competitions.group_id')
         .distinct
         .count(:profile_id)

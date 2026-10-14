@@ -57,6 +57,8 @@ class VirtualCompetition < ApplicationRecord
   delegate :name, to: :finish_line, prefix: true, allow_nil: true
   delegate :name, to: :group, prefix: true, allow_nil: true
 
+  def self.results_sort_order_for(discipline) = discipline.to_s == 'base_race' ? 'ascending' : 'descending'
+
   def self.task_for(discipline)
     case discipline
     when 'distance_in_time', 'distance_in_altitude' then 'distance'
@@ -86,11 +88,13 @@ class VirtualCompetition < ApplicationRecord
 
   def gender_options = [nil, *Ranking::GENDERS]
 
-  def overall_ranking(scores, **) = Ranking.new(self, scores, **)
+  def standings(year: nil, interval: nil, **)
+    Standing.ranked(competition_ids: [id], period: Standing.period(year:, interval:), **)
+  end
 
-  def annual_ranking(scores, year:, **) = Ranking::Annual.new(self, scores, year:, **)
-
-  def period_ranking(scores, **) = Ranking.new(self, scores, **)
+  def ranking(year: nil, interval: nil, **)
+    year ? Ranking::Annual.new(self, year:, **) : Ranking.new(self, interval:, **)
+  end
 
   def finished?
     period_to.present? && period_to < Date.current

@@ -1,6 +1,6 @@
 competition = ranking.competition
 scores = ranking.scores
-focused_score = focused_profile_id && ranking.all_scores.find { |score| score.profile_id == focused_profile_id }
+focused_score = ranking.score_for(focused_profile_id)
 focused_on_page = focused_score && scores.any? { |score| score.profile_id == focused_profile_id }
 
 json.competition_id competition.id
@@ -25,8 +25,7 @@ json.pagination do
 end
 
 score_partial = 'api/v1/virtual_competitions/score'
-podium = ranking.all_scores.size > 2 ? ranking.all_scores.take(3) : []
-json.podium(podium, partial: score_partial, as: :score, ranking:)
+json.podium(ranking.podium, partial: score_partial, as: :score, ranking:)
 json.scores(scores, partial: score_partial, as: :score, ranking:)
 if focused_score && !focused_on_page
   json.focused { json.partial! score_partial, score: focused_score, ranking: }

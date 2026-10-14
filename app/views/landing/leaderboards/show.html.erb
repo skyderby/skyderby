@@ -18,7 +18,7 @@
                data-landing-tabs-target="panel"
                <%= tag.attributes(hidden: index.positive?) %>>
             <div class="vc-scoreboard__list">
-              <% ranking.all_scores.each do |score| %>
+              <% @leaderboard.top_scores(ranking).each do |score| %>
                 <%= render 'virtual_competitions/score_row', score: score, ranking: ranking %>
               <% end %>
             </div>
