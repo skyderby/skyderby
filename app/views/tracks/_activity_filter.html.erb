@@ -24,5 +24,15 @@
     <%= link_to 'Speed',
                 index_params.merge(kind: 'speed_skydiving'),
                 class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'speed_skydiving')] %>
+
+    <% if Current.user.registered? %>
+      <% bookmarked = index_params[:bookmarked].present? %>
+      <%= link_to (bookmarked ? index_params.except(:bookmarked, :page) : index_params.except(:page).merge(bookmarked: true)),
+                  class: ['activity-filter-button', ('activity-filter-button--active' if bookmarked)],
+                  title: t('tracks.bookmarks.filter') do %>
+        <%= icon_tag 'star-solid' %>
+        <span class="for-screen-reader"><%= t('tracks.bookmarks.filter') %></span>
+      <% end %>
+    <% end %>
   </div>
 </div>

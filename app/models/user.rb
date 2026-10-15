@@ -35,6 +35,7 @@ class User < ApplicationRecord
   has_many :free_pro_views, dependent: :delete_all
   has_many :app_store_purchases, dependent: :destroy
   has_many :terrain_profiles, dependent: :nullify
+  has_many :track_bookmarks, class_name: 'Track::Bookmark', inverse_of: :user, dependent: :delete_all
 
   scope :admins, -> { where('? = ANY(roles)', 'admin') }
 

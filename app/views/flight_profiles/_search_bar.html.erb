@@ -2,6 +2,13 @@
 
 <%= render 'hot_select/omni_search', **attrs, placeholder: t('flight_profiles.filters.placeholder') do %>
   <%= omni_search_type_options do %>
+    <% if Current.user.registered? %>
+      <div class="hot-select-option" data-value="bookmarked" data-label="<%= t('tracks.bookmarks.filter') %>">
+        <%= icon_tag 'star-solid' %>
+        &nbsp;
+        <%= t('tracks.bookmarks.filter') %>
+      </div>
+    <% end %>
     <div class="hot-select-option" data-value="year[]" data-label="<%= t('flight_profiles.filters.year') %>">
       <%= icon_tag 'calendar-days-solid' %>
       &nbsp;
@@ -24,6 +31,7 @@
     </div>
   <% end %>
 
+  <%= omni_search_local_options name: 'bookmarked', options: [['true', t('tracks.bookmarks.filter_value')]] if Current.user.registered? %>
   <%= omni_search_local_options name: 'year[]', options: (2014..Date.current.year).to_a.reverse %>
   <%= omni_search_async_options name: 'profile_id[]', src: profiles_select_options_path, select_id: :profile %>
   <%= omni_search_async_options name: 'place_id[]', src: places_select_options_path, select_id: :place %>

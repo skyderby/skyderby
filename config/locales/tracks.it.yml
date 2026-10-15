@@ -1,5 +1,10 @@
 it:
   tracks:
+    bookmarks:
+      add: "Aggiungi ai preferiti"
+      remove: "Rimuovi dai preferiti"
+      filter: "Preferiti"
+      filter_value: "I miei"
     speed_pro:
       chart:
         position_axis: "POSIZIONE  +90° testa in su · 0° pancia · −90° testa in giù"

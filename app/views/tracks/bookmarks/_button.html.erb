@@ -1,0 +1,10 @@
+<%# locals: (track:) %>
+<% bookmarked = track.bookmarked? %>
+<%= button_to track_bookmark_path(track),
+              method: bookmarked ? :delete : :post,
+              form: { id: dom_id(track, :bookmark), class: 'track-bookmark' },
+              class: ['track-bookmark-button', ('track-bookmark-button--active' if bookmarked)],
+              title: t(bookmarked ? 'tracks.bookmarks.remove' : 'tracks.bookmarks.add'),
+              aria: { label: t(bookmarked ? 'tracks.bookmarks.remove' : 'tracks.bookmarks.add'), pressed: bookmarked } do %>
+  <%= icon_tag bookmarked ? 'star-solid' : 'star-regular' %>
+<% end %>

@@ -6,7 +6,8 @@ class FlightProfilesController < ApplicationController
       profiles.map { |id, name| [id, name, 'profile_id[]', 'Profile'] },
       suits.map { |id, name| [id, name, 'suit_id[]', 'Suit'] },
       places.map { |id, name| [id, name, 'place_id[]', 'Place'] },
-      params[:year]&.map { |year| [year, year, 'year[]', 'Year'] }
+      params[:year]&.map { |year| [year, year, 'year[]', 'Year'] },
+      bookmarked_filter
     ].flatten(1).compact
   end
 
@@ -17,4 +18,10 @@ class FlightProfilesController < ApplicationController
   def suits = Suit.where(id: params[:suit_id]).pluck(:id, :name)
 
   def places = Place.where(id: params[:place_id]).pluck(:id, :name)
+
+  def bookmarked_filter
+    return unless TrackFilter.new(params.permit(:bookmarked)).bookmarked?
+
+    [['true', t('tracks.bookmarks.filter_value'), 'bookmarked', t('tracks.bookmarks.filter')]]
+  end
 end

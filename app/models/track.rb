@@ -80,6 +80,7 @@ class Track < ApplicationRecord
            dependent: :destroy
   has_many :all_virtual_competition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
   has_many :free_pro_views, dependent: :nullify
+  has_many :bookmarks, class_name: 'Track::Bookmark', inverse_of: :track, dependent: :delete_all
 
   validates :name, presence: true, unless: :pilot
 
@@ -93,6 +94,7 @@ class Track < ApplicationRecord
   scope :sorted_by_distance, ->(dir) { left_joins(:distance).order("track_results.result #{dir} NULLS LAST") }
   scope :sorted_by_time, ->(dir) { left_joins(:time).order("track_results.result #{dir} NULLS LAST") }
   scope :by_year, ->(year) { where('EXTRACT(YEAR FROM tracks.recorded_at) IN (?)', Array(year)) }
+  scope :bookmarked_by, ->(user) { where(id: Track::Bookmark.where(user_id: user.id).select(:track_id)) }
 
   delegate :tracksuit?, :wingsuit?, :slick?, to: :suit, allow_nil: true
   delegate :kind, to: :suit, allow_nil: true, prefix: true
@@ -145,6 +147,14 @@ class Track < ApplicationRecord
   def head_up_check = @head_up_check ||= Track::HeadUpCheck.new(self)
 
   def competitive? = event_result.present?
+
+  def bookmarked?(user: Current.user)
+    user.registered? && bookmarks.exists?(user:)
+  end
+
+  def bookmark(user:) = bookmarks.find_or_create_by!(user:)
+
+  def unbookmark(user:) = bookmarks.where(user:).delete_all
 
   def pro_view_available?(user: Current.user)
     return false unless base? || skydive? || speed_skydiving?

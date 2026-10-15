@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_14_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_14_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -841,6 +841,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_120000) do
     t.index ["profile_id"], name: "index_tournaments_on_profile_id"
   end
 
+  create_table "track_bookmarks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "track_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["track_id"], name: "index_track_bookmarks_on_track_id"
+    t.index ["user_id", "track_id"], name: "index_track_bookmarks_on_user_id_and_track_id", unique: true
+  end
+
   create_table "track_exit_profiles", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.jsonb "distances", default: [], null: false
@@ -1140,6 +1149,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_120000) do
   add_foreign_key "tournament_competitors", "profiles"
   add_foreign_key "tournaments", "place_finish_lines", column: "finish_line_id"
   add_foreign_key "tournaments", "profiles"
+  add_foreign_key "track_bookmarks", "tracks", on_delete: :cascade
+  add_foreign_key "track_bookmarks", "users", on_delete: :cascade
   add_foreign_key "track_reference_points", "tracks"
   add_foreign_key "track_sensor_samples", "tracks", on_delete: :cascade
   add_foreign_key "tracks", "profiles"

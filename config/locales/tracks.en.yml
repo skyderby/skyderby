@@ -1,5 +1,10 @@
 en:
   tracks:
+    bookmarks:
+      add: "Add to favorites"
+      remove: "Remove from favorites"
+      filter: "Favorites"
+      filter_value: "Mine"
     places:
       missing: "Location not found"
       new:

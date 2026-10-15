@@ -1,5 +1,10 @@
 ru:
   tracks:
+    bookmarks:
+      add: "Добавить в избранное"
+      remove: "Убрать из избранного"
+      filter: "Избранное"
+      filter_value: "Мои"
     places:
       missing: "Локация не найдена"
       new:

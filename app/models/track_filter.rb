@@ -3,6 +3,8 @@ class TrackFilter
     @query = query
   end
 
+  def tracks = apply(bookmarked? ? Track.viewable : Track.accessible)
+
   def apply(relation)
     return relation unless query
 
@@ -12,6 +14,8 @@ class TrackFilter
 
     relation.where.not(id: query[:exclude_id])
   end
+
+  def bookmarked? = query.present? && ActiveModel::Type::Boolean.new.cast(query[:bookmarked]).present?
 
   private
 
@@ -27,6 +31,7 @@ class TrackFilter
     relation = relation.public_send(query[:kind]) if Track.kinds.key? query[:kind]
     relation = relation.by_year(query[:year]) if query[:year].present?
     relation = relation.search(query[:term]) if query[:term]
+    relation = relation.bookmarked_by(Current.user) if bookmarked?
 
     relation
   end

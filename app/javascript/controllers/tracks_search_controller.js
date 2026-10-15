@@ -4,7 +4,7 @@ export default class TracksSearchController extends Controller {
   static values = { storageKey: String }
 
   connect() {
-    this.params = ['year[]', 'profile_id[]', 'suit_id[]', 'place_id[]']
+    this.params = ['year[]', 'profile_id[]', 'suit_id[]', 'place_id[]', 'bookmarked']
     this.restoreFilters()
     this.frame.src = this.searchUrl
   }

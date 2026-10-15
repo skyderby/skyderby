@@ -13,7 +13,7 @@ module Api
       def index
         @tracks =
           TrackFilter.new(index_params)
-                     .apply(Track.accessible)
+                     .tracks
                      .sorted(*order_params)
                      .includes(
                        :video, :distance, :speed, :time,
@@ -116,7 +116,7 @@ module Api
 
       def index_params
         params.permit(
-          :order, :kind, :term, :profile_id, :suit_id, :place_id, :year,
+          :order, :kind, :term, :profile_id, :suit_id, :place_id, :year, :bookmarked,
           profile_id: [], suit_id: [], place_id: [], year: []
         )
       end

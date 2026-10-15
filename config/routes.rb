@@ -136,6 +136,7 @@ Skyderby::Application.routes.draw do
           resource :points, only: :show
           resource :point_series, only: :show
           resource :pro_view, only: :create
+          resource :bookmark, only: %i[create destroy]
           resource :place, only: %i[new create]
           resource :reference_point, only: %i[show update destroy]
           resource :results, only: :show
@@ -427,6 +428,7 @@ Skyderby::Application.routes.draw do
   resources :tracks, only: [:index, :show, :edit, :update, :destroy] do
     scope module: :tracks do
       resource :chart_settings, only: :update
+      resource :bookmark, only: %i[create destroy]
       resource :map, only: :show
       resource :globe, controller: 'globe', only: :show
       resource :video, only: [:new, :edit, :show, :create, :update, :destroy] do

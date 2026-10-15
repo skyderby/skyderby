@@ -6,21 +6,18 @@ class TracksController < ApplicationController
   before_action :set_compare_track, only: [:show]
 
   def index
-    @tracks = Track.accessible
-
-    @tracks = TrackFilter.new(index_params).apply(@tracks)
-
-    @tracks = @tracks
-              .sorted(*order_params)
-              .includes(
-                :video,
-                :distance,
-                :speed,
-                :time,
-                place: [:country],
-                pilot: :owner,
-                suit: [:manufacturer]
-              ).page(page).per(25)
+    @tracks = TrackFilter.new(index_params)
+                         .tracks
+                         .sorted(*order_params)
+                         .includes(
+                           :video,
+                           :distance,
+                           :speed,
+                           :time,
+                           place: [:country],
+                           pilot: :owner,
+                           suit: [:manufacturer]
+                         ).page(page).per(25)
 
     respond_to do |format|
       format.html
@@ -156,6 +153,7 @@ class TracksController < ApplicationController
       :year,
       :infinite,
       :exclude_id,
+      :bookmarked,
       profile_id: [],
       suit_id: [],
       place_id: [],

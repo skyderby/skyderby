@@ -1,5 +1,10 @@
 de:
   tracks:
+    bookmarks:
+      add: "Zu Favoriten hinzufügen"
+      remove: "Aus Favoriten entfernen"
+      filter: "Favoriten"
+      filter_value: "Meine"
     speed_pro:
       chart:
         position_axis: "POSITION  +90° Kopf oben · 0° Bauch · −90° Kopf unten"

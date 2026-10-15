@@ -92,6 +92,15 @@ export default class OmniSearchController extends PopoverSelectController {
     if (!modelElement)
       throw new Error(`Can not find elements dropdown for type: ${this.currentType}`)
 
+    const options = modelElement.content?.querySelectorAll('.hot-select-option') ?? []
+    if (
+      options.length === 1 &&
+      !modelElement.content.querySelector('.hot-select-search')
+    ) {
+      this.selectModel({ target: options[0] })
+      return
+    }
+
     this.dropdownTarget.innerHTML = modelElement.innerHTML
 
     const searchInput = this.dropdownTarget.querySelector('.hot-select-search')
@@ -117,6 +126,11 @@ export default class OmniSearchController extends PopoverSelectController {
   }
 
   addFilterTag(type, label, value, text) {
+    const duplicate = Array.from(this.tagsContainerTarget.children).some(
+      tag => tag.dataset.type === type && tag.dataset.value === value
+    )
+    if (duplicate) return
+
     const tagElement = this.tagTemplateTarget.content
       .querySelector('.filter-tag')
       .cloneNode(true)
