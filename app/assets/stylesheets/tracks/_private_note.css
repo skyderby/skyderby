@@ -1,0 +1,14 @@
+.track-private-note {
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--gray-20);
+  white-space: normal;
+}
+
+.track-private-note .icon {
+  flex: none;
+  color: var(--gray-60);
+}

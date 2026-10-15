@@ -10,5 +10,6 @@ de:
         place: Ort
         kind: Art des Sprunges
         comment: Kommentar
+        private_note: Private Notiz
         uploaded_at: Hochgeladen am
         recorded_at: Aufnahmdatum

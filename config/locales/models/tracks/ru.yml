@@ -12,6 +12,7 @@ ru:
         place: Локация
         kind: Вид прыжка
         comment: Комментарий
+        private_note: Личная заметка
         uploaded_at: Дата загрузки
         recorded_at: Дата записи
         disqualified_from_online_competitions: Дисквалифицирован из онлайн соревнований

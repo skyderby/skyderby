@@ -6,16 +6,6 @@ class GuestUser
       @store = store
     end
 
-    def <<(id)
-      store.signed[:track_ids] = (collection << id).to_s
-    end
-
-    def last_track
-      return nil if collection.empty?
-
-      Track.where(id: collection).order(created_at: :desc).first
-    end
-
     private
 
     attr_reader :store

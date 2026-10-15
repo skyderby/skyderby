@@ -11,6 +11,7 @@ en:
         place: Place
         kind: Kind of jump
         comment: Comment
+        private_note: Private note
         uploaded_at: Uploaded at
         recorded_at: Recorded at
         disqualified_from_online_competitions: Disqualified from online competitions

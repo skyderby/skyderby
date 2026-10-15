@@ -135,8 +135,10 @@ class TracksController < ApplicationController
       :track_index,
       :visibility,
       :profile_id,
-      :disqualified_from_online_competitions
+      :disqualified_from_online_competitions,
+      :private_note
     )
+    permitted = permitted.except(:private_note) unless @track.private_note_visible?
     current_user.admin? ? permitted : permitted.except(:disqualified_from_online_competitions)
   end
 

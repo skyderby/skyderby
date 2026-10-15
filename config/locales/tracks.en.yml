@@ -1,5 +1,8 @@
 en:
   tracks:
+    private_note:
+      hint: "Only you can see this note"
+      placeholder: "Notes for yourself: conditions, what to fix next time…"
     bookmarks:
       add: "Add to favorites"
       remove: "Remove from favorites"

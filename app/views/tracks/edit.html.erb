@@ -59,10 +59,7 @@
       <%= render 'tracks/form/visibility', form: f, visibility: @track.visibility %>
     <% end %>
 
-    <div class="grid">
-      <label class="form-label col-4"><%= t('activerecord.attributes.track.comment') %></label>
-      <%= f.text_area :comment, class: 'form-input col-8', rows: 3, placeholder: t('static_pages.index.track_form.comment_plh') %>
-    </div>
+    <%= render 'tracks/form/comment', form: f, private_note: @track.private_note_visible? %>
 
     <% if current_user&.admin? %>
       <div class="grid">

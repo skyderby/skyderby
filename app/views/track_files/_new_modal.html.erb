@@ -1,15 +1,6 @@
 <%= render 'components/dialog', title: t('static_pages.index.track_form.title'), dialog_size: 'lg' do %>
   <%= form_with scope: :track_file, url: track_files_path, multipart: true, class: 'sd-form' do |f| %>
 
-    <% unless user_signed_in? %>
-      <%= f.fields_for :track_attributes do |builder| %>
-        <div class="grid">
-          <label class="form-label col-4"><%= t('activerecord.attributes.profile.name') %></label>
-          <%= builder.text_field :name, class: 'form-input col-8', placeholder: t('static_pages.index.track_form.name_plh'), value: @form.name %>
-        </div>
-      <% end %>
-    <% end %>
-
     <% suit = @form.suit %>
     <% suit_options = suit ? options_for_select([[suit.name, suit.id]], suit.id) : [] %>
     <div class="grid" data-controller="tracks--dual-type-field" <%= dual_type_field_labels(:suit) %> data-mode="select">
@@ -51,10 +42,8 @@
       <%= render 'tracks/form/activity', form: builder, activity: @form.activity %>
     <% end %>
 
-    <% if user_signed_in? %>
-      <%= f.fields_for :track_attributes do |builder| %>
-        <%= render 'tracks/form/visibility', form: builder, visibility: @form.visibility %>
-      <% end %>
+    <%= f.fields_for :track_attributes do |builder| %>
+      <%= render 'tracks/form/visibility', form: builder, visibility: @form.visibility %>
     <% end %>
 
     <div class="grid">
@@ -66,12 +55,9 @@
       </div>
     </div>
 
-    <div class="grid">
-      <label class="form-label col-4"><%= t('activerecord.attributes.track.comment') %></label>
-      <%= f.fields_for :track_attributes do |builder| %>
-        <%= builder.text_area :comment, class: 'form-input col-8', rows: 3, placeholder: t('static_pages.index.track_form.comment_plh') %>
-      <% end %>
-    </div>
+    <%= f.fields_for :track_attributes do |builder| %>
+      <%= render 'tracks/form/comment', form: builder, private_note: true %>
+    <% end %>
 
     <div class="form-actions">
       <%= f.submit t('static_pages.index.track_form.submit'), class: 'button button--primary' %>

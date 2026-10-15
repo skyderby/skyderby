@@ -13,6 +13,7 @@ json.abs_altitude track.abs_altitude?
 json.editable track.editable?
 json.pro_view_available track.pro_view_available?
 json.bookmarked track.bookmarked?
+json.private_note track.private_note if track.private_note_visible?
 json.points_version track.updated_at.to_i.to_s
 
 if track.video

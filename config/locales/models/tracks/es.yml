@@ -10,5 +10,6 @@ es:
         place: Localización
         kind: El tipo de salto
         comment: Comentario
+        private_note: Nota privada
         uploaded_at: Fecha de subida
         recorded_at: Fecha de grabación

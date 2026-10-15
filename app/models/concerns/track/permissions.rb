@@ -36,6 +36,8 @@ module Track::Permissions
     recorded_by?(user)
   end
 
+  def private_note_visible?(user = Current.user) = user.registered? && belongs_to_user? && owner == user
+
   def recorded_by?(user = Current.user)
     pilot.present? && pilot == user&.profile
   end

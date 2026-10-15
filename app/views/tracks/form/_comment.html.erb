@@ -1,0 +1,19 @@
+<%# locals: (form:, private_note:) %>
+
+<div class="grid">
+  <label class="form-label col-4" for="<%= form.field_id(:comment) %>"><%= t('activerecord.attributes.track.comment') %></label>
+  <% if private_note %>
+    <div class="col-8 stacked-input">
+      <%= form.text_area :comment, class: 'stacked-input__field', rows: 3, placeholder: t('static_pages.index.track_form.comment_plh') %>
+      <div class="stacked-input__section">
+        <label class="stacked-input__caption" for="<%= form.field_id(:private_note) %>">
+          <%= icon_tag 'lock-solid' %>
+          <%= t('activerecord.attributes.track.private_note') %> · <%= t('tracks.private_note.hint') %>
+        </label>
+        <%= form.text_area :private_note, class: 'stacked-input__field', rows: 2, placeholder: t('tracks.private_note.placeholder') %>
+      </div>
+    </div>
+  <% else %>
+    <%= form.text_area :comment, class: 'form-input col-8', rows: 3, placeholder: t('static_pages.index.track_form.comment_plh') %>
+  <% end %>
+</div>

@@ -10,6 +10,7 @@ it:
         place: Luogo
         kind: Tipo di salto
         comment: Commento
+        private_note: Nota privata
         uploaded_at: Caricato
         recorded_at: Registrato
         disqualified_from_online_competitions: Squalificato dalle competizioni Online

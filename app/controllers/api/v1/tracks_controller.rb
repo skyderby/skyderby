@@ -92,7 +92,8 @@ module Api
 
       def new_track_attributes
         params
-          .permit(:kind, :name, :location, :place_id, :missing_suit_name, :suit_id, :comment, :visibility, :client_uuid)
+          .permit(:kind, :name, :location, :place_id, :missing_suit_name, :suit_id, :comment, :private_note,
+                  :visibility, :client_uuid)
           .merge(track_file: @track_file, owner: current_user)
       end
 
@@ -109,8 +110,10 @@ module Api
           :suit_id,
           :comment,
           :visibility,
-          :disqualified_from_online_competitions
+          :disqualified_from_online_competitions,
+          :private_note
         )
+        permitted = permitted.except(:private_note) unless @track.private_note_visible?(current_user)
         current_user.admin? ? permitted : permitted.except(:disqualified_from_online_competitions)
       end
 

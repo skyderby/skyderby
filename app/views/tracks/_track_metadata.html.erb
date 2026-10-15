@@ -4,6 +4,14 @@
   </small>
 <% end %>
 
+<% if @track.private_note.present? && @track.private_note_visible? %>
+  <small class="track-private-note" title="<%= t('tracks.private_note.hint') %>">
+    <%= icon_tag 'lock-solid' %>
+    <span class="for-screen-reader"><%= t('tracks.private_note.hint') %></span>
+    <%= simple_format(@track.private_note, {}, wrapper_tag: 'span') %>
+  </small>
+<% end %>
+
 <small>
   <% if @track.recorded_at %>
     <%= "Recorded at #{@track.recorded_at.strftime('%d.%m.%Y %H:%M')} (UTC); " %>

@@ -2,10 +2,10 @@ module TrackFiles
   class TracksController < ApplicationController
     include FirstLookGrantable
 
+    before_action :authenticate_user!
+
     def create
       @track = build_track
-
-      current_user.tracks << @track.id unless current_user.registered?
       grant_first_look(@track)
 
       redirect_to track_path(@track)
@@ -14,10 +14,7 @@ module TrackFiles
     private
 
     def build_track
-      track_attributes = track_params[:track_attributes].merge(
-        track_file: track_file,
-        owner: (current_user if current_user.registered?)
-      )
+      track_attributes = track_params[:track_attributes].merge(track_file:, owner: current_user)
 
       CreateTrackService.call(track_attributes, segment: params[:segment])
     end
@@ -26,13 +23,13 @@ module TrackFiles
       params.permit(
         :segment,
         track_attributes: [
-          :name,
           :kind,
           :location,
           :place_id,
           :missing_suit_name,
           :suit_id,
           :comment,
+          :private_note,
           :visibility
         ]
       )

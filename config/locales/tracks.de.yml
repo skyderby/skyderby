@@ -1,5 +1,8 @@
 de:
   tracks:
+    private_note:
+      hint: "Nur du siehst diese Notiz"
+      placeholder: "Notizen für dich: Bedingungen, was du nächstes Mal besser machst…"
     bookmarks:
       add: "Zu Favoriten hinzufügen"
       remove: "Aus Favoriten entfernen"
