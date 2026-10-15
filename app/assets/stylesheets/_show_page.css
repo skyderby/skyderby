@@ -36,6 +36,16 @@
   padding: 0 0.5rem;
 }
 
+.show-page-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.show-page-title-row .star-toggle {
+  font-size: 1.5rem;
+}
+
 .show-page-info {
   font-size: 0.875rem;
   color: var(--gray-70);

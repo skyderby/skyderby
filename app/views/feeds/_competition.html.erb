@@ -1,0 +1,52 @@
+<%# locals: (card:) %>
+
+<% event = card.event %>
+<article class="panel feed-card">
+  <header class="feed-card__header">
+    <span class="feed-card__icon"><%= icon_tag 'trophy-solid' %></span>
+    <div class="feed-card__heading">
+      <span class="feed-card__title">
+        <%= link_to event.name, polymorphic_path(event), class: 'feed-card__name' %>
+      </span>
+      <span class="feed-card__meta">
+        <% if card.live? %>
+          <span class="live-indicator"><%= t('dashboard.live_competitions.live') %></span>
+        <% end %>
+        <%= [event.place&.name,
+             l(event.starts_at, format: :long),
+             (t('dashboard.live_competitions.athletes', count: card.athletes_count) if card.athletes_count.positive?)]
+              .compact.join(' · ') %>
+      </span>
+    </div>
+  </header>
+
+  <% if card.podium.any? %>
+    <ol class="podium podium--compact">
+      <% card.podium.each do |standing| %>
+        <%= render 'components/podium_place',
+                   profile: standing.profile,
+                   place: standing.rank,
+                   value: feed_result_value(standing),
+                   unit: t("feed.units.#{standing.unit}"),
+                   url: polymorphic_path(event) %>
+      <% end %>
+    </ol>
+  <% end %>
+
+  <% if card.followed_standings.any? || card.followed_without_results.any? %>
+    <div class="dashboard-list feed-card__followed">
+      <% card.followed_standings.each do |standing| %>
+        <%= render 'feeds/standing', standing:, followed: true %>
+      <% end %>
+      <% card.followed_without_results.each do |profile| %>
+        <div class="dashboard-list__row feed-standing--followed">
+          <span class="dashboard-place dashboard-place--hidden">–</span>
+          <%= image_tag profile.userpic_url(:thumb), alt: '', class: 'avatar avatar--sm' %>
+          <span class="dashboard-list__main">
+            <%= link_to profile.name, profile_path(profile), class: 'dashboard-list__title' %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</article>

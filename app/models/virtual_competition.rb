@@ -52,6 +52,10 @@ class VirtualCompetition < ApplicationRecord
   scope :finished, -> { where(period_to: ...Date.current) }
 
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, inverse_of: :sponsorable, dependent: :delete_all
+  has_many :favorites, class_name: 'VirtualCompetition::Favorite', inverse_of: :virtual_competition,
+                       dependent: :delete_all
+  has_many :top_entries, class_name: 'VirtualCompetition::TopEntry', inverse_of: :virtual_competition,
+                         dependent: :delete_all
 
   delegate :name, to: :place, prefix: true, allow_nil: true
   delegate :name, to: :finish_line, prefix: true, allow_nil: true
@@ -91,6 +95,14 @@ class VirtualCompetition < ApplicationRecord
   def standings(year: nil, interval: nil, **)
     Standing.ranked(competition_ids: [id], period: Standing.period(year:, interval:), **)
   end
+
+  def season_standings(year) = standings(year: annual? ? year : nil)
+
+  def favorited?(user = Current.user) = user.registered? && favorites.exists?(user:)
+
+  def favorite(user:) = favorites.find_or_create_by!(user:)
+
+  def unfavorite(user:) = favorites.where(user:).delete_all
 
   def ranking(year: nil, interval: nil, **)
     year ? Ranking::Annual.new(self, year:, **) : Ranking.new(self, interval:, **)

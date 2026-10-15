@@ -1,0 +1,34 @@
+de:
+  feed:
+    follow:
+      follow: Folgen
+      following: Du folgst
+    invite:
+      title: Folge anderen Piloten
+      subtitle: Ihre neuen Sprünge und Wettkampfergebnisse erscheinen hier.
+      button: Piloten finden
+    empty: Noch nichts hier. Lade einen Sprung hoch oder folge Piloten.
+    loading: Lädt…
+    ago: vor %{time}
+    tracks:
+      uploaded:
+        one: hat %{count} Sprung hochgeladen
+        other: hat %{count} Sprünge hochgeladen
+      more:
+        one: '%{count} weiterer Sprung'
+        other: '%{count} weitere Sprünge'
+    kinds:
+      skydive: Skydive
+      base: BASE
+      speed_skydiving: Speed
+    units:
+      points: Pkt.
+      kmh: km/h
+      seconds: s
+    rankings:
+      entered_top:
+        one: In die Top %{count}
+        other: In die Top %{count}
+      favorite:
+        add: Rangliste zu Favoriten hinzufügen
+        remove: Rangliste aus Favoriten entfernen

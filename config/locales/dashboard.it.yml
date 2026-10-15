@@ -14,6 +14,7 @@ it:
     hero:
       season: Stagione %{year}
     modes:
+      feed: Feed
       admin: "Admin"
       performance: Performance Flying
       base: BASE

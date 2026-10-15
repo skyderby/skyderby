@@ -1,15 +1,15 @@
 <%# locals: (profile:) %>
 
-<%= link_to profile_path(profile), class: 'profile-card' do %>
-  <div class="profile-card-image">
+<div class="profile-card">
+  <%= link_to profile_path(profile), class: 'profile-card-image' do %>
     <%= image_tag profile.userpic_url(:medium), alt: "#{profile.name} photo" %>
-  </div>
+  <% end %>
   <div class="profile-card-content">
-    <span class="profile-card-title">
+    <%= link_to profile_path(profile), class: 'profile-card-title' do %>
       <span class="<%= 'contributor' if profile.contributor? %>">
         <%= profile.name %>
       </span>
-    </span>
+    <% end %>
     <div class="profile-card-pills">
       <% if profile.skydive_count.positive? %>
         <div class="pill pill-blue-gray">Skydive: <%= profile.skydive_count %></div>
@@ -26,5 +26,8 @@
         <%= render partial: 'profiles/badges/badge_compact', collection: profile.badges, as: :badge %>
       </div>
     <% end %>
+    <% if profile.followable? %>
+      <div><%= render 'profiles/follows/button', profile: %></div>
+    <% end %>
   </div>
-<% end %>
+</div>

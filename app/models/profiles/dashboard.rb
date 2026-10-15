@@ -1,6 +1,7 @@
 module Profiles
   class Dashboard < SimpleDelegator
     MODES = %i[admin performance base speed].freeze
+    HOME_MODES = [:feed, *MODES].freeze
     ACTIVITY_BY_MODE = { performance: :skydive, base: :base, speed: :speed_skydiving }.freeze
     DISCIPLINES_BY_MODE = { base: %i[distance_in_time flare], speed: %i[vertical_speed] }.freeze
     DISCIPLINES = %i[speed distance time flare].freeze
@@ -45,6 +46,8 @@ module Profiles
     end
 
     def default_mode
+      return :feed if available_modes.include?(:feed)
+
       recent_kinds = tracks.order(recorded_at: :desc).limit(RECENT_TRACKS_FOR_MODE).pluck(:kind).tally
       activity_modes = available_modes & ACTIVITY_BY_MODE.keys
 
@@ -119,7 +122,7 @@ module Profiles
 
     def recent_tracks(limit = 5)
       tracks.where(kind: current_activity)
-            .includes(:suit, :place, :time, :distance, :speed)
+            .includes(:suit, :place, :time, :distance, :speed, :vertical_speed_result)
             .order(recorded_at: :desc)
             .limit(limit)
     end
@@ -145,6 +148,8 @@ module Profiles
     end
 
     def pro? = @user&.subscription_active? || false
+
+    def feed = @feed ||= Feed.new(@user)
 
     private
 
@@ -190,12 +195,13 @@ module Profiles
       event.respond_to?(:public_event?) ? event.public_event? : true
     end
 
+    def own_dashboard? = (@user&.registered? && @user.profile == profile) || false
+
     def mode_available?(mode)
       case mode
+      when :feed then own_dashboard?
       when :admin then @user&.admin? || false
-      when :performance then tracks.skydive.exists?
-      when :base then tracks.base.exists?
-      when :speed then tracks.speed_skydiving.exists?
+      else tracks.exists?(kind: ACTIVITY_BY_MODE.fetch(mode))
       end
     end
 

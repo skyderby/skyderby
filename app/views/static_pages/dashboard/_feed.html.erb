@@ -1,0 +1,27 @@
+<%# locals: (dashboard:) %>
+
+<% feed = dashboard.feed %>
+<div class="feed stack">
+  <% if dashboard.tracks.none? %>
+    <%= render 'static_pages/dashboard/empty', dashboard: %>
+  <% end %>
+
+  <% unless feed.following? %>
+    <div class="panel feed-invite">
+      <div class="feed-invite__text">
+        <span class="feed-invite__title"><%= t('feed.invite.title') %></span>
+        <span class="feed-invite__subtitle"><%= t('feed.invite.subtitle') %></span>
+      </div>
+      <%= link_to profiles_path, class: 'button button--primary' do %>
+        <%= icon_tag 'users-solid' %>
+        <%= t('feed.invite.button') %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if feed.empty? && !feed.older? %>
+    <div class="panel dashboard-blankslate"><%= t('feed.empty') %></div>
+  <% else %>
+    <%= render 'feeds/items', feed: %>
+  <% end %>
+</div>

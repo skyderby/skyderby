@@ -462,6 +462,7 @@ Skyderby::Application.routes.draw do
   resources :profiles do
     scope module: :profiles do
       resources :badges, only: [:new, :create]
+      resource :follow, only: %i[create destroy]
       resources :tracks, only: :index
       resources :videos, only: :index
       resource :avatar, only: [:new, :create]
@@ -552,6 +553,7 @@ Skyderby::Application.routes.draw do
       resource :person_details, only: :show
       resource :overall, only: :show
       resource :comparison, only: :create
+      resource :favorite, only: %i[create destroy]
       resources :year, only: :show, param: :year
       resources :periods, only: :show
       resources :participants, except: %i[show edit]
@@ -609,6 +611,7 @@ Skyderby::Application.routes.draw do
   resources :weather_fetching_logs, only: :index
 
   resource :dashboard, only: :update
+  resource :feed, only: :show
 
   namespace :journal do
     resource :comparison, only: :create

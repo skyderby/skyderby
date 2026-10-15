@@ -1,6 +1,6 @@
 <%# locals: (leaders:) %>
 
-<ol class="vc-podium">
+<ol class="podium">
   <% leaders.each.with_index(1) do |leader, place| %>
     <%= render 'virtual_competitions/winner', result: leader, place: %>
   <% end %>

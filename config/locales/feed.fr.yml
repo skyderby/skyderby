@@ -1,0 +1,34 @@
+fr:
+  feed:
+    follow:
+      follow: Suivre
+      following: Abonné
+    invite:
+      title: Suivez d'autres pilotes
+      subtitle: Leurs nouveaux sauts et résultats de compétition apparaîtront ici.
+      button: Trouver des pilotes
+    empty: Rien pour l'instant. Importez un saut ou suivez des pilotes.
+    loading: Chargement…
+    ago: il y a %{time}
+    tracks:
+      uploaded:
+        one: a importé %{count} saut
+        other: a importé %{count} sauts
+      more:
+        one: '%{count} saut de plus'
+        other: '%{count} sauts de plus'
+    kinds:
+      skydive: Skydive
+      base: BASE
+      speed_skydiving: Speed
+    units:
+      points: pts
+      kmh: km/h
+      seconds: s
+    rankings:
+      entered_top:
+        one: Entré dans le top %{count}
+        other: Entré dans le top %{count}
+      favorite:
+        add: Ajouter le classement aux favoris
+        remove: Retirer le classement des favoris

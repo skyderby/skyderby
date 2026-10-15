@@ -75,6 +75,8 @@ class Profile < ApplicationRecord
            dependent: :delete_all
   has_many :contribution_details, class_name: 'Contribution::Detail', dependent: :restrict_with_error
   has_many :contributions, through: :contribution_details
+  has_many :follows, class_name: 'Profile::Follow', inverse_of: :profile, dependent: :delete_all
+  has_many :top_entries, class_name: 'VirtualCompetition::TopEntry', inverse_of: :profile, dependent: :delete_all
 
   has_one_attached :userpic do |attachable|
     attachable.variant :thumb, resize_to_fill: [40, 40], format: :webp, preprocessed: true
@@ -102,6 +104,14 @@ class Profile < ApplicationRecord
   end
 
   def competitor_of_events = events + speed_skydiving_competitions
+
+  def followable?(user = Current.user) = user.registered? && belongs_to_user? && owner != user
+
+  def followed?(user = Current.user) = user.registered? && follows.exists?(user:)
+
+  def follow(user:) = follows.find_or_create_by!(user:)
+
+  def unfollow(user:) = follows.where(user:).delete_all
 
   def participant_of_events = organizer_of_events + competitor_of_events
 

@@ -11,7 +11,7 @@ class User::Setting < ApplicationRecord
   attribute :journal_period, :string, default: '1y'
 
   def update_dashboard_preferences(profile:, mode: nil, rankings_gender: nil, journal_period: nil)
-    self.dashboard_mode = mode.to_s if mode.to_s.in?(Profiles::Dashboard::MODES.map(&:to_s))
+    self.dashboard_mode = mode.to_s if mode.to_s.in?(Profiles::Dashboard::HOME_MODES.map(&:to_s))
     self.journal_period = journal_period.to_s if journal_period.to_s.in?(Profiles::Journal::PERIODS)
     assign_female_rankings(rankings_gender) if profile&.female?
     save! if changed?

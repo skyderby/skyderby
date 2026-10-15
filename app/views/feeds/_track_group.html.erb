@@ -1,0 +1,32 @@
+<%# locals: (group:) %>
+
+<article class="panel feed-card">
+  <header class="feed-card__header">
+    <%= link_to profile_path(group.profile), class: 'feed-card__avatar' do %>
+      <%= image_tag group.profile.userpic_url(:thumb), alt: group.profile.name, class: 'avatar' %>
+    <% end %>
+    <div class="feed-card__heading">
+      <span class="feed-card__title">
+        <%= link_to group.profile.name, profile_path(group.profile), class: 'feed-card__name' %>
+        <%= t('feed.tracks.uploaded', count: group.tracks.size) %>
+      </span>
+      <span class="feed-card__meta">
+        <%= [group.kinds.map { |kind| t("feed.kinds.#{kind}") }.join(', '),
+             group.place_names.first(2).join(', ').presence,
+             t('feed.ago', time: time_ago_in_words(group.sort_time))].compact.join(' · ') %>
+      </span>
+    </div>
+  </header>
+
+  <div class="dashboard-list">
+    <% group.preview.each do |track| %>
+      <%= render 'static_pages/dashboard/track_row', track: %>
+    <% end %>
+  </div>
+
+  <% if group.more_count.positive? %>
+    <%= link_to t('feed.tracks.more', count: group.more_count),
+                tracks_path(profile_id: group.profile.id),
+                class: 'feed-card__more' %>
+  <% end %>
+</article>

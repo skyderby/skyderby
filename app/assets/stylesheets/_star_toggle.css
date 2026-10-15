@@ -1,0 +1,24 @@
+.star-toggle {
+  display: inline-flex;
+}
+
+.star-toggle__button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background: none;
+  color: var(--gray-50);
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.star-toggle__button:hover {
+  background-color: var(--gray-20);
+  color: var(--orange-70);
+}
+
+.star-toggle__button--active {
+  color: var(--orange-70);
+}

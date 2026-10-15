@@ -1,0 +1,10 @@
+<%# locals: (profile:) %>
+<% followed = profile.followed? %>
+<%= button_to profile_follow_path(profile),
+              method: followed ? :delete : :post,
+              form: { id: dom_id(profile, :follow), class: 'profile-follow' },
+              class: ['button', followed ? 'button--ghost profile-follow-button--following' : 'button--primary'],
+              aria: { pressed: followed } do %>
+  <%= icon_tag followed ? 'check-solid' : 'plus-solid' %>
+  <%= t(followed ? 'feed.follow.following' : 'feed.follow.follow') %>
+<% end %>

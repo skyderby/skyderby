@@ -100,11 +100,11 @@
     margin-top: 0.75rem;
   }
 
-  .dashboard-modes {
+  .dashboard-modes.tab-bar {
     width: 100%;
     min-width: 0;
     max-width: 100%;
-    justify-content: flex-start;
+    justify-content: safe center;
     overflow-x: auto;
     scrollbar-width: none;
   }

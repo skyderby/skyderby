@@ -13,6 +13,7 @@
 
 class Track::Result < ApplicationRecord
   BEST_VARIANT = 'best'.freeze
+  DEFAULT_VARIANT = 'default'.freeze
   COMPETITION_VARIANT = 'competition'.freeze
 
   enum :discipline, {

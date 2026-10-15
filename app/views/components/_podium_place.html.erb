@@ -1,0 +1,18 @@
+<%# locals: (profile:, place:, value:, unit:, url:) %>
+
+<li class="podium__place podium__place--<%= place %>">
+  <%= link_to profile_path(profile), class: 'podium__avatar', tabindex: -1, aria: { hidden: true } do %>
+    <%= profile_avatar(profile, css_class: 'podium__photo') %>
+    <span class="podium__medal rank-badge rank-badge--<%= place %>"><%= place %></span>
+  <% end %>
+
+  <%= link_to profile_path(profile), class: class_names('podium__name', 'contributor' => profile.contributor?) do %>
+    <span class="for-screen-reader"><%= place %>.</span>
+    <%= profile.name.titleize %>
+  <% end %>
+
+  <%= link_to url, class: 'podium__plinth' do %>
+    <span class="podium__value"><%= value %></span>
+    <span class="podium__unit"><%= unit %></span>
+  <% end %>
+</li>

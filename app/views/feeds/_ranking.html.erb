@@ -1,0 +1,36 @@
+<%# locals: (card:) %>
+
+<% competition = card.competition %>
+<article class="panel feed-card">
+  <header class="feed-card__header">
+    <span class="feed-card__icon"><%= icon_tag 'chart-line-solid' %></span>
+    <div class="feed-card__heading">
+      <span class="feed-card__title">
+        <%= link_to competition.title,
+                    competition.annual? ? virtual_competition_year_path(competition, year: card.year) : virtual_competition_overall_path(competition),
+                    class: 'feed-card__name' %>
+      </span>
+      <span class="feed-card__meta">
+        <%= [t('feed.rankings.entered_top', count: VirtualCompetition::TopEntry::SIZE),
+             (card.year if competition.annual?),
+             t('feed.ago', time: time_ago_in_words(card.sort_time))].compact.join(' · ') %>
+      </span>
+    </div>
+  </header>
+
+  <div class="dashboard-list">
+    <% card.rows.each do |row| %>
+      <div class="dashboard-list__row">
+        <span class="dashboard-place <%= { 1 => 'medal--gold', 2 => 'medal--silver', 3 => 'medal--bronze' }[row.rank] %>"><%= row.rank %></span>
+        <%= profile_avatar(row.profile, variant: :thumb, css_class: 'avatar avatar--sm') %>
+        <span class="dashboard-list__main">
+          <%= link_to row.profile.name, profile_path(row.profile), class: 'dashboard-list__title' %>
+        </span>
+        <%= link_to track_path(row.track), class: 'feed-card__result' do %>
+          <b><%= format_result(row.result, competition) %></b>
+          <%= competition_unit(competition) %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</article>

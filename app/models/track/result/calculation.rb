@@ -99,7 +99,7 @@ class Track::Result
       result = track.speed_skydiving_result
       return unless result.scored? && result.accuracy_valid?
 
-      record discipline: :vertical_speed, variant: 'default', result: result.result
+      record discipline: :vertical_speed, variant: Track::Result::DEFAULT_VARIANT, result: result.result
     end
 
     def best_segment(windows, task:, order: :descending)

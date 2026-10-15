@@ -36,6 +36,10 @@ class User < ApplicationRecord
   has_many :app_store_purchases, dependent: :destroy
   has_many :terrain_profiles, dependent: :nullify
   has_many :track_bookmarks, class_name: 'Track::Bookmark', inverse_of: :user, dependent: :delete_all
+  has_many :profile_follows, class_name: 'Profile::Follow', inverse_of: :user, dependent: :delete_all
+  has_many :followed_profiles, through: :profile_follows, source: :profile
+  has_many :virtual_competition_favorites, class_name: 'VirtualCompetition::Favorite', inverse_of: :user,
+                                           dependent: :delete_all
 
   scope :admins, -> { where('? = ANY(roles)', 'admin') }
 

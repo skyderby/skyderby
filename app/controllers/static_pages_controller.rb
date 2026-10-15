@@ -4,7 +4,8 @@ class StaticPagesController < ApplicationController
       @dashboard = Profiles::Dashboard.new(
         Current.profile,
         user: Current.user,
-        mode: params[:mode]
+        mode: params[:mode],
+        modes: Profiles::Dashboard::HOME_MODES
       )
     else
       @track_file = Track::File.new

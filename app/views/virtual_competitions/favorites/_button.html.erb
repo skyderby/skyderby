@@ -1,0 +1,10 @@
+<%# locals: (competition:) %>
+<% favorited = competition.favorited? %>
+<%= button_to virtual_competition_favorite_path(competition),
+              method: favorited ? :delete : :post,
+              form: { id: dom_id(competition, :favorite), class: 'star-toggle' },
+              class: ['star-toggle__button', ('star-toggle__button--active' if favorited)],
+              title: t(favorited ? 'feed.rankings.favorite.remove' : 'feed.rankings.favorite.add'),
+              aria: { label: t(favorited ? 'feed.rankings.favorite.remove' : 'feed.rankings.favorite.add'), pressed: favorited } do %>
+  <%= icon_tag favorited ? 'star-solid' : 'star-regular' %>
+<% end %>

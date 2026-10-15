@@ -1,0 +1,40 @@
+ru:
+  feed:
+    follow:
+      follow: Подписаться
+      following: Вы подписаны
+    invite:
+      title: Подпишитесь на других пилотов
+      subtitle: Здесь появятся их новые прыжки и результаты на соревнованиях.
+      button: Найти пилотов
+    empty: Пока пусто. Загрузите прыжок или подпишитесь на пилотов.
+    loading: Загрузка…
+    ago: '%{time} назад'
+    tracks:
+      uploaded:
+        one: загрузил %{count} прыжок
+        few: загрузил %{count} прыжка
+        many: загрузил %{count} прыжков
+        other: загрузил %{count} прыжка
+      more:
+        one: ещё %{count} прыжок
+        few: ещё %{count} прыжка
+        many: ещё %{count} прыжков
+        other: ещё %{count} прыжка
+    kinds:
+      skydive: Skydive
+      base: BASE
+      speed_skydiving: Speed
+    units:
+      points: очк.
+      kmh: км/ч
+      seconds: с
+    rankings:
+      entered_top:
+        one: Вошёл в топ-%{count}
+        few: Вошёл в топ-%{count}
+        many: Вошёл в топ-%{count}
+        other: Вошёл в топ-%{count}
+      favorite:
+        add: Добавить рейтинг в избранное
+        remove: Убрать рейтинг из избранного

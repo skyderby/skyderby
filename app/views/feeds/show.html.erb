@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "feed-#{@feed.until_date.iso8601}" do %>
+  <%= render 'feeds/items', feed: @feed %>
+<% end %>

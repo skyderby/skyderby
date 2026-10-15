@@ -1,21 +1,10 @@
 <%# locals: (result:, place:) %>
 
 <% competition = result.virtual_competition %>
-<% profile = result.profile %>
 
-<li class="vc-podium__place vc-podium__place--<%= place %>">
-  <%= link_to profile_path(profile), class: 'vc-podium__avatar', tabindex: -1, aria: { hidden: true } do %>
-    <%= profile_avatar(profile, css_class: 'vc-podium__photo') %>
-    <span class="vc-podium__medal rank-badge rank-badge--<%= place %>"><%= place %></span>
-  <% end %>
-
-  <%= link_to profile_path(profile), class: class_names('vc-podium__name', 'contributor' => profile.contributor?) do %>
-    <span class="for-screen-reader"><%= place %>.</span>
-    <%= profile.name.titleize %>
-  <% end %>
-
-  <%= link_to track_path(result.track_id), class: 'vc-podium__plinth' do %>
-    <span class="vc-podium__value"><%= format_result(result.result, competition) %></span>
-    <span class="vc-podium__unit"><%= competition_unit(competition) %></span>
-  <% end %>
-</li>
+<%= render 'components/podium_place',
+           profile: result.profile,
+           place:,
+           value: format_result(result.result, competition),
+           unit: competition_unit(competition),
+           url: track_path(result.track_id) %>

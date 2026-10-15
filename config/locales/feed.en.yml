@@ -1,0 +1,34 @@
+en:
+  feed:
+    follow:
+      follow: Follow
+      following: Following
+    invite:
+      title: Follow other pilots
+      subtitle: Their new jumps and competition results will show up here.
+      button: Find pilots
+    empty: Nothing here yet. Upload a jump or follow pilots to fill your feed.
+    loading: Loading…
+    ago: '%{time} ago'
+    tracks:
+      uploaded:
+        one: uploaded %{count} jump
+        other: uploaded %{count} jumps
+      more:
+        one: '%{count} more jump'
+        other: '%{count} more jumps'
+    kinds:
+      skydive: Skydive
+      base: BASE
+      speed_skydiving: Speed
+    units:
+      points: pts
+      kmh: km/h
+      seconds: s
+    rankings:
+      entered_top:
+        one: Entered top %{count}
+        other: Entered top %{count}
+      favorite:
+        add: Add ranking to favorites
+        remove: Remove ranking from favorites

@@ -70,6 +70,12 @@ class Track < ApplicationRecord
           inverse_of: :track,
           dependent: :destroy
 
+  has_one :vertical_speed_result,
+          -> { where(discipline: Result.disciplines[:vertical_speed], variant: Result::DEFAULT_VARIANT) },
+          class_name: 'Track::Result',
+          inverse_of: :track,
+          dependent: :destroy
+
   has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all, inverse_of: :track
   has_many :sensor_samples, class_name: 'Track::SensorSample', dependent: :delete_all, inverse_of: :track
   has_many :results, dependent: :destroy
@@ -80,6 +86,7 @@ class Track < ApplicationRecord
            dependent: :destroy
   has_many :all_virtual_competition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
   has_many :free_pro_views, dependent: :nullify
+  has_many :top_entries, class_name: 'VirtualCompetition::TopEntry', inverse_of: :track, dependent: :delete_all
   has_many :bookmarks, class_name: 'Track::Bookmark', inverse_of: :track, dependent: :delete_all
 
   validates :name, presence: true, unless: :pilot

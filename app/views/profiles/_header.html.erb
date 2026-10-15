@@ -19,6 +19,12 @@
         </span>
       <% end %>
     </h1>
+
+    <% if profile.followable? %>
+      <div class="profile-header__actions">
+        <%= render 'profiles/follows/button', profile: %>
+      </div>
+    <% end %>
   </div>
 
   <div class="page-nav">

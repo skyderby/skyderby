@@ -1,0 +1,27 @@
+<%# locals: (track:) %>
+
+<%= link_to track_path(track), class: 'dashboard-list__row dashboard-list__row--track' do %>
+  <span class="dashboard-track__info">
+    <span class="dashboard-list__title"><%= track.place_name.presence || t('dashboard.recent_tracks.unknown_place') %></span>
+    <% if track.recorded_at %>
+      <span class="dashboard-track__date"><%= l(track.recorded_at.to_date, format: :short) %></span>
+    <% end %>
+    <% if track.comment.present? %>
+      <span class="dashboard-track__comment truncate"><%= track.comment %></span>
+    <% end %>
+  </span>
+  <span class="dashboard-track__metrics">
+    <% if track.speed_skydiving? && track.vertical_speed_result&.result %>
+      <span><b><%= track.vertical_speed_result.result.round(1) %></b> <%= t('units.kmh') %></span>
+    <% end %>
+    <% if track.time&.result %>
+      <span><b><%= track.time.result.round(1) %></b> <%= t('units.t_unit') %></span>
+    <% end %>
+    <% if track.distance&.result %>
+      <span><b><%= track.distance.result.round %></b> <%= t('units.m') %></span>
+    <% end %>
+    <% if track.speed&.result %>
+      <span><b><%= track.speed.result.round %></b> <%= t('units.kmh') %></span>
+    <% end %>
+  </span>
+<% end %>

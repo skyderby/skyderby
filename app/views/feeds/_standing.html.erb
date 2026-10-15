@@ -1,0 +1,13 @@
+<%# locals: (standing:, followed: false) %>
+
+<div class="dashboard-list__row <%= 'feed-standing--followed' if followed %>">
+  <span class="dashboard-place <%= { 1 => 'medal--gold', 2 => 'medal--silver', 3 => 'medal--bronze' }[standing.rank] %>"><%= standing.rank %></span>
+  <%= image_tag standing.profile.userpic_url(:thumb), alt: '', class: 'avatar avatar--sm' %>
+  <span class="dashboard-list__main">
+    <%= link_to standing.profile.name, profile_path(standing.profile), class: 'dashboard-list__title' %>
+  </span>
+  <span class="feed-card__result">
+    <b><%= feed_result_value(standing) %></b>
+    <%= t("feed.units.#{standing.unit}") %>
+  </span>
+</div>

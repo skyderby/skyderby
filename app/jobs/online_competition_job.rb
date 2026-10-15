@@ -5,6 +5,7 @@ class OnlineCompetitionJob < ApplicationJob
 
     Track::SensorSample.import(@track)
     calculate_results
+    VirtualCompetition::TopEntry.record(@track)
     send_verify_mail
   end
 

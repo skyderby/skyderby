@@ -1,0 +1,21 @@
+<%# locals: (feed:) %>
+
+<% feed.items.each do |item| %>
+  <% case item %>
+  <% when Profiles::Feed::TrackGroup %>
+    <%= render 'feeds/track_group', group: item %>
+  <% when Profiles::Feed::RankingCard %>
+    <%= render 'feeds/ranking', card: item %>
+  <% else %>
+    <%= render 'feeds/competition', card: item %>
+  <% end %>
+<% end %>
+
+<% if feed.older? %>
+  <%= turbo_frame_tag "feed-#{feed.older_until_date.iso8601}",
+                      src: feed_path(until: feed.older_until_date.iso8601),
+                      loading: :lazy,
+                      class: 'feed-older' do %>
+    <div class="dashboard-blankslate"><%= t('feed.loading') %></div>
+  <% end %>
+<% end %>

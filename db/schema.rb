@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_14_130000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_15_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -550,6 +550,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_130000) do
     t.index ["profile_id", "suit_id"], name: "index_profile_exit_performances_on_profile_id_and_suit_id", unique: true
   end
 
+  create_table "profile_follows", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "profile_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["profile_id"], name: "index_profile_follows_on_profile_id"
+    t.index ["user_id", "profile_id"], name: "index_profile_follows_on_user_id_and_profile_id", unique: true
+  end
+
   create_table "profiles", id: :serial, force: :cascade do |t|
     t.integer "country_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -1026,6 +1035,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_130000) do
     t.index ["virtual_competition_id"], name: "index_vc_disciplines_on_competition"
   end
 
+  create_table "virtual_competition_favorites", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.integer "virtual_competition_id", null: false
+    t.index ["user_id", "virtual_competition_id"], name: "idx_on_user_id_virtual_competition_id_850391d33d", unique: true
+    t.index ["virtual_competition_id"], name: "index_virtual_competition_favorites_on_virtual_competition_id"
+  end
+
   create_table "virtual_competition_groups", id: :serial, force: :cascade do |t|
     t.timestamptz "created_at"
     t.boolean "cumulative", default: false, null: false
@@ -1058,6 +1076,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_130000) do
     t.index ["track_id"], name: "index_virtual_competition_results_on_track_id"
     t.index ["virtual_competition_id", "track_id", "discipline_id", "wind_cancelled"], name: "index_results_on_competition_track_discipline", unique: true, nulls_not_distinct: true
     t.index ["virtual_competition_id"], name: "index_virtual_competition_results_on_virtual_competition_id"
+  end
+
+  create_table "virtual_competition_top_entries", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "entered_at", null: false
+    t.integer "profile_id", null: false
+    t.integer "rank", null: false
+    t.integer "track_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "virtual_competition_id", null: false
+    t.integer "year", null: false
+    t.index ["entered_at"], name: "index_virtual_competition_top_entries_on_entered_at"
+    t.index ["profile_id"], name: "index_virtual_competition_top_entries_on_profile_id"
+    t.index ["track_id"], name: "index_virtual_competition_top_entries_on_track_id"
+    t.index ["virtual_competition_id", "track_id", "year"], name: "index_vc_top_entries_uniqueness", unique: true
   end
 
   create_table "virtual_competitions", id: :serial, force: :cascade do |t|
@@ -1126,6 +1159,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_130000) do
   add_foreign_key "place_finish_lines", "places"
   add_foreign_key "place_weather_data", "places"
   add_foreign_key "profile_aliases", "profiles"
+  add_foreign_key "profile_follows", "profiles", on_delete: :cascade
+  add_foreign_key "profile_follows", "users", on_delete: :cascade
   add_foreign_key "profiles", "countries", deferrable: :deferred
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
@@ -1157,8 +1192,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_130000) do
   add_foreign_key "user_identities", "users", on_delete: :cascade
   add_foreign_key "user_settings", "users"
   add_foreign_key "virtual_competition_disciplines", "virtual_competitions"
+  add_foreign_key "virtual_competition_favorites", "users", on_delete: :cascade
+  add_foreign_key "virtual_competition_favorites", "virtual_competitions", on_delete: :cascade
   add_foreign_key "virtual_competition_participants", "profiles"
   add_foreign_key "virtual_competition_participants", "virtual_competitions"
   add_foreign_key "virtual_competition_results", "virtual_competition_disciplines", column: "discipline_id"
+  add_foreign_key "virtual_competition_top_entries", "profiles", on_delete: :cascade
+  add_foreign_key "virtual_competition_top_entries", "tracks", on_delete: :cascade
+  add_foreign_key "virtual_competition_top_entries", "virtual_competitions", on_delete: :cascade
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
 end

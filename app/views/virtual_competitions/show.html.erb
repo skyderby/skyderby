@@ -3,7 +3,12 @@
 
 <div class="show-page">
   <div class="show-page-header">
-    <h1 class="show-page-title"><%= @competition.title %></h1>
+    <div class="show-page-title-row">
+      <h1 class="show-page-title"><%= @competition.title %></h1>
+      <% if Current.user.registered? %>
+        <%= render 'virtual_competitions/favorites/button', competition: @competition %>
+      <% end %>
+    </div>
     <div class="show-page-info">
       <div>
         <%= t('virtual_competitions.place') %>

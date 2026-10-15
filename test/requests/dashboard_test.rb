@@ -1,6 +1,15 @@
 require 'test_helper'
 
 class DashboardTest < ActionDispatch::IntegrationTest
+  test 'signed-in user lands on the feed' do
+    sign_in users(:regular_user)
+    get root_path
+
+    assert_response :success
+    assert_select '.dashboard-modes .tab-bar-item.active', text: 'Feed'
+    assert_select '.feed'
+  end
+
   test 'signed-in user whose recent jumps are mostly skydive sees the performance dashboard' do
     # regular_user has 3 BASE tracks in the fixtures -> skydive must dominate the recent jumps
     profile = profiles(:regular_user)
@@ -16,7 +25,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
     end
 
     sign_in users(:regular_user)
-    get root_path
+    get root_path(mode: :performance)
 
     assert_response :success
     assert_select '.home-dashboard'
@@ -26,9 +35,8 @@ class DashboardTest < ActionDispatch::IntegrationTest
   end
 
   test 'a base-only pilot sees the BASE dashboard' do
-    # regular_user has only BASE tracks in the fixtures -> BASE is the only mode
     sign_in users(:regular_user)
-    get root_path
+    get root_path(mode: :base)
 
     assert_response :success
     assert_select '.dashboard-pbs .dashboard-pb'
@@ -47,9 +55,9 @@ class DashboardTest < ActionDispatch::IntegrationTest
     assert_select '.dashboard-section', false
   end
 
-  test 'admin without tracks lands on the admin tab' do
+  test 'admin sees place submissions on the admin tab' do
     sign_in users(:admin)
-    get root_path
+    get root_path(mode: :admin)
 
     assert_response :success
     assert_select 'turbo-frame#place_submissions'
@@ -104,7 +112,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
     profiles(:regular_user).update!(gender: :female)
     sign_in users(:regular_user)
 
-    get root_path
+    get root_path(mode: :base)
 
     assert_response :success
     assert_select '.dashboard-rankings-scope'
@@ -125,7 +133,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
     Tournament::Competitor.create!(tournament:, profile: profiles(:regular_user), suit: suits(:apache))
 
     sign_in users(:regular_user)
-    get root_path
+    get root_path(mode: :base)
 
     assert_response :success
     assert_select '.dashboard-list__title', text: tournament.name
