@@ -11,6 +11,8 @@ json.profile do
   json.editable current_user.registered? && dashboard.profile.editable?(current_user)
   json.impersonatable current_user.registered? && current_user.admin? && impersonation.nil? &&
                       dashboard.profile.owner_type == 'User' && dashboard.profile.owner_id != current_user.id
+  json.followable dashboard.profile.followable?(current_user)
+  json.followed dashboard.profile.followed?(current_user)
   json.photo { json.partial! 'api/v1/profiles/photo', profile: dashboard.profile }
 end
 

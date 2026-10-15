@@ -12,6 +12,7 @@ json.location competition_location(competition)
 json.worldwide competition.worldwide?
 json.finished competition.finished?
 json.featured competition.featured
+json.favorite favorite_competition_ids.include?(competition.id)
 json.athlete_count athlete_count
 json.visibility competition.visibility
 json.disciplines(competition.multi_discipline? ? competition.disciplines : []) do |discipline|

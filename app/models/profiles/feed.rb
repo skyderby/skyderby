@@ -50,7 +50,8 @@ module Profiles
     def tracks
       visible_tracks
         .where(created_at: period_range)
-        .includes(:place, :suit, :time, :distance, :speed, :vertical_speed_result, pilot: PILOT_PRELOADS)
+        .includes(:time, :distance, :speed, :vertical_speed_result, :video, place: :country, suit: :manufacturer,
+                                                                            pilot: PILOT_PRELOADS)
         .order(created_at: :desc)
         .limit(TRACKS_LIMIT)
     end

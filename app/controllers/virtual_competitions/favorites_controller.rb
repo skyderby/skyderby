@@ -17,7 +17,7 @@ module VirtualCompetitions
 
     def set_competition
       @competition = VirtualCompetition.find(params[:virtual_competition_id])
-      respond_not_authorized unless policy(@competition).show?
+      respond_not_authorized unless @competition.viewable?(Current.user)
     end
 
     def require_registered_user

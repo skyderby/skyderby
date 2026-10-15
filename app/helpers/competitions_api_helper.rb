@@ -18,6 +18,11 @@ module CompetitionsApiHelper
 
   def competition_type(record) = record.class.name.underscore
 
+  def favorite_competition_ids
+    @favorite_competition_ids ||=
+      current_user.registered? ? current_user.virtual_competition_favorites.pluck(:virtual_competition_id) : []
+  end
+
   def discipline_label(discipline) = t("disciplines.#{discipline}")
 
   def discipline_unit_label(discipline) = t("units.#{discipline_unit(discipline)}")

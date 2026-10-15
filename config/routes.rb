@@ -99,6 +99,7 @@ Skyderby::Application.routes.draw do
             resource :current, only: :show
           end
           resource :overview, only: :show
+          resource :follow, only: %i[create destroy]
         end
       end
       resources :virtual_competitions, only: %i[index show] do
@@ -114,9 +115,11 @@ Skyderby::Application.routes.draw do
           resources :years, only: :show, param: :year
           resources :periods, only: :show
           resources :person_details, only: :show, param: :profile_id
+          resource :favorite, only: %i[create destroy]
         end
       end
       resource :dashboard, only: %i[show update]
+      resource :feed, only: :show
       resource :apple_session, only: :create
       resources :identities, only: %i[index create destroy]
       resource :account, only: :destroy

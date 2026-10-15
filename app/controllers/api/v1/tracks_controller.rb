@@ -16,7 +16,7 @@ module Api
                      .tracks
                      .sorted(*order_params)
                      .includes(
-                       :video, :distance, :speed, :time,
+                       :video, :distance, :speed, :time, :vertical_speed_result,
                        place: :country, pilot: %i[country owner], suit: :manufacturer
                      )
                      .page(page)

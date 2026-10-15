@@ -43,6 +43,7 @@ json.results do
   json.distance track.distance&.result
   json.speed track.speed&.result
   json.time track.time&.result
+  json.vertical_speed track.vertical_speed_result&.result if track.speed_skydiving?
 end
 
 json.has_video track.video.present?
