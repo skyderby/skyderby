@@ -29,12 +29,10 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
                     'expected higher-speed track to be listed before lower-speed track'
   end
 
-  test '#index as json' do
-    get tracks_path(format: :json)
-
-    assert_response :success
-    track = response.parsed_body.find { |t| t['id'] == @track.id }
-    assert_match(/\A##{@track.id} \|/, track['presentation'])
+  test '#index does not respond to json' do
+    assert_raises(ActionController::UnknownFormat) do
+      get tracks_path(format: :json)
+    end
   end
 
   test 'owner of track #edit' do
