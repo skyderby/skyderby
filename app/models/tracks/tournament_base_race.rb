@@ -28,5 +28,7 @@ module Tracks
     def task = 'time'
 
     def comparable_in_pro_view? = true
+
+    def multi_discipline? = false
   end
 end
