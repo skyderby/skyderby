@@ -43,6 +43,9 @@ class ProViewTest < ApplicationSystemTestCase
     assert_selector '.base-jump-summary [data-summary-tile="glide"] [data-slot="value"]', text: /\d/
     assert_selector '.base-jump-summary [data-summary-tile="first_drop"] .bjs-hist__row', minimum: 1
 
+    find('.actions-bar-button[popovertarget="base-jump-settings-menu"]').click
+    check I18n.t('tracks.base_jump.show_replay')
+
     seek_slider 'tracks--base-jump-track', 0.5
     within '[data-tracks--base-jump-track-target="playbackIndicators"]' do
       assert_selector '[data-playback-indicators-target="altitude"]', text: /\d+/
