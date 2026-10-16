@@ -2,6 +2,8 @@ class TracksController < ApplicationController
   include ChartParams
   include UnitsHelper
 
+  rate_limit to: 60, within: 1.minute, only: :index, with: -> { head :too_many_requests }
+
   before_action :set_track, only: [:show, :edit, :update, :destroy]
   before_action :set_compare_track, only: [:show]
 

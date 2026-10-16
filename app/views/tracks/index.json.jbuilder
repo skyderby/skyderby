@@ -7,5 +7,5 @@ json.array! @tracks do |track|
   json.comment track.comment
   json.created_at track.created_at.strftime('%d.%m.%Y')
   json.url track_path(track.id)
-  json.presentation track.presentation
+  json.presentation track_presentation(track)
 end
