@@ -2,7 +2,11 @@ class TracksController < ApplicationController
   include ChartParams
   include UnitsHelper
 
-  rate_limit to: 60, within: 1.minute, only: :index, with: -> { head :too_many_requests }
+  rate_limit to: 60, within: 1.minute, only: :index, with: :respond_too_many_requests
+  rate_limit to: 60, within: 1.minute, only: :show, name: 'guest',
+             unless: :user_signed_in?, with: :respond_too_many_requests
+  rate_limit to: 180, within: 1.minute, only: :show, name: 'user', by: -> { current_user.id },
+             if: :user_signed_in?, with: :respond_too_many_requests
 
   before_action :set_track, only: [:show, :edit, :update, :destroy]
   before_action :set_compare_track, only: [:show]
@@ -73,6 +77,8 @@ class TracksController < ApplicationController
   end
 
   private
+
+  def respond_too_many_requests = head(:too_many_requests)
 
   def redirect_to_track_not_found
     redirect_to tracks_url, notice: t('tracks.index.track_not_found', id: params[:id])

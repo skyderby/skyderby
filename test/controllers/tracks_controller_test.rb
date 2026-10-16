@@ -35,6 +35,34 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test '#show limits guests to 60 requests per minute' do
+    TracksController.cache_store.stub(:increment, 61) do
+      get track_path(@track, format: :json)
+    end
+
+    assert_response :too_many_requests
+  end
+
+  test '#show allows signed in users more than 60 requests per minute' do
+    sign_in @user
+
+    TracksController.cache_store.stub(:increment, 61) do
+      get track_path(@track, format: :json)
+    end
+
+    assert_response :success
+  end
+
+  test '#show limits signed in users to 180 requests per minute' do
+    sign_in @user
+
+    TracksController.cache_store.stub(:increment, 181) do
+      get track_path(@track, format: :json)
+    end
+
+    assert_response :too_many_requests
+  end
+
   test 'owner of track #edit' do
     sign_in @user
     get edit_track_path(@track)
