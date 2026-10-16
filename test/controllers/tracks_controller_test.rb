@@ -29,6 +29,40 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
                     'expected higher-speed track to be listed before lower-speed track'
   end
 
+  test '#index does not respond to json' do
+    assert_raises(ActionController::UnknownFormat) do
+      get tracks_path(format: :json)
+    end
+  end
+
+  test '#show limits guests to 60 requests per minute' do
+    TracksController.cache_store.stub(:increment, 61) do
+      get track_path(@track, format: :json)
+    end
+
+    assert_response :too_many_requests
+  end
+
+  test '#show allows signed in users more than 60 requests per minute' do
+    sign_in @user
+
+    TracksController.cache_store.stub(:increment, 61) do
+      get track_path(@track, format: :json)
+    end
+
+    assert_response :success
+  end
+
+  test '#show limits signed in users to 180 requests per minute' do
+    sign_in @user
+
+    TracksController.cache_store.stub(:increment, 181) do
+      get track_path(@track, format: :json)
+    end
+
+    assert_response :too_many_requests
+  end
+
   test 'owner of track #edit' do
     sign_in @user
     get edit_track_path(@track)
