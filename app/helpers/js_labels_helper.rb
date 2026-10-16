@@ -15,7 +15,11 @@ module JsLabelsHelper
       tracks.speed_pro.metrics.position
     ],
     track_show: %w[tracks.show.no_data tracks.show.load_error],
-    side_view: %w[tracks.side_view.reset_zoom tracks.side_view.zoom_to_exit],
+    side_view: %w[
+      tracks.side_view.reset_zoom
+      tracks.side_view.zoom_to_exit
+      tracks.side_view.zoom_all
+    ],
     polar: %w[charts.polar],
     base_summary: %w[tracks.base_pro.summary tracks.base_pro.tooltip],
     speed_pro: %w[
@@ -28,7 +32,7 @@ module JsLabelsHelper
       tracks.speed_pro.waterfall
     ],
     flight_profiles: %w[
-      flight_profiles.reset_zoom
+      flight_profiles.zoom_all
       flight_profiles.zoom_to_first
       flight_profiles.full_speed
       flight_profiles.ground_speed

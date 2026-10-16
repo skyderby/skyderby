@@ -82,8 +82,11 @@ fr:
       landing: Atterrissage
       add_landing: Ajouter l'atterrissage
       remove_landing: Supprimer l'atterrissage
+    base_jump:
+      show_replay: Panneau de lecture
     side_view:
       reset_zoom: Réinitialiser le zoom
+      zoom_all: Tout
       zoom_to_exit: "Zoomer sur les %{distance} %{unit} après l'exit"
     form:
       suit_text_placeholder: Entrer le nom de la combinaison

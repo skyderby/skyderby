@@ -14,7 +14,7 @@
   <% finish_line_coords = race && race[:finish_line]&.to_coordinates %>
   <% primary_point = show_result_point && base_result.primary_value ? base_result.primary_point : nil %>
   <% compare_point = show_result_point && base_result.compare_value ? base_result.compare_point : nil %>
-  <div class="base-jump-page"
+  <div class="base-jump-page base-jump--replay-hidden"
        data-controller="tracks--base-jump-track tracks--compare-modal" data-tracks--base-jump-track-labels-value="<%= js_labels(:units, :charts, :track_show, :side_view, :base_summary) %>"
        data-action="tracks--charts-units:change->tracks--base-jump-track#setUnits"
        data-tracks--base-jump-track-points-url-value="<%= track_points_path(@track, original_frequency: true, trimmed: { seconds_before_start: 2, seconds_after_end: 10 }) %>"
@@ -144,6 +144,13 @@
           <div id="base-jump-settings-menu" popover class="sd-dropdown-menu" data-dropdown-target="menu">
             <div class="dropdown-header"><%= t('tracks.show.units_header') %></div>
             <%= render 'tracks/charts_units_menu', track: @track, item_class: 'dropdown-item' %>
+            <div class="dropdown-divider"></div>
+            <label class="dropdown-item dropdown-item--check">
+              <input type="checkbox"
+                     data-tracks--base-jump-track-target="replayToggle"
+                     data-action="tracks--base-jump-track#toggleReplay">
+              <%= t('tracks.base_jump.show_replay') %>
+            </label>
           </div>
         </div>
       </div>

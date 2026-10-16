@@ -82,8 +82,11 @@ it:
       landing: Atterraggio
       add_landing: Aggiungi atterraggio
       remove_landing: Rimuovi atterraggio
+    base_jump:
+      show_replay: Pannello di riproduzione
     side_view:
       reset_zoom: Reimposta zoom
+      zoom_all: Tutto
       zoom_to_exit: "Ingrandisci i primi %{distance} %{unit} dall'exit"
     form:
       suit_text_placeholder: Scrivi il nome della tuta

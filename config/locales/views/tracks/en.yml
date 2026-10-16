@@ -100,6 +100,7 @@ en:
       add_landing: Add landing
       remove_landing: Remove landing
     base_jump:
+      show_replay: Replay panel
       terrain_profile: Terrain Profile
       select_terrain_profile: Select terrain profile
       expand_map: Expand Map
@@ -109,6 +110,7 @@ en:
       result_select: Select task
     side_view:
       reset_zoom: Reset zoom
+      zoom_all: All
       zoom_to_exit: "Zoom to first %{distance} %{unit} from exit"
     form:
       suit_text_placeholder: Enter suit name

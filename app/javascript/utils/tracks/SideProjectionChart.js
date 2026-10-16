@@ -4,8 +4,32 @@ import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'ut
 import { SVG_NS } from 'charts/svg/elements'
 import { formatAxisLength, deltaCellHtml } from 'charts/svg/format'
 import Crosshair from 'charts/svg/Crosshair'
+import ViewportGestures from 'charts/ViewportGestures'
+import { accelerationAt } from './playback/indicators'
 
 const MAX_ZOOM = 20
+const MIN_WINDOW = 50
+const GRID_STEPS = [5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000]
+const MAX_GRID_LINES = 10
+const RANGE_PADDING = 1.1
+const STRONG_ACCELERATION = 4
+const ACCELERATION = 0.5
+
+const accelerationHtml = value => {
+  if (value == null) return ''
+
+  const magnitude = Math.abs(value)
+  const count = magnitude >= STRONG_ACCELERATION ? 2 : magnitude >= ACCELERATION ? 1 : 0
+  if (!count) return ''
+
+  const direction = value > 0 ? 'up' : 'down'
+  return `<span class="side-tt-accel side-tt-accel--${direction}">${'<i></i>'.repeat(count)}</span>`
+}
+
+const ZOOM_PRESETS = {
+  metric: [100, 200, 300, 500],
+  imperial: [300, 600, 1000, 1500].map(feet => feet * 0.3048)
+}
 
 let clipSeq = 0
 
@@ -15,15 +39,18 @@ export default class SideProjectionChart {
   constructor(container, options = {}) {
     this.container = container
     this.options = {
-      padding: { top: 0, right: 20, bottom: 40, left: 50 },
+      padding: { top: 0, right: 20, bottom: 40, left: 40 },
       onPointHover: null,
       syncVerticalSpeed: 10,
       units: 'metric',
       persistentTooltip: false,
       persistentTooltipIndex: null,
+      gestures: false,
+      presetsContainer: null,
+      onWindowChange: null,
       ...options
     }
-    this.zoom = 1
+    this.window = null
     this.selecting = false
     this.selectionMoved = false
     this.points = []
@@ -34,6 +61,15 @@ export default class SideProjectionChart {
     this.finishCrossing = null
     this.compareFinishCrossing = null
     this.finishLineVisible = true
+
+    if (this.options.gestures) {
+      this.gestures = new ViewportGestures(container, {
+        onZoom: (factor, center) => this.zoomAt(factor, center),
+        onPan: (dx, dy) => this.panBy(dx, dy),
+        onStart: () => this.handleInteractionEnd(),
+        freePan: () => Boolean(this.window)
+      })
+    }
   }
 
   setFlightProfile(points) {
@@ -209,8 +245,8 @@ export default class SideProjectionChart {
     this.calculateDimensions()
     this.createSvg()
     this.drawGrid()
-    this.drawReferenceLine()
     this.createPlotLayer()
+    this.drawReferenceLine()
     this.drawTerrainProfile()
     this.drawTerrainClearance()
     this.drawTrajectory()
@@ -270,10 +306,13 @@ export default class SideProjectionChart {
 
     const roundTo = maxValue > 500 ? 100 : 50
     this.fullScale = Math.ceil(maxValue / roundTo) * roundTo
-    this.maxScale = this.fullScale / this.zoom
+    if (this.window) this.window = this.clampWindow(this.window)
+    this.viewX = this.window?.x ?? 0
+    this.viewY = this.window?.y ?? 0
+    this.maxScale = this.window?.scale ?? this.fullScale
 
-    this.scaleX = x => padding.left + (x / this.maxScale) * this.chartWidth
-    this.scaleY = y => padding.top + (y / this.maxScale) * this.chartHeight
+    this.scaleX = x => padding.left + ((x - this.viewX) / this.maxScale) * this.chartWidth
+    this.scaleY = y => padding.top + ((y - this.viewY) / this.maxScale) * this.chartHeight
   }
 
   createSvg() {
@@ -337,7 +376,9 @@ export default class SideProjectionChart {
     const gridGroup = document.createElementNS(SVG_NS, 'g')
     gridGroup.setAttribute('class', 'grid')
 
-    const gridInterval = this.maxScale > 500 ? 100 : 50
+    const gridInterval =
+      GRID_STEPS.find(step => this.maxScale / step <= MAX_GRID_LINES) ??
+      GRID_STEPS[GRID_STEPS.length - 1]
 
     const stepPxX = (gridInterval / this.maxScale) * this.chartWidth
     const stepPxY = (gridInterval / this.maxScale) * this.chartHeight
@@ -345,56 +386,55 @@ export default class SideProjectionChart {
     const minLabelGapY = 22
     const labelStepX = stepPxX > 0 ? Math.max(1, Math.ceil(minLabelGapX / stepPxX)) : 1
     const labelStepY = stepPxY > 0 ? Math.max(1, Math.ceil(minLabelGapY / stepPxY)) : 1
+    const { padding } = this.options
 
-    let labelIndex = 0
-    for (let value = 0; value <= this.maxScale; value += gridInterval) {
+    this.gridValues(this.viewX, gridInterval).forEach(value => {
       const x = this.scaleX(value)
-      const y = this.scaleY(value)
-      const showXLabel = labelIndex % labelStepX === 0
-      const showYLabel = labelIndex % labelStepY === 0
 
       const vLine = document.createElementNS(SVG_NS, 'line')
       vLine.setAttribute('x1', x)
-      vLine.setAttribute('y1', this.options.padding.top)
+      vLine.setAttribute('y1', padding.top)
       vLine.setAttribute('x2', x)
-      vLine.setAttribute('y2', this.height - this.options.padding.bottom)
+      vLine.setAttribute('y2', this.height - padding.bottom)
       vLine.setAttribute('stroke', '#e0e0e0')
       vLine.setAttribute('stroke-width', '1')
       gridGroup.appendChild(vLine)
 
+      if (Math.round(value / gridInterval) % labelStepX !== 0) return
+
+      const xLabel = document.createElementNS(SVG_NS, 'text')
+      xLabel.setAttribute('x', x)
+      xLabel.setAttribute('y', this.height - padding.bottom + 15)
+      xLabel.setAttribute('text-anchor', 'middle')
+      xLabel.setAttribute('font-size', '11')
+      xLabel.setAttribute('fill', '#666')
+      xLabel.textContent = formatAxisLength(value, this.options.units)
+      gridGroup.appendChild(xLabel)
+    })
+
+    this.gridValues(this.viewY, gridInterval).forEach(value => {
+      const y = this.scaleY(value)
+
       const hLine = document.createElementNS(SVG_NS, 'line')
-      hLine.setAttribute('x1', this.options.padding.left)
+      hLine.setAttribute('x1', padding.left)
       hLine.setAttribute('y1', y)
-      hLine.setAttribute('x2', this.width - this.options.padding.right)
+      hLine.setAttribute('x2', this.width - padding.right)
       hLine.setAttribute('y2', y)
       hLine.setAttribute('stroke', '#e0e0e0')
       hLine.setAttribute('stroke-width', '1')
       gridGroup.appendChild(hLine)
 
-      if (showXLabel) {
-        const xLabel = document.createElementNS(SVG_NS, 'text')
-        xLabel.setAttribute('x', x)
-        xLabel.setAttribute('y', this.height - this.options.padding.bottom + 15)
-        xLabel.setAttribute('text-anchor', 'middle')
-        xLabel.setAttribute('font-size', '11')
-        xLabel.setAttribute('fill', '#666')
-        xLabel.textContent = formatAxisLength(value, this.options.units)
-        gridGroup.appendChild(xLabel)
-      }
+      if (Math.round(value / gridInterval) % labelStepY !== 0) return
 
-      if (showYLabel) {
-        const yLabel = document.createElementNS(SVG_NS, 'text')
-        yLabel.setAttribute('x', this.options.padding.left - 8)
-        yLabel.setAttribute('y', y + 4)
-        yLabel.setAttribute('text-anchor', 'end')
-        yLabel.setAttribute('font-size', '11')
-        yLabel.setAttribute('fill', '#666')
-        yLabel.textContent = formatAxisLength(value, this.options.units)
-        gridGroup.appendChild(yLabel)
-      }
-
-      labelIndex++
-    }
+      const yLabel = document.createElementNS(SVG_NS, 'text')
+      yLabel.setAttribute('x', padding.left - 6)
+      yLabel.setAttribute('y', y + 4)
+      yLabel.setAttribute('text-anchor', 'end')
+      yLabel.setAttribute('font-size', '11')
+      yLabel.setAttribute('fill', '#666')
+      yLabel.textContent = formatAxisLength(value, this.options.units)
+      gridGroup.appendChild(yLabel)
+    })
 
     const xAxisLabel = document.createElementNS(SVG_NS, 'text')
     xAxisLabel.setAttribute('x', this.width / 2)
@@ -405,17 +445,16 @@ export default class SideProjectionChart {
     xAxisLabel.textContent = `Distance (${lengthUnitLabel(this.options.units, this.labels)})`
     gridGroup.appendChild(xAxisLabel)
 
-    const yAxisLabel = document.createElementNS(SVG_NS, 'text')
-    yAxisLabel.setAttribute('x', 12)
-    yAxisLabel.setAttribute('y', this.height / 2)
-    yAxisLabel.setAttribute('text-anchor', 'middle')
-    yAxisLabel.setAttribute('font-size', '12')
-    yAxisLabel.setAttribute('fill', '#333')
-    yAxisLabel.setAttribute('transform', `rotate(-90, 12, ${this.height / 2})`)
-    yAxisLabel.textContent = `Altitude drop (${lengthUnitLabel(this.options.units, this.labels)})`
-    gridGroup.appendChild(yAxisLabel)
-
     this.svg.appendChild(gridGroup)
+  }
+
+  gridValues(start, step) {
+    const values = []
+    const end = start + this.maxScale + 1e-6
+    for (let value = Math.ceil(start / step) * step; value <= end; value += step) {
+      values.push(value)
+    }
+    return values
   }
 
   drawReferenceLine() {
@@ -423,23 +462,28 @@ export default class SideProjectionChart {
     line.setAttribute('class', 'reference-line')
     line.setAttribute('x1', this.scaleX(0))
     line.setAttribute('y1', this.scaleY(0))
-    line.setAttribute('x2', this.scaleX(this.maxScale))
-    line.setAttribute('y2', this.scaleY(this.maxScale))
+    line.setAttribute('x2', this.scaleX(this.fullScale))
+    line.setAttribute('y2', this.scaleY(this.fullScale))
     line.setAttribute('stroke', '#999')
     line.setAttribute('stroke-width', '1')
     line.setAttribute('stroke-dasharray', '5,5')
-    this.svg.appendChild(line)
+    this.plot.appendChild(line)
+
+    const visibleFrom = Math.max(this.viewX, this.viewY)
+    const visibleTo = Math.min(this.viewX, this.viewY) + this.maxScale
+    if (visibleTo <= visibleFrom) return
 
     const label = document.createElementNS(SVG_NS, 'text')
-    const labelX = this.scaleX(this.maxScale * 0.85)
-    const labelY = this.scaleY(this.maxScale * 0.85) - 8
+    const labelValue = visibleFrom + (visibleTo - visibleFrom) * 0.85
+    const labelX = this.scaleX(labelValue)
+    const labelY = this.scaleY(labelValue) - 8
     label.setAttribute('x', labelX)
     label.setAttribute('y', labelY)
     label.setAttribute('font-size', '11')
     label.setAttribute('fill', '#999')
     label.setAttribute('transform', `rotate(-45, ${labelX}, ${labelY})`)
     label.textContent = '1:1'
-    this.svg.appendChild(label)
+    this.plot.appendChild(label)
   }
 
   drawTerrainProfile() {
@@ -824,33 +868,198 @@ export default class SideProjectionChart {
     this.selectionLabel = document.createElement('span')
     this.selectionLabel.className = 'side-projection-selection__label'
     this.selection.appendChild(this.selectionLabel)
+    this.container.append(this.selection)
+
+    if (this.options.presetsContainer) {
+      this.renderZoomPresets()
+      return
+    }
 
     this.resetZoomButton = document.createElement('button')
     this.resetZoomButton.type = 'button'
     this.resetZoomButton.className = 'button side-projection-reset-zoom'
     this.resetZoomButton.textContent = this.labels.t('tracks.side_view.reset_zoom')
-    this.resetZoomButton.hidden = this.zoom <= 1
+    this.resetZoomButton.hidden = !this.window
     this.resetZoomButton.addEventListener('click', () => this.resetZoom())
-
-    this.container.append(this.selection, this.resetZoomButton)
+    this.container.append(this.resetZoomButton)
   }
 
-  setZoom(zoom) {
-    const clamped = clamp(zoom, 1, MAX_ZOOM)
-    if (Math.abs(clamped - this.zoom) < 1e-4) return
+  get zoomPresets() {
+    const presets = ZOOM_PRESETS[this.options.units] ?? ZOOM_PRESETS.metric
+    const maxDrop = Math.max(...this.flightProfile.map(p => p.y))
+    return presets.filter(drop => drop < maxDrop * 0.9)
+  }
 
-    this.zoom = clamped
-    this.render()
+  get activePreset() {
+    if (!this.window) return null
+
+    return this.presetDrop ?? -1
+  }
+
+  renderZoomPresets() {
+    const container = this.options.presetsContainer
+    const presets = this.zoomPresets
+    container.hidden = presets.length === 0
+    if (!presets.length) return
+
+    const active = this.activePreset
+    const option = (text, isActive, onClick) => {
+      const button = document.createElement('button')
+      button.type = 'button'
+      button.className = `segmented-control-option${isActive ? ' active' : ''}`
+      button.textContent = text
+      button.addEventListener('click', onClick)
+      return button
+    }
+    const unit = lengthUnitLabel(this.options.units, this.labels)
+
+    const buttons = [
+      option(this.labels.t('tracks.side_view.zoom_all'), active === null, () =>
+        this.resetZoom()
+      ),
+      ...presets.map(drop =>
+        option(
+          `${Math.round(convertLength(drop, this.options.units))} ${unit}`,
+          active === drop,
+          () => this.zoomToDrop(drop)
+        )
+      )
+    ]
+    if (active === -1) {
+      const zoom = this.fullScale / this.window.scale
+      buttons.push(option(`×${zoom.toFixed(1)}`, true, () => {}))
+    }
+
+    container.replaceChildren(...buttons)
+  }
+
+  get minWindow() {
+    return Math.min(this.fullScale / MAX_ZOOM, MIN_WINDOW)
+  }
+
+  clampWindow({ x, y, scale }) {
+    const size = clamp(scale, this.minWindow, this.fullScale)
+    return {
+      x: clamp(x, 0, this.fullScale - size),
+      y: clamp(y, 0, this.fullScale - size),
+      scale: size
+    }
+  }
+
+  setWindow(window, { notify = true, presetDrop = null } = {}) {
+    this.presetDrop = presetDrop
+    const next = window ? this.clampWindow(window) : null
+    this.window = next && next.scale < this.fullScale * 0.999 ? next : null
+    this.scheduleRender()
+
+    if (!notify) return
+
+    const range = this.visibleTimeRange()
+    if (range !== undefined) this.options.onWindowChange?.(range)
+  }
+
+  scheduleRender() {
+    if (this.renderFrame) return
+
+    this.renderFrame = requestAnimationFrame(() => {
+      this.renderFrame = null
+      this.render()
+      if (this.options.persistentTooltip) this.showPersistentTooltip()
+    })
   }
 
   resetZoom() {
-    this.setZoom(1)
+    this.setWindow(null)
   }
 
-  zoomToDistance(distance) {
-    if (!(distance > 0)) return
+  zoomToDrop(drop) {
+    const reached = this.flightProfile.find(p => p.y >= drop)
+    if (!reached) return
 
-    this.setZoom(this.fullScale / distance)
+    this.setWindow({ x: 0, y: 0, scale: Math.max(drop, reached.x) }, { presetDrop: drop })
+  }
+
+  get currentWindow() {
+    return this.window ?? { x: 0, y: 0, scale: this.fullScale }
+  }
+
+  zoomAt(factor, center) {
+    if (!this.svg || !(factor > 0)) return
+
+    const current = this.currentWindow
+    const anchor = this.dataPoint(center.x, center.y)
+    const scale = clamp(current.scale / factor, this.minWindow, this.fullScale)
+    const ratio = scale / current.scale
+
+    this.setWindow({
+      x: anchor.x - (anchor.x - current.x) * ratio,
+      y: anchor.y - (anchor.y - current.y) * ratio,
+      scale
+    })
+  }
+
+  panBy(dx, dy) {
+    if (!this.svg || !this.window) return
+
+    const screen = this.screenScale()
+    const { x, y, scale } = this.window
+    this.setWindow({
+      x: x - (dx / screen.x / this.chartWidth) * scale,
+      y: y - (dy / screen.y / this.chartHeight) * scale,
+      scale
+    })
+  }
+
+  dataPoint(clientX, clientY) {
+    const point = this.svgPoint(clientX, clientY)
+    const { padding } = this.options
+    const { x, y, scale } = this.currentWindow
+
+    return {
+      x: x + ((point.x - padding.left) / this.chartWidth) * scale,
+      y: y + ((point.y - padding.top) / this.chartHeight) * scale
+    }
+  }
+
+  visibleTimeRange() {
+    if (!this.window) return null
+
+    const { x, y, scale } = this.window
+    const inside = this.flightProfile.filter(
+      p => p.x >= x && p.x <= x + scale && p.y >= y && p.y <= y + scale
+    )
+    if (!inside.length) return undefined
+
+    return { from: inside[0].flTime, to: inside[inside.length - 1].flTime }
+  }
+
+  setTimeRange(range) {
+    if (!this.flightProfile.length) return
+
+    const inside = range
+      ? this.flightProfile.filter(p => p.flTime >= range.from && p.flTime <= range.to)
+      : []
+    if (!inside.length || inside.length === this.flightProfile.length) {
+      this.setWindow(null, { notify: false })
+      return
+    }
+
+    const xs = inside.map(p => p.x)
+    const ys = inside.map(p => p.y)
+    const minX = Math.min(...xs)
+    const minY = Math.min(...ys)
+    const width = Math.max(...xs) - minX
+    const height = Math.max(...ys) - minY
+    const scale = Math.max(width, height) * RANGE_PADDING
+
+    this.setWindow(
+      {
+        x: minX + width / 2 - scale / 2,
+        y: minY + height / 2 - scale / 2,
+        scale
+      },
+      { notify: false }
+    )
   }
 
   svgPoint(clientX, clientY) {
@@ -896,11 +1105,11 @@ export default class SideProjectionChart {
   selectionDistance(event) {
     const { x } = this.svgPoint(event.clientX, event.clientY)
     const distance = ((x - this.options.padding.left) / this.chartWidth) * this.maxScale
-    const closest = this.findClosestPoint(distance)
+    const closest = this.findClosestPoint(this.viewX + distance)
 
     return clamp(
-      closest ? closest.point.x : distance,
-      Math.min(this.fullScale / MAX_ZOOM, this.maxScale),
+      closest ? closest.point.x - this.viewX : distance,
+      Math.min(this.minWindow, this.maxScale),
       this.maxScale
     )
   }
@@ -910,14 +1119,14 @@ export default class SideProjectionChart {
     const scale = this.screenScale()
     const origin = this.containerOffset()
     const left = origin.x + padding.left * scale.x
-    const width = (this.scaleX(distance) - padding.left) * scale.x
+    const width = (distance / this.maxScale) * this.chartWidth * scale.x
 
     this.selection.hidden = false
     this.selection.style.left = `${left}px`
     this.selection.style.top = `${origin.y + padding.top * scale.y}px`
     this.selection.style.height = `${this.chartHeight * scale.y}px`
     this.selection.style.width = `${width}px`
-    this.selectionLabel.textContent = this.zoomToLabel(distance)
+    this.selectionLabel.textContent = this.zoomToLabel(this.viewX + distance)
     this.positionSelectionLabel(left, width)
   }
 
@@ -977,10 +1186,15 @@ export default class SideProjectionChart {
     const moved = this.selectionMoved
     this.stopSelecting()
 
-    if (moved) this.zoomToDistance(this.selectionDistance(event))
-    else if (this.zoom !== 1) this.resetZoom()
-
-    if (this.options.persistentTooltip) this.showPersistentTooltip()
+    if (moved) {
+      this.setWindow({
+        x: this.viewX,
+        y: this.viewY,
+        scale: this.selectionDistance(event)
+      })
+    } else if (this.window) {
+      this.resetZoom()
+    }
   }
 
   onSelectCancel = () => {
@@ -998,6 +1212,8 @@ export default class SideProjectionChart {
   }
 
   queueInteraction = e => {
+    if (this.gestures?.active || e.touches?.length > 1) return
+
     const touch = e.touches?.[0]
     this.pointer = touch
       ? { clientX: touch.clientX, clientY: touch.clientY }
@@ -1024,8 +1240,8 @@ export default class SideProjectionChart {
     const relX = point.x - padding.left
     const relY = point.y - padding.top
 
-    const x = (relX / this.chartWidth) * this.maxScale
-    const y = (relY / this.chartHeight) * this.maxScale
+    const x = this.viewX + (relX / this.chartWidth) * this.maxScale
+    const y = this.viewY + (relY / this.chartHeight) * this.maxScale
 
     const containerRect = this.container.getBoundingClientRect()
     const cursor = { x: clientX - containerRect.left, y: clientY - containerRect.top }
@@ -1073,9 +1289,11 @@ export default class SideProjectionChart {
   showTooltip(point, anchor = null, index = null) {
     const terrainAlt = this.getTerrainAltitudeAt(point.x)
     const clearance = terrainAlt !== null ? Math.round(terrainAlt - point.y) : null
+    const pointIndex = index ?? this.flightProfile.indexOf(point)
+    const acceleration = pointIndex >= 0 ? accelerationAt(this.points, pointIndex) : null
 
     if (this.compareFlightProfile.length) {
-      this.tooltip.innerHTML = this.comparisonTooltipHtml(point, clearance)
+      this.tooltip.innerHTML = this.comparisonTooltipHtml(point, clearance, acceleration)
     } else {
       const units = this.options.units
       const speed = value => Math.round(convertSpeed(value, units))
@@ -1099,8 +1317,8 @@ export default class SideProjectionChart {
         <div><b>Distance:</b> ${length(point.x)} ${lengthU}</div>
         <div><b>Alt drop:</b> ${length(point.y)} ${lengthU}</div>
         <div><b>Altitude:</b> ${length(point.altitude)} ${lengthU}</div>
-        <div><b>H speed:</b> ${speed(point.hSpeed)} ${speedU}</div>
-        <div><b>V speed:</b> ${speed(point.vSpeed)} ${speedU}</div>
+        <div><b>H speed:</b> ${speed(point.hSpeed)} ${speedU}${accelerationHtml(acceleration?.hSpeedAccel)}</div>
+        <div><b>V speed:</b> ${speed(point.vSpeed)} ${speedU}${accelerationHtml(acceleration?.vSpeedAccel)}</div>
         <div><b>Glide:</b> ${point.glideRatio?.toFixed(2) ?? 'N/A'}</div>
         ${clearanceHtml}
       `
@@ -1154,7 +1372,7 @@ export default class SideProjectionChart {
     this.tooltip.style.top = `${Math.max(0, pointY - height - offset)}px`
   }
 
-  comparisonTooltipHtml(point, primaryClearance) {
+  comparisonTooltipHtml(point, primaryClearance, acceleration) {
     const comparePoint = this.interpolateCompareProfile(point.playerTime)
 
     const units = this.options.units
@@ -1202,13 +1420,13 @@ export default class SideProjectionChart {
       ],
       [
         `H speed, ${speedU}`,
-        speedCell(point.hSpeed),
+        speedCell(point.hSpeed) + accelerationHtml(acceleration?.hSpeedAccel),
         comparePoint ? speedCell(comparePoint.hSpeed) : '—',
         comparePoint ? deltaCellHtml(speed(point.hSpeed), speed(comparePoint.hSpeed)) : ''
       ],
       [
         `V speed, ${speedU}`,
-        speedCell(point.vSpeed),
+        speedCell(point.vSpeed) + accelerationHtml(acceleration?.vSpeedAccel),
         comparePoint ? speedCell(comparePoint.vSpeed) : '—',
         comparePoint ? deltaCellHtml(speed(point.vSpeed), speed(comparePoint.vSpeed)) : ''
       ],
@@ -1305,6 +1523,8 @@ export default class SideProjectionChart {
   }
 
   destroy() {
+    cancelAnimationFrame(this.renderFrame)
+    this.gestures?.destroy()
     this.cancelInteraction()
     this.stopSelecting()
     this.clear()

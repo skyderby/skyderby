@@ -106,6 +106,7 @@ ru:
       add_landing: Добавить приземление
       remove_landing: Убрать приземление
     base_jump:
+      show_replay: Панель воспроизведения
       terrain_profile: Профиль рельефа
       select_terrain_profile: Выберите профиль рельефа
       expand_map: Развернуть карту
@@ -115,6 +116,7 @@ ru:
       result_select: Выберите задачу
     side_view:
       reset_zoom: Сбросить зум
+      zoom_all: Всё
       zoom_to_exit: "Приблизить первые %{distance} %{unit} от отделения"
     form:
       suit_text_placeholder: 'Введите название костюма'

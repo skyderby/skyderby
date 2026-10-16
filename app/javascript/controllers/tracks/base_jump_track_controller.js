@@ -17,6 +17,7 @@ import {
 import ArrowMarker from 'utils/tracks/playback/ArrowMarker'
 import { computeBaseJumpSummary } from 'utils/tracks/baseJumpSummary'
 import BaseJumpSummaryPanel from 'utils/tracks/BaseJumpSummaryPanel'
+import TimeViewport from 'utils/tracks/TimeViewport'
 import { get } from '@rails/request.js'
 
 const SYNC_VERTICAL_SPEED = 10
@@ -25,10 +26,16 @@ const COMPARE_LINE_COLOR = '#9c27b0'
 const FINISH_LINE_STORAGE_KEY = 'baseJumpFinishLineVisible'
 const RESULT_PREFERENCE_KEY = 'baseJumpResultPreference'
 const RESULT_NONE = 'none'
+const REPLAY_STORAGE_KEY = 'baseJumpReplayVisible'
+const REPLAY_HIDDEN_CLASS = 'base-jump--replay-hidden'
+const MIN_VIEW_SPAN = 2
+const TRAJECTORY_WEIGHT = 6
+const DIMMED_TRAJECTORY_WEIGHT = 2
 
 export default class extends PlaybackController {
   static targets = [
     'sideProjection',
+    'sideZoomPresets',
     'summary',
     'histogramRowTemplate',
     'glideChart',
@@ -42,6 +49,7 @@ export default class extends PlaybackController {
     'comparePlaybackIndicators',
     'expandMapToggle',
     'finishLineToggle',
+    'replayToggle',
     'resultOption',
     'emptyState'
   ]
@@ -97,6 +105,7 @@ export default class extends PlaybackController {
     this.initSpeedsChart()
     this.initSepChart()
     this.initSideProjection()
+    this.sideProjectionChart?.setTimeRange(this.flTimeRange(this.viewport.range))
     if (this.finishLineVisible != null) this.applyFinishLineVisibility()
     this.renderSummary()
     this.updatePlaybackPosition()
@@ -105,6 +114,8 @@ export default class extends PlaybackController {
   connect() {
     if (isTurboPreview()) return
     if (this.applyResultPreference()) return
+
+    this.initReplayToggle()
 
     this.comparePoints = null
 
@@ -161,6 +172,29 @@ export default class extends PlaybackController {
         this.initResultMarker()
       })
       .catch(() => this.showEmptyState('load_error'))
+  }
+
+  initReplayToggle() {
+    if (!this.hasReplayToggleTarget) return
+
+    let visible = false
+    try {
+      visible = localStorage.getItem(REPLAY_STORAGE_KEY) === '1'
+    } catch {
+      visible = false
+    }
+    this.replayToggleTarget.checked = visible
+    this.element.classList.toggle(REPLAY_HIDDEN_CLASS, !visible)
+  }
+
+  toggleReplay(event) {
+    const visible = event.target.checked
+    this.element.classList.toggle(REPLAY_HIDDEN_CLASS, !visible)
+    try {
+      localStorage.setItem(REPLAY_STORAGE_KEY, visible ? '1' : '0')
+    } catch {
+      return
+    }
   }
 
   get hasResultPoint() {
@@ -400,6 +434,7 @@ export default class extends PlaybackController {
   }
 
   initCharts() {
+    this.initViewport()
     this.initSideProjection()
     this.initGlideChart()
     this.initSpeedsChart()
@@ -411,6 +446,9 @@ export default class extends PlaybackController {
 
     this.sideProjectionChart = new SideProjectionChart(this.sideProjectionTarget, {
       onPointHover: index => this.onSideProjectionHover(index),
+      gestures: true,
+      presetsContainer: this.hasSideZoomPresetsTarget ? this.sideZoomPresetsTarget : null,
+      onWindowChange: range => this.viewport.set(this.chartTimeRange(range), 'side'),
       syncVerticalSpeed: SYNC_VERTICAL_SPEED,
       units: this.units,
       labels: this.labels
@@ -473,8 +511,87 @@ export default class extends PlaybackController {
       labels: this.labels,
       onHover: index => this.seekTo(index),
       onLeave: () => this.chartGroup.scheduleHide(),
+      xRange: this.viewport?.range,
+      onZoom: (factor, anchor) => this.viewport.zoom(factor, anchor),
+      onPan: delta => this.viewport.pan(delta),
       ...this.compareChartOptions
     }
+  }
+
+  get chartTimeOrigin() {
+    return this.points[0].flTime + this.chartXOffset
+  }
+
+  initViewport() {
+    const origin = this.chartTimeOrigin
+    this.viewport = new TimeViewport({
+      min: this.points[0].flTime - origin,
+      max: this.points[this.points.length - 1].flTime - origin,
+      minSpan: MIN_VIEW_SPAN,
+      onChange: (range, source) => this.scheduleViewRange(range, source)
+    })
+  }
+
+  flTimeRange(range) {
+    if (!range) return null
+
+    const origin = this.chartTimeOrigin
+    return { from: range.from + origin, to: range.to + origin }
+  }
+
+  chartTimeRange(range) {
+    if (!range) return null
+
+    const origin = this.chartTimeOrigin
+    return { from: range.from - origin, to: range.to - origin }
+  }
+
+  scheduleViewRange(range, source) {
+    this.pendingViewRange = { range, source: this.pendingViewRange?.source ?? source }
+    if (this.viewRangeFrame) return
+
+    this.viewRangeFrame = requestAnimationFrame(() => {
+      const { range, source } = this.pendingViewRange
+      this.viewRangeFrame = null
+      this.pendingViewRange = null
+      this.applyViewRange(range, source)
+    })
+  }
+
+  applyViewRange(range, source) {
+    this.timeSeriesCharts.forEach(chart => chart.setXRange(range))
+    if (source !== 'side') {
+      this.sideProjectionChart?.setTimeRange(this.flTimeRange(range))
+    }
+    this.highlightMapRange(this.flTimeRange(range))
+  }
+
+  get timeSeriesCharts() {
+    return [
+      this.hasGlideChartTarget && this.glideChartTarget.chart,
+      this.hasSpeedChartTarget && this.speedChartTarget.chart,
+      this.hasSepChartTarget && this.sepChartTarget.chart
+    ].filter(Boolean)
+  }
+
+  highlightMapRange(range) {
+    if (!this.map) return
+
+    this.mapHighlight?.forEach(polyline => this.sharedMap.remove(polyline))
+    this.mapHighlight = null
+    this.trajectoryPolylines?.forEach(polyline =>
+      polyline.setOptions({
+        strokeWeight: range ? DIMMED_TRAJECTORY_WEIGHT : TRAJECTORY_WEIGHT
+      })
+    )
+    if (!range) return
+
+    const visible = this.points.filter(
+      point => point.flTime >= range.from && point.flTime <= range.to
+    )
+    if (visible.length < 2) return
+
+    this.mapHighlight = this.drawTrajectory(visible)
   }
 
   get chartGroup() {
@@ -661,7 +778,7 @@ export default class extends PlaybackController {
     if (!this.hasMapTarget || !this.mapsReady) return
 
     this.initMap()
-    this.drawTrajectory(this.points)
+    this.trajectoryPolylines = this.drawTrajectory(this.points)
     if (this.showCompareOnMap) {
       this.drawTrajectory(this.comparePoints, { dashed: true, weight: 5 })
     }
@@ -710,7 +827,7 @@ export default class extends PlaybackController {
     this.map = this.sharedMap.map
   }
 
-  drawTrajectory(points, { dashed = false, weight = 6 } = {}) {
+  drawTrajectory(points, { dashed = false, weight = TRAJECTORY_WEIGHT } = {}) {
     const mapPoints = points.map(p => ({
       latitude: p.latitude,
       longitude: p.longitude,
@@ -719,7 +836,7 @@ export default class extends PlaybackController {
 
     const trajectory = new Trajectory(mapPoints)
 
-    for (let { path, color } of trajectory.polylines) {
+    return trajectory.polylines.map(({ path, color }) => {
       const options = {
         path,
         strokeColor: color,
@@ -746,7 +863,8 @@ export default class extends PlaybackController {
       const polyline = new google.maps.Polyline(options)
       polyline.setMap(this.map)
       this.sharedMap.add(polyline)
-    }
+      return polyline
+    })
   }
 
   fitBounds() {
@@ -843,6 +961,9 @@ export default class extends PlaybackController {
 
   disconnect() {
     this.stopPlaybackLoop()
+    cancelAnimationFrame(this.viewRangeFrame)
+    this.mapHighlight = null
+    this.trajectoryPolylines = null
     this._chartGroup?.cancelHide()
 
     this.sharedMap?.release()

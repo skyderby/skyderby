@@ -87,6 +87,13 @@
   letter-spacing: 0.05em;
 }
 
+.dropdown-item--check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
 .dropdown-divider {
   height: 0;
   margin: 0.5rem 0;

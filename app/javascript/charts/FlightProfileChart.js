@@ -1,3 +1,5 @@
+import ViewportGestures from './ViewportGestures'
+
 const SVG_NS = 'http://www.w3.org/2000/svg'
 
 const PALETTE = [
@@ -15,7 +17,10 @@ const PALETTE = [
 
 const TERRAIN_COLOR = '#b88e8d'
 const GRID_STEP = 100
-const LABEL_STEP = 500
+const GRID_STEPS = [100, 50, 20, 10]
+const MAX_GRID_STEP_PX = 160
+const LABEL_EVERY = 5
+const ZOOM_PRESETS = [100, 200, 300, 500]
 const TERRAIN_HEIGHT = 150
 const TERRAIN_MAX = 125
 const TERRAIN_TICK = 25
@@ -70,7 +75,8 @@ export default class FlightProfileChart {
     this.formatTerrain = formatters.terrain || (() => '')
     this.formatZoomTo =
       labels.zoomTo || (meters => `Zoom to first ${Math.round(meters)} m`)
-    this.resetZoomLabel = labels.resetZoom || 'Reset zoom'
+    this.zoomAllLabel = labels.zoomAll || 'All'
+    this.formatPreset = labels.preset || (meters => `${meters} m`)
 
     this.tracks = new Map()
     this.terrain = null
@@ -84,13 +90,13 @@ export default class FlightProfileChart {
     this.baseScale = 1
     this.scale = 1
     this.zoom = 1
+    this.viewX = 0
+    this.viewY = 0
 
     this.pointers = new Map()
     this.selecting = false
     this.selectStartX = 0
     this.selectMoved = false
-    this.pinchStartDist = 0
-    this.pinchStartZoom = 1
 
     this.buildDom()
 
@@ -102,6 +108,15 @@ export default class FlightProfileChart {
       host.addEventListener('pointercancel', this.onPointerUp)
       host.addEventListener('pointerleave', this.onPointerLeave)
     })
+    this.gestures = this.hosts.map(
+      host =>
+        new ViewportGestures(host, {
+          onZoom: (factor, center) => this.zoomAt(factor, center),
+          onPan: (dx, dy) => this.panBy(dx, dy),
+          onStart: () => this.clearHover(),
+          freePan: () => this.zoom > 1
+        })
+    )
   }
 
   buildDom() {
@@ -130,17 +145,14 @@ export default class FlightProfileChart {
       this.terrainSelection.hidden = true
     }
 
-    this.resetZoomButton = el('button', 'button fp-reset-zoom')
-    this.resetZoomButton.type = 'button'
-    this.resetZoomButton.hidden = true
-    this.resetZoomButton.textContent = this.resetZoomLabel
-    this.resetZoomButton.addEventListener('pointerdown', this.onResetPointerDown)
-    this.resetZoomButton.addEventListener('click', this.onResetZoom)
+    this.zoomPresets = el('div', 'segmented-control fp-zoom-presets')
+    this.zoomPresets.hidden = true
+    this.zoomPresets.addEventListener('pointerdown', this.onPresetsPointerDown)
 
     this.profileHost.append(
       this.profileCursor,
       this.profileSelection,
-      this.resetZoomButton,
+      this.zoomPresets,
       this.profileTip
     )
     this.terrainHost?.append(this.terrainCursor, this.terrainSelection, this.terrainTip)
@@ -154,8 +166,8 @@ export default class FlightProfileChart {
       host.removeEventListener('pointercancel', this.onPointerUp)
       host.removeEventListener('pointerleave', this.onPointerLeave)
     })
-    this.resetZoomButton.removeEventListener('pointerdown', this.onResetPointerDown)
-    this.resetZoomButton.removeEventListener('click', this.onResetZoom)
+    this.gestures.forEach(gestures => gestures.destroy())
+    cancelAnimationFrame(this.renderFrame)
     ;[
       this.profileCursor,
       this.terrainCursor,
@@ -163,7 +175,7 @@ export default class FlightProfileChart {
       this.terrainTip,
       this.profileSelection,
       this.terrainSelection,
-      this.resetZoomButton,
+      this.zoomPresets,
       this.profileSvg,
       this.terrainSvg
     ].forEach(node => node?.remove())
@@ -267,18 +279,48 @@ export default class FlightProfileChart {
       this.baseScale = Math.min(this.width / this.xMax, this.height / this.yMax)
       this.scale = this.baseScale * this.zoom
     }
+    this.clampView()
 
     this.renderProfile()
     this.renderTerrain()
-    this.resetZoomButton.hidden = this.zoom <= 1
+    this.renderZoomPresets()
+  }
+
+  clampView() {
+    this.viewX = clamp(this.viewX, 0, Math.max(0, this.xMax - this.width / this.scale))
+    this.viewY = clamp(this.viewY, 0, Math.max(0, this.yMax - this.height / this.scale))
+  }
+
+  scheduleRender() {
+    if (this.renderFrame) return
+
+    this.renderFrame = requestAnimationFrame(() => {
+      this.renderFrame = null
+      this.render()
+    })
   }
 
   x(distance) {
-    return distance * this.scale
+    return (distance - this.viewX) * this.scale
   }
 
   yProfile(drop) {
-    return drop * this.scale
+    return (drop - this.viewY) * this.scale
+  }
+
+  get gridStep() {
+    return (
+      GRID_STEPS.find(step => step * this.scale <= MAX_GRID_STEP_PX) ??
+      GRID_STEPS[GRID_STEPS.length - 1]
+    )
+  }
+
+  gridValues(start, span, step) {
+    const values = []
+    for (let m = Math.ceil(start / step) * step; m <= start + span; m += step) {
+      if (m > 0) values.push(m)
+    }
+    return values
   }
 
   yTerrain(clearance) {
@@ -303,29 +345,31 @@ export default class FlightProfileChart {
 
   gridSvg() {
     const { width, height } = this
+    const step = this.gridStep
     let grid = ''
-    for (let m = GRID_STEP; this.x(m) <= width; m += GRID_STEP) {
+    this.gridValues(this.viewX, width / this.scale, step).forEach(m => {
       const px = this.x(m)
       grid += `<line class="fp-grid" x1="${px.toFixed(1)}" y1="0" x2="${px.toFixed(1)}" y2="${height}"/>`
-    }
-    for (let m = GRID_STEP; this.yProfile(m) <= height; m += GRID_STEP) {
+    })
+    this.gridValues(this.viewY, height / this.scale, step).forEach(m => {
       const py = this.yProfile(m)
       grid += `<line class="fp-grid" x1="0" y1="${py.toFixed(1)}" x2="${width}" y2="${py.toFixed(1)}"/>`
-    }
+    })
     return grid
   }
 
   labelsSvg() {
     const { width, height } = this
+    const step = this.gridStep * LABEL_EVERY
     let labels = ''
-    for (let m = LABEL_STEP; this.x(m) <= width; m += LABEL_STEP) {
+    this.gridValues(this.viewX, width / this.scale, step).forEach(m => {
       const px = this.x(m)
       labels += `<text class="fp-axis-label" x="${(px + 3).toFixed(1)}" y="12">${m}</text>`
-    }
-    for (let m = LABEL_STEP; this.yProfile(m) <= height; m += LABEL_STEP) {
+    })
+    this.gridValues(this.viewY, height / this.scale, step).forEach(m => {
       const py = this.yProfile(m)
       labels += `<text class="fp-axis-label" x="3" y="${(py - 3).toFixed(1)}">${m}</text>`
-    }
+    })
     return labels
   }
 
@@ -355,8 +399,8 @@ export default class FlightProfileChart {
   }
 
   ratioLineSvg() {
-    const d = Math.min(this.width, this.height)
-    return `<line class="fp-ratio-line" x1="0" y1="0" x2="${d}" y2="${d}"/>`
+    const end = this.xMax + this.yMax
+    return `<line class="fp-ratio-line" x1="${this.x(0).toFixed(1)}" y1="${this.yProfile(0).toFixed(1)}" x2="${this.x(end).toFixed(1)}" y2="${this.yProfile(end).toFixed(1)}"/>`
   }
 
   renderProfile() {
@@ -541,23 +585,95 @@ export default class FlightProfileChart {
     )
   }
 
+  setView(zoom, viewX = this.viewX, viewY = this.viewY) {
+    this.presetDrop = null
+    this.zoom = clamp(zoom, 1, MAX_ZOOM)
+    this.viewX = viewX
+    this.viewY = viewY
+    this.scheduleRender()
+  }
+
   setZoom(zoom) {
-    const clamped = clamp(zoom, 1, MAX_ZOOM)
-    if (Math.abs(clamped - this.zoom) < 1e-4) return
-    this.zoom = clamped
-    this.render()
+    this.setView(zoom, 0, 0)
   }
 
   zoomToRange(endPx) {
-    const endDistance = endPx / this.scale
-    if (endDistance <= 0) return
-    this.setZoom(this.width / endDistance / this.baseScale)
+    const span = endPx / this.scale
+    if (span <= 0) return
+    this.setView(this.width / span / this.baseScale)
+  }
+
+  zoomToDrop(drop) {
+    let distance = 0
+    this.tracks.forEach(({ profile }) => {
+      const reached = profile.find(point => point.y >= drop)
+      distance = Math.max(distance, reached ? reached.x : 0)
+    })
+    if (!distance) return
+
+    const zoom = Math.min(this.width / distance, this.height / drop) / this.baseScale
+    this.setView(zoom, 0, 0)
+    this.presetDrop = drop
+  }
+
+  zoomAt(factor, center) {
+    if (!(factor > 0) || !this.tracks.size) return
+
+    const rect = this.profileHost.getBoundingClientRect()
+    const px = center.x - rect.left
+    const py = clamp(center.y - rect.top, 0, this.height)
+    const zoom = clamp(this.zoom * factor, 1, MAX_ZOOM)
+    const scale = this.baseScale * zoom
+
+    this.setView(
+      zoom,
+      this.viewX + px / this.scale - px / scale,
+      this.viewY + py / this.scale - py / scale
+    )
+    this.scale = scale
+  }
+
+  panBy(dx, dy) {
+    if (this.zoom <= 1) return
+
+    this.presetDrop = null
+    this.viewX -= dx / this.scale
+    this.viewY -= dy / this.scale
+    this.scheduleRender()
+  }
+
+  renderZoomPresets() {
+    const presets = ZOOM_PRESETS.filter(drop => drop < this.yMax * 0.9)
+    this.zoomPresets.hidden = !this.tracks.size || !presets.length
+    if (this.zoomPresets.hidden) return
+
+    const active = this.zoom <= 1 ? null : (this.presetDrop ?? -1)
+
+    const option = (text, isActive, onClick) => {
+      const button = el('button', 'segmented-control-option')
+      button.type = 'button'
+      button.classList.toggle('active', isActive)
+      button.textContent = text
+      button.addEventListener('click', onClick)
+      return button
+    }
+
+    const buttons = [
+      option(this.zoomAllLabel, active === null, () => this.setZoom(1)),
+      ...presets.map(drop =>
+        option(this.formatPreset(drop), active === drop, () => this.zoomToDrop(drop))
+      )
+    ]
+    if (active === -1) {
+      buttons.push(option(`×${this.zoom.toFixed(1)}`, true, () => {}))
+    }
+    this.zoomPresets.replaceChildren(...buttons)
   }
 
   showSelection(px) {
     this.profileSelection.hidden = false
     this.profileSelection.style.width = `${px}px`
-    this.selectionLabel.textContent = this.formatZoomTo(px / this.scale)
+    this.selectionLabel.textContent = this.formatZoomTo(this.viewX + px / this.scale)
 
     if (!this.terrainSelection) return
 
@@ -565,12 +681,8 @@ export default class FlightProfileChart {
     this.terrainSelection.style.width = `${px}px`
   }
 
-  onResetPointerDown = event => {
+  onPresetsPointerDown = event => {
     event.stopPropagation()
-  }
-
-  onResetZoom = () => {
-    this.setZoom(1)
   }
 
   hideSelection() {
@@ -596,9 +708,6 @@ export default class FlightProfileChart {
     if (this.pointers.size === 2) {
       this.selecting = false
       this.hideSelection()
-      const [a, b] = [...this.pointers.values()]
-      this.pinchStartDist = Math.hypot(a.x - b.x, a.y - b.y) || 1
-      this.pinchStartZoom = this.zoom
       this.clearHover()
     } else if (this.pointers.size === 1 && event.pointerType !== 'touch') {
       this.selecting = true
@@ -612,12 +721,7 @@ export default class FlightProfileChart {
       this.pointers.set(event.pointerId, { x: event.clientX, y: event.clientY })
     }
 
-    if (this.pointers.size >= 2 && this.pinchStartDist) {
-      const [a, b] = [...this.pointers.values()]
-      const dist = Math.hypot(a.x - b.x, a.y - b.y) || 1
-      this.setZoom(this.pinchStartZoom * (dist / this.pinchStartDist))
-      return
-    }
+    if (this.pointers.size >= 2) return
 
     if (this.selecting) {
       const px = this.hostPx(event)
@@ -634,7 +738,6 @@ export default class FlightProfileChart {
     const wasSelecting = this.selecting && this.pointers.size === 1
     this.pointers.delete(event.pointerId)
     releasePointer(event.currentTarget, event.pointerId)
-    if (this.pointers.size < 2) this.pinchStartDist = 0
 
     if (wasSelecting) {
       this.selecting = false
@@ -657,7 +760,7 @@ export default class FlightProfileChart {
     const px = event.clientX - rect.left
     if (px < 0 || px > this.width) return this.onLeave()
 
-    const distance = px / this.scale
+    const distance = this.viewX + px / this.scale
     const onTerrain = event.currentTarget === this.terrainHost
 
     this.profileCursor.hidden = false

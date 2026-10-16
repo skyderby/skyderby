@@ -6,7 +6,7 @@ it:
     full_speed: Velocità totale
     ground_speed: Velocità orizzontale
     vertical_speed: Velocità verticale
-    reset_zoom: Reimposta zoom
+    zoom_all: Tutto
     zoom_to_first: "Zoom sui primi %{distance} m"
     pro_cta:
       prefix_view: Vedi questa traccia in

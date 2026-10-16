@@ -6,7 +6,7 @@ fr:
     full_speed: Vitesse totale
     ground_speed: Vitesse horizontale
     vertical_speed: Vitesse verticale
-    reset_zoom: Réinitialiser le zoom
+    zoom_all: Tout
     zoom_to_first: "Zoomer sur les premiers %{distance} m"
     pro_cta:
       prefix_view: Voir ce vol dans

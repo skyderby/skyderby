@@ -6,7 +6,7 @@ ru:
     full_speed: Полная скорость
     ground_speed: Горизонтальная скорость
     vertical_speed: Вертикальная скорость
-    reset_zoom: Сбросить зум
+    zoom_all: Всё
     zoom_to_first: "Приблизить к первым %{distance} м"
     pro_cta:
       prefix_view: Посмотреть трек в

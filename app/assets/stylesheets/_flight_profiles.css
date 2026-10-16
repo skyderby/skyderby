@@ -125,16 +125,22 @@
   border-radius: var(--border-radius-sm);
 }
 
-.fp-reset-zoom {
+.fp-zoom-presets {
   position: absolute;
   top: 0.5rem;
   left: 50%;
-  transform: translateX(-50%);
   z-index: 5;
+  margin: 0;
+  transform: translateX(-50%);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
-.fp-reset-zoom[hidden] {
+.fp-zoom-presets .segmented-control-option {
+  padding-inline: 0.5rem;
+  white-space: nowrap;
+}
+
+.fp-zoom-presets[hidden] {
   display: none;
 }
 

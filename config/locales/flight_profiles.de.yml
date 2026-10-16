@@ -6,7 +6,7 @@ de:
     full_speed: Gesamtgeschwindigkeit
     ground_speed: Horizontalgeschwindigkeit
     vertical_speed: Vertikalgeschwindigkeit
-    reset_zoom: Zoom zurücksetzen
+    zoom_all: Alles
     zoom_to_first: "Auf erste %{distance} m zoomen"
     pro_cta:
       prefix_view: Diesen Track ansehen in

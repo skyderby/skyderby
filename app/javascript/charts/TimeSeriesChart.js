@@ -1,4 +1,5 @@
 import { svgEl } from './svg/elements'
+import ViewportGestures from './ViewportGestures'
 
 const PADDING = { top: 8, right: 8, bottom: 22, left: 8 }
 const COMPACT_BOTTOM = 2
@@ -76,7 +77,10 @@ export default class TimeSeriesChart {
       tooltipHeader = () => '',
       onHover = null,
       onLeave = null,
-      onClick = null
+      onClick = null,
+      xRange = null,
+      onZoom = null,
+      onPan = null
     }
   ) {
     this.container = container
@@ -97,6 +101,9 @@ export default class TimeSeriesChart {
     this.onHover = onHover
     this.onLeave = onLeave
     this.onClick = onClick
+    this.xRange = xRange
+    this.onZoom = onZoom
+    this.onPan = onPan
     this.id = `ts-chart-${++uid}`
     this.index = null
     this.tooltipIndex = null
@@ -138,6 +145,13 @@ export default class TimeSeriesChart {
     this.plotEl.addEventListener('pointermove', this.onPointerMove)
     this.plotEl.addEventListener('pointerleave', this.onPointerLeave)
     if (this.onClick) this.plotEl.addEventListener('click', this.onPlotClick)
+    if (this.onZoom || this.onPan) {
+      this.gestures = new ViewportGestures(this.plotEl, {
+        onZoom: (factor, center) => this.onZoom?.(factor, this.valueAtClientX(center.x)),
+        onPan: dx => this.onPan?.((-dx / this.plotWidth) * (this.xMax - this.xMin)),
+        onStart: () => this.hideCursor()
+      })
+    }
 
     if (this.legend) this.buildLegend()
   }
@@ -214,6 +228,11 @@ export default class TimeSeriesChart {
     }
   }
 
+  setXRange(range) {
+    this.xRange = range
+    this.render()
+  }
+
   computeScales() {
     const width = this.plotEl.clientWidth
     const height = this.plotEl.clientHeight
@@ -240,6 +259,10 @@ export default class TimeSeriesChart {
       xMax = 1
     }
     if (xMax - xMin < 1e-6) xMax = xMin + 1
+    if (this.xRange) {
+      xMin = this.xRange.from
+      xMax = this.xRange.to
+    }
 
     this.xMin = xMin
     this.xMax = xMax
@@ -695,18 +718,21 @@ export default class TimeSeriesChart {
     if (index >= 0) this.onClick(this.primary.xs[index])
   }
 
+  valueAtClientX(clientX) {
+    const px = clientX - this.plotEl.getBoundingClientRect().left
+    return this.xMin + ((px - this.plot.left) / this.plotWidth) * (this.xMax - this.xMin)
+  }
+
   indexAt(clientX) {
     const primary = this.primary
     if (!primary?.xs.length || !this.plot) return -1
 
-    const rect = this.plotEl.getBoundingClientRect()
-    const px = clientX - rect.left
-    const time =
-      this.xMin + ((px - this.plot.left) / this.plotWidth) * (this.xMax - this.xMin)
-    return nearestIndex(primary.xs, time)
+    return nearestIndex(primary.xs, this.valueAtClientX(clientX))
   }
 
   handleHover() {
+    if (this.gestures?.active) return
+
     const primary = this.primary
     const index = this.indexAt(this.pointerX)
     if (index < 0 || (index === this.index && !this.tooltipEl.hidden)) return
@@ -737,6 +763,10 @@ export default class TimeSeriesChart {
     this.index = index
     const time = primary.xs[index]
     const cx = this.x(time)
+    if (cx < this.plot.left - 1 || cx > this.plot.right + 1) {
+      this.hideMarks()
+      return
+    }
 
     this.cursorEl.hidden = false
     this.cursorEl.style.transform = `translate3d(${cx.toFixed(1)}px, 0, 0)`
@@ -809,6 +839,10 @@ export default class TimeSeriesChart {
 
   hideCursor() {
     this.index = null
+    this.hideMarks()
+  }
+
+  hideMarks() {
     this.tooltipIndex = null
     this.cursorEl.hidden = true
     this.tooltipEl.hidden = true
@@ -818,6 +852,7 @@ export default class TimeSeriesChart {
   destroy() {
     cancelAnimationFrame(this.hoverFrame)
     this.resizeObserver?.disconnect()
+    this.gestures?.destroy()
     this.plotEl.removeEventListener('pointerdown', this.onPointerDown)
     this.plotEl.removeEventListener('pointermove', this.onPointerMove)
     this.plotEl.removeEventListener('pointerleave', this.onPointerLeave)

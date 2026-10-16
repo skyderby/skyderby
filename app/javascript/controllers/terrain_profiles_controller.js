@@ -24,7 +24,8 @@ export default class TerrainProfilesController extends LabeledController {
       profileHost: this.chartHostTarget,
       formatters: { profile: this.profileTooltip },
       labels: {
-        resetZoom: this.labels.t('flight_profiles.reset_zoom'),
+        zoomAll: this.labels.t('flight_profiles.zoom_all'),
+        preset: meters => `${meters} ${this.labels.t('units.m')}`,
         zoomTo: meters =>
           this.labels.t('flight_profiles.zoom_to_first', { distance: Math.round(meters) })
       }

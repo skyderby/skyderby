@@ -72,7 +72,10 @@ const context = (
     onHover = null,
     onLeave = null,
     comparePoints = null,
-    compareTimeOffset = 0
+    compareTimeOffset = 0,
+    xRange = null,
+    onZoom = null,
+    onPan = null
   }
 ) => {
   const xs = timeline(points, -xOffset)
@@ -93,7 +96,10 @@ const context = (
       plotBands: shiftBands(plotBands, xOffset),
       tooltipHeader: header,
       onHover,
-      onLeave
+      onLeave,
+      xRange,
+      onZoom,
+      onPan
     }
   }
 }

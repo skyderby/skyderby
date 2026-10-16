@@ -23,6 +23,11 @@ class SharedMapHandle {
     return overlay
   }
 
+  remove(overlay) {
+    detachOverlay(overlay)
+    this.overlays = this.overlays.filter(item => item !== overlay)
+  }
+
   clear() {
     this.overlays.forEach(detachOverlay)
     this.overlays = []

@@ -6,7 +6,7 @@ en:
     full_speed: Full speed
     ground_speed: Ground speed
     vertical_speed: Vertical speed
-    reset_zoom: Reset zoom
+    zoom_all: All
     zoom_to_first: "Zoom to first %{distance} m"
     pro_cta:
       prefix_view: See this track in
