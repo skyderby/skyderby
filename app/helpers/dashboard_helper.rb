@@ -6,6 +6,7 @@ module DashboardHelper
     return if personal_best.nil? || personal_best.track_id.nil?
 
     competition = personal_best.competition
+    return track_path(personal_best.track_id) if competition.flare?
     return unless competition.comparable_in_pro_view?
 
     if competition.base?

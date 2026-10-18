@@ -228,16 +228,18 @@ module Profiles
       return if flare_scores.empty?
 
       competition = flare_scores.first.virtual_competition
-      ranked = flare_results(flare_scores.map(&:virtual_competition_id)).sort_by do |result|
+      ranked = flare_results(flare_scores.map(&:virtual_competition_id)).sort_by do |result, _track_id|
         sort_value(competition, result)
       end
       return if ranked.empty?
 
+      best, best_track_id = ranked.last
       PersonalBest.new(
         discipline: :flare,
-        result: ranked.last,
+        result: best,
         competition: competition,
-        delta: ranked.size < 2 ? nil : signed_improvement(competition, ranked.last - ranked[-2])
+        delta: ranked.size < 2 ? nil : signed_improvement(competition, best - ranked[-2].first),
+        track_id: best_track_id
       )
     end
 
@@ -247,7 +249,7 @@ module Profiles
         .where(virtual_competition_id: competition_ids)
         .joins(:track)
         .where(tracks: { profile_id: id, kind: Track.kinds[current_activity] })
-        .pluck(:result)
+        .pluck(:result, :track_id)
     end
 
     def activity_scores

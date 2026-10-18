@@ -89,6 +89,20 @@ module Profiles
       assert_empty Dashboard.new(profile).exit_performances
     end
 
+    test 'base_flare points to the track with the best flare' do
+      profile = profiles(:alex)
+      create_tracks(profile, kind: :base, count: 2, starting: 1.day.ago)
+      weaker, best = profile.tracks.order(:recorded_at).last(2)
+      competition = create(:virtual_competition, discipline: :flare, jumps_kind: :base)
+      competition.results.create!(track: weaker, result: 10)
+      competition.results.create!(track: best, result: 15)
+
+      flare = Dashboard.new(profile, mode: 'base').base_flare
+
+      assert_equal 15, flare.result
+      assert_equal best.id, flare.track_id
+    end
+
     private
 
     def create_tracks(profile, kind:, count:, starting:)
