@@ -21,7 +21,7 @@ module JsLabelsHelper
       tracks.side_view.zoom_all
     ],
     polar: %w[charts.polar],
-    base_summary: %w[tracks.base_pro.summary tracks.base_pro.tooltip],
+    base_summary: %w[tracks.base_pro.summary tracks.base_pro.short tracks.base_pro.tooltip],
     speed_pro: %w[
       tracks.speed_pro.chart
       tracks.speed_pro.col_track

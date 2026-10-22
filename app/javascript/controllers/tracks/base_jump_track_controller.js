@@ -147,6 +147,7 @@ export default class extends PlaybackController {
 
         this.points = pointsData.points
         this.deployFlTime = pointsData.deployFlTime
+        this.landingFlTime = pointsData.landingFlTime
         this.points.forEach(point => {
           point.playerTime = point.flTime - this.points[0].flTime
         })
@@ -155,6 +156,7 @@ export default class extends PlaybackController {
         if (compareData && compareData.points.length > 0) {
           this.comparePoints = compareData.points
           this.compareDeployFlTime = compareData.deployFlTime
+          this.compareLandingFlTime = compareData.landingFlTime
           this.prepareCompare()
         }
 
@@ -631,7 +633,8 @@ export default class extends PlaybackController {
     const summary = this.summaryFor(
       this.points,
       this.hasExitFlTimeValue ? this.exitFlTimeValue : null,
-      this.deployFlTime
+      this.deployFlTime,
+      this.landingFlTime
     )
     if (!summary) return
 
@@ -639,7 +642,8 @@ export default class extends PlaybackController {
       ? this.summaryFor(
           this.comparePoints,
           this.hasCompareExitFlTimeValue ? this.compareExitFlTimeValue : null,
-          this.compareDeployFlTime
+          this.compareDeployFlTime,
+          this.compareLandingFlTime
         )
       : null
 
@@ -655,10 +659,11 @@ export default class extends PlaybackController {
     return this._summaryPanel
   }
 
-  summaryFor(points, exitFlTime, deployFlTime) {
+  summaryFor(points, exitFlTime, deployFlTime, landingFlTime) {
     return computeBaseJumpSummary(points, {
       exitFlTime,
       deployFlTime,
+      landingFlTime,
       wingsuit: this.wingsuitValue
     })
   }

@@ -36,12 +36,26 @@ class ProViewTest < ApplicationSystemTestCase
     assert_selector 'dialog.comparison-dialog[open]'
   end
 
-  test 'base jump pro view renders summary tiles and playback' do
+  test 'base jump pro view shows a summary with details and playback' do
     @track.update!(kind: :base)
     visit track_path(@track)
 
-    assert_selector '.base-jump-summary [data-summary-tile="glide"] [data-slot="value"]', text: /\d/
-    assert_selector '.base-jump-summary [data-summary-tile="first_drop"] .bjs-hist__row', minimum: 1
+    within '.summary-card' do
+      assert_selector '[data-summary-cell="glide"] [data-slot="value"]', text: /\d/
+      assert_selector '[data-summary-cell="max_speed"] [data-slot="value"]', text: /\d/
+      assert_selector '[data-summary-cell="first_drop"]'
+      assert_no_selector '[data-slot="compare"]'
+    end
+
+    find('.summary-card').click
+    within 'dialog.summary-sheet[open]' do
+      assert_selector '[data-summary-tile="first_drop"] .bjs-hist__row', minimum: 1
+      assert_selector '[data-summary-tile="max_speed"] [data-slot="value"]', text: /\d/
+      assert_selector '[data-summary-tile="canopy"] [data-slot="value"]', text: /\A\d+:\d{2}\z/
+      assert_no_selector '.bjs-tile__cmp'
+      find('.dialog-close').click
+    end
+    assert_no_selector 'dialog.summary-sheet[open]'
 
     find('.actions-bar-button[popovertarget="base-jump-settings-menu"]').click
     check I18n.t('tracks.base_jump.show_replay')
@@ -51,6 +65,19 @@ class ProViewTest < ApplicationSystemTestCase
       assert_selector '[data-playback-indicators-target="altitude"]', text: /\d+/
       assert_selector '[data-playback-indicators-target="altitudeSpent"]', text: /\d+/
     end
+  end
+
+  test 'base jump pro view summary leaves the reference distance to details on phones' do
+    @track.update!(kind: :base)
+    page.current_window.resize_to(390, 844)
+    visit track_path(@track)
+
+    within '.summary-card' do
+      assert_selector '[data-summary-cell="glide"] [data-slot="value"]', text: /\d/
+      assert_no_selector '[data-summary-cell="first_drop"]'
+    end
+  ensure
+    page.current_window.resize_to(1400, 1400)
   end
 
   private

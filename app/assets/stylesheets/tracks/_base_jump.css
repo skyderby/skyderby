@@ -660,24 +660,42 @@ td.side-tt-delta-cell {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 0.75rem;
-  margin-bottom: 1rem;
 }
 
-/* two per row from the narrowest phone that still leaves the bars room */
-@media (min-width: 360px) {
+@media (min-width: 768px) {
   .base-jump-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 1200px) {
-  .base-jump-summary {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+.bjs-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.5rem;
 }
 
-.base-jump-summary[hidden] {
+.bjs-pair [data-summary-tile][hidden] {
   display: none;
+}
+
+.bjs-tile__extra {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.bjs-tile__extra [data-slot="value"] {
+  font-family: var(--bjs-mono);
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.bjs-tile__extra-cmp {
+  margin-left: 0.35rem;
+  font-family: var(--bjs-mono);
+  color: var(--bjs-b);
 }
 
 .bjs-tile {
@@ -736,6 +754,10 @@ td.side-tt-delta-cell {
   font-size: 0.95rem;
   font-variant-numeric: tabular-nums;
   color: var(--bjs-b);
+}
+
+.bjs-tile__cmp[hidden] {
+  display: none;
 }
 
 .bjs-unit {
@@ -802,6 +824,10 @@ td.side-tt-delta-cell {
 .bjs-hist__fill.is-compare {
   height: 4px;
   background: var(--bjs-b);
+}
+
+.bjs-hist__fill[hidden] {
+  display: none;
 }
 
 .bjs-hist__value {

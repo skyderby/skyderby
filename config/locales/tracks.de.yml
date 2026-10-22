@@ -35,12 +35,34 @@ de:
       copy_hint: Zum Kopieren der Koordinaten klicken
       copied: Kopiert
     base_pro:
+      summary_title: Übersicht
+      details: "Details"
+      group:
+        marks: "Höhenmarken"
+        flight: "Flare und Schirm"
+      short:
+        glide_one: "GR-1.0-Höhe"
+        max_speed: "Max. Geschw."
+        max_flare: "Max. Flare"
+        one_to_one: 1:1-Höhe
+        first_drop: Erste %{drop}
+        glide: Gleitzahl
+        speed: Ø-Geschwindigkeit
       summary:
+        glide_one: "GR-1.0-Höhe"
+        max_speed: "Max. Geschwindigkeit"
+        max_flare: "Max. Flare"
+        canopy: "Schirmzeit"
+        max: "Max."
         one_to_one: 1:1-Höhe
         first_drop: Strecke in den ersten %{drop}
         glide: Gleitzahl
         speed: Durchschnittsgeschwindigkeit
       tooltip:
+        glide_one: "Höhenverlust bis zu dem Moment, ab dem die Gleitzahl 3 Sekunden lang über 1,0 blieb."
+        max_speed: "Höchste Gesamtgeschwindigkeit zwischen Exit und Öffnung."
+        max_flare: "Größter Höhengewinn in einem einzelnen Flare zwischen Exit und Öffnung."
+        canopy: "Zeit von der Öffnung bis zur Landung. Wird angezeigt, wenn der Landepunkt gesetzt ist."
         one_to_one: Höhenverlust in dem Moment, in dem die horizontale Distanz vom Absprung dem Höhenverlust entsprach — entlang der geflogenen Bahn gemessen.
         first_drop: Horizontale Distanz über die ersten %{drop} Höhenverlust, entlang der geflogenen Bahn gemessen.
         glide: Horizontale Distanz geteilt durch den Höhenverlust zwischen der 10. Sekunde und der Öffnung — entlang der Bahn gemessen, nicht aus Momentanwerten gemittelt. Die Balken zeigen, wie lange du in jedem Gleitzahl-Bereich warst.

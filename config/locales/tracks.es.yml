@@ -35,12 +35,34 @@ es:
       copy_hint: Haz clic para copiar las coordenadas
       copied: Copiado
     base_pro:
+      summary_title: Resumen
+      details: "Detalles"
+      group:
+        marks: "Alturas de referencia"
+        flight: "Flare y campana"
+      short:
+        glide_one: "Altura GR 1.0"
+        max_speed: "Velocidad máx."
+        max_flare: "Flare máx."
+        one_to_one: Altura 1:1
+        first_drop: Primeros %{drop}
+        glide: Planeo
+        speed: Velocidad media
       summary:
+        glide_one: "Altura GR 1.0"
+        max_speed: "Velocidad máx."
+        max_flare: "Flare máximo"
+        canopy: "Tiempo bajo campana"
+        max: "Máx."
         one_to_one: Altura 1:1
         first_drop: Distancia en los primeros %{drop}
         glide: Planeo
         speed: Velocidad media
       tooltip:
+        glide_one: "Altura perdida hasta el momento a partir del cual el planeo se mantuvo por encima de 1,0 durante 3 segundos."
+        max_speed: "Mayor velocidad total entre la salida y la apertura."
+        max_flare: "Mayor altura ganada en un solo flare entre la salida y la apertura."
+        canopy: "Tiempo desde la apertura hasta el aterrizaje. Se muestra si el punto de aterrizaje está definido."
         one_to_one: Altura perdida en el momento en que la distancia horizontal desde la salida igualó la caída, medida a lo largo de la trayectoria volada.
         first_drop: Distancia horizontal recorrida durante los primeros %{drop} de pérdida de altura, medida a lo largo de la trayectoria volada.
         glide: Distancia horizontal dividida por la altura perdida entre el segundo 10 y la apertura, medida sobre la trayectoria y no promediando valores instantáneos. Las barras muestran cuánto tiempo mantuviste cada banda de planeo.

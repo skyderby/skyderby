@@ -73,12 +73,34 @@ en:
       compare_button: Compare
       remove: Remove comparison
     base_pro:
+      summary_title: Summary
+      details: "Details"
+      group:
+        marks: "Altitude marks"
+        flight: "Flare and canopy"
+      short:
+        glide_one: "GR 1.0 altitude"
+        max_speed: "Max speed"
+        max_flare: "Max flare"
+        one_to_one: 1:1 altitude
+        first_drop: First %{drop}
+        glide: Glide ratio
+        speed: Average speed
       summary:
+        glide_one: "GR 1.0 altitude"
+        max_speed: "Max speed"
+        max_flare: "Max flare"
+        canopy: "Canopy time"
+        max: "Max"
         one_to_one: 1:1 altitude
         first_drop: Distance in first %{drop}
         glide: Glide ratio
         speed: Average speed
       tooltip:
+        glide_one: "Altitude lost by the moment from which the glide ratio stayed above 1.0 for 3 seconds."
+        max_speed: "Highest full speed between exit and deployment."
+        max_flare: "Highest altitude gained in a single flare between exit and deployment."
+        canopy: "Time from deployment to landing. Shown when the landing point is set."
         one_to_one: Altitude lost by the moment the horizontal distance from the exit matched the drop, measured along the flown trajectory.
         first_drop: Horizontal distance covered over the first %{drop} of altitude loss, measured along the flown trajectory.
         glide: Horizontal distance divided by altitude lost between the 10th second and deployment, measured along the trajectory rather than averaged from instant readings. Bars show how long you held each glide band.

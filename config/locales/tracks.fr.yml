@@ -35,12 +35,34 @@ fr:
       copy_hint: Cliquez pour copier les coordonnées
       copied: Copié
     base_pro:
+      summary_title: Résumé
+      details: "Détails"
+      group:
+        marks: "Altitudes repères"
+        flight: "Flare et voile"
+      short:
+        glide_one: "Altitude GR 1.0"
+        max_speed: "Vitesse max."
+        max_flare: "Flare max."
+        one_to_one: Altitude 1:1
+        first_drop: Premiers %{drop}
+        glide: Finesse
+        speed: Vitesse moyenne
       summary:
+        glide_one: "Altitude GR 1.0"
+        max_speed: "Vitesse max."
+        max_flare: "Flare max."
+        canopy: "Temps sous voile"
+        max: "Max."
         one_to_one: Altitude 1:1
         first_drop: Distance sur les premiers %{drop}
         glide: Finesse
         speed: Vitesse moyenne
       tooltip:
+        glide_one: "Altitude perdue jusqu’au moment à partir duquel la finesse est restée au-dessus de 1,0 pendant 3 secondes."
+        max_speed: "Vitesse totale maximale entre la sortie et l’ouverture."
+        max_flare: "Plus grand gain d’altitude en un seul flare entre la sortie et l’ouverture."
+        canopy: "Temps entre l’ouverture et l’atterrissage. Affiché si le point d’atterrissage est défini."
         one_to_one: Perte d'altitude au moment où la distance horizontale depuis la sortie a égalé la chute, mesurée le long de la trajectoire volée.
         first_drop: Distance horizontale parcourue sur les premiers %{drop} de perte d'altitude, mesurée le long de la trajectoire volée.
         glide: Distance horizontale divisée par la perte d'altitude entre la 10e seconde et l'ouverture, mesurée sur la trajectoire plutôt que moyennée à partir de valeurs instantanées. Les barres montrent le temps passé dans chaque plage de finesse.

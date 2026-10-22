@@ -35,6 +35,10 @@
   100% { transform: rotate(360deg); }
 }
 
+.icon--rotate-135 {
+  transform: rotate(135deg);
+}
+
 .icon--spin {
   animation: icon-spin 1s linear infinite;
 }

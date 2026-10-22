@@ -5,6 +5,12 @@ const EMPTY = '—'
 
 const seconds = value => (value >= 10 ? Math.round(value) : Number(value.toFixed(1)))
 
+const clock = value => {
+  if (value == null) return null
+  const total = Math.round(value)
+  return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, '0')}`
+}
+
 export default class BaseJumpSummaryPanel {
   constructor({ container, rowTemplate, labels }) {
     this.container = container
@@ -30,6 +36,12 @@ export default class BaseJumpSummaryPanel {
       unit: lengthUnit
     })
 
+    this.tile('glide_one', {
+      value: length(summary.glideOneDrop),
+      compare: compare && length(compare.glideOneDrop),
+      unit: lengthUnit
+    })
+
     this.tile('first_drop', {
       labelArgs: { drop },
       value: length(summary.referenceDistance),
@@ -42,7 +54,8 @@ export default class BaseJumpSummaryPanel {
         band => band.distance
       ),
       formatValue: length,
-      rowUnit: lengthUnit
+      rowUnit: lengthUnit,
+      cascade: true
     })
 
     this.tile('glide', {
@@ -72,12 +85,47 @@ export default class BaseJumpSummaryPanel {
       rowUnit: secondsUnit
     })
 
+    this.tile('max_speed', {
+      value: speed(summary.maxFullSpeed),
+      compare: compare && speed(compare.maxFullSpeed),
+      unit: speedUnitLabel(units, this.labels)
+    })
+
+    this.tile('max_flare', {
+      value: length(summary.maxFlare),
+      compare: compare && length(compare.maxFlare),
+      unit: lengthUnit
+    })
+
+    this.tile('canopy', {
+      value: clock(summary.canopyTime),
+      compare: compare && clock(compare.canopyTime),
+      hideEmpty: true
+    })
+
     this.container.hidden = false
   }
 
-  tile(key, { labelArgs, value, compare, unit = '', rows = null, formatValue, rowUnit }) {
+  tile(
+    key,
+    {
+      labelArgs,
+      value,
+      compare,
+      unit = '',
+      rows = null,
+      formatValue,
+      rowUnit,
+      hideEmpty,
+      cascade = false
+    }
+  ) {
+    this.cell(key, { labelArgs, value, compare, unit })
+
     const tile = this.container.querySelector(`[data-summary-tile="${key}"]`)
     if (!tile) return
+
+    tile.hidden = Boolean(hideEmpty) && value == null && compare == null
 
     if (labelArgs) {
       fillSlots(tile, {
@@ -106,8 +154,37 @@ export default class BaseJumpSummaryPanel {
     histogram.replaceChildren()
     if (!rows) return
 
-    const peak = Math.max(...rows.flatMap(row => [row.value ?? 0, row.compare ?? 0]), 1)
-    rows.forEach(row => histogram.append(this.rowNode(row, peak, formatValue, rowUnit)))
+    const placed = cascade ? this.cascaded(rows) : rows
+    const peak = cascade
+      ? Math.max(...placed.flatMap(row => [row.end, row.compareEnd]), 1)
+      : Math.max(...rows.flatMap(row => [row.value ?? 0, row.compare ?? 0]), 1)
+    placed.forEach(row => histogram.append(this.rowNode(row, peak, formatValue, rowUnit)))
+  }
+
+  cascaded(rows) {
+    let end = 0
+    let compareEnd = 0
+
+    return rows.map(row => {
+      const start = end
+      const compareStart = compareEnd
+      end += row.value ?? 0
+      compareEnd += row.compare ?? 0
+      return { ...row, start, compareStart, end, compareEnd }
+    })
+  }
+
+  cell(key, { labelArgs, value, compare, unit }) {
+    const cell = this.container.querySelector(`[data-summary-cell="${key}"]`)
+    if (!cell) return
+
+    fillSlots(cell, {
+      label: this.labels.t(`tracks.base_pro.short.${key}`, labelArgs),
+      value: value ?? EMPTY,
+      unit: value == null ? '' : unit,
+      compareValue: compare == null ? EMPTY : `${compare} ${unit}`.trim()
+    })
+    slot(cell, 'compare').hidden = !this.comparing
   }
 
   rowNode(row, peak, formatValue, unit) {
@@ -121,10 +198,13 @@ export default class BaseJumpSummaryPanel {
       unit
     })
 
-    slot(node, 'bar').style.width = `${((row.value ?? 0) / peak) * 100}%`
+    const bar = slot(node, 'bar')
+    bar.style.marginLeft = `${((row.start ?? 0) / peak) * 100}%`
+    bar.style.width = `${((row.value ?? 0) / peak) * 100}%`
 
     const compareBar = slot(node, 'compareBar')
     compareBar.hidden = !this.comparing
+    compareBar.style.marginLeft = `${((row.compareStart ?? 0) / peak) * 100}%`
     compareBar.style.width = `${((row.compare ?? 0) / peak) * 100}%`
 
     slot(node, 'sep').hidden = !this.comparing

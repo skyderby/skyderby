@@ -1,19 +1,84 @@
-<div class="base-jump-summary" hidden data-tracks--base-jump-track-target="summary">
-  <% %w[one_to_one first_drop glide speed].each do |key| %>
-    <div class="bjs-tile" data-summary-tile="<%= key %>">
-      <div class="bjs-tile__label">
-        <span data-slot="label"><%= t("tracks.base_pro.summary.#{key}", drop: '') %></span>
-        <span class="bjs-help" tabindex="0" role="button" aria-label="<%= t("tracks.base_pro.tooltip.#{key}", drop: '') %>">?<span class="bjs-help__bubble" data-slot="help"><%= t("tracks.base_pro.tooltip.#{key}", drop: '') %></span></span>
-      </div>
-      <div class="bjs-tile__body">
-        <div class="bjs-tile__figures">
-          <div class="bjs-tile__value"><span data-slot="value"></span><span class="bjs-unit" data-slot="unit"></span></div>
-          <div class="bjs-tile__cmp" data-slot="compare" hidden><span class="bjs-dot"></span><span data-slot="compareValue"></span></div>
-        </div>
-        <div class="bjs-hist" data-slot="histogram" hidden></div>
+<% cells = {
+     one_to_one: ['arrow-up-long', 'orange', 'icon--rotate-135'],
+     glide_one: ['location-arrow', 'green'],
+     first_drop: ['ruler-horizontal', 'blue', nil, true],
+     glide: ['location-arrow', 'cyan'],
+     speed: ['gauge-high', 'pink'],
+     max_speed: ['gauge-high', 'indigo'],
+     max_flare: ['arrow-up-long', 'red']
+   } %>
+
+<div hidden data-controller="summary-sheet" data-tracks--base-jump-track-target="summary">
+  <button type="button" class="summary-card" data-action="summary-sheet#open">
+    <span class="summary-card__header">
+      <span class="summary-card__title"><%= t('tracks.base_pro.summary_title') %></span>
+      <span class="summary-card__more"><%= t('tracks.base_pro.details') %> <%= icon_tag 'angle-right-solid' %></span>
+    </span>
+    <span class="summary-card__grid">
+      <% cells.each do |key, (icon, color, icon_class, secondary)| %>
+        <span class="<%= class_names('summary-card__cell', "summary-card__cell--#{color}", 'summary-card__cell--secondary': secondary) %>" data-summary-cell="<%= key %>">
+          <span class="summary-card__icon"><%= icon_tag icon, class: icon_class %></span>
+          <span class="summary-card__text">
+            <span class="summary-card__label" data-slot="label"><%= t("tracks.base_pro.short.#{key}", drop: '') %></span>
+            <span class="summary-card__value"><span data-slot="value"></span> <span class="summary-card__unit" data-slot="unit"></span></span>
+            <span class="summary-card__compare" data-slot="compare" hidden><span data-slot="compareValue"></span></span>
+          </span>
+        </span>
+      <% end %>
+    </span>
+  </button>
+
+  <dialog class="dialog dialog-size-lg summary-sheet"
+          aria-labelledby="base-jump-summary-title"
+          data-summary-sheet-target="dialog"
+          data-action="close->summary-sheet#closed click->summary-sheet#closeOnBackdrop">
+    <div class="dialog-header">
+      <h2 class="dialog-title" id="base-jump-summary-title"><%= t('tracks.base_pro.summary_title') %></h2>
+      <form method="dialog">
+        <button class="dialog-close" aria-label="<%= t('general.close') %>">
+          <%= icon_tag 'xmark' %>
+        </button>
+      </form>
+    </div>
+    <div class="dialog-body">
+      <div class="base-jump-summary">
+        <% { marks: %w[one_to_one glide_one], flight: %w[max_flare canopy] }.each do |group, keys| %>
+          <div class="bjs-tile">
+            <div class="bjs-tile__label"><%= t("tracks.base_pro.group.#{group}") %></div>
+            <div class="bjs-pair">
+              <% keys.each do |key| %>
+                <div data-summary-tile="<%= key %>">
+                  <%= render 'tracks/base_jump_summary_label', key: %>
+                  <div class="bjs-tile__value"><span data-slot="value"></span><span class="bjs-unit" data-slot="unit"></span></div>
+                  <div class="bjs-tile__cmp" data-slot="compare" hidden><span class="bjs-dot"></span><span data-slot="compareValue"></span></div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <% %w[first_drop glide speed].each do |key| %>
+          <div class="bjs-tile" data-summary-tile="<%= key %>">
+            <%= render 'tracks/base_jump_summary_label', key: %>
+            <div class="bjs-tile__body">
+              <div class="bjs-tile__figures">
+                <div class="bjs-tile__value"><span data-slot="value"></span><span class="bjs-unit" data-slot="unit"></span></div>
+                <div class="bjs-tile__cmp" data-slot="compare" hidden><span class="bjs-dot"></span><span data-slot="compareValue"></span></div>
+                <% if key == 'speed' %>
+                  <div class="bjs-tile__extra" data-summary-tile="max_speed">
+                    <%= t('tracks.base_pro.summary.max') %>
+                    <span data-slot="value"></span><span class="bjs-unit" data-slot="unit"></span>
+                    <span class="bjs-tile__extra-cmp" data-slot="compare" hidden><span data-slot="compareValue"></span></span>
+                  </div>
+                <% end %>
+              </div>
+              <div class="bjs-hist" data-slot="histogram" hidden></div>
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
-  <% end %>
+  </dialog>
 </div>
 
 <template data-tracks--base-jump-track-target="histogramRowTemplate">

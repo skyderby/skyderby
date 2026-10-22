@@ -1,6 +1,7 @@
 json.key_format! camelize: :lower
 
 json.deploy_fl_time @track.ff_end
+json.landing_fl_time @track.landing_fl_time
 
 json.points @points do |point|
   json.extract! point,

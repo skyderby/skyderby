@@ -130,4 +130,25 @@ describe('computeBaseJumpSummary', () => {
 
     expect(steepSeconds).toBe(0)
   })
+
+  test('reports GR 1.0 altitude, max speed, flare and canopy time', () => {
+    const points = buildPoints().map(p => {
+      const steep = p.flTime > 2 && p.flTime <= 12
+      const gliding = p.flTime > 12
+      const hSpeed = steep ? 36 : gliding ? 172.8 : 0
+      const vSpeed = steep ? 108 : gliding ? 54 : 0
+      return { ...p, hSpeed, vSpeed, fullSpeed: Math.hypot(hSpeed, vSpeed) }
+    })
+
+    const summary = computeBaseJumpSummary(points, { ...options, landingFlTime: 140 })
+
+    expect(summary.glideOneDrop).toBeCloseTo(315)
+    expect(summary.maxFullSpeed).toBeCloseTo(Math.hypot(172.8, 54))
+    expect(summary.maxFlare).toBeNull()
+    expect(summary.canopyTime).toBe(100)
+  })
+
+  test('has no canopy time without a landing', () => {
+    expect(computeBaseJumpSummary(buildPoints(), options).canopyTime).toBeNull()
+  })
 })

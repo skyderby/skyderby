@@ -1,4 +1,5 @@
 import { vincentyDistance } from '../geo'
+import { findGlideOneIndex, maxFlareGain } from './jumpMarks'
 
 export const WINDOW_START = 10
 export const REFERENCE_DROP = 200
@@ -159,17 +160,17 @@ const sum = (samples, valueOf) =>
 
 export const computeBaseJumpSummary = (
   points,
-  { exitFlTime = null, deployFlTime = null, wingsuit = false } = {}
+  { exitFlTime = null, deployFlTime = null, landingFlTime = null, wingsuit = false } = {}
 ) => {
   if (!points || points.length < 2) return null
 
   const profile = buildProfile(points)
   const exit = exitFlTime ?? profile[0].t
-  const samples = sampleWindow(
-    profile,
-    exit + WINDOW_START,
-    deployFlTime ?? profile[profile.length - 1].t
-  )
+  const deploy = deployFlTime ?? profile[profile.length - 1].t
+  const samples = sampleWindow(profile, exit + WINDOW_START, deploy)
+  const flight = points.filter(point => point.flTime >= exit && point.flTime <= deploy)
+  const glideOneIndex = findGlideOneIndex(points, { fromFlTime: exit, toFlTime: deploy })
+  const fullSpeeds = flight.map(point => point.fullSpeed).filter(Number.isFinite)
 
   const totalTime = sum(samples, sample => sample.dt)
   const totalDrop = sum(samples, sample => sample.dv)
@@ -178,6 +179,13 @@ export const computeBaseJumpSummary = (
 
   return {
     oneToOneDrop: findOneToOneDrop(profile),
+    glideOneDrop: glideOneIndex === null ? null : profile[glideOneIndex].drop,
+    maxFlare: maxFlareGain(flight),
+    maxFullSpeed: fullSpeeds.length ? Math.max(...fullSpeeds) : null,
+    canopyTime:
+      deployFlTime !== null && landingFlTime > deployFlTime
+        ? landingFlTime - deployFlTime
+        : null,
     referenceDrop: REFERENCE_DROP,
     referenceDistance: distanceAtDrop(profile, REFERENCE_DROP),
     referenceBands: dropBands(profile, REFERENCE_DROP, REFERENCE_BAND),

@@ -35,12 +35,34 @@ it:
       copy_hint: Clicca per copiare le coordinate
       copied: Copiato
     base_pro:
+      summary_title: Riepilogo
+      details: "Dettagli"
+      group:
+        marks: "Quote di riferimento"
+        flight: "Flare e vela"
+      short:
+        glide_one: "Quota GR 1.0"
+        max_speed: "Velocità max"
+        max_flare: "Flare max"
+        one_to_one: Quota 1:1
+        first_drop: Primi %{drop}
+        glide: Efficienza
+        speed: Velocità media
       summary:
+        glide_one: "Quota GR 1.0"
+        max_speed: "Velocità max"
+        max_flare: "Flare massimo"
+        canopy: "Tempo sotto vela"
+        max: "Max"
         one_to_one: Quota 1:1
         first_drop: Distanza nei primi %{drop}
         glide: Efficienza
         speed: Velocità media
       tooltip:
+        glide_one: "Quota persa fino al momento da cui l’efficienza è rimasta sopra 1,0 per 3 secondi."
+        max_speed: "Massima velocità totale tra uscita e apertura."
+        max_flare: "Massima quota guadagnata in un singolo flare tra uscita e apertura."
+        canopy: "Tempo dall’apertura all’atterraggio. Mostrato se il punto di atterraggio è impostato."
         one_to_one: Quota persa nel momento in cui la distanza orizzontale dall'uscita ha eguagliato la caduta, misurata lungo la traiettoria percorsa.
         first_drop: Distanza orizzontale percorsa nei primi %{drop} di perdita di quota, misurata lungo la traiettoria percorsa.
         glide: Distanza orizzontale divisa per la quota persa tra il decimo secondo e l'apertura, misurata sulla traiettoria e non mediando valori istantanei. Le barre mostrano quanto tempo hai tenuto ogni fascia di efficienza.

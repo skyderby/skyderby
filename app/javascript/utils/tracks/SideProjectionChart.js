@@ -1,5 +1,6 @@
 import { vincentyDistance } from '../geo'
 import { detectFlares, drawFlares } from './flareDetection'
+import { findGlideOneIndex } from './jumpMarks'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 import { SVG_NS } from 'charts/svg/elements'
 import { formatAxisLength, deltaCellHtml } from 'charts/svg/format'
@@ -252,6 +253,7 @@ export default class SideProjectionChart {
     this.drawTrajectory()
     this.drawCompareTrajectory()
     this.drawIntersectionPoint()
+    this.drawGlideOnePoint()
     this.drawFinishLineCrossing()
     this.drawFlares()
     this.renderMaxSpeedMarker()
@@ -708,6 +710,42 @@ export default class SideProjectionChart {
     label.setAttribute('font-size', '11')
     label.setAttribute('fill', '#f00')
     label.textContent = `1:1 ${Math.round(convertLength(intersection.x, this.options.units))}${lengthUnitLabel(this.options.units, this.labels)}`
+    this.annotations.appendChild(label)
+  }
+
+  drawGlideOnePoint() {
+    const index = findGlideOneIndex(this.flightProfile)
+    if (index === null) return
+
+    const point = this.flightProfile[index]
+    const x = this.scaleX(point.x)
+    const y = this.scaleY(point.y)
+    const color = '#0a7d5f'
+
+    const circle = document.createElementNS(SVG_NS, 'circle')
+    circle.setAttribute('class', 'glide-one-marker')
+    circle.setAttribute('cx', x)
+    circle.setAttribute('cy', y)
+    circle.setAttribute('r', '2')
+    circle.setAttribute('fill', color)
+    this.annotations.appendChild(circle)
+
+    const extLine = document.createElementNS(SVG_NS, 'line')
+    extLine.setAttribute('x1', x)
+    extLine.setAttribute('y1', y)
+    extLine.setAttribute('x2', x + 25)
+    extLine.setAttribute('y2', y)
+    extLine.setAttribute('stroke', color)
+    extLine.setAttribute('stroke-width', '1')
+    extLine.setAttribute('stroke-dasharray', '2,2')
+    this.annotations.appendChild(extLine)
+
+    const label = document.createElementNS(SVG_NS, 'text')
+    label.setAttribute('x', x + 28)
+    label.setAttribute('y', y + 4)
+    label.setAttribute('font-size', '11')
+    label.setAttribute('fill', color)
+    label.textContent = `GR 1.0 ${Math.round(convertLength(point.y, this.options.units))}${lengthUnitLabel(this.options.units, this.labels)}`
     this.annotations.appendChild(label)
   }
 
