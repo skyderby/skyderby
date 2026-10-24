@@ -7,7 +7,7 @@
     <div class="notice notice--error notice--md"><%= flash[:alert] %></div>
   <% end %>
 
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'sd-form' }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'sd-form' }, data: { turbo: false }) do |f| %>
     <div>
       <%= f.label :email, class: 'form-label' %>
       <%= f.email_field :email, autofocus: true, class: 'form-input', required: true, placeholder: 'name@example.com' %>
