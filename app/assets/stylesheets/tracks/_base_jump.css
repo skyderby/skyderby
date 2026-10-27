@@ -248,6 +248,9 @@
 .side-projection-chart {
   width: 100%;
   height: 100%;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .side-projection-selection {
