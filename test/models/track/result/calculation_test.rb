@@ -49,4 +49,13 @@ class Track::Result::CalculationTest < ActiveSupport::TestCase
     assert result
     assert_in_delta 28.5, result.result, 0.1
   end
+
+  test 'measures a flare still climbing at deployment up to its peak' do
+    track = create_track_from_file('WBR/Yegor_16_Round3.CSV', kind: :base)
+    track.update!(ff_end: 49)
+
+    Track::Result::Calculation.run(track)
+
+    assert_in_delta 23.6, track.results.find_by(discipline: :flare).result, 0.1
+  end
 end

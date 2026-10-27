@@ -155,6 +155,10 @@ const distribution = (samples, buckets, valueOf) => {
   return buckets.map((bucket, index) => ({ ...bucket, seconds: seconds[index] }))
 }
 
+const flareEndFlTime = (points, deploy) =>
+  points.find(point => point.flTime > deploy && point.vSpeed >= 0)?.flTime ??
+  points[points.length - 1].flTime
+
 const sum = (samples, valueOf) =>
   samples.reduce((total, sample) => total + valueOf(sample), 0)
 
@@ -169,6 +173,8 @@ export const computeBaseJumpSummary = (
   const deploy = deployFlTime ?? profile[profile.length - 1].t
   const samples = sampleWindow(profile, exit + WINDOW_START, deploy)
   const flight = points.filter(point => point.flTime >= exit && point.flTime <= deploy)
+  const flareEnd = flareEndFlTime(points, deploy)
+  const flare = points.filter(point => point.flTime >= exit && point.flTime <= flareEnd)
   const glideOneIndex = findGlideOneIndex(points, { fromFlTime: exit, toFlTime: deploy })
   const fullSpeeds = flight.map(point => point.fullSpeed).filter(Number.isFinite)
 
@@ -180,7 +186,7 @@ export const computeBaseJumpSummary = (
   return {
     oneToOneDrop: findOneToOneDrop(profile),
     glideOneDrop: glideOneIndex === null ? null : profile[glideOneIndex].drop,
-    maxFlare: maxFlareGain(flight),
+    maxFlare: maxFlareGain(flare),
     maxFullSpeed: fullSpeeds.length ? Math.max(...fullSpeeds) : null,
     canopyTime:
       deployFlTime !== null && landingFlTime > deployFlTime

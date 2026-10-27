@@ -3,6 +3,7 @@ class Track::Result
     BASE_START_SPEED = 10
     DISTANCE_IN_TIME_WINDOWS = [20, 25, 30].freeze
     PERFORMANCE_TASKS = %i[speed distance time].freeze
+    FLARE_SECONDS_AFTER_END = 10
 
     def self.run(track) = new(track).run
 
@@ -156,14 +157,17 @@ class Track::Result
     end
 
     def flare_points
-      build_flight_points
+      points = build_flight_points(seconds_after_end: FLARE_SECONDS_AFTER_END, columns: %i[fl_time])
+      flare_end = points.index { |point| point[:fl_time] > track.ff_end && point[:v_speed] >= 0 }
+
+      flare_end ? points.first(flare_end + 1) : points
     end
 
-    def build_flight_points
+    def build_flight_points(seconds_after_end: nil, columns: [])
       raw_points = PointsQuery.execute \
         track,
-        trimmed: { seconds_before_start: 10 },
-        only: %i[gps_time time_diff altitude latitude longitude h_speed v_speed glide_ratio]
+        trimmed: { seconds_before_start: 10, seconds_after_end: }.compact,
+        only: %i[gps_time time_diff altitude latitude longitude h_speed v_speed glide_ratio] + columns
 
       PointsPostprocessor.for(track.gps_type).call(raw_points)
     end

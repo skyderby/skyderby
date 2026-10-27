@@ -148,6 +148,23 @@ describe('computeBaseJumpSummary', () => {
     expect(summary.canopyTime).toBe(100)
   })
 
+  test('measures a flare that is still climbing at deployment up to its peak', () => {
+    const points = [
+      { flTime: 0, altitude: 300, vSpeed: 40 },
+      { flTime: 1, altitude: 260, vSpeed: 40 },
+      { flTime: 2, altitude: 250, vSpeed: -10 },
+      { flTime: 3, altitude: 265, vSpeed: -15 },
+      { flTime: 4, altitude: 275, vSpeed: -10 },
+      { flTime: 5, altitude: 280, vSpeed: -5 },
+      { flTime: 6, altitude: 278, vSpeed: 2 },
+      { flTime: 7, altitude: 290, vSpeed: -12 }
+    ].map(p => ({ ...p, latitude: 0, longitude: 0, hSpeed: 30, fullSpeed: 30 }))
+
+    const summary = computeBaseJumpSummary(points, { exitFlTime: 0, deployFlTime: 3 })
+
+    expect(summary.maxFlare).toBeCloseTo(30)
+  })
+
   test('has no canopy time without a landing', () => {
     expect(computeBaseJumpSummary(buildPoints(), options).canopyTime).toBeNull()
   })
