@@ -820,6 +820,9 @@ export default class TimeSeriesChart {
         swatch.style.background = series.lineColor || series.color
         const value = document.createElement('b')
         value.textContent = series.value(pointIndex)
+        if (series.acceleration) {
+          value.insertAdjacentHTML('beforeend', series.acceleration(pointIndex))
+        }
         row.append(swatch, document.createTextNode(`${series.name}: `), value)
         nodes.push(row)
       })

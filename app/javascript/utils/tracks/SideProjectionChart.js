@@ -3,7 +3,7 @@ import { detectFlares, drawFlares } from './flareDetection'
 import { findGlideOneIndex } from './jumpMarks'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
 import { SVG_NS } from 'charts/svg/elements'
-import { formatAxisLength, deltaCellHtml } from 'charts/svg/format'
+import { formatAxisLength, deltaCellHtml, accelerationHtml } from 'charts/svg/format'
 import Crosshair from 'charts/svg/Crosshair'
 import ViewportGestures from 'charts/ViewportGestures'
 import { accelerationAt } from './playback/indicators'
@@ -13,19 +13,6 @@ const MIN_WINDOW = 50
 const GRID_STEPS = [5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000]
 const MAX_GRID_LINES = 10
 const RANGE_PADDING = 1.1
-const STRONG_ACCELERATION = 4
-const ACCELERATION = 0.5
-
-const accelerationHtml = value => {
-  if (value == null) return ''
-
-  const magnitude = Math.abs(value)
-  const count = magnitude >= STRONG_ACCELERATION ? 2 : magnitude >= ACCELERATION ? 1 : 0
-  if (!count) return ''
-
-  const direction = value > 0 ? 'up' : 'down'
-  return `<span class="side-tt-accel side-tt-accel--${direction}">${'<i></i>'.repeat(count)}</span>`
-}
 
 const ZOOM_PRESETS = {
   metric: [100, 200, 300, 500],
@@ -1370,6 +1357,13 @@ export default class SideProjectionChart {
     else this.positionTooltipAtPoint(point)
   }
 
+  showTooltipAtIndex(index) {
+    const point = this.flightProfile[index]
+    if (!point || !this.tooltip || index === this.tooltipIndex) return
+
+    this.showTooltip(point, null, index)
+  }
+
   tooltipSize() {
     if (!this.tooltipBox) {
       const rect = this.tooltip.getBoundingClientRect()
@@ -1406,8 +1400,8 @@ export default class SideProjectionChart {
         ? pointX - width - offset
         : pointX + offset
 
-    this.tooltip.style.left = `${left}px`
-    this.tooltip.style.top = `${Math.max(0, pointY - height - offset)}px`
+    this.tooltip.style.left = `${clamp(left, 0, Math.max(0, containerRect.width - width))}px`
+    this.tooltip.style.top = `${clamp(pointY - height - offset, 0, Math.max(0, containerRect.height - height))}px`
   }
 
   comparisonTooltipHtml(point, primaryClearance, acceleration) {

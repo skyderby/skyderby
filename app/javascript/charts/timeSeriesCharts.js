@@ -1,6 +1,8 @@
 import TimeSeriesChart from './TimeSeriesChart'
 import { calculateCumulativeDistance } from './altitudeDistance'
 import { convertSpeed, convertLength, speedUnitLabel, lengthUnitLabel } from 'utils/units'
+import { accelerationHtml } from './svg/format'
+import { accelerationAt } from 'utils/tracks/playback/indicators'
 
 const GLIDE_COLOR = '#37889B'
 const GLIDE_WIND_COLOR = 'rgba(63, 136, 167, 0.3)'
@@ -55,6 +57,9 @@ const speedValue =
   (points, key, { units, labels }) =>
   i =>
     `${Math.round(convertSpeed(points[i][key], units))} ${speedUnitLabel(units, labels)}`
+
+const speedAcceleration = (points, key) => i =>
+  accelerationHtml(accelerationAt(points, i)?.[key])
 
 const lengthValue =
   (points, key, { units, labels }) =>
@@ -135,7 +140,8 @@ const speedSeries = (points, xs, ctx) => [
     color: GROUND_SPEED_COLOR,
     xs,
     ys: speedValues(points, 'hSpeed', ctx),
-    value: speedValue(points, 'hSpeed', ctx)
+    value: speedValue(points, 'hSpeed', ctx),
+    acceleration: speedAcceleration(points, 'hSpeedAccel')
   },
   {
     code: 'vertical_speed',
@@ -143,7 +149,8 @@ const speedSeries = (points, xs, ctx) => [
     color: VERTICAL_SPEED_COLOR,
     xs,
     ys: speedValues(points, 'vSpeed', ctx),
-    value: speedValue(points, 'vSpeed', ctx)
+    value: speedValue(points, 'vSpeed', ctx),
+    acceleration: speedAcceleration(points, 'vSpeedAccel')
   },
   {
     code: 'full_speed',
@@ -152,7 +159,8 @@ const speedSeries = (points, xs, ctx) => [
     visible: false,
     xs,
     ys: speedValues(points, 'fullSpeed', ctx),
-    value: speedValue(points, 'fullSpeed', ctx)
+    value: speedValue(points, 'fullSpeed', ctx),
+    acceleration: speedAcceleration(points, 'fullSpeedAccel')
   }
 ]
 

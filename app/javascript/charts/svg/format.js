@@ -3,6 +3,9 @@ import { convertLength } from 'utils/units'
 export const PRIMARY_COLOR = '#2196F3'
 export const COMPARE_COLOR = '#9C27B0'
 
+const STRONG_ACCELERATION = 4
+const ACCELERATION = 0.5
+
 export const formatAxisLength = (meters, units) => {
   const value = convertLength(meters, units)
   if (units === 'imperial') {
@@ -33,4 +36,15 @@ export const deltaCellHtml = (a, b, digits = 0, cap = null) => {
   }
 
   return `<span class="side-tt-delta"><span class="side-tt-delta__bar"><span class="side-tt-delta__mark"></span><span class="side-tt-delta__fill" style="${fillStyle}"></span></span><span class="side-tt-delta__val ${valueClass}">${valueText}</span></span>`
+}
+
+export const accelerationHtml = value => {
+  if (value == null) return ''
+
+  const magnitude = Math.abs(value)
+  const count = magnitude >= STRONG_ACCELERATION ? 2 : magnitude >= ACCELERATION ? 1 : 0
+  if (!count) return ''
+
+  const direction = value > 0 ? 'up' : 'down'
+  return `<span class="tooltip-accel tooltip-accel--${direction}">${'<i></i>'.repeat(count)}</span>`
 }

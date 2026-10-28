@@ -511,13 +511,23 @@ export default class extends PlaybackController {
       xOffset: this.chartXOffset,
       units: this.units,
       labels: this.labels,
-      onHover: index => this.seekTo(index),
-      onLeave: () => this.chartGroup.scheduleHide(),
+      onHover: index => this.onTimeSeriesHover(index),
+      onLeave: () => this.onTimeSeriesLeave(),
       xRange: this.viewport?.range,
       onZoom: (factor, anchor) => this.viewport.zoom(factor, anchor),
       onPan: delta => this.viewport.pan(delta),
       ...this.compareChartOptions
     }
+  }
+
+  onTimeSeriesHover(index) {
+    this.seekTo(index)
+    this.sideProjectionChart?.showTooltipAtIndex(index)
+  }
+
+  onTimeSeriesLeave() {
+    this.chartGroup.scheduleHide()
+    this.sideProjectionChart?.hideTooltip()
   }
 
   get chartTimeOrigin() {

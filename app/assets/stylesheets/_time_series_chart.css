@@ -225,3 +225,35 @@
   stroke: var(--white);
   stroke-width: 1;
 }
+
+.tooltip-accel {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+
+.tooltip-accel i {
+  width: 5px;
+  height: 5px;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+}
+
+.tooltip-accel--up {
+  color: var(--green-70);
+}
+
+.tooltip-accel--up i {
+  transform: translateY(1px) rotate(45deg);
+}
+
+.tooltip-accel--down {
+  color: var(--red-70);
+}
+
+.tooltip-accel--down i {
+  transform: translateY(-1px) rotate(225deg);
+}
