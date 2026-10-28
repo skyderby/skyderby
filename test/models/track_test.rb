@@ -88,6 +88,29 @@ class TrackTest < ActiveSupport::TestCase
     assert_nil track.landing_point
   end
 
+  test '#msl_offset - landing point altitude when ground level is unknown' do
+    track = track_with_points(ff_start: 0)
+    track.update!(landing_fl_time: 3)
+
+    assert_in_delta 1_200.0, track.msl_offset
+  end
+
+  test '#msl_offset - ignores inaccurate points when landing is unknown' do
+    track = track_with_points(ff_start: 0)
+    track.update!(landed_at: nil)
+    track.points.find_by(fl_time: 0).update!(abs_altitude: -555, vertical_accuracy: 4_331)
+
+    assert_in_delta 1_100.0, track.msl_offset
+  end
+
+  test '#msl_offset - minimum altitude when every point is inaccurate' do
+    track = track_with_points(ff_start: 0)
+    track.update!(landed_at: nil)
+    track.points.update_all(vertical_accuracy: 50)
+
+    assert_in_delta 1_100.0, track.msl_offset
+  end
+
   test '#delete_online_competitions_results - deletes all results' do
     online_competition = virtual_competitions(:skydive_distance_wingsuit)
     track = create :empty_track

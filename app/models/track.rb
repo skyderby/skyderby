@@ -32,6 +32,8 @@ class Track < ApplicationRecord
   include Ownerable, WeatherData
   include Track::Permissions
 
+  MAX_GROUND_VERTICAL_ACCURACY = 10
+
   enum :kind, { skydive: 0, base: 1, speed_skydiving: 2 }
   enum :visibility, { public_track: 0, unlisted_track: 1, private_track: 2 }
   enum :gps_type, { gpx: 0, flysight: 1, columbus: 2, wintec: 3, cyber_eye: 4, kml: 5, flysight2: 6 }
@@ -178,7 +180,7 @@ class Track < ApplicationRecord
       elsif place_msl
         place_msl
       else
-        points.minimum(:abs_altitude) || 0
+        recorded_ground_altitude
       end
   end
 
@@ -222,6 +224,17 @@ class Track < ApplicationRecord
     return if fl_time.blank?
 
     points.where(fl_time: fl_time..).first || points.last
+  end
+
+  def recorded_ground_altitude
+    landing_point&.abs_altitude || accurate_min_altitude || points.minimum(:abs_altitude) || 0
+  end
+
+  def accurate_min_altitude
+    points
+      .where(vertical_accuracy: nil)
+      .or(points.where(vertical_accuracy: ..MAX_GROUND_VERTICAL_ACCURACY))
+      .minimum(:abs_altitude)
   end
 
   def rescore_online_competitions = OnlineCompetitionJob.perform_later(id)
