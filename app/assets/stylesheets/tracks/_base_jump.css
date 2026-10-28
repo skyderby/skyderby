@@ -818,7 +818,6 @@ td.side-tt-delta-cell {
   color: var(--bjs-b);
 }
 
-/* ---- help tooltip: anchored to the tile, so it can never leave the screen ---- */
 .bjs-help {
   display: inline-grid;
   place-items: center;
@@ -833,39 +832,3 @@ td.side-tt-delta-cell {
   cursor: help;
 }
 
-.bjs-help__bubble {
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 0;
-  right: 0;
-  padding: 0.55rem 0.7rem;
-  background: var(--blue-gray-90);
-  color: var(--white);
-  font-size: 0.72rem;
-  font-weight: 400;
-  line-height: 1.45;
-  letter-spacing: 0;
-  text-transform: none;
-  border-radius: var(--border-radius-sm);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.12s;
-  z-index: 20;
-  box-shadow: 0 6px 24px rgba(37, 47, 60, 0.3);
-}
-
-.bjs-help__bubble::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 5px solid transparent;
-  border-top-color: var(--blue-gray-90);
-}
-
-.bjs-help:hover .bjs-help__bubble,
-.bjs-help:focus .bjs-help__bubble {
-  opacity: 1;
-  visibility: visible;
-}

@@ -31,3 +31,10 @@
 .tooltip-popover:popover-open {
   opacity: 1;
 }
+
+.tooltip-popover--text {
+  padding: 0.5rem 0.7rem;
+  line-height: 1.45;
+  white-space: normal;
+  max-inline-size: 36ch;
+}

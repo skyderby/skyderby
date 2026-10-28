@@ -1,14 +1,20 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
+  static values = { variant: String }
+
   connect() {
     this.element.addEventListener('mouseenter', this.show)
     this.element.addEventListener('mouseleave', this.hide)
+    this.element.addEventListener('focusin', this.show)
+    this.element.addEventListener('focusout', this.hide)
   }
 
   disconnect() {
     this.element.removeEventListener('mouseenter', this.show)
     this.element.removeEventListener('mouseleave', this.hide)
+    this.element.removeEventListener('focusin', this.show)
+    this.element.removeEventListener('focusout', this.hide)
     this.hide()
   }
 
@@ -16,9 +22,14 @@ export default class extends Controller {
     const sr = this.element.querySelector('.for-screen-reader')
     if (!sr) return
 
+    clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       const tooltip = this.tooltipContainer
       tooltip.innerHTML = sr.innerHTML
+      tooltip.className = 'tooltip-popover'
+      if (this.variantValue)
+        tooltip.classList.add(`tooltip-popover--${this.variantValue}`)
+      if (tooltip.matches(':popover-open')) tooltip.hidePopover()
       tooltip.showPopover()
 
       const triggerRect = this.element.getBoundingClientRect()
