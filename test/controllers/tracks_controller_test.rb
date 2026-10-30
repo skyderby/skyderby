@@ -36,6 +36,24 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     assert_select '.base-jump-video', false
   end
 
+  test '#show puts both videos side by side when comparing tracks' do
+    track, compare_track = pro_view_tracks_with_videos
+    get track_path(track, compare_id: compare_track.id)
+
+    assert_response :success
+    assert_select '.base-jump-videos .base-jump-video', 2
+    assert_select '[data-tracks--base-jump-track-compare-video-code-value]'
+  end
+
+  test '#show hides the video when the compared track has none' do
+    track, compare_track = pro_view_tracks_with_videos
+    compare_track.video.destroy!
+    get track_path(track, compare_id: compare_track.reload.id)
+
+    assert_response :success
+    assert_select '.base-jump-video', false
+  end
+
   test '#index orders by speed independently of other disciplines' do
     faster = create(:empty_track, :with_point, owner: @user)
     slower = create(:empty_track, :with_point, owner: @user)
@@ -109,5 +127,18 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     sign_in @organizer
     get edit_track_path(@event_track)
     assert_response :success
+  end
+
+  private
+
+  def pro_view_tracks_with_videos
+    track = tracks(:track_with_video)
+    compare_track = tracks(:hellesylt)
+    [track, compare_track].each do |record|
+      TrackVideo.create!(track: record, url: 'https://youtu.be/uB-t25F1I8g', video_offset: 3, track_offset: 3)
+    end
+    GiftedSubscription.create!(user: track.pilot.owner)
+    sign_in track.pilot.owner
+    [track, compare_track]
   end
 end

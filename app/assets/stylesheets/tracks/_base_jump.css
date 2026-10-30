@@ -110,10 +110,21 @@
   svg { overflow: visible; }
 }
 
-.base-jump-video {
+.base-jump-videos {
   order: 0;
   flex: none;
+  display: flex;
+  gap: 0.5rem;
   width: 100%;
+}
+
+.base-jump-videos[hidden] {
+  display: none;
+}
+
+.base-jump-video {
+  flex: 1 1 0;
+  min-width: 0;
   aspect-ratio: 16 / 9;
   border-radius: 4px;
   overflow: hidden;
@@ -124,6 +135,20 @@
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.base-jump-videos--compare .base-jump-video {
+  position: relative;
+  aspect-ratio: 1 / 1;
+}
+
+.base-jump-videos--compare .base-jump-video iframe {
+  position: absolute;
+  left: 50%;
+  width: auto;
+  max-width: none;
+  aspect-ratio: 16 / 9;
+  transform: translateX(-50%);
 }
 
 .base-jump-map-container {

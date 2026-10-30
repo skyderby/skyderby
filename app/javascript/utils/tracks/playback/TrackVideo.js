@@ -3,6 +3,8 @@ import { defaultPlayerOptions } from '../../youtube'
 const SEEK_INTERVAL = 150
 const PRIME_TIMEOUT = 4000
 const END_MARGIN = 0.5
+const DRIFT_TOLERANCE = 0.4
+const DRIFT_CHECK_INTERVAL = 1000
 
 export const flTimeAt = (videoTime, { videoOffset, trackOffset }) =>
   videoTime - videoOffset + trackOffset
@@ -13,7 +15,7 @@ export const videoTimeAt = (flTime, { videoOffset, trackOffset }) =>
 export default class TrackVideo {
   constructor(
     container,
-    { videoCode, videoOffset, trackOffset, onTime, onPlayingChange }
+    { videoCode, videoOffset, trackOffset, muted = false, onTime, onPlayingChange }
   ) {
     this.offsets = { videoOffset, trackOffset }
     this.onTime = onTime
@@ -24,6 +26,7 @@ export default class TrackVideo {
     this.priming = false
     this.pendingTime = null
     this.lastSeekAt = 0
+    this.lastDriftCheckAt = 0
 
     this.tick = this.tick.bind(this)
 
@@ -35,7 +38,7 @@ export default class TrackVideo {
       videoId: videoCode,
       playerVars: { ...defaultPlayerOptions.playerVars, playsinline: 1 },
       events: {
-        onReady: () => (this.ready = true),
+        onReady: () => this.handleReady(muted),
         onError: () => this.handleError(),
         onStateChange: event => this.handleStateChange(event.data)
       }
@@ -47,11 +50,34 @@ export default class TrackVideo {
   }
 
   toggle() {
+    if (this.playing) this.pause()
+    else this.play()
+  }
+
+  play() {
     if (!this.ready) return
     if (this.priming) this.finishPriming()
 
-    if (this.playing) this.player.pauseVideo()
-    else this.player.playVideo()
+    this.player.playVideo()
+  }
+
+  pause() {
+    if (this.ready) this.player.pauseVideo()
+  }
+
+  follow(flTime) {
+    if (!this.ready || !this.playing) return
+
+    const now = performance.now()
+    if (now - this.lastDriftCheckAt < DRIFT_CHECK_INTERVAL) return
+    this.lastDriftCheckAt = now
+
+    const target = videoTimeAt(flTime, this.offsets)
+    if (target !== this.clampTime(target)) return
+
+    if (Math.abs(this.player.getCurrentTime() - target) > DRIFT_TOLERANCE) {
+      this.player.seekTo(target, true)
+    }
   }
 
   seek(flTime) {
@@ -122,6 +148,11 @@ export default class TrackVideo {
     this.pendingTime = null
   }
 
+  handleReady(muted) {
+    this.ready = true
+    if (muted) this.player.mute()
+  }
+
   handleError() {
     this.ready = false
     this.setPlaying(false)
@@ -154,12 +185,12 @@ export default class TrackVideo {
       this.frame = requestAnimationFrame(this.tick)
     } else {
       cancelAnimationFrame(this.frame)
-      this.onTime(this.currentFlTime)
+      this.onTime?.(this.currentFlTime)
     }
   }
 
   tick() {
-    this.onTime(this.currentFlTime)
+    this.onTime?.(this.currentFlTime)
     this.frame = requestAnimationFrame(this.tick)
   }
 }

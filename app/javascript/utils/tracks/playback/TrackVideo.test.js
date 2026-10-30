@@ -145,6 +145,28 @@ describe('TrackVideo', () => {
     expect(onTime).toHaveBeenCalledTimes(1)
   })
 
+  it('corrects drift while following another video', () => {
+    player.emit(STATES.PLAYING)
+    player.time = 14
+
+    vi.advanceTimersByTime(1000)
+    video.follow(32.2)
+    expect(player.seekTo).not.toHaveBeenCalled()
+
+    vi.advanceTimersByTime(1000)
+    video.follow(40)
+    expect(player.seekTo).toHaveBeenCalledWith(22, true)
+  })
+
+  it('leaves a follower alone outside of its video', () => {
+    player.emit(STATES.PLAYING)
+
+    vi.advanceTimersByTime(1000)
+    video.follow(10)
+
+    expect(player.seekTo).not.toHaveBeenCalled()
+  })
+
   it('toggles playback', () => {
     video.toggle()
     expect(player.playVideo).toHaveBeenCalled()

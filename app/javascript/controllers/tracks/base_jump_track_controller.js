@@ -54,7 +54,8 @@ export default class extends PlaybackController {
     'replayToggle',
     'resultOption',
     'emptyState',
-    'videoPlayer'
+    'videoPlayer',
+    'compareVideoPlayer'
   ]
 
   static values = {
@@ -84,7 +85,10 @@ export default class extends PlaybackController {
     terrainProfileMeasurementsUrlTemplate: String,
     videoCode: String,
     videoOffset: Number,
-    trackOffset: Number
+    trackOffset: Number,
+    compareVideoCode: String,
+    compareVideoOffset: Number,
+    compareTrackOffset: Number
   }
 
   get units() {
@@ -214,18 +218,49 @@ export default class extends PlaybackController {
       videoOffset: this.videoOffsetValue,
       trackOffset: this.trackOffsetValue,
       onTime: flTime => this.followVideo(flTime),
-      onPlayingChange: playing => this.syncPlayButton(playing)
+      onPlayingChange: playing => this.onVideoPlayingChange(playing)
+    })
+
+    if (!this.hasCompareVideoPlayerTarget) return
+
+    this.compareVideo = new TrackVideo(this.compareVideoPlayerTarget, {
+      videoCode: this.compareVideoCodeValue,
+      videoOffset: this.compareVideoOffsetValue,
+      trackOffset: this.compareTrackOffsetValue,
+      muted: true,
+      onPlayingChange: playing => this.syncVideo(this.trackVideo, playing)
     })
   }
 
+  onVideoPlayingChange(playing) {
+    this.syncPlayButton(playing)
+    this.syncVideo(this.compareVideo, playing)
+  }
+
+  syncVideo(video, playing) {
+    if (!video || video.playing === playing) return
+
+    if (playing) video.play()
+    else video.pause()
+  }
+
+  compareFlTime(playerTime) {
+    if (!this.hasCompare) return null
+
+    return playerTime - this.compareTimeOffset + this.comparePoints[0].flTime
+  }
+
   onYoutubeApiFailed() {
-    this.videoPlayerTarget.hidden = true
+    this.videoPlayerTarget.parentElement.hidden = true
   }
 
   followVideo(flTime) {
     if (!this.points) return
 
     const playerTime = flTime - this.points[0].flTime
+    const compareFlTime = this.compareFlTime(playerTime)
+    if (compareFlTime !== null) this.compareVideo?.follow(compareFlTime)
+
     if (playerTime < 0 || playerTime > this.points.at(-1).playerTime) return
 
     const { index, fraction } = indexAtPlayerTime(this.points, playerTime)
@@ -250,14 +285,21 @@ export default class extends PlaybackController {
     if (this.trackVideo?.playing) return
 
     super.seekTo(index)
-    this.trackVideo?.seek(this.points[index].flTime)
+    this.seekVideos(index)
+  }
+
+  seekVideos(index) {
+    const { flTime, playerTime } = this.points[index]
+    this.trackVideo?.seek(flTime)
+
+    const compareFlTime = this.compareFlTime(playerTime)
+    if (compareFlTime !== null) this.compareVideo?.seek(compareFlTime)
   }
 
   onSliderInput() {
     if (!this.trackVideo?.playing) return super.onSliderInput()
 
-    const index = parseInt(this.playbackSliderTarget.value, 10)
-    this.trackVideo.seek(this.points[index].flTime)
+    this.seekVideos(parseInt(this.playbackSliderTarget.value, 10))
   }
 
   get hasResultPoint() {
@@ -1043,6 +1085,8 @@ export default class extends PlaybackController {
     this.stopPlaybackLoop()
     this.trackVideo?.destroy()
     this.trackVideo = null
+    this.compareVideo?.destroy()
+    this.compareVideo = null
     cancelAnimationFrame(this.viewRangeFrame)
     this.mapHighlight = null
     this.trajectoryPolylines = null

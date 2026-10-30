@@ -12,6 +12,8 @@
   <% show_result_point = base_result.available? && !base_result.race? %>
   <% race = (!base_result.available? || base_result.race?) ? @track.race_finish_line : nil %>
   <% finish_line_coords = race && race[:finish_line]&.to_coordinates %>
+  <% compare_video = @compare_track&.video %>
+  <% video = @track.video unless @compare_track && !compare_video %>
   <% primary_point = show_result_point && base_result.primary_value ? base_result.primary_point : nil %>
   <% compare_point = show_result_point && base_result.compare_value ? base_result.compare_point : nil %>
   <div class="base-jump-page base-jump--replay-hidden"
@@ -22,10 +24,15 @@
        data-tracks--compare-modal-track-id-value="<%= @track.id %>"
        data-tracks--base-jump-track-charts-units-value="<%= Current.charts_units %>"
        data-tracks--base-jump-track-wingsuit-value="<%= @track.wingsuit? ? 'true' : 'false' %>"
-       <% if @track.video %>
-       data-tracks--base-jump-track-video-code-value="<%= @track.video.video_code %>"
-       data-tracks--base-jump-track-video-offset-value="<%= @track.video.video_offset %>"
-       data-tracks--base-jump-track-track-offset-value="<%= @track.video.track_offset %>"
+       <% if video %>
+       data-tracks--base-jump-track-video-code-value="<%= video.video_code %>"
+       data-tracks--base-jump-track-video-offset-value="<%= video.video_offset %>"
+       data-tracks--base-jump-track-track-offset-value="<%= video.track_offset %>"
+       <% if compare_video %>
+       data-tracks--base-jump-track-compare-video-code-value="<%= compare_video.video_code %>"
+       data-tracks--base-jump-track-compare-video-offset-value="<%= compare_video.video_offset %>"
+       data-tracks--base-jump-track-compare-track-offset-value="<%= compare_video.track_offset %>"
+       <% end %>
        <% end %>
        <% if @track.ff_start %>
        data-tracks--base-jump-track-exit-fl-time-value="<%= @track.ff_start %>"
@@ -185,7 +192,7 @@
     <div class="track-show-content">
       <%= render 'tracks/base_jump_summary' %>
 
-      <%= render 'tracks/base_jump_body', terrain: terrain, indicators: indicators, video: @track.video %>
+      <%= render 'tracks/base_jump_body', terrain: terrain, indicators: indicators, video: video, compare_video: (compare_video if video) %>
 
       <blockquote class="flex flex-column">
         <%= render 'track_metadata' %>
