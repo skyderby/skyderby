@@ -28,9 +28,6 @@ it:
       mark_completed_tooltip: Contrassegna il round come completato quando i risultati sono definitivi
       mark_completed: Segna come completato
       mark_not_completed: Segna come non completato
-      globe:
-        fast_forward: Avanzamento veloce concorrente
-        group: Gruppo
       map:
         competitor: Concorrente
         direction: Traccia

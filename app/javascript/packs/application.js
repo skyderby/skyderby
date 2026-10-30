@@ -4,7 +4,6 @@ import '@hotwired/turbo-rails'
 import 'utils/amplitude'
 
 import 'utils/google_maps_api'
-import 'utils/cesium_api'
 // Look for controllers inside app/javascripts/packs/controllers/
 const application = Application.start()
 

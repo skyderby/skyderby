@@ -35,9 +35,6 @@ ru:
       mark_completed_tooltip: Отметьте раунд как завершенный, когда результаты финальные
       mark_completed: Отметить как завершенный
       mark_not_completed: Отметить как незавершенный
-      globe:
-        fast_forward: Перемотать к участнику
-        group: Группа
       map:
         competitor: Участник
         direction: Направление

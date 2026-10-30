@@ -35,9 +35,6 @@ en:
       mark_completed_tooltip: Mark round as completed when results are final
       mark_completed: Mark completed
       mark_not_completed: Mark not completed
-      globe:
-        fast_forward: Fast-forward to competitor
-        group: Group
       map:
         competitor: Competitor
         direction: Track

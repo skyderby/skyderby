@@ -6,7 +6,6 @@
 <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
 
 <meta name="maps-api-key" content="<%= maps_api_key %>">
-<meta name="cesium-api-key" content="<%= Rails.application.credentials.dig(:cesium, :api_token) || ENV.fetch('CESIUM_API_TOKEN', nil) %>">
 <meta name="amplitude-api-key" content="<%= Rails.application.credentials.dig(:amplitude, :api_key) || ENV.fetch('AMPLITUDE_API_KEY', nil) %>">
 <meta name="google-client-id" content="<%= Rails.application.credentials.dig(:google, :client_id) || ENV.fetch('GOOGLE_CLIENT_ID', nil) %>">
 <% if user_signed_in? %>

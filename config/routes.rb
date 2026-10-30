@@ -32,7 +32,8 @@ Skyderby::Application.routes.draw do
 
   get '/track/:id', to: redirect('/tracks/%{id}'), constraints: { id: /\d+/ }
   get '/tracks/:id/google_maps', to: redirect('/tracks/%{id}/map'), constraints: { id: /\d+/ }
-  get '/tracks/:id/google_earth', to: redirect('/tracks/%{id}/globe'), constraints: { id: /\d+/ }
+  get '/tracks/:id/google_earth', to: redirect('/tracks/%{id}'), constraints: { id: /\d+/ }
+  get '/tracks/:id/globe', to: redirect('/tracks/%{id}'), constraints: { id: /\d+/ }
   get '/tracks/:id/replay', to: redirect('/tracks/%{id}/video'), constraints: { id: /\d+/ }
 
   get '/user_profiles/:id', to: 'profiles#show'
@@ -433,7 +434,6 @@ Skyderby::Application.routes.draw do
       resource :chart_settings, only: :update
       resource :bookmark, only: %i[create destroy]
       resource :map, only: :show
-      resource :globe, controller: 'globe', only: :show
       resource :video, only: [:new, :edit, :show, :create, :update, :destroy] do
         resource :chart_data, only: :show, module: :videos
       end
