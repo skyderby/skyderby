@@ -15,6 +15,8 @@ import {
   indexAtPlayerTime
 } from 'utils/tracks/pointHelpers'
 import ArrowMarker from 'utils/tracks/playback/ArrowMarker'
+import TrackVideo from 'utils/tracks/playback/TrackVideo'
+import { initYoutubeApi } from 'utils/youtube'
 import { computeBaseJumpSummary } from 'utils/tracks/baseJumpSummary'
 import BaseJumpSummaryPanel from 'utils/tracks/BaseJumpSummaryPanel'
 import TimeViewport from 'utils/tracks/TimeViewport'
@@ -51,7 +53,8 @@ export default class extends PlaybackController {
     'finishLineToggle',
     'replayToggle',
     'resultOption',
-    'emptyState'
+    'emptyState',
+    'videoPlayer'
   ]
 
   static values = {
@@ -78,7 +81,10 @@ export default class extends PlaybackController {
     resultComparePointGpsTime: Number,
     resultCompareLabel: String,
     chartsUnits: { type: String, default: 'metric' },
-    terrainProfileMeasurementsUrlTemplate: String
+    terrainProfileMeasurementsUrlTemplate: String,
+    videoCode: String,
+    videoOffset: Number,
+    trackOffset: Number
   }
 
   get units() {
@@ -116,6 +122,7 @@ export default class extends PlaybackController {
     if (this.applyResultPreference()) return
 
     this.initReplayToggle()
+    if (this.hasVideoPlayerTarget) initYoutubeApi()
 
     this.comparePoints = null
 
@@ -197,6 +204,60 @@ export default class extends PlaybackController {
     } catch {
       return
     }
+  }
+
+  onYoutubeApiReady() {
+    if (this.trackVideo || !this.hasVideoPlayerTarget) return
+
+    this.trackVideo = new TrackVideo(this.videoPlayerTarget, {
+      videoCode: this.videoCodeValue,
+      videoOffset: this.videoOffsetValue,
+      trackOffset: this.trackOffsetValue,
+      onTime: flTime => this.followVideo(flTime),
+      onPlayingChange: playing => this.syncPlayButton(playing)
+    })
+  }
+
+  onYoutubeApiFailed() {
+    this.videoPlayerTarget.hidden = true
+  }
+
+  followVideo(flTime) {
+    if (!this.points) return
+
+    const playerTime = flTime - this.points[0].flTime
+    if (playerTime < 0 || playerTime > this.points.at(-1).playerTime) return
+
+    const { index, fraction } = indexAtPlayerTime(this.points, playerTime)
+    this.currentIndex = index
+    this.currentFraction = fraction
+    this.updatePlaybackPositionInterpolated()
+    this.sideProjectionChart?.showTooltipAtIndex(index)
+  }
+
+  syncPlayButton(playing) {
+    if (this.hasPlayButtonTarget) {
+      this.playButtonTarget.classList.toggle('playing', playing)
+    }
+  }
+
+  togglePlay() {
+    if (this.trackVideo?.ready && !this.playing) this.trackVideo.toggle()
+    else super.togglePlay()
+  }
+
+  seekTo(index) {
+    if (this.trackVideo?.playing) return
+
+    super.seekTo(index)
+    this.trackVideo?.seek(this.points[index].flTime)
+  }
+
+  onSliderInput() {
+    if (!this.trackVideo?.playing) return super.onSliderInput()
+
+    const index = parseInt(this.playbackSliderTarget.value, 10)
+    this.trackVideo.seek(this.points[index].flTime)
   }
 
   get hasResultPoint() {
@@ -521,11 +582,15 @@ export default class extends PlaybackController {
   }
 
   onTimeSeriesHover(index) {
+    if (this.trackVideo?.playing) return
+
     this.seekTo(index)
     this.sideProjectionChart?.showTooltipAtIndex(index)
   }
 
   onTimeSeriesLeave() {
+    if (this.trackVideo?.playing) return
+
     this.chartGroup.scheduleHide()
     this.sideProjectionChart?.hideTooltip()
   }
@@ -976,6 +1041,8 @@ export default class extends PlaybackController {
 
   disconnect() {
     this.stopPlaybackLoop()
+    this.trackVideo?.destroy()
+    this.trackVideo = null
     cancelAnimationFrame(this.viewRangeFrame)
     this.mapHighlight = null
     this.trajectoryPolylines = null

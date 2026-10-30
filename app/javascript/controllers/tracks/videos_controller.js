@@ -2,6 +2,7 @@ import { Controller } from '@hotwired/stimulus'
 import { initYoutubeApi } from 'utils/youtube'
 import getPointsAroundTime from 'utils/getPointsAroundTime'
 import { accelerationBetween } from 'utils/tracks/playback/indicators'
+import { flTimeAt } from 'utils/tracks/playback/TrackVideo'
 
 const interpolateValue = (first, second, factor) => first + (second - first) * factor
 
@@ -89,12 +90,9 @@ export default class extends Controller {
   }
 
   getDataForTime(time) {
-    const { trackOffset, videoOffset } = this.videoSettings
-    const relativeTime = time - videoOffset
+    if (time < this.videoSettings.videoOffset) return { data: null, trackTime: null }
 
-    if (relativeTime < 0) return { data: null, trackTime: null }
-
-    const trackTime = relativeTime + trackOffset
+    const trackTime = flTimeAt(time, this.videoSettings)
 
     return { data: this.getInterpolatedPoint(trackTime), trackTime }
   }

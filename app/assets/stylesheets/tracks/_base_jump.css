@@ -110,6 +110,22 @@
   svg { overflow: visible; }
 }
 
+.base-jump-video {
+  order: 0;
+  flex: none;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+}
+
+.base-jump-video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .base-jump-map-container {
   height: 200px;
   position: relative;

@@ -1,4 +1,4 @@
-<%# locals: (indicators:, terrain: nil) %>
+<%# locals: (indicators:, terrain: nil, video: nil) %>
 
 <div class="base-jump-layout">
   <div class="base-jump-left">
@@ -36,6 +36,12 @@
   </div>
 
   <div class="base-jump-right">
+    <% if video %>
+      <div class="base-jump-video"
+           data-tracks--base-jump-track-target="videoPlayer"
+           data-action="youtube_api:ready@window->tracks--base-jump-track#onYoutubeApiReady youtube_api:failed@window->tracks--base-jump-track#onYoutubeApiFailed"></div>
+    <% end %>
+
     <div class="base-jump-map-container">
       <div class="base-jump-map"
            data-tracks--base-jump-track-target="map">

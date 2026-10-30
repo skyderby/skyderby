@@ -12,6 +12,30 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     create(:event_organizer, organizable: @event, user: @organizer)
   end
 
+  test '#show embeds the track video into BASE Pro View' do
+    track = tracks(:track_with_video)
+    TrackVideo.create!(track:, url: 'https://youtu.be/uB-t25F1I8g', video_offset: 3, track_offset: 3)
+    GiftedSubscription.create!(user: track.pilot.owner)
+    sign_in track.pilot.owner
+
+    get track_path(track)
+
+    assert_response :success
+    assert_select '.base-jump-video[data-tracks--base-jump-track-target=videoPlayer]'
+    assert_select '[data-tracks--base-jump-track-video-code-value]'
+  end
+
+  test '#show leaves BASE Pro View without a player when the track has no video' do
+    track = tracks(:track_with_video)
+    GiftedSubscription.create!(user: track.pilot.owner)
+    sign_in track.pilot.owner
+
+    get track_path(track)
+
+    assert_response :success
+    assert_select '.base-jump-video', false
+  end
+
   test '#index orders by speed independently of other disciplines' do
     faster = create(:empty_track, :with_point, owner: @user)
     slower = create(:empty_track, :with_point, owner: @user)
