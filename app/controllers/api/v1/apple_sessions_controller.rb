@@ -20,7 +20,7 @@ module Api
         end
 
         store_refresh_token(user)
-        render_session(user, application_uid: APPLICATION_UID, created:, private_email: apple_token.private_email?)
+        render_session(user, created:, private_email: apple_token.private_email?)
       end
 
       private

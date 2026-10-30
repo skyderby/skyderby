@@ -1,6 +1,7 @@
 class GooglePlayPurchase::Notification
   def initialize(message)
-    @data = JSON.parse(Base64.decode64(message.to_h.with_indifferent_access.fetch(:data, '')))
+    parsed = JSON.parse(Base64.decode64(message.to_h.with_indifferent_access.fetch(:data, '').to_s))
+    @data = parsed.is_a?(Hash) ? parsed : {}
   rescue JSON::ParserError
     @data = {}
   end

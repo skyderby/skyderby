@@ -49,7 +49,7 @@ class GooglePlayPurchase::Publisher
 
     def post(path)
       response = request(Net::HTTP::Post, path)
-      raise UnavailableError, "Google Play acknowledge failed: #{response.code}" if response.code.to_i >= 500
+      raise UnavailableError, "Google Play acknowledge failed: #{response.code}" if retryable?(response)
 
       response.is_a?(Net::HTTPSuccess)
     end
@@ -63,7 +63,15 @@ class GooglePlayPurchase::Publisher
 
     def invalid_token?(response) = INVALID_TOKEN_STATUSES.include?(response.code.to_i)
 
+    def retryable?(response) = response.code.to_i >= 500 || response.code.to_i == 401
+
     def request(request_class, path)
+      response = perform(request_class, path)
+      Rails.cache.delete(ACCESS_TOKEN_CACHE_KEY) if response.code.to_i == 401
+      response
+    end
+
+    def perform(request_class, path)
       uri = URI("#{BASE_URL}/#{GooglePlayPurchase::PACKAGE_NAME}/#{path}")
       Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 5, read_timeout: 10) do |http|
         request = request_class.new(uri.request_uri)

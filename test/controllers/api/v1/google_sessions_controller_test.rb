@@ -99,6 +99,16 @@ class Api::V1::GoogleSessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+  test 'creates no user while the Android OAuth application is missing' do
+    oauth_applications(:skyderby_android_native).destroy!
+
+    assert_no_difference -> { User.count } do
+      post_session(id_token: google_id_token(sub: 'g1', email: 'new@example.com'), create: true)
+    end
+
+    assert_response :service_unavailable
+  end
+
   test 'requires an id token' do
     post_session
 

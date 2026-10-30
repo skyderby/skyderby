@@ -52,6 +52,28 @@ class Api::V1::GooglePlay::PurchasesControllerTest < ActionDispatch::Integration
     assert_nil GooglePlayPurchase.sole.acknowledged_at
   end
 
+  test '#create grants Pro when the acknowledgement is temporarily unavailable' do
+    stub_google_play_subscription('token-1')
+    stub_request(:post, "#{GOOGLE_PLAY_BASE_URL}/subscriptions/#{MONTHLY}/tokens/token-1:acknowledge")
+      .to_return(status: 503)
+
+    post_purchase(product_id: MONTHLY, purchase_token: 'token-1')
+
+    assert_response :success
+    assert_nil GooglePlayPurchase.sole.acknowledged_at
+    assert response.parsed_body.dig('subscription', 'active')
+  end
+
+  test '#create does not give Pro for a subscription without an expiry' do
+    stub_google_play_subscription('token-1', google_play_subscription(lineItems: [{ productId: MONTHLY }]))
+    stub_google_play_subscription_acknowledge(MONTHLY, 'token-1')
+
+    post_purchase(product_id: MONTHLY, purchase_token: 'token-1')
+
+    assert_response :success
+    assert_not response.parsed_body.dig('subscription', 'active')
+  end
+
   test '#create keeps the first acknowledgement time' do
     acknowledged_at = 3.days.ago.change(usec: 0)
     GooglePlayPurchase.create!(user: users(:regular_user), purchase_token: 'token-1', product_id: MONTHLY,

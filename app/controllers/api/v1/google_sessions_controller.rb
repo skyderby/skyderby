@@ -19,7 +19,7 @@ module Api
           user = User.create_with_identity!(google_token.identity_attributes, name: profile_name, userpic:)
         end
 
-        render_session(user, application_uid: APPLICATION_UID, created:, private_email: false)
+        render_session(user, created:, private_email: false)
       end
 
       private

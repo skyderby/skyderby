@@ -2,6 +2,7 @@ class GoogleIdToken
   ISSUERS = %w[https://accounts.google.com accounts.google.com].freeze
   JWKS_URL = URI('https://www.googleapis.com/oauth2/v3/certs')
   JWKS_CACHE_KEY = 'google_id_token/jwks'.freeze
+  JWKS_REFETCH_KEY = 'google_id_token/jwks/refetched'.freeze
 
   class InvalidToken < StandardError; end
 
@@ -26,10 +27,14 @@ class GoogleIdToken
     private
 
     def jwks(options)
-      return fetch_jwks.tap { Rails.cache.write(JWKS_CACHE_KEY, it, expires_in: 1.hour) } if options[:kid_not_found]
+      return refetched_jwks if options[:kid_not_found] && refetch_allowed?
 
       Rails.cache.fetch(JWKS_CACHE_KEY, expires_in: 1.hour) { fetch_jwks }
     end
+
+    def refetched_jwks = fetch_jwks.tap { Rails.cache.write(JWKS_CACHE_KEY, it, expires_in: 1.hour) }
+
+    def refetch_allowed? = Rails.cache.write(JWKS_REFETCH_KEY, true, expires_in: 1.minute, unless_exist: true)
 
     def fetch_jwks
       options = { use_ssl: true, open_timeout: 5, read_timeout: 5 }

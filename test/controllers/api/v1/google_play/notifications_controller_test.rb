@@ -67,6 +67,26 @@ class Api::V1::GooglePlay::NotificationsControllerTest < ActionDispatch::Integra
     assert_not @user.reload.subscription_active?
   end
 
+  test 'a pending upgrade keeps the old subscription giving Pro' do
+    @purchase.update!(expires_at: 20.days.from_now)
+    stub_google_play_subscription('token-2', google_play_subscription(
+                                               linkedPurchaseToken: 'token-1',
+                                               subscriptionState: 'SUBSCRIPTION_STATE_PENDING',
+                                               lineItems: [{ productId: 'io.skyderby.pro.annual' }]
+                                             ))
+    post_notification({ subscriptionNotification: { notificationType: 4, purchaseToken: 'token-2',
+                                                    subscriptionId: 'io.skyderby.pro.annual' } })
+    stub_google_play_subscription('token-1',
+                                  google_play_subscription(acknowledgementState: 'ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED'))
+
+    post_notification({ subscriptionNotification: { notificationType: 2, purchaseToken: 'token-1',
+                                                    subscriptionId: MONTHLY } })
+
+    assert_response :no_content
+    assert_equal 'active', @purchase.reload.state
+    assert_predicate @user.reload, :subscription_active?
+  end
+
   test 'a renewal without a subscription id uses the stored product' do
     stub_google_play_subscription('token-1',
                                   google_play_subscription(acknowledgementState: 'ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED'))
@@ -89,6 +109,17 @@ class Api::V1::GooglePlay::NotificationsControllerTest < ActionDispatch::Integra
 
     assert_response :no_content
     assert_equal MONTHLY, @purchase.reload.product_id
+  end
+
+  test 'a push with a malformed message is acknowledged' do
+    GooglePlayPurchase::PushAuthorization.stub(:valid?, true) do
+      post api_v1_google_play_notifications_path, params: { message: 'hello' }, as: :json
+      assert_response :no_content
+
+      post api_v1_google_play_notifications_path,
+           params: { message: { data: Base64.strict_encode64('[1]') } }, as: :json
+      assert_response :no_content
+    end
   end
 
   test 'a push without a message is acknowledged' do

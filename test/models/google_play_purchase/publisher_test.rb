@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class GooglePlayPurchase::PublisherTest < ActiveSupport::TestCase
+  include WebMock::API
+
+  teardown { WebMock.reset! }
+
   test 'a failing access token request is reported as unavailable' do
     raising = ->(**) { raise Signet::AuthorizationError, 'invalid_grant' }
 
@@ -14,8 +18,25 @@ class GooglePlayPurchase::PublisherTest < ActiveSupport::TestCase
     end
   end
 
+  test 'a rejected access token is dropped from the cache' do
+    stub_request(:get, %r{subscriptionsv2/tokens/token-1}).to_return(status: 401)
+    deleted = []
+
+    Rails.cache.stub(:delete, ->(key) { deleted << key }) do
+      GooglePlayPurchase::Publisher.stub(:access_token, 'stale') do
+        assert_raises(GooglePlayPurchase::Publisher::UnavailableError) do
+          GooglePlayPurchase::Publisher.subscription('token-1')
+        end
+      end
+    end
+
+    assert_equal [GooglePlayPurchase::Publisher::ACCESS_TOKEN_CACHE_KEY], deleted
+  end
+
   test 'a missing service account is reported as unavailable' do
-    assert_raises(GooglePlayPurchase::Publisher::UnavailableError) { GooglePlayPurchase::Publisher.access_token }
+    GooglePlayPurchase::Publisher.stub(:service_account_json, nil) do
+      assert_raises(GooglePlayPurchase::Publisher::UnavailableError) { GooglePlayPurchase::Publisher.access_token }
+    end
   end
 
   private
