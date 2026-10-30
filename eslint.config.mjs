@@ -23,7 +23,6 @@ export default [
         YT: false,
         Rails: false,
         google: false,
-        Cesium: false,
         Turbo: false,
         Highcharts: false,
         gtag: false,

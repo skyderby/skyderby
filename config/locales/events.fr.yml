@@ -28,9 +28,6 @@ fr:
       mark_completed_tooltip: Marquer la manche comme terminée lorsque les résultats sont définitifs
       mark_completed: Marquer comme terminée
       mark_not_completed: Marquer comme non terminée
-      globe:
-        fast_forward: Avance rapide jusqu'au compétiteur
-        group: Groupe
       map:
         competitor: Compétiteur
         direction: Direction
