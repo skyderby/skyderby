@@ -256,6 +256,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_30_120000) do
     t.boolean "test_purchase", default: false, null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.index ["linked_purchase_token"], name: "index_google_play_purchases_on_linked_purchase_token"
     t.index ["purchase_token"], name: "index_google_play_purchases_on_purchase_token", unique: true
     t.index ["user_id"], name: "index_google_play_purchases_on_user_id"
   end

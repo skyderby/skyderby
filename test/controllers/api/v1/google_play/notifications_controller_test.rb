@@ -46,6 +46,59 @@ class Api::V1::GooglePlay::NotificationsControllerTest < ActionDispatch::Integra
     assert_equal 'token-1', upgraded.linked_purchase_token
   end
 
+  test 'an upgrade stops the replaced purchase from giving Pro' do
+    @purchase.update!(expires_at: 20.days.from_now)
+    stub_google_play_subscription('token-2', google_play_subscription(
+                                               linkedPurchaseToken: 'token-1',
+                                               acknowledgementState: 'ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED',
+                                               lineItems: [{ productId: 'io.skyderby.pro.annual',
+                                                             expiryTime: 1.year.from_now.utc.iso8601 }]
+                                             ))
+    post_notification({ subscriptionNotification: { notificationType: 4, purchaseToken: 'token-2',
+                                                    subscriptionId: 'io.skyderby.pro.annual' } })
+    stub_google_play_subscription('token-1', google_play_subscription(subscriptionState: 'SUBSCRIPTION_STATE_CANCELED'))
+
+    post_notification({ subscriptionNotification: { notificationType: 3, purchaseToken: 'token-1',
+                                                    subscriptionId: MONTHLY } })
+    post_notification({ voidedPurchaseNotification: { purchaseToken: 'token-2', productType: 1 } })
+
+    assert_response :no_content
+    assert_equal 'replaced', @purchase.reload.state
+    assert_not @user.reload.subscription_active?
+  end
+
+  test 'a renewal without a subscription id uses the stored product' do
+    stub_google_play_subscription('token-1',
+                                  google_play_subscription(acknowledgementState: 'ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED'))
+
+    post_notification({ subscriptionNotification: { notificationType: 2, purchaseToken: 'token-1' } })
+
+    assert_response :no_content
+    assert_predicate @purchase.reload.expires_at, :future?
+  end
+
+  test 'a renewal for a product the server does not know is skipped without an error' do
+    stub_google_play_subscription('token-1', google_play_subscription(
+                                               acknowledgementState: 'ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED',
+                                               lineItems: [{ productId: 'io.skyderby.pro.weekly',
+                                                             expiryTime: 7.days.from_now.utc.iso8601 }]
+                                             ))
+
+    post_notification({ subscriptionNotification: { notificationType: 2, purchaseToken: 'token-1',
+                                                    subscriptionId: 'io.skyderby.pro.weekly' } })
+
+    assert_response :no_content
+    assert_equal MONTHLY, @purchase.reload.product_id
+  end
+
+  test 'a push without a message is acknowledged' do
+    GooglePlayPurchase::PushAuthorization.stub(:valid?, true) do
+      post api_v1_google_play_notifications_path, params: { subscription: 'x' }, as: :json
+    end
+
+    assert_response :no_content
+  end
+
   test 'a purchase from an unknown user is skipped' do
     stub_google_play_subscription('token-9')
 

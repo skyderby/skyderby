@@ -19,8 +19,8 @@ class User::Identity::GoogleToken
     def client_ids
       configured = Rails.application.credentials.dig(:google, :client_ids) || ENV.fetch('GOOGLE_CLIENT_IDS', nil)
       ids = configured.is_a?(String) ? configured.split(',') : Array(configured)
-      ids << (Rails.application.credentials.dig(:google, :client_id) || ENV.fetch('GOOGLE_CLIENT_ID', nil))
-      ids.map { it.to_s.strip }.compact_blank.uniq
+      default = Rails.application.credentials.dig(:google, :client_id) || ENV.fetch('GOOGLE_CLIENT_ID', nil)
+      [*ids, default].map { it.to_s.strip }.compact_blank.uniq
     end
   end
 end

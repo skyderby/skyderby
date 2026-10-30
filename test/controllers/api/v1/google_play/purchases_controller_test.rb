@@ -41,6 +41,30 @@ class Api::V1::GooglePlay::PurchasesControllerTest < ActionDispatch::Integration
     assert_not_requested acknowledge
   end
 
+  test '#create leaves the purchase unacknowledged when Google refuses the acknowledgement' do
+    stub_google_play_subscription('token-1')
+    stub_request(:post, "#{GOOGLE_PLAY_BASE_URL}/subscriptions/#{MONTHLY}/tokens/token-1:acknowledge")
+      .to_return(status: 400)
+
+    post_purchase(product_id: MONTHLY, purchase_token: 'token-1')
+
+    assert_response :success
+    assert_nil GooglePlayPurchase.sole.acknowledged_at
+  end
+
+  test '#create keeps the first acknowledgement time' do
+    acknowledged_at = 3.days.ago.change(usec: 0)
+    GooglePlayPurchase.create!(user: users(:regular_user), purchase_token: 'token-1', product_id: MONTHLY,
+                               state: 'active', purchased_at: 1.day.ago, acknowledged_at:)
+    stub_google_play_subscription('token-1',
+                                  google_play_subscription(acknowledgementState: 'ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED'))
+
+    post_purchase(product_id: MONTHLY, purchase_token: 'token-1')
+
+    assert_response :success
+    assert_equal acknowledged_at, GooglePlayPurchase.sole.acknowledged_at
+  end
+
   test '#create records a test purchase without giving Pro' do
     stub_google_play_subscription('token-1', google_play_subscription(testPurchase: {}))
     stub_google_play_subscription_acknowledge(MONTHLY, 'token-1')
@@ -125,6 +149,15 @@ class Api::V1::GooglePlay::PurchasesControllerTest < ActionDispatch::Integration
 
     assert_response :unprocessable_content
     assert_equal ['Unexpected package name'], response.parsed_body['errors']
+  end
+
+  test '#create responds service unavailable when the service account is not allowed' do
+    stub_google_play_subscription('token-1', { error: { code: 403 } }, status: 403)
+
+    post_purchase(product_id: MONTHLY, purchase_token: 'token-1')
+
+    assert_response :service_unavailable
+    assert_equal 0, GooglePlayPurchase.count
   end
 
   test '#create responds service unavailable when Google Play fails' do

@@ -9,7 +9,7 @@ class GooglePlayPurchase::Notification
     return unless data['packageName'] == GooglePlayPurchase::PACKAGE_NAME
 
     if (notification = data['subscriptionNotification'])
-      record(notification['subscriptionId'], notification['purchaseToken'])
+      record(subscription_product_id(notification), notification['purchaseToken'])
     elsif (notification = data['oneTimeProductNotification'])
       record(notification['sku'], notification['purchaseToken'])
     elsif (notification = data['voidedPurchaseNotification'])
@@ -25,7 +25,15 @@ class GooglePlayPurchase::Notification
     return unless GooglePlayPurchase.exists?(purchase_token:) || GooglePlayPurchase.subscription?(product_id)
 
     GooglePlayPurchase.record!(GooglePlayPurchase::Verification.fetch(product_id:, purchase_token:))
-  rescue GooglePlayPurchase::InvalidError => e
+  rescue GooglePlayPurchase::InvalidError, ActiveRecord::RecordInvalid => e
     Rails.logger.warn("Google Play notification for #{purchase_token} skipped: #{e.message}")
+  end
+
+  def subscription_product_id(notification)
+    product_id = notification['subscriptionId']
+    return product_id if GooglePlayPurchase.subscription?(product_id)
+
+    GooglePlayPurchase.find_by(purchase_token: notification['purchaseToken'])&.product_id ||
+      GooglePlayPurchase::SUBSCRIPTION_PRODUCT_IDS.first
   end
 end

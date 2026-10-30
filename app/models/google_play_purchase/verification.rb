@@ -44,14 +44,14 @@ class GooglePlayPurchase::Verification
   end
 
   def acknowledge!
-    return if acknowledged?
+    return false if acknowledged?
 
-    if subscription?
-      GooglePlayPurchase::Publisher.acknowledge_subscription(product_id, purchase_token)
-    else
-      GooglePlayPurchase::Publisher.acknowledge_product(product_id, purchase_token)
-    end
-    @acknowledged = true
+    @acknowledged =
+      if subscription?
+        GooglePlayPurchase::Publisher.acknowledge_subscription(product_id, purchase_token)
+      else
+        GooglePlayPurchase::Publisher.acknowledge_product(product_id, purchase_token)
+      end
   end
 
   def purchase_attributes
@@ -62,9 +62,8 @@ class GooglePlayPurchase::Verification
       state:,
       test_purchase: test_purchase?,
       purchased_at:,
-      expires_at:,
-      acknowledged_at: (Time.current if acknowledged?)
-    }.compact.merge(expires_at:)
+      expires_at:
+    }
   end
 
   private

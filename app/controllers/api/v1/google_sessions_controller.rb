@@ -38,7 +38,8 @@ module Api
 
       def userpic
         User.remote_userpic(google_token.picture)
-      rescue OpenURI::HTTPError, SocketError, SystemCallError, Timeout::Error, URI::InvalidURIError
+      rescue OpenURI::HTTPError, SocketError, SystemCallError, Timeout::Error, URI::InvalidURIError,
+             OpenSSL::SSL::SSLError, Net::HTTPBadResponse
         nil
       end
     end

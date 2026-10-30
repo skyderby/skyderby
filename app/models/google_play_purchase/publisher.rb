@@ -5,6 +5,8 @@ class GooglePlayPurchase::Publisher
 
   class UnavailableError < StandardError; end
 
+  INVALID_TOKEN_STATUSES = [400, 404, 410].freeze
+
   class << self
     def subscription(purchase_token)
       get("purchases/subscriptionsv2/tokens/#{escape(purchase_token)}")
@@ -31,6 +33,9 @@ class GooglePlayPurchase::Publisher
           .fetch_access_token!
           .fetch('access_token')
       end
+    rescue Signet::AuthorizationError, Faraday::Error, JSON::ParserError, KeyError, ArgumentError,
+           OpenSSL::PKey::PKeyError => e
+      raise UnavailableError, "Google Play access token: #{e.message}"
     end
 
     private
@@ -51,11 +56,12 @@ class GooglePlayPurchase::Publisher
 
     def parse(response)
       return JSON.parse(response.body) if response.is_a?(Net::HTTPSuccess)
-      raise UnavailableError, "Google Play responded #{response.code}" if response.code.to_i >= 500 ||
-                                                                          response.code.to_i == 401
+      raise GooglePlayPurchase::InvalidError, 'Unknown purchase token' if invalid_token?(response)
 
-      raise GooglePlayPurchase::InvalidError, 'Unknown purchase token'
+      raise UnavailableError, "Google Play responded #{response.code}"
     end
+
+    def invalid_token?(response) = INVALID_TOKEN_STATUSES.include?(response.code.to_i)
 
     def request(request_class, path)
       uri = URI("#{BASE_URL}/#{GooglePlayPurchase::PACKAGE_NAME}/#{path}")

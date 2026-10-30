@@ -6,6 +6,7 @@ class GooglePlayPurchase < ApplicationRecord
   SUBSCRIPTION_PRODUCT_IDS = %w[io.skyderby.pro.monthly io.skyderby.pro.annual].freeze
   PRODUCT_IDS = [*SUBSCRIPTION_PRODUCT_IDS, LIFETIME_PRODUCT_ID].freeze
   ENTITLING_STATES = %w[active grace_period canceled purchased].freeze
+  REPLACED = 'replaced'.freeze
 
   belongs_to :user
 
@@ -25,19 +26,42 @@ class GooglePlayPurchase < ApplicationRecord
   def self.subscription?(product_id) = SUBSCRIPTION_PRODUCT_IDS.include?(product_id)
 
   def self.record!(verification, user: nil)
-    purchase = find_or_initialize_by(purchase_token: verification.purchase_token)
-    user ||= purchase.user || linked_user(verification.linked_purchase_token)
-    return if user.nil?
+    purchase = store!(verification, user:)
+    return if purchase.nil?
 
-    purchase.assign_attributes(verification.purchase_attributes.merge(user:))
-    purchase.save!
-    verification.acknowledge! if purchase.active?
-    purchase.update!(acknowledged_at: Time.current) if purchase.acknowledged_at.nil? && verification.acknowledged?
+    purchase.update!(acknowledged_at: Time.current) if purchase.active? && verification.acknowledge!
     purchase
+  end
+
+  def self.store!(verification, user:)
+    transaction(requires_new: true) do
+      purchase = find_or_initialize_by(purchase_token: verification.purchase_token)
+      owner = user || purchase.user || linked_user(verification.linked_purchase_token)
+      next if owner.nil?
+
+      purchase.apply!(verification, user: owner)
+      replace!(verification.linked_purchase_token)
+      purchase
+    end
+  rescue ActiveRecord::RecordNotUnique
+    retry
   end
 
   def self.linked_user(token)
     find_by(purchase_token: token)&.user if token.present?
+  end
+
+  def self.replace!(token)
+    where(purchase_token: token).where.not(state: REPLACED).find_each { it.update!(state: REPLACED) } if token.present?
+  end
+
+  private_class_method :store!, :linked_user, :replace!
+
+  def apply!(verification, user:)
+    assign_attributes(verification.purchase_attributes.merge(user:))
+    self.state = REPLACED if self.class.exists?(linked_purchase_token: purchase_token)
+    self.acknowledged_at ||= Time.current if verification.acknowledged?
+    save!
   end
 
   def lifetime? = product_id == LIFETIME_PRODUCT_ID

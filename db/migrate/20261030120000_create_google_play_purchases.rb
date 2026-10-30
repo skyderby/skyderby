@@ -3,7 +3,7 @@ class CreateGooglePlayPurchases < ActiveRecord::Migration[8.1]
     create_table :google_play_purchases do |t|
       t.references :user, null: false, foreign_key: true
       t.string :purchase_token, null: false, index: { unique: true }
-      t.string :linked_purchase_token
+      t.string :linked_purchase_token, index: true
       t.string :product_id, null: false
       t.string :order_id
       t.string :state, null: false

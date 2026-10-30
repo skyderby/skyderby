@@ -7,7 +7,7 @@ module Api
         def create
           return head :unauthorized unless GooglePlayPurchase::PushAuthorization.valid?(request.authorization)
 
-          GooglePlayPurchase::Notification.new(params.require(:message).permit(:data, :messageId).to_h).process
+          GooglePlayPurchase::Notification.new(params.fetch(:message, {}).permit(:data).to_h).process
           head :no_content
         rescue GooglePlayPurchase::Publisher::UnavailableError
           head :service_unavailable
