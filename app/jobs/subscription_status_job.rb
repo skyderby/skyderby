@@ -10,7 +10,8 @@ class SubscriptionStatusJob < ApplicationJob
 
   def subscribed_user_ids
     @subscribed_user_ids ||=
-      stripe_subscribers + gifted_subscribers + lifetime_subscribers + app_store_subscribers + admin_ids
+      stripe_subscribers + gifted_subscribers + lifetime_subscribers + app_store_subscribers +
+      google_play_subscribers + admin_ids
   end
 
   def stripe_subscribers
@@ -35,6 +36,10 @@ class SubscriptionStatusJob < ApplicationJob
 
   def app_store_subscribers
     AppStorePurchase.entitling.pluck(:user_id)
+  end
+
+  def google_play_subscribers
+    GooglePlayPurchase.entitling.pluck(:user_id)
   end
 
   def admin_ids

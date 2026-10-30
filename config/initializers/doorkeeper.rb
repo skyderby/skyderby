@@ -31,7 +31,7 @@ Doorkeeper.configure do
 
   skip_authorization do |_resource_owner, client|
     client.application.scopes.blank? ||
-      (!client.application.confidential? && client.application.uid == 'skyderby-apple')
+      (!client.application.confidential? && %w[skyderby-apple skyderby-android].include?(client.application.uid))
   end
 
   handle_auth_errors :render

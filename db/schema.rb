@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_15_150000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_30_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -240,6 +240,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_15_150000) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_gifted_subscriptions_on_user_id"
+  end
+
+  create_table "google_play_purchases", force: :cascade do |t|
+    t.datetime "acknowledged_at"
+    t.datetime "created_at", null: false
+    t.datetime "expires_at"
+    t.string "linked_purchase_token"
+    t.string "order_id"
+    t.string "product_id", null: false
+    t.string "purchase_token", null: false
+    t.datetime "purchased_at", null: false
+    t.datetime "revoked_at"
+    t.string "state", null: false
+    t.boolean "test_purchase", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["purchase_token"], name: "index_google_play_purchases_on_purchase_token", unique: true
+    t.index ["user_id"], name: "index_google_play_purchases_on_user_id"
   end
 
   create_table "gps_recordings_archives", force: :cascade do |t|
@@ -1144,6 +1162,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_15_150000) do
   add_foreign_key "free_pro_views", "users"
   add_foreign_key "gifted_subscriptions", "users"
   add_foreign_key "gifted_subscriptions", "users", column: "granted_by_id"
+  add_foreign_key "google_play_purchases", "users"
   add_foreign_key "impersonations", "oauth_access_tokens", column: "access_token_id", on_delete: :nullify
   add_foreign_key "impersonations", "users", column: "admin_user_id", on_delete: :cascade
   add_foreign_key "impersonations", "users", on_delete: :cascade

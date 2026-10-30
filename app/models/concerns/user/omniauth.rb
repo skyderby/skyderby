@@ -18,14 +18,20 @@ module User::Omniauth
   def identity?(provider) = identities.any? { it.provider == provider.to_s }
 
   def link_apple_identity(apple_token, authorization_code: nil)
-    identity = User::Identity.find_or_initialize_by(provider: User::Identity::APPLE, uid: apple_token.uid)
+    link_identity(apple_token).tap do |identity|
+      identity.store_apple_refresh_token(authorization_code, client_id: apple_token.client_id) if identity.errors.empty?
+    end
+  end
+
+  def link_identity(token)
+    provider = token.identity_attributes[:provider]
+    identity = User::Identity.find_or_initialize_by(provider:, uid: token.uid)
     if identity.persisted? && identity.user_id != id
-      identity.errors.add(:base, I18n.t('accounts.identities.linked_to_another_account'))
+      identity.errors.add(:base, I18n.t("accounts.identities.linked_to_another_account.#{provider}"))
       return identity
     end
 
-    identity.update!(apple_token.identity_attributes.merge(user: self))
-    identity.store_apple_refresh_token(authorization_code, client_id: apple_token.client_id)
+    identity.update!(token.identity_attributes.merge(user: self))
     identities.reset
     identity
   end
