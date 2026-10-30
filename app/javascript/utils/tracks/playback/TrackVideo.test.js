@@ -167,6 +167,25 @@ describe('TrackVideo', () => {
     expect(player.seekTo).not.toHaveBeenCalled()
   })
 
+  it('stays ended instead of restarting with the other video', () => {
+    player.emit(STATES.PLAYING)
+    player.emit(STATES.ENDED)
+
+    video.play()
+
+    expect(video.ended).toBe(true)
+    expect(player.playVideo).not.toHaveBeenCalled()
+  })
+
+  it('returns to the moment the other video reaches again after ending', () => {
+    player.emit(STATES.ENDED)
+
+    vi.advanceTimersByTime(1000)
+    video.follow(40)
+
+    expect(player.seekTo).toHaveBeenCalledWith(22, true)
+  })
+
   it('toggles playback', () => {
     video.toggle()
     expect(player.playVideo).toHaveBeenCalled()

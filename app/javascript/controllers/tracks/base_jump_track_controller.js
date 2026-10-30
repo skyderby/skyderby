@@ -228,13 +228,17 @@ export default class extends PlaybackController {
       videoOffset: this.compareVideoOffsetValue,
       trackOffset: this.compareTrackOffsetValue,
       muted: true,
-      onPlayingChange: playing => this.syncVideo(this.trackVideo, playing)
+      onPlayingChange: playing => this.onCompareVideoPlayingChange(playing)
     })
   }
 
   onVideoPlayingChange(playing) {
     this.syncPlayButton(playing)
     this.syncVideo(this.compareVideo, playing)
+  }
+
+  onCompareVideoPlayingChange(playing) {
+    if (!this.compareVideo.ended) this.syncVideo(this.trackVideo, playing)
   }
 
   syncVideo(video, playing) {
@@ -259,7 +263,9 @@ export default class extends PlaybackController {
 
     const playerTime = flTime - this.points[0].flTime
     const compareFlTime = this.compareFlTime(playerTime)
-    if (compareFlTime !== null) this.compareVideo?.follow(compareFlTime)
+    if (compareFlTime !== null && this.trackVideo.playing) {
+      this.compareVideo?.follow(compareFlTime)
+    }
 
     if (playerTime < 0 || playerTime > this.points.at(-1).playerTime) return
 

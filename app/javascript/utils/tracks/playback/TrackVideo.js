@@ -24,6 +24,7 @@ export default class TrackVideo {
     this.playing = false
     this.ready = false
     this.priming = false
+    this.ended = false
     this.pendingTime = null
     this.lastSeekAt = 0
     this.lastDriftCheckAt = 0
@@ -55,7 +56,7 @@ export default class TrackVideo {
   }
 
   play() {
-    if (!this.ready) return
+    if (!this.ready || this.ended) return
     if (this.priming) this.finishPriming()
 
     this.player.playVideo()
@@ -66,7 +67,7 @@ export default class TrackVideo {
   }
 
   follow(flTime) {
-    if (!this.ready || !this.playing) return
+    if (!this.ready || !(this.playing || this.ended)) return
 
     const now = performance.now()
     if (now - this.lastDriftCheckAt < DRIFT_CHECK_INTERVAL) return
@@ -75,7 +76,7 @@ export default class TrackVideo {
     const target = videoTimeAt(flTime, this.offsets)
     if (target !== this.clampTime(target)) return
 
-    if (Math.abs(this.player.getCurrentTime() - target) > DRIFT_TOLERANCE) {
+    if (this.ended || Math.abs(this.player.getCurrentTime() - target) > DRIFT_TOLERANCE) {
       this.player.seekTo(target, true)
     }
   }
@@ -83,6 +84,7 @@ export default class TrackVideo {
   seek(flTime) {
     if (!this.ready) return
 
+    this.ended = false
     this.pendingTime = this.clampTime(videoTimeAt(flTime, this.offsets))
     if (this.priming) return
 
@@ -167,9 +169,11 @@ export default class TrackVideo {
       this.finishPriming()
       this.flushSeek()
     } else if (state === PLAYING) {
+      this.ended = false
       this.pendingTime = null
       this.setPlaying(true)
     } else if (state === PAUSED || state === ENDED) {
+      this.ended = state === ENDED
       this.setPlaying(false)
       this.flushSeek()
     }
