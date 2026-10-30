@@ -12,6 +12,7 @@ class User::Subscription
       if user.admin? then 'admin'
       elsif stripe_active? then 'stripe'
       elsif app_store_purchases.any? then 'app_store'
+      elsif google_play_purchases.any? then 'google_play'
       elsif gifted_subscriptions.any? then 'gifted'
       end
   end
@@ -20,6 +21,7 @@ class User::Subscription
     case source
     when 'stripe' then stripe_expires_at
     when 'app_store' then latest_expiry(app_store_purchases)
+    when 'google_play' then latest_expiry(google_play_purchases)
     when 'gifted' then latest_expiry(gifted_subscriptions)
     end
   end
@@ -38,6 +40,8 @@ class User::Subscription
   end
 
   def app_store_purchases = @app_store_purchases ||= user.app_store_purchases.entitling.to_a
+
+  def google_play_purchases = @google_play_purchases ||= user.google_play_purchases.entitling.to_a
 
   def gifted_subscriptions = @gifted_subscriptions ||= user.gifted_subscriptions.active.to_a
 

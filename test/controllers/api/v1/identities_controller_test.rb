@@ -3,6 +3,7 @@ require 'test_helper'
 class Api::V1::IdentitiesControllerTest < ActionDispatch::IntegrationTest
   include ApiAuthHelper
   include AppleIdentityTokenHelper
+  include GoogleIdTokenHelper
 
   setup { @user = users(:regular_user) }
 
@@ -61,6 +62,57 @@ class Api::V1::IdentitiesControllerTest < ActionDispatch::IntegrationTest
          headers: bearer(:regular_user_write), as: :json
 
     assert_response :unauthorized
+  end
+
+  test '#create links Google' do
+    stub_google_jwks
+
+    assert_difference -> { @user.identities.count } => 1 do
+      with_google_client_ids do
+        post api_v1_identities_path,
+             params: { provider: 'google_oauth2', identity_token: google_id_token(sub: 'g1', email: 'x@example.com') },
+             headers: bearer(:regular_user_write), as: :json
+      end
+    end
+
+    assert_response :created
+    assert_equal 'google_oauth2', response.parsed_body['provider']
+    assert_equal 'x@example.com', response.parsed_body['email']
+  end
+
+  test '#create refuses a Google account linked to another user' do
+    stub_google_jwks
+    users(:admin).identities.create!(provider: 'google_oauth2', uid: 'g1')
+
+    assert_no_difference -> { User::Identity.count } do
+      with_google_client_ids do
+        post api_v1_identities_path, params: { provider: 'google_oauth2', identity_token: google_id_token(sub: 'g1') },
+                                     headers: bearer(:regular_user_write), as: :json
+      end
+    end
+
+    assert_response :unprocessable_content
+    assert_equal ['This Google account is already linked to another Skyderby account.'],
+                 response.parsed_body['errors']
+  end
+
+  test '#create rejects an invalid Google token' do
+    stub_google_jwks
+
+    with_google_client_ids do
+      post api_v1_identities_path, params: { provider: 'google_oauth2', identity_token: 'garbage' },
+                                   headers: bearer(:regular_user_write), as: :json
+    end
+
+    assert_response :unauthorized
+  end
+
+  test '#create rejects an unknown provider' do
+    post api_v1_identities_path, params: { provider: 'facebook', identity_token: 'x' },
+                                 headers: bearer(:regular_user_write), as: :json
+
+    assert_response :unprocessable_content
+    assert_equal ['Unsupported provider'], response.parsed_body['errors']
   end
 
   test '#create requires write scope' do

@@ -34,6 +34,7 @@ class User < ApplicationRecord
   has_many :gifted_subscriptions, dependent: :destroy
   has_many :free_pro_views, dependent: :delete_all
   has_many :app_store_purchases, dependent: :destroy
+  has_many :google_play_purchases, dependent: :destroy
   has_many :terrain_profiles, dependent: :nullify
   has_many :track_bookmarks, class_name: 'Track::Bookmark', inverse_of: :user, dependent: :delete_all
   has_many :profile_follows, class_name: 'Profile::Follow', inverse_of: :user, dependent: :delete_all
@@ -72,6 +73,7 @@ class User < ApplicationRecord
       stripe_subscription_active? ||
       lifetime_subscription? ||
       app_store_subscription_active? ||
+      google_play_subscription_active? ||
       false
   end
 
@@ -85,6 +87,10 @@ class User < ApplicationRecord
 
   def app_store_subscription_active?
     app_store_purchases.entitling.exists?
+  end
+
+  def google_play_subscription_active?
+    google_play_purchases.entitling.exists?
   end
 
   def lifetime_subscription?

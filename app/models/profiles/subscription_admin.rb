@@ -18,6 +18,10 @@ module Profiles
       @app_store_purchases ||= owner.app_store_purchases.order(created_at: :desc)
     end
 
+    def google_play_purchases
+      @google_play_purchases ||= owner.google_play_purchases.order(created_at: :desc)
+    end
+
     def donations
       @donations ||= contributions.order(received_at: :desc)
     end

@@ -5,7 +5,7 @@ module Api
       before_action -> { doorkeeper_authorize! :write }, only: %i[create destroy]
       before_action :require_registered_user!, :forbid_impersonation!
 
-      rescue_from User::Identity::AppleToken::InvalidToken do |exception|
+      rescue_from User::Identity::AppleToken::InvalidToken, GoogleIdToken::InvalidToken do |exception|
         render_errors [exception.message], status: :unauthorized
       end
 
@@ -14,9 +14,8 @@ module Api
       end
 
       def create
-        return render_errors(['Unsupported provider'], status: :unprocessable_content) unless apple_provider?
-
-        @identity = current_user.link_apple_identity(apple_token, authorization_code: params[:authorization_code])
+        @identity = link_identity
+        return render_errors(['Unsupported provider'], status: :unprocessable_content) unless @identity
 
         if @identity.errors.empty?
           render :show, status: :created
@@ -39,7 +38,14 @@ module Api
 
       private
 
-      def apple_provider? = params[:provider].to_s == User::Identity::APPLE
+      def link_identity
+        case params[:provider].to_s
+        when User::Identity::APPLE
+          current_user.link_apple_identity(apple_token, authorization_code: params[:authorization_code])
+        when User::Identity::GOOGLE
+          current_user.link_identity(User::Identity::GoogleToken.verify(params.require(:identity_token)))
+        end
+      end
 
       def apple_token = User::Identity::AppleToken.verify(params.require(:identity_token))
     end

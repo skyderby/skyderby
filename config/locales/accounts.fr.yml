@@ -4,9 +4,12 @@ fr:
       title: "Supprimer le compte"
       hint: "Votre compte Skyderby sera supprimé définitivement. Les traces non utilisées en compétition et votre profil sont supprimés. Les résultats de compétition sont conservés comme fiche d’athlète anonyme."
       app_store: "Si vous vous êtes abonné via l’App Store, annulez l’abonnement dans les réglages de votre identifiant Apple."
+      google_play: "Si vous vous êtes abonné via Google Play, annulez l’abonnement dans le Google Play Store."
       button: "Supprimer le compte"
       confirm: "Supprimer définitivement votre compte ? Cette action est irréversible."
       deleted: "Votre compte a été supprimé."
     identities:
       last_identity: "Définissez un mot de passe avant de supprimer votre unique méthode de connexion."
-      linked_to_another_account: "Cet identifiant Apple est déjà lié à un autre compte Skyderby."
+      linked_to_another_account:
+        apple: "Cet identifiant Apple est déjà lié à un autre compte Skyderby."
+        google_oauth2: "Ce compte Google est déjà lié à un autre compte Skyderby."

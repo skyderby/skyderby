@@ -1,14 +1,14 @@
 namespace :oauth do
-  desc 'Create or update the public PKCE OAuth application used by the native Apple app'
+  desc 'Create or update the public PKCE OAuth applications used by the native Apple and Android apps'
   task mobile_app: :environment do
-    application = Doorkeeper::Application.find_or_initialize_by(name: 'Skyderby Apple')
-    application.update!(
-      uid: 'skyderby-apple',
-      redirect_uri: 'io.skyderby.app://oauth/callback',
-      scopes: 'read write',
-      confidential: false
-    )
+    {
+      'Skyderby Apple' => { uid: 'skyderby-apple', redirect_uri: 'io.skyderby.app://oauth/callback' },
+      'Skyderby Android' => { uid: 'skyderby-android', redirect_uri: 'io.skyderby.android://oauth/callback' }
+    }.each do |name, attributes|
+      application = Doorkeeper::Application.find_or_initialize_by(name:)
+      application.update!(**attributes, scopes: 'read write', confidential: false)
 
-    puts "Skyderby Apple OAuth application uid: #{application.uid}"
+      puts "#{name} OAuth application uid: #{application.uid}"
+    end
   end
 end

@@ -122,6 +122,7 @@ Skyderby::Application.routes.draw do
       resource :dashboard, only: %i[show update]
       resource :feed, only: :show
       resource :apple_session, only: :create
+      resource :google_session, only: :create
       resources :identities, only: %i[index create destroy]
       resource :account, only: :destroy
       resources :places, only: :show
@@ -157,6 +158,11 @@ Skyderby::Application.routes.draw do
 
       namespace :app_store do
         resources :transactions, only: :create
+        resources :notifications, only: :create
+      end
+
+      namespace :google_play do
+        resources :purchases, only: :create
         resources :notifications, only: :create
       end
 
