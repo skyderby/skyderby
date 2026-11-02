@@ -164,6 +164,7 @@ Skyderby::Application.routes.draw do
 
       namespace :google_play do
         resources :purchases, only: :create
+        resources :gifts, only: :create
         resources :notifications, only: :create
       end
 

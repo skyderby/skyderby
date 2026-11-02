@@ -42,6 +42,16 @@ class Api::V1::ProfilesControllerTest < ActionDispatch::IntegrationTest
     )
   end
 
+  test '#index tells whether an athlete has an account and Pro' do
+    users(:regular_user).update!(subscribed: true)
+
+    get api_v1_profiles_url(query: 'a')
+
+    items = response.parsed_body['items'].index_by { it['id'] }
+    assert_equal({ 'hasAccount' => true, 'pro' => true }, items[profiles(:regular_user).id].slice('hasAccount', 'pro'))
+    assert_equal({ 'hasAccount' => false, 'pro' => false }, items[profiles(:alex).id].slice('hasAccount', 'pro'))
+  end
+
   test '#index returns featured athletes without a query' do
     get api_v1_profiles_url
 

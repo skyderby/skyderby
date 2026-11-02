@@ -32,6 +32,8 @@ class User < ApplicationRecord
   has_one :setting, class_name: 'User::Setting', dependent: :destroy, inverse_of: :user
   has_many :identities, class_name: 'User::Identity', dependent: :destroy, inverse_of: :user
   has_many :gifted_subscriptions, dependent: :destroy
+  has_many :sent_gifts, -> { where.not(google_play_purchase_id: nil) },
+           class_name: 'GiftedSubscription', foreign_key: :granted_by_id, inverse_of: :granted_by, dependent: :nullify
   has_many :free_pro_views, dependent: :delete_all
   has_many :app_store_purchases, dependent: :destroy
   has_many :google_play_purchases, dependent: :destroy

@@ -4,12 +4,14 @@ class GooglePlayPurchase < ApplicationRecord
   PACKAGE_NAME = 'io.skyderby.android'.freeze
   LIFETIME_PRODUCT_ID = 'io.skyderby.pro.lifetime'.freeze
   SUBSCRIPTION_PRODUCT_IDS = %w[io.skyderby.pro.monthly io.skyderby.pro.annual].freeze
-  PRODUCT_IDS = [*SUBSCRIPTION_PRODUCT_IDS, LIFETIME_PRODUCT_ID].freeze
+  GIFT_PRODUCT_ID = 'io.skyderby.pro.lifetime_gift'.freeze
+  PRODUCT_IDS = [*SUBSCRIPTION_PRODUCT_IDS, LIFETIME_PRODUCT_ID, GIFT_PRODUCT_ID].freeze
   ENTITLING_STATES = %w[active grace_period canceled purchased].freeze
   PENDING_STATES = %w[pending pending_canceled].freeze
   REPLACED = 'replaced'.freeze
 
   belongs_to :user
+  has_one :gifted_subscription, dependent: :nullify
 
   validates :purchase_token, presence: true, uniqueness: true
   validates :state, :purchased_at, presence: true
@@ -24,6 +26,7 @@ class GooglePlayPurchase < ApplicationRecord
 
   scope :entitling, -> { active.where(test_purchase: false) }
 
+  after_update :revoke_gift, if: -> { saved_change_to_revoked_at? && revoked_at.present? }
   after_commit :update_subscribed_status, on: %i[create update destroy]
 
   def self.subscription?(product_id) = SUBSCRIPTION_PRODUCT_IDS.include?(product_id)
@@ -77,6 +80,10 @@ class GooglePlayPurchase < ApplicationRecord
 
   def lifetime? = product_id == LIFETIME_PRODUCT_ID
 
+  def gift? = product_id == GIFT_PRODUCT_ID
+
+  def paid_gift? = gift? && revoked_at.nil? && state == 'purchased'
+
   def pending? = PENDING_STATES.include?(state)
 
   def active? = revoked_at.nil? && ENTITLING_STATES.include?(state) && unexpired?
@@ -85,6 +92,7 @@ class GooglePlayPurchase < ApplicationRecord
 
   def status
     return 'revoked' if revoked_at
+    return 'gift' if gift?
     return 'lifetime' if lifetime? && active?
 
     active? ? 'active' : 'expired'
@@ -96,6 +104,10 @@ class GooglePlayPurchase < ApplicationRecord
 
   def replaced_by_linked_purchase?
     self.class.where(linked_purchase_token: purchase_token).where.not(state: PENDING_STATES).exists?
+  end
+
+  def revoke_gift
+    gifted_subscription&.update!(expires_at: revoked_at)
   end
 
   def update_subscribed_status

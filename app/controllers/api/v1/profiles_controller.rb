@@ -10,7 +10,7 @@ module Api
           .select('profiles.*', *track_counts)
           .left_joins(:tracks)
           .group('profiles.id')
-          .includes(:country, userpic_attachment: :blob)
+          .includes(:country, :owner, userpic_attachment: :blob)
           .limit(params[:query].present? ? 40 : 20)
       end
 
