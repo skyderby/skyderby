@@ -16,7 +16,7 @@ jobs:
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       latest: ${{ steps.head.outputs.latest }}
     steps:
@@ -37,7 +37,7 @@ jobs:
   deploy:
     needs: check
     if: needs.check.outputs.latest == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     environment: production
     permissions:
