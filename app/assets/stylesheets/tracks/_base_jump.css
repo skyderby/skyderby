@@ -49,6 +49,10 @@
     order: 1;
   }
 
+  .base-jump-zoom-presets {
+    margin-right: 1rem;
+  }
+
   .base-jump-terrain-select {
     order: 2;
   }
