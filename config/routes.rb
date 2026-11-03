@@ -127,6 +127,12 @@ Skyderby::Application.routes.draw do
       resources :identities, only: %i[index create destroy]
       resource :account, only: :destroy
       resources :places, only: :show
+      resource :logbook, only: :show
+      namespace :logbook do
+        resources :jumps, only: %i[index create update destroy] do
+          resource :renumbering, only: :create, module: :jumps
+        end
+      end
       resources :terrain_profiles, only: %i[index show create update destroy] do
         scope module: :terrain_profiles do
           resources :shares, only: %i[index create destroy]

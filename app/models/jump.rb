@@ -4,9 +4,9 @@ class Jump < ApplicationRecord
   SUGGESTIONS_LIMIT = 20
 
   enum :kind, { skydive: 0, base: 1 }
-  enum :object_type, { building: 0, antenna: 1, span: 2, earth: 3 }, prefix: :object
-  enum :wind_strength, { calm: 0, light: 1, medium: 2, strong: 3 }, prefix: :wind
-  enum :wind_direction, { front: 0, back: 1, left: 2, right: 3 }, prefix: :wind_from
+  enum :object_type, { building: 0, antenna: 1, span: 2, earth: 3 }, prefix: :object, validate: { allow_nil: true }
+  enum :wind_strength, { calm: 0, light: 1, medium: 2, strong: 3 }, prefix: :wind, validate: { allow_nil: true }
+  enum :wind_direction, { front: 0, back: 1, left: 2, right: 3 }, prefix: :wind_from, validate: { allow_nil: true }
 
   belongs_to :profile, inverse_of: :jumps
   belongs_to :track, optional: true, inverse_of: :jump
