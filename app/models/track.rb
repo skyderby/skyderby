@@ -96,6 +96,7 @@ class Track < ApplicationRecord
 
   before_save :sync_activity_timestamps, if: -> { ff_start_changed? || ff_end_changed? }
   before_destroy :used_in_competition?
+  before_destroy :touch_jump, prepend: true
   after_create_commit :track_amplitude_event
   after_update_commit :rescore_online_competitions, if: :saved_change_to_visibility?
 
@@ -230,6 +231,8 @@ class Track < ApplicationRecord
   def recorded_at = super || created_at
 
   private
+
+  def touch_jump = jump&.touch # rubocop:disable Rails/SkipsModelValidations
 
   def altitude_above_ground(point)
     return unless point

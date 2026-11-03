@@ -26,6 +26,15 @@ class Sync::Cursor
 
   def self.for_record(record) = new(time: record.updated_at, id: record.id)
 
+  def self.following(last_record, more:, since:)
+    return for_record(last_record) if more
+
+    horizon = new(time: Sync::COMMIT_OVERLAP.ago, id: 0)
+    candidate = last_record ? [for_record(last_record), horizon].min : horizon
+    position = [candidate, since].compact.max
+    new(time: position.time, id: position.id)
+  end
+
   def self.from_microseconds(value) = Time.zone.at(Rational(Integer(value), 1_000_000))
 
   def self.to_microseconds(time) = (time.to_r * 1_000_000).to_i
