@@ -1,0 +1,28 @@
+<%# locals: (dashboard:) %>
+
+<% if dashboard.logbook_tile? && !masquerading? %>
+  <% logbook = dashboard.logbook %>
+  <% if logbook.empty? %>
+    <div class="dashboard-section panel logbook-tile">
+      <span class="logbook-tile__title"><%= t('logbook.title') %></span>
+      <%= link_to t('logbook.dashboard.start'), logbook_path(kind: logbook.kind), class: 'button button--primary' %>
+      <%= button_to logbook_dashboard_tile_path, method: :patch, params: { visible: 0 },
+                    class: 'logbook-tile__close', aria: { label: t('logbook.dashboard.hide') } do %>
+        <%= icon_tag 'xmark' %>
+      <% end %>
+    </div>
+  <% else %>
+    <%= link_to logbook_path(kind: logbook.kind), class: 'dashboard-section panel logbook-tile logbook-tile--link' do %>
+      <span class="logbook-tile__title"><%= t('logbook.title') %></span>
+      <span class="logbook-stat">
+        <span class="logbook-stat__value"><%= logbook.total_jumps %></span>
+        <span class="logbook-stat__label"><%= t('logbook.stats.total') %></span>
+      </span>
+      <span class="logbook-stat">
+        <span class="logbook-stat__value"><%= logbook.jumps_this_year %></span>
+        <span class="logbook-stat__label"><%= t('logbook.stats.this_year') %></span>
+      </span>
+      <%= icon_tag 'angle-right-solid', class: 'logbook-tile__arrow' %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -128,6 +128,19 @@
     <% end %>
   <% end %>
 
+  <% if @profile.owner == current_user && !masquerading? %>
+    <%= form_with url: logbook_dashboard_tile_path, method: :patch,
+                  class: 'panel profile-edit__panel', data: { controller: 'auto-submit' } do %>
+      <div class="profile-edit__panel-head">
+        <h2 class="profile-edit__panel-title"><%= t('logbook.title') %></h2>
+      </div>
+      <%= render 'components/switch', name: 'visible', id: 'dashboard_logbook',
+                 checked: current_user.setting.dashboard_logbook,
+                 label_text: t('logbook.dashboard.show'),
+                 data: { action: 'change->auto-submit#submit' } %>
+    <% end %>
+  <% end %>
+
   <% if @profile.owner == current_user %>
     <div class="panel profile-edit__panel">
       <div class="profile-edit__panel-head">

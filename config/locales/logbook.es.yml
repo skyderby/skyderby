@@ -1,0 +1,77 @@
+es:
+  logbook:
+    title: "Bitácora"
+    add_jump: "Añadir salto"
+    edit_jump: "Editar salto"
+    from_tracks: "Añadir desde tracks"
+    export: "Exportar CSV"
+    empty: "Aún no hay saltos. Añade tu primer salto o elige entre tus tracks."
+    needs_number: "Falta número"
+    duplicate: "Duplicado"
+    all_years: "Todos los años"
+    track_link: "Track"
+    renumber: "Renumerar saltos siguientes"
+    renumber_confirmation: "Todos los saltos posteriores recibirán números nuevos a partir de este. ¿Continuar?"
+    import_selected: "Añadir seleccionados"
+    no_tracks: "No quedan tracks por añadir."
+    needs_number_notice:
+      one: "%{count} salto necesita número"
+      other: "%{count} saltos necesitan número"
+    kinds:
+      skydive: "Skydive"
+      base: "BASE"
+    stats:
+      total: "Saltos"
+      this_year: "Este año"
+      freefall: "Caída libre"
+      canopy: "Bajo campana"
+    columns:
+      number: "N.º"
+      date: "Fecha"
+      place: "Lugar"
+      suit: "Traje"
+      freefall: "Caída"
+      canopy: "Campana"
+    fields:
+      number: "Número de salto"
+      number_hint: "Déjalo vacío si no lo sabes. Nunca cambia por sí solo."
+      jumped_at: "Fecha y hora"
+      jump_type: "Tipo de salto"
+      object_type: "Objeto"
+      equipment: "Equipo"
+      wind: "Viento"
+      wind_hint: "En el centro calma, hacia el borde el viento es más fuerte"
+      aircraft: "Avión"
+      exit_altitude: "Altura de salida"
+      deployment_altitude: "Altura de apertura"
+      freefall_seconds: "Caída"
+      canopy_seconds: "Bajo campana"
+      shared_with: "Saltaste con"
+      notes: "Notas"
+    wind_strengths:
+      calm: "Calma"
+      light: "Débil"
+      medium: "Medio"
+      strong: "Fuerte"
+    wind_directions:
+      front: "Delante"
+      back: "Detrás"
+      left: "Izquierda"
+      right: "Derecha"
+    units:
+      meters: "m"
+      seconds: "s"
+    object_types:
+      building: "Edificio"
+      antenna: "Antena"
+      span: "Puente"
+      earth: "Tierra"
+    dashboard:
+      start: "Empezar a usar"
+      hide: "Ocultar bitácora"
+      show: "Mostrar en el panel"
+    upload:
+      add_to_logbook: "Añadir a la bitácora"
+    track:
+      add: "Añadir a la bitácora"
+      open: "Abrir en la bitácora"

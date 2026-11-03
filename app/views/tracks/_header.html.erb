@@ -44,6 +44,19 @@
       #<%= track.id %>
 
       <%= render 'tracks/bookmarks/button', track: %>
+
+      <% if track.loggable? && !masquerading? %>
+        <% if track.jump %>
+          <%= link_to edit_logbook_jump_path(track.jump), class: 'logbook-track-link', title: t('logbook.track.open') do %>
+            <%= icon_tag 'list-ul-solid' %>
+          <% end %>
+        <% else %>
+          <%= button_to track_logbook_entry_path(track), class: 'logbook-track-link', title: t('logbook.track.add'),
+                        aria: { label: t('logbook.track.add') } do %>
+            <%= icon_tag 'list-ul-solid' %>
+          <% end %>
+        <% end %>
+      <% end %>
     </div>
   </div>
 

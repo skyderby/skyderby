@@ -1,0 +1,77 @@
+en:
+  logbook:
+    title: "Logbook"
+    add_jump: "Add jump"
+    edit_jump: "Edit jump"
+    from_tracks: "Add from tracks"
+    export: "Export CSV"
+    empty: "No jumps yet. Add your first jump or pick from your tracks."
+    needs_number: "Needs number"
+    duplicate: "Duplicate"
+    all_years: "All years"
+    track_link: "Track"
+    renumber: "Renumber following jumps"
+    renumber_confirmation: "All later jumps will get new numbers, counting up from this one. Proceed?"
+    import_selected: "Add selected"
+    no_tracks: "No tracks left to add."
+    needs_number_notice:
+      one: "%{count} jump needs a number"
+      other: "%{count} jumps need a number"
+    kinds:
+      skydive: "Skydive"
+      base: "BASE"
+    stats:
+      total: "Jumps"
+      this_year: "This year"
+      freefall: "Freefall"
+      canopy: "Under canopy"
+    columns:
+      number: "#"
+      date: "Date"
+      place: "Place"
+      suit: "Suit"
+      freefall: "Freefall"
+      canopy: "Canopy"
+    fields:
+      number: "Jump number"
+      number_hint: "Leave empty if unknown. It never changes on its own."
+      jumped_at: "Date and time"
+      jump_type: "Jump type"
+      object_type: "Object"
+      equipment: "Equipment"
+      wind: "Wind"
+      wind_hint: "The centre is calm, the wind gets stronger towards the edge"
+      aircraft: "Aircraft"
+      exit_altitude: "Exit altitude"
+      deployment_altitude: "Deployment altitude"
+      freefall_seconds: "Freefall"
+      canopy_seconds: "Canopy"
+      shared_with: "Jumped with"
+      notes: "Notes"
+    wind_strengths:
+      calm: "Calm"
+      light: "Light"
+      medium: "Medium"
+      strong: "Strong"
+    wind_directions:
+      front: "Front"
+      back: "Back"
+      left: "Left"
+      right: "Right"
+    units:
+      meters: "m"
+      seconds: "s"
+    object_types:
+      building: "Building"
+      antenna: "Antenna"
+      span: "Span"
+      earth: "Earth"
+    dashboard:
+      start: "Start using"
+      hide: "Hide logbook"
+      show: "Show on the dashboard"
+    upload:
+      add_to_logbook: "Add to logbook"
+    track:
+      add: "Add to logbook"
+      open: "Open in logbook"

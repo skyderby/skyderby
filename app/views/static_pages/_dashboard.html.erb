@@ -10,6 +10,9 @@
 
     <% case dashboard.current_mode %>
     <% when :feed %>
+      <% if dashboard.available_modes == [:feed] %>
+        <%= render 'static_pages/dashboard/logbook', dashboard: dashboard %>
+      <% end %>
       <%= render 'static_pages/dashboard/feed', dashboard: dashboard %>
     <% when :admin %>
       <%= render 'static_pages/dashboard/admin', dashboard: dashboard %>

@@ -1,0 +1,12 @@
+<%# locals: (form:, attribute:, html_class: nil) %>
+
+<% list_id = "jump_#{attribute}_suggestions" %>
+<div class="<%= class_names('form-field', html_class) %>">
+  <%= form.label attribute, t("logbook.fields.#{attribute}"), class: 'form-field-label' %>
+  <%= form.text_field attribute, class: 'form-input', list: list_id, autocomplete: 'off' %>
+  <datalist id="<%= list_id %>">
+    <% form.object.suggestions_for(attribute).each do |value| %>
+      <option value="<%= value %>"></option>
+    <% end %>
+  </datalist>
+</div>

@@ -26,6 +26,10 @@ module Profiles
 
     def profile = __getobj__
 
+    def logbook = @logbook ||= Profiles::Logbook.new(profile, kind: ACTIVITY_BY_MODE[current_mode])
+
+    def logbook_tile? = user_setting.nil? || user_setting.dashboard_logbook
+
     def upload_stats
       @upload_stats ||= Tracks::UploadStats.new
     end

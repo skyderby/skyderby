@@ -1,0 +1,77 @@
+de:
+  logbook:
+    title: "Logbuch"
+    add_jump: "Sprung hinzufügen"
+    edit_jump: "Sprung bearbeiten"
+    from_tracks: "Aus Tracks hinzufügen"
+    export: "CSV exportieren"
+    empty: "Noch keine Sprünge. Füge deinen ersten Sprung hinzu oder wähle aus deinen Tracks."
+    needs_number: "Nummer fehlt"
+    duplicate: "Duplikat"
+    all_years: "Alle Jahre"
+    track_link: "Track"
+    renumber: "Folgende Sprünge neu nummerieren"
+    renumber_confirmation: "Alle späteren Sprünge erhalten neue Nummern, ausgehend von diesem. Fortfahren?"
+    import_selected: "Auswahl hinzufügen"
+    no_tracks: "Keine Tracks mehr zum Hinzufügen."
+    needs_number_notice:
+      one: "%{count} Sprung braucht eine Nummer"
+      other: "%{count} Sprünge brauchen eine Nummer"
+    kinds:
+      skydive: "Skydive"
+      base: "BASE"
+    stats:
+      total: "Sprünge"
+      this_year: "Dieses Jahr"
+      freefall: "Freifall"
+      canopy: "Am Schirm"
+    columns:
+      number: "Nr."
+      date: "Datum"
+      place: "Ort"
+      suit: "Anzug"
+      freefall: "Freifall"
+      canopy: "Schirm"
+    fields:
+      number: "Sprungnummer"
+      number_hint: "Leer lassen, wenn unbekannt. Sie ändert sich nie von selbst."
+      jumped_at: "Datum und Uhrzeit"
+      jump_type: "Sprungart"
+      object_type: "Objekt"
+      equipment: "Ausrüstung"
+      wind: "Wind"
+      wind_hint: "In der Mitte windstill, nach außen stärkerer Wind"
+      aircraft: "Flugzeug"
+      exit_altitude: "Absprunghöhe"
+      deployment_altitude: "Öffnungshöhe"
+      freefall_seconds: "Freifall"
+      canopy_seconds: "Unter dem Schirm"
+      shared_with: "Gesprungen mit"
+      notes: "Notizen"
+    wind_strengths:
+      calm: "Windstill"
+      light: "Schwach"
+      medium: "Mittel"
+      strong: "Stark"
+    wind_directions:
+      front: "Vorne"
+      back: "Hinten"
+      left: "Links"
+      right: "Rechts"
+    units:
+      meters: "m"
+      seconds: "s"
+    object_types:
+      building: "Gebäude"
+      antenna: "Antenne"
+      span: "Brücke"
+      earth: "Fels"
+    dashboard:
+      start: "Jetzt nutzen"
+      hide: "Logbuch ausblenden"
+      show: "Auf dem Dashboard anzeigen"
+    upload:
+      add_to_logbook: "Zum Logbuch hinzufügen"
+    track:
+      add: "Zum Logbuch hinzufügen"
+      open: "Im Logbuch öffnen"

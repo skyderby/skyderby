@@ -1,0 +1,97 @@
+<% provide :title, t('logbook.title') %>
+
+<div class="container top-buffer logbook stack">
+  <div class="logbook-header">
+    <h1 class="logbook-header__title"><%= t('logbook.title') %></h1>
+    <div class="logbook-header__actions">
+      <%= link_to t('logbook.from_tracks'), new_logbook_track_import_path(kind: @logbook.kind), class: 'button' %>
+      <%= link_to t('logbook.export'), logbook_export_path(format: :csv), class: 'button', data: { turbo: false } %>
+      <%= link_to t('logbook.add_jump'), new_logbook_jump_path(kind: @logbook.kind), class: 'button button--primary' %>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <% @logbook.kinds.each do |kind| %>
+      <%= link_to t("logbook.kinds.#{kind}"), logbook_path(kind:), class: ['tab-bar-item', ('active' if kind == @logbook.kind)] %>
+    <% end %>
+  </div>
+
+  <% if @logbook.empty? %>
+    <div class="panel dashboard-blankslate"><%= t('logbook.empty') %></div>
+  <% else %>
+    <div class="logbook-stats panel">
+      <div class="logbook-stat">
+        <span class="logbook-stat__value"><%= @logbook.total_jumps %></span>
+        <span class="logbook-stat__label"><%= t('logbook.stats.total') %></span>
+      </div>
+      <div class="logbook-stat">
+        <span class="logbook-stat__value"><%= logbook_duration(@logbook.freefall_seconds) %></span>
+        <span class="logbook-stat__label"><%= t('logbook.stats.freefall') %></span>
+      </div>
+      <div class="logbook-stat">
+        <span class="logbook-stat__value"><%= logbook_duration(@logbook.canopy_seconds) %></span>
+        <span class="logbook-stat__label"><%= t('logbook.stats.canopy') %></span>
+      </div>
+      <% @logbook.object_counts.each do |object_type, count| %>
+        <div class="logbook-stat">
+          <span class="logbook-stat__value"><%= count %></span>
+          <span class="logbook-stat__label"><%= t("logbook.object_types.#{object_type}") %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <% if @logbook.needs_number_count.positive? %>
+      <div class="logbook-notice"><%= t('logbook.needs_number_notice', count: @logbook.needs_number_count) %></div>
+    <% end %>
+
+    <div class="logbook-years">
+      <%= link_to t('logbook.all_years'), logbook_path(kind: @logbook.kind), class: ['logbook-years__item', ('logbook-years__item--active' unless @logbook.year)] %>
+      <% @logbook.years.each do |year| %>
+        <%= link_to year, logbook_path(kind: @logbook.kind, year:), class: ['logbook-years__item', ('logbook-years__item--active' if year == @logbook.year)] %>
+      <% end %>
+    </div>
+
+    <div class="panel logbook-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th><%= t('logbook.columns.number') %></th>
+            <th><%= t('logbook.columns.date') %></th>
+            <th><%= t('logbook.columns.place') %></th>
+            <th class="hidden-mobile"><%= t('logbook.columns.suit') %></th>
+            <th class="hidden-mobile"><%= t('logbook.columns.freefall') %></th>
+            <th class="hidden-mobile"><%= t('logbook.columns.canopy') %></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @logbook.entries.each do |jump| %>
+            <tr>
+              <td>
+                <% if jump.number %>
+                  <%= jump.number %>
+                  <% if @logbook.duplicate_numbers.include?(jump.number) %>
+                    <span class="pill pill-orange"><%= t('logbook.duplicate') %></span>
+                  <% end %>
+                <% else %>
+                  <span class="pill pill-yellow"><%= t('logbook.needs_number') %></span>
+                <% end %>
+              </td>
+              <td><%= l(jump.jumped_at.to_date) %></td>
+              <td><%= jump.place_label %></td>
+              <td class="hidden-mobile"><%= jump.suit_name %></td>
+              <td class="hidden-mobile"><%= logbook_duration(jump.freefall_seconds) %></td>
+              <td class="hidden-mobile"><%= logbook_duration(jump.canopy_seconds) %></td>
+              <td class="logbook-row-actions">
+                <%= link_to t('logbook.track_link'), track_path(jump.track) if jump.track %>
+                <%= link_to t('general.edit'), edit_logbook_jump_path(jump) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination"><%= paginate @logbook.entries %></div>
+  <% end %>
+</div>

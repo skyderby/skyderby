@@ -1,0 +1,18 @@
+<%# locals: (form:, attribute:, choices:) %>
+
+<fieldset class="logbook-choices" data-controller="clearable-radio">
+  <legend class="form-field-label logbook-choices__legend"><%= t("logbook.fields.#{attribute}") %></legend>
+  <%= form.hidden_field attribute, value: '', id: nil %>
+  <div class="logbook-choices__options">
+    <% choices.each do |value, mark, name| %>
+      <label class="logbook-choice">
+        <%= form.radio_button attribute, value, class: 'logbook-choice__input',
+                              data: { action: 'click->clearable-radio#toggle' } %>
+        <% if mark %>
+          <span class="logbook-choice__mark" aria-hidden="true"><%= mark %></span>
+        <% end %>
+        <span class="logbook-choice__name"><%= name %></span>
+      </label>
+    <% end %>
+  </div>
+</fieldset>

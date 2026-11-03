@@ -1,0 +1,27 @@
+<%# locals: (form:) %>
+
+<div class="form-field wind-target" data-controller="wind-target" data-wind-target-hint-value="<%= t('logbook.fields.wind_hint') %>">
+  <span class="form-field-label" id="wind_target_label"><%= t('logbook.fields.wind') %></span>
+  <%= form.hidden_field :wind_strength, data: { 'wind-target-target': 'strength' } %>
+  <%= form.hidden_field :wind_direction, data: { 'wind-target-target': 'direction' } %>
+  <svg class="wind-target__chart" viewBox="-56 0 332 244" role="radiogroup" aria-labelledby="wind_target_label">
+    <% LogbookHelper::WIND_RINGS.each_key do |strength| %>
+      <% LogbookHelper::WIND_ANGLES.each_key do |direction| %>
+        <path class="wind-target__cell wind-target__cell--<%= strength %>" d="<%= wind_sector_path(strength, direction) %>"
+              role="radio" tabindex="0" aria-checked="false" aria-label="<%= wind_label(strength, direction) %>"
+              data-wind-target-target="cell" data-strength="<%= strength %>" data-direction="<%= direction %>"
+              data-action="click->wind-target#select keydown->wind-target#key"></path>
+      <% end %>
+    <% end %>
+    <% center_x, center_y = LogbookHelper::WIND_CENTER %>
+    <circle class="wind-target__cell wind-target__cell--calm" cx="<%= center_x %>" cy="<%= center_y %>" r="<%= LogbookHelper::WIND_RINGS[:light].first %>"
+            role="radio" tabindex="0" aria-checked="false" aria-label="<%= wind_label(:calm) %>"
+            data-wind-target-target="cell" data-strength="calm" data-direction=""
+            data-action="click->wind-target#select keydown->wind-target#key"></circle>
+    <text class="wind-target__calm" x="<%= center_x %>" y="<%= center_y + 4 %>" text-anchor="middle" aria-hidden="true"><%= t('logbook.wind_strengths.calm') %></text>
+    <% LogbookHelper::WIND_LABELS.each do |direction, (x, y, anchor)| %>
+      <text class="wind-target__direction" x="<%= x %>" y="<%= y %>" text-anchor="<%= anchor %>" aria-hidden="true"><%= t("logbook.wind_directions.#{direction}") %></text>
+    <% end %>
+  </svg>
+  <div class="form-hint" data-wind-target-target="caption" aria-live="polite"></div>
+</div>

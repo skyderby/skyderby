@@ -52,7 +52,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select '.dashboard-empty'
-    assert_select '.dashboard-section', false
+    assert_select '.dashboard-section', count: 1, text: /Logbook/
   end
 
   test 'admin sees place submissions on the admin tab' do
@@ -137,5 +137,71 @@ class DashboardTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select '.dashboard-list__title', text: tournament.name
+  end
+
+  test 'a logbook block leads the activity dashboards' do
+    sign_in users(:regular_user)
+    get root_path(mode: :base)
+
+    assert_select '.dashboard-grid__main > .dashboard-section:first-child', text: /Logbook/
+  end
+
+  test 'the logbook panel links to the logbook and shows the total and this year' do
+    profile = profiles(:regular_user)
+    profile.jumps.create!(kind: :base, number: 40, jumped_at: 2.years.ago)
+    profile.jumps.create!(kind: :base, number: 41, jumped_at: Time.current)
+    sign_in users(:regular_user)
+    get root_path(mode: :base)
+
+    assert_select "a.logbook-tile[href='#{logbook_path(kind: 'base')}']" do
+      assert_select '.logbook-stat__value', text: '41'
+      assert_select '.logbook-stat__value', text: '1'
+    end
+  end
+
+  test 'a user without tracks still sees the logbook block' do
+    user = users(:places_editor)
+    user.create_profile!(name: 'Trackless')
+    sign_in user
+    get root_path
+
+    assert_select '.dashboard-section', text: /Logbook/
+  end
+
+  test 'a trackless pilot sees the counts of the logbook kind they keep' do
+    user = users(:places_editor)
+    profile = user.create_profile!(name: 'Trackless')
+    profile.jumps.create!(kind: :base, number: 7, jumped_at: Time.current)
+    sign_in user
+    get root_path
+
+    assert_select "a.logbook-tile[href='#{logbook_path(kind: 'base')}'] .logbook-stat__value", text: '7'
+  end
+
+  test 'an empty logbook offers to start and can be hidden from the dashboard' do
+    user = users(:regular_user)
+    sign_in user
+
+    get root_path(mode: :base)
+    assert_select '.logbook-tile a[href=?]', logbook_path(kind: 'base')
+    assert_select '.logbook-tile__close'
+
+    patch logbook_dashboard_tile_path, params: { visible: 0 }
+    assert_not user.reload.setting.dashboard_logbook
+
+    get root_path(mode: :base)
+    assert_select '.logbook-tile', false
+  end
+
+  test 'a hidden logbook returns through the profile settings' do
+    user = users(:regular_user)
+    user.setting.update!(dashboard_logbook: false)
+    sign_in user
+
+    get edit_profile_path(user.profile)
+    assert_select "form[action='#{logbook_dashboard_tile_path}'] input[name=visible][type=checkbox]"
+
+    patch logbook_dashboard_tile_path, params: { visible: 1 }
+    assert user.reload.setting.dashboard_logbook
   end
 end

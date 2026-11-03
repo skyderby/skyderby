@@ -21,7 +21,7 @@
         <td class="text-info"><%= item.points_count %></td>
         <td>
           <%= button_to track_file_track_path(@track_file), method: :post,
-                        params: track_file_params.slice(:track_attributes).merge(segment: index),
+                        params: track_file_params.slice(:track_attributes, :add_to_logbook).merge(segment: index),
                         form: { 'data-clickable-row-target': 'form' },
                         class: 'button button--ghost' do %>
             <%= icon_tag 'angle-right-solid' %>

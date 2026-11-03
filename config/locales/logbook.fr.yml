@@ -1,0 +1,77 @@
+fr:
+  logbook:
+    title: "Carnet de sauts"
+    add_jump: "Ajouter un saut"
+    edit_jump: "Modifier le saut"
+    from_tracks: "Ajouter depuis les traces"
+    export: "Exporter en CSV"
+    empty: "Aucun saut pour le moment. Ajoutez votre premier saut ou choisissez parmi vos traces."
+    needs_number: "Numéro manquant"
+    duplicate: "Doublon"
+    all_years: "Toutes les années"
+    track_link: "Trace"
+    renumber: "Renuméroter les sauts suivants"
+    renumber_confirmation: "Tous les sauts suivants recevront de nouveaux numéros à partir de celui-ci. Continuer ?"
+    import_selected: "Ajouter la sélection"
+    no_tracks: "Plus aucune trace à ajouter."
+    needs_number_notice:
+      one: "%{count} saut a besoin d’un numéro"
+      other: "%{count} sauts ont besoin d’un numéro"
+    kinds:
+      skydive: "Skydive"
+      base: "BASE"
+    stats:
+      total: "Sauts"
+      this_year: "Cette année"
+      freefall: "Chute libre"
+      canopy: "Sous voile"
+    columns:
+      number: "N°"
+      date: "Date"
+      place: "Lieu"
+      suit: "Combinaison"
+      freefall: "Chute"
+      canopy: "Voile"
+    fields:
+      number: "Numéro de saut"
+      number_hint: "Laissez vide si inconnu. Il ne change jamais tout seul."
+      jumped_at: "Date et heure"
+      jump_type: "Type de saut"
+      object_type: "Objet"
+      equipment: "Équipement"
+      wind: "Vent"
+      wind_hint: "Au centre le calme, vers le bord le vent est plus fort"
+      aircraft: "Avion"
+      exit_altitude: "Hauteur de sortie"
+      deployment_altitude: "Hauteur d'ouverture"
+      freefall_seconds: "Chute"
+      canopy_seconds: "Sous voile"
+      shared_with: "Sauté avec"
+      notes: "Notes"
+    wind_strengths:
+      calm: "Calme"
+      light: "Faible"
+      medium: "Moyen"
+      strong: "Fort"
+    wind_directions:
+      front: "Face"
+      back: "Dos"
+      left: "Gauche"
+      right: "Droite"
+    units:
+      meters: "m"
+      seconds: "s"
+    object_types:
+      building: "Bâtiment"
+      antenna: "Antenne"
+      span: "Pont"
+      earth: "Falaise"
+    dashboard:
+      start: "Commencer"
+      hide: "Masquer le carnet"
+      show: "Afficher sur le tableau de bord"
+    upload:
+      add_to_logbook: "Ajouter au carnet"
+    track:
+      add: "Ajouter au carnet"
+      open: "Ouvrir dans le carnet"

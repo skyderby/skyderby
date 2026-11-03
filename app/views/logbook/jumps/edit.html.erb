@@ -1,0 +1,20 @@
+<% provide :title, t('logbook.edit_jump') %>
+
+<div class="container top-buffer logbook logbook-form-page stack">
+  <%= link_to logbook_path(kind: @jump.kind), class: 'btn-back' do %>
+    <%= icon_tag 'angle-left-solid' %>
+    <%= t('logbook.title') %>
+  <% end %>
+
+  <%= render 'logbook/jumps/form', jump: @jump %>
+
+  <div class="logbook-header__actions">
+    <% if @jump.number %>
+      <%= button_to t('logbook.renumber'), logbook_jump_renumbering_path(@jump), class: 'button',
+                    form: { data: { turbo_confirm: t('logbook.renumber_confirmation') } } %>
+    <% end %>
+    <%= button_to t('general.delete'), logbook_jump_path(@jump), method: :delete,
+                  class: 'button button--ghost button--danger',
+                  form: { data: { turbo_confirm: t('general.confirm_delete') } } %>
+  </div>
+</div>

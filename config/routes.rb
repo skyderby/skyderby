@@ -435,10 +435,21 @@ Skyderby::Application.routes.draw do
     end
   end
 
+  resource :logbook, only: :show
+  namespace :logbook do
+    resource :dashboard_tile, only: :update
+    resources :jumps, except: %i[index show] do
+      resource :renumbering, only: :create, module: :jumps
+    end
+    resource :track_import, only: %i[new create]
+    resource :export, only: :show
+  end
+
   resources :tracks, only: [:index, :show, :edit, :update, :destroy] do
     scope module: :tracks do
       resource :chart_settings, only: :update
       resource :bookmark, only: %i[create destroy]
+      resource :logbook_entry, only: :create
       resource :map, only: :show
       resource :video, only: [:new, :edit, :show, :create, :update, :destroy] do
         resource :chart_data, only: :show, module: :videos

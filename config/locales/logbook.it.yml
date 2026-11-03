@@ -1,0 +1,77 @@
+it:
+  logbook:
+    title: "Logbook"
+    add_jump: "Aggiungi salto"
+    edit_jump: "Modifica salto"
+    from_tracks: "Aggiungi dalle tracce"
+    export: "Esporta CSV"
+    empty: "Ancora nessun salto. Aggiungi il primo salto o scegli dalle tue tracce."
+    needs_number: "Numero mancante"
+    duplicate: "Duplicato"
+    all_years: "Tutti gli anni"
+    track_link: "Traccia"
+    renumber: "Rinumera i salti successivi"
+    renumber_confirmation: "Tutti i salti successivi riceveranno nuovi numeri a partire da questo. Procedere?"
+    import_selected: "Aggiungi selezionati"
+    no_tracks: "Nessuna traccia da aggiungere."
+    needs_number_notice:
+      one: "%{count} salto richiede un numero"
+      other: "%{count} salti richiedono un numero"
+    kinds:
+      skydive: "Skydive"
+      base: "BASE"
+    stats:
+      total: "Salti"
+      this_year: "Quest'anno"
+      freefall: "Caduta libera"
+      canopy: "Sotto vela"
+    columns:
+      number: "N."
+      date: "Data"
+      place: "Luogo"
+      suit: "Tuta"
+      freefall: "Caduta"
+      canopy: "Vela"
+    fields:
+      number: "Numero del salto"
+      number_hint: "Lascia vuoto se non lo conosci. Non cambia mai da solo."
+      jumped_at: "Data e ora"
+      jump_type: "Tipo di salto"
+      object_type: "Oggetto"
+      equipment: "Attrezzatura"
+      wind: "Vento"
+      wind_hint: "Al centro calma, verso il bordo il vento è più forte"
+      aircraft: "Aereo"
+      exit_altitude: "Quota di uscita"
+      deployment_altitude: "Quota di apertura"
+      freefall_seconds: "Caduta"
+      canopy_seconds: "Sotto vela"
+      shared_with: "Saltato con"
+      notes: "Note"
+    wind_strengths:
+      calm: "Calma"
+      light: "Debole"
+      medium: "Medio"
+      strong: "Forte"
+    wind_directions:
+      front: "Davanti"
+      back: "Dietro"
+      left: "Sinistra"
+      right: "Destra"
+    units:
+      meters: "m"
+      seconds: "s"
+    object_types:
+      building: "Edificio"
+      antenna: "Antenna"
+      span: "Ponte"
+      earth: "Parete"
+    dashboard:
+      start: "Inizia a usarlo"
+      hide: "Nascondi logbook"
+      show: "Mostra nella dashboard"
+    upload:
+      add_to_logbook: "Aggiungi al logbook"
+    track:
+      add: "Aggiungi al logbook"
+      open: "Apri nel logbook"

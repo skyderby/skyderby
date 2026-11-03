@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_30_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_02_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -282,6 +282,38 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_30_120000) do
     t.index ["access_token_id"], name: "index_impersonations_on_access_token_id", unique: true
     t.index ["admin_user_id"], name: "index_impersonations_on_admin_user_id"
     t.index ["user_id"], name: "index_impersonations_on_user_id"
+  end
+
+  create_table "jumps", force: :cascade do |t|
+    t.string "aircraft"
+    t.integer "canopy_seconds"
+    t.uuid "client_uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.datetime "created_at", null: false
+    t.timestamptz "deleted_at"
+    t.integer "deployment_altitude"
+    t.string "equipment"
+    t.integer "exit_altitude"
+    t.integer "freefall_seconds"
+    t.string "jump_type"
+    t.timestamptz "jumped_at", null: false
+    t.integer "kind", default: 0, null: false
+    t.text "notes"
+    t.integer "number"
+    t.integer "object_type"
+    t.integer "place_id"
+    t.string "place_name"
+    t.integer "profile_id", null: false
+    t.string "shared_with"
+    t.integer "suit_id"
+    t.integer "track_id"
+    t.datetime "updated_at", null: false
+    t.integer "wind_direction"
+    t.integer "wind_strength"
+    t.index ["place_id"], name: "index_jumps_on_place_id"
+    t.index ["profile_id", "client_uuid"], name: "index_jumps_on_profile_id_and_client_uuid", unique: true
+    t.index ["profile_id", "kind", "jumped_at"], name: "index_jumps_on_profile_id_and_kind_and_jumped_at"
+    t.index ["suit_id"], name: "index_jumps_on_suit_id"
+    t.index ["track_id"], name: "index_jumps_on_track_id", unique: true, where: "((track_id IS NOT NULL) AND (deleted_at IS NULL))"
   end
 
   create_table "manufacturers", id: :serial, force: :cascade do |t|
@@ -993,6 +1025,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_30_120000) do
   create_table "user_settings", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "dashboard_female_rankings", default: false, null: false
+    t.boolean "dashboard_logbook", default: true, null: false
     t.string "dashboard_mode"
     t.integer "default_chart_view", default: 0, null: false
     t.integer "default_units", default: 0, null: false

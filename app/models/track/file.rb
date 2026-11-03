@@ -13,7 +13,7 @@ class Track::File < ApplicationRecord
   EXTENSIONS = %w[csv gpx tes kml].freeze
   MAX_SENSOR_FILE_SIZE = 50.megabytes
 
-  attr_accessor :track_attributes
+  attr_accessor :track_attributes, :add_to_logbook
 
   has_one_attached :file
   has_one_attached :sensor_file

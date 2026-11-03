@@ -209,6 +209,30 @@
   padding-right: 2.5rem;
 }
 
+.input-unit {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-unit .form-input {
+  padding-right: 2rem;
+  appearance: textfield;
+}
+
+.input-unit .form-input::-webkit-inner-spin-button,
+.input-unit .form-input::-webkit-outer-spin-button {
+  appearance: none;
+}
+
+.input-unit__suffix {
+  position: absolute;
+  right: 0.75rem;
+  color: var(--gray-70);
+  font-size: 0.875rem;
+  pointer-events: none;
+}
+
 .input-icon-button {
   position: absolute;
   right: 0.5rem;
@@ -307,6 +331,27 @@ textarea.form-input {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.form-fields--2,
+.form-fields--4 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-fields--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: end;
+}
+
+@media (max-width: 767px) {
+  .form-fields--2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .form-fields--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .form-field {

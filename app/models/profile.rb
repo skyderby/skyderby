@@ -32,6 +32,7 @@ class Profile < ApplicationRecord
 
   has_many :aliases, class_name: 'Profile::Alias', inverse_of: :profile, dependent: :delete_all
   has_many :tracks, inverse_of: :pilot, dependent: :nullify
+  has_many :jumps, inverse_of: :profile, dependent: :delete_all
   has_many :public_tracks,
            -> { where(visibility: 0).order(created_at: :desc) },
            class_name: 'Track', inverse_of: false, dependent: :nullify

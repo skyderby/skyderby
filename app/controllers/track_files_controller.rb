@@ -1,5 +1,6 @@
 class TrackFilesController < ApplicationController
   include FirstLookGrantable
+  include LogbookRecordable
 
   before_action :authenticate_user!
 
@@ -23,6 +24,7 @@ class TrackFilesController < ApplicationController
     if @track_file.one_segment?
       @track = build_track
       grant_first_look(@track)
+      record_in_logbook(@track, track_file_params[:add_to_logbook])
 
       redirect_to track_path(@track)
     else
@@ -45,6 +47,7 @@ class TrackFilesController < ApplicationController
   def track_file_params
     params.require(:track_file).permit(
       :file,
+      :add_to_logbook,
       files: [],
       track_attributes: [
         :kind,

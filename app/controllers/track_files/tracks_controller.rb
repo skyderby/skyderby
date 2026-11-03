@@ -1,12 +1,14 @@
 module TrackFiles
   class TracksController < ApplicationController
     include FirstLookGrantable
+    include LogbookRecordable
 
     before_action :authenticate_user!
 
     def create
       @track = build_track
       grant_first_look(@track)
+      record_in_logbook(@track, params[:add_to_logbook])
 
       redirect_to track_path(@track)
     end

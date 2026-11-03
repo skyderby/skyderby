@@ -53,6 +53,7 @@ class Track < ApplicationRecord
   has_one :video, class_name: 'TrackVideo', dependent: :destroy, inverse_of: :track
   has_one :reference_point, dependent: :destroy
   has_one :exit_profile, class_name: 'Track::ExitProfile', inverse_of: :track, dependent: :destroy
+  has_one :jump, -> { kept }, inverse_of: :track, dependent: :nullify
 
   has_one :time,
           -> { where(discipline: Result.disciplines[:time], variant: Result::BEST_VARIANT) },
@@ -140,6 +141,16 @@ class Track < ApplicationRecord
 
   def landing_point = @landing_point ||= point_at(landing_fl_time)
 
+  def deploy_point = @deploy_point ||= point_at(ff_end)
+
+  def exit_altitude = altitude_above_ground(exit_point)
+
+  def deployment_altitude = altitude_above_ground(deploy_point)
+
+  def loggable?(user: Current.user)
+    user.registered? && pilot.present? && pilot == user.profile
+  end
+
   def place_anchor_point = base? ? exit_point : landing_point || exit_point
 
   def place_kind = base? ? :base : :skydive
@@ -219,6 +230,12 @@ class Track < ApplicationRecord
   def recorded_at = super || created_at
 
   private
+
+  def altitude_above_ground(point)
+    return unless point
+
+    (abs_altitude? ? point.abs_altitude - msl_offset : point.elevation).round
+  end
 
   def point_at(fl_time)
     return if fl_time.blank?

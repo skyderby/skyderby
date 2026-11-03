@@ -1,0 +1,10 @@
+<% provide :title, t('logbook.add_jump') %>
+
+<div class="container top-buffer logbook logbook-form-page stack">
+  <%= link_to logbook_path(kind: @jump.kind), class: 'btn-back' do %>
+    <%= icon_tag 'angle-left-solid' %>
+    <%= t('logbook.title') %>
+  <% end %>
+
+  <%= render 'logbook/jumps/form', jump: @jump %>
+</div>

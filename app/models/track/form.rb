@@ -9,6 +9,8 @@ class Track::Form
 
   def visibility = last_track&.visibility || 'public_track'
 
+  def add_to_logbook? = last_track&.jump.present?
+
   private
 
   def last_track

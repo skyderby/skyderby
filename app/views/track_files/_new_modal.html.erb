@@ -59,6 +59,17 @@
       <%= render 'tracks/form/comment', form: builder, private_note: true %>
     <% end %>
 
+    <% if current_user.profile && !masquerading? %>
+      <div class="grid">
+        <div class="col-8 col-start-5">
+          <label class="form-checkbox">
+            <%= f.check_box :add_to_logbook, checked: @form.add_to_logbook? %>
+            <%= t('logbook.upload.add_to_logbook') %>
+          </label>
+        </div>
+      </div>
+    <% end %>
+
     <div class="form-actions">
       <%= f.submit t('static_pages.index.track_form.submit'), class: 'button button--primary' %>
       <button type="button" class="button" data-action="dialog#close"><%= t('general.cancel') %></button>

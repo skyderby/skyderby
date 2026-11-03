@@ -1,0 +1,113 @@
+<%# locals: (jump:) %>
+
+<%= form_with model: jump, url: jump.new_record? ? logbook_jumps_path : logbook_jump_path(jump), class: 'panel form-page-panel' do |f| %>
+  <%= f.hidden_field :kind %>
+
+  <section class="form-section">
+    <div class="logbook-form__title">
+      <h1 class="logbook-header__title"><%= t(jump.new_record? ? 'logbook.add_jump' : 'logbook.edit_jump') %></h1>
+      <span class="badge badge-gray"><%= t("logbook.kinds.#{jump.kind}") %></span>
+      <% if jump.track %>
+        <%= link_to t('logbook.track_link'), track_path(jump.track), class: 'logbook-form__track' %>
+      <% end %>
+    </div>
+
+    <% if jump.errors.any? %>
+      <p class="form-error" role="alert"><%= jump.errors.full_messages.to_sentence %></p>
+    <% end %>
+
+    <div class="logbook-entry-head">
+      <div class="form-field">
+        <%= f.label :number, t('logbook.fields.number'), class: 'form-field-label' %>
+        <div class="logbook-entry-number">
+          <span class="logbook-entry-number__mark" aria-hidden="true">#</span>
+          <%= f.number_field :number, class: 'logbook-entry-number__input', min: 1 %>
+        </div>
+        <div class="form-hint"><%= t('logbook.fields.number_hint') %></div>
+      </div>
+
+      <div class="form-field">
+        <%= f.label :jumped_at, t('logbook.fields.jumped_at'), class: 'form-field-label' %>
+        <%= f.datetime_local_field :jumped_at, class: 'form-input', required: true %>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="form-fields">
+      <% if jump.base? %>
+        <%= render 'logbook/jumps/choice_group', form: f, attribute: :object_type,
+                   choices: Jump.object_types.keys.map { |key| [key, key.first.upcase, t("logbook.object_types.#{key}")] } %>
+      <% end %>
+
+      <div class="form-fields form-fields--2">
+        <div class="form-field" data-controller="tracks--dual-type-field" <%= dual_type_field_labels(:place) %> data-mode="<%= jump.place.nil? && jump.place_name.present? ? 'text' : 'select' %>">
+          <span class="form-field-label"><%= t('activerecord.attributes.track.place') %></span>
+          <div>
+            <div data-tracks--dual-type-field-target="select">
+              <%= render 'hot_select/select', form: f, name: :place_id, src: places_select_options_path,
+                         placeholder: t('tracks.form.place_select_placeholder'),
+                         options: options_for_select([([jump.place.name, jump.place_id] if jump.place)], jump.place_id) %>
+            </div>
+            <%= f.text_field :place_name, class: 'form-input', data: { 'tracks--dual-type-field-target': 'text' } %>
+          </div>
+          <div class="form-hint">
+            <span data-tracks--dual-type-field-target="caption"></span>
+            <a href="#" data-tracks--dual-type-field-target="link" data-action="tracks--dual-type-field#trigger"></a>
+          </div>
+        </div>
+
+        <%= render 'logbook/jumps/suggested_field', form: f, attribute: jump.base? ? :jump_type : :aircraft %>
+
+        <div class="form-field">
+          <span class="form-field-label"><%= t('activerecord.attributes.track.suit') %></span>
+          <%= render 'hot_select/select', form: f, name: :suit_id, src: suits_select_options_path,
+                     placeholder: t('tracks.form.suit_select_placeholder'),
+                     options: options_for_select([([jump.suit.name, jump.suit_id] if jump.suit)], jump.suit_id) %>
+        </div>
+
+        <%= render 'logbook/jumps/suggested_field', form: f, attribute: :equipment %>
+
+        <% unless jump.base? %>
+          <%= render 'logbook/jumps/suggested_field', form: f, attribute: :jump_type, html_class: 'logbook-form__wide' %>
+        <% end %>
+      </div>
+
+      <% if jump.base? %>
+        <%= render 'logbook/jumps/wind_target', form: f %>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="form-fields form-fields--4">
+      <% { exit_altitude: :meters, freefall_seconds: :seconds, deployment_altitude: :meters, canopy_seconds: :seconds }.each do |attribute, unit| %>
+        <div class="form-field">
+          <%= f.label attribute, t("logbook.fields.#{attribute}"), class: 'form-field-label' %>
+          <div class="input-unit">
+            <%= f.number_field attribute, class: 'form-input', min: (0 if unit == :seconds) %>
+            <span class="input-unit__suffix"><%= t("logbook.units.#{unit}") %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="form-fields">
+      <div class="form-field">
+        <%= f.label :shared_with, t('logbook.fields.shared_with'), class: 'form-field-label' %>
+        <%= f.text_field :shared_with, class: 'form-input' %>
+      </div>
+      <div class="form-field">
+        <%= f.label :notes, t('logbook.fields.notes'), class: 'form-field-label' %>
+        <%= f.text_area :notes, class: 'form-input', rows: 4 %>
+      </div>
+    </div>
+  </section>
+
+  <div class="form-actions">
+    <%= link_to t('general.cancel'), logbook_path(kind: jump.kind), class: 'button button--ghost' %>
+    <%= f.submit jump.new_record? ? t('logbook.add_jump') : t('general.save'), class: 'button button--primary' %>
+  </div>
+<% end %>

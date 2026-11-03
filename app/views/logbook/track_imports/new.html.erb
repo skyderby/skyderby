@@ -1,0 +1,49 @@
+<% provide :title, t('logbook.from_tracks') %>
+
+<div class="container top-buffer logbook stack">
+  <%= link_to logbook_path(kind: @logbook.kind), class: 'btn-back' do %>
+    <%= icon_tag 'angle-left-solid' %>
+    <%= t('logbook.title') %>
+  <% end %>
+
+  <h1 class="logbook-header__title"><%= t('logbook.from_tracks') %></h1>
+
+  <% if @year %>
+    <div class="logbook-years">
+      <% @logbook.import_years.each do |year| %>
+        <%= link_to year, new_logbook_track_import_path(kind: @logbook.kind, year:), class: ['logbook-years__item', ('logbook-years__item--active' if year == @year)] %>
+      <% end %>
+    </div>
+
+    <%= form_with url: logbook_track_import_path do |f| %>
+      <%= f.hidden_field :kind, value: @logbook.kind %>
+      <div class="panel logbook-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th><%= t('logbook.columns.date') %></th>
+              <th><%= t('logbook.columns.place') %></th>
+              <th><%= t('logbook.columns.suit') %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @logbook.import_candidates(@year).each do |track| %>
+              <tr>
+                <td><%= check_box_tag 'track_ids[]', track.id, true, id: dom_id(track, :import), aria: { label: "##{track.id}" } %></td>
+                <td><%= l(track.recorded_at.to_date) %></td>
+                <td><%= track.place_name || track.location %></td>
+                <td><%= track.suit_name || track.missing_suit_name %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="form-actions">
+        <%= f.submit t('logbook.import_selected'), class: 'button button--primary' %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="panel dashboard-blankslate"><%= t('logbook.no_tracks') %></div>
+  <% end %>
+</div>
