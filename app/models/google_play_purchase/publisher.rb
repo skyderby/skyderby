@@ -24,6 +24,10 @@ class GooglePlayPurchase::Publisher
       post("purchases/products/#{escape(product_id)}/tokens/#{escape(purchase_token)}:acknowledge")
     end
 
+    def consume_product(product_id, purchase_token)
+      post("purchases/products/#{escape(product_id)}/tokens/#{escape(purchase_token)}:consume")
+    end
+
     def access_token
       Rails.cache.fetch(ACCESS_TOKEN_CACHE_KEY, expires_in: 50.minutes) do
         raise UnavailableError, 'Google Play service account is not configured' if service_account_json.blank?

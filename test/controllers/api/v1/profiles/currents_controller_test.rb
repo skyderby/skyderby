@@ -23,7 +23,8 @@ class Api::V1::Profiles::CurrentsControllerTest < ActionDispatch::IntegrationTes
     assert_equal({ 'id' => user.id, 'email' => user.email, 'admin' => false }, body['user'])
     assert_equal profile.id, body.dig('profile', 'id')
     assert_equal '/images/thumb/missing.png', body.dig('profile', 'photo', 'thumb')
-    assert_equal({ 'active' => false, 'source' => nil, 'plan' => nil, 'expiresAt' => nil }, body['subscription'])
+    assert_equal({ 'active' => false, 'source' => nil, 'plan' => nil, 'renewing' => false, 'expiresAt' => nil },
+                 body['subscription'])
     assert_equal 5, body.dig('freeProViews', 'remaining')
   end
 
@@ -38,7 +39,8 @@ class Api::V1::Profiles::CurrentsControllerTest < ActionDispatch::IntegrationTes
     get api_v1_current_path, headers: bearer(:regular_user_read)
 
     assert_equal(
-      { 'active' => true, 'source' => 'app_store', 'plan' => 'annual', 'expiresAt' => expires_at.iso8601 },
+      { 'active' => true, 'source' => 'app_store', 'plan' => 'annual', 'renewing' => true,
+        'expiresAt' => expires_at.iso8601 },
       response.parsed_body['subscription']
     )
   end
@@ -46,7 +48,7 @@ class Api::V1::Profiles::CurrentsControllerTest < ActionDispatch::IntegrationTes
   test '#show reports admin subscription' do
     get api_v1_current_path, headers: bearer(:admin_write)
 
-    assert_equal({ 'active' => true, 'source' => 'admin', 'plan' => nil, 'expiresAt' => nil },
+    assert_equal({ 'active' => true, 'source' => 'admin', 'plan' => nil, 'renewing' => false, 'expiresAt' => nil },
                  response.parsed_body['subscription'])
     assert response.parsed_body.dig('user', 'admin')
   end

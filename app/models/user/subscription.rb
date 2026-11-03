@@ -48,6 +48,14 @@ class User::Subscription
       [app_store_purchases, google_play_purchases, gifted_subscriptions].any? { |records| records.any?(&:lifetime?) }
   end
 
+  def renewing?
+    case source
+    when 'app_store' then app_store_purchases.any? { !it.lifetime? }
+    when 'google_play' then google_play_purchases.any? { it.state.in?(GooglePlayPurchase::RENEWING_STATES) }
+    else false
+    end
+  end
+
   private
 
   attr_reader :user

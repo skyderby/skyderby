@@ -7,6 +7,7 @@ class GooglePlayPurchase < ApplicationRecord
   GIFT_PRODUCT_ID = 'io.skyderby.pro.lifetime_gift'.freeze
   PRODUCT_IDS = [*SUBSCRIPTION_PRODUCT_IDS, LIFETIME_PRODUCT_ID, GIFT_PRODUCT_ID].freeze
   ENTITLING_STATES = %w[active grace_period canceled purchased].freeze
+  RENEWING_STATES = %w[active grace_period].freeze
   PENDING_STATES = %w[pending pending_canceled].freeze
   REPLACED = 'replaced'.freeze
 
@@ -26,7 +27,7 @@ class GooglePlayPurchase < ApplicationRecord
 
   scope :entitling, -> { active.where(test_purchase: false) }
 
-  after_update :revoke_gift, if: -> { saved_change_to_revoked_at? && revoked_at.present? }
+  after_update :revoke_gift, if: -> { gift? && !paid_gift? && (saved_change_to_revoked_at? || saved_change_to_state?) }
   after_commit :update_subscribed_status, on: %i[create update destroy]
 
   def self.subscription?(product_id) = SUBSCRIPTION_PRODUCT_IDS.include?(product_id)
@@ -78,6 +79,12 @@ class GooglePlayPurchase < ApplicationRecord
     save!
   end
 
+  def consume!
+    update!(acknowledged_at: Time.current) if GooglePlayPurchase::Publisher.consume_product(product_id, purchase_token)
+  rescue GooglePlayPurchase::Publisher::UnavailableError => e
+    Rails.logger.warn("Google Play consumption of #{purchase_token} postponed: #{e.message}")
+  end
+
   def lifetime? = product_id == LIFETIME_PRODUCT_ID
 
   def gift? = product_id == GIFT_PRODUCT_ID
@@ -107,7 +114,7 @@ class GooglePlayPurchase < ApplicationRecord
   end
 
   def revoke_gift
-    gifted_subscription&.update!(expires_at: revoked_at)
+    gifted_subscription&.update!(expires_at: revoked_at || Time.current)
   end
 
   def update_subscribed_status

@@ -23,6 +23,15 @@ class Api::V1::GooglePlay::GiftsControllerTest < ActionDispatch::IntegrationTest
     assert_equal profiles(:event_responsible).id, response.parsed_body.dig('gift', 'recipient', 'id')
   end
 
+  test '#create consumes the gift purchase' do
+    stub_google_play_product(GIFT, 'gift-1')
+
+    post_gift(purchase_token: 'gift-1')
+
+    assert_requested :post, "#{GOOGLE_PLAY_BASE_URL}/products/#{GIFT}/tokens/gift-1:consume"
+    assert_predicate GooglePlayPurchase.sole.acknowledged_at, :present?
+  end
+
   test '#create is idempotent for the same purchase' do
     stub_google_play_product(GIFT, 'gift-1')
 
@@ -30,6 +39,29 @@ class Api::V1::GooglePlay::GiftsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_equal 1, GiftedSubscription.count
+  end
+
+  test '#create returns the original recipient when the purchase is resent for someone else' do
+    stub_google_play_product(GIFT, 'gift-1')
+    post_gift(purchase_token: 'gift-1')
+
+    post_gift(purchase_token: 'gift-1', recipient_profile_id: profiles(:admin).id)
+
+    assert_response :success
+    assert_equal users(:event_responsible), GiftedSubscription.sole.user
+    assert_equal profiles(:event_responsible).id, response.parsed_body.dig('gift', 'recipient', 'id')
+  end
+
+  test '#create rejects a purchase recorded for another account' do
+    GooglePlayPurchase.create!(user: users(:admin), purchase_token: 'gift-1', product_id: GIFT,
+                               state: 'purchased', purchased_at: 1.day.ago)
+    stub_google_play_product(GIFT, 'gift-1')
+
+    post_gift(purchase_token: 'gift-1')
+
+    assert_response :unprocessable_content
+    assert_equal users(:admin), GooglePlayPurchase.sole.user
+    assert_empty GiftedSubscription.all
   end
 
   test '#create rejects an unpaid gift' do
@@ -71,6 +103,15 @@ class Api::V1::GooglePlay::GiftsControllerTest < ActionDispatch::IntegrationTest
     assert_not users(:event_responsible).gifted_subscriptions.sole.active?
   end
 
+  test 'a voided gift purchase ends the gifted subscription' do
+    stub_google_play_product(GIFT, 'gift-1')
+    post_gift(purchase_token: 'gift-1')
+
+    GooglePlayPurchase.sole.update!(state: 'voided')
+
+    assert_not users(:event_responsible).gifted_subscriptions.sole.active?
+  end
+
   test 'sent gifts are listed on the current profile' do
     stub_google_play_product(GIFT, 'gift-1')
     post_gift(purchase_token: 'gift-1', message: 'Enjoy')
@@ -85,6 +126,7 @@ class Api::V1::GooglePlay::GiftsControllerTest < ActionDispatch::IntegrationTest
   private
 
   def post_gift(**params)
+    stub_google_play_product_consume(GIFT, params[:purchase_token])
     with_google_play_access do
       post api_v1_google_play_gifts_path,
            params: { product_id: GIFT, recipient_profile_id: profiles(:event_responsible).id }.merge(params),

@@ -14,14 +14,28 @@ class GiftedSubscription < ApplicationRecord
     gift_product = verification.product_id == GooglePlayPurchase::GIFT_PRODUCT_ID
     raise GooglePlayPurchase::InvalidError, 'Not a gift' unless gift_product
 
+    ensure_unclaimed!(verification.purchase_token, buyer)
     purchase = GooglePlayPurchase.record!(verification, user: buyer)
     ensure_giftable!(purchase, buyer)
 
-    find_by(google_play_purchase: purchase) ||
-      create!(google_play_purchase: purchase, user: recipient, granted_by: buyer,
-              reason: message.to_s.squish.truncate(MESSAGE_LENGTH).presence)
+    gift = find_by(google_play_purchase: purchase) ||
+           create_from_google_play!(purchase, buyer:, recipient:, message:)
+    purchase.consume!
+    gift
+  end
+
+  def self.create_from_google_play!(purchase, buyer:, recipient:, message:)
+    create!(google_play_purchase: purchase, user: recipient, granted_by: buyer,
+            reason: message.to_s.squish.truncate(MESSAGE_LENGTH).presence)
   rescue ActiveRecord::RecordNotUnique
     find_by!(google_play_purchase: purchase)
+  end
+
+  def self.ensure_unclaimed!(purchase_token, buyer)
+    owner_id = GooglePlayPurchase.where(purchase_token:).pick(:user_id)
+    return if owner_id.nil? || owner_id == buyer.id
+
+    raise GooglePlayPurchase::InvalidError, 'This purchase belongs to another account'
   end
 
   def self.ensure_giftable!(purchase, buyer)
@@ -31,7 +45,7 @@ class GiftedSubscription < ApplicationRecord
     raise GooglePlayPurchase::InvalidError, 'Test purchases cannot be gifted'
   end
 
-  private_class_method :ensure_giftable!
+  private_class_method :create_from_google_play!, :ensure_unclaimed!, :ensure_giftable!
 
   def lifetime? = expires_at.nil?
 

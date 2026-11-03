@@ -25,7 +25,8 @@ class Api::V1::GooglePlay::PurchasesControllerTest < ActionDispatch::Integration
     assert_requested acknowledge
     assert_predicate users(:regular_user).reload, :subscribed?
     assert_equal(
-      { 'active' => true, 'source' => 'google_play', 'plan' => 'monthly', 'expiresAt' => purchase.expires_at.iso8601 },
+      { 'active' => true, 'source' => 'google_play', 'plan' => 'monthly', 'renewing' => true,
+        'expiresAt' => purchase.expires_at.iso8601 },
       response.parsed_body['subscription']
     )
   end
@@ -122,8 +123,10 @@ class Api::V1::GooglePlay::PurchasesControllerTest < ActionDispatch::Integration
     assert_equal 'purchased', purchase.state
     assert_nil purchase.expires_at
     assert_requested acknowledge
-    assert_equal({ 'active' => true, 'source' => 'google_play', 'plan' => 'lifetime', 'expiresAt' => nil },
-                 response.parsed_body['subscription'])
+    assert_equal(
+      { 'active' => true, 'source' => 'google_play', 'plan' => 'lifetime', 'renewing' => false, 'expiresAt' => nil },
+      response.parsed_body['subscription']
+    )
   end
 
   test '#create is idempotent for the same purchase token' do

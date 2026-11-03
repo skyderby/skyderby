@@ -38,6 +38,20 @@ class User::SubscriptionTest < ActiveSupport::TestCase
     assert_nil @user.subscription.plan
   end
 
+  test 'a gifted lifetime keeps a renewing store subscription manageable' do
+    create_play_purchase('1', 'io.skyderby.pro.monthly', expires_at: 20.days.from_now)
+    GiftedSubscription.create!(user: @user, expires_at: nil)
+
+    assert_equal 'lifetime', @user.subscription.plan
+    assert_predicate @user.subscription, :renewing?
+  end
+
+  test 'a canceled store subscription is not renewing' do
+    create_play_purchase('1', 'io.skyderby.pro.monthly', state: 'canceled', expires_at: 20.days.from_now)
+
+    assert_not @user.subscription.renewing?
+  end
+
   private
 
   def create_play_purchase(token, product_id, state: 'active', expires_at: nil)
