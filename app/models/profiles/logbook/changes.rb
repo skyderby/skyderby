@@ -11,13 +11,7 @@ class Profiles::Logbook::Changes
 
   def more? = rows.size > limit
 
-  def cursor
-    return Sync::Cursor.for_record(items.last) if more?
-
-    candidate = items.any? ? [Sync::Cursor.for_record(items.last), horizon].min : horizon
-    position = [candidate, since].compact.max
-    Sync::Cursor.new(time: position.time, id: position.id)
-  end
+  def cursor = Sync::Cursor.following(items.last, more: more?, since:)
 
   private
 
@@ -30,6 +24,4 @@ class Profiles::Logbook::Changes
       scope.to_a
     end
   end
-
-  def horizon = @horizon ||= Sync::Cursor.new(time: Sync::COMMIT_OVERLAP.ago, id: 0)
 end

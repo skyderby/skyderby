@@ -25,13 +25,7 @@ class Sync::Feed
     tombstones.distinct.order(:record_id).pluck(:record_id)
   end
 
-  def cursor
-    return Sync::Cursor.for_record(items.last) if more?
-
-    candidate = items.any? ? [Sync::Cursor.for_record(items.last), horizon].min : horizon
-    position = [candidate, since].compact.max
-    Sync::Cursor.new(time: position.time, id: position.id)
-  end
+  def cursor = Sync::Cursor.following(items.last, more: more?, since:)
 
   private
 
@@ -46,6 +40,4 @@ class Sync::Feed
   def model = Sync.resource_class(resource)
 
   def table = model.quoted_table_name
-
-  def horizon = @horizon ||= Sync::Cursor.new(time: Sync::COMMIT_OVERLAP.ago, id: 0)
 end

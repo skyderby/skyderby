@@ -14,6 +14,19 @@ class JumpTest < ActiveSupport::TestCase
     assert_equal 41, Jump.next_number(@profile, :base)
   end
 
+  test 'deleting the track detaches the jump and marks it changed' do
+    track = tracks(:boogie_track_1)
+    PerformanceCompetition::Result.where(track:).delete_all
+    jump = @profile.jumps.create!(jumped_at: 1.day.ago, track:)
+    jump.update_columns(updated_at: 1.day.ago)
+
+    track.destroy!
+
+    jump.reload
+    assert_nil jump.track_id
+    assert_operator jump.updated_at, :>, 1.minute.ago
+  end
+
   test 'a first track stays unnumbered' do
     assert_nil Jump.record_track(@track).number
   end
