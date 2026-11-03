@@ -36,7 +36,7 @@ module Api
       end
 
       def preference_params
-        params.permit(:mode, :rankings_gender, :journal_period).to_h.symbolize_keys
+        params.permit(:mode, :rankings_gender, :journal_period, :logbook_tile).to_h.symbolize_keys
       end
     end
   end

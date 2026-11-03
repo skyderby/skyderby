@@ -24,6 +24,7 @@ class Api::V1::DashboardsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'base', body['activity']
     assert_equal profile.tracks.base.count, body['jumpsCount']
     assert_not body['pro']
+    assert body['logbookTile']
     assert_equal 'locations', body.dig('highlights', 0, 'type')
     assert_not body['showCompetitionPlaces']
     assert_equal profile.tracks.base.order(recorded_at: :desc).limit(5).ids, body['recentTracks'].pluck('id')
@@ -57,6 +58,21 @@ class Api::V1::DashboardsControllerTest < ActionDispatch::IntegrationTest
     assert_equal %w[speed distance time], body['highlights'].first(3).pluck('discipline')
     assert_equal 1, body.dig('highlights', 3, 'value')
     assert_empty body['exitPerformances']
+  end
+
+  test '#update hides and shows the logbook tile' do
+    user = users(:regular_user)
+
+    patch api_v1_dashboard_path, params: { logbook_tile: false }, headers: bearer(:regular_user_write)
+
+    assert_response :success
+    assert_not response.parsed_body['logbookTile']
+    assert_not user.setting.reload.dashboard_logbook
+
+    patch api_v1_dashboard_path, params: { logbook_tile: true }, headers: bearer(:regular_user_write)
+
+    assert response.parsed_body['logbookTile']
+    assert user.setting.reload.dashboard_logbook
   end
 
   test '#update requires write scope' do

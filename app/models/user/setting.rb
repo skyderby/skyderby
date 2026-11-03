@@ -10,10 +10,11 @@ class User::Setting < ApplicationRecord
   attribute :dashboard_female_rankings, :boolean, default: false
   attribute :journal_period, :string, default: '1y'
 
-  def update_dashboard_preferences(profile:, mode: nil, rankings_gender: nil, journal_period: nil)
+  def update_dashboard_preferences(profile:, mode: nil, rankings_gender: nil, journal_period: nil, logbook_tile: nil)
     self.dashboard_mode = mode.to_s if mode.to_s.in?(Profiles::Dashboard::HOME_MODES.map(&:to_s))
     self.journal_period = journal_period.to_s if journal_period.to_s.in?(Profiles::Journal::PERIODS)
     assign_female_rankings(rankings_gender) if profile&.female?
+    assign_logbook_tile(logbook_tile)
     save! if changed?
   end
 
@@ -21,5 +22,9 @@ class User::Setting < ApplicationRecord
 
   def assign_female_rankings(rankings_gender)
     self.dashboard_female_rankings = rankings_gender.to_s == 'female' unless rankings_gender.nil?
+  end
+
+  def assign_logbook_tile(logbook_tile)
+    self.dashboard_logbook = logbook_tile unless logbook_tile.nil?
   end
 end

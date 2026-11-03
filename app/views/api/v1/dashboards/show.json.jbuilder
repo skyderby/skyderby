@@ -17,6 +17,7 @@ json.profile do
 end
 
 json.pro dashboard.pro?
+json.logbook_tile !@public_overview && impersonation.nil? && dashboard.logbook_tile?
 json.season Time.zone.now.year
 json.available_modes dashboard.available_modes
 json.mode dashboard.any_modes? ? dashboard.current_mode : nil
