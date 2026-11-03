@@ -54,4 +54,9 @@ module GooglePlayHelper
     stub_request(:post, "#{GOOGLE_PLAY_BASE_URL}/products/#{product_id}/tokens/#{token}:acknowledge")
       .to_return(status: 204)
   end
+
+  def stub_google_play_product_consume(product_id, token)
+    stub_request(:post, "#{GOOGLE_PLAY_BASE_URL}/products/#{product_id}/tokens/#{token}:consume")
+      .to_return(status: 204)
+  end
 end

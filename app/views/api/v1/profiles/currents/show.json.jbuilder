@@ -20,6 +20,10 @@ else
 end
 
 json.subscription { json.partial! 'api/v1/shared/subscription', subscription: @user.subscription }
+sent_gifts = @user.sent_gifts.includes(user: { profile: { userpic_attachment: :blob } }).order(created_at: :desc)
+json.sent_gifts sent_gifts do |gift|
+  json.partial! 'api/v1/gifts/gift', gift:
+end
 json.free_pro_views { json.partial! 'api/v1/shared/free_pro_views', user: @user }
 
 if impersonation

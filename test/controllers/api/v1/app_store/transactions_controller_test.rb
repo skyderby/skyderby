@@ -35,7 +35,8 @@ class Api::V1::AppStore::TransactionsControllerTest < ActionDispatch::Integratio
     assert_equal Time.zone.at(payload[:expiresDate] / 1000), purchase.expires_at
     assert_predicate users(:regular_user).reload, :subscribed?
     assert_equal(
-      { 'active' => true, 'source' => 'app_store', 'expiresAt' => purchase.expires_at.iso8601 },
+      { 'active' => true, 'source' => 'app_store', 'plan' => 'monthly', 'renewing' => true,
+        'expiresAt' => purchase.expires_at.iso8601 },
       response.parsed_body['subscription']
     )
   end
@@ -49,8 +50,10 @@ class Api::V1::AppStore::TransactionsControllerTest < ActionDispatch::Integratio
          as: :json
 
     assert_response :success
-    assert_equal({ 'active' => true, 'source' => 'app_store', 'expiresAt' => nil },
-                 response.parsed_body['subscription'])
+    assert_equal(
+      { 'active' => true, 'source' => 'app_store', 'plan' => 'lifetime', 'renewing' => false, 'expiresAt' => nil },
+      response.parsed_body['subscription']
+    )
   end
 
   test '#create moves restored purchase to current user' do

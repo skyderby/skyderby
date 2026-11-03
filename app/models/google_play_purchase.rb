@@ -4,12 +4,15 @@ class GooglePlayPurchase < ApplicationRecord
   PACKAGE_NAME = 'io.skyderby.android'.freeze
   LIFETIME_PRODUCT_ID = 'io.skyderby.pro.lifetime'.freeze
   SUBSCRIPTION_PRODUCT_IDS = %w[io.skyderby.pro.monthly io.skyderby.pro.annual].freeze
-  PRODUCT_IDS = [*SUBSCRIPTION_PRODUCT_IDS, LIFETIME_PRODUCT_ID].freeze
+  GIFT_PRODUCT_ID = 'io.skyderby.pro.lifetime_gift'.freeze
+  PRODUCT_IDS = [*SUBSCRIPTION_PRODUCT_IDS, LIFETIME_PRODUCT_ID, GIFT_PRODUCT_ID].freeze
   ENTITLING_STATES = %w[active grace_period canceled purchased].freeze
+  RENEWING_STATES = %w[active grace_period].freeze
   PENDING_STATES = %w[pending pending_canceled].freeze
   REPLACED = 'replaced'.freeze
 
   belongs_to :user
+  has_one :gifted_subscription, dependent: :nullify
 
   validates :purchase_token, presence: true, uniqueness: true
   validates :state, :purchased_at, presence: true
@@ -24,6 +27,7 @@ class GooglePlayPurchase < ApplicationRecord
 
   scope :entitling, -> { active.where(test_purchase: false) }
 
+  after_update :revoke_gift, if: -> { gift? && !paid_gift? && (saved_change_to_revoked_at? || saved_change_to_state?) }
   after_commit :update_subscribed_status, on: %i[create update destroy]
 
   def self.subscription?(product_id) = SUBSCRIPTION_PRODUCT_IDS.include?(product_id)
@@ -75,7 +79,17 @@ class GooglePlayPurchase < ApplicationRecord
     save!
   end
 
+  def consume!
+    update!(acknowledged_at: Time.current) if GooglePlayPurchase::Publisher.consume_product(product_id, purchase_token)
+  rescue GooglePlayPurchase::Publisher::UnavailableError => e
+    Rails.logger.warn("Google Play consumption of #{purchase_token} postponed: #{e.message}")
+  end
+
   def lifetime? = product_id == LIFETIME_PRODUCT_ID
+
+  def gift? = product_id == GIFT_PRODUCT_ID
+
+  def paid_gift? = gift? && revoked_at.nil? && state == 'purchased'
 
   def pending? = PENDING_STATES.include?(state)
 
@@ -85,6 +99,7 @@ class GooglePlayPurchase < ApplicationRecord
 
   def status
     return 'revoked' if revoked_at
+    return 'gift' if gift?
     return 'lifetime' if lifetime? && active?
 
     active? ? 'active' : 'expired'
@@ -96,6 +111,10 @@ class GooglePlayPurchase < ApplicationRecord
 
   def replaced_by_linked_purchase?
     self.class.where(linked_purchase_token: purchase_token).where.not(state: PENDING_STATES).exists?
+  end
+
+  def revoke_gift
+    gifted_subscription&.update!(expires_at: revoked_at || Time.current)
   end
 
   def update_subscribed_status

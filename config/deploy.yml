@@ -18,6 +18,7 @@ proxy:
   ssl: true
   hosts:
     - skyderby.io
+    - skyderby.io.
     - www.skyderby.io
 
 env:

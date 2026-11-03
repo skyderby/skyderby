@@ -1,4 +1,10 @@
 class User::Subscription
+  PLANS = {
+    'io.skyderby.pro.monthly' => 'monthly',
+    'io.skyderby.pro.annual' => 'annual',
+    'io.skyderby.pro.lifetime' => 'lifetime'
+  }.freeze
+
   def initialize(user)
     @user = user
   end
@@ -26,6 +32,30 @@ class User::Subscription
     end
   end
 
+  def plan
+    return 'lifetime' if lifetime?
+
+    case source
+    when 'app_store' then latest_plan(app_store_purchases)
+    when 'google_play' then latest_plan(google_play_purchases)
+    end
+  end
+
+  def lifetime?
+    return false unless active?
+
+    user.lifetime_subscription? ||
+      [app_store_purchases, google_play_purchases, gifted_subscriptions].any? { |records| records.any?(&:lifetime?) }
+  end
+
+  def renewing?
+    case source
+    when 'app_store' then app_store_purchases.any? { !it.lifetime? }
+    when 'google_play' then google_play_purchases.any? { it.state.in?(GooglePlayPurchase::RENEWING_STATES) }
+    else false
+    end
+  end
+
   private
 
   attr_reader :user
@@ -44,6 +74,10 @@ class User::Subscription
   def google_play_purchases = @google_play_purchases ||= user.google_play_purchases.entitling.to_a
 
   def gifted_subscriptions = @gifted_subscriptions ||= user.gifted_subscriptions.active.to_a
+
+  def latest_plan(records)
+    PLANS[records.max_by { it.expires_at || Time.zone.at(0) }&.product_id]
+  end
 
   def latest_expiry(records)
     expiries = records.map(&:expires_at)
