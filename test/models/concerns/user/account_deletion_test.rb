@@ -16,6 +16,7 @@ class User::AccountDeletionTest < ActiveSupport::TestCase
     @user.identities.create!(provider: 'apple', uid: 'apple-1', email: @user.email)
     @user.setting.save!
     @user.free_pro_views.create!(track: @private_track)
+    jump = @profile.jumps.create!(kind: :skydive, jumped_at: 1.day.ago, client_uuid: SecureRandom.uuid)
 
     @user.delete_account!
 
@@ -28,6 +29,7 @@ class User::AccountDeletionTest < ActiveSupport::TestCase
     assert_nil @profile.owner
     assert_equal 'Regular user', @profile.name
     assert_not @profile.userpic.attached?
+    assert_not Jump.exists?(jump.id)
 
     assert_empty User::Identity.where(user_id: @user.id)
     assert_empty User::Setting.where(user_id: @user.id)

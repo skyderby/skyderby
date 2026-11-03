@@ -32,6 +32,7 @@ module User::AccountDeletion
     return unless record
 
     if profile_public_record?(record)
+      record.jumps.delete_all
       record.userpic.purge_later if record.userpic.attached?
       record.update!(owner: nil)
     else
