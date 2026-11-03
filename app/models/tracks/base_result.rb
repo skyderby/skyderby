@@ -1,6 +1,7 @@
 module Tracks
   class BaseResult
     DISCIPLINES = %w[base_race distance_in_time distance_in_altitude].freeze
+    PLACELESS_DISCIPLINES = %w[distance_in_time distance_in_altitude].freeze
     NONE = 'none'.freeze
 
     def initialize(track, competition_id: nil, finish_line_id: nil, compare_track: nil)
@@ -36,11 +37,11 @@ module Tracks
     end
 
     def primary_value
-      stored_value(@track)
+      value_for(@track)
     end
 
     def compare_value
-      stored_value(@compare_track)
+      value_for(@compare_track)
     end
 
     def primary_point
@@ -63,7 +64,7 @@ module Tracks
 
     def all_competitions
       @all_competitions ||=
-        (virtual_competitions + tournament_base_races)
+        (virtual_competitions + tournament_base_races + placeless_competitions)
         .each_with_index
         .sort_by { |competition, index| [DISCIPLINES.index(competition.discipline), index] }
         .map(&:first)
@@ -75,6 +76,18 @@ module Tracks
         .where(id: @track.virtual_competition_results.select(:virtual_competition_id))
         .where(discipline: DISCIPLINES.map { |name| VirtualCompetition.disciplines[name] })
         .distinct
+        .to_a
+    end
+
+    def placeless_competitions
+      return [] if @track.place
+
+      VirtualCompetition
+        .listed
+        .by_activity(@track.kind)
+        .by_suit_type(@track.suit_kind)
+        .where(discipline: PLACELESS_DISCIPLINES.map { |name| VirtualCompetition.disciplines[name] })
+        .order(:discipline_parameter, :id)
         .to_a
     end
 
@@ -111,10 +124,17 @@ module Tracks
       @compare_segment = @compare_track && segment_for(@compare_track)
     end
 
-    def stored_value(track)
+    def value_for(track)
       return unless track && selected
 
-      selected.results.find_by(track_id: track.id)&.result
+      selected.results.find_by(track_id: track.id)&.result || computed_value(track)
+    end
+
+    def computed_value(track)
+      return if selected.base_race?
+
+      segment = track == @compare_track ? compare_segment : primary_segment
+      segment&.public_send(selected.task)
     end
 
     def segment_for(track)

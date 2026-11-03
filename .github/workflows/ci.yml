@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   rubocop:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Setup Ruby
@@ -40,7 +40,7 @@ jobs:
         run: bundle exec rubocop --parallel
 
   eslint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Setup Nodejs
@@ -60,7 +60,7 @@ jobs:
         run: yarn lint
 
   unit-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs:
       - rubocop
       - eslint
@@ -119,7 +119,7 @@ jobs:
       - run: bundle exec rails test
 
   unit-test-js:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs:
       - rubocop
       - eslint
@@ -142,7 +142,7 @@ jobs:
         run: yarn test
 
   system-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs:
       - rubocop
       - eslint
