@@ -9,6 +9,14 @@ class Api::V1::SuitsControllerTest < ActionDispatch::IntegrationTest
     assert_equal %w[category id makeCode make name].sort, fields
   end
 
+  test '#index keeps only suits with an exit performance when asked' do
+    Suit::ExitPerformance.create!(suit: suits(:apache), pilots_count: 3, jumps_count: 9, samples: [])
+
+    get api_v1_suits_url, params: { with_exit_performance: true }
+
+    assert_equal [suits(:apache).id], response.parsed_body.pluck('id')
+  end
+
   test '#show returns suit details' do
     suit = suits(:apache)
     Suit::ExitPerformance.create!(suit:, pilots_count: 12, jumps_count: 40, samples: [{ drop: 0, mid: 0 }])
@@ -22,6 +30,7 @@ class Api::V1::SuitsControllerTest < ActionDispatch::IntegrationTest
     assert_equal({ 'id' => manufacturers(:tony).id, 'name' => 'Tony Suits', 'code' => 'TS' }, body['manufacturer'])
     assert_equal({ 'pilotsCount' => 12, 'jumpsCount' => 40, 'reliable' => true,
                    'samples' => [{ 'drop' => 0, 'mid' => 0 }] }, body['exitPerformance'])
+    assert body.key?('scoreboardGroupId')
     %w[tracksCount pilotsCount recentTrackIds].each { |key| assert body.key?(key), "missing #{key}" }
   end
 

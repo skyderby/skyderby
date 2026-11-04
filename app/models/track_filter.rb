@@ -17,6 +17,8 @@ class TrackFilter
 
   def bookmarked? = query.present? && ActiveModel::Type::Boolean.new.cast(query[:bookmarked]).present?
 
+  def with_video? = query.present? && ActiveModel::Type::Boolean.new.cast(query[:with_video]).present?
+
   private
 
   def apply_filters_by_relations(relation)
@@ -33,7 +35,7 @@ class TrackFilter
     relation = relation.search(query[:term]) if query[:term]
     relation = relation.bookmarked_by(Current.user) if bookmarked?
 
-    relation
+    with_video? ? relation.where(id: TrackVideo.select(:track_id)) : relation
   end
 
   attr_reader :query

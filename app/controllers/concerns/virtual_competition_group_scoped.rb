@@ -7,14 +7,17 @@ module VirtualCompetitionGroupScoped
 
   private
 
-  def build_scoreboard(group, pages: scoreboard_pages)
-    group.scoreboard(
+  def build_scoreboard(group, pages: scoreboard_pages, suit: requested_suit)
+    options = {
       year: params[:year],
       gender: params[:gender],
       wind_cancellation: ActiveModel::Type::Boolean.new.cast(params[:wind].presence) || false,
       pages:
-    )
+    }
+    suit ? group.suit_scoreboard(suit, **options) : group.scoreboard(**options)
   end
+
+  def requested_suit = params[:suit_id].present? ? Suit.find(params[:suit_id]) : nil
 
   def scoreboard_pages
     pages = params.permit(pages: VirtualCompetition::Group::Scoreboard::SUIT_KINDS)[:pages]

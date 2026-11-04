@@ -80,9 +80,14 @@ module Api
       def create_track
         @track = CreateTrackService.call(new_track_attributes, segment: params[:segment].to_i)
         @first_look = FreeProView.grant_first_look(user: current_user, track: @track).present?
+        Jump.record_track(@track) if add_to_logbook?
       end
 
       def valid_client_uuid? = params[:client_uuid].blank? || params[:client_uuid].to_s.match?(UUID_FORMAT)
+
+      def add_to_logbook?
+        ActiveModel::Type::Boolean.new.cast(params[:add_to_logbook]) && impersonation.nil? && @track.loggable?
+      end
 
       def existing_client_track
         return if params[:client_uuid].blank?
@@ -119,7 +124,7 @@ module Api
 
       def index_params
         params.permit(
-          :order, :kind, :term, :profile_id, :suit_id, :place_id, :year, :bookmarked,
+          :order, :kind, :term, :profile_id, :suit_id, :place_id, :year, :bookmarked, :with_video,
           profile_id: [], suit_id: [], place_id: [], year: []
         )
       end

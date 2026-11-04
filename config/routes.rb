@@ -118,17 +118,24 @@ Skyderby::Application.routes.draw do
           resources :periods, only: :show
           resources :person_details, only: :show, param: :profile_id
           resource :favorite, only: %i[create destroy]
+          resources :participants, only: %i[index create update destroy]
         end
       end
       resource :dashboard, only: %i[show update]
       resource :feed, only: :show
+      resource :billing_portal, only: :create
       resource :apple_session, only: :create
       resource :google_session, only: :create
       resources :identities, only: %i[index create destroy]
       resource :account, only: :destroy
-      resources :places, only: :show
+      resources :places, only: :show do
+        resource :weather_data, only: :show, module: :places
+        resource :trajectories, only: :show, module: :places
+        resources :photos, only: %i[create destroy], module: :places
+      end
       resource :logbook, only: :show
       namespace :logbook do
+        resource :track_import, only: %i[show create]
         resources :jumps, only: %i[index create update destroy] do
           resource :renumbering, only: :create, module: :jumps
         end
@@ -149,6 +156,8 @@ Skyderby::Application.routes.draw do
           resource :point_series, only: :show
           resource :pro_view, only: :create
           resource :bookmark, only: %i[create destroy]
+          resource :download, only: :show
+          resource :logbook_entry, only: :create
           resource :place, only: %i[new create]
           resource :reference_point, only: %i[show update destroy]
           resource :results, only: :show
@@ -166,6 +175,7 @@ Skyderby::Application.routes.draw do
       namespace :app_store do
         resources :transactions, only: :create
         resources :notifications, only: :create
+        resources :gifts, only: :create
       end
 
       namespace :google_play do
@@ -220,6 +230,7 @@ Skyderby::Application.routes.draw do
           resources :reference_point_assignments, only: :create
           resources :teams, only: %i[create update destroy]
           resources :lane_validations, only: :show
+          resources :round_replays, only: :show
         end
       end
 

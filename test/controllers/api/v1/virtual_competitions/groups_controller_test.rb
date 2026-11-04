@@ -59,6 +59,16 @@ class Api::V1::VirtualCompetitions::GroupsControllerTest < ActionDispatch::Integ
     assert_response :not_found
   end
 
+  test 'keeps only results in the requested suit' do
+    score(profiles(:john), distance: 3000, speed: 300, time: 90)
+
+    get api_v1_virtual_competition_group_url(@group), params: { suit_id: suits(:apache).id }
+    assert_equal [1], response.parsed_body['categories'].sole['rows'].pluck('rank')
+
+    get api_v1_virtual_competition_group_url(@group), params: { suit_id: suits(:nala).id }
+    assert_empty response.parsed_body['categories']
+  end
+
   private
 
   def score(profile, results)

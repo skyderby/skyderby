@@ -6,6 +6,9 @@ json.competition do
   json.partial! 'api/v1/virtual_competitions/competition_summary',
                 competition:, athlete_count: competition.standings.count
 
+  json.members_only competition.members_only?
+  json.participants_manageable competition.members_only? && competition.manageable_by?(current_user)
+
   json.group do
     json.id competition.group.id
     json.name competition.group.name

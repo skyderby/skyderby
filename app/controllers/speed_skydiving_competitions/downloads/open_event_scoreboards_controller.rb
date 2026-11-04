@@ -1,4 +1,5 @@
 class SpeedSkydivingCompetitions::Downloads::OpenEventScoreboardsController < ApplicationController
+  include BearerTokenAuthentication
   include SpeedSkydivingCompetitionScoped
 
   before_action :set_event

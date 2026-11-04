@@ -8,6 +8,7 @@ end
 
 json.tracks_count @suit.accessible_tracks.count
 json.pilots_count @suit.accessible_profiles.count
+json.scoreboard_group_id VirtualCompetition::Group.skydive_combined&.id
 json.recent_track_ids @suit.accessible_tracks.order(recorded_at: :desc).limit(10).ids
 
 if (performance = @suit.exit_performance)

@@ -7,8 +7,11 @@ class AppleAppSiteAssociationsController < ApplicationController
     /profiles/*
     /places/*
     /suits/*
+    /performance_competition_series/*
+    /speed_skydiving_competition_series/*
     /flight_profiles
     /terrain-profiles
+    /logbook
   ].freeze
 
   def show

@@ -2,6 +2,7 @@ class GiftedSubscription < ApplicationRecord
   belongs_to :user
   belongs_to :granted_by, class_name: 'User', optional: true
   belongs_to :google_play_purchase, optional: true
+  belongs_to :app_store_purchase, optional: true
 
   MESSAGE_LENGTH = 200
 
@@ -22,6 +23,37 @@ class GiftedSubscription < ApplicationRecord
            create_from_google_play!(purchase, buyer:, recipient:, message:)
     purchase.consume!
     gift
+  end
+
+  def self.purchase_from_app_store!(transaction, buyer:, recipient:, message: nil)
+    invalid = AppStorePurchase::SignedPayload::InvalidError
+    raise invalid, 'Not a gift' unless transaction.attributes['productId'] == AppStorePurchase::GIFT_PRODUCT_ID
+
+    ensure_app_store_unclaimed!(transaction, buyer)
+    purchase = AppStorePurchase.record!(transaction, user: buyer)
+    ensure_app_store_giftable!(purchase, buyer)
+    find_by(app_store_purchase: purchase) || create_from_app_store!(purchase, buyer:, recipient:, message:)
+  end
+
+  def self.create_from_app_store!(purchase, buyer:, recipient:, message:)
+    create!(app_store_purchase: purchase, user: recipient, granted_by: buyer,
+            reason: message.to_s.squish.truncate(MESSAGE_LENGTH).presence)
+  rescue ActiveRecord::RecordNotUnique
+    find_by!(app_store_purchase: purchase)
+  end
+
+  def self.ensure_app_store_unclaimed!(transaction, buyer)
+    owner_id = AppStorePurchase.where(original_transaction_id: transaction.original_transaction_id).pick(:user_id)
+    return if owner_id.nil? || owner_id == buyer.id
+
+    raise AppStorePurchase::SignedPayload::InvalidError, 'This purchase belongs to another account'
+  end
+
+  def self.ensure_app_store_giftable!(purchase, buyer)
+    raise AppStorePurchase::SignedPayload::InvalidError, 'The gift is not paid' unless purchase&.paid_gift?
+    return unless purchase.test_purchase? && !buyer.admin?
+
+    raise AppStorePurchase::SignedPayload::InvalidError, 'Test purchases cannot be gifted'
   end
 
   def self.create_from_google_play!(purchase, buyer:, recipient:, message:)
@@ -45,7 +77,8 @@ class GiftedSubscription < ApplicationRecord
     raise GooglePlayPurchase::InvalidError, 'Test purchases cannot be gifted'
   end
 
-  private_class_method :create_from_google_play!, :ensure_unclaimed!, :ensure_giftable!
+  private_class_method :create_from_google_play!, :ensure_unclaimed!, :ensure_giftable!,
+                       :create_from_app_store!, :ensure_app_store_unclaimed!, :ensure_app_store_giftable!
 
   def lifetime? = expires_at.nil?
 

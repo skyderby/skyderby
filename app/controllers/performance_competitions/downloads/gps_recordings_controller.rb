@@ -1,4 +1,5 @@
 class PerformanceCompetitions::Downloads::GpsRecordingsController < ApplicationController
+  include BearerTokenAuthentication
   include PerformanceCompetitionScoped
 
   before_action :set_event
@@ -9,6 +10,8 @@ class PerformanceCompetitions::Downloads::GpsRecordingsController < ApplicationC
 
     if archive&.complete? && archive.file.attached?
       redirect_to rails_blob_path(archive.file, disposition: :attachment)
+    elsif bearer_token?
+      head :accepted
     else
       render turbo_stream: turbo_stream.append(
         :toasts,

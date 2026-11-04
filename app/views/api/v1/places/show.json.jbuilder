@@ -6,6 +6,7 @@ json.country do
   json.extract! @place.country, :id, :name, :code
 end
 
+json.photos_editable Place::Photo.creatable?
 json.photos @place.attached_photos do |photo|
   json.id photo.id
   json.thumb_url stored_file_url(photo.image_url(:thumb))

@@ -1,4 +1,5 @@
 class PerformanceCompetitions::Downloads::OpenEventScoreboardsController < ApplicationController
+  include BearerTokenAuthentication
   include PerformanceCompetitionScoped
 
   before_action :set_event, :set_scoreboard

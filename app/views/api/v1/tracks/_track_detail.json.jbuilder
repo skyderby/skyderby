@@ -13,6 +13,10 @@ json.abs_altitude track.abs_altitude?
 json.editable track.editable?
 json.pro_view_available track.pro_view_available?
 json.bookmarked track.bookmarked?
+json.downloadable track.downloadable? && track.track_file&.file&.attached?
+json.file_name track.track_file.file.filename.to_s if track.downloadable? && track.track_file&.file&.attached?
+json.loggable track.loggable?
+json.logbook_jump_uuid track.jump&.client_uuid if track.loggable?
 json.private_note track.private_note if track.private_note_visible?
 json.points_version track.updated_at.to_i.to_s
 

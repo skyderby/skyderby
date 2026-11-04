@@ -3,6 +3,7 @@ json.key_format! camelize: :lower
 json.partial! 'api/v1/competitions/series', series: @series
 json.scoreboard_available false
 json.scoreboard_path nil
+json.boards []
 json.rounds @series.rounds.order(:number) do |round|
   json.id round.id
   json.number round.number

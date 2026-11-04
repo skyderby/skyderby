@@ -48,6 +48,15 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
     assert_equal 100, response.parsed_body['perPage']
   end
 
+  test '#index keeps only tracks with a video when asked' do
+    TrackVideo.create!(track: @track, url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                       video_offset: 0, track_offset: 0)
+
+    get api_v1_tracks_path, params: { with_video: true }
+
+    assert_equal [@track.id], response.parsed_body['items'].pluck('id')
+  end
+
   test '#index includes own private tracks for token owner' do
     @track.private_track!
 
@@ -143,6 +152,20 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
     track = Track.find(response_json['id'])
     assert_equal @user, track.owner
     assert_equal 'skydive', track.kind
+  end
+
+  test '#create adds the track to the logbook when asked' do
+    post api_v1_tracks_path,
+         params: {
+           file: fixture_file_upload('tracks/one_track.gpx', 'application/gpx+xml'),
+           kind: 'skydive',
+           add_to_logbook: '1'
+         },
+         headers: bearer(:regular_user_write)
+
+    assert_response :created
+    track = Track.find(response.parsed_body['id'])
+    assert_equal track, profiles(:regular_user).jumps.sole.track
   end
 
   test '#create stores a FlySight 2 sensor file next to the track' do

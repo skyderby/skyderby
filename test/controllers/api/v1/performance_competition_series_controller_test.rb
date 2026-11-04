@@ -21,6 +21,7 @@ class Api::V1::PerformanceCompetitionSeriesControllerTest < ActionDispatch::Inte
     assert body['scoreboardAvailable']
     assert_equal [events(:nationals).id], body['competitions'].pluck('id')
     assert_equal ['distance-1'], body['rounds'].pluck('code')
+    assert_equal [api_v1_performance_competition_series_scoreboard_path(@series)], body['boards'].pluck('path')
   end
 
   test '#show hides drafts from guests' do

@@ -13,6 +13,7 @@ class Api::V1::SpeedSkydivingCompetitionSeriesControllerTest < ActionDispatch::I
     body = response.parsed_body
     assert_equal 'speed_skydiving_competition_series', body['type']
     assert_not body['scoreboardAvailable']
+    assert_empty body['boards']
     assert_equal ['Russian Nationals'], body['competitions'].pluck('name')
   end
 end

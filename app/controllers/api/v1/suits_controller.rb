@@ -13,6 +13,7 @@ module Api
             'manufacturers.code AS make_code'
           )
           .order('manufacturers.name, name')
+        @suits = @suits.joins(:exit_performance) if ActiveModel::Type::Boolean.new.cast(params[:with_exit_performance])
 
         respond_to do |format|
           format.json

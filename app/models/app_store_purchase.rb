@@ -1,10 +1,13 @@
 class AppStorePurchase < ApplicationRecord
   BUNDLE_ID = 'io.skyderby.app'.freeze
   LIFETIME_PRODUCT_ID = 'io.skyderby.pro.lifetime'.freeze
-  PRODUCT_IDS = %w[io.skyderby.pro.monthly io.skyderby.pro.annual io.skyderby.pro.lifetime].freeze
+  GIFT_PRODUCT_ID = 'io.skyderby.pro.lifetime_gift'.freeze
+  PRODUCT_IDS = %w[io.skyderby.pro.monthly io.skyderby.pro.annual io.skyderby.pro.lifetime
+                   io.skyderby.pro.lifetime_gift].freeze
   PRODUCTION = 'Production'.freeze
 
   belongs_to :user
+  has_one :gifted_subscription, dependent: :nullify
 
   validates :original_transaction_id, presence: true, uniqueness: true
   validates :transaction_id, :environment, :purchased_at, presence: true
@@ -15,8 +18,9 @@ class AppStorePurchase < ApplicationRecord
                                  Time.current)
   }
 
-  scope :entitling, -> { active.where(environment: PRODUCTION) }
+  scope :entitling, -> { active.where(environment: PRODUCTION).where.not(product_id: GIFT_PRODUCT_ID) }
 
+  after_update :revoke_gift, if: -> { gift? && saved_change_to_revoked_at? && revoked_at.present? }
   after_commit :update_subscribed_status, on: %i[create update destroy]
 
   def self.record!(transaction, user: nil)
@@ -37,6 +41,12 @@ class AppStorePurchase < ApplicationRecord
 
   def lifetime? = product_id == LIFETIME_PRODUCT_ID
 
+  def gift? = product_id == GIFT_PRODUCT_ID
+
+  def paid_gift? = gift? && revoked_at.nil?
+
+  def test_purchase? = environment != PRODUCTION
+
   def active? = revoked_at.nil? && (expires_at.nil? || expires_at.future?)
 
   def status
@@ -47,6 +57,10 @@ class AppStorePurchase < ApplicationRecord
   end
 
   private
+
+  def revoke_gift
+    gifted_subscription&.update!(expires_at: revoked_at)
+  end
 
   def update_subscribed_status
     affected_user_ids = [user_id, *previous_changes['user_id']].compact.uniq
