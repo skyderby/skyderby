@@ -36,8 +36,12 @@ it:
       base_race: Gara BASE
       distance_in_time: "Distanza %{seconds}s"
       distance_in_altitude: "Distanza %{meters}m"
+    period:
+      label: Periodo
+      overall: Generale
     rankings:
       title: Classifiche online · %{year}
+      title_overall: Classifiche online
       empty: Ancora nessuna classifica
       scopes:
         open: Open

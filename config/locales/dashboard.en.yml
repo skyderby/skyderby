@@ -36,8 +36,12 @@ en:
       base_race: BASE race
       distance_in_time: "%{seconds}s distance"
       distance_in_altitude: "%{meters}m distance"
+    period:
+      label: Period
+      overall: Overall
     rankings:
       title: Online rankings · %{year}
+      title_overall: Online rankings
       empty: No rankings yet
       scopes:
         open: Open

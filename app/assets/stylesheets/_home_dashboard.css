@@ -593,3 +593,31 @@
 .dashboard-rankings.is-collapsed > *:nth-child(n + 5) {
   display: none;
 }
+
+.dashboard-filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dashboard-filters .dashboard-modes.tab-bar {
+  flex: 1 1 auto;
+  width: auto;
+  max-width: 100%;
+  margin: 0;
+}
+
+.dashboard-period {
+  display: inline-flex;
+}
+
+.dashboard-period .dashboard-period__select {
+  width: auto;
+  min-width: 7rem;
+  font-size: 0.8125rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  cursor: pointer;
+}

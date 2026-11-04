@@ -31,7 +31,8 @@ class ProfilesController < ApplicationController
       profile,
       user: Current.user,
       mode: params[:mode],
-      rankings_gender: params[:rankings_gender]
+      rankings_gender: params[:rankings_gender],
+      period: params.fetch(:year, 'overall')
     )
 
     respond_to do |format|

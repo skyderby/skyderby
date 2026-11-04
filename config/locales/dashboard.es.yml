@@ -36,8 +36,12 @@ es:
       base_race: Carrera BASE
       distance_in_time: "Distancia %{seconds}s"
       distance_in_altitude: "Distancia %{meters}m"
+    period:
+      label: Período
+      overall: General
     rankings:
       title: Rankings online · %{year}
+      title_overall: Rankings online
       empty: Aún no hay rankings
       scopes:
         open: Abierta

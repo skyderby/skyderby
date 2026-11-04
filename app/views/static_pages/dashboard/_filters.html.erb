@@ -1,0 +1,24 @@
+<%# locals: (dashboard:, toggle_url:) %>
+
+<div class="dashboard-filters">
+  <% if dashboard.available_modes.size > 1 %>
+    <%= render 'static_pages/dashboard/modes',
+               dashboard: dashboard,
+               toggle_url: toggle_url,
+               toggle_method: :get,
+               extra_params: { year: dashboard.selected_year, rankings_gender: dashboard.rankings_gender } %>
+  <% end %>
+
+  <%= form_with url: toggle_url, method: :get,
+                data: { controller: 'auto-submit', delay: 0 },
+                class: 'dashboard-period' do |form| %>
+    <%= form.hidden_field :mode, value: dashboard.current_mode %>
+    <%= form.hidden_field :rankings_gender, value: dashboard.rankings_gender %>
+    <%= form.select :year,
+                    [[t('dashboard.period.overall'), '']] + dashboard.available_years.map { |year| [year, year] },
+                    { selected: dashboard.selected_year || '' },
+                    class: 'form-input dashboard-period__select',
+                    data: { action: 'change->auto-submit#submit' },
+                    aria: { label: t('dashboard.period.label') } %>
+  <% end %>
+</div>

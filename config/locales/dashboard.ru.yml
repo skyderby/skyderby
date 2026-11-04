@@ -36,8 +36,12 @@ ru:
       base_race: BASE гонка
       distance_in_time: "Дистанция за %{seconds}с"
       distance_in_altitude: "Дистанция за %{meters}м"
+    period:
+      label: Период
+      overall: За всё время
     rankings:
       title: Онлайн-рейтинг · %{year}
+      title_overall: Онлайн-рейтинг
       empty: Пока нет рейтингов
       scopes:
         open: Общий

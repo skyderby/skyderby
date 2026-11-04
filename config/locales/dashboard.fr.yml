@@ -36,8 +36,12 @@ fr:
       base_race: Course BASE
       distance_in_time: "Distance %{seconds}s"
       distance_in_altitude: "Distance %{meters}m"
+    period:
+      label: Période
+      overall: Général
     rankings:
       title: Classements en ligne · %{year}
+      title_overall: Classements en ligne
       empty: Pas encore de classements
       scopes:
         open: Open

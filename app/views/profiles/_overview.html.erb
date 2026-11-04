@@ -3,11 +3,16 @@
 <%= turbo_frame_tag 'profile_overview', data: { turbo_action: 'advance' } do %>
   <div class="profile-overview stack">
     <% if dashboard.any_modes? %>
-      <% if dashboard.available_modes.size > 1 %>
+      <% if dashboard.period_selector? %>
+        <%= render 'static_pages/dashboard/filters',
+                   dashboard: dashboard,
+                   toggle_url: profile_path(dashboard) %>
+      <% elsif dashboard.available_modes.size > 1 %>
         <%= render 'static_pages/dashboard/modes',
                    dashboard: dashboard,
                    toggle_url: profile_path(dashboard),
-                   toggle_method: :get %>
+                   toggle_method: :get,
+                   extra_params: { year: dashboard.selected_year, rankings_gender: dashboard.rankings_gender } %>
       <% end %>
 
       <% case dashboard.current_mode %>
@@ -22,7 +27,8 @@
       <%= render 'static_pages/dashboard/rankings',
                  dashboard: dashboard,
                  toggle_url: profile_path(dashboard),
-                 toggle_method: :get %>
+                 toggle_method: :get,
+                 extra_params: { year: dashboard.selected_year, mode: dashboard.current_mode } %>
     <% end %>
 
     <%= render 'static_pages/dashboard/competitions',

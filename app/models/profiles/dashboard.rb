@@ -16,12 +16,13 @@ module Profiles
 
     LIVE_COMPETITIONS_PERIOD = 2.weeks
 
-    def initialize(profile, user: nil, mode: nil, rankings_gender: nil, modes: MODES)
+    def initialize(profile, user: nil, mode: nil, rankings_gender: nil, modes: MODES, period: nil) # rubocop:disable Metrics/ParameterLists
       super(profile)
       @user = user
       @modes = modes
       @requested_mode = mode.presence&.to_sym
       @requested_gender = rankings_gender.presence&.to_sym
+      @period = period
     end
 
     def profile = __getobj__
@@ -33,6 +34,31 @@ module Profiles
     def upload_stats
       @upload_stats ||= Tracks::UploadStats.new
     end
+
+    def periods_enabled? = !@period.nil?
+
+    def period_selector? = periods_enabled? && available_years.any?
+
+    def available_years
+      @available_years ||=
+        tracks.where(kind: current_activity)
+              .where.not(recorded_at: nil)
+              .distinct
+              .pluck(Arel.sql('EXTRACT(YEAR FROM recorded_at)::int'))
+              .sort
+              .reverse
+    end
+
+    def selected_year
+      return unless periods_enabled?
+
+      year = @period.to_s[/\A\d+\z/]&.to_i
+      year if year && available_years.include?(year)
+    end
+
+    def overall_rankings? = periods_enabled? && selected_year.nil?
+
+    def ranking_year = selected_year || Time.zone.now.year
 
     def available_modes
       @available_modes ||= @modes.select { |mode| mode_available?(mode) }
@@ -248,23 +274,32 @@ module Profiles
     end
 
     def flare_results(competition_ids)
-      VirtualCompetition::Result
-        .wind_cancellation(false)
-        .where(virtual_competition_id: competition_ids)
-        .joins(:track)
-        .where(tracks: { profile_id: id, kind: Track.kinds[current_activity] })
-        .pluck(:result, :track_id)
+      in_selected_year(
+        VirtualCompetition::Result
+          .wind_cancellation(false)
+          .where(virtual_competition_id: competition_ids)
+          .joins(:track)
+          .where(tracks: { profile_id: id, kind: Track.kinds[current_activity] })
+      ).pluck(:result, :track_id)
     end
 
     def activity_scores
       @activity_scores ||= begin
-        scope = personal_top_scores
+        scope = pb_scores
                 .joins(:virtual_competition)
                 .merge(VirtualCompetition.by_activity(current_activity).worldwide)
         disciplines = DISCIPLINES_BY_MODE[current_mode]
         scope = scope.merge(VirtualCompetition.where(discipline: disciplines)) if disciplines
         scope.includes(:virtual_competition).to_a
       end
+    end
+
+    def pb_scores
+      return personal_top_scores unless selected_year
+
+      VirtualCompetition::Standing
+        .ranked(period: VirtualCompetition::Standing.period(year: selected_year), multi_discipline: false)
+        .where(virtual_competition_id: VirtualCompetition.listed.select(:id), profile_id: id)
     end
 
     def build_rankings
@@ -287,7 +322,7 @@ module Profiles
         VirtualCompetition::Standing
           .ranked(
             competition_ids: group.map(&:id),
-            period: VirtualCompetition::Standing.period(year: current_year),
+            period: ranking_period,
             jump_kind:,
             gender: (:female if female_rankings?),
             snapshot_at:,
@@ -296,6 +331,10 @@ module Profiles
           .order(:rank)
           .to_a
       end.group_by(&:virtual_competition_id)
+    end
+
+    def ranking_period
+      VirtualCompetition::Standing.period(year: periods_enabled? ? selected_year : Time.zone.now.year)
     end
 
     def ranking_in(competition, ranked, previous)
@@ -323,12 +362,13 @@ module Profiles
     end
 
     def previous_pb_delta(competition)
-      results = VirtualCompetition::Result
-                .wind_cancellation(false)
-                .where(virtual_competition: competition)
-                .joins(:track)
-                .where(tracks: { profile_id: id })
-                .pluck(:result)
+      results = in_selected_year(
+        VirtualCompetition::Result
+          .wind_cancellation(false)
+          .where(virtual_competition: competition)
+          .joins(:track)
+          .where(tracks: { profile_id: id })
+      ).pluck(:result)
       ranked = results.sort_by { |result| sort_value(competition, result) }
       return if ranked.size < 2
 
@@ -348,12 +388,13 @@ module Profiles
 
     def speed_results
       @speed_results ||=
-        VirtualCompetition::Result
-        .wind_cancellation(false)
-        .where(virtual_competition_id: activity_scores.map(&:virtual_competition_id).uniq)
-        .joins(:track)
-        .where(tracks: { profile_id: id })
-        .pluck(:result, :track_id)
+        in_selected_year(
+          VirtualCompetition::Result
+          .wind_cancellation(false)
+          .where(virtual_competition_id: activity_scores.map(&:virtual_competition_id).uniq)
+          .joins(:track)
+          .where(tracks: { profile_id: id })
+        ).pluck(:result, :track_id)
     end
 
     def percentile(values, rank)
@@ -366,6 +407,10 @@ module Profiles
       lower + ((upper - lower) * (position - position.floor))
     end
 
-    def current_year = Time.zone.now.year
+    def in_selected_year(relation)
+      return relation unless selected_year
+
+      relation.where('EXTRACT(YEAR FROM tracks.recorded_at) = ?', selected_year)
+    end
   end
 end

@@ -103,7 +103,94 @@ module Profiles
       assert_equal best.id, flare.track_id
     end
 
+    test 'available_years lists years with tracks for the current activity, newest first' do
+      profile = profiles(:alex)
+      competition = virtual_competitions(:skydive_distance_wingsuit)
+      create_result(competition, profile, result: 3000, recorded_at: '2024-03-01')
+      create_result(competition, profile, result: 1000, recorded_at: '2025-03-01')
+
+      dashboard = Dashboard.new(profile, period: 'overall')
+
+      assert_equal [2025, 2024], dashboard.available_years
+    end
+
+    test 'period selector is disabled without a period argument' do
+      profile = profiles(:alex)
+      competition = virtual_competitions(:skydive_distance_wingsuit)
+      create_result(competition, profile, result: 3000, recorded_at: '2024-03-01')
+
+      dashboard = Dashboard.new(profile)
+
+      assert_not dashboard.periods_enabled?
+      assert_not dashboard.period_selector?
+      assert_nil dashboard.selected_year
+    end
+
+    test 'overall period ranks the pilot by lifetime best across all years' do
+      competition = virtual_competitions(:skydive_distance_wingsuit)
+      create_result(competition, profiles(:alex), result: 3000, recorded_at: '2024-03-01')
+      create_result(competition, profiles(:john), result: 2000, recorded_at: '2024-03-02')
+      create_result(competition, profiles(:john), result: 5000, recorded_at: '2025-03-01')
+      create_result(competition, profiles(:travis), result: 4000, recorded_at: '2025-03-02')
+
+      dashboard = Dashboard.new(profiles(:alex), period: 'overall')
+
+      assert_predicate dashboard, :overall_rankings?
+      assert_nil dashboard.selected_year
+      ranking = dashboard.rankings.find { |entry| entry.competition == competition }
+      assert_equal 3, ranking.rank
+      assert_equal 3, ranking.total
+      assert_equal 3000, distance_pb(dashboard)
+    end
+
+    test 'year period ranks the pilot within that season only' do
+      competition = virtual_competitions(:skydive_distance_wingsuit)
+      create_result(competition, profiles(:alex), result: 3000, recorded_at: '2024-03-01')
+      create_result(competition, profiles(:john), result: 2000, recorded_at: '2024-03-02')
+      create_result(competition, profiles(:john), result: 5000, recorded_at: '2025-03-01')
+      create_result(competition, profiles(:alex), result: 1000, recorded_at: '2025-03-02')
+
+      dashboard = Dashboard.new(profiles(:alex), period: '2024')
+
+      assert_equal 2024, dashboard.selected_year
+      assert_not dashboard.overall_rankings?
+      ranking = dashboard.rankings.find { |entry| entry.competition == competition }
+      assert_equal 1, ranking.rank
+      assert_equal 2, ranking.total
+      assert_equal 3000, distance_pb(dashboard)
+    end
+
+    test 'year period bounds personal bests to the selected season' do
+      competition = virtual_competitions(:skydive_distance_wingsuit)
+      create_result(competition, profiles(:alex), result: 3000, recorded_at: '2024-03-01')
+      create_result(competition, profiles(:alex), result: 1000, recorded_at: '2025-03-02')
+
+      dashboard = Dashboard.new(profiles(:alex), period: '2025')
+
+      assert_equal 1000, distance_pb(dashboard)
+    end
+
+    test 'an unavailable year falls back to overall' do
+      competition = virtual_competitions(:skydive_distance_wingsuit)
+      create_result(competition, profiles(:alex), result: 3000, recorded_at: '2024-03-01')
+
+      dashboard = Dashboard.new(profiles(:alex), period: '2019')
+
+      assert_nil dashboard.selected_year
+      assert_predicate dashboard, :overall_rankings?
+    end
+
     private
+
+    def distance_pb(dashboard)
+      dashboard.personal_bests.compact.find { |best| best.discipline == :distance }&.result&.to_i
+    end
+
+    def create_result(competition, profile, result:, recorded_at:, wind_cancelled: false)
+      recorded_at = Time.zone.parse(recorded_at) if recorded_at.is_a?(String)
+      track = create(:empty_track, pilot: profile, recorded_at:)
+      competition.results.create!(track:, result:, wind_cancelled:)
+    end
 
     def create_tracks(profile, kind:, count:, starting:)
       count.times do |index|

@@ -36,8 +36,12 @@ de:
       base_race: BASE Race
       distance_in_time: "%{seconds}s Distanz"
       distance_in_altitude: "%{meters}m Distanz"
+    period:
+      label: Zeitraum
+      overall: Gesamt
     rankings:
       title: Online-Ranking · %{year}
+      title_overall: Online-Ranking
       empty: Noch keine Ranglisten
       scopes:
         open: Offen
