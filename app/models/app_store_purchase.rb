@@ -1,9 +1,9 @@
 class AppStorePurchase < ApplicationRecord
   BUNDLE_ID = 'io.skyderby.app'.freeze
   LIFETIME_PRODUCT_ID = 'io.skyderby.pro.lifetime'.freeze
-  GIFT_PRODUCT_ID = 'io.skyderby.pro.lifetime_gift'.freeze
+  GIFT_PRODUCT_ID = 'io.skyderby.pro.gift_lifetime'.freeze
   PRODUCT_IDS = %w[io.skyderby.pro.monthly io.skyderby.pro.annual io.skyderby.pro.lifetime
-                   io.skyderby.pro.lifetime_gift].freeze
+                   io.skyderby.pro.gift_lifetime].freeze
   PRODUCTION = 'Production'.freeze
 
   belongs_to :user
