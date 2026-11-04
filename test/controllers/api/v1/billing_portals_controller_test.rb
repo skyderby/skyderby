@@ -4,7 +4,15 @@ class Api::V1::BillingPortalsControllerTest < ActionDispatch::IntegrationTest
   include ApiAuthHelper
   include WebMock::API
 
-  teardown { WebMock.reset! }
+  setup do
+    @stripe_api_key = Stripe.api_key
+    Stripe.api_key = 'sk_test_billing_portal'
+  end
+
+  teardown do
+    Stripe.api_key = @stripe_api_key
+    WebMock.reset!
+  end
 
   test '#create requires authentication' do
     post api_v1_billing_portal_path
