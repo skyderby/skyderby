@@ -182,10 +182,10 @@ class VirtualCompetition::StandingTest < ActiveSupport::TestCase
     score = @multi_competition.standings.sole
 
     assert_equal best, score.track
-    assert_in_delta 200, score.result
+    assert_in_delta 180, score.result
   end
 
-  test 'multi-discipline scores the table only against counted jumps' do
+  test 'multi-discipline scores every jump against the season best of each discipline' do
     add_jump @john, distance: 100, flare: nil
     counted = add_jump @john, distance: 50, flare: 10
     add_jump profiles(:maynard), distance: 80, flare: 5
@@ -193,8 +193,19 @@ class VirtualCompetition::StandingTest < ActiveSupport::TestCase
     john, maynard = @multi_competition.standings.order(:rank)
 
     assert_equal counted, john.track
-    assert_equal [62.5, 100.0], john.entries.map(&:points)
-    assert_equal [100.0, 50.0], maynard.entries.map(&:points)
+    assert_equal [50.0, 100.0], john.entries.map(&:points)
+    assert_equal [80.0, 50.0], maynard.entries.map(&:points)
+  end
+
+  test 'multi-discipline counts the jump worth most against the field, not against personal bests' do
+    add_jump @alex, distance: 350, flare: 35
+    add_jump @john, distance: 150, flare: 8
+    counted = add_jump @john, distance: 280, flare: 4
+
+    score = @multi_competition.standings.find_by(profile_id: @john.id)
+
+    assert_equal counted, score.track
+    assert_in_delta 91.43, score.result, 0.01
   end
 
   test 'multi-discipline counts the earlier jump when totals tie' do

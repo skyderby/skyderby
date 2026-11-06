@@ -49,7 +49,8 @@ class VirtualCompetition::PersonDetails
       .where(profile_id:)
       .includes(:suit, track: TRACK_ASSOCIATIONS, virtual_competition: :disciplines)
       .order(sort_value: :desc, recorded_at: :asc, track_id: :asc)
-      .to_a
+      .partition { |jump| jump.track_id == counted_score&.track_id }
+      .flatten
   end
 
   def period = VirtualCompetition::Standing.period(year: @year, interval:)

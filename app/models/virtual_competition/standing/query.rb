@@ -63,33 +63,22 @@ class VirtualCompetition::Standing
 
     def counted_jumps_sql
       <<~SQL.squish
-        SELECT #{track_score_columns('field.points', 'field.best')}
+        SELECT DISTINCT ON (jumps.virtual_competition_id, jumps.profile_id) jumps.*
         FROM (
-          SELECT jumps.*, #{points_sql('jumps.result', 'jumps.best')} AS points
+          SELECT #{track_score_columns('field.points', 'field.best')}
           FROM (
-            SELECT
-              counted.*,
-              #{best_sql('counted.result', 'counted.virtual_competition_id, counted.discipline_id')} AS best
+            SELECT season.*, #{points_sql('season.result', 'season.best')} AS points
             FROM (
               SELECT
-                pilot_jumps.*,
-                FIRST_VALUE(pilot_jumps.track_id) OVER (
-                  PARTITION BY pilot_jumps.virtual_competition_id, pilot_jumps.profile_id
-                  ORDER BY pilot_jumps.personal_total DESC, pilot_jumps.recorded_at, pilot_jumps.track_id
-                ) AS counted_track_id
-              FROM (
-                SELECT
-                  personal.*,
-                  SUM(personal.personal_points) OVER (
-                    PARTITION BY personal.virtual_competition_id, personal.profile_id, personal.track_id
-                  ) AS personal_total
-                FROM (#{personal_points_sql}) AS personal
-              ) AS pilot_jumps
-            ) AS counted
-            WHERE counted.track_id = counted.counted_track_id
-          ) AS jumps
-        ) AS field
-        #{track_group_by}
+                scored.*,
+                #{best_sql('scored.result', 'scored.virtual_competition_id, scored.discipline_id')} AS best
+              FROM (#{discipline_results_sql}) AS scored
+            ) AS season
+          ) AS field
+          #{track_group_by}
+        ) AS jumps
+        ORDER BY jumps.virtual_competition_id, jumps.profile_id, jumps.sort_value DESC, jumps.recorded_at,
+          jumps.track_id
       SQL
     end
 
@@ -109,12 +98,16 @@ class VirtualCompetition::Standing
             scored.*,
             #{best_sql('scored.result', 'scored.virtual_competition_id, scored.profile_id, scored.discipline_id')}
               AS personal_best
-          FROM (
-            SELECT results.*, disciplines.results_sort_order = 'ascending' AS ascending
-            FROM (#{results_sql}) AS results
-              INNER JOIN virtual_competition_disciplines disciplines ON disciplines.id = results.discipline_id
-          ) AS scored
+          FROM (#{discipline_results_sql}) AS scored
         ) AS personal
+      SQL
+    end
+
+    def discipline_results_sql
+      <<~SQL.squish
+        SELECT results.*, disciplines.results_sort_order = 'ascending' AS ascending
+        FROM (#{results_sql}) AS results
+          INNER JOIN virtual_competition_disciplines disciplines ON disciplines.id = results.discipline_id
       SQL
     end
 
