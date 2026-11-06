@@ -17,6 +17,18 @@ en:
       locked_prefix: "%{count} more on %{date} or"
       unlock: Unlock Unlimited
       unlock_features: Pro View and Compare
+    playback:
+      replay: "Replay"
+      speed_label: "Spd"
+      time_from_exit: "Time from exit"
+      seconds: "s"
+      remaining: "Free replays %{count} / %{limit}"
+      limit_reached_title: "You have replayed %{limit} tracks this month"
+      limit_partial_title: "Only %{count} free replays left this month"
+      limit_reached_body: "Replay any track with Pro or wait until %{date}. Tracks you already replayed stay free."
+      unlock: "Unlock unlimited replays"
+      sign_up_to_replay: "Sign up to replay"
+      close: "Close"
     show:
       select_jump_line: Select jump line
     filters:

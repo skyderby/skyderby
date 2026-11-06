@@ -17,6 +17,18 @@ fr:
       locked_prefix: "%{count} de plus le %{date} ou"
       unlock: Débloquer l'illimité
       unlock_features: Pro View et Compare
+    playback:
+      replay: "Rejouer"
+      speed_label: "Vit"
+      time_from_exit: "Temps depuis la sortie"
+      seconds: "s"
+      remaining: "Relectures gratuites %{count} / %{limit}"
+      limit_reached_title: "Vous avez rejoué %{limit} traces ce mois-ci"
+      limit_partial_title: "Plus que %{count} relectures gratuites ce mois-ci"
+      limit_reached_body: "Rejouez n'importe quelle trace avec Pro ou attendez le %{date}. Les traces déjà rejouées restent gratuites."
+      unlock: "Débloquer sans limite"
+      sign_up_to_replay: "Inscrivez-vous pour rejouer"
+      close: "Fermer"
     show:
       select_jump_line: Sélectionner la ligne de saut
     filters:
