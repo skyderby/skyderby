@@ -1,0 +1,64 @@
+<figure class="debrief-replay"
+        data-controller="tracks--debrief-replay"
+        data-tracks--debrief-replay-replay-value="<%= replay.merge('moments' => replay['moments'].map { |moment| moment.except('html') }).to_json %>"
+        data-tracks--debrief-replay-labels-value="<%= js_labels(:units, :debrief_charts) %>">
+  <div class="debrief-replay__stage">
+    <svg data-tracks--debrief-replay-target="svg" role="img" aria-label="<%= t("tracks.debriefs.charts.replay_#{replay['phase']}") %>"></svg>
+  </div>
+  <div class="round-replay-playback debrief-replay__controls">
+    <button type="button"
+            class="round-replay-playback-button"
+            aria-label="<%= t('tracks.debriefs.replay') %>"
+            data-tracks--debrief-replay-target="play"
+            data-action="tracks--debrief-replay#toggle">
+      <span class="icon-play"><%= icon_tag 'play-solid' %></span>
+      <span class="icon-pause"><%= icon_tag 'pause-solid' %></span>
+    </button>
+    <input type="range"
+           class="round-replay-playback-slider"
+           min="0" max="1000" value="0"
+           aria-label="<%= t('tracks.debriefs.replay') %>"
+           data-tracks--debrief-replay-target="scrub"
+           data-action="input->tracks--debrief-replay#seek">
+    <span class="debrief-replay__clock" data-tracks--debrief-replay-target="clock"></span>
+  </div>
+  <div class="debrief-replay__moments" role="group">
+    <% replay['moments'].each_with_index do |moment, index| %>
+      <button type="button"
+              class="debrief-replay__moment"
+              aria-pressed="<%= index.zero? %>"
+              data-tracks--debrief-replay-target="moment"
+              data-tracks--debrief-replay-index-param="<%= index %>"
+              data-action="tracks--debrief-replay#goTo"><%= moment['label'] %></button>
+    <% end %>
+  </div>
+  <% replay['moments'].each_with_index do |moment, index| %>
+    <p class="debrief-replay__caption" data-tracks--debrief-replay-target="caption" aria-live="polite" <%= 'hidden' unless index.zero? %>>
+      <%= sanitize(moment['html'], tags: %w[b], attributes: %w[class]) %>
+    </p>
+  <% end %>
+  <div class="debrief-replay__readouts">
+    <% replay['series'].each do |entry| %>
+      <div class="debrief-replay__readout">
+        <span class="debrief-replay__dot" style="background: var(<%= entry['color'] %>)"></span>
+        <div class="debrief-replay__line">
+          <span class="debrief-replay__name"><%= entry['track_id'] ? link_to(entry['name'], track_path(entry['track_id'])) : entry['name'] %></span>
+          <span class="debrief-replay__values" data-tracks--debrief-replay-target="readout"></span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <template data-tracks--debrief-replay-target="readoutTemplate">
+    <span class="debrief-replay__values">
+      <span class="debrief-replay__group"><span data-slot="height"></span> <span data-slot="distance"></span></span>
+      <span class="debrief-replay__group">
+        <%= t('tracks.debriefs.speeds.label') %> <b data-slot="full"></b><span data-slot="fullAccel"></span>
+        <span class="debrief-replay__divider">|</span>
+        <span class="debrief-replay__vertical" data-slot="vArrow"></span><b data-slot="v"></b><span data-slot="vAccel"></span>
+        <span class="debrief-replay__horizontal">→</span><b data-slot="h"></b><span data-slot="hAccel"></span>
+        <%= t('units.kmh') %>
+      </span>
+    </span>
+  </template>
+  <figcaption class="debrief-replay__note"><%= t("tracks.debriefs.charts.replay_#{replay['phase']}") %></figcaption>
+</figure>

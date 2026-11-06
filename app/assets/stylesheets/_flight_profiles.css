@@ -204,6 +204,12 @@
   pointer-events: none;
 }
 
+.fp-playback-marker {
+  stroke: var(--white);
+  stroke-width: 2;
+  pointer-events: none;
+}
+
 .fp-cursor {
   position: absolute;
   top: 0;

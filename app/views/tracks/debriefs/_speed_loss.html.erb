@@ -1,0 +1,34 @@
+<% low, high = chart['range'] %>
+<% left = 24 %>
+<% right = 540 %>
+<% x = ->(speed) { (left + ((speed - low).to_f / (high - low) * (right - left))).round(1) } %>
+<% row = 58 %>
+<% height = 40 + (chart['rows'].size * row) + 26 %>
+<figure class="debrief-chart debrief-figure">
+  <figcaption class="debrief-chart__caption">
+    <span class="debrief-chart__title"><%= t('tracks.debriefs.charts.speed_loss') %></span>
+    <span class="debrief-chart__axes"><%= t('tracks.debriefs.charts.speed_loss_hint') %></span>
+  </figcaption>
+  <svg class="debrief-figure__svg" viewBox="0 0 640 <%= height %>" role="img" aria-label="<%= t('tracks.debriefs.charts.speed_loss') %>">
+    <text class="debrief-figure__label" x="<%= left %>" y="16">○ <%= t('tracks.debriefs.charts.top_speed') %>   ● <%= t('tracks.debriefs.charts.climb_starts') %></text>
+    <text class="debrief-figure__label" x="632" y="16" text-anchor="end"><%= t('tracks.debriefs.charts.lost') %></text>
+    <% (low..high).step(20).each do |speed| %>
+      <line class="debrief-figure__grid" x1="<%= x.call(speed) %>" x2="<%= x.call(speed) %>" y1="30" y2="<%= height - 24 %>"></line>
+      <text class="debrief-figure__label" x="<%= x.call(speed) %>" y="<%= height - 6 %>" text-anchor="middle"><%= speed %></text>
+    <% end %>
+    <% chart['rows'].each_with_index do |item, index| %>
+      <% y = 40 + (index * row) + 34 %>
+      <% if item['track_id'] %>
+        <a href="<%= track_path(item['track_id']) %>"><text class="debrief-figure__name debrief-figure__link" x="<%= left %>" y="<%= y - 16 %>"><%= item['name'] %></text></a>
+      <% else %>
+        <text class="debrief-figure__name" x="<%= left %>" y="<%= y - 16 %>"><%= item['name'] %></text>
+      <% end %>
+      <line x1="<%= x.call(item['start']) %>" x2="<%= x.call(item['top']) %>" y1="<%= y %>" y2="<%= y %>" style="stroke: var(<%= item['color'] %>)" stroke-width="4" stroke-linecap="round" opacity="0.45"></line>
+      <circle cx="<%= x.call(item['top']) %>" cy="<%= y %>" r="6" class="debrief-figure__hollow" style="stroke: var(<%= item['color'] %>)" stroke-width="2"></circle>
+      <circle cx="<%= x.call(item['start']) %>" cy="<%= y %>" r="6" style="fill: var(<%= item['color'] %>)"></circle>
+      <text class="debrief-figure__value" x="<%= x.call(item['top']) + 12 %>" y="<%= y + 5 %>"><%= item['top'] %></text>
+      <text class="debrief-figure__value" x="<%= x.call(item['start']) - 12 %>" y="<%= y + 5 %>" text-anchor="end"><%= item['start'] %></text>
+      <text class="debrief-figure__total" x="632" y="<%= y + 7 %>" text-anchor="end" style="fill: var(<%= item['color'] %>)">−<%= item['top'] - item['start'] %></text>
+    <% end %>
+  </svg>
+</figure>

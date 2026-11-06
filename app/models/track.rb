@@ -91,6 +91,7 @@ class Track < ApplicationRecord
   has_many :free_pro_views, dependent: :nullify
   has_many :top_entries, class_name: 'VirtualCompetition::TopEntry', inverse_of: :track, dependent: :delete_all
   has_many :bookmarks, class_name: 'Track::Bookmark', inverse_of: :track, dependent: :delete_all
+  has_many :debriefs, class_name: 'Track::Debrief', inverse_of: :track, dependent: :delete_all
 
   validates :name, presence: true, unless: :pilot
 

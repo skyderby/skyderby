@@ -1,0 +1,22 @@
+<% scale = 60.0 / [chart['gaps'].map { |item| item['gap'].abs }.max, 1].max %>
+<% middle = 96 %>
+<% step = 560.0 / chart['gaps'].size %>
+<figure class="debrief-chart debrief-figure">
+  <figcaption class="debrief-chart__caption">
+    <span class="debrief-chart__title"><%= t('tracks.debriefs.charts.window_gap_html', name: chart['track_id'] ? link_to(chart['other'], track_path(chart['track_id'])) : chart['other']) %></span>
+    <span class="debrief-chart__axes"><%= t('tracks.debriefs.charts.window_gap_hint') %></span>
+  </figcaption>
+  <svg class="debrief-figure__svg" viewBox="0 0 640 196" role="img" aria-label="<%= strip_tags(t('tracks.debriefs.charts.window_gap_html', name: chart['other'])) %>">
+    <line class="debrief-figure__axis" x1="40" x2="620" y1="<%= middle %>" y2="<%= middle %>"></line>
+    <% chart['gaps'].each_with_index do |item, index| %>
+      <% center = 40 + (step * (index + 0.5)) %>
+      <% bar = (item['gap'].abs * scale).round(1) %>
+      <% lower = item['gap'].positive? %>
+      <rect x="<%= center - 24 %>" y="<%= lower ? middle - bar : middle %>" width="48" height="<%= bar %>" rx="3"
+            class="<%= lower ? 'debrief-figure__bar--behind' : 'debrief-figure__bar--ahead' %>"></rect>
+      <text class="debrief-figure__total <%= lower ? 'debrief-figure__text--behind' : 'debrief-figure__text--ahead' %>"
+            x="<%= center %>" y="<%= lower ? middle - bar - 8 : middle + bar + 20 %>" text-anchor="middle"><%= lower ? '+' : '−' %><%= item['gap'].abs %> <%= t('units.m') %></text>
+      <text class="debrief-figure__label" x="<%= center %>" y="190" text-anchor="middle"><%= item['second'] %> <%= t('units.sec') %></text>
+    <% end %>
+  </svg>
+</figure>

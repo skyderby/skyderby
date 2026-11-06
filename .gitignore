@@ -47,3 +47,7 @@ yarn-error.log
 /apple/**/.swiftpm/
 /apple/**/xcuserdata/
 /apple/**/DerivedData/
+
+# Ignore key files for decrypting credentials and more.
+/config/*.key
+

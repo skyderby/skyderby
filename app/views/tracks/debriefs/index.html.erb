@@ -1,0 +1,47 @@
+<% provide :title, t('tracks.debriefs.title') %>
+
+<div class="show-page">
+  <%= render partial: 'tracks/header', locals: { track: @page.track } %>
+
+  <div class="debrief-page">
+    <header class="debrief-page__header">
+      <h1 class="debrief-page__title"><%= t('tracks.debriefs.title') %></h1>
+      <p class="debrief-page__intro"><%= t('tracks.debriefs.intro') %></p>
+    </header>
+
+    <%= render 'tracks/debriefs/picker', page: @page %>
+
+    <% if @page.debriefs.any? %>
+      <ul class="debrief-list">
+        <% @page.debriefs.each do |debrief| %>
+          <li>
+            <%= link_to track_debrief_path(@page.track, debrief, reveal: (1 if @page.reveal?)), class: 'debrief-list__item' do %>
+              <span class="debrief-list__title">
+                <%= debrief_title(debrief) %>
+                <% if @page.variants?(debrief) %>
+                  <span class="debrief-variant"><%= t('tracks.debriefs.variant', letter: @page.variant_letter(debrief)) %></span>
+                <% end %>
+                <% if @page.reveal? %>
+                  <span class="debrief-reveal"><%= @page.reveal_details(debrief) %></span>
+                <% end %>
+              </span>
+              <span class="debrief-list__meta">
+                <% if debrief.ready? %>
+                  <%= l(debrief.generated_at, format: :short) %>
+                <% elsif debrief.unsuccessful? %>
+                  <%= t('tracks.debriefs.status_failed') %>
+                <% else %>
+                  <%= t('tracks.debriefs.status_pending') %>
+                <% end %>
+              </span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="debrief-page__empty"><%= t('tracks.debriefs.empty') %></p>
+    <% end %>
+
+    <p class="debrief-page__disclaimer"><%= t('tracks.debriefs.disclaimer') %></p>
+  </div>
+</div>

@@ -474,6 +474,11 @@ Skyderby::Application.routes.draw do
         resource :chart_data, only: :show, module: :videos
       end
       resource :results, only: :show
+      resources :comparisons, only: :create
+      resources :debriefs, only: %i[index show create] do
+        resource :regeneration, only: :create, module: :debriefs
+        resource :feedback, only: :update, module: :debriefs
+      end
       resource :download, only: :show
       resource :altitude_data, only: :show
       resource :weather_data

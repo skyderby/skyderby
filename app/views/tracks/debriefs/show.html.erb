@@ -1,0 +1,45 @@
+<% debrief = @page.debrief %>
+<% provide :title, "#{t('tracks.debriefs.title')} · #{debrief_title(debrief)}" %>
+<% provide :page_class, 'debrief-printable' %>
+
+<div class="show-page">
+  <%= render partial: 'tracks/header', locals: { track: @page.track } %>
+
+  <div class="debrief-page">
+    <header class="debrief-page__header">
+      <% if @page.accessible? %>
+        <%= link_to t('tracks.debriefs.all'), track_debriefs_path(@page.track), class: 'debrief-page__back' %>
+      <% end %>
+      <h1 class="debrief-page__title">
+        <%= debrief_title(debrief) %>
+        <% if @page.variants?(debrief) %>
+          <span class="debrief-variant"><%= t('tracks.debriefs.variant', letter: @page.variant_letter(debrief)) %></span>
+        <% end %>
+      </h1>
+      <% if @page.reveal? %>
+        <span class="debrief-reveal"><%= @page.reveal_details(debrief) %></span>
+      <% end %>
+      <% unless debrief.comparison? %>
+        <span class="debrief-page__eyebrow">
+          <%= t('tracks.debriefs.rankings', names: debrief.inputs.dig('discipline', 'rankings').to_a.join(', ')) %>
+        </span>
+      <% end %>
+    </header>
+
+    <% if @page.admin? %>
+      <div class="debrief-page__admin">
+        <%= button_to t('tracks.debriefs.regenerate'),
+                      track_debrief_regeneration_path(@page.track, debrief),
+                      class: 'button button--outline button--sm' %>
+      </div>
+    <% end %>
+
+    <%= turbo_stream_from debrief if debrief.pending? %>
+    <%= render 'tracks/debriefs/report', debrief: %>
+    <% if debrief.ready? && @page.feedbackable?(debrief) %>
+      <%= render 'tracks/debriefs/feedback', debrief: %>
+    <% end %>
+
+    <p class="debrief-page__disclaimer"><%= t('tracks.debriefs.disclaimer') %></p>
+  </div>
+</div>
