@@ -22,7 +22,7 @@ de:
       speed_label: "Geschw"
       time_from_exit: "Zeit ab Exit"
       seconds: "s"
-      remaining: "Freie Wiedergaben diesen Monat: %{count} von %{limit}"
+      remaining: "Freie Wiedergaben diesen Monat %{count} / %{limit}"
       limit_reached_title: "Du hast diesen Monat %{limit} Tracks abgespielt"
       limit_reached_body: "Spiele jeden Track mit Pro ab oder warte bis %{date}. Bereits abgespielte Tracks bleiben kostenlos."
       unlock: "Unbegrenzt freischalten"

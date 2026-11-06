@@ -22,7 +22,7 @@ it:
       speed_label: "Vel"
       time_from_exit: "Tempo dall'uscita"
       seconds: "s"
-      remaining: "Riproduzioni gratuite rimaste questo mese: %{count} di %{limit}"
+      remaining: "Riproduzioni gratuite questo mese %{count} / %{limit}"
       limit_reached_title: "Questo mese hai riprodotto %{limit} tracce"
       limit_reached_body: "Riproduci qualsiasi traccia con Pro o attendi fino al %{date}. Le tracce già riprodotte restano gratuite."
       unlock: "Sblocca senza limiti"
