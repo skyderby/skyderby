@@ -61,6 +61,9 @@ end
 
 gem 'amplitude-api'
 
+gem 'anthropic'
+gem 'redcarpet'
+
 # Internalization
 gem 'http_accept_language'
 

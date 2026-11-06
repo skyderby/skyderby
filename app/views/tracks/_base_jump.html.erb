@@ -117,6 +117,13 @@
           </div>
         <% end %>
 
+        <% if Track::Debrief.available_for?(@track) && Tracks::DebriefPage.accessible?(@track, Current.user) %>
+          <%= link_to track_debriefs_path(@track), class: 'actions-bar-button' do %>
+            <%= icon_tag 'chart-line-solid' %>
+            <span><%= t('tracks.debriefs.entry') %></span>
+          <% end %>
+        <% end %>
+
         <div class="actions-bar-button base-jump-actions-bar__toggle">
           <div class="switch-container">
             <input type="checkbox"

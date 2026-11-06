@@ -49,7 +49,8 @@ module JsLabelsHelper
       charts.spd.series.ground
       charts.spd.series.vertical
     ],
-    terrain_profile_form: %w[terrain_profiles.form.import_csv_failed]
+    terrain_profile_form: %w[terrain_profiles.form.import_csv_failed],
+    debrief_charts: %w[tracks.debriefs.axes]
   }.freeze
 
   def js_labels(*sets)

@@ -36,6 +36,8 @@ const ALTITUDE_LINE_COLOR = '#999'
 
 export default class extends PlaybackController {
   static targets = [
+    'explainFrom',
+    'explainTo',
     'sideProjection',
     'grid',
     'trajectory',
@@ -394,10 +396,18 @@ export default class extends PlaybackController {
 
     this.fromValue = range.from
     this.toValue = range.to
+    this.syncExplainRange()
+  }
+
+  syncExplainRange() {
+    if (this.hasExplainFromTarget)
+      this.explainFromTarget.value = Math.round(this.fromValue)
+    if (this.hasExplainToTarget) this.explainToTarget.value = Math.round(this.toValue)
   }
 
   updateRange(event) {
     ;[this.fromValue, this.toValue] = event.detail.range
+    this.syncExplainRange()
     if (event.detail.straightLine) this.enableStraightLine()
     this.updateView()
   }

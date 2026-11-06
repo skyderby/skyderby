@@ -72,10 +72,12 @@ export default class FlightProfileChart {
     terrainHost,
     formatters = {},
     labels = {},
+    labelSpacing = null,
     onRender = null
   }) {
-    this.onRender = onRender
     this.profileHost = profileHost
+    this.labelSpacing = labelSpacing
+    this.onRender = onRender
     this.terrainHost = terrainHost || null
     this.formatProfile = formatters.profile || (() => '')
     this.formatClearance = formatters.clearance || (() => '')
@@ -366,9 +368,18 @@ export default class FlightProfileChart {
     return grid
   }
 
+  get labelStep() {
+    if (!this.labelSpacing) return this.gridStep * LABEL_EVERY
+
+    const multiple = [1, 2, 5, 10].find(
+      factor => this.gridStep * factor * this.scale >= this.labelSpacing
+    )
+    return this.gridStep * (multiple ?? LABEL_EVERY)
+  }
+
   labelsSvg() {
     const { width, height } = this
-    const step = this.gridStep * LABEL_EVERY
+    const step = this.labelStep
     let labels = ''
     this.gridValues(this.viewX, width / this.scale, step).forEach(m => {
       const px = this.x(m)
@@ -433,6 +444,8 @@ export default class FlightProfileChart {
     markup += '<g class="fp-playback"></g>'
     markup += '<g class="fp-markers"></g>'
     svg.innerHTML = markup
+    this.playbackLayer = svg.querySelector('.fp-playback')
+    this.drawPlayback()
 
     if (this.profileSvg) this.profileSvg.replaceWith(svg)
     else this.profileHost.prepend(svg)

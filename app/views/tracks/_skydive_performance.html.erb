@@ -39,6 +39,18 @@
           </div>
         </div>
 
+        <% if @compare_track && Track::Debrief.available_for?(@track) && Tracks::DebriefPage.accessible?(@track, Current.user) %>
+          <%= form_with url: track_comparisons_path(@track), class: 'skydive-performance-explain' do |form| %>
+            <%= form.hidden_field :other_track_id, value: @compare_track.id %>
+            <%= form.hidden_field :from, value: 2500, data: { 'tracks--skydive-performance-track-target': 'explainFrom' } %>
+            <%= form.hidden_field :to, value: 1500, data: { 'tracks--skydive-performance-track-target': 'explainTo' } %>
+            <button type="submit" class="actions-bar-button">
+              <%= icon_tag 'wand-magic-sparkles-solid' %>
+              <%= t('tracks.debriefs.explain') %>
+            </button>
+          <% end %>
+        <% end %>
+
         <% if @compare_track %>
           <a href="<%= track_path(@track) %>" class="actions-bar-button skydive-performance-actions-bar__remove">
             <%= icon_tag 'xmark' %>

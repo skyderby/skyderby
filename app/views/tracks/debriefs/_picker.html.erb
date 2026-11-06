@@ -1,0 +1,14 @@
+<% if page.catalog.any? %>
+  <%= form_with url: track_debriefs_path(page.track), class: 'debrief-picker' do |form| %>
+    <%= form.label :discipline_key, t('tracks.debriefs.discipline'), class: 'debrief-picker__label' %>
+    <div class="debrief-picker__row">
+      <%= form.select :discipline_key,
+                      page.catalog.disciplines.map { |discipline| [debrief_discipline_label(discipline), discipline.key] },
+                      { selected: local_assigns[:selected] },
+                      class: 'form-input debrief-picker__select' %>
+      <%= form.submit t('tracks.debriefs.submit'), class: 'button button--primary' %>
+    </div>
+  <% end %>
+<% else %>
+  <p class="debrief-picker__empty"><%= t('tracks.debriefs.no_disciplines') %></p>
+<% end %>

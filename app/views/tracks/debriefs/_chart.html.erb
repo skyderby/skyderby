@@ -1,0 +1,48 @@
+<% axes = Track::Debrief::Document::CHART_AXES.fetch(chart['name']) %>
+<figure class="debrief-chart"
+        data-controller="tracks--debrief-chart"
+        data-tracks--debrief-chart-chart-value="<%= chart.to_json %>"
+        data-tracks--debrief-chart-labels-value="<%= js_labels(:units, :flight_profiles, :debrief_charts) %>">
+  <figcaption class="debrief-chart__caption">
+    <span class="debrief-chart__title"><%= t("tracks.debriefs.charts.#{chart['name']}") %></span>
+    <span class="debrief-chart__axes">
+      <%= safe_join(axes.map { |axis, unit| "#{t("tracks.debriefs.axes.#{axis}")}, #{t(unit)}" }, ' · ') %>
+    </span>
+  </figcaption>
+  <div class="debrief-chart__plot" data-tracks--debrief-chart-target="plot"></div>
+  <% if chart['name'] == 'window_side' %>
+    <div class="round-replay-playback debrief-chart__playback">
+      <button type="button"
+              class="round-replay-playback-button"
+              aria-label="<%= t('tracks.debriefs.replay') %>"
+              data-tracks--debrief-chart-target="playButton"
+              data-action="tracks--debrief-chart#togglePlay">
+        <span class="icon-play"><%= icon_tag 'play-solid' %></span>
+        <span class="icon-pause"><%= icon_tag 'pause-solid' %></span>
+      </button>
+      <input type="range"
+             class="round-replay-playback-slider"
+             min="0" max="1000" value="0"
+             aria-label="<%= t('tracks.debriefs.replay') %>"
+             data-tracks--debrief-chart-target="slider"
+             data-action="input->tracks--debrief-chart#seek">
+      <span class="debrief-chart__clock" data-tracks--debrief-chart-target="clock"></span>
+    </div>
+    <template data-tracks--debrief-chart-target="labelTemplate">
+      <div class="debrief-replay-label">
+        <div class="debrief-replay-label__row">
+          <span class="debrief-replay-label__name" data-slot="name"></span>
+          <span class="debrief-replay-label__spacer">↓</span><span class="debrief-replay-label__value" data-slot="lost"></span>
+          <span class="debrief-replay-label__spacer">→</span><span class="debrief-replay-label__value" data-slot="distance"></span>
+        </div>
+        <div class="debrief-replay-label__row">
+          <span class="debrief-replay-label__key"><%= t('tracks.debriefs.speeds.label') %>, <%= t('units.kmh') %></span>
+          <span class="debrief-replay-label__value debrief-replay-label__value--full" data-slot="fullSpeed"></span><span data-slot="fullAccel"></span>
+          <span class="debrief-replay-label__divider">|</span>
+          <span class="debrief-replay-label__value--vertical">↓</span><span class="debrief-replay-label__value debrief-replay-label__value--vertical" data-slot="vSpeed"></span><span data-slot="vAccel"></span>
+          <span class="debrief-replay-label__spacer debrief-replay-label__value--horizontal">→</span><span class="debrief-replay-label__value debrief-replay-label__value--horizontal" data-slot="hSpeed"></span><span data-slot="hAccel"></span>
+        </div>
+      </div>
+    </template>
+  <% end %>
+</figure>

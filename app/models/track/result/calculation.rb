@@ -24,6 +24,17 @@ class Track::Result
       record_vertical_speed_result
     end
 
+    def flight_points
+      @flight_points ||= build_flight_points
+    end
+
+    def flare_points
+      points = build_flight_points(seconds_after_end: FLARE_SECONDS_AFTER_END, columns: %i[fl_time])
+      flare_end = points.index { |point| point[:fl_time] > track.ff_end && point[:v_speed] >= 0 }
+
+      flare_end ? points.first(flare_end + 1) : points
+    end
+
     private
 
     def record_best_window_results
@@ -150,17 +161,6 @@ class Track::Result
       @altitude_points ||= PointsQuery.execute track,
                                                trimmed: true,
                                                only: %i[gps_time altitude latitude longitude]
-    end
-
-    def flight_points
-      @flight_points ||= build_flight_points
-    end
-
-    def flare_points
-      points = build_flight_points(seconds_after_end: FLARE_SECONDS_AFTER_END, columns: %i[fl_time])
-      flare_end = points.index { |point| point[:fl_time] > track.ff_end && point[:v_speed] >= 0 }
-
-      flare_end ? points.first(flare_end + 1) : points
     end
 
     def build_flight_points(seconds_after_end: nil, columns: [])

@@ -1,0 +1,22 @@
+<%= turbo_frame_tag dom_id(debrief, :feedback), class: 'debrief-feedback' do %>
+  <% path = track_debrief_feedback_path(debrief.track, debrief) %>
+  <% if debrief.feedback.nil? %>
+    <span class="debrief-feedback__question"><%= t('tracks.debriefs.feedback.question') %></span>
+    <div class="debrief-feedback__buttons">
+      <% { 'up' => '👍', 'down' => '👎' }.each do |value, mark| %>
+        <%= button_to path, method: :patch, params: { feedback: { feedback: value } },
+                            class: 'button button--outline button--sm' do %>
+          <%= mark %> <%= t("tracks.debriefs.feedback.#{value}") %>
+        <% end %>
+      <% end %>
+    </div>
+  <% elsif debrief.feedback_comment.blank? %>
+    <%= form_with model: debrief, url: path, method: :patch, scope: :feedback, class: 'debrief-feedback__form' do |form| %>
+      <%= form.label :feedback_comment, t('tracks.debriefs.feedback.comment'), class: 'debrief-feedback__question' %>
+      <%= form.text_area :feedback_comment, rows: 3, class: 'form-input' %>
+      <%= form.submit t('tracks.debriefs.feedback.send'), class: 'button button--primary button--sm' %>
+    <% end %>
+  <% else %>
+    <span class="debrief-feedback__question"><%= t('tracks.debriefs.feedback.thanks') %></span>
+  <% end %>
+<% end %>

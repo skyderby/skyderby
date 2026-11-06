@@ -1,0 +1,45 @@
+<% meters = t('units.m') %>
+<% base = 232 %>
+<% top = 36 %>
+<% y = ->(height) { (base - (height / chart['scale'].to_f * (base - top))).round(1) } %>
+<% step = 580.0 / chart['columns'].size %>
+<% width = [step * 0.5, 64].min %>
+<figure class="debrief-chart debrief-figure">
+  <figcaption class="debrief-chart__caption">
+    <span class="debrief-chart__title"><%= t('tracks.debriefs.charts.flare_potential') %></span>
+    <span class="debrief-chart__axes"><%= t('tracks.debriefs.charts.flare_potential_hint') %></span>
+  </figcaption>
+  <svg class="debrief-figure__svg" viewBox="0 0 640 310" role="img" aria-label="<%= t('tracks.debriefs.charts.flare_potential') %>">
+    <% (0..chart['scale']).step(20).each do |height| %>
+      <line class="debrief-figure__grid" x1="48" x2="632" y1="<%= y.call(height) %>" y2="<%= y.call(height) %>"></line>
+      <text class="debrief-figure__label" x="42" y="<%= y.call(height) + 4 %>" text-anchor="end"><%= height %> <%= meters %></text>
+    <% end %>
+    <% chart['columns'].each_with_index do |column, index| %>
+      <% center = (52 + (step * (index + 0.5))).round(1) %>
+      <% left = (center - (width / 2)).round(1) %>
+      <% possible = y.call(column['possible']) %>
+      <% gained = y.call(column['gain']) %>
+      <rect x="<%= left %>" y="<%= possible %>" width="<%= width %>" height="<%= (base - possible).round(1) %>" rx="3"
+            class="debrief-figure__outline" style="stroke: var(<%= column['color'] %>)"></rect>
+      <rect x="<%= left %>" y="<%= gained %>" width="<%= width %>" height="<%= (base - gained).round(1) %>" rx="2"
+            opacity="0.85" style="fill: var(<%= column['color'] %>)"></rect>
+      <text class="debrief-figure__label" x="<%= center %>" y="<%= possible - 8 %>" text-anchor="middle"><%= t('tracks.debriefs.charts.possible', height: "#{column['possible'].round} #{meters}") %></text>
+      <text class="debrief-figure__total debrief-figure__dark" x="<%= center %>" y="<%= gained - 6 %>" text-anchor="middle"><%= column['gain'] %> <%= meters %></text>
+      <% if index.zero? %>
+        <% typical = y.call(column['typical']) %>
+        <line class="debrief-figure__typical" x1="<%= left - 6 %>" x2="<%= left + width + 6 %>" y1="<%= typical %>" y2="<%= typical %>"></line>
+        <text class="debrief-figure__value" x="<%= left + width + 10 %>" y="<%= typical + 4 %>"><%= t('tracks.debriefs.charts.typical', height: "#{column['typical'].round} #{meters}") %></text>
+      <% end %>
+      <% name, place = column['name'].split(' · ', 2) %>
+      <% if column['track_id'] %>
+        <a href="<%= track_path(column['track_id']) %>"><text class="debrief-figure__name debrief-figure__link" x="<%= center %>" y="<%= base + 22 %>" text-anchor="middle"><%= name %></text></a>
+      <% else %>
+        <text class="debrief-figure__name" x="<%= center %>" y="<%= base + 22 %>" text-anchor="middle"><%= name %></text>
+      <% end %>
+      <% if place %>
+        <text class="debrief-figure__label" x="<%= center %>" y="<%= base + 44 %>" text-anchor="middle"><%= place %></text>
+      <% end %>
+      <text class="debrief-figure__label" x="<%= center %>" y="<%= base + (place ? 66 : 44) %>" text-anchor="middle"><%= column['speed'] %> <%= t('units.kmh') %><%= " · #{(column['efficiency'] * 100).round}%" if column['efficiency'] %></text>
+    <% end %>
+  </svg>
+</figure>

@@ -1,0 +1,14 @@
+<div id="<%= dom_id(debrief) %>" class="debrief-report">
+  <% if debrief.ready? %>
+    <div class="debrief-report__meta">
+      <%= t('tracks.debriefs.generated_at', date: l(debrief.generated_at, format: :short)) %>
+    </div>
+    <div class="debrief-report__body" lang="<%= debrief.locale %>">
+      <%= I18n.with_locale(debrief.locale) { debrief.document.render(self) } %>
+    </div>
+  <% elsif debrief.unsuccessful? %>
+    <p class="debrief-report__status debrief-report__status--failed"><%= t('tracks.debriefs.failed') %></p>
+  <% else %>
+    <p class="debrief-report__status" role="status"><%= t('tracks.debriefs.pending') %></p>
+  <% end %>
+</div>

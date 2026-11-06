@@ -923,6 +923,34 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_130000) do
     t.index ["user_id", "track_id"], name: "index_track_bookmarks_on_user_id_and_track_id", unique: true
   end
 
+  create_table "track_debriefs", force: :cascade do |t|
+    t.text "content"
+    t.decimal "cost_usd", precision: 10, scale: 5
+    t.datetime "created_at", null: false
+    t.string "discipline_key", null: false
+    t.text "error"
+    t.jsonb "evidence", default: {}, null: false
+    t.integer "feedback"
+    t.text "feedback_comment"
+    t.string "fingerprint", null: false
+    t.datetime "generated_at"
+    t.float "generation_seconds"
+    t.jsonb "inputs", default: {}, null: false
+    t.string "inputs_digest", null: false
+    t.string "locale", null: false
+    t.string "model"
+    t.integer "other_track_id"
+    t.string "prompt_version"
+    t.integer "status", default: 0, null: false
+    t.string "strategy", default: "opus_single", null: false
+    t.integer "track_id", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "usage"
+    t.integer "user_id"
+    t.index ["track_id", "discipline_key", "strategy", "locale", "created_at"], name: "index_track_debriefs_lookup"
+    t.index ["user_id"], name: "index_track_debriefs_on_user_id"
+  end
+
   create_table "track_exit_profiles", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.jsonb "distances", default: [], null: false
@@ -1257,6 +1285,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_130000) do
   add_foreign_key "tournaments", "profiles"
   add_foreign_key "track_bookmarks", "tracks", on_delete: :cascade
   add_foreign_key "track_bookmarks", "users", on_delete: :cascade
+  add_foreign_key "track_debriefs", "tracks", column: "other_track_id", on_delete: :cascade
+  add_foreign_key "track_debriefs", "tracks", on_delete: :cascade
+  add_foreign_key "track_debriefs", "users", on_delete: :cascade
   add_foreign_key "track_reference_points", "tracks"
   add_foreign_key "track_sensor_samples", "tracks", on_delete: :cascade
   add_foreign_key "tracks", "profiles"
