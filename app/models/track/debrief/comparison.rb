@@ -1,30 +1,34 @@
 class Track::Debrief::Comparison
   STRATEGY = 'comparison'.freeze
-  FOCUSES = %w[window flare].freeze
+  FOCUSES = %w[time distance speed flare].freeze
+  DEFAULT_FOCUS = 'distance'.freeze
 
   attr_reader :track, :other, :from, :to, :focus
 
-  def initialize(track, other, from:, to:, focus: 'window')
+  def initialize(track, other, from:, to:, focus: DEFAULT_FOCUS)
     @track = track
     @other = other
     @from = from.to_i
     @to = to.to_i
-    @focus = FOCUSES.include?(focus.to_s) ? focus.to_s : 'window'
+    @focus = self.class.focus_of(focus)
   end
+
+  def self.focus_of(value) = FOCUSES.include?(value.to_s) ? value.to_s : DEFAULT_FOCUS
 
   def self.from_debrief(debrief)
     settings = debrief.inputs['comparison'].to_h
-    new(debrief.track, debrief.other_track, from: settings['from'], to: settings['to'],
-                                            focus: settings['focus'] || 'window')
+    new(debrief.track, debrief.other_track, from: settings['from'], to: settings['to'], focus: settings['focus'])
   end
 
   def flare? = focus == 'flare'
 
-  def key = flare? ? "comparison-flare-#{other.id}" : "comparison-#{other.id}-#{from}-#{to}"
+  def phase = flare? ? 'flare' : 'window'
+
+  def key = flare? ? "comparison-flare-#{other.id}" : "comparison-#{focus}-#{other.id}-#{from}-#{to}"
 
   def valid? = other.present? && other != track && (flare? || from > to)
 
-  def measured? = [track, other].all? { |jump| metrics(jump)[focus].present? }
+  def measured? = [track, other].all? { |jump| metrics(jump)[phase].present? }
 
   def inputs
     {
@@ -42,7 +46,7 @@ class Track::Debrief::Comparison
 
   private
 
-  def window_spec = { 'kind' => 'distance', 'performance' => true, 'from_altitude' => from, 'to_altitude' => to }
+  def window_spec = { 'kind' => focus, 'performance' => true, 'from_altitude' => from, 'to_altitude' => to }
 
   def metrics(jump)
     @metrics ||= {}

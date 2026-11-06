@@ -4,12 +4,9 @@ module DebriefsHelper
 
     settings = debrief.inputs['comparison']
     name = debrief.other_track&.pilot&.name || debrief.other_track&.name
-    focus = if settings['focus'] == 'flare'
-              t('tracks.debriefs.focus.flare')
-            else
-              t('tracks.debriefs.windows.range', from: settings['from'], to: settings['to'])
-            end
-    [t('tracks.debriefs.comparison_title', name:), focus].join(' · ')
+    focus = Track::Debrief::Comparison.focus_of(settings['focus'])
+    window = t('tracks.debriefs.windows.range', from: settings['from'], to: settings['to']) unless focus == 'flare'
+    [t('tracks.debriefs.comparison_title', name:), t("tracks.debriefs.focus.#{focus}"), window].compact.join(' · ')
   end
 
   def debrief_discipline_label(discipline)

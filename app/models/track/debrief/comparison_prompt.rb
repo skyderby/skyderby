@@ -2,6 +2,15 @@ class Track::Debrief::ComparisonPrompt
   include Track::Debrief::PromptParts
 
   SERIES_STEPS = { 'window' => 1.0, 'flare' => 0.5 }.freeze
+  TASKS = {
+    'time' => 'The pilot asks about time: how long each jump takes to fall through the window. It is won by the ' \
+              'lowest vertical speed held through the whole window; horizontal speed matters only as far as it ' \
+              'keeps the wing flying, and a slow window starts in the run-up.',
+    'distance' => 'The pilot asks about distance: the straight-line horizontal distance across the window. It is ' \
+                  'won by the best glide at an efficient speed, held through the whole window on a straight line.',
+    'speed' => 'The pilot asks about speed: the average horizontal speed across the window. It is won by entering ' \
+               'the window already fast, after a dive above it, and holding a fast, straight line to the end.'
+  }.freeze
   OPENING = 'You are a wingsuit coach on Skyderby, a GPS track analysis site.'.freeze
 
   INTROS = {
@@ -81,7 +90,7 @@ class Track::Debrief::ComparisonPrompt
   end
 
   def system
-    [OPENING, KINDS.fetch(kind), substitute(INTROS.fetch(focus)), GOOD, focus_notes, MOVING_AIR, WORDS_TEXT,
+    [OPENING, KINDS.fetch(kind), substitute(INTROS.fetch(phase)), GOOD, focus_notes, MOVING_AIR, WORDS_TEXT,
      format_text, (READER unless debrief.read_by_pilot?)].compact.join("\n")
   end
 
@@ -92,7 +101,7 @@ class Track::Debrief::ComparisonPrompt
       The pilot's jump (self) and the second jump (track:#{other_id}):
       #{JSON.pretty_generate(summary)}
 
-      #{SERIES.fetch(focus)}
+      #{SERIES.fetch(phase)}
       #{JSON.generate(series)}
     MESSAGE
   end
@@ -103,7 +112,9 @@ class Track::Debrief::ComparisonPrompt
 
   def comparison = debrief.inputs['comparison'].to_h
 
-  def focus = comparison['focus'] || 'window'
+  def focus = Track::Debrief::Comparison.focus_of(comparison['focus'])
+
+  def phase = focus == 'flare' ? 'flare' : 'window'
 
   def kind = debrief.track&.skydive? ? 'skydive' : 'base'
 
@@ -113,10 +124,10 @@ class Track::Debrief::ComparisonPrompt
     text.gsub('FROM', comparison['from'].to_s).gsub('TO m', "#{comparison['to']} m").gsub('OTHER', other_id.to_s)
   end
 
-  def focus_notes = focus == 'flare' ? PARTS.fetch('flare') : RUN_UP.strip
+  def focus_notes = focus == 'flare' ? PARTS.fetch('flare') : [TASKS.fetch(focus), RUN_UP.strip].join(' ')
 
   def format_text
-    substitute(FORMAT_TEXT.sub('PHASE', focus).sub('REPLAY', REPLAYS.fetch(focus)).sub('CHARTS', CHARTS.fetch(focus)))
+    substitute(FORMAT_TEXT.sub('PHASE', phase).sub('REPLAY', REPLAYS.fetch(phase)).sub('CHARTS', CHARTS.fetch(phase)))
       .sub('METRIC_KEYS', metric_keys)
   end
 
@@ -131,14 +142,14 @@ class Track::Debrief::ComparisonPrompt
 
   def summary
     jumps.transform_values do |jump|
-      jump.except('metrics').merge(focus => jump.dig('metrics', focus)&.except('series'))
+      jump.except('metrics').merge(phase => jump.dig('metrics', phase)&.except('series'))
     end
   end
 
   def series
-    step = SERIES_STEPS.fetch(focus)
+    step = SERIES_STEPS.fetch(phase)
     jumps.transform_values do |jump|
-      rows = jump.dig('metrics', focus, 'series').to_a
+      rows = jump.dig('metrics', phase, 'series').to_a
       rows.each_with_object([]) do |row, picked|
         picked << row.map { |value| value.round(1) } if picked.empty? || row.first - picked.last.first >= step - 0.01
       end

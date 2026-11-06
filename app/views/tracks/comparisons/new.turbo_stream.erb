@@ -1,0 +1,21 @@
+<%= turbo_stream.update 'modal-root' do %>
+  <%= render layout: 'components/dialog', locals: { title: t('tracks.debriefs.focus.title') } do %>
+    <%= form_with url: track_comparisons_path(@page.track), class: 'comparison-focus' do |form| %>
+      <%= form.hidden_field :other_track_id, value: @other.id %>
+      <%= form.hidden_field :from, value: @window[:from] %>
+      <%= form.hidden_field :to, value: @window[:to] %>
+      <p class="comparison-focus__intro">
+        <%= t('tracks.debriefs.focus.intro', name: @other.pilot&.name || @other.name, from: @window[:from], to: @window[:to]) %>
+      </p>
+      <div class="form-radio-group">
+        <% Track::Debrief::Comparison::FOCUSES.each do |focus| %>
+          <label class="form-radio">
+            <%= form.radio_button :focus, focus, checked: focus == Track::Debrief::Comparison::DEFAULT_FOCUS %>
+            <%= t("tracks.debriefs.focus.#{focus}") %>
+          </label>
+        <% end %>
+      </div>
+      <%= form.submit t('tracks.debriefs.explain'), class: 'button button--primary' %>
+    <% end %>
+  <% end %>
+<% end %>

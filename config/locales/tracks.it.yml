@@ -47,8 +47,11 @@ it:
       explain: "Spiega la differenza"
       comparison_title: "Confronto con %{name}"
       focus:
-        label: "Confronta"
-        window: "Finestra a schermo"
+        title: "Cosa confrontare?"
+        intro: "Il tuo salto contro %{name}. Tempo, distanza e velocità si confrontano nella finestra %{from}–%{to} m scelta a schermo, il flare con la salita più alta di ogni salto."
+        time: "Tempo"
+        distance: "Distanza"
+        speed: "Velocità"
         flare: "Flare"
       feedback:
         question: "Questo debriefing è stato utile?"

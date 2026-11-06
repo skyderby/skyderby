@@ -10,6 +10,17 @@ class Tracks::ComparisonsControllerTest < ActionDispatch::IntegrationTest
     @other = skydive_track(Profile.create!(name: 'Other Pilot'))
   end
 
+  test 'asks in a modal what to compare' do
+    sign_in users(:admin)
+
+    get new_track_comparison_path(@track, other_track_id: @other.id, from: 2500, to: 1500), as: :turbo_stream
+
+    assert_response :success
+    assert_select 'input[type=radio][name=focus]', 4
+    assert_select 'input[type=radio][name=focus][value=time]'
+    assert_select 'input[type=hidden][name=from][value=?]', '2500'
+  end
+
   test 'explains the difference between two jumps in the window from the screen' do
     sign_in users(:admin)
 
@@ -20,10 +31,21 @@ class Tracks::ComparisonsControllerTest < ActionDispatch::IntegrationTest
     debrief = @track.debriefs.last
     assert_redirected_to track_debrief_path(@track, debrief)
     assert_equal [@other, users(:admin), 'comparison'], [debrief.other_track, debrief.user, debrief.strategy]
-    assert_equal({ 'other_track_id' => @other.id, 'focus' => 'window', 'from' => 2500, 'to' => 1500 },
+    assert_equal({ 'other_track_id' => @other.id, 'focus' => 'distance', 'from' => 2500, 'to' => 1500 },
                  debrief.inputs['comparison'])
     assert_equal 2500, debrief.inputs.dig('jump', 'metrics', 'window', 'from_altitude')
     assert_predicate debrief.evidence.dig('tracks', @other.id.to_s, 'metrics', 'window', 'segments'), :present?
+  end
+
+  test 'measures and briefs the comparison on the chosen performance task' do
+    comparison = Track::Debrief::Comparison.new(@track, @other, from: 2500, to: 1500, focus: 'time')
+    debrief = Track::Debrief.new(track: @track, user: users(:admin), other_track: @other, inputs: comparison.inputs,
+                                 evidence: comparison.evidence)
+    window = comparison.inputs.dig('jump', 'metrics', 'window')
+
+    assert_equal "comparison-time-#{@other.id}-2500-1500", comparison.key
+    assert_in_delta window['duration'], window['result'], 0.2
+    assert_includes Track::Debrief::ComparisonPrompt.new(debrief).system, 'The pilot asks about time'
   end
 
   test 'compares the flares of two jumps when the pilot picks the flare' do

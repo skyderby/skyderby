@@ -576,14 +576,22 @@
   gap: 6px;
 }
 
-.skydive-performance-explain .skydive-performance-explain__focus {
-  width: auto;
-  max-width: 10.5rem;
-  padding-block: 0.25rem;
-}
-
 .skydive-performance-explain .actions-bar-button {
   white-space: nowrap;
+}
+
+.comparison-focus {
+  display: grid;
+  gap: 16px;
+}
+
+.comparison-focus__intro {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.comparison-focus .button {
+  justify-self: start;
 }
 
 @media (max-width: 600px) {

@@ -47,8 +47,11 @@ en:
       explain: "Explain the difference"
       comparison_title: "Comparison with %{name}"
       focus:
-        label: "Compare"
-        window: "Window on screen"
+        title: "What to compare?"
+        intro: "Your jump against %{name}. Time, distance and speed are compared in the %{from}–%{to} m window selected on screen; the flare by the highest climb of each jump."
+        time: "Time"
+        distance: "Distance"
+        speed: "Speed"
         flare: "Flare"
       feedback:
         question: "Was this debrief useful?"
