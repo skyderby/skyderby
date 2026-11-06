@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.33.0",
-    "@amplitude/plugin-session-replay-browser": "^1.25.4",
     "@googlemaps/markerclusterer": "^2.5.3",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/stimulus-webpack-helpers": "^1.0.1",

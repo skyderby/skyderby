@@ -1,5 +1,4 @@
 import * as amplitude from '@amplitude/analytics-browser'
-import * as sessionReplay from '@amplitude/plugin-session-replay-browser'
 
 const apiKey = document.querySelector('meta[name="amplitude-api-key"]')?.content
 
@@ -59,7 +58,6 @@ export const start = () => {
     }
 
     amplitude.init(apiKey, userId, options)
-    amplitude.add(sessionReplay.plugin({ sampleRate: 1, useWebWorker: true }))
     amplitude.add(trackPageEnrichmentPlugin())
     initialized = true
   }
