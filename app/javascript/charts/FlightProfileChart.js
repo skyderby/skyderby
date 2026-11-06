@@ -451,6 +451,8 @@ export default class FlightProfileChart {
     else this.profileHost.prepend(svg)
     this.profileSvg = svg
     this.profileMarkers = svg.querySelector('.fp-markers')
+    this.playbackLayer = svg.querySelector('.fp-playback')
+    this.drawPlayback()
 
     this.animatePaths(svg, '.fp-series', this.drawn, this.animating)
   }

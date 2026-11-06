@@ -17,6 +17,18 @@ es:
       locked_prefix: "%{count} más el %{date} o"
       unlock: Desbloquear ilimitado
       unlock_features: Pro View y Compare
+    playback:
+      replay: "Reproducir"
+      speed_label: "Vel"
+      time_from_exit: "Tiempo desde la salida"
+      seconds: "s"
+      remaining: "Reproducciones gratis %{count} / %{limit}"
+      limit_reached_title: "Este mes has reproducido %{limit} tracks"
+      limit_partial_title: "Solo quedan %{count} reproducciones gratis este mes"
+      limit_reached_body: "Reproduce cualquier track con Pro o espera hasta el %{date}. Los tracks ya reproducidos siguen siendo gratis."
+      unlock: "Desbloquear sin límites"
+      sign_up_to_replay: "Regístrate para reproducir"
+      close: "Cerrar"
     show:
       select_jump_line: Seleccionar línea de salto
     filters:

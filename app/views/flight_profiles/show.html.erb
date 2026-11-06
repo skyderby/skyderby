@@ -2,6 +2,7 @@
 <% provide :page_class, 'fullscreen' %>
 
 <div class="explorer" data-controller="flight-profiles" data-flight-profiles-labels-value="<%= js_labels(:units, :flight_profiles) %>"
+     data-flight-profiles-playback-url-value="<%= flight_profiles_playback_path %>"
      data-flight-profiles-terrain-profiles-url-value="<%= terrain_profiles_select_options_path %>"
      data-flight-profiles-measurements-url-template-value="<%= terrain_profile_measurements_path('__ID__') %>">
   <aside class="explorer-sidebar" data-controller="toggleable" data-toggle-class="collapsed">
@@ -99,6 +100,7 @@
       <% end %>
 
       <div class="fp-profile" data-flight-profiles-target="profileHost"></div>
+      <%= render 'flight_profiles/playback' %>
       <div class="flight-profiles-tagbar" data-flight-profiles-target="tagbar">
         <template data-flight-profiles-target="tagTemplate">
           <div class="filter-tag">

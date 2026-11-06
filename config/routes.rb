@@ -140,6 +140,9 @@ Skyderby::Application.routes.draw do
           resource :renumbering, only: :create, module: :jumps
         end
       end
+      resource :flight_profiles, only: [] do
+        resource :playback, only: %i[show create], module: :flight_profiles
+      end
       resources :terrain_profiles, only: %i[index show create update destroy] do
         scope module: :terrain_profiles do
           resources :shares, only: %i[index create destroy]
@@ -523,7 +526,9 @@ Skyderby::Application.routes.draw do
   end
   resources :badges
 
-  resource :flight_profiles, only: :show
+  resource :flight_profiles, only: :show do
+    resource :playback, only: :create, module: :flight_profiles
+  end
 
   resources :terrain_profiles, path: 'terrain-profiles', except: :show do
     scope module: :terrain_profiles do

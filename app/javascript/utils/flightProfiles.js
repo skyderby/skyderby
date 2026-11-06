@@ -52,9 +52,10 @@ export const calculateFlightProfile = (points, straightLine) => {
       x: distance,
       y: Math.round(Math.max(0, firstPoint.altitude - point.altitude)),
       custom: {
-        fullSpeed: Math.round(msToKmh(point.fullSpeed)),
-        hSpeed: Math.round(msToKmh(point.hSpeed)),
-        vSpeed: Math.round(msToKmh(point.vSpeed))
+        time: (point.flTime ?? 0) - (firstPoint.flTime ?? 0),
+        fullSpeed: msToKmh(point.fullSpeed),
+        hSpeed: msToKmh(point.hSpeed),
+        vSpeed: msToKmh(point.vSpeed)
       }
     }
   })

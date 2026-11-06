@@ -1,12 +1,7 @@
 import { svgEl } from 'charts/svg/elements'
+import { escapeHtml } from 'utils/templates'
 const MARGIN = { top: 12, right: 14, bottom: 26, left: 44 }
 const SERIES_COUNT = 6
-
-const escapeHtml = value =>
-  String(value).replace(
-    /[&<>"]/g,
-    char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[char]
-  )
 
 const niceTicks = (min, max, count = 5) => {
   const span = max - min || 1
