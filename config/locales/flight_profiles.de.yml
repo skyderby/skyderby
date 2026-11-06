@@ -24,6 +24,7 @@ de:
       seconds: "s"
       remaining: "Freie Wiedergaben %{count} / %{limit}"
       limit_reached_title: "Du hast diesen Monat %{limit} Tracks abgespielt"
+      limit_partial_title: "Diesen Monat nur noch %{count} freie Wiedergaben"
       limit_reached_body: "Spiele jeden Track mit Pro ab oder warte bis %{date}. Bereits abgespielte Tracks bleiben kostenlos."
       unlock: "Unbegrenzt freischalten"
       guest_title: "Sprünge nebeneinander abspielen"

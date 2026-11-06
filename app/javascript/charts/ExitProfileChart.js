@@ -1,4 +1,5 @@
 import { svgEl } from 'charts/svg/elements'
+import { escapeHtml } from 'utils/templates'
 const MARGIN = { top: 24, right: 18, bottom: 44, left: 46 }
 const PALETTE = [
   '--blue-70',
@@ -10,12 +11,6 @@ const PALETTE = [
 ]
 const TERRAIN_COLOR = '#b88e8d'
 const MAX_PLOT_HEIGHT = 520
-
-const escapeHtml = value =>
-  String(value).replace(
-    /[&<>"]/g,
-    char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[char]
-  )
 
 const niceTicks = (max, count = 5) => {
   const raw = max / count

@@ -24,6 +24,7 @@ es:
       seconds: "s"
       remaining: "Reproducciones gratis %{count} / %{limit}"
       limit_reached_title: "Este mes has reproducido %{limit} tracks"
+      limit_partial_title: "Solo quedan %{count} reproducciones gratis este mes"
       limit_reached_body: "Reproduce cualquier track con Pro o espera hasta el %{date}. Los tracks ya reproducidos siguen siendo gratis."
       unlock: "Desbloquear sin límites"
       guest_title: "Reproduce saltos lado a lado"

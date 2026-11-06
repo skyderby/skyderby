@@ -17,3 +17,9 @@ export const fillSlots = (root, values) => {
   })
   return root
 }
+
+export const escapeHtml = value =>
+  String(value ?? '').replace(
+    /[&<>"]/g,
+    char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[char]
+  )

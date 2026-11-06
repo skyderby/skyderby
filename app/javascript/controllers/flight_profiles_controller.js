@@ -5,18 +5,12 @@ import { fetchTrackPoints } from 'utils/tracks/trackData'
 import FlightProfileChart from 'charts/FlightProfileChart'
 import amplitude from 'utils/amplitude'
 import { accelerationHtml } from 'charts/svg/format'
-import { cloneTemplate, fillSlots, slot } from 'utils/templates'
+import { cloneTemplate, escapeHtml, fillSlots, slot } from 'utils/templates'
 import {
   layoutLabels,
   playbackStateAt,
   profileDuration
 } from 'utils/flightProfilePlayback'
-
-const escapeHtml = text => {
-  const node = document.createElement('span')
-  node.textContent = text
-  return node.innerHTML
-}
 
 const round = value => String(Math.round(value))
 
@@ -37,6 +31,7 @@ export default class FlightProfilesController extends LabeledController {
     'clock',
     'playbackMeta',
     'playbackPrompt',
+    'playbackPromptTitle',
     'labelTemplate'
   ]
 
@@ -95,6 +90,9 @@ export default class FlightProfilesController extends LabeledController {
 
   disconnect() {
     this.pause()
+    this.labelsLayer?.remove()
+    this.labelsLayer = null
+    this.labelElements = null
     window.removeEventListener('resize', this.resizeCharts)
     this.chart?.destroy()
   }
@@ -390,10 +388,18 @@ export default class FlightProfilesController extends LabeledController {
       this.pause()
       return
     }
+    if (this.requestingPlayback) return
 
     const ids = this.playbackTrackIds
     if (!ids.length) return
-    if (!(await this.ensurePlaybackAllowed(ids))) return
+
+    this.requestingPlayback = true
+    try {
+      if (!(await this.ensurePlaybackAllowed(ids))) return
+    } finally {
+      this.requestingPlayback = false
+    }
+    if (!this.playbackAllowed(this.playbackTrackIds)) return
 
     const duration = this.playbackDuration
     if (this.playerTime >= duration) this.playerTime = 0
@@ -421,6 +427,8 @@ export default class FlightProfilesController extends LabeledController {
       body: { track_ids: ids },
       responseKind: 'json'
     })
+    if (!response.ok && response.statusCode !== 401) return false
+
     const body = await response.json
 
     if (body.status === 'sign_in_required') {
@@ -434,6 +442,7 @@ export default class FlightProfilesController extends LabeledController {
     this.updatePlaybackControls()
 
     if (body.status === 'limit_reached') {
+      this.updatePlaybackPromptTitle()
       this.showPlaybackPrompt()
       this.trackPlaybackEvent('flight_profiles_playback_quota_exhausted', ids)
       return false
@@ -444,6 +453,17 @@ export default class FlightProfilesController extends LabeledController {
 
   showPlaybackPrompt() {
     if (this.hasPlaybackPromptTarget) this.playbackPromptTarget.hidden = false
+  }
+
+  updatePlaybackPromptTitle() {
+    if (!this.hasPlaybackPromptTitleTarget) return
+
+    const { remaining, limit } = this.quota
+    this.playbackPromptTitleTarget.textContent = remaining
+      ? this.labels.t('flight_profiles.playback.limit_partial_title', {
+          count: remaining
+        })
+      : this.labels.t('flight_profiles.playback.limit_reached_title', { limit })
   }
 
   hidePlaybackPrompt() {
@@ -537,7 +557,7 @@ export default class FlightProfilesController extends LabeledController {
     if (!positions.length) return
 
     const meters = value => `${Math.round(value)} ${this.labels.t('units.m')}`
-    const items = positions.map(position => {
+    const elements = positions.map(position => {
       const element = this.labelElement(position.id)
       const { acceleration } = position
       fillSlots(element, {
@@ -553,15 +573,16 @@ export default class FlightProfilesController extends LabeledController {
       )
       slot(element, 'vAccel').innerHTML = accelerationHtml(acceleration?.vSpeedAccel)
       slot(element, 'hAccel').innerHTML = accelerationHtml(acceleration?.hSpeedAccel)
-
-      return {
-        element,
-        px: this.chart.x(position.x),
-        py: this.chart.yProfile(position.y),
-        width: element.offsetWidth,
-        height: element.offsetHeight
-      }
+      return element
     })
+
+    const items = positions.map((position, index) => ({
+      element: elements[index],
+      px: this.chart.x(position.x),
+      py: this.chart.yProfile(position.y),
+      width: elements[index].offsetWidth,
+      height: elements[index].offsetHeight
+    }))
 
     layoutLabels(items, width, height)
     items.forEach(({ element, left, top }) => {

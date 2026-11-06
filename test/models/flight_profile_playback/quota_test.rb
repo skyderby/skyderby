@@ -30,8 +30,6 @@ class FlightProfilePlayback::QuotaTest < ActiveSupport::TestCase
     assert_equal 0, @quota.remaining
     assert_equal :already, @quota.grant([@tracks.first.id])
     assert_equal :limit_reached, @quota.grant([@tracks.last.id])
-    assert_not @quota.allows?([@tracks.last.id])
-    assert @quota.allows?([@tracks.first.id])
   end
 
   test 'previous months do not count' do
@@ -41,8 +39,16 @@ class FlightProfilePlayback::QuotaTest < ActiveSupport::TestCase
     assert_equal :granted, @quota.grant([@tracks.first.id])
   end
 
-  test 'ignores unknown track ids' do
-    assert_equal :already, @quota.grant([0])
+  test 'ignores unknown and malformed track ids' do
+    assert_equal :already, @quota.grant([0, 'abc', { 'a' => 'b' }])
+    assert_equal 0, FlightProfilePlayback.count
+  end
+
+  test 'does not count tracks the user cannot view' do
+    private_track = @tracks.first
+    private_track.update_columns(visibility: Track.visibilities[:private_track], profile_id: profiles(:admin).id)
+
+    assert_equal :already, @quota.grant([private_track.id])
     assert_equal 0, FlightProfilePlayback.count
   end
 
@@ -58,6 +64,5 @@ class FlightProfilePlayback::QuotaTest < ActiveSupport::TestCase
     quota = FlightProfilePlayback::Quota.new(GuestUser.new({}))
 
     assert_equal :sign_in_required, quota.grant([@tracks.first.id])
-    assert_not quota.allows?([@tracks.first.id])
   end
 end

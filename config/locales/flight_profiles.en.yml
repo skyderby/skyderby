@@ -24,6 +24,7 @@ en:
       seconds: "s"
       remaining: "Free replays %{count} / %{limit}"
       limit_reached_title: "You have replayed %{limit} tracks this month"
+      limit_partial_title: "Only %{count} free replays left this month"
       limit_reached_body: "Replay any track with Pro or wait until %{date}. Tracks you already replayed stay free."
       unlock: "Unlock unlimited replays"
       guest_title: "Replay jumps side by side"

@@ -34,15 +34,14 @@ module JsLabelsHelper
     flight_profiles: %w[
       flight_profiles.zoom_all
       flight_profiles.zoom_to_first
-      flight_profiles.full_speed
-      flight_profiles.ground_speed
-      flight_profiles.vertical_speed
       flight_profiles.distance_traveled
       flight_profiles.distance_to_terrain
       flight_profiles.playback.speed_label
       flight_profiles.playback.time_from_exit
       flight_profiles.playback.seconds
       flight_profiles.playback.remaining
+      flight_profiles.playback.limit_reached_title
+      flight_profiles.playback.limit_partial_title
     ],
     video_form: %w[
       tracks.edit.elev_chart
