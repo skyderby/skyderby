@@ -1,6 +1,6 @@
 const GLIDE_ONE_HOLD = 3
 
-const SYNC_VERTICAL_SPEED = 10
+export const SYNC_VERTICAL_SPEED = 10
 
 const glideOf = point => (point.vSpeed > 0 ? point.hSpeed / point.vSpeed : Infinity)
 

@@ -29,6 +29,17 @@ describe('positionAt', () => {
     expect(positionAt(profile, 2.01)).toBeNull()
     expect(positionAt([], 0)).toBeNull()
   })
+
+  it('returns nothing before the profile starts', () => {
+    const synced = [
+      point(-1, 0, 0, 0, 0),
+      point(0, 5, 2, 10, 20),
+      point(1, 15, 22, 20, 40)
+    ]
+
+    expect(positionAt(synced, -1.5)).toBeNull()
+    expect(positionAt(synced, -0.5).x).toBeCloseTo(2.5)
+  })
 })
 
 describe('playbackStateAt', () => {
