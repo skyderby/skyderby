@@ -1,4 +1,5 @@
 import { vincentyDistance } from './geo'
+import { SYNC_VERTICAL_SPEED } from './tracks/jumpMarks'
 
 const msToKmh = value => value * 3.6
 
@@ -34,9 +35,17 @@ const distanceToTerrainValue = value => {
 
 const distanceToTerrainY = y => Math.max(1, Math.min(y, 120))
 
+const syncFlTime = points => {
+  const sync =
+    points.find(point => msToKmh(point.vSpeed) >= SYNC_VERTICAL_SPEED) ?? points[0]
+  return sync.flTime ?? 0
+}
+
 export const calculateFlightProfile = (points, straightLine) => {
   const firstPoint = points[0]
   if (!firstPoint) return []
+
+  const syncTime = syncFlTime(points)
 
   let accumulatedDistance = 0
 
@@ -52,7 +61,7 @@ export const calculateFlightProfile = (points, straightLine) => {
       x: distance,
       y: Math.round(Math.max(0, firstPoint.altitude - point.altitude)),
       custom: {
-        time: (point.flTime ?? 0) - (firstPoint.flTime ?? 0),
+        time: (point.flTime ?? 0) - syncTime,
         fullSpeed: msToKmh(point.fullSpeed),
         hSpeed: msToKmh(point.hSpeed),
         vSpeed: msToKmh(point.vSpeed)
