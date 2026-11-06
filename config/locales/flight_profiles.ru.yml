@@ -22,7 +22,7 @@ ru:
       speed_label: "Скор"
       time_from_exit: "Время от отделения"
       seconds: "с"
-      remaining: "Бесплатных повторов в этом месяце %{count} / %{limit}"
+      remaining: "Бесплатные повторы %{count} / %{limit}"
       limit_reached_title: "В этом месяце вы уже воспроизвели %{limit} треков"
       limit_reached_body: "Воспроизводите любые треки с Pro или дождитесь %{date}. Уже воспроизведённые треки остаются бесплатными."
       unlock: "Открыть без лимита"

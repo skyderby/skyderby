@@ -22,7 +22,7 @@ en:
       speed_label: "Spd"
       time_from_exit: "Time from exit"
       seconds: "s"
-      remaining: "Free replays left this month %{count} / %{limit}"
+      remaining: "Free replays %{count} / %{limit}"
       limit_reached_title: "You have replayed %{limit} tracks this month"
       limit_reached_body: "Replay any track with Pro or wait until %{date}. Tracks you already replayed stay free."
       unlock: "Unlock unlimited replays"
