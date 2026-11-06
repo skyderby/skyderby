@@ -27,9 +27,7 @@ it:
       limit_partial_title: "Solo %{count} riproduzioni gratuite rimaste questo mese"
       limit_reached_body: "Riproduci qualsiasi traccia con Pro o attendi fino al %{date}. Le tracce già riprodotte restano gratuite."
       unlock: "Sblocca senza limiti"
-      guest_title: "Riproduci i salti fianco a fianco"
-      guest_body: "Crea un account gratuito per riprodurre %{limit} tracce ogni mese."
-      sign_up: "Crea account gratuito"
+      sign_up_to_replay: "Registrati per riprodurre"
       close: "Chiudi"
     show:
       select_jump_line: Profilo del terreno

@@ -357,7 +357,7 @@ export default class FlightProfilesController extends LabeledController {
     if (!this.hasPlayButtonTarget) return
 
     const ids = this.playbackTrackIds
-    this.playButtonTarget.disabled = ids.length === 0
+    this.playButtonTarget.disabled = ids.length === 0 || this.quota?.state === 'guest'
     this.sliderTarget.disabled = ids.length === 0 || !this.playbackAllowed(ids)
 
     if (this.hasPlaybackMetaTarget) {
@@ -417,11 +417,7 @@ export default class FlightProfilesController extends LabeledController {
   async ensurePlaybackAllowed(ids) {
     if (this.playbackAllowed(ids)) return true
 
-    if (this.quota?.state === 'guest') {
-      this.showPlaybackPrompt()
-      this.trackPlaybackEvent('flight_profiles_playback_signup_prompted', ids)
-      return false
-    }
+    if (this.quota?.state === 'guest') return false
 
     const response = await post(this.playbackUrlValue, {
       body: { track_ids: ids },
@@ -433,7 +429,8 @@ export default class FlightProfilesController extends LabeledController {
 
     if (body.status === 'sign_in_required') {
       this.quota.state = 'guest'
-      return this.ensurePlaybackAllowed(ids)
+      this.updatePlaybackControls()
+      return false
     }
 
     this.quota.remaining = body.remaining

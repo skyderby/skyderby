@@ -27,9 +27,7 @@ en:
       limit_partial_title: "Only %{count} free replays left this month"
       limit_reached_body: "Replay any track with Pro or wait until %{date}. Tracks you already replayed stay free."
       unlock: "Unlock unlimited replays"
-      guest_title: "Replay jumps side by side"
-      guest_body: "Create a free account to replay %{limit} tracks every month."
-      sign_up: "Create free account"
+      sign_up_to_replay: "Sign up to replay"
       close: "Close"
     show:
       select_jump_line: Select jump line

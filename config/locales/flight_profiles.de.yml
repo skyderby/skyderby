@@ -27,9 +27,7 @@ de:
       limit_partial_title: "Diesen Monat nur noch %{count} freie Wiedergaben"
       limit_reached_body: "Spiele jeden Track mit Pro ab oder warte bis %{date}. Bereits abgespielte Tracks bleiben kostenlos."
       unlock: "Unbegrenzt freischalten"
-      guest_title: "Sprünge nebeneinander abspielen"
-      guest_body: "Erstelle ein kostenloses Konto, um jeden Monat %{limit} Tracks abzuspielen."
-      sign_up: "Kostenloses Konto erstellen"
+      sign_up_to_replay: "Zum Abspielen registrieren"
       close: "Schließen"
     show:
       select_jump_line: Sprunglinie auswählen

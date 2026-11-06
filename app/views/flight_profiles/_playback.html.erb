@@ -24,19 +24,15 @@
            data-flight-profiles-target="slider"
            data-action="input->flight-profiles#seek">
     <span class="fp-playback__clock" data-flight-profiles-target="clock">0.0 <%= t('flight_profiles.playback.seconds') %></span>
-    <span class="fp-playback__meta" data-flight-profiles-target="playbackMeta"></span>
+    <% if state == 'guest' %>
+      <%= link_to t('flight_profiles.playback.sign_up_to_replay'), new_user_registration_path,
+            class: 'fp-playback__signup', data: { action: 'flight-profiles#trackPlaybackCta' } %>
+    <% else %>
+      <span class="fp-playback__meta" data-flight-profiles-target="playbackMeta"></span>
+    <% end %>
   </div>
 
-  <% if state == 'guest' %>
-    <div class="fp-pro-cta fp-pro-cta--playback" hidden data-flight-profiles-target="playbackPrompt">
-      <span class="fp-pro-cta__title"><%= t('flight_profiles.playback.guest_title') %></span>
-      <span class="fp-pro-cta__prefix"><%= t('flight_profiles.playback.guest_body', limit: quota.limit) %></span>
-      <%= link_to t('flight_profiles.playback.sign_up'), new_user_registration_path,
-            class: 'fp-pro-cta__button', data: { action: 'flight-profiles#trackPlaybackCta' } %>
-      <button type="button" class="fp-pro-cta__close" aria-label="<%= t('flight_profiles.playback.close') %>"
-              data-action="flight-profiles#hidePlaybackPrompt">×</button>
-    </div>
-  <% elsif state == 'free' %>
+  <% if state == 'free' %>
     <div class="fp-pro-cta fp-pro-cta--playback" hidden data-flight-profiles-target="playbackPrompt">
       <span class="fp-pro-cta__title" data-flight-profiles-target="playbackPromptTitle"><%= t('flight_profiles.playback.limit_reached_title', limit: quota.limit) %></span>
       <span class="fp-pro-cta__prefix">

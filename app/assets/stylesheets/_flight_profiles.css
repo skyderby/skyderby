@@ -292,6 +292,13 @@
   color: var(--text-secondary);
 }
 
+.fp-playback__signup {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
 .fp-playback__meta:empty {
   display: none;
 }
