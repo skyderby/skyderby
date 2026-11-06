@@ -285,7 +285,7 @@ export default class FlightProfilesController extends LabeledController {
     const cta = this.proCtaTarget
     const ids = Array.from(this.selectedTracks)
 
-    if (ids.length !== 1 && ids.length !== 2) {
+    if (this.replayUsed || (ids.length !== 1 && ids.length !== 2)) {
       cta.hidden = true
       return
     }
@@ -399,6 +399,9 @@ export default class FlightProfilesController extends LabeledController {
     if (this.playerTime >= duration) this.playerTime = 0
     if (this.playerTime === 0)
       this.trackPlaybackEvent('flight_profiles_playback_started', ids)
+
+    this.replayUsed = true
+    this.updateProCta()
 
     this.lastFrame = performance.now()
     this.playButtonTarget.classList.add('playing')
