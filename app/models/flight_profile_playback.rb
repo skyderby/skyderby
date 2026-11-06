@@ -4,7 +4,5 @@ class FlightProfilePlayback < ApplicationRecord
   belongs_to :user
   belongs_to :track
 
-  validates :track_id, uniqueness: { scope: %i[user_id month] }
-
   scope :current_month, -> { where(month: Date.current.beginning_of_month) }
 end

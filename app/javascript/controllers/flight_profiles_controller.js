@@ -399,12 +399,13 @@ export default class FlightProfilesController extends LabeledController {
     } finally {
       this.requestingPlayback = false
     }
-    if (!this.playbackAllowed(this.playbackTrackIds)) return
+    const playable = this.playbackTrackIds
+    if (!this.playbackAllowed(playable)) return
 
     const duration = this.playbackDuration
     if (this.playerTime >= duration) this.playerTime = 0
     if (this.playerTime === 0)
-      this.trackPlaybackEvent('flight_profiles_playback_started', ids)
+      this.trackPlaybackEvent('flight_profiles_playback_started', playable)
 
     this.replayUsed = true
     this.updateProCta()
@@ -518,6 +519,7 @@ export default class FlightProfilesController extends LabeledController {
     this.playbackPositions =
       time < duration
         ? this.playbackTrackIds.flatMap(id => {
+            if (!this.playbackAllowed([id])) return []
             const state = playbackStateAt(this.profiles.get(id), time)
             return state ? [{ id, ...state }] : []
           })
@@ -700,7 +702,7 @@ export default class FlightProfilesController extends LabeledController {
     const custom = sample.custom || {}
     return `
       <div class="fp-tooltip-row">
-        <span class="fp-tooltip-name" style="color: var(${track.colorVar})">${track.name}</span>
+        <span class="fp-tooltip-name" style="color: var(${track.colorVar})">${escapeHtml(track.name)}</span>
         <span><b>${this.labels.t('flight_profiles.distance_traveled')}:</b>
           ${Math.round(sample.x)} ${this.labels.t('units.m')}</span>
         <span><b>${this.labels.t('flight_profiles.distance_to_terrain')}:</b>
@@ -712,7 +714,7 @@ export default class FlightProfilesController extends LabeledController {
   terrainTooltip = (sample, terrain) => {
     return `
       <div class="fp-tooltip-row">
-        <span class="fp-tooltip-name fp-tooltip-name--terrain">${terrain.name}</span>
+        <span class="fp-tooltip-name fp-tooltip-name--terrain">${escapeHtml(terrain.name)}</span>
         <span>↓${Math.round(sample.y)} ${this.labels.t('units.m')}
           →${Math.round(sample.x)} ${this.labels.t('units.m')}</span>
       </div>

@@ -12,7 +12,8 @@ class FlightProfilePlayback::Quota
   def available? = user.registered?
 
   def counted_track_ids
-    @counted_track_ids ||= available? ? FlightProfilePlayback.current_month.where(user:).pluck(:track_id) : []
+    @counted_track_ids ||=
+      available? && !unlimited? ? FlightProfilePlayback.current_month.where(user:).pluck(:track_id) : []
   end
 
   def remaining = [limit - counted_track_ids.size, 0].max
