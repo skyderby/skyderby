@@ -17,6 +17,19 @@ it:
       locked_prefix: "%{count} in più il %{date} o"
       unlock: Sblocca illimitato
       unlock_features: Pro View e Compare
+    playback:
+      replay: "Riproduci"
+      speed_label: "Vel"
+      time_from_exit: "Tempo dall'uscita"
+      seconds: "s"
+      remaining: "Riproduzioni gratuite rimaste questo mese: %{count} di %{limit}"
+      limit_reached_title: "Questo mese hai riprodotto %{limit} tracce"
+      limit_reached_body: "Riproduci qualsiasi traccia con Pro o attendi fino al %{date}. Le tracce già riprodotte restano gratuite."
+      unlock: "Sblocca senza limiti"
+      guest_title: "Riproduci i salti fianco a fianco"
+      guest_body: "Crea un account gratuito per riprodurre %{limit} tracce ogni mese."
+      sign_up: "Crea account gratuito"
+      close: "Chiudi"
     show:
       select_jump_line: Profilo del terreno
     filters:

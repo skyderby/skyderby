@@ -1,9 +1,24 @@
 import LabeledController from 'controllers/labeled_controller'
-import { get } from '@rails/request.js'
+import { get, post } from '@rails/request.js'
 import { calculateFlightProfile, calculateTerrainClearance } from 'utils/flightProfiles'
 import { fetchTrackPoints } from 'utils/tracks/trackData'
 import FlightProfileChart from 'charts/FlightProfileChart'
 import amplitude from 'utils/amplitude'
+import { accelerationHtml } from 'charts/svg/format'
+import { cloneTemplate, fillSlots, slot } from 'utils/templates'
+import {
+  layoutLabels,
+  playbackStateAt,
+  profileDuration
+} from 'utils/flightProfilePlayback'
+
+const escapeHtml = text => {
+  const node = document.createElement('span')
+  node.textContent = text
+  return node.innerHTML
+}
+
+const round = value => String(Math.round(value))
 
 export default class FlightProfilesController extends LabeledController {
   static targets = [
@@ -15,12 +30,20 @@ export default class FlightProfilesController extends LabeledController {
     'proCta',
     'proCtaCompareId',
     'proCtaPrefix',
-    'proCtaLabel'
+    'proCtaLabel',
+    'playback',
+    'playButton',
+    'slider',
+    'clock',
+    'playbackMeta',
+    'playbackPrompt',
+    'labelTemplate'
   ]
 
   static values = {
     terrainProfilesUrl: String,
-    measurementsUrlTemplate: String
+    measurementsUrlTemplate: String,
+    playbackUrl: String
   }
 
   connect() {
@@ -29,12 +52,17 @@ export default class FlightProfilesController extends LabeledController {
     this.pointsCache = new Map()
     this.tracksCache = new Map()
 
+    this.profiles = new Map()
+    this.playerTime = 0
+    this.loadQuota()
+
     this.collapseSidebarOnMobileWithSelection()
     this.updateProCta()
 
     this.chart = new FlightProfileChart({
       profileHost: this.profileHostTarget,
       terrainHost: this.terrainHostTarget,
+      onRender: () => this.renderPlaybackLabels(),
       formatters: {
         profile: this.profileTooltip,
         clearance: this.clearanceTooltip,
@@ -50,6 +78,7 @@ export default class FlightProfilesController extends LabeledController {
 
     this.resizeCharts = this.resizeCharts.bind(this)
     this.chart.resize()
+    this.updatePlaybackControls()
 
     Array.from(this.selectedTracks)
       .reduce(
@@ -65,6 +94,7 @@ export default class FlightProfilesController extends LabeledController {
   }
 
   disconnect() {
+    this.pause()
     window.removeEventListener('resize', this.resizeCharts)
     this.chart?.destroy()
   }
@@ -110,6 +140,7 @@ export default class FlightProfilesController extends LabeledController {
 
     this.updateUrlWithSelectedTracks()
     this.updateProCta()
+    this.resetPlayback()
   }
 
   processTrackLinks(event) {
@@ -158,7 +189,11 @@ export default class FlightProfilesController extends LabeledController {
     const { points } = await this.fetchPoints(trackId)
     const profile = calculateFlightProfile(points, this.straightLine)
 
+    if (!this.selectedTracks.has(trackId)) return
+
+    this.profiles.set(trackId, profile)
     this.chart.setTrack(trackId, { name: `#${trackId} ${track.name}`, profile })
+    this.updatePlaybackControls()
     this.addTrackToTagbar(track)
     this.displayTerrainClearance(trackId, points)
     this.maybeAutoSelectTerrain(track)
@@ -232,12 +267,16 @@ export default class FlightProfilesController extends LabeledController {
     this.chart.removeTrack(trackId)
     this.pointsCache.delete(trackId)
     this.tracksCache.delete(trackId)
+    this.profiles.delete(trackId)
+    this.labelElements?.get(trackId)?.remove()
+    this.labelElements?.delete(trackId)
 
     this.tracksListTarget
       .querySelector(`[data-id="${trackId}"]`)
       ?.classList.remove('active')
     this.tagbarTarget.querySelector(`[data-id="${trackId}"]`)?.remove()
     this.updateProCta()
+    this.resetPlayback()
   }
 
   updateProCta() {
@@ -283,6 +322,268 @@ export default class FlightProfilesController extends LabeledController {
       track_id: ids[0],
       compare_track_id: ids[1] || null
     })
+  }
+
+  loadQuota() {
+    if (!this.hasPlaybackTarget) return
+
+    const { quotaState, quotaLimit, quotaRemaining, quotaTrackIds } =
+      this.playbackTarget.dataset
+    this.quota = {
+      state: quotaState,
+      limit: Number(quotaLimit),
+      remaining: Number(quotaRemaining),
+      trackIds: new Set(JSON.parse(quotaTrackIds || '[]').map(String))
+    }
+  }
+
+  get playbackTrackIds() {
+    return Array.from(this.selectedTracks).filter(id => this.profiles.has(id))
+  }
+
+  get playbackDuration() {
+    return Math.max(
+      0,
+      ...this.playbackTrackIds.map(id => profileDuration(this.profiles.get(id)))
+    )
+  }
+
+  playbackAllowed(ids) {
+    if (!this.quota) return false
+    if (this.quota.state === 'pro') return true
+    if (this.quota.state === 'guest') return false
+    return ids.every(id => this.quota.trackIds.has(id))
+  }
+
+  updatePlaybackControls() {
+    if (!this.hasPlayButtonTarget) return
+
+    const ids = this.playbackTrackIds
+    this.playButtonTarget.disabled = ids.length === 0
+    this.sliderTarget.disabled = ids.length === 0 || !this.playbackAllowed(ids)
+
+    if (this.hasPlaybackMetaTarget) {
+      this.playbackMetaTarget.textContent =
+        this.quota?.state === 'free'
+          ? this.labels.t('flight_profiles.playback.remaining', {
+              count: this.quota.remaining,
+              limit: this.quota.limit
+            })
+          : ''
+    }
+  }
+
+  resetPlayback() {
+    this.pause()
+    this.hidePlaybackPrompt()
+    this.playerTime = 0
+    this.playbackPositions = []
+    this.chart?.setPlayback([])
+    this.renderPlaybackLabels()
+    if (this.hasSliderTarget) this.sliderTarget.value = 0
+    this.updateClock()
+    this.updatePlaybackControls()
+  }
+
+  async togglePlay() {
+    if (this.animationFrame) {
+      this.pause()
+      return
+    }
+
+    const ids = this.playbackTrackIds
+    if (!ids.length) return
+    if (!(await this.ensurePlaybackAllowed(ids))) return
+
+    const duration = this.playbackDuration
+    if (this.playerTime >= duration) this.playerTime = 0
+    if (this.playerTime === 0)
+      this.trackPlaybackEvent('flight_profiles_playback_started', ids)
+
+    this.lastFrame = performance.now()
+    this.playButtonTarget.classList.add('playing')
+    this.animationFrame = requestAnimationFrame(this.animate)
+  }
+
+  async ensurePlaybackAllowed(ids) {
+    if (this.playbackAllowed(ids)) return true
+
+    if (this.quota?.state === 'guest') {
+      this.showPlaybackPrompt()
+      this.trackPlaybackEvent('flight_profiles_playback_signup_prompted', ids)
+      return false
+    }
+
+    const response = await post(this.playbackUrlValue, {
+      body: { track_ids: ids },
+      responseKind: 'json'
+    })
+    const body = await response.json
+
+    if (body.status === 'sign_in_required') {
+      this.quota.state = 'guest'
+      return this.ensurePlaybackAllowed(ids)
+    }
+
+    this.quota.remaining = body.remaining
+    this.quota.trackIds = new Set((body.track_ids || []).map(String))
+    if (body.unlimited) this.quota.state = 'pro'
+    this.updatePlaybackControls()
+
+    if (body.status === 'limit_reached') {
+      this.showPlaybackPrompt()
+      this.trackPlaybackEvent('flight_profiles_playback_quota_exhausted', ids)
+      return false
+    }
+
+    return true
+  }
+
+  showPlaybackPrompt() {
+    if (this.hasPlaybackPromptTarget) this.playbackPromptTarget.hidden = false
+  }
+
+  hidePlaybackPrompt() {
+    if (this.hasPlaybackPromptTarget) this.playbackPromptTarget.hidden = true
+  }
+
+  trackPlaybackEvent(event, ids) {
+    amplitude.track(event, {
+      track_count: ids.length,
+      track_ids: ids,
+      state: this.quota?.state,
+      remaining: this.quota?.state === 'free' ? this.quota.remaining : null
+    })
+  }
+
+  trackPlaybackCta() {
+    amplitude.track('flight_profiles_playback_cta_clicked', {
+      state: this.quota?.state,
+      track_count: this.playbackTrackIds.length
+    })
+  }
+
+  pause() {
+    if (this.animationFrame) cancelAnimationFrame(this.animationFrame)
+    this.animationFrame = null
+    if (this.hasPlayButtonTarget) this.playButtonTarget.classList.remove('playing')
+  }
+
+  animate = now => {
+    const duration = this.playbackDuration
+    const time = Math.min(this.playerTime + (now - this.lastFrame) / 1000, duration)
+    this.lastFrame = now
+    this.showTime(time)
+
+    if (time >= duration) {
+      this.pause()
+    } else {
+      this.animationFrame = requestAnimationFrame(this.animate)
+    }
+  }
+
+  seek() {
+    const ids = this.playbackTrackIds
+    if (!ids.length || !this.playbackAllowed(ids)) return
+
+    this.lastFrame = performance.now()
+    this.showTime(
+      (this.sliderTarget.value / this.sliderTarget.max) * this.playbackDuration
+    )
+  }
+
+  showTime(time) {
+    const duration = this.playbackDuration
+    this.playerTime = time
+    this.playbackPositions =
+      time < duration
+        ? this.playbackTrackIds.flatMap(id => {
+            const state = playbackStateAt(this.profiles.get(id), time)
+            return state ? [{ id, ...state }] : []
+          })
+        : []
+
+    this.chart.setPlayback(this.playbackPositions)
+    this.renderPlaybackLabels()
+    this.sliderTarget.value = duration
+      ? Math.round((time / duration) * this.sliderTarget.max)
+      : 0
+    this.updateClock()
+  }
+
+  updateClock() {
+    if (!this.hasClockTarget) return
+    this.clockTarget.textContent = `${this.playerTime.toFixed(1)} ${this.labels.t('flight_profiles.playback.seconds')}`
+  }
+
+  renderPlaybackLabels() {
+    if (!this.hasLabelTemplateTarget || !this.chart) return
+
+    this.labelsLayer ||= this.buildLabelsLayer()
+    this.labelElements ||= new Map()
+    const { width, height } = this.chart
+    const positions = (this.playbackPositions || []).filter(position => {
+      const px = this.chart.x(position.x)
+      const py = this.chart.yProfile(position.y)
+      return px >= 0 && px <= width && py >= 0 && py <= height
+    })
+    const visible = new Set(positions.map(position => position.id))
+    this.labelElements.forEach((element, id) => {
+      element.hidden = !visible.has(id)
+    })
+    if (!positions.length) return
+
+    const meters = value => `${Math.round(value)} ${this.labels.t('units.m')}`
+    const items = positions.map(position => {
+      const element = this.labelElement(position.id)
+      const { acceleration } = position
+      fillSlots(element, {
+        name: this.chart.tracks.get(position.id)?.name,
+        drop: meters(position.y),
+        distance: meters(position.x),
+        fullSpeed: round(position.fullSpeed),
+        vSpeed: round(position.vSpeed),
+        hSpeed: round(position.hSpeed)
+      })
+      slot(element, 'fullAccel').innerHTML = accelerationHtml(
+        acceleration?.fullSpeedAccel
+      )
+      slot(element, 'vAccel').innerHTML = accelerationHtml(acceleration?.vSpeedAccel)
+      slot(element, 'hAccel').innerHTML = accelerationHtml(acceleration?.hSpeedAccel)
+
+      return {
+        element,
+        px: this.chart.x(position.x),
+        py: this.chart.yProfile(position.y),
+        width: element.offsetWidth,
+        height: element.offsetHeight
+      }
+    })
+
+    layoutLabels(items, width, height)
+    items.forEach(({ element, left, top }) => {
+      element.style.left = `${Math.round(left)}px`
+      element.style.top = `${Math.round(top)}px`
+    })
+  }
+
+  buildLabelsLayer() {
+    const layer = document.createElement('div')
+    layer.className = 'fp-replay-labels'
+    this.profileHostTarget.appendChild(layer)
+    return layer
+  }
+
+  labelElement(id) {
+    let element = this.labelElements.get(id)
+    if (!element) {
+      element = cloneTemplate(this.labelTemplateTarget)
+      element.style.setProperty('--fp-label-color', `var(${this.chart.colorVarFor(id)})`)
+      this.labelsLayer.appendChild(element)
+      this.labelElements.set(id, element)
+    }
+    element.hidden = false
+    return element
   }
 
   fetchTrack(trackId) {
@@ -344,19 +645,32 @@ export default class FlightProfilesController extends LabeledController {
   }
 
   profileTooltip = (sample, track) => {
-    const custom = sample.custom || {}
+    const meters = this.labels.t('units.m')
+    const state = playbackStateAt(track.profile, sample.custom?.time ?? 0)
+    const speeds = state || { ...sample.custom, acceleration: null }
+
     return `
       <div class="fp-tooltip-row">
-        <span class="fp-tooltip-name" style="color: var(${track.colorVar})">${track.name}</span>
-        <span>↓${Math.round(sample.y)} ${this.labels.t('units.m')}
-          →${Math.round(sample.x)} ${this.labels.t('units.m')}</span>
-        <span><b>${this.labels.t('flight_profiles.full_speed')}:</b>
-          ${custom.fullSpeed} ${this.labels.t('units.kmh')}</span>
-        <span><b>${this.labels.t('flight_profiles.ground_speed')}:</b>
-          ${custom.hSpeed} ${this.labels.t('units.kmh')}</span>
-        <span><b>${this.labels.t('flight_profiles.vertical_speed')}:</b>
-          ${custom.vSpeed} ${this.labels.t('units.kmh')}</span>
+        <span class="fp-tooltip-name" style="color: var(${track.colorVar})">${escapeHtml(track.name)}</span>
+        <span>↓${Math.round(sample.y)} ${meters}
+          →${Math.round(sample.x)} ${meters}</span>
+        <span><b>${this.labels.t('flight_profiles.playback.time_from_exit')}:</b>
+          ${(sample.custom?.time ?? 0).toFixed(1)} ${this.labels.t('flight_profiles.playback.seconds')}</span>
+        ${this.speedLineHtml(speeds)}
       </div>
+    `
+  }
+
+  speedLineHtml({ fullSpeed, vSpeed, hSpeed, acceleration }) {
+    return `
+      <span class="fp-speed-line">
+        <b>${this.labels.t('flight_profiles.playback.speed_label')}, ${this.labels.t('units.kmh')}</b>
+        ${round(fullSpeed)}${accelerationHtml(acceleration?.fullSpeedAccel)}
+        <span class="fp-replay-label__divider">|</span>
+        ↓ ${round(vSpeed)}${accelerationHtml(acceleration?.vSpeedAccel)}
+        <span class="fp-replay-label__spacer">→</span>
+        ${round(hSpeed)}${accelerationHtml(acceleration?.hSpeedAccel)}
+      </span>
     `
   }
 

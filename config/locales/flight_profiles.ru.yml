@@ -17,6 +17,19 @@ ru:
       locked_prefix: "Ещё %{count} с %{date} или"
       unlock: Открыть без лимита
       unlock_features: Pro View и Compare
+    playback:
+      replay: "Воспроизвести"
+      speed_label: "Скор"
+      time_from_exit: "Время от отделения"
+      seconds: "с"
+      remaining: "Бесплатных повторов в этом месяце: %{count} из %{limit}"
+      limit_reached_title: "В этом месяце вы уже воспроизвели %{limit} треков"
+      limit_reached_body: "Воспроизводите любые треки с Pro или дождитесь %{date}. Уже воспроизведённые треки остаются бесплатными."
+      unlock: "Открыть без лимита"
+      guest_title: "Воспроизводите прыжки рядом друг с другом"
+      guest_body: "Создайте бесплатный аккаунт, чтобы воспроизводить %{limit} треков каждый месяц."
+      sign_up: "Создать аккаунт"
+      close: "Закрыть"
     show:
       select_jump_line: Профиль рельефа
     filters:

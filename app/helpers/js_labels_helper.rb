@@ -39,6 +39,10 @@ module JsLabelsHelper
       flight_profiles.vertical_speed
       flight_profiles.distance_traveled
       flight_profiles.distance_to_terrain
+      flight_profiles.playback.speed_label
+      flight_profiles.playback.time_from_exit
+      flight_profiles.playback.seconds
+      flight_profiles.playback.remaining
     ],
     video_form: %w[
       tracks.edit.elev_chart

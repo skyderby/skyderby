@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_04_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_06_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -219,6 +219,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_04_120000) do
     t.integer "visibility", default: 0
     t.boolean "wind_cancellation", default: false
     t.index ["profile_id"], name: "index_events_on_profile_id"
+  end
+
+  create_table "flight_profile_playbacks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "month", null: false
+    t.bigint "track_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["track_id"], name: "index_flight_profile_playbacks_on_track_id"
+    t.index ["user_id", "month", "track_id"], name: "index_flight_profile_playbacks_uniqueness", unique: true
   end
 
   create_table "free_pro_views", force: :cascade do |t|
@@ -1196,6 +1205,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_04_120000) do
   add_foreign_key "event_entry_payments", "pay_charges"
   add_foreign_key "event_results", "tracks"
   add_foreign_key "event_teams", "countries"
+  add_foreign_key "flight_profile_playbacks", "tracks", on_delete: :cascade
+  add_foreign_key "flight_profile_playbacks", "users", on_delete: :cascade
   add_foreign_key "free_pro_views", "tracks", on_delete: :nullify
   add_foreign_key "free_pro_views", "users"
   add_foreign_key "gifted_subscriptions", "app_store_purchases"

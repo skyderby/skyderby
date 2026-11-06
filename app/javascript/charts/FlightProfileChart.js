@@ -67,7 +67,14 @@ const svgEl = (width, height, className) => {
 }
 
 export default class FlightProfileChart {
-  constructor({ profileHost, terrainHost, formatters = {}, labels = {} }) {
+  constructor({
+    profileHost,
+    terrainHost,
+    formatters = {},
+    labels = {},
+    onRender = null
+  }) {
+    this.onRender = onRender
     this.profileHost = profileHost
     this.terrainHost = terrainHost || null
     this.formatProfile = formatters.profile || (() => '')
@@ -284,6 +291,7 @@ export default class FlightProfileChart {
     this.renderProfile()
     this.renderTerrain()
     this.renderZoomPresets()
+    this.onRender?.()
   }
 
   clampView() {
@@ -422,6 +430,7 @@ export default class FlightProfileChart {
     })
 
     markup += this.labelsSvg()
+    markup += '<g class="fp-playback"></g>'
     markup += '<g class="fp-markers"></g>'
     svg.innerHTML = markup
 
@@ -429,6 +438,8 @@ export default class FlightProfileChart {
     else this.profileHost.prepend(svg)
     this.profileSvg = svg
     this.profileMarkers = svg.querySelector('.fp-markers')
+    this.playbackLayer = svg.querySelector('.fp-playback')
+    this.drawPlayback()
 
     this.animatePaths(svg, '.fp-series', this.drawn, this.animating)
   }
@@ -570,6 +581,23 @@ export default class FlightProfileChart {
       }
     }
     return null
+  }
+
+  setPlayback(positions) {
+    this.playbackPositions = positions
+    this.drawPlayback()
+  }
+
+  drawPlayback() {
+    if (!this.playbackLayer) return
+
+    this.playbackLayer.innerHTML = (this.playbackPositions || [])
+      .map(({ id, x, y }) => {
+        const colorVar = this.tracks.get(id)?.colorVar
+        if (!colorVar) return ''
+        return `<circle class="fp-playback-marker" cx="${this.x(x).toFixed(1)}" cy="${this.yProfile(y).toFixed(1)}" r="6" style="fill: var(${colorVar})"/>`
+      })
+      .join('')
   }
 
   marker(px, py, colorVar) {

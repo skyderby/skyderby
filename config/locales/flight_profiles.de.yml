@@ -17,6 +17,19 @@ de:
       locked_prefix: "%{count} weitere ab %{date} oder"
       unlock: Unbegrenzt freischalten
       unlock_features: Pro View und Compare
+    playback:
+      replay: "Abspielen"
+      speed_label: "Geschw"
+      time_from_exit: "Zeit ab Exit"
+      seconds: "s"
+      remaining: "Freie Wiedergaben diesen Monat: %{count} von %{limit}"
+      limit_reached_title: "Du hast diesen Monat %{limit} Tracks abgespielt"
+      limit_reached_body: "Spiele jeden Track mit Pro ab oder warte bis %{date}. Bereits abgespielte Tracks bleiben kostenlos."
+      unlock: "Unbegrenzt freischalten"
+      guest_title: "Sprünge nebeneinander abspielen"
+      guest_body: "Erstelle ein kostenloses Konto, um jeden Monat %{limit} Tracks abzuspielen."
+      sign_up: "Kostenloses Konto erstellen"
+      close: "Schließen"
     show:
       select_jump_line: Sprunglinie auswählen
     filters:
