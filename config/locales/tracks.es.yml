@@ -46,6 +46,10 @@ es:
       energy_unit: "J/kg"
       explain: "Explicar la diferencia"
       comparison_title: "Comparación con %{name}"
+      focus:
+        label: "Comparar"
+        window: "Ventana en pantalla"
+        flare: "Flare"
       feedback:
         question: "¿Te ha sido útil este análisis?"
         up: "Útil"

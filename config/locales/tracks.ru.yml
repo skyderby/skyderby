@@ -46,6 +46,10 @@ ru:
       energy_unit: "Дж/кг"
       explain: "Объяснить разницу"
       comparison_title: "Сравнение с %{name}"
+      focus:
+        label: "Сравнить"
+        window: "Окно на экране"
+        flare: "Флер"
       feedback:
         question: "Был ли этот разбор полезен?"
         up: "Полезно"

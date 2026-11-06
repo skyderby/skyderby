@@ -20,9 +20,27 @@ class Tracks::ComparisonsControllerTest < ActionDispatch::IntegrationTest
     debrief = @track.debriefs.last
     assert_redirected_to track_debrief_path(@track, debrief)
     assert_equal [@other, users(:admin), 'comparison'], [debrief.other_track, debrief.user, debrief.strategy]
-    assert_equal({ 'other_track_id' => @other.id, 'from' => 2500, 'to' => 1500 }, debrief.inputs['comparison'])
+    assert_equal({ 'other_track_id' => @other.id, 'focus' => 'window', 'from' => 2500, 'to' => 1500 },
+                 debrief.inputs['comparison'])
     assert_equal 2500, debrief.inputs.dig('jump', 'metrics', 'window', 'from_altitude')
     assert_predicate debrief.evidence.dig('tracks', @other.id.to_s, 'metrics', 'window', 'segments'), :present?
+  end
+
+  test 'compares the flares of two jumps when the pilot picks the flare' do
+    sign_in users(:admin)
+    jump = flare_track(profiles(:regular_user))
+    other = flare_track(Profile.create!(name: 'Flare Pilot'))
+
+    post track_comparisons_path(jump), params: { other_track_id: other.id, focus: 'flare', from: 2500, to: 1500 }
+
+    debrief = jump.debriefs.last
+    prompt = Track::Debrief::ComparisonPrompt.new(debrief)
+    assert_equal "comparison-flare-#{other.id}", debrief.discipline_key
+    assert_equal({ 'other_track_id' => other.id, 'focus' => 'flare' }, debrief.inputs['comparison'])
+    assert debrief.inputs.dig('jump', 'metrics', 'flare', 'gain')
+    assert_includes prompt.system, '<replay phase="flare"'
+    assert_includes prompt.system, 'flare_potential'
+    assert_includes prompt.user_message, 'Flare series'
   end
 
   test 'is admin only while debriefs are in preview' do
@@ -58,6 +76,12 @@ class Tracks::ComparisonsControllerTest < ActionDispatch::IntegrationTest
   end
 
   private
+
+  def flare_track(pilot)
+    create_track_from_file('WBR/Yegor_16_Round3.CSV', kind: :base, suit: suits(:apache), pilot:).tap do |track|
+      track.update!(ff_end: 49)
+    end
+  end
 
   def skydive_track(pilot)
     place = Place.find_by(name: 'Ravenna') || create(:place, name: 'Ravenna', msl: 0)

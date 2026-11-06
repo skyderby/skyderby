@@ -17,6 +17,21 @@ class Track::Debrief::Toolbox
       }
     },
     {
+      name: 'part_leaders',
+      description: 'The best jumps for one part of the discipline alone, one per pilot, best first: whose flare is ' \
+                   'highest, whose distance is longest. A pilot\'s best jump at a part is often not the jump that ' \
+                   'counts for their total. Call it to find the jump to compare a part with, above all when the ' \
+                   'pilot already leads the field or nobody ranks above them.',
+      input_schema: {
+        type: 'object',
+        properties: {
+          discipline: { type: 'string', description: 'Key of a part from discipline.parts' },
+          limit: { type: 'integer', description: 'How many pilots, 1 to 15. Default 8.' }
+        },
+        required: ['discipline']
+      }
+    },
+    {
       name: 'jump_metrics',
       description: "Results and phase metrics summary of one jump: the pilot's own jumps this season or a field " \
                    "pilot's best jump. Call it to check a pilot's other jumps, for example the one with the best " \
@@ -136,6 +151,22 @@ class Track::Debrief::Toolbox
 
   def tool_jump_metrics(track_id:) = jump_summary(track_id)
 
+  def tool_part_leaders(discipline:, limit: 8)
+    index = self.discipline.parts.index { |part| part.discipline == discipline.to_s }
+    return { 'error' => "No part #{discipline}." } unless index
+
+    leaders = field.part_leaders(index).first(limit.to_i.clamp(1, 15))
+    { 'discipline' => discipline, 'jumps' => part_leader_rows(leaders, index) }
+  end
+
+  def part_leader_rows(leaders, index)
+    names = Profile.where(id: leaders.map(&:profile_id)).pluck(:id, :name).to_h
+    leaders.each_with_index.map do |jump, position|
+      { 'place' => position + 1, 'pilot' => names[jump.profile_id], 'track_id' => jump.track_id,
+        'result' => jump.results[index].round(1), 'this_pilot' => jump.profile_id == debrief.track.profile_id }
+    end
+  end
+
   def tool_series(track_id:, phase:, step: 1)
     rows = phase_series(track_id, phase)
     return { 'error' => "No #{phase} in this jump." } unless rows
@@ -246,7 +277,7 @@ class Track::Debrief::Toolbox
 
   def allowed_track_ids
     @allowed_track_ids ||= Set.new(
-      field.standings.map(&:track_id) + field.pilot_jumps(debrief.track.profile_id).map(&:track_id) +
+      field.track_ids + field.pilot_jumps(debrief.track.profile_id).map(&:track_id) +
         [debrief.track.id]
     )
   end

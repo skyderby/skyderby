@@ -1,27 +1,35 @@
 class Track::Debrief::Comparison
   STRATEGY = 'comparison'.freeze
+  FOCUSES = %w[window flare].freeze
 
-  attr_reader :track, :other, :from, :to
+  attr_reader :track, :other, :from, :to, :focus
 
-  def initialize(track, other, from:, to:)
+  def initialize(track, other, from:, to:, focus: 'window')
     @track = track
     @other = other
     @from = from.to_i
     @to = to.to_i
+    @focus = FOCUSES.include?(focus.to_s) ? focus.to_s : 'window'
   end
 
   def self.from_debrief(debrief)
-    window = debrief.inputs['comparison'].to_h
-    new(debrief.track, debrief.other_track, from: window['from'], to: window['to'])
+    settings = debrief.inputs['comparison'].to_h
+    new(debrief.track, debrief.other_track, from: settings['from'], to: settings['to'],
+                                            focus: settings['focus'] || 'window')
   end
 
-  def key = "comparison-#{other.id}-#{from}-#{to}"
+  def flare? = focus == 'flare'
 
-  def valid? = other.present? && other != track && from > to
+  def key = flare? ? "comparison-flare-#{other.id}" : "comparison-#{other.id}-#{from}-#{to}"
+
+  def valid? = other.present? && other != track && (flare? || from > to)
+
+  def measured? = [track, other].all? { |jump| metrics(jump)[focus].present? }
 
   def inputs
     {
-      'comparison' => { 'other_track_id' => other.id, 'from' => from, 'to' => to },
+      'comparison' => { 'other_track_id' => other.id, 'focus' => focus,
+                        **(flare? ? {} : { 'from' => from, 'to' => to }) },
       'discipline' => { 'parts' => [] },
       'pilot' => { 'name' => track.pilot&.name },
       'jump' => info(track).merge('metrics' => metrics(track)),
@@ -38,7 +46,11 @@ class Track::Debrief::Comparison
 
   def metrics(jump)
     @metrics ||= {}
-    @metrics[jump.id] ||= Track::FlightMetrics.new(jump, window_spec:, flare: false).to_h
+    @metrics[jump.id] ||= if flare?
+                            Track::FlightMetrics.new(jump, flare: true).to_h
+                          else
+                            Track::FlightMetrics.new(jump, window_spec:, flare: false).to_h
+                          end
   end
 
   def info(jump)

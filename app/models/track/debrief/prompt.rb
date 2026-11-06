@@ -1,7 +1,7 @@
 class Track::Debrief::Prompt
   include Track::Debrief::PromptParts
 
-  VERSION = '2026-11-07.2'.freeze
+  VERSION = '2026-11-07.3'.freeze
 
   LANGUAGES = { 'en' => 'English', 'ru' => 'Russian', 'de' => 'German', 'it' => 'Italian',
                 'es' => 'Spanish', 'fr' => 'French' }.freeze

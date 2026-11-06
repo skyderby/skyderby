@@ -33,6 +33,10 @@ module Track::Debrief::PromptParts
       because the pilot already did it on another jump or in another part of this one. Do not pass verdicts on the
       pilot, their technique or their day.
     - It opens with the one finding that matters most, in a sentence or two, before any detail.
+    - When this jump already leads, say so plainly first: the field (pilot.rank 1 and this jump counted) or a single
+      part (jump.part_ranks is 1). Then find headroom elsewhere: the pilot's own jump that is better at a part, or
+      the pilot who is best at that part. Every main point still needs a jump to compare with; there always is one,
+      even for the leader.
     - It picks the one to three changes that matter most, each with a measurable target: a speed at a moment, a
       vertical speed range, a time. It skips what any competing pilot already knows.
     - It stays within what GPS can show. The track shows speeds, heights and timing, not the body: describe what
@@ -197,8 +201,9 @@ module Track::Debrief::PromptParts
     You start with a summary of the discipline, the field and the pilot's jump. Before you write, look into the
     jump the way a coach would: find where the points go, choose a few jumps worth comparing with, look at the
     curves, check each idea against the data and drop it when the data disagrees. what_if tells you what a change
-    would give in points and places. moment gives the exact numbers at a moment of a replay; use it for every moment
-    you write. About twelve tool calls is usually enough.
+    would give in points and places. part_leaders lists whose jump is best at a single part, which finds a jump to
+    compare with even when nobody ranks above the pilot. moment gives the exact numbers at a moment of a replay; use
+    it for every moment you write. About twelve tool calls is usually enough.
 
     Other jumps are named "track:ID", for example of="track:123" or with="track:123,track:456". A jump can be
     printed or shown only after you fetched it with field_jump or jump_metrics. The first time the text names another

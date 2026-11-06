@@ -48,6 +48,8 @@ module Tracks
 
     def debrief = @debrief ||= track.debriefs.find(@debrief_id)
 
+    def comparable?(other) = other.present? && (other.public_track? || self.class.own?(other, viewer) || viewer.admin?)
+
     def visible_debriefs = viewer.admin? ? track.debriefs : track.debriefs.where(user: viewer)
 
     def siblings(debrief)
@@ -59,11 +61,11 @@ module Tracks
       discipline && Track::Debrief.request(track, discipline, user: viewer)
     end
 
-    def compare!(other, from:, to:)
-      return unless other&.public_track? || (other && self.class.own?(other, viewer)) || viewer.admin?
+    def compare!(other, from:, to:, focus: 'window')
+      return unless comparable?(other)
 
-      comparison = Track::Debrief::Comparison.new(track, other, from:, to:)
-      comparison.valid? && Track::Debrief.compare(comparison, user: viewer)
+      comparison = Track::Debrief::Comparison.new(track, other, from:, to:, focus:)
+      comparison.valid? && comparison.measured? && Track::Debrief.compare(comparison, user: viewer)
     end
   end
 end

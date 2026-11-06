@@ -2,10 +2,14 @@ module DebriefsHelper
   def debrief_title(debrief)
     return debrief_discipline_label(debrief.discipline) unless debrief.comparison?
 
-    window = debrief.inputs['comparison']
+    settings = debrief.inputs['comparison']
     name = debrief.other_track&.pilot&.name || debrief.other_track&.name
-    [t('tracks.debriefs.comparison_title', name:),
-     t('tracks.debriefs.windows.range', from: window['from'], to: window['to'])].join(' · ')
+    focus = if settings['focus'] == 'flare'
+              t('tracks.debriefs.focus.flare')
+            else
+              t('tracks.debriefs.windows.range', from: settings['from'], to: settings['to'])
+            end
+    [t('tracks.debriefs.comparison_title', name:), focus].join(' · ')
   end
 
   def debrief_discipline_label(discipline)

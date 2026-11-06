@@ -61,13 +61,16 @@ class Track::Debrief::Inputs
 
   def jump_info
     {
-      'track_id' => track.id,
-      'date' => track.recorded_at.to_date.iso8601,
-      'place' => track.place&.name,
-      'suit' => track.suit&.name,
-      'counted' => own_standing&.track_id == track.id,
+      'track_id' => track.id, 'date' => track.recorded_at.to_date.iso8601, 'place' => track.place&.name,
+      'suit' => track.suit&.name, 'counted' => own_standing&.track_id == track.id, **scores
+    }
+  end
+
+  def scores
+    {
       'results' => results_hash(jump_results),
       'total' => field.total_for(jump_results).round(1),
+      'part_ranks' => part_ranks,
       'metrics' => own_metrics.to_h
     }
   end
@@ -115,7 +118,7 @@ class Track::Debrief::Inputs
   end
 
   def profiles_by_id
-    @profiles_by_id ||= Profile.where(id: field.standings.map(&:profile_id)).index_by(&:id)
+    @profiles_by_id ||= Profile.where(id: field.standings.map(&:profile_id) + [track.profile_id]).index_by(&:id)
   end
 
   def tracks_by_id
@@ -154,6 +157,7 @@ class Track::Debrief::Inputs
     jump = tracks_by_id[standing.track_id]
     {
       'role' => role,
+      'track_id' => standing.track_id,
       'name' => profiles_by_id[standing.profile_id]&.name,
       'rank' => standing.rank,
       'suit' => jump.suit&.name,
@@ -165,11 +169,50 @@ class Track::Debrief::Inputs
     }
   end
 
-  def reference_standings
-    @reference_standings ||= [['next_above', ranked_above.last], ['same_exit', same_exit_standing],
-                              ['leader', ranked_above.first]]
-                             .select(&:last).uniq { |_, standing| standing.profile_id }.first(MAX_REFERENCES)
+  def part_ranks
+    parts.each_with_index.to_h do |part, index|
+      [part.discipline, field.part_rank(index, track.profile_id, jump_results[index])]
+    end
   end
+
+  def reference_standings
+    @reference_standings ||= (place_references + part_references)
+                             .select(&:last).uniq { |_, standing| standing.track_id }.first(MAX_REFERENCES)
+  end
+
+  def place_references
+    [['next_above', ranked_above.last], ['same_exit', same_exit_standing], ['leader', ranked_above.first]]
+      .select(&:last).uniq { |_, standing| standing.profile_id }
+  end
+
+  def part_references
+    parts.each_with_index.flat_map do |part, index|
+      own = field.pilot_jumps(track.profile_id).min_by { |jump| part_order(part, jump.results[index]) }
+      best = field.part_leaders(index).find { |jump| jump.profile_id != track.profile_id }
+      [["best_#{part.discipline}", beating(index, best)], ["own_best_#{part.discipline}", beating(index, own)]]
+    end
+  end
+
+  def part_order(part, value)
+    return Float::INFINITY if value.nil?
+
+    part.ascending? ? value : -value
+  end
+
+  def beating(index, jump)
+    return if jump.nil? || jump.track_id == track.id
+    return unless better_at?(index, jump.results[index])
+
+    Track::Debrief::Field::Standing.new(rank: standing_rank(jump.profile_id), profile_id: jump.profile_id,
+                                        track_id: jump.track_id, total: field.total_for(jump.results),
+                                        results: jump.results)
+  end
+
+  def better_at?(index, value)
+    jump_results[index].nil? || part_order(parts[index], value) < part_order(parts[index], jump_results[index])
+  end
+
+  def standing_rank(profile_id) = field.standings.find { |standing| standing.profile_id == profile_id }&.rank
 
   def ranked_above
     @ranked_above ||= field.standings.select do |standing|

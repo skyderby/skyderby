@@ -46,6 +46,25 @@ class Track::Debrief::Field
 
   def pilot_jumps(profile_id) = jumps.values.select { |jump| jump.profile_id == profile_id }
 
+  def track_ids = jumps.keys
+
+  def part_leaders(index)
+    part = discipline.parts[index]
+    order = ->(jump) { part.ascending? ? jump.results[index] : -jump.results[index] }
+    jumps.values.select { |jump| jump.results[index] }
+         .group_by(&:profile_id).values.map { |pilot_jumps| pilot_jumps.min_by(&order) }
+         .sort_by(&order)
+  end
+
+  def part_rank(index, profile_id, result)
+    return if result.nil?
+
+    better = part_leaders(index).count do |jump|
+      jump.profile_id != profile_id && better_result?(discipline.parts[index], jump.results[index], result)
+    end
+    better + 1
+  end
+
   private
 
   def scope
@@ -74,6 +93,8 @@ class Track::Debrief::Field
   end
 
   def better(part, current, result) = part.ascending? ? [current, result].min : [current, result].max
+
+  def better_result?(part, value, other) = part.ascending? ? value < other : value > other
 
   def competitions_by_id
     @competitions_by_id ||= begin

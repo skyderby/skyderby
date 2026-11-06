@@ -96,7 +96,7 @@ class Track::DebriefTest < ActiveSupport::TestCase
   end
 
   test 'generate writes in English whatever the interface language' do
-    debrief = I18n.with_locale(:de) { Track::Debrief.request(@track, discipline) }
+    debrief = I18n.with_locale(:de) { Track::Debrief.request(@track, discipline, strategy: 'opus_single') }
     client = FakeClient.new(fake_message(:end_turn, [FakeBlock.new(:text, '## Flare')]))
 
     debrief.generate!(client:)
@@ -108,7 +108,7 @@ class Track::DebriefTest < ActiveSupport::TestCase
   end
 
   test 'generate records cost and duration, also when it fails' do
-    debrief = Track::Debrief.request(@track, discipline)
+    debrief = Track::Debrief.request(@track, discipline, strategy: 'opus_single')
 
     debrief.generate!(client: FakeClient.new(fake_message(:end_turn, [FakeBlock.new(:text, 'ok')], 1000, 500)))
     ready_cost = debrief.reload.cost_usd
@@ -122,7 +122,7 @@ class Track::DebriefTest < ActiveSupport::TestCase
   end
 
   test 'generate marks refusals, truncation and API errors as failed' do
-    debrief = Track::Debrief.request(@track, discipline)
+    debrief = Track::Debrief.request(@track, discipline, strategy: 'opus_single')
 
     connection_error = Anthropic::Errors::APIConnectionError.new(url: URI('https://api.anthropic.com'))
     clients = [FakeClient.new(fake_message(:refusal, [])),
@@ -177,6 +177,18 @@ class Track::DebriefTest < ActiveSupport::TestCase
     assert_includes performance, 'deployment, breakoff'
     assert_not_includes performance, 'flare.gain'
     assert_not_includes performance, 'speed_loss'
+  end
+
+  test 'gives the leader a jump to compare with for each part where someone else is better' do
+    rival = create_jump(profiles(:john), distance: 150, flare: 30)
+    inputs = Track::Debrief::Inputs.new(@track, discipline).to_h
+    toolbox = Track::Debrief::Toolbox.new(Track::Debrief.request(@track, discipline))
+
+    assert_equal 1, inputs.dig('pilot', 'rank')
+    assert_equal({ 'distance_in_altitude' => 1, 'flare' => 2 }, inputs.dig('jump', 'part_ranks'))
+    assert_equal([['best_flare', rival.id]], inputs['references'].map { |row| [row['role'], row['track_id']] })
+    assert_equal [rival.id, @track.id],
+                 toolbox.call('part_leaders', { 'discipline' => 'flare' })['jumps'].pluck('track_id')
   end
 
   test 'what_if projects points and place for changed results' do

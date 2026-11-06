@@ -2,6 +2,7 @@ class Track::Debrief < ApplicationRecord
   include Generation
 
   STALE_AFTER = 15.minutes
+  DEFAULT_STRATEGY = 'sonnet_agent'.freeze
   LOCALE = 'en'.freeze
 
   belongs_to :track, inverse_of: :debriefs
@@ -17,11 +18,11 @@ class Track::Debrief < ApplicationRecord
 
   def self.available_for?(track) = (track.base? || track.skydive?) && track.wingsuit?
 
-  def self.latest_for(track, discipline_key, user: nil, strategy: 'opus_single')
+  def self.latest_for(track, discipline_key, user: nil, strategy: DEFAULT_STRATEGY)
     where(track:, discipline_key:, user:, locale: LOCALE, strategy:).latest_first.first
   end
 
-  def self.request(track, discipline, user: nil, strategy: 'opus_single', fresh: false)
+  def self.request(track, discipline, user: nil, strategy: DEFAULT_STRATEGY, fresh: false)
     inputs = Inputs.new(track, discipline)
     digest = Inputs.digest(inputs.to_h)
     latest = latest_for(track, discipline.key, user:, strategy:)

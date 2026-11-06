@@ -44,6 +44,9 @@
             <%= form.hidden_field :other_track_id, value: @compare_track.id %>
             <%= form.hidden_field :from, value: 2500, data: { 'tracks--skydive-performance-track-target': 'explainFrom' } %>
             <%= form.hidden_field :to, value: 1500, data: { 'tracks--skydive-performance-track-target': 'explainTo' } %>
+            <%= form.select :focus, [[t('tracks.debriefs.focus.window'), 'window'], [t('tracks.debriefs.focus.flare'), 'flare']],
+                            {}, class: 'form-input skydive-performance-explain__focus',
+                                aria: { label: t('tracks.debriefs.focus.label') } %>
             <button type="submit" class="actions-bar-button">
               <%= icon_tag 'wand-magic-sparkles-solid' %>
               <%= t('tracks.debriefs.explain') %>
