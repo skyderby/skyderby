@@ -382,3 +382,19 @@
 .fp-replay-label__spacer {
   margin-left: 6px;
 }
+
+.fp-speed-value {
+  font-weight: 700;
+}
+
+.fp-speed-value--full {
+  color: #8a5530;
+}
+
+.fp-speed-value--vertical {
+  color: #85283a;
+}
+
+.fp-speed-value--horizontal {
+  color: #2a6337;
+}

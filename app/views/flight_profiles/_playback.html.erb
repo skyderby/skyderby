@@ -55,15 +55,15 @@
   <div class="fp-replay-label">
     <div class="fp-replay-label__row">
       <span class="fp-replay-label__name" data-slot="name"></span>
-      <span class="fp-replay-label__spacer">↓</span><span data-slot="drop"></span>
-      <span class="fp-replay-label__spacer">→</span><span data-slot="distance"></span>
+      <span class="fp-replay-label__spacer">↓</span><span class="fp-speed-value" data-slot="drop"></span>
+      <span class="fp-replay-label__spacer">→</span><span class="fp-speed-value" data-slot="distance"></span>
     </div>
     <div class="fp-replay-label__row">
       <span class="fp-replay-label__key"><%= t('flight_profiles.playback.speed_label') %>, <%= t('units.kmh') %></span>
-      <span data-slot="fullSpeed"></span><span data-slot="fullAccel"></span>
+      <span class="fp-speed-value fp-speed-value--full" data-slot="fullSpeed"></span><span data-slot="fullAccel"></span>
       <span class="fp-replay-label__divider">|</span>
-      <span>↓</span><span data-slot="vSpeed"></span><span data-slot="vAccel"></span>
-      <span class="fp-replay-label__spacer">→</span><span data-slot="hSpeed"></span><span data-slot="hAccel"></span>
+      <span class="fp-speed-value--vertical">↓</span><span class="fp-speed-value fp-speed-value--vertical" data-slot="vSpeed"></span><span data-slot="vAccel"></span>
+      <span class="fp-replay-label__spacer fp-speed-value--horizontal">→</span><span class="fp-speed-value fp-speed-value--horizontal" data-slot="hSpeed"></span><span data-slot="hAccel"></span>
     </div>
   </div>
 </template>

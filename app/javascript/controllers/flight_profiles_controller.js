@@ -665,11 +665,12 @@ export default class FlightProfilesController extends LabeledController {
     return `
       <span class="fp-speed-line">
         <b>${this.labels.t('flight_profiles.playback.speed_label')}, ${this.labels.t('units.kmh')}</b>
-        ${round(fullSpeed)}${accelerationHtml(acceleration?.fullSpeedAccel)}
+        <span class="fp-speed-value fp-speed-value--full">${round(fullSpeed)}</span>${accelerationHtml(acceleration?.fullSpeedAccel)}
         <span class="fp-replay-label__divider">|</span>
-        ↓ ${round(vSpeed)}${accelerationHtml(acceleration?.vSpeedAccel)}
-        <span class="fp-replay-label__spacer">→</span>
-        ${round(hSpeed)}${accelerationHtml(acceleration?.hSpeedAccel)}
+        <span class="fp-speed-value--vertical">↓</span>
+        <span class="fp-speed-value fp-speed-value--vertical">${round(vSpeed)}</span>${accelerationHtml(acceleration?.vSpeedAccel)}
+        <span class="fp-replay-label__spacer fp-speed-value--horizontal">→</span>
+        <span class="fp-speed-value fp-speed-value--horizontal">${round(hSpeed)}</span>${accelerationHtml(acceleration?.hSpeedAccel)}
       </span>
     `
   }
