@@ -1,8 +1,25 @@
 module Tracks
   class FlaresDetector
     class Flare
-      def initialize(points)
+      MIN_ENTRY_SPEED = 100
+      MAX_ENERGY_CONVERSION = 0.4
+      LEAD_SECONDS = 8
+      GRAVITY = 9.81
+      KMH = 3.6
+
+      def initialize(points, lead = [])
         @points = points
+        @lead = lead
+      end
+
+      def plausible?
+        return true unless speeds_known?
+
+        entry_speed >= MIN_ENTRY_SPEED && altitude_gain <= MAX_ENERGY_CONVERSION * energy_height
+      end
+
+      def entry_speed
+        @entry_speed ||= lead.map { |point| Math.hypot(point[:h_speed], point[:v_speed]) }.max.to_f
       end
 
       def altitude_gain
@@ -13,13 +30,19 @@ module Tracks
         higher_point[:gps_time] - points.first[:gps_time]
       end
 
-      private
-
       def higher_point
         @higher_point ||= points.max_by { |point| point[:altitude_gain] }
       end
 
       attr_reader :points
+
+      private
+
+      attr_reader :lead
+
+      def speeds_known? = lead.any? && lead.all? { |point| point[:h_speed] && point[:v_speed] }
+
+      def energy_height = (entry_speed / KMH)**2 / (2 * GRAVITY)
     end
 
     def self.call(points)
@@ -37,7 +60,11 @@ module Tracks
     private
 
     def find_flares
-      flares_segments.map { |segment| Flare.new(segment) }
+      flares_segments.map { |segment| Flare.new(segment, lead_points(segment.first)) }.select(&:plausible?)
+    end
+
+    def lead_points(start)
+      points.select { |point| point[:gps_time].between?(start[:gps_time] - Flare::LEAD_SECONDS, start[:gps_time]) }
     end
 
     def flares_segments
