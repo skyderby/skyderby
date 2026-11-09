@@ -64,7 +64,7 @@ class OnlineCompetitionsService
   def score_head_up_speed = score_speed_skydiving(track.head_up_speed_result)
 
   def score_flare
-    flares = Tracks::FlaresDetector.call(track_points)
+    flares = Tracks::FlaresDetector.call(Track::Result::Calculation.new(track).flare_points)
     return unless flares.any?
 
     highest_flare = flares.max_by(&:altitude_gain)

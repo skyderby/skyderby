@@ -54,6 +54,17 @@ class OnlineCompetitionsServiceTest < ActiveSupport::TestCase
     assert_in_delta 28.5, record.result, 0.1
   end
 
+  test 'Flare competition measures a flare still climbing at deployment up to its peak' do
+    competition = virtual_competitions(:flare)
+
+    track = create_track_from_file 'WBR/Yegor_16_Round3.CSV', kind: :base
+    track.update!(ff_end: 49)
+
+    OnlineCompetitionsService.score_track(track)
+
+    assert_in_delta 23.6, competition.results.find_by!(track:).result, 0.1
+  end
+
   test 'Skydive distance prior to 2020' do
     place = create :place, name: 'Ravenna', msl: 0
     competition = virtual_competitions(:skydive_distance_wingsuit)

@@ -89,3 +89,13 @@ feather_challenge:
   visibility: private_competition
   period_from: 2015-01-01
   period_to: 2030-01-01
+
+flare:
+  name: Go UP!
+  group: main
+  suits_kind: wingsuit
+  interval_type: annual
+  period_from: 2015-01-01
+  period_to: 2020-01-01
+  discipline: flare
+  results_sort_order: descending
