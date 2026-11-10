@@ -213,7 +213,7 @@ class Track::FlightMetrics
   def build_flare
     return unless track.wingsuit?
 
-    points = scoring_points(trimmed: true)
+    points = Track::Result::Calculation.new(track).flare_points
     best = Tracks::FlaresDetector.call(points).max_by(&:altitude_gain)
     return unless best
 

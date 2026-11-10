@@ -28,11 +28,10 @@ class Track::FlightMetricsTest < ActiveSupport::TestCase
     assert_nil metrics('distance_in_altitude', 5000).window
   end
 
-  test 'measures the highest flare like the online ranking scores it' do
+  test 'measures a flare still climbing at deployment up to its peak' do
     flare = Track::FlightMetrics.new(@track).flare
-    scored = Tracks::FlaresDetector.call(scoring_points(trimmed: true)).max_by(&:altitude_gain)
 
-    assert_in_delta scored.altitude_gain, flare['gain'], 0.1
+    assert_in_delta 23.6, flare['gain'], 0.1
     assert_operator flare['max_total_speed_before'], :>=, flare['max_h_speed_before']
     assert_predicate flare['series'].first.first, :negative?
     assert_includes 0.0..1.0, flare['efficiency']
