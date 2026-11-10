@@ -14,7 +14,8 @@ export const profileDuration = profile =>
   profile.length ? timeOf(profile[profile.length - 1]) : 0
 
 export const positionAt = (profile, time) => {
-  if (!profile.length || time < 0 || time > profileDuration(profile)) return null
+  if (!profile.length || time < timeOf(profile[0]) || time > profileDuration(profile))
+    return null
 
   let lo = 0
   let hi = profile.length - 1
