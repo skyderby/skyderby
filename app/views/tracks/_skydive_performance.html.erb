@@ -185,7 +185,7 @@
 
     <div class="skydive-performance-layout">
       <div class="skydive-performance-stage-tabs-row">
-        <div class="seg skydive-performance-stage-tabs" role="tablist">
+        <div class="seg skydive-performance-stage-tabs" role="group">
           <button type="button"
                   class="seg__btn"
                   data-stage="segments"
@@ -275,6 +275,7 @@
 
       <div class="skydive-performance-playback">
         <button class="skydive-performance-playback-button"
+                aria-label="<%= t('general.play') %>"
                 data-tracks--skydive-performance-track-target="playButton"
                 data-action="tracks--skydive-performance-track#togglePlay">
           <span class="icon-play"><%= icon_tag 'play-solid' %></span>
@@ -282,6 +283,7 @@
         </button>
         <input type="range"
                class="skydive-performance-playback-slider"
+               aria-label="<%= t('general.playback_position') %>"
                min="0"
                max="100"
                value="0"

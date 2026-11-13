@@ -57,7 +57,7 @@
 
 .filter-tag-remove:hover {
   background-color: var(--gray-30);
-  color: var(--red-60);
+  color: var(--text-brand);
 }
 
 .hot-select--hidden {

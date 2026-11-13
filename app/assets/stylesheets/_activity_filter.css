@@ -20,7 +20,7 @@
 }
 
 .activity-filter-button--active {
-  color: var(--blue-gray-60);
+  color: var(--text-selected);
 }
 .activity-filter-button--active::after {
   position: absolute;

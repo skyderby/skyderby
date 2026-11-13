@@ -215,7 +215,7 @@
 }
 
 .lane-validation-replay-distance--close {
-  color: var(--red-60);
+  color: var(--text-brand);
   font-weight: 700;
 }
 

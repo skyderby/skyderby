@@ -8,7 +8,7 @@
   .medal--silver {
     background-color: var(--blue-gray-20);
     border-color: var(--blue-gray-10);
-    color: var(--blue-gray-50);
+    color: var(--text-selected);
   }
 
   .medal--bronze {

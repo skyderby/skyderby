@@ -613,7 +613,7 @@ td.side-tt-delta-cell {
 }
 
 .base-jump-actions-bar__remove {
-  color: var(--red-70);
+  color: var(--text-brand);
   text-decoration: none;
 }
 

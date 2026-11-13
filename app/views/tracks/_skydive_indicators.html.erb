@@ -3,7 +3,6 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.distance') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="distance"
            data-tracks--skydive-track-target="distance"></div>
       <div class="track-indicator-units"><%= t("units.#{Current.charts_units.imperial? ? 'ft' : 'm'}") %></div>
     </div>
@@ -20,11 +19,9 @@
 
       <div class="wind-effect-values">
         <div class="wind-effect-result"
-             aria-label="wind cancelled value"
              data-tracks--skydive-track-target="windEffectDistance"></div>
         <div class="wind-effect-wind"
-             data-tracks--skydive-track-target="windEffectDistanceWind"
-             aria-label="wind effect"></div>
+             data-tracks--skydive-track-target="windEffectDistanceWind"></div>
       </div>
     </div>
   </div>
@@ -33,19 +30,16 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.ground_speed') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="average horizontal speed"
            data-tracks--skydive-track-target="groundSpeed">
       </div>
       <div class="track-indicator-minmax-value">
         <div class="track-indicator-max">
-          <span aria-label="maximum horizontal speed"
-                data-tracks--skydive-track-target="groundSpeedMax">
+          <span data-tracks--skydive-track-target="groundSpeedMax">
           </span>
           <%= icon_tag 'angle-up-solid' %>
         </div>
         <div class="track-indicator-min">
-          <span aria-label="minimum horizontal speed"
-                data-tracks--skydive-track-target="groundSpeedMin">
+          <span data-tracks--skydive-track-target="groundSpeedMin">
           </span>
           <%= icon_tag 'angle-down-solid' %>
         </div>
@@ -65,11 +59,9 @@
 
       <div class="wind-effect-values">
         <div class="wind-effect-result"
-             aria-label="wind cancelled value"
              data-tracks--skydive-track-target="windEffectSpeed"></div>
         <div class="wind-effect-wind"
-             data-tracks--skydive-track-target="windEffectSpeedWind"
-             aria-label="wind effect"></div>
+             data-tracks--skydive-track-target="windEffectSpeedWind"></div>
       </div>
     </div>
   </div>
@@ -78,18 +70,15 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.glide_ratio') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="average glide ratio"
            data-tracks--skydive-track-target="glideRatio">
       </div>
       <div class="track-indicator-minmax-value">
         <div class="track-indicator-max">
-          <span aria-label="maximum glide ratio"
-                data-tracks--skydive-track-target="glideRatioMax"></span>
+          <span data-tracks--skydive-track-target="glideRatioMax"></span>
           <%= icon_tag 'angle-up-solid' %>
         </div>
         <div class="track-indicator-min">
-          <span aria-label="minimum glide ratio"
-                data-tracks--skydive-track-target="glideRatioMin"></span>
+          <span data-tracks--skydive-track-target="glideRatioMin"></span>
           <%= icon_tag 'angle-down-solid' %>
         </div>
       </div>
@@ -107,11 +96,9 @@
 
       <div class="wind-effect-values">
         <div class="wind-effect-result"
-             aria-label="wind cancelled value"
              data-tracks--skydive-track-target="windEffectGlideRatio"></div>
         <div class="wind-effect-wind"
-             data-tracks--skydive-track-target="windEffectGlideRatioWind"
-             aria-label="wind effect"></div>
+             data-tracks--skydive-track-target="windEffectGlideRatioWind"></div>
       </div>
     </div>
   </div>
@@ -120,7 +107,6 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.elevation') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="elevation"
            data-tracks--skydive-track-target="elevation"></div>
       <div class="track-indicator-units"><%= t("units.#{Current.charts_units.imperial? ? 'ft' : 'm'}") %></div>
     </div>
@@ -130,20 +116,17 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.vertical_speed') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="average vertical speed"
            data-tracks--skydive-track-target="verticalSpeed">
       </div>
 
       <div class="track-indicator-minmax-value">
         <div class="track-indicator-min">
-          <span aria-label="maximum vertical speed"
-                data-tracks--skydive-track-target="verticalSpeedMax">
+          <span data-tracks--skydive-track-target="verticalSpeedMax">
           </span>
           <%= icon_tag 'angle-up-solid' %>
         </div>
         <div class="track-indicator-max">
-          <span aria-label="minimum vertical speed"
-                data-tracks--skydive-track-target="verticalSpeedMin"></span>
+          <span data-tracks--skydive-track-target="verticalSpeedMin"></span>
           <%= icon_tag 'angle-down-solid' %>
         </div>
       </div>
@@ -156,7 +139,6 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.duration') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="duration"
            data-tracks--skydive-track-target="duration"></div>
       <div class="track-indicator-units"><%= t('units.sec') %></div>
     </div>

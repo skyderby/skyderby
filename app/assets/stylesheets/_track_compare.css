@@ -35,7 +35,7 @@
   }
 
   50% {
-    color: var(--blue-70);
+    color: var(--text-link);
     text-shadow: 0 0 6px rgba(40, 169, 251, 0.6), 0 0 12px rgba(40, 169, 251, 0.3);
   }
 }

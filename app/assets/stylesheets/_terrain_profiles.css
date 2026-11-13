@@ -100,7 +100,7 @@
 
 .terrain-profile-editor-error {
   margin: 0;
-  color: var(--red-60);
+  color: var(--text-brand);
   font-size: 0.875rem;
 }
 

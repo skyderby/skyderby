@@ -30,7 +30,7 @@
 .achievement__icon.achievement--skyderby {
   background-color: var(--blue-30);
   border-color: var(--blue-10);
-  color: var(--blue-gray-60);
+  color: var(--text-selected);
 }
 .achievement__icon.achievement--sponsor {
   background: var(--green-70);
@@ -50,7 +50,7 @@
 .achievement__icon.achievement--competition.achievement--silver, .achievement__icon.achievement--online.achievement--silver {
   background-color: var(--blue-gray-20);
   border-color: var(--blue-gray-10);
-  color: var(--blue-gray-50);
+  color: var(--text-selected);
 }
 .achievement__icon.achievement--competition.achievement--bronze, .achievement__icon.achievement--online.achievement--bronze {
   background-color: var(--orange-30);

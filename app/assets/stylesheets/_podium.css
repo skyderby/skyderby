@@ -125,7 +125,7 @@
   overflow-wrap: anywhere;
 
   &:hover {
-    color: var(--blue-70);
+    color: var(--text-link);
   }
 
   @media (min-width: 768px) {
@@ -148,7 +148,7 @@
   white-space: nowrap;
 
   &:hover {
-    color: var(--blue-70);
+    color: var(--text-link);
   }
 
   @media (min-width: 768px) {

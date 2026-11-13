@@ -53,5 +53,5 @@ a.place-pill__action:hover {
 
 a.place-pill--empty:hover {
   border-color: var(--blue-40);
-  color: var(--blue-70);
+  color: var(--text-link);
 }

@@ -11,7 +11,7 @@
   margin-bottom: 15px;
 }
 .content-block > h2, .content-block > h3, .content-block > h4 {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--text-secondary);
 }
 
 .card-action {

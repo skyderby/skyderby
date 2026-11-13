@@ -1,9 +1,9 @@
 :root {
   --gray-90: light-dark(#333, #e7ecf2);
-  --gray-80: light-dark(#565656, #c3cdd9);
-  --gray-70: light-dark(#737373, #9fadbf);
-  --gray-50: light-dark(#8B8B8B, #5d6b80);
-  --gray-60: light-dark(#949494, #6d7d92);
+  --gray-80: light-dark(#474747, #c3cdd9);
+  --gray-70: light-dark(#595959, #9fadbf);
+  --gray-50: light-dark(#6e6e6e, #7e8da2);
+  --gray-60: light-dark(#666, #8291a6);
   --gray-40: light-dark(#d3d3d3, #3a475a);
   --gray-30: light-dark(#eee, #2c3746);
   --gray-20: light-dark(#f3f3f3, #212a36);

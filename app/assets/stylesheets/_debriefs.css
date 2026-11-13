@@ -50,7 +50,7 @@
 
 .debrief-report__status--failed {
   background: var(--gray-10);
-  color: var(--red-70);
+  color: var(--text-brand);
 }
 
 .debrief-report__body {
@@ -206,7 +206,7 @@
 
 .debrief-page__back {
   font-size: 13px;
-  color: var(--blue-70);
+  color: var(--text-link);
   text-decoration: none;
 }
 
@@ -377,7 +377,7 @@
 }
 
 .debrief-tone--0 {
-  color: var(--blue-70);
+  color: var(--text-link);
 }
 
 .debrief-tone--1 {

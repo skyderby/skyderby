@@ -16,7 +16,7 @@
   }
 
   .trend--down {
-    color: var(--red-70);
+    color: var(--text-brand);
     background-color: var(--red-10);
   }
 }

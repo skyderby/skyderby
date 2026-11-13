@@ -555,7 +555,7 @@ td.scoreboard-total-result {
 
 .qualification-scoreboard-table .result-upload-cell button:hover {
   background-color: transparent;
-  color: var(--blue-70);
+  color: var(--text-link);
 }
 
 .qualification-scoreboard-table td.round-result {

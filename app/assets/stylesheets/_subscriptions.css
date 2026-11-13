@@ -394,7 +394,7 @@
 
 .success-subtitle {
   font-size: 1.25rem;
-  color: var(--blue-70);
+  color: var(--text-link);
   font-weight: 600;
   margin: 0 0 1.5rem 0;
 }

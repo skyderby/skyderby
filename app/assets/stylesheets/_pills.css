@@ -1,33 +1,37 @@
 .pill {
+  --pill-bg: var(--blue-gray-70);
   display: inline-block;
   border-radius: 1rem;
   font-size: 0.875rem;
   padding: 0.125rem 0.75rem;
   font-weight: 500;
-  color: var(--white);
+  color: var(--on-accent);
+  background-color: color-mix(in oklab, var(--pill-bg) 72%, #000);
   white-space: nowrap;
 }
 
 .pill-orange {
-  background-color: var(--orange-70);
+  --pill-bg: var(--orange-70);
 }
 
 .pill-yellow {
-  background-color: var(--yellow-70);
+  --pill-bg: var(--yellow-50);
+  color: #2a2100;
+  background-color: var(--pill-bg);
 }
 
 .pill-blue-gray {
-  background-color: var(--blue-gray-70);
+  --pill-bg: var(--blue-gray-70);
 }
 
 .pill-blue {
-  background-color: var(--blue-70);
+  --pill-bg: var(--blue-70);
 }
 
 .pill-green {
-  background-color: var(--solid-green-90);
+  --pill-bg: var(--solid-green-90);
 }
 
 .pill-red {
-  background-color: var(--red-70);
+  --pill-bg: var(--red-70);
 }

@@ -725,7 +725,7 @@
 }
 
 .skydive-performance-actions-bar__remove {
-  color: var(--red-70);
+  color: var(--text-brand);
   text-decoration: none;
 }
 

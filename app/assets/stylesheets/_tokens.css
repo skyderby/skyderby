@@ -6,7 +6,12 @@
   --surface-muted: var(--gray-20);
   --control-active-bg: light-dark(var(--white), #3a475a);
   --text-muted: var(--gray-60);
+  --text-brand: light-dark(#c91a25, #f2666d);
+  --text-link: light-dark(#0072b0, #48b8fa);
+  --text-link-hover: light-dark(#005d91, #6dc8fb);
+  --text-selected: light-dark(#42546b, #a6afbb);
   --on-accent: #fff;
+  --nav-accent: #6dc8fb;
   --solid-blue-80: #0083c9;
   --solid-blue-90: #0071b2;
   --solid-red-80: #b41220;

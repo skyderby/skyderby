@@ -251,7 +251,7 @@
 }
 
 .tooltip-accel--down {
-  color: var(--red-70);
+  color: var(--text-brand);
 }
 
 .tooltip-accel--down i {

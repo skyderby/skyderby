@@ -11,7 +11,7 @@
   --lp-text: var(--gray-90);
   --lp-text-dim: var(--gray-70);
   --lp-text-faint: var(--gray-60);
-  --lp-red: var(--red-60);
+  --lp-red: var(--text-brand);
   --lp-red-strong: var(--red-70);
   --lp-cyan: var(--blue-60);
 
@@ -92,7 +92,7 @@
 }
 @media (min-width: 640px) { .lp-hero__title { font-size: 3rem; } }
 @media (min-width: 940px) { .lp-hero__title { font-size: 3.6rem; } }
-.lp-hero__title .lp-accent { color: var(--lp-red); }
+.lp-hero__title .lp-accent { color: var(--red-60); }
 .lp-hero__sub {
   font-size: 1.1rem;
   color: rgba(255, 255, 255, 0.78);
@@ -287,7 +287,7 @@
   margin-top: 0.5rem;
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--primary-color);
+  color: var(--text-brand);
 }
 .lp-board .vc-scoreboard__stats,
 .lp-board .vc-scoreboard__date,
