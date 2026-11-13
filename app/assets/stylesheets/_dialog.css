@@ -1,13 +1,16 @@
-.dialog-overlay {
-  position: fixed;
-  inset: 0;
+.dialog::backdrop {
   background-color: rgba(0, 0, 0, 0);
-  transition: background-color 0.2s ease;
-  z-index: 200;
+  transition: background-color 0.2s ease, display 0.2s allow-discrete, overlay 0.2s allow-discrete;
 }
 
-.dialog-overlay-visible {
+.dialog[open]::backdrop {
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+@starting-style {
+  .dialog[open]::backdrop {
+    background-color: rgba(0, 0, 0, 0);
+  }
 }
 
 .dialog {
@@ -26,7 +29,7 @@
   height: fit-content;
   opacity: 0;
   transform: translateY(100%);
-  transition: opacity 0.2s ease, transform 0.2s ease, display 0.2s ease allow-discrete;
+  transition: opacity 0.2s ease, transform 0.2s ease, display 0.2s ease allow-discrete, overlay 0.2s ease allow-discrete;
 }
 
 .dialog[open] {
@@ -43,7 +46,8 @@
   }
 }
 
-html:has(> body.overflow-hidden) {
+html:has(> body.overflow-hidden),
+html:has(dialog:modal) {
   overflow: hidden;
 }
 

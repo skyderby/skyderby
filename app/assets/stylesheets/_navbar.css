@@ -258,22 +258,19 @@ li:has(.upload-track-button) {
   height: 100%;
 }
 
-.header__page-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  transition: opacity 350ms ease-in-out;
-  z-index: 50;
+.main-menu::backdrop {
+  background: rgba(0, 0, 0, 0);
+  transition: background 200ms ease-in-out, display 200ms allow-discrete, overlay 200ms allow-discrete;
 }
 
-.header__page-overlay.overlay--hidden {
-  visibility: hidden;
-  opacity: 0;
-  width: 0;
-  height: 0;
+.main-menu[open]::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+@starting-style {
+  .main-menu[open]::backdrop {
+    background: rgba(0, 0, 0, 0);
+  }
 }
 
 .main-menu {
@@ -282,17 +279,18 @@ li:has(.upload-track-button) {
   max-height: 100dvh;
   max-width: 20rem;
   position: fixed;
-  top: 0;
-  right: 0;
+  inset: 0 0 0 auto;
+  margin: 0;
+  padding: 0 env(safe-area-inset-right) 0 0;
+  border: 0;
+  color: inherit;
+  overflow: hidden;
   background: var(--blue-gray-90);
   opacity: 0;
-  visibility: hidden;
   transform: translateX(100%);
-  z-index: 100;
-  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out, visibility 200ms ease-in-out;
-  display: grid;
+  transition: transform 200ms ease-in-out, opacity 200ms ease-in-out,
+    display 200ms allow-discrete, overlay 200ms allow-discrete;
   grid-template-rows: 60px minmax(0, 1fr) min-content;
-  padding-right: env(safe-area-inset-right);
 }
 
 @media (max-width: 22.5rem) {
@@ -301,15 +299,20 @@ li:has(.upload-track-button) {
   }
 }
 
-.main-menu.active {
+.main-menu[open] {
+  display: grid;
   opacity: 1;
-  visibility: visible;
   transform: translateX(0);
   box-shadow: rgba(0, 0, 0, 0.08) -6px 0 16px 0,
               rgba(0, 0, 0, 0.12) -3px 0 6px -4px,
               rgba(0, 0, 0, 0.05) -9px 0 28px 8px;
-  transition: transform 200ms ease-in-out 100ms, opacity 200ms ease-in-out 100ms,
-    visibility 0s;
+}
+
+@starting-style {
+  .main-menu[open] {
+    opacity: 0;
+    transform: translateX(100%);
+  }
 }
 
 .main-menu-header {

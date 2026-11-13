@@ -1,5 +1,8 @@
 import { Controller } from '@hotwired/stimulus'
 
+const ANCHOR_NAME = '--tooltip-anchor'
+let anchoredElement = null
+
 export default class extends Controller {
   static values = { variant: String }
 
@@ -30,35 +33,25 @@ export default class extends Controller {
       if (this.variantValue)
         tooltip.classList.add(`tooltip-popover--${this.variantValue}`)
       if (tooltip.matches(':popover-open')) tooltip.hidePopover()
+
+      this.anchor()
       tooltip.showPopover()
-
-      const triggerRect = this.element.getBoundingClientRect()
-      const tooltipRect = tooltip.getBoundingClientRect()
-
-      let left = triggerRect.left + triggerRect.width / 2 - tooltipRect.width / 2
-      const gap = 4
-      const fitsAbove = triggerRect.top - tooltipRect.height - gap >= 0
-      const top = fitsAbove
-        ? triggerRect.top - tooltipRect.height - gap
-        : triggerRect.bottom + gap
-
-      if (left < 8) left = 8
-      if (left + tooltipRect.width > window.innerWidth - 8) {
-        left = window.innerWidth - tooltipRect.width - 8
-      }
-
-      tooltip.style.left = `${left}px`
-      tooltip.style.top = `${top}px`
     }, 250)
   }
 
   hide = () => {
     clearTimeout(this.timeout)
-    try {
-      this.tooltipContainer.hidePopover()
-    } catch {
-      // ignore if not shown
-    }
+    if (anchoredElement !== this.element) return
+
+    this.tooltipContainer.hidePopover()
+    this.element.style.removeProperty('anchor-name')
+    anchoredElement = null
+  }
+
+  anchor() {
+    anchoredElement?.style.removeProperty('anchor-name')
+    anchoredElement = this.element
+    this.element.style.setProperty('anchor-name', ANCHOR_NAME)
   }
 
   get tooltipContainer() {

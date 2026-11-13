@@ -12,8 +12,12 @@
 
 .tooltip-popover {
   position: fixed;
-  inset: unset;
-  margin: 0;
+  position-anchor: --tooltip-anchor;
+  position-area: top;
+  position-try-fallbacks: flip-block;
+  position-visibility: anchors-visible;
+  inset: auto;
+  margin: 0.25rem;
   padding: 0.25rem 0.5rem;
   background: var(--gray-90);
   border-radius: var(--border-radius-sm);
@@ -23,13 +27,18 @@
   white-space: nowrap;
   max-inline-size: 50ch;
   border: 0;
-  /* starts invisible; JS positions it while hidden, then :popover-open fades in */
   opacity: 0;
   transition: opacity 0.15s ease 20ms;
 }
 
 .tooltip-popover:popover-open {
   opacity: 1;
+}
+
+@starting-style {
+  .tooltip-popover:popover-open {
+    opacity: 0;
+  }
 }
 
 .tooltip-popover--text {
