@@ -1,0 +1,30 @@
+.modal-header-link {
+  opacity: 0.4;
+  color: var(--text-color);
+  padding-right: 7px;
+}
+
+.dotted-underline {
+  border-bottom-style: dotted;
+  border-bottom-width: 1.1px;
+  color: var(--text-color);
+}
+.dotted-underline:hover {
+  border-bottom-style: solid;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.dropdown-menu form.button_to > input[type=submit] {
+  width: 100%;
+  text-align: left;
+}
+
+.tooltip-wrapper {
+  display: inline-block;
+}
+
+.tooltip-wrapper .btn[disabled] {
+  /* don't let button block mouse events from reaching wrapper */
+  pointer-events: none;
+}

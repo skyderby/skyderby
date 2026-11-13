@@ -43,7 +43,7 @@
 }
 
 .page-tab-active {
-  color: var(--blue-gray-60);
+  color: var(--text-selected);
 }
 
 .page-tab-active::after {

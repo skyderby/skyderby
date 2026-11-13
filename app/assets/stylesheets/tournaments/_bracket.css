@@ -124,7 +124,7 @@
   }
 
   .bracket-match__link:hover {
-    color: var(--primary-color);
+    color: var(--text-brand);
     text-decoration: none;
   }
 
@@ -168,7 +168,7 @@
 
   .bracket-slot__profile:hover {
     text-decoration: none;
-    color: var(--primary-color);
+    color: var(--text-brand);
   }
 
   .bracket-slot__profile--empty {
@@ -227,7 +227,7 @@
   }
 
   .bracket-slot--silver .bracket-slot__result {
-    color: var(--blue-gray-60);
+    color: var(--text-selected);
   }
 
   .bracket-slot--bronze {
@@ -271,7 +271,7 @@
   }
 
   .bracket-avatar--c0 { background: var(--blue-70); }
-  .bracket-avatar--c1 { background: var(--green-80); }
+  .bracket-avatar--c1 { background: var(--solid-green-80); }
   .bracket-avatar--c2 { background: var(--purple-70); }
   .bracket-avatar--c3 { background: var(--orange-60); }
   .bracket-avatar--c4 { background: var(--red-60); }

@@ -10,7 +10,7 @@ if (svgRule) {
 
 const options = {
   resolve: {
-    extensions: ['.css', '.scss', '.module.css', '.module.scss', '.woff', '.svg']
+    extensions: ['.css', '.module.css', '.woff', '.svg']
   },
   plugins: [
     new webpack.ProvidePlugin({

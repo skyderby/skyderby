@@ -14,10 +14,9 @@ const FULL_SPEED_COLOR = '#D6A184'
 const SEP_COLOR = '#A6AFBB'
 const SEP_LIMIT_COLOR = '#9e0419'
 const HEIGHT_COLOR = '#7cb5ec'
-const COMBINED_HEIGHT_COLOR = '#aaa'
-const ELEVATION_COLOR = '#434348'
+const COMBINED_HEIGHT_COLOR = 'var(--chart-crosshair)'
+const ELEVATION_COLOR = 'var(--gray-80)'
 const DISTANCE_COLOR = '#90ed7d'
-const AXIS_LABEL_COLOR = '#666'
 
 const GLIDE_ZONES = [
   { upTo: 0.1, color: WARNING_COLOR },
@@ -365,14 +364,14 @@ export const buildCombinedChart = (container, points, options = {}) => {
     series,
     yAxes: [
       { id: 'altitude', tickInterval: 200 },
-      { id: 'speed', min: 0, position: 'right', grid: false, color: AXIS_LABEL_COLOR },
+      { id: 'speed', min: 0, position: 'right', grid: false },
       { id: 'glide', ...glideAxis, position: 'right', grid: false, color: GLIDE_COLOR },
       { id: 'sep', min: 0, max: 75, labels: false, grid: false }
     ]
   })
 }
 
-const ACCURACY_COLOR = '#ccc'
+const ACCURACY_COLOR = 'var(--gray-40)'
 const ACCURACY_LIMIT = 3
 const VALIDATION_WINDOW_HEIGHT = 1000
 const POSITION_COLOR = '#7b4fb0'
@@ -462,7 +461,6 @@ export const buildSpeedSkydivingChart = (container, points, options = {}) => {
         min: 0,
         position: 'right',
         grid: false,
-        color: AXIS_LABEL_COLOR,
         pane
       },
       {

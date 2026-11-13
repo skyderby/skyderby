@@ -1,0 +1,25 @@
+/*
+ *= require ./layout/_fullscreen
+ *= require_self
+ */
+
+a {
+  cursor: pointer;
+}
+a:hover, a:focus {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+@page {
+  size: A4 landscape;
+}
+@media print {
+  html, body {
+    width: 297mm;
+    height: 210mm;
+  }
+}

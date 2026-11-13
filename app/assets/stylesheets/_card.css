@@ -1,0 +1,25 @@
+.card {
+  background-color: var(--surface);
+  margin: 0 auto;
+  border: var(--default-border);
+  border-left-width: 0;
+  border-right-width: 0;
+  width: 100%;
+  padding: var(--card-padding, 1rem);
+}
+@media (min-width: 1200px) {
+  .card {
+    border: 1px solid var(--gray-20);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
+    border-radius: var(--border-radius-md);
+    width: 1200px;
+  }
+}
+
+.fill-entirely {
+  --card-padding: 0;
+}
+
+.card-sm {
+  width: 576px;
+}

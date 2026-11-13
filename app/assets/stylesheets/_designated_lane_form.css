@@ -1,0 +1,8 @@
+.designated-lane-form {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.designated-lane-form .form-control {
+  width: 70px;
+}

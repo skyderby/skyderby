@@ -80,7 +80,7 @@
 
 .nav-menu-item--active a,
 .nav-menu-item--active button.dropdown-toggle {
-  color: var(--blue-30);
+  color: var(--nav-accent);
 }
 
 .nav-menu-item--active::after {
@@ -90,7 +90,7 @@
   left: 0;
   display: block;
   height: 0.25rem;
-  background-color: var(--blue-30);
+  background-color: var(--nav-accent);
   border-radius: 2px;
   content: '';
 }

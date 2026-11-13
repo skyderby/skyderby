@@ -158,7 +158,7 @@
 
 .skydive-performance-polar .polar-ld-dot {
   fill: #e3353f;
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 2;
 }
 
@@ -169,7 +169,7 @@
 
 .skydive-performance-polar .polar-marker {
   fill: #FF9800;
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 2;
 }
 
@@ -186,7 +186,7 @@
 
 .skydive-performance-polar .polar-marker-compare {
   fill: #9C27B0;
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 2;
 }
 
@@ -317,7 +317,7 @@
 }
 
 .skydive-performance-chart .wind-indicator-circle {
-  fill: white;
+  fill: var(--surface);
   fill-opacity: 0.85;
   stroke: var(--gray-40);
   stroke-width: 1.5;
@@ -351,7 +351,7 @@
 
 .skydive-performance-chart .max-speed-marker circle {
   fill: var(--blue-80);
-  stroke: white;
+  stroke: var(--surface);
   stroke-width: 1.5;
 }
 
@@ -362,7 +362,7 @@
 
 .skydive-performance-chart .max-speed-marker--compare circle {
   fill: #9C27B0;
-  stroke: white;
+  stroke: var(--surface);
   stroke-width: 1.5;
 }
 
@@ -396,21 +396,21 @@
 
 .skydive-performance-chart .crosshair-marker {
   fill: #2196F3;
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 2;
 }
 
 .skydive-performance-chart .crosshair-marker--compare {
   fill: var(--gray-50);
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 2;
 }
 
 .skydive-side-tooltip {
   position: absolute;
   display: none;
-  background: var(--white);
-  border: 1px solid #ccc;
+  background: var(--surface);
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   padding: 8px;
   font-size: 12px;
@@ -440,7 +440,7 @@
 .skydive-side-tooltip-table th {
   text-align: left;
   font-weight: 400;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .skydive-side-tooltip-table td.is-compare {
@@ -528,7 +528,7 @@
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 1rem;
-  background: #f5f5f5;
+  background: var(--gray-20);
   border-radius: 2rem;
 }
 
@@ -590,7 +590,7 @@
   height: 0.5rem;
   -webkit-appearance: none;
   appearance: none;
-  background: #ddd;
+  background: var(--gray-40);
   border-radius: 0.25rem;
   outline: none;
 }
@@ -717,7 +717,7 @@
 }
 
 .skydive-performance-actions-bar__toggle:hover {
-  background-color: var(--white);
+  background-color: var(--surface);
 }
 
 .skydive-performance-actions-bar__toggle .switch-container {
@@ -725,7 +725,7 @@
 }
 
 .skydive-performance-actions-bar__remove {
-  color: var(--red-70);
+  color: var(--text-brand);
   text-decoration: none;
 }
 
@@ -788,7 +788,7 @@
   flex-direction: column;
   width: 100%;
   max-height: calc(100dvh - 2rem);
-  background-color: var(--white);
+  background-color: var(--surface);
   border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
   box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
   overflow: hidden;
@@ -826,7 +826,7 @@
   position: relative;
   z-index: 1;
   padding: 1rem;
-  background-color: var(--white);
+  background-color: var(--surface);
   box-shadow: 0 0.25rem 0.5rem -0.25rem rgba(0, 0, 0, 0.15);
 }
 
@@ -927,7 +927,7 @@
   gap: 0.3rem;
   padding: 0.35rem 0.1rem;
   background: var(--gray-70);
-  color: var(--white);
+  color: var(--inverse-text);
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   font-family: var(--sps-mono);

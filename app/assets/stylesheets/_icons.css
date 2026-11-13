@@ -112,3 +112,6 @@
 .icon--wingsuit { --svg: url("icons/wingsuit.svg"); }
 .icon--xmark { --svg: url("icons/xmark.svg"); }
 .icon--right-left { --svg: url("icons/right-left.svg"); }
+.icon--sun { --svg: url("icons/sun.svg"); }
+.icon--moon { --svg: url("icons/moon.svg"); }
+.icon--circle-half { --svg: url("icons/circle-half.svg"); }

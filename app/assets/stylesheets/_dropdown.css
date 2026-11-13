@@ -4,7 +4,7 @@
   box-shadow: var(--block-box-shadow);
   border: var(--default-border);
   border-radius: var(--border-radius-md);
-  background-color: var(--white);
+  background-color: var(--surface);
 }
 
 .sd-dropdown-menu[popover] {
@@ -43,7 +43,7 @@
   padding: 0.5rem 1.25rem 0.5rem 0.75rem;
   border-radius: 0 !important;
   border: 0;
-  background-color: var(--white) !important;
+  background-color: var(--surface) !important;
   color: var(--gray-80) !important;
   transition: background-color 0.15s ease-out;
   width: 100%;

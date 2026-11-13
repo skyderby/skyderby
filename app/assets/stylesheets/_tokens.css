@@ -1,0 +1,38 @@
+:root {
+  color-scheme: light dark;
+
+  --control-active-bg: light-dark(var(--white), #3a475a);
+  --text-muted: var(--gray-60);
+  --text-brand: light-dark(#c91a25, #f2666d);
+  --text-link: light-dark(#0072b0, #48b8fa);
+  --text-link-hover: light-dark(#005d91, #6dc8fb);
+  --text-selected: light-dark(#42546b, #a6afbb);
+  --on-accent: #fff;
+  --inverse-text: light-dark(#fff, #12171f);
+  --nav-accent: #6dc8fb;
+  --solid-blue-80: #0083c9;
+  --solid-blue-90: #0071b2;
+  --solid-red-80: #b41220;
+  --solid-green-80: #29ba8f;
+  --solid-green-90: #0ca17a;
+
+  --chart-grid: light-dark(#e6e6e6, #2c3746);
+  --chart-axis: light-dark(#999, #6d7d92);
+  --chart-label: light-dark(#666, #9fadbf);
+  --chart-crosshair: light-dark(#aaa, #6d7d92);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+@media print {
+  :root,
+  :root[data-theme] {
+    color-scheme: light;
+  }
+}

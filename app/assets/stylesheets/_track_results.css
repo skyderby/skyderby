@@ -72,7 +72,7 @@ a.trr-card:hover {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--accent);
+  color: color-mix(in oklab, var(--accent) 55%, var(--text-color));
   margin-bottom: 2px;
 }
 
@@ -116,7 +116,7 @@ a.trr-card:hover {
 }
 
 .trr-note--invalid {
-  color: var(--red-70);
+  color: var(--text-brand);
   font-weight: 600;
 }
 

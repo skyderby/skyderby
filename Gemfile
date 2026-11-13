@@ -70,8 +70,8 @@ gem 'http_accept_language'
 gem 'browser'
 
 # Assets
-gem 'sassc-rails'
 gem 'shakapacker', '6.5.0'
+gem 'sprockets-rails'
 gem 'terser'
 gem 'turbo-rails'
 

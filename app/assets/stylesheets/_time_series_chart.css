@@ -45,7 +45,7 @@
   fill: var(--gray-60);
   font-size: 11px;
   paint-order: stroke;
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 3px;
   stroke-linejoin: round;
 }
@@ -207,7 +207,7 @@
 }
 
 .donut-chart__slice {
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 1;
 }
 
@@ -222,7 +222,7 @@
 }
 
 .polar-chart__point {
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 1;
 }
 
@@ -251,7 +251,7 @@
 }
 
 .tooltip-accel--down {
-  color: var(--red-70);
+  color: var(--text-brand);
 }
 
 .tooltip-accel--down i {

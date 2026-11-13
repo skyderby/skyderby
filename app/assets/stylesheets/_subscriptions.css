@@ -67,7 +67,7 @@
   padding: 1rem 1.25rem;
   border-radius: var(--border-radius-lg);
   border: 2px solid var(--gray-30);
-  background: var(--white);
+  background: var(--surface);
   transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
@@ -105,7 +105,7 @@
   font-size: 0.625rem;
   color: var(--white);
   font-weight: 600;
-  background: linear-gradient(135deg, var(--blue-70), var(--blue-90));
+  background: linear-gradient(135deg, var(--blue-70), var(--solid-blue-90));
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   text-transform: uppercase;
@@ -137,7 +137,7 @@
   padding: 0.875rem 1.5rem;
   font-size: 1rem;
   margin-top: 0.5rem;
-  background: linear-gradient(135deg, var(--blue-70), var(--blue-90));
+  background: linear-gradient(135deg, var(--blue-70), var(--solid-blue-90));
   border: 0;
   color: var(--white);
   font-weight: 600;
@@ -151,7 +151,7 @@
 }
 
 .subscriptions-benefits {
-  background: var(--white);
+  background: var(--surface);
   border-radius: var(--border-radius-lg);
   padding: 1.5rem;
   border: 1px solid var(--gray-30);
@@ -244,7 +244,7 @@
 
 .subscriptions-active {
   background: linear-gradient(135deg, var(--green-10) 0%, var(--white) 100%);
-  border: 2px solid var(--green-80);
+  border: 2px solid var(--solid-green-80);
   border-radius: var(--border-radius-lg);
   padding: 2rem;
   text-align: center;
@@ -254,7 +254,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--green-80);
+  background: var(--solid-green-80);
   color: var(--white);
   padding: 0.5rem 1rem;
   border-radius: 2rem;
@@ -341,7 +341,7 @@
 .success-content {
   max-width: 560px;
   text-align: center;
-  background: var(--white);
+  background: var(--surface);
   border-radius: var(--border-radius-lg);
   padding: 3rem 2.5rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
@@ -367,7 +367,7 @@
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, var(--green-70), var(--green-90));
+  background: linear-gradient(135deg, var(--green-70), var(--solid-green-90));
   border-radius: 50%;
   margin-bottom: 1.5rem;
   animation: badge-pulse 2s ease-in-out infinite;
@@ -394,7 +394,7 @@
 
 .success-subtitle {
   font-size: 1.25rem;
-  color: var(--blue-70);
+  color: var(--text-link);
   font-weight: 600;
   margin: 0 0 1.5rem 0;
 }
@@ -454,7 +454,7 @@
   width: 100%;
   padding: 0.875rem 1.5rem;
   font-size: 1rem;
-  background: linear-gradient(135deg, var(--blue-70), var(--blue-90));
+  background: linear-gradient(135deg, var(--blue-70), var(--solid-blue-90));
   border: 0;
   color: var(--white);
   font-weight: 600;
@@ -563,7 +563,7 @@
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--gray-20);
   border-radius: var(--border-radius-lg);
   overflow: hidden;
@@ -680,7 +680,7 @@
 
 .gift-recipient {
   text-align: center;
-  background: var(--white);
+  background: var(--surface);
   border-radius: var(--border-radius-lg);
   padding: 2rem;
   border: 1px solid var(--gray-30);

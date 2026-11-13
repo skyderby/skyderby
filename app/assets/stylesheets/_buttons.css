@@ -1,6 +1,6 @@
 @layer components {
   .button {
-    --button-bg: var(--white);
+    --button-bg: var(--surface);
     --button-color: var(--gray-80);
     --button-border-color: var(--gray-40);
     --button-border-size: 1px;
@@ -127,20 +127,20 @@
     --button-color: var(--white);
     --button-border-size: 0;
 
-    background: linear-gradient(135deg, var(--blue-80) 0%, var(--blue-90) 100%);
+    background: linear-gradient(135deg, var(--solid-blue-80) 0%, var(--solid-blue-90) 100%);
     box-shadow: 0 2px 1px #0000001f;
   }
 
   .button--danger {
-    --button-bg: var(--red-80);
+    --button-bg: var(--solid-red-80);
     --button-color: var(--white);
-    --button-border-color: var(--red-80);
+    --button-border-color: var(--solid-red-80);
   }
 
   .button--success {
-    --button-bg: var(--green-80);
+    --button-bg: var(--solid-green-80);
     --button-color: var(--white);
-    --button-border-color: var(--green-80);
+    --button-border-color: var(--solid-green-80);
   }
 
   .button--ghost.button--danger {
@@ -152,7 +152,7 @@
     --button-bg: transparent;
     --button-color: var(--blue-90);
     --button-border-size: 1px;
-    --button-border-color: var(--blue-90);
+    --button-border-color: var(--solid-blue-90);
 
     background: none;
     box-shadow: none;
@@ -161,7 +161,7 @@
   .button--outline.button--danger {
     --button-bg: transparent;
     --button-color: var(--red-80);
-    --button-border-color: var(--red-80);
+    --button-border-color: var(--solid-red-80);
   }
 
   @media (any-hover: hover) {

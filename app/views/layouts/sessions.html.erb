@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>">
+<html lang="<%= I18n.locale %>" <%= tag.attributes(data: { theme: color_theme }) %>>
   <head>
     <title><%= page_title(yield(:title)) %></title>
     <% if content_for?(:description) %>
@@ -17,7 +17,7 @@
       <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <% end %>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body class="sign-in-page">
     <header class="app-navbar">

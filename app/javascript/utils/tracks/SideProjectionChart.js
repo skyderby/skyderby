@@ -385,7 +385,7 @@ export default class SideProjectionChart {
       vLine.setAttribute('y1', padding.top)
       vLine.setAttribute('x2', x)
       vLine.setAttribute('y2', this.height - padding.bottom)
-      vLine.setAttribute('stroke', '#e0e0e0')
+      vLine.style.stroke = 'var(--chart-grid)'
       vLine.setAttribute('stroke-width', '1')
       gridGroup.appendChild(vLine)
 
@@ -396,7 +396,7 @@ export default class SideProjectionChart {
       xLabel.setAttribute('y', this.height - padding.bottom + 15)
       xLabel.setAttribute('text-anchor', 'middle')
       xLabel.setAttribute('font-size', '11')
-      xLabel.setAttribute('fill', '#666')
+      xLabel.style.fill = 'var(--chart-label)'
       xLabel.textContent = formatAxisLength(value, this.options.units)
       gridGroup.appendChild(xLabel)
     })
@@ -409,7 +409,7 @@ export default class SideProjectionChart {
       hLine.setAttribute('y1', y)
       hLine.setAttribute('x2', this.width - padding.right)
       hLine.setAttribute('y2', y)
-      hLine.setAttribute('stroke', '#e0e0e0')
+      hLine.style.stroke = 'var(--chart-grid)'
       hLine.setAttribute('stroke-width', '1')
       gridGroup.appendChild(hLine)
 
@@ -420,7 +420,7 @@ export default class SideProjectionChart {
       yLabel.setAttribute('y', y + 4)
       yLabel.setAttribute('text-anchor', 'end')
       yLabel.setAttribute('font-size', '11')
-      yLabel.setAttribute('fill', '#666')
+      yLabel.style.fill = 'var(--chart-label)'
       yLabel.textContent = formatAxisLength(value, this.options.units)
       gridGroup.appendChild(yLabel)
     })
@@ -430,7 +430,7 @@ export default class SideProjectionChart {
     xAxisLabel.setAttribute('y', this.height - 5)
     xAxisLabel.setAttribute('text-anchor', 'middle')
     xAxisLabel.setAttribute('font-size', '12')
-    xAxisLabel.setAttribute('fill', '#333')
+    xAxisLabel.style.fill = 'var(--text-color)'
     xAxisLabel.textContent = `Distance (${lengthUnitLabel(this.options.units, this.labels)})`
     gridGroup.appendChild(xAxisLabel)
 
@@ -453,7 +453,7 @@ export default class SideProjectionChart {
     line.setAttribute('y1', this.scaleY(0))
     line.setAttribute('x2', this.scaleX(this.fullScale))
     line.setAttribute('y2', this.scaleY(this.fullScale))
-    line.setAttribute('stroke', '#999')
+    line.style.stroke = 'var(--chart-axis)'
     line.setAttribute('stroke-width', '1')
     line.setAttribute('stroke-dasharray', '5,5')
     this.plot.appendChild(line)
@@ -469,7 +469,7 @@ export default class SideProjectionChart {
     label.setAttribute('x', labelX)
     label.setAttribute('y', labelY)
     label.setAttribute('font-size', '11')
-    label.setAttribute('fill', '#999')
+    label.style.fill = 'var(--chart-axis)'
     label.setAttribute('transform', `rotate(-45, ${labelX}, ${labelY})`)
     label.textContent = '1:1'
     this.plot.appendChild(label)

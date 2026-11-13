@@ -1,9 +1,9 @@
 <div class="show-page-header">
   <div class="profile-header">
     <div class="profile-header__avatar">
-      <%= image_tag(profile.userpic_url(:medium), class: 'profile-header__avatar-image') %>
+      <%= image_tag(profile.userpic_url(:medium), class: 'profile-header__avatar-image', alt: '') %>
       <% if profile.editable? %>
-        <%= link_to new_profile_avatar_path(profile), data: { turbo_stream: true }, class: 'profile-header__avatar-change', rel: 'nofollow' do %>
+        <%= link_to new_profile_avatar_path(profile), data: { turbo_stream: true }, class: 'profile-header__avatar-change', rel: 'nofollow', aria: { label: t('users.profile.edit.change_photo') } do %>
           <%= icon_tag 'pencil-solid' %>
         <% end %>
       <% end %>

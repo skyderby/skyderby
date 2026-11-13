@@ -57,7 +57,7 @@
 
 .filter-tag-remove:hover {
   background-color: var(--gray-30);
-  color: var(--red-60);
+  color: var(--text-brand);
 }
 
 .hot-select--hidden {
@@ -130,7 +130,7 @@
 }
 
 .hot-select-dropdown {
-  background-color: var(--white);
+  background-color: var(--surface);
   border: var(--default-border);
   border-radius: var(--border-radius-md);
   padding: 0.5rem 0;

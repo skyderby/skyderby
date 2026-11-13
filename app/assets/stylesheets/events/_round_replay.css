@@ -65,7 +65,7 @@
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
   font-weight: 600;
-  background: var(--white);
+  background: var(--surface);
   white-space: nowrap;
   overflow: hidden;
 }
@@ -270,7 +270,7 @@
 }
 
 .round-replay-chart .track-marker {
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 2;
 }
 
@@ -376,7 +376,7 @@
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 1rem;
-  background: #f5f5f5;
+  background: var(--gray-20);
   border-radius: 2rem;
 }
 
@@ -438,7 +438,7 @@
   height: 0.5rem;
   -webkit-appearance: none;
   appearance: none;
-  background: #ddd;
+  background: var(--gray-40);
   border-radius: 0.25rem;
   outline: none;
 }

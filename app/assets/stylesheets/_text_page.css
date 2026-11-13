@@ -1,5 +1,5 @@
 .text-page {
-  background-color: var(--white);
+  background-color: var(--surface);
   color: var(--gray-90);
   line-height: 1.6;
   margin: 0 auto;

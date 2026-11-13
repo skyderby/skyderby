@@ -47,7 +47,7 @@
 
 .journal-chart__unit {
   font-size: 0.75rem;
-  color: var(--gray-60, #6b7280);
+  color: var(--gray-60);
 }
 
 .journal-chart__unsuitable {
@@ -57,7 +57,7 @@
 
 .journal-chart__unsuitable summary {
   cursor: pointer;
-  color: var(--gray-60, #6b7280);
+  color: var(--gray-60);
 }
 
 .journal-chart__unsuitable ul {
@@ -67,8 +67,8 @@
   padding: 8px 12px;
   max-height: 240px;
   overflow-y: auto;
-  background: var(--white, #fff);
-  border: 1px solid var(--gray-20, #e5e7eb);
+  background: var(--surface);
+  border: 1px solid var(--gray-20);
   border-radius: 6px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
   list-style: none;
@@ -96,7 +96,7 @@
   align-items: center;
   gap: 4px;
   font-size: 0.6875rem;
-  color: var(--gray-70, #4b5563);
+  color: var(--gray-70);
 }
 
 .journal-chart__legend-swatch {
@@ -239,7 +239,7 @@
   font-weight: 500;
   letter-spacing: 0.02em;
   text-transform: none;
-  color: var(--gray-60, #6b7280);
+  color: var(--gray-60);
 }
 
 .dashboard-journal__privacy .icon {

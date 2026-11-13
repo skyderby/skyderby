@@ -121,7 +121,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  color: var(--blue-70);
+  color: var(--text-link);
 
   &::before {
     content: '';
@@ -151,7 +151,7 @@
 
   &:hover,
   &:focus-visible {
-    color: var(--red-70);
+    color: var(--text-brand);
   }
 }
 

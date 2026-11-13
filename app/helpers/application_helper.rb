@@ -5,6 +5,8 @@ module ApplicationHelper
     title.present? ? "#{title} - Skyderby" : "Skyderby: #{base_title}"
   end
 
+  def color_theme = cookies[:theme].presence_in(%w[light dark])
+
   def icon_tag(name, **options)
     tag.span class: class_names("icon icon--#{name}", options.delete(:class)), 'aria-hidden': true, **options
   end

@@ -1,0 +1,4 @@
+.button--white, ul.nav li > a.button-navbar.button--white {
+  color: var(--gray-70);
+  background-color: var(--surface);
+}

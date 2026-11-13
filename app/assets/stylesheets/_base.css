@@ -21,7 +21,7 @@
   }
 
   a {
-    color: var(--blue-80);
+    color: var(--text-link);
     text-decoration: none;
   }
 
@@ -41,7 +41,7 @@
   }
 
   a:hover {
-    color: var(--blue-90);
+    color: var(--text-link-hover);
     text-decoration: underline;
   }
 
@@ -101,7 +101,7 @@
   }
 
   input[readonly] {
-    background-color: white !important;
+    background-color: var(--surface) !important;
     cursor: text !important;
   }
 }

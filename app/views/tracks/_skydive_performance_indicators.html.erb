@@ -6,7 +6,6 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.distance') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="distance"
            data-summary-indicators-target="distance"></div>
       <div class="track-indicator-units" data-unit="length"><%= t("units.#{altitude_units_by_type(Current.charts_units)}") %></div>
     </div>
@@ -23,11 +22,9 @@
 
       <div class="wind-effect-values">
         <div class="wind-effect-result"
-             aria-label="wind cancelled value"
              data-summary-indicators-target="windEffectDistance"></div>
         <div class="wind-effect-wind"
-             data-summary-indicators-target="windEffectDistanceWind"
-             aria-label="wind effect"></div>
+             data-summary-indicators-target="windEffectDistanceWind"></div>
       </div>
     </div>
   </div>
@@ -36,19 +33,16 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.ground_speed') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="average horizontal speed"
            data-summary-indicators-target="groundSpeed">
       </div>
       <div class="track-indicator-minmax-value">
         <div class="track-indicator-max">
-          <span aria-label="maximum horizontal speed"
-                data-summary-indicators-target="groundSpeedMax">
+          <span data-summary-indicators-target="groundSpeedMax">
           </span>
           <%= icon_tag 'angle-up-solid' %>
         </div>
         <div class="track-indicator-min">
-          <span aria-label="minimum horizontal speed"
-                data-summary-indicators-target="groundSpeedMin">
+          <span data-summary-indicators-target="groundSpeedMin">
           </span>
           <%= icon_tag 'angle-down-solid' %>
         </div>
@@ -68,11 +62,9 @@
 
       <div class="wind-effect-values">
         <div class="wind-effect-result"
-             aria-label="wind cancelled value"
              data-summary-indicators-target="windEffectSpeed"></div>
         <div class="wind-effect-wind"
-             data-summary-indicators-target="windEffectSpeedWind"
-             aria-label="wind effect"></div>
+             data-summary-indicators-target="windEffectSpeedWind"></div>
       </div>
     </div>
   </div>
@@ -81,18 +73,15 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.glide_ratio') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="average glide ratio"
            data-summary-indicators-target="glideRatio">
       </div>
       <div class="track-indicator-minmax-value">
         <div class="track-indicator-max">
-          <span aria-label="maximum glide ratio"
-                data-summary-indicators-target="glideRatioMax"></span>
+          <span data-summary-indicators-target="glideRatioMax"></span>
           <%= icon_tag 'angle-up-solid' %>
         </div>
         <div class="track-indicator-min">
-          <span aria-label="minimum glide ratio"
-                data-summary-indicators-target="glideRatioMin"></span>
+          <span data-summary-indicators-target="glideRatioMin"></span>
           <%= icon_tag 'angle-down-solid' %>
         </div>
       </div>
@@ -110,11 +99,9 @@
 
       <div class="wind-effect-values">
         <div class="wind-effect-result"
-             aria-label="wind cancelled value"
              data-summary-indicators-target="windEffectGlideRatio"></div>
         <div class="wind-effect-wind"
-             data-summary-indicators-target="windEffectGlideRatioWind"
-             aria-label="wind effect"></div>
+             data-summary-indicators-target="windEffectGlideRatioWind"></div>
       </div>
     </div>
   </div>
@@ -123,7 +110,6 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.elevation') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="elevation"
            data-summary-indicators-target="elevation"></div>
       <div class="track-indicator-units" data-unit="length"><%= t("units.#{altitude_units_by_type(Current.charts_units)}") %></div>
     </div>
@@ -133,20 +119,17 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.vertical_speed') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="average vertical speed"
            data-summary-indicators-target="verticalSpeed">
       </div>
 
       <div class="track-indicator-minmax-value">
         <div class="track-indicator-min">
-          <span aria-label="maximum vertical speed"
-                data-summary-indicators-target="verticalSpeedMax">
+          <span data-summary-indicators-target="verticalSpeedMax">
           </span>
           <%= icon_tag 'angle-up-solid' %>
         </div>
         <div class="track-indicator-max">
-          <span aria-label="minimum vertical speed"
-                data-summary-indicators-target="verticalSpeedMin"></span>
+          <span data-summary-indicators-target="verticalSpeedMin"></span>
           <%= icon_tag 'angle-down-solid' %>
         </div>
       </div>
@@ -159,7 +142,6 @@
     <div class="track-indicator-title"><%= t('tracks.indicators.duration') %></div>
     <div class="track-indicator-value-container">
       <div class="track-indicator-value"
-           aria-label="duration"
            data-summary-indicators-target="duration"></div>
       <div class="track-indicator-units"><%= t('units.sec') %></div>
     </div>
