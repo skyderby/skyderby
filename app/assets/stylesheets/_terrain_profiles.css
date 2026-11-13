@@ -6,7 +6,7 @@
   grid-template-columns: minmax(250px, 1fr);
   min-width: 0;
   height: 100%;
-  background-color: var(--white);
+  background-color: var(--surface);
 }
 
 @media (min-width: 576px) {
@@ -108,6 +108,6 @@
   height: var(--terrain-editor-height);
   border: var(--default-border);
   border-radius: var(--border-radius-md);
-  background-color: var(--white);
+  background-color: var(--surface);
   overflow: hidden;
 }

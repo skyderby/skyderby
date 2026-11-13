@@ -7,7 +7,7 @@
   grid-template-columns: minmax(250px, 1fr);
   min-width: 0;
   height: 100%;
-  background-color: var(--white);
+  background-color: var(--surface);
 }
 
 @media (min-width: 576px) {
@@ -34,7 +34,7 @@
   gap: 0.4rem;
   max-width: 14rem;
   padding: 0.75rem;
-  background-color: var(--white);
+  background-color: var(--surface);
   border: var(--default-border);
   border-radius: var(--border-radius-md);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
@@ -199,13 +199,13 @@
 }
 
 .fp-marker {
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 1.5;
   pointer-events: none;
 }
 
 .fp-playback-marker {
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 2;
   pointer-events: none;
 }
@@ -225,7 +225,7 @@
   transform: translate(var(--fp-tip-tx, 0.5rem), var(--fp-tip-ty, -0.5rem));
   min-width: 12rem;
   padding: 0.5rem 0.75rem;
-  background-color: var(--white);
+  background-color: var(--surface);
   border: var(--default-border);
   border-radius: var(--border-radius-sm);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -352,9 +352,9 @@
 .fp-replay-label {
   position: absolute;
   padding: 3px 6px;
-  border-left: 3px solid var(--fp-label-color, var(--gray-60));
+  border-left: 3px solid var(--fp-label-color);
   border-radius: var(--border-radius-sm);
-  background: rgba(255, 255, 255, 0.92);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   font-size: 11px;
   line-height: 1.35;

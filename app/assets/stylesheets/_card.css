@@ -1,5 +1,5 @@
 .card {
-  background-color: var(--white);
+  background-color: var(--surface);
   margin: 0 auto;
   border: var(--default-border);
   border-left-width: 0;

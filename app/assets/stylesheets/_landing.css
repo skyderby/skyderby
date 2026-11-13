@@ -1,10 +1,10 @@
 /* Landing page. Classes are lp- prefixed and unlayered on purpose so they
    are not overridden by legacy unlayered styles. Colors come from the project
-   token set in _global.css. Theme auto-follows the system; hero is always dark. */
+   token set in _global.css. Theme follows the user setting via light-dark() tokens; hero is always dark. */
 
 .lp {
   --lp-bg: var(--gray-10);
-  --lp-surface: var(--white);
+  --lp-surface: var(--surface);
   --lp-surface-2: var(--gray-20);
   --lp-line: var(--gray-30);
   --lp-line-strong: var(--gray-40);
@@ -16,27 +16,12 @@
   --lp-cyan: var(--blue-60);
 
   --lp-ink: #171e28;
-  --lp-shadow: 0 1px 2px rgba(23, 30, 40, 0.06), 0 8px 24px -12px rgba(23, 30, 40, 0.25);
-  --lp-shadow-lift: 0 2px 4px rgba(23, 30, 40, 0.08), 0 20px 40px -18px rgba(23, 30, 40, 0.35);
+  --lp-shadow: 0 1px 2px light-dark(rgb(23 30 40 / 0.06), rgb(0 0 0 / 0.4)), 0 8px 24px -12px light-dark(rgb(23 30 40 / 0.25), rgb(0 0 0 / 0.6));
+  --lp-shadow-lift: 0 2px 4px light-dark(rgb(23 30 40 / 0.08), rgb(0 0 0 / 0.5)), 0 20px 40px -18px light-dark(rgb(23 30 40 / 0.35), rgb(0 0 0 / 0.7));
 
   background: var(--lp-bg);
   color: var(--lp-text);
   font-family: var(--primary-font);
-}
-
-@media (prefers-color-scheme: dark) {
-  .lp {
-    --lp-bg: #12171f;
-    --lp-surface: #1a212b;
-    --lp-surface-2: #212a36;
-    --lp-line: #2c3746;
-    --lp-line-strong: #3a475a;
-    --lp-text: #e7ecf2;
-    --lp-text-dim: #9fadbf;
-    --lp-text-faint: #6d7d92;
-    --lp-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -14px rgba(0, 0, 0, 0.6);
-    --lp-shadow-lift: 0 2px 6px rgba(0, 0, 0, 0.5), 0 24px 48px -20px rgba(0, 0, 0, 0.7);
-  }
 }
 
 .lp *,
@@ -137,6 +122,7 @@
 .lp-chart-frame { display: block; }
 .lp-proview {
   margin: 0;
+  color-scheme: light;
   background: #fff;
   color: var(--gray-90);
   border-radius: var(--border-radius-lg);
@@ -265,7 +251,7 @@
 .lp-leaders__intro { margin-bottom: 0; }
 @media (min-width: 900px) { .lp-leaders__grid { grid-template-columns: 1fr 1.15fr; } }
 .lp-board {
-  background: var(--white);
+  background: var(--lp-surface);
   border: 1px solid var(--gray-30);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--lp-shadow);

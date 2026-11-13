@@ -6,9 +6,9 @@
   position: absolute;
   bottom: 5px;
   right: 25px;
-  background: white;
+  background: var(--surface);
   border-radius: 100%;
-  border: 1px #ccc solid;
+  border: 1px var(--border-color) solid;
   width: 25px;
   line-height: 25px;
   text-align: center;

@@ -1,6 +1,6 @@
 .comp-list-item {
   display: flex;
-  background-color: var(--white);
+  background-color: var(--surface);
   border: var(--default-border);
   border-radius: var(--border-radius-md);
   padding: 1rem 1.5rem;

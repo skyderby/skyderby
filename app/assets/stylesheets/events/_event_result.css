@@ -14,9 +14,9 @@
   }
 }
 .event-result__body {
-  border-top: rgba(0, 0, 0, 0.14) solid 1px;
-  border-bottom: rgba(0, 0, 0, 0.14) solid 1px;
-  background-color: white;
+  border-top: var(--surface-border) solid 1px;
+  border-bottom: var(--surface-border) solid 1px;
+  background-color: var(--surface);
   padding: 10px 15px;
 }
 

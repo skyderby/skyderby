@@ -17,7 +17,7 @@
   border: 0;
   border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
   padding: 0;
-  background-color: var(--white);
+  background-color: var(--surface);
   box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 100%;

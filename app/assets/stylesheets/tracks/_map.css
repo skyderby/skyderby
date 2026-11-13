@@ -25,9 +25,9 @@
   top: 50%;
   margin-top: -100px;
   z-index: 50;
-  background-color: white;
+  background-color: var(--surface);
   border-style: solid;
-  border-color: rgba(0, 0, 0, 0.2);
+  border-color: var(--surface-border);
   border-width: 1px;
   border-radius: 3px;
   padding: 10px;

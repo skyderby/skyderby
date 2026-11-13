@@ -3,7 +3,7 @@
 }
 
 .text-gray {
-  color: #999;
+  color: var(--text-muted);
 }
 
 .text-green {

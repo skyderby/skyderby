@@ -25,6 +25,11 @@ en:
       support: Support
       privacy: Privacy
       terms: Terms
+    theme:
+      label: Color theme
+      light: Light
+      dark: Dark
+      system: System
     accessibility:
       user_menu: User menu
       profile_picture: Profile picture

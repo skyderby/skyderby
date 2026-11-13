@@ -57,7 +57,7 @@
 }
 
 .suit-show__separator {
-  color: var(--gray-40, #9ca3af);
+  color: var(--gray-40);
   padding: 0 0.125rem;
 }
 

@@ -1,5 +1,5 @@
 footer {
-  background-color: var(--white);
+  background-color: var(--surface);
   border-top: var(--default-border);
   color: var(--gray-70);
   display: flex;

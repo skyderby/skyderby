@@ -4,7 +4,7 @@
   height: 100%;
   font-family: var(--primary-font);
   line-height: 1.5;
-  color: #212529;
+  color: var(--text-color);
   background: var(--gray-20);
   display: flex;
   flex-direction: column;
@@ -41,7 +41,7 @@
   padding: 0px 10px;
 }
 .sign-in-page .content-block {
-  background-color: white;
+  background-color: var(--surface);
   border-radius: 8px;
   max-width: 320px;
   width: 90%;
@@ -75,7 +75,7 @@
 }
 .sign-in-page .divider {
   height: 1px;
-  background-color: #e0e0e0;
+  background-color: var(--gray-30);
   margin: 0.5rem 0;
 }
 .sign-in-page .signup-prompt {

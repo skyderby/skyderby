@@ -18,7 +18,7 @@
   padding-bottom: 75%;
   border-radius: var(--border-radius-lg);
   overflow: hidden;
-  background-color: var(--white);
+  background-color: var(--surface);
   background-position: center;
   background-size: cover;
   box-shadow: var(--block-box-shadow);

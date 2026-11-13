@@ -6,7 +6,7 @@
   list-style-type: none;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  border-bottom-color: rgba(0, 0, 0, 0.14);
+  border-bottom-color: var(--surface-border);
   padding-bottom: 5px;
   padding-top: 5px;
   margin-bottom: 7px;

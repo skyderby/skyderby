@@ -77,12 +77,12 @@
 }
 
 .track-list-item p {
-  color: rgb(102, 102, 102);
+  color: var(--text-secondary);
 }
 
 .track-stats {
   margin-top: 15px;
-  color: rgb(136, 136, 136);
+  color: var(--text-muted);
 }
 
 .track-data {

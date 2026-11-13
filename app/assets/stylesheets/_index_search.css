@@ -7,7 +7,7 @@
 
 .index-search__icon {
   display: table-cell;
-  background-color: #f7f7f9;
+  background-color: var(--gray-20);
   color: var(--gray-60);
   width: 34px;
   height: 34px;
@@ -18,7 +18,7 @@
 
 .index-search__input {
   display: table-cell;
-  background-color: #f7f7f9;
+  background-color: var(--gray-20);
   color: var(--gray-70);
   height: 34px;
   width: 100%;

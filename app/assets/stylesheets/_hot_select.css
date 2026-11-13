@@ -130,7 +130,7 @@
 }
 
 .hot-select-dropdown {
-  background-color: var(--white);
+  background-color: var(--surface);
   border: var(--default-border);
   border-radius: var(--border-radius-md);
   padding: 0.5rem 0;

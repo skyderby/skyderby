@@ -13,7 +13,7 @@
  */
 
 .loading-bg {
-  background: url(<%= asset_path("loading.gif") %>) no-repeat center center;
+  background: url("loading.gif") no-repeat center center;
 }
 
 .overflow-hidden {

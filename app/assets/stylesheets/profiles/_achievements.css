@@ -73,7 +73,7 @@
   border: var(--default-border);
   border-top-right-radius: var(--border-radius-md);
   border-bottom-right-radius: var(--border-radius-md);
-  background: #fff;
+  background: var(--surface);
   position: relative;
   z-index: 1;
 }

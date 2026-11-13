@@ -1,17 +1,17 @@
 .modal-header-link {
   opacity: 0.4;
-  color: black;
+  color: var(--text-color);
   padding-right: 7px;
 }
 
 .dotted-underline {
   border-bottom-style: dotted;
   border-bottom-width: 1.1px;
-  color: rgb(51, 51, 51);
+  color: var(--text-color);
 }
 .dotted-underline:hover {
   border-bottom-style: solid;
-  color: rgb(51, 51, 51);
+  color: var(--text-color);
   text-decoration: none;
 }
 

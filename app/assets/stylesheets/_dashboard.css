@@ -18,7 +18,7 @@
 }
 
 .dashboard-block {
-  background-color: var(--white);
+  background-color: var(--surface);
   border-radius: var(--border-radius-md);
   box-shadow: var(--block-box-shadow);
   padding: 1rem;

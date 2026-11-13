@@ -1,5 +1,5 @@
 .input {
-  background-color: var(--white);
+  background-color: var(--surface);
   border: var(--default-border);
   border-radius: var(--border-radius-md);
   color: var(--gray-90);

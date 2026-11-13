@@ -1,5 +1,5 @@
 .inside-iframe body {
-  background-color: var(--white);
+  background-color: var(--surface);
 }
 .inside-iframe .navbar,
 .inside-iframe footer {

@@ -96,7 +96,7 @@
   }
 
   input[readonly] {
-    background-color: white !important;
+    background-color: var(--surface) !important;
     cursor: text !important;
   }
 }

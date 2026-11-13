@@ -14,12 +14,12 @@
   border-bottom-style: dotted;
   border-bottom-width: 1.1px;
   font-size: 18px;
-  color: #333;
+  color: var(--text-color);
 }
 .leaderboard-stack__panel-header a:hover {
   border-bottom-style: solid;
   text-decoration: none;
 }
 .leaderboard-stack__panel-header a:hover {
-  color: #333;
+  color: var(--text-color);
 }

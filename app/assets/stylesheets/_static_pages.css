@@ -1,5 +1,5 @@
 .index-page-wrapper {
-  background-color: var(--white);
+  background-color: var(--surface);
 }
 
 pre.prettyprint {
@@ -27,7 +27,7 @@ pre.prettyprint {
 }
 
 .text-darkgray {
-  color: rgb(85, 85, 85);
+  color: var(--text-secondary);
 }
 
 .competition-header h2 {
@@ -101,23 +101,23 @@ pre.prettyprint {
   -webkit-background-clip: border-box;
   -webkit-background-origin: padding-box;
   -webkit-background-size: 66% 3px;
-  background: url(<%= asset_path("line.png") %>) no-repeat center 156px;
+  background: url("line.png") no-repeat center 156px;
   background-size: 66% 3px;
   text-align: center;
 }
 
 #first-step-hiw {
-  background: url(<%= asset_path("hiw-step-1.png") %>) no-repeat center 10px;
+  background: url("hiw-step-1.png") no-repeat center 10px;
   height: 130px;
 }
 
 #second-step-hiw {
-  background: url(<%= asset_path("hiw-step-2.png") %>) no-repeat center 10px;
+  background: url("hiw-step-2.png") no-repeat center 10px;
   height: 130px;
 }
 
 #third-step-hiw {
-  background: url(<%= asset_path("hiw-step-3.png") %>) no-repeat center 10px;
+  background: url("hiw-step-3.png") no-repeat center 10px;
   height: 130px;
 }
 
@@ -128,7 +128,7 @@ pre.prettyprint {
   font-weight: 600;
   line-height: 24px;
   color: rgb(245, 245, 245);
-  background: url(<%= asset_path("spot.png") %>) no-repeat center center;
+  background: url("spot.png") no-repeat center center;
   height: 26px;
   margin-top: 15px;
 }
@@ -150,37 +150,37 @@ pre.prettyprint {
 }
 
 #gpx-sf {
-  background: url(<%= asset_path("gpx.png") %>) no-repeat center center;
+  background: url("gpx.png") no-repeat center center;
   background-size: auto 120px;
   height: 150px;
 }
 
 #fs-sf {
-  background: url(<%= asset_path("flysight.jpg") %>) no-repeat center center;
+  background: url("flysight.jpg") no-repeat center center;
   background-size: contain;
   height: 150px;
 }
 
 #garmin-sf {
-  background: url(<%= asset_path("garmin-foretrex.jpg") %>) no-repeat center center;
+  background: url("garmin-foretrex.jpg") no-repeat center center;
   background-size: contain;
   height: 150px;
 }
 
 #wintec-sf {
-  background: url(<%= asset_path("wintec.jpg") %>) no-repeat center center;
+  background: url("wintec.jpg") no-repeat center center;
   background-size: contain;
   height: 150px;
 }
 
 #columbus-sf {
-  background: url(<%= asset_path("columbus-v900.png") %>) no-repeat center center;
+  background: url("columbus-v900.png") no-repeat center center;
   background-size: contain;
   height: 150px;
 }
 
 #dual-xgps {
-  background: url(<%= asset_path("dual-xgps.png") %>) no-repeat center center;
+  background: url("dual-xgps.png") no-repeat center center;
   background-size: contain;
   height: 150px;
 }

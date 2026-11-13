@@ -180,7 +180,7 @@
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 
-  background-color: var(--green-80);
+  background-color: var(--solid-green-80);
 }
 
 .wind-effect-wind-percent {
@@ -188,7 +188,7 @@
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 
-  background-color: var(--red-80);
+  background-color: var(--solid-red-80);
 }
 
 .wind-effect-result {

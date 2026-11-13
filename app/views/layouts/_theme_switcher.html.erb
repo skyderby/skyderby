@@ -1,0 +1,13 @@
+<div class="segmented-control segmented-control--inline" role="group" aria-label="<%= t('application.theme.label') %>" data-controller="theme" data-action="theme:change@window->theme#sync">
+  <% { light: 'sun', dark: 'moon', system: 'circle-half' }.each do |choice, icon| %>
+    <button type="button"
+            class="segmented-control-option"
+            title="<%= t("application.theme.#{choice}") %>"
+            aria-label="<%= t("application.theme.#{choice}") %>"
+            data-theme-target="option"
+            data-theme-choice-param="<%= choice %>"
+            data-action="theme#select">
+      <%= icon_tag icon %>
+    </button>
+  <% end %>
+</div>

@@ -7,7 +7,7 @@
 .profile-rankings__competition {
   margin: 0 15px 15px 0;
   padding: 15px;
-  border: 1px solid rgba(0, 0, 0, 0.14);
+  border: 1px solid var(--surface-border);
   border-radius: 4px;
   flex-grow: 0;
   flex-shrink: 0;
@@ -36,7 +36,7 @@
 }
 
 .profile-rankings__list-delimiter {
-  color: #999;
+  color: var(--text-muted);
 }
 
 .profile-rankings__list-result {
@@ -45,12 +45,12 @@
 
 .profile-rankings__list-rank,
 .profile-rankings__list-name {
-  color: #999;
+  color: var(--text-muted);
 }
 
 .profile-rankings--self .profile-rankings__list-rank,
 .profile-rankings--self .profile-rankings__list-name {
-  color: #333;
+  color: var(--text-color);
   font-weight: bold;
 }
 .profile-rankings--self .profile-rankings__list-result {

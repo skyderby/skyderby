@@ -231,7 +231,7 @@
 .base-jump-terrain-select label {
   white-space: nowrap;
   font-size: 0.875rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .base-jump-terrain-select .hot-select {
@@ -259,7 +259,7 @@
 
 .side-projection-chart .finish-line-crossing text,
 .side-projection-chart .finish-line-crossing--compare text {
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 3;
   paint-order: stroke;
   stroke-linejoin: round;
@@ -340,19 +340,19 @@
 
 .side-projection-chart .crosshair-marker--compare {
   fill: #9C27B0;
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 2;
 }
 
 .side-projection-chart .max-speed-marker circle {
   fill: #2196F3;
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 1.5;
 }
 
 .side-projection-chart .max-speed-marker text,
 .side-projection-chart .max-speed-marker--compare text {
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 3;
   paint-order: stroke;
   stroke-linejoin: round;
@@ -364,7 +364,7 @@
 
 .side-projection-chart .max-speed-marker--compare circle {
   fill: #9C27B0;
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 1.5;
 }
 
@@ -389,7 +389,7 @@
 .side-projection-tooltip-table th {
   text-align: left;
   font-weight: 400;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .side-projection-tooltip-table td.is-compare {
@@ -455,7 +455,7 @@ td.side-tt-delta-cell {
 }
 
 .side-projection-chart .intersection-marker {
-  fill: var(--white);
+  fill: var(--surface);
   stroke: #f00;
   stroke-width: 2;
 }
@@ -468,7 +468,7 @@ td.side-tt-delta-cell {
 
 .side-projection-chart .crosshair-marker {
   fill: #2196F3;
-  stroke: var(--white);
+  stroke: var(--surface);
   stroke-width: 2;
 }
 
@@ -477,7 +477,7 @@ td.side-tt-delta-cell {
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 1rem;
-  background: #f5f5f5;
+  background: var(--gray-20);
   border-radius: 2rem;
 }
 
@@ -545,7 +545,7 @@ td.side-tt-delta-cell {
   height: 0.5rem;
   -webkit-appearance: none;
   appearance: none;
-  background: #ddd;
+  background: var(--gray-40);
   border-radius: 0.25rem;
   outline: none;
 }
@@ -605,7 +605,7 @@ td.side-tt-delta-cell {
 }
 
 .base-jump-actions-bar__toggle:hover {
-  background-color: var(--white);
+  background-color: var(--surface);
 }
 
 .base-jump-actions-bar__toggle .switch-container {

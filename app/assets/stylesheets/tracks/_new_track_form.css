@@ -4,7 +4,7 @@
   width: 100%;
   text-align: center;
   z-index: 100;
-  background-color: white;
+  background-color: var(--surface);
   left: 0;
   top: 0;
   padding-top: 30%;

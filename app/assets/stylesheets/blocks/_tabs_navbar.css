@@ -25,7 +25,7 @@
   padding-right: 8px;
 }
 .tabs-navbar__menuitem a, .tabs-navbar__menuitem button {
-  color: #666;
+  color: var(--text-secondary);
   text-decoration: none;
   padding: 0;
   border: none;
@@ -40,7 +40,7 @@
   border-bottom-color: #0084b4;
 }
 .tabs-navbar--active a {
-  color: #111;
+  color: var(--text-color);
   font-weight: 600;
 }
 

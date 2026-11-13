@@ -1,13 +1,13 @@
 :root {
-  --gray-90: #333;
-  --gray-80: #565656;
-  --gray-70: #737373;
-  --gray-50: #8B8B8B;
-  --gray-60: #949494;
-  --gray-40: #d3d3d3;
-  --gray-30: #eee;
-  --gray-20: #f3f3f3;
-  --gray-10: #fafafa;
+  --gray-90: light-dark(#333, #e7ecf2);
+  --gray-80: light-dark(#565656, #c3cdd9);
+  --gray-70: light-dark(#737373, #9fadbf);
+  --gray-50: light-dark(#8B8B8B, #5d6b80);
+  --gray-60: light-dark(#949494, #6d7d92);
+  --gray-40: light-dark(#d3d3d3, #3a475a);
+  --gray-30: light-dark(#eee, #2c3746);
+  --gray-20: light-dark(#f3f3f3, #212a36);
+  --gray-10: light-dark(#fafafa, #12171f);
 
   --blue-gray-90: #252f3c;
   --blue-gray-80: #2a3544;
@@ -19,68 +19,68 @@
   --blue-gray-20: #C7CBD1;
   --blue-gray-10: #E5E6E7;
 
-  --blue-90: #0071b2;
-  --blue-80: #0083c9;
+  --blue-90: light-dark(#0071b2, #6dc8fb);
+  --blue-80: light-dark(#0083c9, #48b8fa);
   --blue-70: #1993e0;
   --blue-60: #28a9fb;
   --blue-50: #34aefa;
   --blue-40: #48b8fa;
-  --blue-30: #6dc8fb;
-  --blue-20: #9fdcfd;
-  --blue-10: #d0eeff;
+  --blue-30: light-dark(#6dc8fb, color-mix(in oklab, var(--blue-70) 45%, #1a212b));
+  --blue-20: light-dark(#9fdcfd, color-mix(in oklab, var(--blue-70) 30%, #1a212b));
+  --blue-10: light-dark(#d0eeff, color-mix(in oklab, var(--blue-70) 18%, #1a212b));
 
-  --red-90: #9e0419;
-  --red-80: #b41220;
+  --red-90: light-dark(#9e0419, #ec777e);
+  --red-80: light-dark(#b41220, #e64f57);
   --red-70: #c91a25;
   --red-60: #e22732;
   --red-50: #e3353f;
   --red-40: #e64f57;
-  --red-30: #ec777e;
-  --red-20: #f4a7ac;
-  --red-10: #fcd4d7;
+  --red-30: light-dark(#ec777e, color-mix(in oklab, var(--red-70) 45%, #1a212b));
+  --red-20: light-dark(#f4a7ac, color-mix(in oklab, var(--red-70) 30%, #1a212b));
+  --red-10: light-dark(#fcd4d7, color-mix(in oklab, var(--red-70) 18%, #1a212b));
 
-  --orange-90: #a36200;
-  --orange-80: #bb7302;
+  --orange-90: light-dark(#a36200, #f3bd6f);
+  --orange-80: light-dark(#bb7302, #efa945);
   --orange-70: #ec961a;
   --orange-60: #d2820b;
   --orange-50: #ed9c2a;
   --orange-40: #efa945;
-  --orange-30: #f3bd6f;
-  --orange-20: #f8d4a1;
-  --orange-10: #feeace;
+  --orange-30: light-dark(#f3bd6f, color-mix(in oklab, var(--orange-70) 45%, #1a212b));
+  --orange-20: light-dark(#f8d4a1, color-mix(in oklab, var(--orange-70) 30%, #1a212b));
+  --orange-10: light-dark(#feeace, color-mix(in oklab, var(--orange-70) 18%, #1a212b));
 
-  --yellow-90: #ae8b00;
-  --yellow-80: #caa100;
+  --yellow-90: light-dark(#ae8b00, #ffe064);
+  --yellow-80: light-dark(#caa100, #ffd738);
   --yellow-70: #e3b600;
   --yellow-60: #ffce09;
   --yellow-50: #ffd11c;
   --yellow-40: #ffd738;
-  --yellow-30: #ffe064;
-  --yellow-20: #ffeb9a;
-  --yellow-10: #fff6cb;
+  --yellow-30: light-dark(#ffe064, color-mix(in oklab, var(--yellow-70) 45%, #1a212b));
+  --yellow-20: light-dark(#ffeb9a, color-mix(in oklab, var(--yellow-70) 30%, #1a212b));
+  --yellow-10: light-dark(#fff6cb, color-mix(in oklab, var(--yellow-70) 18%, #1a212b));
 
-  --green-90: #0ca17a;
-  --green-80: #29ba8f;
+  --green-90: light-dark(#0ca17a, #81f2d2);
+  --green-80: light-dark(#29ba8f, #5feec5);
   --green-70: #36d1a1;
   --green-60: #43ecb8;
   --green-50: #4decbd;
   --green-40: #5feec5;
-  --green-30: #81f2d2;
-  --green-20: #aef6e2;
-  --green-10: #d9faf1;
+  --green-30: light-dark(#81f2d2, color-mix(in oklab, var(--green-70) 45%, #1a212b));
+  --green-20: light-dark(#aef6e2, color-mix(in oklab, var(--green-70) 30%, #1a212b));
+  --green-10: light-dark(#d9faf1, color-mix(in oklab, var(--green-70) 18%, #1a212b));
 
-  --purple-80: #6d28d9;
+  --purple-80: light-dark(#6d28d9, #a78bfa);
   --purple-70: #7c3aed;
-  --purple-10: #f1ecfe;
+  --purple-10: light-dark(#f1ecfe, color-mix(in oklab, var(--purple-70) 18%, #1a212b));
 
   --indigo-70: #4f46e5;
-  --indigo-10: #ecebfd;
+  --indigo-10: light-dark(#ecebfd, color-mix(in oklab, var(--indigo-70) 18%, #1a212b));
 
   --cyan-70: #0891b2;
-  --cyan-10: #e0f6fb;
+  --cyan-10: light-dark(#e0f6fb, color-mix(in oklab, var(--cyan-70) 18%, #1a212b));
 
   --pink-70: #db2777;
-  --pink-10: #fce7f1;
+  --pink-10: light-dark(#fce7f1, color-mix(in oklab, var(--pink-70) 18%, #1a212b));
 
   --white: #fff;
 
@@ -88,7 +88,7 @@
   --primary-color-strong: var(--red-70);
   --primary-bg-soft: var(--red-10);
 
-  --surface: var(--white);
+  --surface: light-dark(var(--white), #1a212b);
   --surface-border: var(--gray-30);
 
   --border-color: var(--gray-40);
@@ -98,7 +98,7 @@
   --border-radius-lg: 1rem;
   --border-radius-md: 0.5rem;
   --border-radius-sm: 0.375rem;
-  --box-shadow-color: rgba(0, 0, 0, 0.2);
+  --box-shadow-color: light-dark(rgb(0 0 0 / 0.2), rgb(0 0 0 / 0.6));
   --block-box-shadow: 0 0 3px var(--box-shadow-color);
   --outline-opacity: 0;
   --header-height: 3.75rem;

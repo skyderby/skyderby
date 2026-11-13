@@ -22,7 +22,7 @@
 
 .new-event .item {
   padding: 1rem;
-  background-color: var(--white);
+  background-color: var(--surface);
   border: var(--default-border);
   box-shadow: var(--block-box-shadow);
   border-radius: var(--border-radius-md);

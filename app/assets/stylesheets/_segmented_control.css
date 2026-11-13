@@ -26,7 +26,19 @@
 }
 
 .segmented-control-option.active {
-  background-color: var(--white);
+  background-color: var(--control-active-bg);
   color: var(--gray-80);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.segmented-control--inline {
+  display: inline-flex;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.segmented-control--inline .segmented-control-option {
+  flex: none;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
 }
