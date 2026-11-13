@@ -363,7 +363,7 @@
 .debrief-replay__moment[aria-pressed="true"] {
   border-color: var(--gray-90);
   background: var(--gray-90);
-  color: var(--white);
+  color: var(--inverse-text);
 }
 
 .debrief-replay__caption {

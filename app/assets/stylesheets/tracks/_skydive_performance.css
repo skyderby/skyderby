@@ -927,7 +927,7 @@
   gap: 0.3rem;
   padding: 0.35rem 0.1rem;
   background: var(--gray-70);
-  color: var(--white);
+  color: var(--inverse-text);
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   font-family: var(--sps-mono);

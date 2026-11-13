@@ -52,7 +52,7 @@
   z-index: 20;
   background-color: var(--gray-90);
   border-color: var(--gray-90);
-  color: var(--white);
+  color: var(--inverse-text);
 }
 
 .compare-active .actions-bar > :not(.compare-bar) {

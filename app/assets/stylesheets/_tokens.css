@@ -8,6 +8,7 @@
   --text-link-hover: light-dark(#005d91, #6dc8fb);
   --text-selected: light-dark(#42546b, #a6afbb);
   --on-accent: #fff;
+  --inverse-text: light-dark(#fff, #12171f);
   --nav-accent: #6dc8fb;
   --solid-blue-80: #0083c9;
   --solid-blue-90: #0071b2;
