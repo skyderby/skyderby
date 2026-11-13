@@ -1,59 +1,32 @@
 import { Controller } from '@hotwired/stimulus'
 
+const supportsClosedBy = 'closedBy' in HTMLDialogElement.prototype
+
 export default class extends Controller {
   static targets = ['dialog']
 
-  initialize() {
-    this.forceClose = this.forceClose.bind(this)
-    this.handleOverlayClick = this.handleOverlayClick.bind(this)
-    this.handleKeydown = this.handleKeydown.bind(this)
-  }
-
   connect() {
     document.addEventListener('turbo:before-render', this.forceClose)
-    document.addEventListener('keydown', this.handleKeydown)
-    this.createOverlay()
-    this.dialogTarget.show()
-    document.body.classList.add('overflow-hidden')
+    this.dialogTarget.showModal()
     document.dispatchEvent(new CustomEvent('dialog:open'))
   }
 
   disconnect() {
     document.removeEventListener('turbo:before-render', this.forceClose)
-    document.removeEventListener('keydown', this.handleKeydown)
-    this.removeOverlay()
-    document.body.classList.remove('overflow-hidden')
     document.dispatchEvent(new CustomEvent('dialog:close'))
   }
 
-  createOverlay() {
-    this.overlay = document.createElement('div')
-    this.overlay.classList.add('dialog-overlay')
-    this.overlay.addEventListener('click', this.handleOverlayClick)
-    this.element.insertBefore(this.overlay, this.dialogTarget)
-    requestAnimationFrame(() => this.overlay.classList.add('dialog-overlay-visible'))
-  }
-
-  removeOverlay() {
-    if (this.overlay) {
-      this.overlay.removeEventListener('click', this.handleOverlayClick)
-      this.overlay.remove()
-      this.overlay = null
-    }
-  }
-
-  handleOverlayClick() {
-    this.close()
-  }
-
-  handleKeydown(event) {
-    if (event.key !== 'Escape') return
-    if (this.element.querySelector(':popover-open')) return
-
-    this.close()
-  }
-
   close() {
+    this.dialogTarget.close()
+  }
+
+  closeOnBackdrop(event) {
+    if (supportsClosedBy || event.target !== this.dialogTarget) return
+
+    this.close()
+  }
+
+  remove() {
     const cleanup = () => {
       clearTimeout(fallback)
       this.element.remove()
@@ -61,12 +34,9 @@ export default class extends Controller {
 
     this.dialogTarget.addEventListener('transitionend', cleanup, { once: true })
     const fallback = setTimeout(cleanup, 300)
-
-    this.overlay?.classList.remove('dialog-overlay-visible')
-    this.dialogTarget.close()
   }
 
-  forceClose() {
+  forceClose = () => {
     this.element.remove()
   }
 }

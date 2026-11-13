@@ -1,12 +1,18 @@
 <%# locals: (title:, dialog_size: 'md', header_actions: nil, **) %>
+<% dialog_id = "dialog-#{SecureRandom.hex(4)}" %>
 
 <div data-controller="dialog">
-  <dialog class="dialog dialog-size-<%= dialog_size %>" data-dialog-target="dialog">
+  <dialog id="<%= dialog_id %>"
+          class="dialog dialog-size-<%= dialog_size %>"
+          closedby="any"
+          aria-labelledby="<%= dialog_id %>-title"
+          data-dialog-target="dialog"
+          data-action="close->dialog#remove click->dialog#closeOnBackdrop">
     <div class="dialog-header">
-      <h2 class="dialog-title"><%= title %></h2>
+      <h2 class="dialog-title" id="<%= dialog_id %>-title"><%= title %></h2>
       <div class="dialog-header-actions">
         <%= header_actions %>
-        <button class="dialog-close" aria-label="Close" data-action="dialog#close">
+        <button type="button" class="dialog-close" aria-label="<%= t('general.close') %>" command="close" commandfor="<%= dialog_id %>">
           <%= icon_tag 'xmark' %>
         </button>
       </div>

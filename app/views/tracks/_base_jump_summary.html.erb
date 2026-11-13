@@ -9,7 +9,7 @@
    } %>
 
 <div hidden data-controller="summary-sheet" data-tracks--base-jump-track-target="summary">
-  <button type="button" class="summary-card" data-action="summary-sheet#open">
+  <button type="button" class="summary-card" command="show-modal" commandfor="base-jump-summary">
     <span class="summary-card__header">
       <span class="summary-card__title"><%= t('tracks.base_pro.summary_title') %></span>
       <span class="summary-card__more"><%= t('tracks.base_pro.details') %> <%= icon_tag 'angle-right-solid' %></span>
@@ -28,17 +28,16 @@
     </span>
   </button>
 
-  <dialog class="dialog dialog-size-lg summary-sheet"
+  <dialog id="base-jump-summary"
+          class="dialog dialog-size-lg summary-sheet"
+          closedby="any"
           aria-labelledby="base-jump-summary-title"
-          data-summary-sheet-target="dialog"
-          data-action="close->summary-sheet#closed click->summary-sheet#closeOnBackdrop">
+          data-action="click->summary-sheet#closeOnBackdrop">
     <div class="dialog-header">
       <h2 class="dialog-title" id="base-jump-summary-title"><%= t('tracks.base_pro.summary_title') %></h2>
-      <form method="dialog">
-        <button class="dialog-close" aria-label="<%= t('general.close') %>" autofocus>
-          <%= icon_tag 'xmark' %>
-        </button>
-      </form>
+      <button type="button" class="dialog-close" aria-label="<%= t('general.close') %>" command="close" commandfor="base-jump-summary" autofocus>
+        <%= icon_tag 'xmark' %>
+      </button>
     </div>
     <div class="dialog-body">
       <div class="base-jump-summary">

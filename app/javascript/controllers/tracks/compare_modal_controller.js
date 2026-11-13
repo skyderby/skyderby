@@ -4,18 +4,6 @@ export default class extends Controller {
   static targets = ['dialog']
   static values = { trackId: Number, defaults: { type: Object, default: {} } }
 
-  dialogTargetConnected(dialog) {
-    this.observer = new MutationObserver(() => {
-      document.body.classList.toggle('overflow-hidden', dialog.open)
-    })
-    this.observer.observe(dialog, { attributeFilter: ['open'] })
-  }
-
-  dialogTargetDisconnected() {
-    this.observer?.disconnect()
-    document.body.classList.remove('overflow-hidden')
-  }
-
   open() {
     if (this.hasDialogTarget) this.dialogTarget.showModal()
   }
