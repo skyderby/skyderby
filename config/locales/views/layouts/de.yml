@@ -24,11 +24,6 @@ de:
       support: Support
       privacy: Datenschutz
       terms: Nutzungsbedingungen
-    theme:
-      label: Farbschema
-      light: Hell
-      dark: Dunkel
-      system: System
     accessibility:
       user_menu: Benutzermenü
       profile_picture: Profilbild

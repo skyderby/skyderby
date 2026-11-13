@@ -23,7 +23,7 @@
 }
 .btn-flat:hover {
   color: var(--text-color);
-  background-color: #f2f2f2;
+  background-color: var(--gray-20);
   text-decoration: none;
 }
 .btn-flat.active {

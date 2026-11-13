@@ -106,12 +106,12 @@
 
 .round-replay-road-header-position[data-position="1"] {
   background: #ffd700;
-  color: var(--text-color);
+  color: #000;
 }
 
 .round-replay-road-header-position[data-position="2"] {
   background: #c0c0c0;
-  color: var(--text-color);
+  color: #000;
 }
 
 .round-replay-road-header-position[data-position="3"] {

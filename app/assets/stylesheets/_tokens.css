@@ -1,9 +1,6 @@
 :root {
   color-scheme: light dark;
 
-  --page-bg: var(--gray-10);
-  --surface-raised: light-dark(var(--white), #212a36);
-  --surface-muted: var(--gray-20);
   --control-active-bg: light-dark(var(--white), #3a475a);
   --text-muted: var(--gray-60);
   --text-brand: light-dark(#c91a25, #f2666d);
@@ -17,8 +14,6 @@
   --solid-red-80: #b41220;
   --solid-green-80: #29ba8f;
   --solid-green-90: #0ca17a;
-  --overlay-bg: light-dark(rgb(0 0 0 / 0.5), rgb(0 0 0 / 0.7));
-  --shadow-color-soft: light-dark(rgb(15 23 42 / 0.06), rgb(0 0 0 / 0.4));
 
   --chart-grid: light-dark(#e6e6e6, #2c3746);
   --chart-axis: light-dark(#999, #6d7d92);
@@ -32,4 +27,11 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
+}
+
+@media print {
+  :root,
+  :root[data-theme] {
+    color-scheme: light;
+  }
 }

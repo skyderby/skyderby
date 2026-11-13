@@ -5,7 +5,7 @@ class ColorThemeTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_select 'html:not([data-theme])'
-    assert_select '[data-controller="theme"] [data-theme-choice-param="system"]'
+    assert_select '[data-controller="theme"] [data-theme-choice-param="system"][aria-pressed="true"]'
   end
 
   test 'renders the theme stored in the cookie' do
@@ -13,6 +13,7 @@ class ColorThemeTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_select 'html[data-theme="dark"]'
+    assert_select '[data-theme-choice-param="dark"][aria-pressed="true"]'
   end
 
   test 'ignores unknown cookie values' do

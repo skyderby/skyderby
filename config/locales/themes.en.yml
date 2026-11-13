@@ -1,0 +1,6 @@
+en:
+  themes:
+    label: Color theme
+    light: Light
+    dark: Dark
+    system: System

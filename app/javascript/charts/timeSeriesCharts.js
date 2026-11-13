@@ -17,7 +17,6 @@ const HEIGHT_COLOR = '#7cb5ec'
 const COMBINED_HEIGHT_COLOR = 'var(--chart-crosshair)'
 const ELEVATION_COLOR = 'var(--gray-80)'
 const DISTANCE_COLOR = '#90ed7d'
-const AXIS_LABEL_COLOR = 'var(--chart-label)'
 
 const GLIDE_ZONES = [
   { upTo: 0.1, color: WARNING_COLOR },
@@ -365,7 +364,7 @@ export const buildCombinedChart = (container, points, options = {}) => {
     series,
     yAxes: [
       { id: 'altitude', tickInterval: 200 },
-      { id: 'speed', min: 0, position: 'right', grid: false, color: AXIS_LABEL_COLOR },
+      { id: 'speed', min: 0, position: 'right', grid: false },
       { id: 'glide', ...glideAxis, position: 'right', grid: false, color: GLIDE_COLOR },
       { id: 'sep', min: 0, max: 75, labels: false, grid: false }
     ]
@@ -462,7 +461,6 @@ export const buildSpeedSkydivingChart = (container, points, options = {}) => {
         min: 0,
         position: 'right',
         grid: false,
-        color: AXIS_LABEL_COLOR,
         pane
       },
       {

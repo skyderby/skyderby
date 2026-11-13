@@ -24,11 +24,6 @@ it:
       support: Assistenza
       privacy: Privacy
       terms: Termini
-    theme:
-      label: Tema colori
-      light: Chiaro
-      dark: Scuro
-      system: Sistema
     accessibility:
       user_menu: Menu utente
       profile_picture: Foto del profilo

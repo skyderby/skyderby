@@ -25,11 +25,6 @@ ru:
       support: Поддержка
       privacy: Конфиденциальность
       terms: Условия
-    theme:
-      label: Цветовая тема
-      light: Светлая
-      dark: Тёмная
-      system: Как в системе
     accessibility:
       user_menu: Меню пользователя
       profile_picture: Фото профиля

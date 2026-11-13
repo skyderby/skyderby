@@ -71,7 +71,7 @@
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 0 0 3px var(--white), 0 0 0 5px var(--medal);
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--medal);
 }
 
 .podium__photo.avatar-initials {
@@ -93,7 +93,7 @@
   width: 1.625rem;
   height: 1.625rem;
   font-size: 0.8125rem;
-  box-shadow: 0 0 0 3px var(--white), inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 0 3px var(--surface), inset 0 -1px 1px rgba(0, 0, 0, 0.15);
 
   @media (min-width: 768px) {
     width: 1.75rem;
