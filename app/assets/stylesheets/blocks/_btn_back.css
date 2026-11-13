@@ -1,0 +1,16 @@
+.btn-back {
+  color: #555;
+  margin-right: 5px;
+  padding: 3px 5px;
+  line-height: 2;
+  font-size: 24px;
+}
+.btn-back:hover {
+  text-decoration: none;
+  background-color: var(--gray-20);
+  border-radius: 4px;
+  color: #555;
+}
+.btn-back i {
+  color: #999;
+}

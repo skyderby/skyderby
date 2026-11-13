@@ -1,0 +1,18 @@
+.modal-header {
+  display: flex;
+  padding: 0.75rem 1rem;
+  justify-content: space-between;
+  align-items: baseline;
+  border: 0;
+}
+.modal-header::before, .modal-header::after {
+  content: none;
+}
+
+.modal-title {
+  line-height: 1;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.025em;
+  color: var(--gray-80);
+}

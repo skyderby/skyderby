@@ -1,0 +1,25 @@
+.leaderboard-stack {
+  display: flex;
+  flex-direction: row;
+}
+
+.leaderboard-stack__panel {
+  flex: 1;
+}
+
+.leaderboard-stack__panel-header {
+  text-align: center;
+}
+.leaderboard-stack__panel-header a {
+  border-bottom-style: dotted;
+  border-bottom-width: 1.1px;
+  font-size: 18px;
+  color: #333;
+}
+.leaderboard-stack__panel-header a:hover {
+  border-bottom-style: solid;
+  text-decoration: none;
+}
+.leaderboard-stack__panel-header a:hover {
+  color: #333;
+}

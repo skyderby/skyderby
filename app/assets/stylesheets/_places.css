@@ -1,0 +1,60 @@
+.place-show .show-page-header {
+  padding-top: 0;
+}
+
+.place-cover {
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+  height: 240px;
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+}
+@media (min-width: 1200px) {
+  .place-cover {
+    height: 320px;
+  }
+}
+
+.place-popular-times {
+  height: 200px;
+}
+
+.place-weather-data {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.place-form {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.place-form label {
+  text-align: right;
+}
+
+.place-form--map {
+  height: 100%;
+  border-radius: var(--border-radius-md);
+}
+
+.place-link {
+  display: flex;
+  color: inherit;
+  display: inline-flex;
+  align-items: baseline;
+  border-radius: var(--border-radius-md);
+  padding: 0.25rem;
+}
+.place-link svg {
+  margin-right: 0.125rem;
+}
+
+.show-page-info .place-link {
+  margin-left: -0.25rem;
+}
+
+.place-link:hover {
+  color: inherit;
+  background-color: var(--gray-20);
+}

@@ -1,0 +1,80 @@
+/*
+ *= require ./_layers
+ *= require_tree ./common
+ *= require_tree ./blocks
+ *= require_tree ./events
+ *= require_tree ./tracks
+ *= require_tree ./places
+ *= require_tree ./profiles
+ *= require_tree ./tournaments
+ *= require_tree ./online_competitions
+ *= require_directory .
+ *= require_self
+ */
+
+.loading-bg {
+  background: url(<%= asset_path("loading.gif") %>) no-repeat center center;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+#modal-root, #dropdown-root {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: min-content 1fr min-content;
+  grid-template-columns: minmax(0, 1fr);
+}
+.page.wrap--no-top-padding {
+  padding-top: 0px;
+}
+
+.fullscreen {
+  height: 100dvh;
+  min-height: 100dvh;
+}
+
+.page-content {
+  height: 100%;
+  min-height: 0;
+}
+
+@media print {
+  .page {
+    padding: 0;
+  }
+}
+label.valid {
+  display: none !important;
+}
+
+.img-50 {
+  height: 32px;
+  width: 32px;
+}
+
+.dropdown-toggle.profile-dropdown {
+  background-color: transparent;
+  border: 0;
+  padding-bottom: 9px;
+  padding-top: 9px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.no-right-space {
+  margin-right: -5px;
+}
+
+turbo-cable-stream-source {
+  display: none;
+}

@@ -1,0 +1,157 @@
+.track-segment-row {
+  cursor: pointer;
+}
+
+.range-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.track-charts-container {
+  display: grid;
+  grid-template-rows: 250px 400px 400px;
+  width: 100%;
+  gap: 1rem;
+}
+
+@media print {
+  .track-charts-container {
+    grid-template-rows: 200px 260px 260px;
+  }
+}
+.track-charts-container:has(#all_data_chart),
+.track-charts-container:has(.speed-skydiving-chart) {
+  grid-template-rows: 600px;
+}
+
+.speed-skydiving-chart {
+  height: 600px;
+}
+
+.performance-flying-separate-charts {
+  display: grid;
+  grid-template-rows: 70px 200px 300px 200px;
+}
+
+.performance-flying-combined-chart {
+  height: 600px;
+}
+
+.videowrapper {
+  float: none;
+  clear: both;
+  width: 100%;
+  position: relative;
+  padding-bottom: 46.25%;
+  padding-top: 25px;
+  height: 0;
+}
+
+.videowrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.comment-cell {
+  max-width: 250px;
+}
+
+.track-list {
+  padding-left: 0px;
+}
+
+.track-list-item {
+  border-bottom-color: rgb(238, 238, 238);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.track-list-item p {
+  color: rgb(102, 102, 102);
+}
+
+.track-stats {
+  margin-top: 15px;
+  color: rgb(136, 136, 136);
+}
+
+.track-data {
+  border-right: solid 2px #515151;
+  color: #515151;
+  font-size: x-large;
+}
+
+.dropdown-container {
+  margin-top: 15px;
+}
+
+#content-row {
+  height: 60px;
+}
+
+#btn-range-edit {
+  float: left;
+  width: 50px;
+  margin-left: 5px;
+  padding-top: 14px;
+}
+
+#slider-range-selector {
+  margin-left: 65px;
+  width: auto;
+}
+
+.hl1 {
+  background-color: rgb(45, 126, 46);
+  color: rgb(244, 244, 244);
+}
+
+.hl2 {
+  background-color: rgb(66, 192, 67);
+  color: rgb(244, 244, 244);
+}
+
+.hl3 {
+  background-color: rgb(217, 206, 52);
+  color: rgb(244, 244, 244);
+}
+
+.hl4 {
+  background-color: rgb(228, 103, 15);
+  color: rgb(244, 244, 244);
+}
+
+.hl5 {
+  background-color: rgb(231, 0, 12);
+  color: rgb(244, 244, 244);
+}
+
+.hl6 {
+  background-color: rgb(96, 0, 12);
+  color: rgb(244, 244, 244);
+}
+
+#tracks-index tr > td:nth-child(1) {
+  min-width: 55px;
+}
+
+#tracks-index tr > td:nth-last-child(1) {
+  padding-left: 1px;
+  padding-right: 0px;
+}
+
+#tracks-index .th.result-head {
+  padding-left: 2px;
+  padding-right: 2px;
+  min-width: 85px;
+}

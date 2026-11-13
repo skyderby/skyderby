@@ -1,0 +1,19 @@
+.tracks-index-filters {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (min-width: 576px) {
+  .tracks-index-filters-button {
+    display: none;
+  }
+}
+
+.tracks-index-search {
+  display: none;
+}
+@media (min-width: 576px) {
+  .tracks-index-search {
+    display: block;
+  }
+}
