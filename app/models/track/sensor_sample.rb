@@ -9,19 +9,21 @@ class Track::SensorSample < ApplicationRecord
     sensor_file = track.track_file&.sensor_file
     return unless sensor_file&.attached? && track.exited_at
 
-    rows = rows_for(track, sensor_file)
+    samples = samples_for(track, sensor_file)
+    rows = samples.map do |sample|
+      { track_id: track.id, gps_time_in_seconds: sample.gps_time, ax: sample.ax, ay: sample.ay, az: sample.az }
+    end
     transaction do
       where(track:).delete_all
       insert_all!(rows) if rows.any? # rubocop:disable Rails/SkipsModelValidations
+      Track::SensorSeries.record(track, samples)
     end
   end
 
-  def self.rows_for(track, sensor_file)
+  def self.samples_for(track, sensor_file)
     range = time_range(track)
-    SensorParser::Flysight2.new(StringIO.new(Zlib.gunzip(sensor_file.download))).samples.filter_map do |sample|
-      next unless range.cover?(sample.gps_time)
-
-      { track_id: track.id, gps_time_in_seconds: sample.gps_time, ax: sample.ax, ay: sample.ay, az: sample.az }
+    SensorParser::Flysight2.new(StringIO.new(Zlib.gunzip(sensor_file.download))).samples.select do |sample|
+      range.cover?(sample.gps_time)
     end
   end
 
@@ -35,5 +37,5 @@ class Track::SensorSample < ApplicationRecord
 
     (track.exited_at.to_f - SECONDS_BEFORE_EXIT)..last_time
   end
-  private_class_method :rows_for, :time_range
+  private_class_method :samples_for, :time_range
 end
