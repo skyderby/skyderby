@@ -108,7 +108,7 @@ jobs:
             ${{ runner.os }}-yarn-v3-
       - name: Install system packages
         timeout-minutes: 10
-        run: .github/scripts/install-system-packages.sh
+        uses: ./.github/actions/system-packages
       - name: Install gems
         run: |
           bundle config path vendor/bundle
@@ -192,7 +192,7 @@ jobs:
             ${{ runner.os }}-yarn-v3-
       - name: Install system packages
         timeout-minutes: 10
-        run: .github/scripts/install-system-packages.sh
+        uses: ./.github/actions/system-packages
       - name: Install gems
         run: |
           bundle config path vendor/bundle
