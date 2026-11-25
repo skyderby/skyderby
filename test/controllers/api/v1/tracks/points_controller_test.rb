@@ -19,9 +19,9 @@ class Api::V1::Tracks::PointsControllerTest < ActionDispatch::IntegrationTest
     size = @track.point_arrays.size
     @track.point_arrays.update!(horizontal_accuracy: Array.new(size, 3.7), vertical_accuracy: Array.new(size, 5.2))
     options = nil
-    query = PointsQuery.method(:execute)
+    query = @track.method(:flight_points)
 
-    PointsQuery.stub(:execute, ->(track, opts) { options = opts and query.call(track, opts) }) do
+    with_flight_points(->(**opts) { options = opts and query.call(**opts) }) do
       get api_v1_track_points_url(@track, freq_1_hz: false,
                                           trimmed: { seconds_before_start: 15, seconds_after_end: 120 })
     end
@@ -36,7 +36,7 @@ class Api::V1::Tracks::PointsControllerTest < ActionDispatch::IntegrationTest
     @track.public_track!
     options = nil
 
-    PointsQuery.stub(:execute, ->(_track, opts) { options = opts and [] }) do
+    with_flight_points(->(**opts) { options = opts and [] }) do
       get api_v1_track_points_url(@track, freq_1Hz: false)
     end
 
@@ -50,5 +50,13 @@ class Api::V1::Tracks::PointsControllerTest < ActionDispatch::IntegrationTest
     get api_v1_track_points_url(@track)
 
     assert_response :forbidden
+  end
+
+  private
+
+  def with_flight_points(stub, &)
+    @track.stub(:flight_points, stub) do
+      Track.stub(:find, @track, &)
+    end
   end
 end

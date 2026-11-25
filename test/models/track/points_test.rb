@@ -16,12 +16,12 @@ class Track::PointsTest < ActiveSupport::TestCase
 
   test 'exposes points as value objects' do
     track = create_track_from_file('flysight.csv')
-    point = Track::Points.find(track.id).to_a[100]
+    point = Track::Points.find(track.id).points[100]
     legacy = track.points.offset(100).first
 
     assert_equal legacy.gps_time.to_f, point.gps_time.to_f
     assert_equal legacy.longitude, point.longitude
-    assert_in_delta legacy.h_speed / 3.6, point.h_speed, 1e-9
+    assert_in_delta legacy.h_speed, point.h_speed, 1e-9
   end
 
   test 'copies legacy points into arrays' do
@@ -103,9 +103,9 @@ class Track::PointsTest < ActiveSupport::TestCase
     points = Track::Points.find(track.id)
     points.update!(horizontal_accuracy: nil, vertical_accuracy: nil, speed_accuracy: nil)
 
-    assert_nil points.to_a.first.horizontal_accuracy
+    assert_nil points.points.first.horizontal_accuracy
     points.restore_accuracy_from_file
 
-    assert_not_nil points.to_a.first.horizontal_accuracy
+    assert_not_nil points.points.first.horizontal_accuracy
   end
 end

@@ -70,11 +70,7 @@ class QualificationJump < ApplicationRecord
     return unless track
 
     points = PointsPostprocessor.for(track.gps_type).call(
-      PointsQuery.execute(
-        track,
-        trimmed: { seconds_before_start: 10 },
-        only: %i[gps_time time_diff altitude latitude longitude h_speed v_speed glide_ratio]
-      )
+      track.flight_points(trimmed: { seconds_before_start: 10 })
     )
 
     WindowRangeFinder
@@ -91,8 +87,8 @@ class QualificationJump < ApplicationRecord
 
     finish_time = start_time.to_f + result.to_f
 
-    PointsQuery
-      .execute(track, only: %i[gps_time h_speed v_speed])
+    track
+      .flight_points
       .select { |point| point[:gps_time].to_f.between?(start_time.to_f, finish_time) }
   end
 

@@ -37,11 +37,6 @@ class Track::MapData
 
   def track_points
     @track_points ||=
-      PointsQuery.execute(
-        track,
-        trimmed: true,
-        freq_1hz: true,
-        only: [:gps_time, :altitude, :latitude, :longitude, :h_speed, :time_diff]
-      )
+      track.flight_points(trimmed: true, freq_1hz: true)
   end
 end

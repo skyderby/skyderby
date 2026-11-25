@@ -11,7 +11,7 @@ class WindowRangeFinderTest < ActiveSupport::TestCase
       { gps_time: 27, latitude: 5.5, longitude: 5.5, altitude: 2550, v_speed: 160 },
       { gps_time: 31, latitude: 6.6, longitude: 6.4, altitude: 2450, v_speed: 170 },
       { gps_time: 34, latitude: 7.7, longitude: 7.3, altitude: 2350, v_speed: 180 }
-    ]
+    ].map { |attributes| build_point(**attributes) }
 
     @range_finder = WindowRangeFinder.new(@sample_points)
   end
@@ -170,7 +170,7 @@ class WindowRangeFinderTest < ActiveSupport::TestCase
       { gps_time: 5, latitude: 0.0, longitude: 5.0, altitude: 750, v_speed: 150 },
       { gps_time: 6, latitude: 0.0, longitude: 6.0, altitude: 700, v_speed: 160 },
       { gps_time: 7, latitude: 0.0, longitude: 7.0, altitude: 650, v_speed: 170 }
-    ]
+    ].map { |attributes| build_point(**attributes) }
 
     finish_line = Place::FinishLine.new(
       start_latitude: -1.0,

@@ -17,7 +17,7 @@ module Tracks
     end
 
     def points
-      PointsQuery.execute(track, only: %i[fl_time altitude h_speed v_speed])
+      track.flight_points
     end
   end
 end

@@ -12,7 +12,7 @@ class PointsPostprocessor::DefaultTest < ActiveSupport::TestCase
       { gps_time: start_time + 1.5, fl_time: 1.5, altitude: 3200, latitude: 24.8906, longitude: 55.54473, h_speed: 50, v_speed: 50, distance: 20 },
       { gps_time: start_time + 2.0, fl_time: 2.0, altitude: 3100, latitude: 24.8907, longitude: 55.54471, h_speed: 50, v_speed: 60, distance: 20 },
       { gps_time: start_time + 2.5, fl_time: 2.5, altitude: 3000, latitude: 24.8908, longitude: 55.54469, h_speed: 50, v_speed: 70, distance: 20 }
-    ]
+    ].map { |attributes| build_point(**attributes) }
     # rubocop:enable Layout/LineLength
   end
 

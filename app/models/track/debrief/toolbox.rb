@@ -358,8 +358,7 @@ class Track::Debrief::Toolbox
 
     jump = track(track_id)
     points = PointsPostprocessor.for(jump.gps_type).call(
-      PointsQuery.execute(jump, trimmed: { seconds_before_start: 10 },
-                                only: %i[gps_time time_diff altitude latitude longitude h_speed v_speed glide_ratio])
+      jump.flight_points(trimmed: { seconds_before_start: 10 })
     )
     start = points.index { |point| point[:v_speed] >= Track::FlightMetrics::START_VERTICAL_SPEED }
     start && points[start, (rows.last.first * 5).ceil + 1]

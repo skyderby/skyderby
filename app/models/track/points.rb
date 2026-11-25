@@ -149,17 +149,25 @@ class Track::Points < ApplicationRecord
     end
   end
 
-  def to_a
-    columns = COLUMNS.map { |column| public_send(column) }
-    Array.new(size) { |index| Point.new(*columns.map { |values| values&.[](index) }) }
-  end
-
   delegate :size, to: :gps_time
 
-  def point(index) = Point.new(*COLUMNS.map { |column| public_send(column)&.[](index) })
+  def points(trimmed: false, freq_1hz: false)
+    origin = first_epoch
+    previous = nil
+    indexes(trimmed:, freq_1hz:).map do |index|
+      point(index, previous:, origin:).tap { previous = index }
+    end
+  end
+
+  def point(index, previous: nil, origin: first_epoch, with_altitude: true)
+    Point.new(
+      **timing_at(index, previous, origin), **position_at(index, with_altitude), **speeds_at(index),
+      **ACCURACY_COLUMNS.index_with { |column| public_send(column)&.[](index) }
+    )
+  end
 
   def point_at(epoch)
-    point(gps_time.bsearch_index { |time| time.to_r >= epoch } || (size - 1))
+    point(gps_time.bsearch_index { |time| time.to_r >= epoch } || (size - 1), with_altitude: false)
   end
 
   def first_epoch = gps_time.first&.to_r
@@ -184,6 +192,52 @@ class Track::Points < ApplicationRecord
   end
 
   private
+
+  def indexes(trimmed:, freq_1hz:)
+    times = gps_time.map(&:to_f)
+    range = trimmed_range(trimmed)
+    selected = (0...size).select { |index| range.nil? || range.cover?(times[index]) }
+    freq_1hz ? selected.uniq { |index| times[index].floor } : selected
+  end
+
+  def trimmed_range(trimmed)
+    return unless trimmed && track.exit_epoch && track.deploy_epoch
+
+    options = trimmed.is_a?(Hash) ? trimmed.with_indifferent_access : {}
+    from = track.exit_epoch.to_f - options[:seconds_before_start].to_f
+    to = track.deploy_epoch.to_f + options[:seconds_after_end].to_f
+    from..to
+  end
+
+  def timing_at(index, previous, origin)
+    {
+      gps_time: gps_time[index].utc, fl_time: (gps_time[index].to_r - origin).to_f,
+      time_diff: previous ? gps_time[index] - gps_time[previous] : 0
+    }
+  end
+
+  def position_at(index, with_altitude)
+    {
+      latitude: latitude[index], longitude: longitude[index], distance: distance[index],
+      abs_altitude: abs_altitude&.[](index), elevation: elevation&.[](index),
+      altitude: (altitude_at(index) if with_altitude)
+    }
+  end
+
+  def speeds_at(index)
+    horizontal = h_speed[index] * MS_IN_KMH
+    vertical = v_speed[index] * MS_IN_KMH
+    {
+      h_speed: horizontal, v_speed: vertical, full_speed: Math.sqrt((horizontal**2) + (vertical**2)),
+      glide_ratio: Point.glide_ratio(horizontal, vertical)
+    }
+  end
+
+  def altitude_at(index)
+    return elevation&.[](index) unless track.abs_altitude?
+
+    abs_altitude&.[](index)&.-(track.msl_offset.to_f)
+  end
 
   def restorable_from_file?
     horizontal_accuracy.nil? && track.flysight? && track.track_file&.file&.attached?

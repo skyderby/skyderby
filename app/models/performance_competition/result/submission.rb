@@ -48,10 +48,10 @@ class PerformanceCompetition::Result::Submission
   def set_jump_range
     return if exit_time.blank? || deploy_time.blank?
 
-    points = PointsQuery.execute(result.track, only: %i[gps_time fl_time])
+    points = result.track.flight_points
 
-    relative_exit_time = points.bsearch { |p| p['gps_time'] >= exit_time }[:fl_time]
-    relative_deploy_time = points.bsearch { |p| p['gps_time'] >= deploy_time }[:fl_time]
+    relative_exit_time = points.bsearch { |point| point.gps_time >= exit_time }.fl_time
+    relative_deploy_time = points.bsearch { |point| point.gps_time >= deploy_time }.fl_time
 
     @result.track.update! ff_start: relative_exit_time, ff_end: relative_deploy_time
 

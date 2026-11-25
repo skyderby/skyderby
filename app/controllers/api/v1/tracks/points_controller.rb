@@ -6,8 +6,8 @@ module Api
           return respond_not_authorized unless track.viewable?
 
           @points =
-            PointsQuery
-            .execute(track, options)
+            track
+            .flight_points(**options)
             .then { |points| PointsPostprocessor.for(track.gps_type).call(points) }
         end
 

@@ -11,7 +11,6 @@ class Track::FlightMetrics
   KMH = 3.6
   BEST_CONVERSION = 0.27
   BEST_CONVERSIONS = { 'base' => 0.27, 'skydive' => 0.31 }.freeze
-  POINT_COLUMNS = %i[gps_time time_diff altitude latitude longitude h_speed v_speed glide_ratio].freeze
   WINDOW_ERRORS = [WindowRangeFinder::ValueOutOfRange, PathIntersectionFinder::IntersectionNotFound].freeze
 
   attr_reader :track, :window_spec
@@ -261,7 +260,7 @@ class Track::FlightMetrics
   end
 
   def scoring_points(trimmed:)
-    PointsPostprocessor.for(track.gps_type).call(PointsQuery.execute(track, trimmed:, only: POINT_COLUMNS))
+    PointsPostprocessor.for(track.gps_type).call(track.flight_points(trimmed:))
   end
 
   def total_speed(point) = Math.hypot(point[:h_speed], point[:v_speed])

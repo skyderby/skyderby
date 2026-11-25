@@ -1,29 +1,24 @@
 class MovingAverage
-  def initialize(values, window_size:, keys:)
+  def initialize(values, window_size:)
+    raise ArgumentError, 'Step must be odd and higher than 2' if window_size < 3 || window_size.even?
+
     @values = values
-
     @window_size = window_size
-    if window_size < 3 || window_size.even?
-      raise ArgumentError,
-            'Step must be odd and higher than 2'
-    end
-
-    @keys = keys.is_a?(Array) ? keys : [keys]
   end
 
   def execute
-    neighbors = (window_size / 2).floor
-    temp = ([values.first] * neighbors) + values + ([values.last] * neighbors)
+    neighbors = window_size / 2
+    last = values.size - 1
 
-    temp.each_cons(window_size).map do |window|
-      keys.each do |key|
-        window[neighbors][key] = window.sum { |x| x[key] } / window_size
+    values.dup.tap do |averaged|
+      averaged.each_index do |index|
+        window = ((index - neighbors)..(index + neighbors)).map { |position| position.clamp(0, last) }
+        averaged[index] = window.sum { |position| averaged[position] } / window_size
       end
-      window[neighbors]
     end
   end
 
   private
 
-  attr_reader :values, :window_size, :keys
+  attr_reader :values, :window_size
 end

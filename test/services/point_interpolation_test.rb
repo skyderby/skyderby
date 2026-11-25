@@ -18,7 +18,7 @@ class PointInterpolationTest < ActiveSupport::TestCase
         v_speed: 120,
         h_speed: 200
       }
-    ]
+    ].map { |attributes| build_point(**attributes) }
   end
 
   test 'interpolates by altitude' do
@@ -36,7 +36,7 @@ class PointInterpolationTest < ActiveSupport::TestCase
       @points_to_interpolate.last
     ).execute(by: :altitude, with_value: 3000)
 
-    assert_equal expected_point, interpolated_point
+    assert_equal build_point(**expected_point), interpolated_point
   end
 
   test 'interpolates by altitude when points reversed' do
@@ -54,7 +54,7 @@ class PointInterpolationTest < ActiveSupport::TestCase
       @points_to_interpolate.first
     ).execute(by: :altitude, with_value: 3000)
 
-    assert_equal expected_point, interpolated_point
+    assert_equal build_point(**expected_point), interpolated_point
   end
 
   test 'interpolates by gps_time when points reversed' do
@@ -72,7 +72,7 @@ class PointInterpolationTest < ActiveSupport::TestCase
       @points_to_interpolate.first
     ).execute(by: :gps_time, with_value: 12.5)
 
-    assert_equal expected_point, interpolated_point
+    assert_equal build_point(**expected_point), interpolated_point
   end
 
   test 'raise error if value for interpolation out of range' do

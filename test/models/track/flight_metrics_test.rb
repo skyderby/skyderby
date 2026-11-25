@@ -99,7 +99,6 @@ class Track::FlightMetricsTest < ActiveSupport::TestCase
   end
 
   def scoring_points(trimmed: { seconds_before_start: 10 })
-    raw = PointsQuery.execute(@track, trimmed:, only: Track::FlightMetrics::POINT_COLUMNS)
-    PointsPostprocessor.for(@track.gps_type).call(raw)
+    PointsPostprocessor.for(@track.gps_type).call(@track.flight_points(trimmed:))
   end
 end

@@ -131,11 +131,7 @@ class OnlineCompetitionsService
   end
 
   def track_points(trimmed: true)
-    raw_points = PointsQuery.execute(
-      track,
-      trimmed: trimmed,
-      only: [:gps_time, :time_diff, :altitude, :latitude, :longitude, :h_speed, :v_speed, :glide_ratio]
-    )
+    raw_points = track.flight_points(trimmed:)
 
     PointsPostprocessor.for(track.gps_type).call(raw_points)
   end

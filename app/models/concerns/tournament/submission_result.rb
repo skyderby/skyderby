@@ -30,11 +30,7 @@ class Tournament < ApplicationRecord
     end
 
     def track_points
-      PointsQuery.execute(
-        track,
-        trimmed: { seconds_before_start: 20 },
-        only: %i[gps_time altitude latitude longitude]
-      )
+      track.flight_points(trimmed: { seconds_before_start: 20 })
     end
   end
 end

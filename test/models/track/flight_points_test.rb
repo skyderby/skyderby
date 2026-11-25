@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PointsQueryTest < ActiveSupport::TestCase
+class Track::FlightPointsTest < ActiveSupport::TestCase
   setup do
     @track = Track.create!(ff_start: 1, ff_end: 2.5, pilot: profiles(:john)).tap do |track|
       start_time = @start_time = 1.day.ago.beginning_of_hour.to_i
@@ -21,7 +21,7 @@ class PointsQueryTest < ActiveSupport::TestCase
   end
 
   test 'filter points by frequency if freq_1hz specified' do
-    result = PointsQuery.execute(@track, only: [:fl_time, :abs_altitude], freq_1hz: true).map(&:symbolize_keys)
+    result = @track.flight_points(freq_1hz: true).map { |point| point.to_h.slice(:fl_time, :abs_altitude) }
     assert_equal [
       { fl_time: 0.0, abs_altitude: 3500 },
       { fl_time: 1.0, abs_altitude: 3300 },
@@ -30,20 +30,17 @@ class PointsQueryTest < ActiveSupport::TestCase
   end
 
   test 'trim points if trimmed option specified' do
-    result = PointsQuery.execute(@track, only: [:fl_time, :abs_altitude], trimmed: true).map(&:symbolize_keys)
+    result = @track.flight_points(trimmed: true).map { |point| point.to_h.slice(:fl_time, :abs_altitude) }
     assert_equal [
       { fl_time: 1.0, abs_altitude: 3300 },
       { fl_time: 1.5, abs_altitude: 3200 },
       { fl_time: 2.0, abs_altitude: 3100 }
-    ], result.map(&:symbolize_keys)
+    ], result
   end
 
   test 'trim points with additional trimmed option specified' do
-    result = PointsQuery.execute(
-      @track,
-      only: [:fl_time, :abs_altitude],
-      trimmed: { seconds_before_start: 0.5 }
-    ).map(&:symbolize_keys)
+    result = @track.flight_points(trimmed: { seconds_before_start: 0.5 })
+                   .map { |point| point.to_h.slice(:fl_time, :abs_altitude) }
 
     assert_equal [
       { fl_time: 0.5, abs_altitude: 3400 },
@@ -54,17 +51,17 @@ class PointsQueryTest < ActiveSupport::TestCase
   end
 
   test 'returns speeds in km/h and time between returned points' do
-    result = PointsQuery.execute(@track, only: %i[h_speed v_speed time_diff], freq_1hz: true)
+    result = @track.flight_points(freq_1hz: true)
 
-    assert_equal([20.0, 40.0, 50.0], result.map { |point| point[:h_speed].round(6) })
-    assert_equal [0, 1.0, 1.0], result.pluck(:time_diff)
+    assert_equal([20.0, 40.0, 50.0], result.map { |point| point.h_speed.round(6) })
+    assert_equal [0, 1.0, 1.0], result.map(&:time_diff)
   end
 
   test 'trims by the exit and deploy timestamps' do
     @track.update_columns(exited_at: Time.zone.at(@start_time), deployed_at: Time.zone.at(@start_time + 1.5))
 
-    result = PointsQuery.execute(@track, only: %i[fl_time], trimmed: true)
+    result = @track.flight_points(trimmed: true)
 
-    assert_equal [0.0, 0.5, 1.0, 1.5], result.pluck(:fl_time)
+    assert_equal [0.0, 0.5, 1.0, 1.5], result.map(&:fl_time)
   end
 end

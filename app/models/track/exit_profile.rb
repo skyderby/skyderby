@@ -68,8 +68,7 @@ class Track::ExitProfile < ApplicationRecord
   end
 
   def self.build_curve(track)
-    points = PointsQuery.execute(track, trimmed: true, freq_1hz: true,
-                                        only: %i[fl_time altitude latitude longitude])
+    points = track.flight_points(trimmed: true, freq_1hz: true)
     return if points.size < 2
 
     origin = points.first
