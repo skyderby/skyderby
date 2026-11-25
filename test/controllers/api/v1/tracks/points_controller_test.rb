@@ -16,7 +16,8 @@ class Api::V1::Tracks::PointsControllerTest < ActionDispatch::IntegrationTest
 
   test '#show - original frequency trimmed around the jump with sep50' do
     @track.public_track!
-    @track.points.update_all(horizontal_accuracy: 3.7, vertical_accuracy: 5.2)
+    size = @track.point_arrays.size
+    @track.point_arrays.update!(horizontal_accuracy: Array.new(size, 3.7), vertical_accuracy: Array.new(size, 5.2))
     options = nil
     query = PointsQuery.method(:execute)
 

@@ -41,6 +41,7 @@ FactoryBot.define do
     trait :with_point do
       after :create do |track|
         track.points.create! gps_time: 1.year.ago.to_f, abs_altitude: 0
+        Track::Points.copy_from_legacy!([track.id])
       end
     end
 

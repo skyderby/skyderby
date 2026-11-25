@@ -33,6 +33,7 @@ class Track::ExitProfileTest < ActiveSupport::TestCase
   test 'skips jumps with gaps in data' do
     track = create_jump(glide_ratio: 1.5)
     track.points.where(fl_time: 10..14).delete_all
+    sync_point_arrays(track)
 
     Track::ExitProfile.recalculate(track)
 
@@ -102,6 +103,7 @@ class Track::ExitProfileTest < ActiveSupport::TestCase
       )
     end
 
+    sync_point_arrays(track)
     track
   end
 end

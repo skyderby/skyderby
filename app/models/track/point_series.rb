@@ -3,6 +3,9 @@ class Track::PointSeries
     gps_time latitude longitude abs_altitude h_speed v_speed distance fl_time
     horizontal_accuracy vertical_accuracy speed_accuracy
   ].freeze
+  VALUE_READERS = {
+    gps_time: :gps_times, fl_time: :flight_times, abs_altitude: :altitudes, h_speed: :speeds, v_speed: :speeds
+  }.freeze
 
   attr_reader :track
 
@@ -10,26 +13,34 @@ class Track::PointSeries
     @track = track
   end
 
-  def count = rows.size
+  def count = times.size
 
   def columns
-    @columns ||= COLUMNS.zip(rows.transpose.presence || Array.new(COLUMNS.size) { [] }).to_h
+    @columns ||= COLUMNS.index_with { |column| values(column) }
   end
 
   private
 
-  def rows
-    @rows ||= track.points.reorder(:gps_time_in_seconds).pluck(*select_list).map do |row|
-      row.map { |value| value&.to_f }
-    end
+  def series = @series ||= track.point_arrays
+
+  def times = @times ||= series ? series.gps_time.map(&:to_f) : []
+
+  def values(column)
+    return [] unless series
+
+    send(VALUE_READERS.fetch(column, :floats), column)
   end
 
-  def select_list
-    altitude = track.abs_altitude? ? 'abs_altitude' : 'elevation'
+  def gps_times(_column) = times
 
-    [
-      :gps_time_in_seconds, :latitude, :longitude, Arel.sql(altitude), :h_speed, :v_speed, :distance, :fl_time,
-      :horizontal_accuracy, :vertical_accuracy, :speed_accuracy
-    ]
+  def flight_times(_column) = series.gps_time.map { |time| (time.to_r - series.first_epoch).to_f }
+
+  def altitudes(_column) = floats(track.abs_altitude? ? :abs_altitude : :elevation)
+
+  def speeds(column) = floats(column).map { |value| value * Track::Points::MS_IN_KMH }
+
+  def floats(column)
+    values = series.public_send(column)
+    values ? values.map { |value| value&.to_f } : Array.new(count)
   end
 end

@@ -1,0 +1,13 @@
+<% legacy = YAML.load(ERB.new(Rails.root.join('test/fixtures/points.yml').read).result) %>
+<% legacy.values.group_by { |point| point['track'] }.each do |track, points| %>
+<% points = points.sort_by { |point| point['gps_time_in_seconds'] } %>
+<%= track %>:
+  track: <%= track %>
+  gps_time: <%= points.map { |point| Time.zone.at(point['gps_time_in_seconds']).iso8601(3) } %>
+  latitude: <%= points.map { |point| point['latitude'] } %>
+  longitude: <%= points.map { |point| point['longitude'] } %>
+  abs_altitude: <%= points.map { |point| point['abs_altitude'] } %>
+  distance: <%= points.map { |point| point['distance'] || 0 } %>
+  h_speed: <%= points.map { |point| (point['h_speed'] || 0) / 3.6 } %>
+  v_speed: <%= points.map { |point| (point['v_speed'] || 0) / 3.6 } %>
+<% end %>

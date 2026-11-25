@@ -180,5 +180,6 @@ class Tracks::PlacesControllerTest < ActionDispatch::IntegrationTest
       longitude: longitude,
       abs_altitude: abs_altitude
     )
+    sync_point_arrays(track)
   end
 end

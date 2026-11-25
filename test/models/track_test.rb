@@ -65,7 +65,7 @@ class TrackTest < ActiveSupport::TestCase
   test '#exit_point - first point at or after the start of the jump range' do
     track = track_with_points(ff_start: 2)
 
-    assert_in_delta 2.0, track.exit_point.fl_time
+    assert_equal Time.zone.at(1_002), track.exit_point.gps_time
   end
 
   test '#exit_point - nil when jump range is not set' do
@@ -78,7 +78,7 @@ class TrackTest < ActiveSupport::TestCase
     track = track_with_points(ff_start: 0)
     track.update!(landing_fl_time: 3)
 
-    assert_in_delta 3.0, track.landing_point.fl_time
+    assert_equal Time.zone.at(1_003), track.landing_point.gps_time
   end
 
   test '#landing_point - nil when landing time is unknown' do
@@ -137,6 +137,7 @@ class TrackTest < ActiveSupport::TestCase
         abs_altitude: 1_500 - (100 * second)
       )
     end
+    sync_point_arrays(track)
     track
   end
 end

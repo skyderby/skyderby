@@ -3,7 +3,7 @@ require 'test_helper'
 class PointsQueryTest < ActiveSupport::TestCase
   setup do
     @track = Track.create!(ff_start: 1, ff_end: 2.5, pilot: profiles(:john)).tap do |track|
-      start_time = 1.day.ago.beginning_of_hour.to_i
+      start_time = @start_time = 1.day.ago.beginning_of_hour.to_i
       # rubocop:disable Layout/LineLength
       track.points.insert_all!(
         [
@@ -16,6 +16,7 @@ class PointsQueryTest < ActiveSupport::TestCase
         ]
       )
       # rubocop:enable Layout/LineLength
+      sync_point_arrays(track)
     end
   end
 
@@ -50,5 +51,20 @@ class PointsQueryTest < ActiveSupport::TestCase
       { fl_time: 1.5, abs_altitude: 3200 },
       { fl_time: 2.0, abs_altitude: 3100 }
     ], result
+  end
+
+  test 'returns speeds in km/h and time between returned points' do
+    result = PointsQuery.execute(@track, only: %i[h_speed v_speed time_diff], freq_1hz: true)
+
+    assert_equal([20.0, 40.0, 50.0], result.map { |point| point[:h_speed].round(6) })
+    assert_equal [0, 1.0, 1.0], result.pluck(:time_diff)
+  end
+
+  test 'trims by the exit and deploy timestamps' do
+    @track.update_columns(exited_at: Time.zone.at(@start_time), deployed_at: Time.zone.at(@start_time + 1.5))
+
+    result = PointsQuery.execute(@track, only: %i[fl_time], trimmed: true)
+
+    assert_equal [0.0, 0.5, 1.0, 1.5], result.pluck(:fl_time)
   end
 end

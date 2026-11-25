@@ -72,6 +72,7 @@ class Api::V1::Tracks::PlacesControllerTest < ActionDispatch::IntegrationTest
       track:, fl_time: 0, gps_time_in_seconds: Time.zone.parse('2024-07-07T12:00:00Z').to_f,
       latitude:, longitude:, abs_altitude: 1200
     )
+    sync_point_arrays(track)
     track
   end
 end

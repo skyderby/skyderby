@@ -22,7 +22,7 @@ class MissingWeatherFetchingJob < ApplicationJob
   private
 
   def forecast_hour
-    @gps_time ||= @track.points.trimmed.first&.gps_time
+    @gps_time ||= @track.start_time
     return if @gps_time.blank?
 
     @gps_time.beginning_of_hour

@@ -29,8 +29,9 @@ class Track::Points < ApplicationRecord
 
   class << self
     def record(track, parsed_points)
-      unique = parsed_points.uniq { |point| point.gps_time.to_f.round(3) }
+      unique = parsed_points.uniq { |point| point.gps_time.to_f.round(3) }.sort_by { |point| point.gps_time.to_f }
       upsert(attributes_from(unique).merge(track_id: track.id), unique_by: :track_id) # rubocop:disable Rails/SkipsModelValidations
+      track.reset_point_arrays
     end
 
     def attributes_from(parsed_points)
@@ -154,6 +155,23 @@ class Track::Points < ApplicationRecord
   end
 
   delegate :size, to: :gps_time
+
+  def point(index) = Point.new(*COLUMNS.map { |column| public_send(column)&.[](index) })
+
+  def point_at(epoch)
+    point(gps_time.bsearch_index { |time| time.to_r >= epoch } || (size - 1))
+  end
+
+  def first_epoch = gps_time.first&.to_r
+
+  def min_abs_altitude(max_vertical_accuracy: nil)
+    return if abs_altitude.nil?
+
+    abs_altitude.each_index.filter_map do |index|
+      accuracy = vertical_accuracy&.[](index)
+      abs_altitude[index] if accuracy.nil? || max_vertical_accuracy.nil? || accuracy <= max_vertical_accuracy
+    end.min
+  end
 
   def restore_accuracy_from_file
     return false unless restorable_from_file?
