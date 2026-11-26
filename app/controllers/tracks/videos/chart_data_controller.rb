@@ -6,10 +6,7 @@ module Tracks
 
         fresh_when track
 
-        @points =
-          track
-          .flight_points(trimmed: { seconds_before_start: 20 }, freq_1hz: true)
-          .then { |points| PointsPostprocessor.for(track.gps_type).call(points) }
+        @points = track.flight_points(trimmed: { seconds_before_start: 20 }, freq_1hz: true)
       end
 
       def track

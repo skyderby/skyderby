@@ -50,10 +50,11 @@ class Track::FlightPointsTest < ActiveSupport::TestCase
     ], result
   end
 
-  test 'returns speeds in km/h and time between returned points' do
+  test 'returns speeds in m/s and time between returned points' do
+    @track.update_columns(gps_type: Track.gps_types[:flysight])
     result = @track.flight_points(freq_1hz: true)
 
-    assert_equal([20.0, 40.0, 50.0], result.map { |point| point.h_speed.round(6) })
+    assert_equal([20.0, 40.0, 50.0], result.map { |point| (point.h_speed * 3.6).round(6) })
     assert_equal [0, 1.0, 1.0], result.map(&:time_diff)
   end
 
@@ -63,5 +64,26 @@ class Track::FlightPointsTest < ActiveSupport::TestCase
     result = @track.flight_points(trimmed: true)
 
     assert_equal [0.0, 0.5, 1.0, 1.5], result.map(&:fl_time)
+  end
+
+  test 'smooths speeds over the whole track before trimming' do
+    full = @track.flight_points
+    trimmed = @track.flight_points(trimmed: true)
+
+    assert_equal full.select { |point| point.fl_time.between?(1.0, 2.0) }.map(&:h_speed), trimmed.map(&:h_speed)
+    assert_not_equal @track.point_arrays.h_speed[2], trimmed.first.h_speed
+  end
+
+  test 'keeps samples that sit exactly on sub-second exit and deploy timestamps' do
+    times = [1_699_999_999_002, 1_699_999_999_502, 1_700_000_000_002, 1_700_000_000_502, 1_700_000_001_011,
+             1_700_000_001_511].map { |ms| Time.zone.at(Rational(ms, 1000)) }
+    @track.point_arrays.update!(gps_time: times)
+    @track.update_columns(exited_at: times[2], deployed_at: times[4])
+    @track.reset_point_arrays
+
+    result = @track.flight_points(trimmed: true)
+
+    assert_equal(times[2..4].map(&:to_r), result.map { |point| point.gps_time.to_r })
+    assert_equal @track.exit_point.gps_time, result.first.gps_time
   end
 end

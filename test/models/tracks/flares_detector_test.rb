@@ -42,13 +42,14 @@ class Tracks::FlaresDetectorTest < ActiveSupport::TestCase
   private
 
   def climb(entry_speed:, gain:)
+    entry_speed = Track::Points.from_kmh(entry_speed)
     start = Time.zone.parse('2025-06-01 10:00:00')
     lead = (0..8).map do |second|
-      { gps_time: start + second, altitude: 1000.0 - (second * 10), h_speed: entry_speed.to_f, v_speed: 5.0 }
+      { gps_time: start + second, altitude: 1000.0 - (second * 10), h_speed: entry_speed.to_f, v_speed: 5 / 3.6 }
     end
     rise = (1..5).map do |second|
       { gps_time: start + 8 + second, altitude: 920.0 + (gain * second / 5.0), h_speed: entry_speed / 2.0,
-        v_speed: -5.0 }
+        v_speed: -5 / 3.6 }
     end
     lead + rise
   end

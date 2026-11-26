@@ -101,8 +101,8 @@ module Tournaments
             flTime: point[:fl_time].to_f,
             lat: point[:latitude].to_f,
             lng: point[:longitude].to_f,
-            hSpeed: point[:h_speed].to_f,
-            vSpeed: point[:v_speed].to_f
+            hSpeed: Track::Points.to_kmh(point[:h_speed].to_f),
+            vSpeed: Track::Points.to_kmh(point[:v_speed].to_f)
           }
         end
     end

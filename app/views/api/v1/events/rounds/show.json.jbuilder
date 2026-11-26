@@ -49,7 +49,8 @@ json.results do
     end
 
     json.points competitor_result.points do |point|
-      json.extract! point, :latitude, :longitude, :altitude, :v_speed, :abs_altitude
+      json.extract! point, :latitude, :longitude, :altitude, :abs_altitude
+      json.v_speed Track::Points.to_kmh(point[:v_speed])
       json.gpsTime point[:gps_time].iso8601(3)
     end
   end

@@ -1,11 +1,11 @@
 require 'test_helper'
 
-class PointsPostprocessor::DefaultTest < ActiveSupport::TestCase
+class Track::Points::SmoothingTest < ActiveSupport::TestCase
   setup do
     start_time = 1.day.ago.beginning_of_hour
 
     # rubocop:disable Layout/LineLength
-    @points ||= [
+    @points = [
       { gps_time: start_time,       fl_time: 0.0, altitude: 3500, latitude: 24.8903, longitude: 55.54479, h_speed: 20, v_speed: 20, distance: 20 },
       { gps_time: start_time + 0.5, fl_time: 0.5, altitude: 3400, latitude: 24.8904, longitude: 55.54477, h_speed: 30, v_speed: 30, distance: 20 },
       { gps_time: start_time + 1.0, fl_time: 1.0, altitude: 3300, latitude: 24.8905, longitude: 55.54475, h_speed: 40, v_speed: 40, distance: 20 },
@@ -16,24 +16,32 @@ class PointsPostprocessor::DefaultTest < ActiveSupport::TestCase
     # rubocop:enable Layout/LineLength
   end
 
-  test 'calculates horizontal speed' do
-    horizontal_speeds =
-      PointsPostprocessor::Default.call(@points).map { |point| point[:h_speed].round(1) }
-
-    assert_equal Array.new(6, 22.6), horizontal_speeds
+  test 'calculates horizontal speed from positions' do
+    assert_equal(Array.new(6, 22.6), smoothed.map { |point| point.h_speed.round(1) })
   end
 
-  test 'calculates vertical speed' do
-    vertical_speeds =
-      PointsPostprocessor::Default.call(@points).map { |point| point[:v_speed].round(1) }
-
-    assert_equal Array.new(6, 200), vertical_speeds
+  test 'calculates vertical speed from altitudes' do
+    assert_equal(Array.new(6, 200), smoothed.map { |point| point.v_speed.round(1) })
   end
 
-  test 'calculates GR' do
-    glide_ratios =
-      PointsPostprocessor::Default.call(@points).map { |point| point[:glide_ratio].round(2) }
+  test 'keeps vertical speed negative while climbing' do
+    climbing = @points.reverse.each_with_index.map do |point, index|
+      point.with(gps_time: @points[index].gps_time, fl_time: @points[index].fl_time)
+    end
 
-    assert_equal Array.new(6, 0.11), glide_ratios
+    assert_equal(Array.new(6, -200), Track::Points.smooth(climbing).map { |point| point.v_speed.round(1) })
   end
+
+  test 'recalculates glide ratio and full speed' do
+    assert_equal(Array.new(6, 0.11), smoothed.map { |point| point.glide_ratio.round(2) })
+    assert_equal(Array.new(6, 201.3), smoothed.map { |point| point.full_speed.round(1) })
+  end
+
+  test 'keeps empty points' do
+    assert_empty Track::Points.smooth([])
+  end
+
+  private
+
+  def smoothed = Track::Points.smooth(@points)
 end

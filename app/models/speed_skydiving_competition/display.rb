@@ -173,7 +173,7 @@ class SpeedSkydivingCompetition::Display < SimpleDelegator
       span = succ[:t] - prev[:t]
       return 0.0 if span.zero?
 
-      ((succ[:vs] - prev[:vs]) / 3.6) / span
+      (succ[:vs] - prev[:vs]) / span
     end
 
     def window_start = points.first[:alt]

@@ -165,7 +165,10 @@ class Track < ApplicationRecord
 
   def place_kind = base? ? :base : :skydive
 
-  def duration = (point_arrays.gps_time.last - point_arrays.gps_time.first).to_i
+  def duration
+    times = point_arrays&.gps_time
+    times.present? ? (times.last - times.first).to_i : 0
+  end
 
   def speed_skydiving_result = @speed_skydiving_result ||= Tracks::SpeedSkydivingResult.new(self)
 
@@ -208,8 +211,6 @@ class Track < ApplicationRecord
   def start_time = flight_points(trimmed: true).first&.gps_time&.in_time_zone
 
   def abs_altitude? = ge_enabled
-
-  def point_altitude_field = ("abs_altitude - #{msl_offset}" if abs_altitude?) || 'elevation'
 
   def delete_results = results.delete_all
 

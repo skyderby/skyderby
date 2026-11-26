@@ -7,10 +7,11 @@ class Track::PointSeries
     gps_time: :gps_times, fl_time: :flight_times, abs_altitude: :altitudes, h_speed: :speeds, v_speed: :speeds
   }.freeze
 
-  attr_reader :track
+  attr_reader :track, :speed_units
 
-  def initialize(track)
+  def initialize(track, speed_units: :kmh)
     @track = track
+    @speed_units = speed_units
   end
 
   def count = times.size
@@ -37,7 +38,10 @@ class Track::PointSeries
 
   def altitudes(_column) = floats(track.abs_altitude? ? :abs_altitude : :elevation)
 
-  def speeds(column) = floats(column).map { |value| value * Track::Points::MS_IN_KMH }
+  def speeds(column)
+    values = floats(column)
+    speed_units == :ms ? values : values.map { |value| Track::Points.to_kmh(value) }
+  end
 
   def floats(column)
     values = series.public_send(column)

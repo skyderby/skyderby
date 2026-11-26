@@ -28,8 +28,8 @@ class PerformanceCompetition::Display
           x: distance,
           d: horizontal_step(entry, point),
           alt: point[:altitude],
-          hs: point[:h_speed] || 0,
-          vs: point[:v_speed] || 0
+          hs: Track::Points.to_kmh(point[:h_speed] || 0),
+          vs: Track::Points.to_kmh(point[:v_speed] || 0)
         }
       end
 

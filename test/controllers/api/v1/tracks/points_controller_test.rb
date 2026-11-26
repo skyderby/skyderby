@@ -44,6 +44,18 @@ class Api::V1::Tracks::PointsControllerTest < ActionDispatch::IntegrationTest
     assert_equal({ freq_1hz: false, trimmed: true }, options)
   end
 
+  test '#show - speeds in km/h by default and in m/s when asked' do
+    @track.public_track!
+
+    get api_v1_track_points_url(@track)
+    kmh = response.parsed_body.first['h_speed']
+
+    get api_v1_track_points_url(@track, units: 'ms')
+
+    assert_response :success
+    assert_in_delta kmh / 3.6, response.parsed_body.first['h_speed'], 1e-9
+  end
+
   test '#show - private track' do
     @track.private_track!
 

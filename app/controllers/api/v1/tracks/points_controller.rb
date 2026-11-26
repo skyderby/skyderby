@@ -5,10 +5,7 @@ module Api
         def show
           return respond_not_authorized unless track.viewable?
 
-          @points =
-            track
-            .flight_points(**options)
-            .then { |points| PointsPostprocessor.for(track.gps_type).call(points) }
+          @points = track.flight_points(**options)
         end
 
         private

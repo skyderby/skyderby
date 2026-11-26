@@ -1,5 +1,5 @@
 class SpeedSkydivingCompetition::ResultScore
-  V_SPEED_THRESHOLD = 36 # km/h
+  V_SPEED_THRESHOLD = Track::Points.from_kmh(36)
   BREAKOFF_ALTITUDE = 1707 # 5600 ft
   WINDOW = 2256 # 7400 ft
   LOOKUP_TIME = 3

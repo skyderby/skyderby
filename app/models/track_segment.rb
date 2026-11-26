@@ -41,14 +41,14 @@ class TrackSegment
   end
 
   def max_gr
-    gr_treshold_in_kmh = 50
-    point = @points.max_by { |x| x[:h_speed] > gr_treshold_in_kmh ? x[:glide_ratio] : 0 }
+    gr_treshold = Track::Points.from_kmh(50)
+    point = @points.max_by { |x| x[:h_speed] > gr_treshold ? x[:glide_ratio] : 0 }
     point[:glide_ratio]
   end
 
   def max_ground_speed
     point = @points.max_by { |x| x[:h_speed] }
-    point[:h_speed]
+    Track::Points.to_kmh(point[:h_speed])
   end
 
   def vertical_speed

@@ -1,5 +1,7 @@
 module Api
   class ApplicationController < ::ApplicationController
+    include Api::SpeedUnits
+
     skip_before_action :verify_authenticity_token
     prepend_before_action :reject_invalid_token
 

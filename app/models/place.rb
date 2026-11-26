@@ -66,7 +66,7 @@ class Place < ApplicationRecord
   end
 
   def recent_trajectories(limit: 50)
-    Rails.cache.fetch("places/#{id}/recent_trajectories/#{limit}", expires_in: 15.minutes) do
+    Rails.cache.fetch("places/#{id}/recent_trajectories/ms/#{limit}", expires_in: 15.minutes) do
       tracks
         .public_track
         .chronologically

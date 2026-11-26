@@ -1,11 +1,10 @@
 module Tracks
   class FlaresDetector
     class Flare
-      MIN_ENTRY_SPEED = 100
+      MIN_ENTRY_SPEED = Track::Points.from_kmh(100)
       MAX_ENERGY_CONVERSION = 0.4
       LEAD_SECONDS = 8
       GRAVITY = 9.81
-      KMH = 3.6
 
       attr_reader :points
 
@@ -39,7 +38,7 @@ module Tracks
 
       def speeds_known? = lead.any? && lead.all? { |point| point[:h_speed] && point[:v_speed] }
 
-      def energy_height = (entry_speed / KMH)**2 / (2 * GRAVITY)
+      def energy_height = entry_speed**2 / (2 * GRAVITY)
     end
 
     def self.call(points, check_plausibility: true)

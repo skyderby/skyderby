@@ -9,7 +9,7 @@ class Track::MapData
 
   def points
     @points ||= track_points.map do |x|
-      { latitude: x[:latitude], longitude: x[:longitude], h_speed: x[:h_speed] }
+      { latitude: x[:latitude], longitude: x[:longitude], h_speed: Track::Points.to_kmh(x[:h_speed]) }
     end
   end
 
@@ -22,7 +22,7 @@ class Track::MapData
         WindCancellation::WindSubtraction.new(track_points, wind_data).execute
 
       zerowind_points_data.map do |x|
-        { latitude: x[:latitude], longitude: x[:longitude], h_speed: x[:h_speed] }
+        { latitude: x[:latitude], longitude: x[:longitude], h_speed: Track::Points.to_kmh(x[:h_speed]) }
       end
     end
   end

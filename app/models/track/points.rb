@@ -1,5 +1,5 @@
 class Track::Points < ApplicationRecord
-  class CopyMismatch < StandardError; end
+  include Smoothing
 
   MS_IN_KMH = 3.6
   COLUMNS = %i[
@@ -8,8 +8,7 @@ class Track::Points < ApplicationRecord
   ].freeze
   REQUIRED_COLUMNS = %i[gps_time latitude longitude distance h_speed v_speed].freeze
   ACCURACY_COLUMNS = %i[horizontal_accuracy vertical_accuracy speed_accuracy].freeze
-  FLOAT_FINGERPRINTS = %i[abs_altitude elevation distance h_speed v_speed].freeze
-  FINGERPRINT_COLUMNS = %w[size first_time last_time latitude longitude] + FLOAT_FINGERPRINTS.map(&:to_s)
+  FLOAT_COLUMNS = %i[abs_altitude elevation distance h_speed v_speed].freeze
 
   self.table_name = 'track_points'
   self.primary_key = 'track_id'
@@ -19,13 +18,7 @@ class Track::Points < ApplicationRecord
   attribute :gps_time, ArrayColumn::Time.new
   attribute :latitude, ArrayColumn::Decimal.new
   attribute :longitude, ArrayColumn::Decimal.new
-  (FLOAT_FINGERPRINTS + ACCURACY_COLUMNS).each { |column| attribute column, ArrayColumn::Float.new }
-
-  scope :restorable_from_files, lambda {
-    joins(:track)
-      .where(horizontal_accuracy: nil, tracks: { gps_type: :flysight })
-      .where.not(tracks: { track_file_id: nil })
-  }
+  (FLOAT_COLUMNS + ACCURACY_COLUMNS).each { |column| attribute column, ArrayColumn::Float.new }
 
   class << self
     def record(track, parsed_points)
@@ -34,6 +27,10 @@ class Track::Points < ApplicationRecord
       track.reset_point_arrays
     end
 
+    def from_kmh(speed) = speed / MS_IN_KMH
+
+    def to_kmh(speed) = speed * MS_IN_KMH
+
     def attributes_from(parsed_points)
       COLUMNS.to_h do |column|
         values = parsed_points.map { |point| parsed_value(point, column) }
@@ -41,92 +38,7 @@ class Track::Points < ApplicationRecord
       end
     end
 
-    def copy_from_legacy!(track_ids)
-      transaction do
-        connection.exec_update(sanitize_sql([copy_sql, track_ids]))
-        mismatched = mismatched_legacy_ids(track_ids)
-        raise CopyMismatch, "Points mismatch for tracks #{mismatched.join(', ')}" if mismatched.any?
-      end
-    end
-
-    def mismatched_legacy_ids(track_ids)
-      connection.select_values(sanitize_sql([<<~SQL.squish, track_ids, track_ids]))
-        SELECT COALESCE(legacy.track_id, copied.track_id)
-        FROM (
-          SELECT track_id, #{fingerprint_sql(time: 'gps_time_in_seconds', speed_divider: MS_IN_KMH)}
-          FROM (#{unique_legacy_points_sql}) unique_points
-          GROUP BY track_id
-        ) legacy
-        FULL JOIN (
-          SELECT track_id, #{fingerprint_sql(time: 'extract(epoch FROM gps_time)')}
-          FROM (#{unnested_points_sql}) unnested_points
-          GROUP BY track_id
-        ) copied ON copied.track_id = legacy.track_id
-        WHERE ROW(#{qualified('legacy')}) IS DISTINCT FROM ROW(#{qualified('copied')})
-           OR (legacy.vertical_accuracy IS NOT NULL
-               AND legacy.vertical_accuracy IS DISTINCT FROM copied.vertical_accuracy)
-      SQL
-    end
-
     private
-
-    def copy_sql
-      <<~SQL.squish
-        INSERT INTO track_points (track_id, #{COLUMNS.join(', ')})
-        SELECT track_id,
-               array_agg(to_timestamp(gps_time_in_seconds) ORDER BY gps_time_in_seconds),
-               array_agg(latitude ORDER BY gps_time_in_seconds),
-               array_agg(longitude ORDER BY gps_time_in_seconds),
-               #{legacy_aggregate('abs_altitude')},
-               #{legacy_aggregate('elevation')},
-               array_agg(COALESCE(distance, 0) ORDER BY gps_time_in_seconds),
-               array_agg(COALESCE(h_speed, 0) / #{MS_IN_KMH} ORDER BY gps_time_in_seconds),
-               array_agg(COALESCE(v_speed, 0) / #{MS_IN_KMH} ORDER BY gps_time_in_seconds),
-               #{ACCURACY_COLUMNS.map { |column| legacy_aggregate(column, cast: 'real') }.join(', ')}
-        FROM (#{unique_legacy_points_sql}) unique_points
-        GROUP BY track_id
-        ON CONFLICT (track_id) DO NOTHING
-      SQL
-    end
-
-    def unique_legacy_points_sql
-      <<~SQL.squish
-        SELECT DISTINCT ON (track_id, gps_time_in_seconds) *
-        FROM points
-        WHERE track_id IN (?) AND gps_time_in_seconds IS NOT NULL
-        ORDER BY track_id, gps_time_in_seconds, id
-      SQL
-    end
-
-    def fingerprint_sql(time:, speed_divider: nil)
-      speed = ->(column) { speed_divider ? "COALESCE(#{column}, 0) / #{speed_divider}" : column }
-      <<~SQL.squish
-        count(*) AS size,
-        round(min(#{time}), 3) AS first_time,
-        round(max(#{time}), 3) AS last_time,
-        sum(latitude) AS latitude,
-        sum(longitude) AS longitude,
-        round(sum(abs_altitude)::numeric, 3) AS abs_altitude,
-        round(sum(elevation)::numeric, 3) AS elevation,
-        round(sum(COALESCE(distance, 0))::numeric, 3) AS distance,
-        round(sum(#{speed.call('h_speed')})::numeric, 3) AS h_speed,
-        round(sum(#{speed.call('v_speed')})::numeric, 3) AS v_speed,
-        round(sum(vertical_accuracy::real::float8)::numeric, 2) AS vertical_accuracy
-      SQL
-    end
-
-    def qualified(table)
-      FINGERPRINT_COLUMNS.map { |column| "#{table}.#{column}" }.join(', ')
-    end
-
-    def unnested_points_sql
-      columns = %w[gps_time latitude longitude abs_altitude elevation distance h_speed v_speed vertical_accuracy]
-      <<~SQL.squish
-        SELECT track_id, point.*
-        FROM track_points, unnest(#{columns.join(', ')}) AS point(#{columns.join(', ')})
-        WHERE track_id IN (?)
-      SQL
-    end
 
     def parsed_value(point, column)
       value = point.try(column)
@@ -139,35 +51,36 @@ class Track::Points < ApplicationRecord
       else Float(value.to_s)
       end
     end
-
-    def legacy_aggregate(column, cast: 'float8')
-      <<~SQL.squish
-        CASE WHEN bool_or(#{column} IS NOT NULL)
-             THEN array_agg(#{column}::#{cast} ORDER BY gps_time_in_seconds)
-        END
-      SQL
-    end
   end
 
   delegate :size, to: :gps_time
 
   def points(trimmed: false, freq_1hz: false)
-    origin = first_epoch
     previous = nil
     indexes(trimmed:, freq_1hz:).map do |index|
-      point(index, previous:, origin:).tap { previous = index }
+      time_diff = previous ? gps_time[index] - gps_time[previous] : 0
+      previous = index
+      flight_point(index).with(time_diff:)
     end
   end
 
-  def point(index, previous: nil, origin: first_epoch, with_altitude: true)
+  def reload(...)
+    @smoothed_points = nil
+    super
+  end
+
+  def point(index, origin: first_epoch, with_altitude: true)
     Point.new(
-      **timing_at(index, previous, origin), **position_at(index, with_altitude), **speeds_at(index),
+      **timing_at(index, origin), **position_at(index, with_altitude), **speeds_at(index),
       **ACCURACY_COLUMNS.index_with { |column| public_send(column)&.[](index) }
     )
   end
 
   def point_at(epoch)
-    point(gps_time.bsearch_index { |time| time.to_r >= epoch } || (size - 1), with_altitude: false)
+    return if size.zero?
+
+    first_at_or_after = gps_time.bsearch_index { |time| time.to_r >= epoch }
+    point(first_at_or_after || (size - 1), with_altitude: false)
   end
 
   def first_epoch = gps_time.first&.to_r
@@ -181,20 +94,10 @@ class Track::Points < ApplicationRecord
     end.min
   end
 
-  def restore_accuracy_from_file
-    return false unless restorable_from_file?
-
-    source = source_accuracy
-    matches = gps_time.map { |time| source[time.to_f.round(3)] }
-    return false if matches.none?
-
-    update!(ACCURACY_COLUMNS.index_with { |column| accuracy_values(matches, column) })
-  end
-
   private
 
   def indexes(trimmed:, freq_1hz:)
-    times = gps_time.map(&:to_f)
+    times = gps_time.map(&:to_r)
     range = trimmed_range(trimmed)
     selected = (0...size).select { |index| range.nil? || range.cover?(times[index]) }
     freq_1hz ? selected.uniq { |index| times[index].floor } : selected
@@ -204,31 +107,37 @@ class Track::Points < ApplicationRecord
     return unless trimmed && track.exit_epoch && track.deploy_epoch
 
     options = trimmed.is_a?(Hash) ? trimmed.with_indifferent_access : {}
-    from = track.exit_epoch.to_f - options[:seconds_before_start].to_f
-    to = track.deploy_epoch.to_f + options[:seconds_after_end].to_f
+    from = track.exit_epoch - options[:seconds_before_start].to_r
+    to = track.deploy_epoch + options[:seconds_after_end].to_r
     from..to
   end
 
-  def timing_at(index, previous, origin)
+  def timing_at(index, origin)
     {
-      gps_time: gps_time[index].utc, fl_time: (gps_time[index].to_r - origin).to_f,
-      time_diff: previous ? gps_time[index] - gps_time[previous] : 0
+      gps_time: gps_time[index].getutc,
+      fl_time: (gps_time[index].to_r - origin).to_f,
+      time_diff: 0
     }
   end
 
   def position_at(index, with_altitude)
     {
-      latitude: latitude[index], longitude: longitude[index], distance: distance[index],
-      abs_altitude: abs_altitude&.[](index), elevation: elevation&.[](index),
+      latitude: latitude[index],
+      longitude: longitude[index],
+      distance: distance[index],
+      abs_altitude: abs_altitude&.[](index),
+      elevation: elevation&.[](index),
       altitude: (altitude_at(index) if with_altitude)
     }
   end
 
   def speeds_at(index)
-    horizontal = h_speed[index] * MS_IN_KMH
-    vertical = v_speed[index] * MS_IN_KMH
+    horizontal = h_speed[index]
+    vertical = v_speed[index]
     {
-      h_speed: horizontal, v_speed: vertical, full_speed: Math.sqrt((horizontal**2) + (vertical**2)),
+      h_speed: horizontal,
+      v_speed: vertical,
+      full_speed: Math.hypot(horizontal, vertical),
       glide_ratio: Point.glide_ratio(horizontal, vertical)
     }
   end
@@ -237,18 +146,5 @@ class Track::Points < ApplicationRecord
     return elevation&.[](index) unless track.abs_altitude?
 
     abs_altitude&.[](index)&.-(track.msl_offset.to_f)
-  end
-
-  def restorable_from_file?
-    horizontal_accuracy.nil? && track.flysight? && track.track_file&.file&.attached?
-  end
-
-  def source_accuracy
-    TrackParser::Flysight.new(file: track.track_file.source).parse.index_by { |point| point.gps_time.to_f.round(3) }
-  end
-
-  def accuracy_values(matches, column)
-    values = matches.map { |point| point&.public_send(column)&.to_f }
-    values.all?(&:nil?) ? nil : values
   end
 end

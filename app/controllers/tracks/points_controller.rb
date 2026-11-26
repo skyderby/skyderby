@@ -4,13 +4,7 @@ class Tracks::PointsController < ApplicationController
   def show
     return respond_not_authorized unless @track.viewable?
 
-    @points =
-      @track
-      .flight_points(**options.slice(:trimmed, :freq_1hz))
-      .then { |points| PointsPostprocessor.for(@track.gps_type).call(points) }
-      .map do |point|
-        point.with(h_speed: point.h_speed / 3.6, v_speed: point.v_speed / 3.6, full_speed: point.full_speed / 3.6)
-      end
+    @points = @track.flight_points(**options.slice(:trimmed, :freq_1hz))
   end
 
   private

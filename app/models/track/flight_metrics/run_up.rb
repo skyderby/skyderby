@@ -15,8 +15,8 @@ class Track::FlightMetrics::RunUp
         time: (point[:gps_time] - start[:gps_time]).to_f,
         lost: start[:altitude] - point[:altitude],
         distance: -Vincenty.distance_between_points(start, point),
-        h_speed: point[:h_speed],
-        v_speed: point[:v_speed]
+        h_speed: Track::Points.to_kmh(point[:h_speed]),
+        v_speed: Track::Points.to_kmh(point[:v_speed])
       }
     end
   end
@@ -42,23 +42,28 @@ class Track::FlightMetrics::RunUp
 
   def entry_changes
     before = samples.min_by { |sample| (sample[:time] + ENTRY_SECONDS).abs }
-    { 'entry_v_speed_change' => (start[:v_speed] - before[:v_speed]).round,
-      'entry_h_speed_change' => (start[:h_speed] - before[:h_speed]).round }
+    { 'entry_v_speed_change' => (entry[:v_speed] - before[:v_speed]).round,
+      'entry_h_speed_change' => (entry[:h_speed] - before[:h_speed]).round }
   end
 
   def top_speed
-    entry = total(start)
-    top = [samples.map { |sample| total(sample) }.max, entry].max
+    entry_speed = total(entry)
+    top = [samples.map { |sample| total(sample) }.max, entry_speed].max
     energy = Track::FlightMetrics::Segments.method(:energy)
-    { 'top_speed' => top.round, 'entry_total_speed' => entry.round, 'speed_from_top' => (entry - top).round,
-      'energy_from_top' => (energy.call(entry) - energy.call(top)).round }
+    { 'top_speed' => top.round, 'entry_total_speed' => entry_speed.round,
+      'speed_from_top' => (entry_speed - top).round,
+      'energy_from_top' => (energy.call(entry_speed) - energy.call(top)).round }
+  end
+
+  def entry
+    @entry ||= { h_speed: Track::Points.to_kmh(start[:h_speed]), v_speed: Track::Points.to_kmh(start[:v_speed]) }
   end
 
   def total(point) = Math.hypot(point[:h_speed], point[:v_speed])
 
   def settled_for
-    limit = start[:v_speed].abs * SETTLED_SHARE
-    settled = samples.reverse.take_while { |sample| (sample[:v_speed] - start[:v_speed]).abs <= limit }
+    limit = entry[:v_speed].abs * SETTLED_SHARE
+    settled = samples.reverse.take_while { |sample| (sample[:v_speed] - entry[:v_speed]).abs <= limit }
     settled.any? ? -settled.last[:time] : 0
   end
 end

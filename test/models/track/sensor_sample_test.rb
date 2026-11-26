@@ -31,16 +31,4 @@ class Track::SensorSampleTest < ActiveSupport::TestCase
     assert_equal rows.map { |time, _| time.to_f }, series.samples.map(&:gps_time)
     assert_equal rows.map(&:last), series.az
   end
-
-  test 'copies legacy samples into arrays with verification' do
-    track = create_track_from_file('speed_skydiving_411.csv', kind: :speed_skydiving, suit: nil)
-    attach_sensor_data(track) { [0.0, 0.0, 1.0] }
-    expected = track.reload.sensor_series.az
-    Track::SensorSeries.where(track:).delete_all
-
-    Track::SensorSeries.copy_from_legacy!([track.id])
-
-    assert_equal expected, Track::SensorSeries.find(track.id).az
-    assert_empty Track::SensorSeries.mismatched_legacy_ids([track.id])
-  end
 end

@@ -8,7 +8,8 @@ class Track::FlightMetricsTest < ActiveSupport::TestCase
 
   test 'measures the altitude window like the online ranking scores it' do
     window = metrics('distance_in_altitude', 200).window
-    scored = WindowRangeFinder.new(scoring_points).execute(from_vertical_speed: 10, elevation: 200)
+    scored = WindowRangeFinder.new(scoring_points)
+                              .execute(from_vertical_speed: Track::FlightMetrics::START_VERTICAL_SPEED, elevation: 200)
 
     assert_in_delta scored.distance, window['result'], 0.1
     assert_in_delta window['result'], window['distance'], 0.1
@@ -99,6 +100,6 @@ class Track::FlightMetricsTest < ActiveSupport::TestCase
   end
 
   def scoring_points(trimmed: { seconds_before_start: 10 })
-    PointsPostprocessor.for(@track.gps_type).call(@track.flight_points(trimmed:))
+    @track.flight_points(trimmed:)
   end
 end
