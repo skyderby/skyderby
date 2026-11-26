@@ -31,7 +31,6 @@ class DashboardTest < ActionDispatch::IntegrationTest
     assert_select '.home-dashboard'
     assert_select '.dashboard-hero__name', text: profile.name
     assert_select '.dashboard-pbs .dashboard-pb', count: Profiles::Dashboard::DISCIPLINES.size
-    assert_select '.dashboard-pro'
   end
 
   test 'a base-only pilot sees the BASE dashboard' do

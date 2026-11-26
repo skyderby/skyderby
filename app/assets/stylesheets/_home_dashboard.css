@@ -526,53 +526,6 @@
     cursor: pointer;
   }
 
-  .dashboard-pro {
-    background: linear-gradient(150deg, #1c2230, var(--blue-gray-90));
-    color: var(--white);
-    border-radius: var(--border-radius-lg);
-    padding: 1.125rem;
-  }
-
-  .dashboard-pro__label {
-    font-size: 0.6875rem;
-    letter-spacing: 0.1em;
-    color: var(--orange-30);
-  }
-
-  .dashboard-pro__text {
-    font-size: 0.8125rem;
-    color: var(--blue-gray-20);
-    line-height: 1.5;
-    margin: 0.625rem 0 0.875rem;
-  }
-
-  .dashboard-pro__prices {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 0.875rem;
-  }
-
-  .dashboard-pro__price {
-    font-size: 0.8125rem;
-    color: var(--blue-gray-20);
-  }
-
-  .dashboard-pro__price b {
-    font-size: 1.125rem;
-    color: var(--white);
-  }
-
-  .dashboard-pro__cta {
-    display: inline-block;
-    padding: 0.625rem 1.125rem;
-    background-color: var(--white);
-    color: var(--blue-gray-90);
-    border-radius: 1.875rem;
-    font-weight: 700;
-    font-size: 0.8125rem;
-  }
-
   .dashboard-empty {
     display: flex;
     flex-direction: column;

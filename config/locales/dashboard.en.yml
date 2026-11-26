@@ -73,11 +73,5 @@ en:
       jumps:
         one: "%{count} jump"
         other: "%{count} jumps"
-    pro:
-      label: SKYDERBY PRO
-      text: Full flight analytics and side-by-side comparison.
-      per_year: / year
-      lifetime: lifetime
-      cta: Go Pro
     empty:
       text: Upload your first track to see your stats here.

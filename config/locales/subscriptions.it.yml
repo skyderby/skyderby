@@ -1,19 +1,43 @@
 it:
   subscriptions:
     index:
-      title: Vedi di più. Vola meglio.
-      subtitle: Analisi avanzate per volare Più a Lungo, Più Lontano, Più Veloce
+      title: "Vedi di più. Vola meglio."
+      subtitle: "Pro sblocca l'analisi completa di ogni salto, senza limiti mensili."
+      usage: "Ancora %{left} di %{limit} Pro View gratuite questo mese"
+      usage_exhausted: "Tutte le %{limit} Pro View gratuite di questo mese sono state usate"
+      choose_plan: "Scegli un piano"
+      best_value: "Migliore offerta"
+      save_75: "-75%"
+      per_interval: "/%{interval}"
+      plans:
+        lifetime:
+          name: "A vita"
+          note: "Un solo pagamento, nessun rinnovo"
+          period: "una volta"
+        annual:
+          name: "Annuale"
+          note: "2,50 $ al mese"
+          period: "all'anno"
+        monthly:
+          name: "Mensile"
+          note: "Disdici quando vuoi"
+          period: "al mese"
+      cta:
+        lifetime: "Passa a Pro per %{price} $"
+        annual: "Abbonati per %{price} $ all'anno"
+        monthly: "Abbonati per %{price} $ al mese"
+      trust: "Pagamento sicuro tramite Stripe. Gli abbonamenti si possono disdire in qualsiasi momento."
+      social_proof:
+        one: "%{count} pilota vola già con Pro"
+        other: "%{count} piloti volano già con Pro"
+      benefits_title: "Cosa sblocca Pro"
+      benefit_base: "Salti BASE"
+      benefit_skydive: "Lanci col paracadute"
+      benefit_compare: "Confronto dei salti"
       active_badge: Abbonato attivo
       thank_you: Grazie per il tuo supporto!
       active_subscription: "Hai un abbonamento %{plan} attivo"
       manage_subscription: Gestisci abbonamento
-      subscribe: Abbonati
-      per_interval: "/%{interval}"
-      plan_monthly: Pro Mensile
-      plan_annual: Pro Annuale
-      plan_once: Pro Una Volta
-      save_75: "-75%"
-      best_value: Migliore offerta
       base_interactive_replay: Riproduzione interattiva
       base_all_data: Tutti i dati su uno schermo — mappa, grafici, vista laterale, 1:1, video
       base_terrain: Profilo del terreno, distanza dal terreno
@@ -23,8 +47,6 @@ it:
       compare_desc: Confronta più tracce affiancate con riproduzione sincronizzata
       highlight_title: Nome evidenziato
       highlight_example: "Il tuo nome apparirà così:"
-      social_proof: saltatori sfruttano i vantaggi di Pro
-      social_proof_note: E non è un caso
     success:
       title: Benvenuto in Pro!
       subtitle: Hai appena portato il tuo volo a un nuovo livello

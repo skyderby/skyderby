@@ -31,4 +31,12 @@
       <%= link_to t('application.header.suits'), suits_path, class: class_names('dropdown-item', root_controller == 'suits' && 'active') %>
     </div>
   </li>
+  <% unless current_user&.subscription_active? %>
+    <li class="nav-menu-item nav-menu-item--pro <%= 'nav-menu-item--active' if root_controller == 'subscriptions' %>">
+      <%= link_to subscriptions_path(source: 'nav') do %>
+        <%= icon_tag 'star-solid' %>
+        <span class="pro-gradient-text"><%= t('application.header.pro') %></span>
+      <% end %>
+    </li>
+  <% end %>
 </ul>

@@ -73,11 +73,5 @@ de:
       jumps:
         one: "%{count} Sprung"
         other: "%{count} Sprünge"
-    pro:
-      label: SKYDERBY PRO
-      text: Vollständige Fluganalyse und Vergleich nebeneinander.
-      per_year: / Jahr
-      lifetime: einmalig
-      cta: Pro holen
     empty:
       text: Lade deinen ersten Track hoch, um hier deine Statistiken zu sehen.

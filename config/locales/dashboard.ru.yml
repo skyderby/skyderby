@@ -77,11 +77,5 @@ ru:
         few: "%{count} прыжка"
         many: "%{count} прыжков"
         other: "%{count} прыжков"
-    pro:
-      label: SKYDERBY PRO
-      text: Полная аналитика полётов и сравнение бок о бок.
-      per_year: / год
-      lifetime: навсегда
-      cta: Перейти на Pro
     empty:
       text: Загрузите первый трек, чтобы увидеть здесь свою статистику.

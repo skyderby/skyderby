@@ -2,11 +2,7 @@ class SubscriptionsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @subscription = current_user.payment_processor&.subscription
-    @plans = subscription_plans
-    @subscribers_count = Pay::Subscription.active.count +
-                         Pay::Charge.where("metadata->>'type' = ?", 'lifetime').count +
-                         GiftedSubscription.active.count
+    @pricing = Subscriptions::Pricing.new(current_user)
   end
 
   def create
@@ -34,16 +30,5 @@ class SubscriptionsController < ApplicationController
       return_url: subscriptions_url
     )
     redirect_to portal_session.url, allow_other_host: true, status: :see_other
-  end
-
-  private
-
-  def subscription_plans
-    [
-      { id: 'monthly', name: I18n.t('subscriptions.index.plan_monthly'), price: 1000, interval: 'month' },
-      { id: 'annual', name: I18n.t('subscriptions.index.plan_annual'), price: 3000, interval: 'year',
-        savings: I18n.t('subscriptions.index.save_75') },
-      { id: 'lifetime', name: I18n.t('subscriptions.index.plan_once'), price: 5900, interval: nil, popular: true }
-    ]
   end
 end

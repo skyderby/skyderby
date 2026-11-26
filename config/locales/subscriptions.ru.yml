@@ -1,19 +1,45 @@
 ru:
   subscriptions:
     index:
-      title: Смотри глубже. Летай лучше.
-      subtitle: Продвинутая аналитика, чтобы летать Дольше, Дальше, Быстрее
+      title: "Смотри глубже. Летай лучше."
+      subtitle: "Pro открывает полный анализ каждого прыжка без месячного лимита."
+      usage: "Осталось %{left} из %{limit} бесплатных Pro View в этом месяце"
+      usage_exhausted: "Все %{limit} бесплатных Pro View в этом месяце использованы"
+      choose_plan: "Выберите тариф"
+      best_value: "Выгоднее всего"
+      save_75: "-75%"
+      per_interval: "/%{interval}"
+      plans:
+        lifetime:
+          name: "Навсегда"
+          note: "Один платёж, без продлений"
+          period: "один раз"
+        annual:
+          name: "На год"
+          note: "$2.50 в месяц"
+          period: "в год"
+        monthly:
+          name: "На месяц"
+          note: "Отмена в любой момент"
+          period: "в месяц"
+      cta:
+        lifetime: "Получить Pro за $%{price}"
+        annual: "Подписаться за $%{price} в год"
+        monthly: "Подписаться за $%{price} в месяц"
+      trust: "Безопасная оплата через Stripe. Подписку можно отменить в любой момент."
+      social_proof:
+        one: "%{count} пилот уже летает с Pro"
+        few: "%{count} пилота уже летают с Pro"
+        many: "%{count} пилотов уже летают с Pro"
+        other: "%{count} пилота уже летают с Pro"
+      benefits_title: "Что даёт Pro"
+      benefit_base: "BASE-прыжки"
+      benefit_skydive: "Прыжки с парашютом"
+      benefit_compare: "Сравнение прыжков"
       active_badge: Активная подписка
       thank_you: Спасибо за вашу поддержку!
       active_subscription: "У вас активная подписка %{plan}"
       manage_subscription: Управление подпиской
-      subscribe: Подписаться
-      per_interval: "/%{interval}"
-      plan_monthly: Pro Месячная
-      plan_annual: Pro Годовая
-      plan_once: Pro Навсегда
-      save_75: "-75%"
-      best_value: Лучшее предложение
       base_interactive_replay: Интерактивный playback
       base_all_data: Все данные на одном экране — карта, графики, вид сбоку, 1:1, видео
       base_terrain: Профиль рельефа, расстояние до рельефа
@@ -23,8 +49,6 @@ ru:
       compare_desc: Сравнение нескольких треков бок о бок с синхронизированным воспроизведением
       highlight_title: Выделенное имя
       highlight_example: "Ваше имя будет выглядеть так:"
-      social_proof: пилотов используют преимущества Pro
-      social_proof_note: И это не совпадение
     success:
       title: Добро пожаловать в Pro!
       subtitle: Ты только что вышел на новый уровень

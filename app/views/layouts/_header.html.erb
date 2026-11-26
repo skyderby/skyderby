@@ -151,6 +151,15 @@
         <% end %>
       </li>
 
+      <% unless current_user&.subscription_active? %>
+        <li class="main-menu__item main-menu__item--pro <%= 'active' if root_controller == 'subscriptions' %>">
+          <%= link_to subscriptions_path(source: 'nav') do %>
+            <%= icon_tag 'star-solid' %>
+            <span class="pro-gradient-text"><%= t('application.header.pro') %></span>
+          <% end %>
+        </li>
+      <% end %>
+
       <% unless user_signed_in? %>
         <li class="main-menu__item main-menu--login">
           <%= link_to t('application.header.sign_in'), new_user_session_path %>
