@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Track::FlightPointsTest < ActiveSupport::TestCase
+class Track::PointSelectionTest < ActiveSupport::TestCase
   setup do
     @track = Track.create!(ff_start: 1, ff_end: 2.5, pilot: profiles(:john)).tap do |track|
       start_time = @start_time = 1.day.ago.beginning_of_hour.to_i
@@ -20,8 +20,8 @@ class Track::FlightPointsTest < ActiveSupport::TestCase
     end
   end
 
-  test 'filter points by frequency if freq_1hz specified' do
-    result = @track.flight_points(freq_1hz: true).map { |point| point.to_h.slice(:fl_time, :abs_altitude) }
+  test 'at_1hz keeps one point per second' do
+    result = @track.recorded_points.at_1hz.map { |point| point.to_h.slice(:fl_time, :abs_altitude) }
     assert_equal [
       { fl_time: 0.0, abs_altitude: 3500 },
       { fl_time: 1.0, abs_altitude: 3300 },
@@ -29,8 +29,8 @@ class Track::FlightPointsTest < ActiveSupport::TestCase
     ], result
   end
 
-  test 'trim points if trimmed option specified' do
-    result = @track.flight_points(trimmed: true).map { |point| point.to_h.slice(:fl_time, :abs_altitude) }
+  test 'freefall_points keeps points between exit and deploy' do
+    result = @track.freefall_points.map { |point| point.to_h.slice(:fl_time, :abs_altitude) }
     assert_equal [
       { fl_time: 1.0, abs_altitude: 3300 },
       { fl_time: 1.5, abs_altitude: 3200 },
@@ -38,8 +38,8 @@ class Track::FlightPointsTest < ActiveSupport::TestCase
     ], result
   end
 
-  test 'trim points with additional trimmed option specified' do
-    result = @track.flight_points(trimmed: { seconds_before_start: 0.5 })
+  test 'extended widens the freefall window' do
+    result = @track.freefall_points.extended(before: 0.5)
                    .map { |point| point.to_h.slice(:fl_time, :abs_altitude) }
 
     assert_equal [
@@ -52,7 +52,7 @@ class Track::FlightPointsTest < ActiveSupport::TestCase
 
   test 'returns speeds in m/s and time between returned points' do
     @track.update_columns(gps_type: Track.gps_types[:flysight])
-    result = @track.flight_points(freq_1hz: true)
+    result = @track.recorded_points.at_1hz
 
     assert_equal([20.0, 40.0, 50.0], result.map { |point| (point.h_speed * 3.6).round(6) })
     assert_equal [0, 1.0, 1.0], result.map(&:time_diff)
@@ -61,14 +61,14 @@ class Track::FlightPointsTest < ActiveSupport::TestCase
   test 'trims by the exit and deploy timestamps' do
     @track.update_columns(exited_at: Time.zone.at(@start_time), deployed_at: Time.zone.at(@start_time + 1.5))
 
-    result = @track.flight_points(trimmed: true)
+    result = @track.freefall_points
 
     assert_equal [0.0, 0.5, 1.0, 1.5], result.map(&:fl_time)
   end
 
   test 'smooths speeds over the whole track before trimming' do
-    full = @track.flight_points
-    trimmed = @track.flight_points(trimmed: true)
+    full = @track.recorded_points
+    trimmed = @track.freefall_points
 
     assert_equal full.select { |point| point.fl_time.between?(1.0, 2.0) }.map(&:h_speed), trimmed.map(&:h_speed)
     assert_not_equal @track.point_arrays.h_speed[2], trimmed.first.h_speed
@@ -81,9 +81,15 @@ class Track::FlightPointsTest < ActiveSupport::TestCase
     @track.update_columns(exited_at: times[2], deployed_at: times[4])
     @track.reset_point_arrays
 
-    result = @track.flight_points(trimmed: true)
+    result = @track.freefall_points
 
     assert_equal(times[2..4].map(&:to_r), result.map { |point| point.gps_time.to_r })
     assert_equal @track.exit_point.gps_time, result.first.gps_time
+  end
+
+  test 'returns no points for a track without a recording' do
+    track = Track.create!(pilot: profiles(:john))
+
+    assert_empty track.freefall_points.extended(before: 10).at_1hz
   end
 end

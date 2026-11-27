@@ -140,8 +140,6 @@ class Track < ApplicationRecord
 
   def first_point_epoch = point_arrays&.first_epoch
 
-  def flight_points(trimmed: false, freq_1hz: false) = point_arrays&.points(trimmed:, freq_1hz:) || []
-
   def recorded_points = Track::Points::Selection.new(point_arrays)
 
   def freefall_points = Track::Points::Selection.new(point_arrays, from: exit_epoch, to: deploy_epoch)
