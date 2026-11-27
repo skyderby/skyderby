@@ -161,11 +161,11 @@ class Track::Result
     end
 
     def altitude_points
-      @altitude_points ||= track.flight_points(trimmed: true)
+      @altitude_points ||= track.freefall_points
     end
 
-    def build_flight_points(seconds_after_end: nil)
-      track.flight_points(trimmed: { seconds_before_start: 10, seconds_after_end: }.compact)
+    def build_flight_points(seconds_after_end: 0)
+      track.freefall_points.extended(before: 10.seconds, after: seconds_after_end)
     end
   end
 end

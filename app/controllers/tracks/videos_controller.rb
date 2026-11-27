@@ -20,7 +20,7 @@ module Tracks
       @video = @track.video
       return redirect_to @track unless @video
 
-      @points = @track.flight_points(trimmed: { seconds_before_start: 20 }, freq_1hz: true)
+      @points = @track.freefall_points.extended(before: 20.seconds).at_1hz
     end
 
     def create

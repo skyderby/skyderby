@@ -5,7 +5,7 @@ class Track < ApplicationRecord
     def weather_data # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
       return Place::WeatherDatum.none if place.blank? || base?
 
-      trimmed_points = flight_points(trimmed: { seconds_before_start: 20, seconds_after_end: 125 })
+      trimmed_points = freefall_points.extended(before: 20.seconds, after: 125.seconds)
       time_on_recording_start = trimmed_points.first&.gps_time
       time_on_recording_end = trimmed_points.last&.gps_time
       return Place::WeatherDatum.none if time_on_recording_start.blank? || time_on_recording_end.blank?

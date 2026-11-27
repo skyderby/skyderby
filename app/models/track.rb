@@ -142,6 +142,10 @@ class Track < ApplicationRecord
 
   def flight_points(trimmed: false, freq_1hz: false) = point_arrays&.points(trimmed:, freq_1hz:) || []
 
+  def recorded_points = Track::Points::Selection.new(point_arrays)
+
+  def freefall_points = Track::Points::Selection.new(point_arrays, from: exit_epoch, to: deploy_epoch)
+
   def exit_epoch = activity_epoch(exited_at, ff_start)
 
   def deploy_epoch = activity_epoch(deployed_at, ff_end)
@@ -207,7 +211,7 @@ class Track < ApplicationRecord
       end
   end
 
-  def start_time = flight_points(trimmed: true).first&.gps_time&.in_time_zone
+  def start_time = freefall_points.first&.gps_time&.in_time_zone
 
   def abs_altitude? = ge_enabled
 
@@ -224,7 +228,7 @@ class Track < ApplicationRecord
   def altitude_bounds
     @altitude_bounds ||= begin
       points_altitude =
-        flight_points(freq_1hz: true, trimmed: true).map(&:altitude)
+        freefall_points.at_1hz.map(&:altitude)
 
       points_altitude = [0] if points_altitude.blank?
       {

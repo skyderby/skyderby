@@ -30,7 +30,7 @@ class Tournament < ApplicationRecord
     end
 
     def track_points
-      track.flight_points(trimmed: { seconds_before_start: 20 })
+      track.freefall_points.extended(before: 20.seconds)
     end
   end
 end

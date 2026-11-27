@@ -99,7 +99,7 @@ class Track::FlightMetrics
     end
   end
 
-  def window_points = @window_points ||= scoring_points(trimmed: { seconds_before_start: 10 })
+  def window_points = @window_points ||= scoring_points
 
   def window_samples(points)
     start = points.first
@@ -259,9 +259,7 @@ class Track::FlightMetrics
     end
   end
 
-  def scoring_points(trimmed:)
-    track.flight_points(trimmed:)
-  end
+  def scoring_points = track.freefall_points.extended(before: 10.seconds)
 
   def total_speed(point) = Math.hypot(point[:h_speed], point[:v_speed])
 

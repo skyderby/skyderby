@@ -37,6 +37,6 @@ class Track::MapData
 
   def track_points
     @track_points ||=
-      track.flight_points(trimmed: true, freq_1hz: true)
+      track.freefall_points.at_1hz
   end
 end

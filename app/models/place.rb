@@ -110,7 +110,7 @@ class Place < ApplicationRecord
 
   def trajectory_points(track)
     track
-      .flight_points(trimmed: true, freq_1hz: true)
+      .freefall_points.at_1hz
       .map { |point| { latitude: point.latitude, longitude: point.longitude, h_speed: point.h_speed } }
   end
   private :trajectory_points

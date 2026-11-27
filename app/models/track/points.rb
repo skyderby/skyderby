@@ -55,9 +55,9 @@ class Track::Points < ApplicationRecord
 
   delegate :size, to: :gps_time
 
-  def points(trimmed: false, freq_1hz: false)
+  def points(trimmed: false, range: nil, freq_1hz: false)
     previous = nil
-    indexes(trimmed:, freq_1hz:).map do |index|
+    indexes(range: range || trimmed_range(trimmed), freq_1hz:).map do |index|
       time_diff = previous ? gps_time[index] - gps_time[previous] : 0
       previous = index
       flight_point(index).with(time_diff:)
@@ -96,9 +96,8 @@ class Track::Points < ApplicationRecord
 
   private
 
-  def indexes(trimmed:, freq_1hz:)
+  def indexes(range:, freq_1hz:)
     times = gps_time.map(&:to_r)
-    range = trimmed_range(trimmed)
     selected = (0...size).select { |index| range.nil? || range.cover?(times[index]) }
     freq_1hz ? selected.uniq { |index| times[index].floor } : selected
   end

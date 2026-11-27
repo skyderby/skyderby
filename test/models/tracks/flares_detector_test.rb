@@ -4,7 +4,7 @@ class Tracks::FlaresDetectorTest < ActiveSupport::TestCase
   test 'finds flare in skydive track' do
     track = create_track_from_file '13-31-51_Ravenna.CSV'
     track.update!(ff_start: 10, ff_end: 144)
-    points = track.flight_points(trimmed: true)
+    points = track.freefall_points
 
     flares = Tracks::FlaresDetector.call(points)
 

@@ -48,7 +48,7 @@ class PerformanceCompetition::Result::Submission
   def set_jump_range
     return if exit_time.blank? || deploy_time.blank?
 
-    points = result.track.flight_points
+    points = result.track.recorded_points
     exit_point = points.bsearch { |point| point.gps_time >= exit_time }
     deploy_point = points.bsearch { |point| point.gps_time >= deploy_time }
     return unless exit_point && deploy_point

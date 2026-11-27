@@ -69,7 +69,7 @@ class QualificationJump < ApplicationRecord
   def base_race_start_point
     return unless track
 
-    points = track.flight_points(trimmed: { seconds_before_start: 10 })
+    points = track.freefall_points.extended(before: 10.seconds)
 
     WindowRangeFinder
       .new(points)
@@ -86,7 +86,7 @@ class QualificationJump < ApplicationRecord
     finish_time = start_time.to_f + result.to_f
 
     track
-      .flight_points
+      .recorded_points
       .select { |point| point[:gps_time].to_f.between?(start_time.to_f, finish_time) }
   end
 

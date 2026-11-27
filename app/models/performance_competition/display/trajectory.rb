@@ -58,7 +58,7 @@ class PerformanceCompetition::Display
     end
 
     def track_points
-      result.track.flight_points(trimmed: { seconds_before_start: LEAD_IN + 5 })
+      result.track.freefall_points.extended(before: (LEAD_IN + 5).seconds)
     end
 
     def window_segment(points)
