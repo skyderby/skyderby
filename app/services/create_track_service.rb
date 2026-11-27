@@ -108,7 +108,6 @@ class CreateTrackService
 
   def save_track
     track.save!
-    Point.bulk_insert points: points, track_id: track.id
     Track::Points.record(track, points)
   end
 

@@ -41,7 +41,6 @@ FactoryBot.define do
     trait :with_point do
       after :create do |track|
         gps_time = Time.zone.at(1.year.ago.to_f.round(3))
-        track.points.create! gps_time: gps_time.to_f, abs_altitude: 0
         point = Struct.new(:gps_time, :abs_altitude, :distance, :h_speed, :v_speed).new(gps_time, 0, 0, 0, 0)
         Track::Points.record(track, [point])
       end

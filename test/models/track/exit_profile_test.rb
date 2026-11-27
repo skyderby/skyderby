@@ -31,9 +31,7 @@ class Track::ExitProfileTest < ActiveSupport::TestCase
   end
 
   test 'skips jumps with gaps in data' do
-    track = create_jump(glide_ratio: 1.5)
-    track.points.where(fl_time: 10..14).delete_all
-    sync_point_arrays(track)
+    track = create_jump(glide_ratio: 1.5, gap: 10..14)
 
     Track::ExitProfile.recalculate(track)
 
@@ -81,7 +79,7 @@ class Track::ExitProfileTest < ActiveSupport::TestCase
     )
   end
 
-  def create_jump(glide_ratio:, seconds: 60, pilot: profiles(:alex), suit: suits(:apache))
+  def create_jump(glide_ratio:, seconds: 60, gap: nil, pilot: profiles(:alex), suit: suits(:apache))
     track = Track.create!(
       pilot:, suit:, kind: :base, visibility: :public_track,
       place: places(:hellesylt), recorded_at: 1.day.ago,
@@ -89,21 +87,19 @@ class Track::ExitProfileTest < ActiveSupport::TestCase
     )
 
     start_time = Time.zone.parse('2026-07-01T10:00:00Z').to_f
-    (0..seconds).each do |second|
+    rows = (0..seconds).reject { |second| gap&.cover?(second) }.map do |second|
       drop = 10.0 * second
-      Point.create!(
-        track:,
-        gps_time_in_seconds: start_time + second,
-        fl_time: second,
+      {
+        gps_time: start_time + second,
         abs_altitude: 2000 - drop,
         latitude: 62.0 + ((drop * glide_ratio) / (Skyderby::Geospatial::EARTH_RADIUS_M * Math::PI / 180)),
         longitude: 6.9,
         h_speed: 10.0 * glide_ratio * 3.6,
         v_speed: 36.0
-      )
+      }
     end
 
-    sync_point_arrays(track)
+    record_points(track, rows)
     track
   end
 end

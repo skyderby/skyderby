@@ -191,14 +191,13 @@ class PlaceTest < ActiveSupport::TestCase
   end
 
   test 'nearby' do
-    track = tracks(:hellesylt)
     place = Place.create! \
       name: 'Lookup',
       country: countries(:norway),
       latitude: 20.001,
       longitude: 30.001
 
-    point = Point.create!(track: track, latitude: 20.0015, longitude: 30.0015)
+    point = build_point(latitude: 20.0015, longitude: 30.0015)
 
     assert_includes Place.nearby(point, 1), place
   end

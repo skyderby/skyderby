@@ -96,17 +96,15 @@ class TrackTest < ActiveSupport::TestCase
   end
 
   test '#msl_offset - ignores inaccurate points when landing is unknown' do
-    track = track_with_points(ff_start: 0)
+    track = track_with_points(ff_start: 0, first: { abs_altitude: -555, vertical_accuracy: 4_331 })
     track.update!(landed_at: nil)
-    track.points.find_by(fl_time: 0).update!(abs_altitude: -555, vertical_accuracy: 4_331)
 
     assert_in_delta 1_100.0, track.msl_offset
   end
 
   test '#msl_offset - minimum altitude when every point is inaccurate' do
-    track = track_with_points(ff_start: 0)
+    track = track_with_points(ff_start: 0, all: { vertical_accuracy: 50 })
     track.update!(landed_at: nil)
-    track.points.update_all(vertical_accuracy: 50)
 
     assert_in_delta 1_100.0, track.msl_offset
   end
@@ -126,18 +124,19 @@ class TrackTest < ActiveSupport::TestCase
 
   private
 
-  def track_with_points(ff_start:)
+  def track_with_points(ff_start:, first: {}, all: {})
     track = create :empty_track, ff_start: ff_start, ff_end: 4
-    (0..4).each do |second|
-      track.points.create!(
-        gps_time_in_seconds: 1_000 + second,
-        fl_time: second,
+    rows = (0..4).map do |second|
+      {
+        gps_time: 1_000 + second,
         latitude: 62.0 + second,
         longitude: 6.0 + second,
-        abs_altitude: 1_500 - (100 * second)
-      )
+        abs_altitude: 1_500 - (100 * second),
+        **all,
+        **(second.zero? ? first : {})
+      }
     end
-    sync_point_arrays(track)
+    record_points(track, rows)
     track
   end
 end

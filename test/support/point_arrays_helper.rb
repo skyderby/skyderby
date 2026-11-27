@@ -1,24 +1,15 @@
 module PointArraysHelper
-  LegacyPoint = Struct.new(*Track::Points::COLUMNS, keyword_init: true)
+  ParsedPoint = Struct.new(*Track::Points::COLUMNS, keyword_init: true)
+  PARSED_DEFAULTS = { distance: 0, h_speed: 0, v_speed: 0 }.freeze
 
-  def sync_point_arrays(track)
-    Track::Points.where(track_id: track.id).delete_all
-    Track::Points.record(track, legacy_points(track))
+  def record_points(track, rows)
+    points = rows.map do |row|
+      ParsedPoint.new(**PARSED_DEFAULTS, **row, gps_time: Time.zone.at(row.fetch(:gps_time).to_r))
+    end
+    Track::Points.record(track, points)
   end
 
   def build_point(**attributes)
     Track::Points::Point.new(**Track::Points::Point.members.index_with(nil), **attributes)
-  end
-
-  private
-
-  def legacy_points(track)
-    track.points.reorder(:gps_time_in_seconds, :id).map do |point|
-      LegacyPoint.new(
-        **Track::Points::COLUMNS.index_with { |column| point.try(column) },
-        gps_time: Time.zone.at(point.gps_time_in_seconds),
-        distance: point.distance || 0, h_speed: point.h_speed || 0, v_speed: point.v_speed || 0
-      )
-    end
   end
 end

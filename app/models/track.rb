@@ -79,10 +79,9 @@ class Track < ApplicationRecord
           inverse_of: :track,
           dependent: :destroy
 
-  has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all, inverse_of: :track
   has_many :sensor_samples, class_name: 'Track::SensorSample', dependent: :delete_all, inverse_of: :track
-  has_one :point_arrays, class_name: 'Track::Points', inverse_of: :track # rubocop:disable Rails/HasManyOrHasOneDependent
-  has_one :sensor_series, class_name: 'Track::SensorSeries', inverse_of: :track # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_one :point_arrays, class_name: 'Track::Points', inverse_of: :track, dependent: :delete
+  has_one :sensor_series, class_name: 'Track::SensorSeries', inverse_of: :track, dependent: :delete
   has_many :results, dependent: :destroy
   has_many :virtual_competition_results,
            -> { wind_cancellation(false) },

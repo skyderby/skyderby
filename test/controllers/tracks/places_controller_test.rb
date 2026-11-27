@@ -151,7 +151,7 @@ class Tracks::PlacesControllerTest < ActionDispatch::IntegrationTest
       ff_end: 10
     )
 
-    add_point(track, fl_time: 0, latitude: latitude, longitude: longitude, abs_altitude: 1200)
+    record_points(track, [point_row(fl_time: 0, latitude:, longitude:, abs_altitude: 1200)])
     track
   end
 
@@ -165,21 +165,18 @@ class Tracks::PlacesControllerTest < ActionDispatch::IntegrationTest
       ff_end: 10
     )
 
-    add_point(track, fl_time: 0, latitude: 45.5, longitude: 6.5, abs_altitude: 4000)
-    add_point(track, fl_time: 60, latitude: 45.55, longitude: 6.55, abs_altitude: 420)
+    record_points(
+      track,
+      [
+        point_row(fl_time: 0, latitude: 45.5, longitude: 6.5, abs_altitude: 4000),
+        point_row(fl_time: 60, latitude: 45.55, longitude: 6.55, abs_altitude: 420)
+      ]
+    )
     track.update!(landing_fl_time: 60)
     track
   end
 
-  def add_point(track, fl_time:, latitude:, longitude:, abs_altitude:)
-    Point.create!(
-      track: track,
-      fl_time: fl_time,
-      gps_time_in_seconds: Time.zone.parse('2024-07-07T12:00:00Z').to_f + fl_time,
-      latitude: latitude,
-      longitude: longitude,
-      abs_altitude: abs_altitude
-    )
-    sync_point_arrays(track)
+  def point_row(fl_time:, **attributes)
+    { gps_time: Time.zone.parse('2024-07-07T12:00:00Z') + fl_time, **attributes }
   end
 end
