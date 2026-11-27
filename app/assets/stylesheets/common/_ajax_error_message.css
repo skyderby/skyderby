@@ -1,21 +1,3 @@
-#ajax-error-message {
-  display: block;
-  position: fixed;
-  top: -2000px;
-  left: 50%;
-  width: 700px;
-  margin-left: -350px;
-  transition: top 0.5s ease-in-out;
-  z-index: 300;
-}
-#ajax-error-message.visible {
-  top: 0;
-}
-
-#ajax-error-message-text {
-  white-space: pre-wrap;
-}
-
 .flash {
   padding: 15px;
   border-radius: 3px;

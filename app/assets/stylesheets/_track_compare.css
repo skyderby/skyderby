@@ -50,6 +50,7 @@
   position: sticky;
   top: 0;
   z-index: 20;
+  color-scheme: light;
   background-color: var(--gray-90);
   border-color: var(--gray-90);
   color: var(--inverse-text);

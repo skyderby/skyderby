@@ -189,7 +189,7 @@
   font-size: 0.75rem;
   color: var(--white);
   font-weight: 600;
-  background: var(--blue-70);
+  background: var(--solid-blue-90);
   padding: 0.125rem 0.5rem;
   border-radius: 0.25rem;
 }
@@ -219,7 +219,7 @@
   padding: 0.9375rem 1.5rem;
   font-size: 1rem;
   margin-top: 0.25rem;
-  background: var(--blue-70);
+  background: var(--solid-blue-90);
   border: 0;
   color: var(--white);
   font-weight: 600;
@@ -229,7 +229,7 @@
 }
 
 .subscriptions-plans__submit:hover {
-  background: var(--solid-blue-90);
+  background: color-mix(in oklab, var(--solid-blue-90) 80%, #000);
 }
 
 .subscriptions-plans__submit:focus-visible {

@@ -15,20 +15,3 @@
   width: 23%;
   z-index: 50;
 }
-
-#track-map-loading {
-  position: absolute;
-  width: 400px;
-  height: 100px;
-  left: 50%;
-  margin-left: -200px;
-  top: 50%;
-  margin-top: -100px;
-  z-index: 50;
-  background-color: var(--surface);
-  border-style: solid;
-  border-color: var(--surface-border);
-  border-width: 1px;
-  border-radius: 3px;
-  padding: 10px;
-}

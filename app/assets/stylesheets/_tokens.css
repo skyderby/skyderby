@@ -19,7 +19,7 @@
   --chart-grid: light-dark(#e6e6e6, #2c3746);
   --chart-axis: light-dark(#999, #6d7d92);
   --chart-label: light-dark(#666, #9fadbf);
-  --chart-crosshair: light-dark(#aaa, #6d7d92);
+  --chart-muted-series: light-dark(#aaa, #6d7d92);
 }
 
 :root[data-theme="light"] {

@@ -14,7 +14,7 @@ const FULL_SPEED_COLOR = '#D6A184'
 const SEP_COLOR = '#A6AFBB'
 const SEP_LIMIT_COLOR = '#9e0419'
 const HEIGHT_COLOR = '#7cb5ec'
-const COMBINED_HEIGHT_COLOR = 'var(--chart-crosshair)'
+const COMBINED_HEIGHT_COLOR = 'var(--chart-muted-series)'
 const ELEVATION_COLOR = 'var(--gray-80)'
 const DISTANCE_COLOR = '#90ed7d'
 
