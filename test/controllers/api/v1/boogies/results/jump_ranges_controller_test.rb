@@ -10,6 +10,11 @@ class Api::V1::Boogies::Results::JumpRangesControllerTest < ActionDispatch::Inte
 
   test '#update changes the jump range and recalculates' do
     previous_updated_at = @boogie.updated_at
+    start = Time.zone.parse('2024-07-07T12:00:00Z')
+    rows = (0..60).map do |second|
+      { gps_time: start + second, latitude: 62.0, longitude: 6.9, abs_altitude: 3000 - second }
+    end
+    record_points(@result.track, rows)
 
     patch api_v1_boogie_result_jump_range_path(@boogie, @result),
           params: { jump_range: { ff_start: 5.0, ff_end: 40.0 } },

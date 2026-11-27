@@ -68,6 +68,32 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal Time.zone.at(1_002), track.exit_point.gps_time
   end
 
+  test '#ff_start - whole seconds from the first point to the exit' do
+    track = track_with_points(ff_start: 0)
+    track.update!(exited_at: Time.zone.at(Rational(10_027, 10)))
+
+    assert_equal 2, track.ff_start
+  end
+
+  test '#ff_start= keeps the precise exit time when the seconds are unchanged' do
+    track = track_with_points(ff_start: 0)
+    exited_at = Time.zone.at(Rational(10_017, 10))
+    track.update!(exited_at:)
+
+    track.update!(jump_range: '1;4')
+
+    assert_equal exited_at.to_r, track.reload.exited_at.to_r
+  end
+
+  test '#ff_start= moves the exit time to the given seconds after the first point' do
+    track = track_with_points(ff_start: 0)
+
+    track.update!(jump_range: '2.5;4')
+
+    assert_equal Rational(2_005, 2), track.reload.exited_at.to_r
+    assert_equal 2, track.ff_start
+  end
+
   test '#exit_point - nil when jump range is not set' do
     track = track_with_points(ff_start: nil)
 
@@ -125,7 +151,7 @@ class TrackTest < ActiveSupport::TestCase
   private
 
   def track_with_points(ff_start:, first: {}, all: {})
-    track = create :empty_track, ff_start: ff_start, ff_end: 4
+    track = create :empty_track
     rows = (0..4).map do |second|
       {
         gps_time: 1_000 + second,
@@ -136,7 +162,7 @@ class TrackTest < ActiveSupport::TestCase
         **(second.zero? ? first : {})
       }
     end
-    record_points(track, rows)
+    record_points(track, rows, jump_range: ff_start..4)
     track
   end
 end

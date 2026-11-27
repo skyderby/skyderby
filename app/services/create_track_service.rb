@@ -52,8 +52,6 @@ class CreateTrackService
   end
 
   def set_jump_range
-    track.ff_start = segments.exit_point.fl_time.to_i
-    track.ff_end = segments.deploy_point.fl_time.to_i
     track.require_range_review = segments.require_review?
   end
 

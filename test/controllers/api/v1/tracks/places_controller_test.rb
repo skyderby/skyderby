@@ -66,10 +66,11 @@ class Api::V1::Tracks::PlacesControllerTest < ActionDispatch::IntegrationTest
   def base_track_at(latitude, longitude)
     track = Track.create!(
       pilot: profiles(:regular_user), owner: users(:regular_user), kind: :base,
-      visibility: :public_track, ff_start: 0, ff_end: 10
+      visibility: :public_track
     )
     record_points(track,
-                  [{ gps_time: Time.zone.parse('2024-07-07T12:00:00Z'), latitude:, longitude:, abs_altitude: 1200 }])
+                  [{ gps_time: Time.zone.parse('2024-07-07T12:00:00Z'), latitude:, longitude:, abs_altitude: 1200 }],
+                  jump_range: 0..10)
     track
   end
 end

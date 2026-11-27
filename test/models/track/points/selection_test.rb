@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Track::PointSelectionTest < ActiveSupport::TestCase
   setup do
-    @track = Track.create!(ff_start: 1, ff_end: 2.5, pilot: profiles(:john)).tap do |track|
+    @track = Track.create!(pilot: profiles(:john)).tap do |track|
       start_time = @start_time = 1.day.ago.beginning_of_hour.to_i
       # rubocop:disable Layout/LineLength
       record_points(
@@ -14,7 +14,8 @@ class Track::PointSelectionTest < ActiveSupport::TestCase
           { gps_time: start_time + 1.5, abs_altitude: 3200, latitude: 24.8906, longitude: 55.54473, h_speed: 50, v_speed: 50, distance: 20 },
           { gps_time: start_time + 2.0, abs_altitude: 3100, latitude: 24.8907, longitude: 55.54471, h_speed: 50, v_speed: 60, distance: 20 },
           { gps_time: start_time + 2.5, abs_altitude: 3000, latitude: 24.8908, longitude: 55.54469, h_speed: 50, v_speed: 70, distance: 20 }
-        ]
+        ],
+        jump_range: 1..2
       )
       # rubocop:enable Layout/LineLength
     end
@@ -50,12 +51,11 @@ class Track::PointSelectionTest < ActiveSupport::TestCase
     ], result
   end
 
-  test 'returns speeds in m/s and time between returned points' do
+  test 'returns speeds in m/s' do
     @track.update_columns(gps_type: Track.gps_types[:flysight])
     result = @track.recorded_points.at_1hz
 
     assert_equal([20.0, 40.0, 50.0], result.map { |point| (point.h_speed * 3.6).round(6) })
-    assert_equal [0, 1.0, 1.0], result.map(&:time_diff)
   end
 
   test 'trims by the exit and deploy timestamps' do

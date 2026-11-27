@@ -6,7 +6,8 @@ class Api::V1::Logbook::TrackImportsControllerTest < ActionDispatch::Integration
   setup do
     @profile = profiles(:regular_user)
     @track = tracks(:hellesylt)
-    @track.update!(recorded_at: Time.zone.local(2026, 5, 1, 10), exited_at: Time.zone.local(2026, 5, 1, 10))
+    @track.update!(recorded_at: Time.zone.local(2026, 5, 1, 10), exited_at: Time.zone.local(2026, 5, 1, 10),
+                   deployed_at: Time.zone.local(2026, 5, 1, 10, 1))
   end
 
   test '#show lists tracks not yet in the logbook by year' do

@@ -50,7 +50,7 @@ class Track::ExitProfile < ApplicationRecord
   end
 
   def self.suitable?(track)
-    track.base? && track.profile_id.present? && track.suit_id.present? && track.ff_start.present?
+    track.base? && track.profile_id.present? && track.suit_id.present? && track.exited_at.present?
   end
 
   def self.sample_distances(track)

@@ -82,8 +82,7 @@ class Track::ExitProfileTest < ActiveSupport::TestCase
   def create_jump(glide_ratio:, seconds: 60, gap: nil, pilot: profiles(:alex), suit: suits(:apache))
     track = Track.create!(
       pilot:, suit:, kind: :base, visibility: :public_track,
-      place: places(:hellesylt), recorded_at: 1.day.ago,
-      ff_start: 0, ff_end: seconds, ground_level: 100
+      place: places(:hellesylt), recorded_at: 1.day.ago, ground_level: 100
     )
 
     start_time = Time.zone.parse('2026-07-01T10:00:00Z').to_f
@@ -99,7 +98,7 @@ class Track::ExitProfileTest < ActiveSupport::TestCase
       }
     end
 
-    record_points(track, rows)
+    record_points(track, rows, jump_range: 0..seconds)
     track
   end
 end

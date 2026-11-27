@@ -6,7 +6,8 @@ class Api::V1::Tracks::LogbookEntriesControllerTest < ActionDispatch::Integratio
   setup do
     @profile = profiles(:regular_user)
     @track = tracks(:hellesylt)
-    @track.update!(exited_at: Time.zone.local(2026, 5, 1, 10), recorded_at: Time.zone.local(2026, 5, 1, 10, 5))
+    @track.update!(exited_at: Time.zone.local(2026, 5, 1, 10), deployed_at: Time.zone.local(2026, 5, 1, 10, 1),
+                   recorded_at: Time.zone.local(2026, 5, 1, 10, 5))
   end
 
   test '#create requires write scope' do

@@ -56,12 +56,7 @@ class Track::Points < ApplicationRecord
   delegate :size, to: :gps_time
 
   def points(range: nil, freq_1hz: false)
-    previous = nil
-    indexes(range:, freq_1hz:).map do |index|
-      time_diff = previous ? gps_time[index] - gps_time[previous] : 0
-      previous = index
-      flight_point(index).with(time_diff:)
-    end
+    indexes(range:, freq_1hz:).map { |index| flight_point(index) }
   end
 
   def reload(...)
@@ -105,8 +100,7 @@ class Track::Points < ApplicationRecord
   def timing_at(index, origin)
     {
       gps_time: gps_time[index].getutc,
-      fl_time: (gps_time[index].to_r - origin).to_f,
-      time_diff: 0
+      fl_time: (gps_time[index].to_r - origin).to_f
     }
   end
 

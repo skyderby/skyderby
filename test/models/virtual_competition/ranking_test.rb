@@ -187,7 +187,7 @@ class VirtualCompetition::RankingTest < ActiveSupport::TestCase
   def add_result(competition, profile, result, recorded_at)
     track = Track.create!(
       pilot: profile, kind: :skydive, suit: suits(:apache), recorded_at: Time.zone.parse(recorded_at),
-      ground_level: 0, ff_start: 0, ff_end: 10
+      ground_level: 0
     )
     competition.results.create!(track:, result:)
   end

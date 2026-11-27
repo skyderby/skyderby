@@ -12,8 +12,6 @@
 #  user_id                               :integer
 #  kind                                  :integer          default("skydive")
 #  suit_id                               :integer
-#  ff_start                              :integer
-#  ff_end                                :integer
 #  ge_enabled                            :boolean          default(TRUE)
 #  visibility                            :integer          default("public_track")
 #  profile_id                            :integer
@@ -35,8 +33,6 @@ FactoryBot.define do
     suit
     ground_level { 0 }
     recorded_at { Time.current }
-    ff_start { 0 }
-    ff_end { 10 }
 
     trait :with_point do
       after :create do |track|
