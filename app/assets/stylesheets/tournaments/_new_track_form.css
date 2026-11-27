@@ -1,3 +1,5 @@
-#new_qualification_jump .upload-progress {
-  padding-top: 10%;
+@layer components {
+  #new_qualification_jump .upload-progress {
+    padding-top: 10%;
+  }
 }

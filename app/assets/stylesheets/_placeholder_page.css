@@ -1,11 +1,13 @@
-.placeholder-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-}
+@layer components {
+  .placeholder-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
 
-.placeholder-page__message {
-  font-size: 1.5rem;
-  color: var(--gray-50);
+  .placeholder-page__message {
+    font-size: 1.5rem;
+    color: var(--gray-50);
+  }
 }

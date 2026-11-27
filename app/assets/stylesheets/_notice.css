@@ -1,23 +1,25 @@
-.notice {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--secondary-font);
-  border: 1px solid var(--blue-50);
-  background-color: var(--blue-10);
-  color: var(--blue-gray-90);
-  border-radius: var(--border-radius-md);
-  padding: 0.75rem 1rem;
-  line-height: 1.4;
-  margin-bottom: 1rem;
-}
+@layer components {
+  .notice {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--secondary-font);
+    border: 1px solid var(--notice-border-color, var(--blue-50));
+    background-color: var(--notice-bg, var(--blue-10));
+    color: var(--notice-color, var(--blue-gray-90));
+    border-radius: var(--border-radius-md);
+    padding: var(--notice-padding, 0.75rem 1rem);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
 
-.notice--error {
-  border-color: var(--red-50);
-  background-color: transparent;
-  color: var(--red-90);
-}
+  .notice--error {
+    --notice-border-color: var(--red-50);
+    --notice-bg: transparent;
+    --notice-color: var(--red-90);
+  }
 
-.notice--md {
-  padding: 0.5rem 0.75rem;
+  .notice--md {
+    --notice-padding: 0.5rem 0.75rem;
+  }
 }

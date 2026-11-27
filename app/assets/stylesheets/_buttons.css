@@ -1,14 +1,5 @@
 @layer components {
   .button {
-    --button-bg: var(--surface);
-    --button-color: var(--gray-80);
-    --button-border-color: var(--gray-40);
-    --button-border-size: 1px;
-    --button-padding: 0.5rem 1rem;
-    --button-font-size: 0.875rem;
-    --button-border-radius: var(--border-radius-md);
-    --button-hover-brightness: 0.95;
-
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -16,20 +7,22 @@
     cursor: pointer;
     white-space: nowrap;
     font-weight: 500;
-    font-size: var(--button-font-size);
+    font-size: var(--button-font-size, 0.875rem);
     margin: 0;
-    padding: var(--button-padding);
-    border-radius: var(--button-border-radius);
-    border: var(--button-border-size) solid var(--button-border-color);
-    background-color: var(--button-bg);
-    color: var(--button-color);
+    padding: var(--button-padding, 0.5rem 1rem);
+    border-radius: var(--button-border-radius, var(--border-radius-md));
+    border: var(--button-border-size, 1px) solid var(--button-border-color, var(--gray-40));
+    background: var(--button-bg, var(--surface));
+    box-shadow: var(--button-shadow, none);
+    color: var(--button-color, var(--gray-80));
     transition: filter 0.1s ease-out, background-color 0.1s ease-out;
   }
 
   @media (any-hover: hover) {
     .button:hover:not(:disabled) {
-      filter: brightness(var(--button-hover-brightness));
-      color: var(--button-color);
+      filter: var(--button-hover-filter, brightness(0.95));
+      background: var(--button-hover-bg, var(--button-bg, var(--surface)));
+      color: var(--button-color, var(--gray-80));
       text-decoration: none;
     }
   }
@@ -90,17 +83,20 @@
   .button--ghost {
     --button-bg: transparent;
     --button-border-size: 0;
+    --button-hover-filter: none;
+    --button-hover-bg: var(--gray-20);
   }
 
   .button--ghost.button--active {
     --button-border-size: 1px;
     --button-border-color: var(--gray-40);
-
-    box-shadow: 0 2px 1px #0000001f;
+    --button-shadow: 0 2px 1px #0000001f;
   }
 
   .button--outline {
     --button-bg: transparent;
+    --button-hover-filter: none;
+    --button-hover-bg: var(--gray-20);
   }
 
   .button--outline-light {
@@ -108,27 +104,15 @@
     --button-color: var(--white);
     --button-border-size: 1px;
     --button-border-color: var(--white);
-  }
-
-  @media (any-hover: hover) {
-    .button--ghost:hover:not(:disabled),
-    .button--outline:hover:not(:disabled) {
-      filter: none;
-      background-color: var(--gray-20);
-    }
-
-    .button--outline-light:hover:not(:disabled) {
-      filter: none;
-      background-color: rgba(255, 255, 255, 0.15);
-    }
+    --button-hover-filter: none;
+    --button-hover-bg: rgba(255, 255, 255, 0.15);
   }
 
   .button--primary {
+    --button-bg: linear-gradient(135deg, var(--solid-blue-80) 0%, var(--solid-blue-90) 100%);
     --button-color: var(--white);
     --button-border-size: 0;
-
-    background: linear-gradient(135deg, var(--solid-blue-80) 0%, var(--solid-blue-90) 100%);
-    box-shadow: 0 2px 1px #0000001f;
+    --button-shadow: 0 2px 1px #0000001f;
   }
 
   .button--danger {
@@ -146,6 +130,7 @@
   .button--ghost.button--danger {
     --button-bg: transparent;
     --button-color: var(--red-80);
+    --button-hover-bg: var(--red-10);
   }
 
   .button--outline.button--primary {
@@ -153,26 +138,16 @@
     --button-color: var(--blue-90);
     --button-border-size: 1px;
     --button-border-color: var(--solid-blue-90);
-
-    background: none;
-    box-shadow: none;
+    --button-shadow: none;
+    --button-hover-filter: none;
+    --button-hover-bg: var(--blue-10);
   }
 
   .button--outline.button--danger {
     --button-bg: transparent;
     --button-color: var(--red-80);
     --button-border-color: var(--solid-red-80);
-  }
-
-  @media (any-hover: hover) {
-    .button--outline.button--primary:hover:not(:disabled) {
-      background-color: var(--blue-10);
-    }
-
-    .button--ghost.button--danger:hover:not(:disabled),
-    .button--outline.button--danger:hover:not(:disabled) {
-      background-color: var(--red-10);
-    }
+    --button-hover-bg: var(--red-10);
   }
 
   .button--sm {

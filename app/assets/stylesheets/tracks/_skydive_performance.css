@@ -1,1111 +1,1113 @@
-.track-jump-range {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.range-shortcuts {
-  margin-bottom: 1rem;
-}
-
-.best-window-shortcut {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.35rem;
-  white-space: nowrap;
-}
-
-.best-window-shortcut-value {
-  font-weight: 600;
-}
-
-.best-window-shortcut-value::before {
-  content: '·';
-  margin-right: 0.35rem;
-  font-weight: 400;
-  opacity: 0.5;
-}
-
-.skydive-performance-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.skydive-performance-stage {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.skydive-performance-chart-container {
-  width: 100%;
-  height: 300px;
-  position: relative;
-}
-
-.skydive-performance-side-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
-}
-
-.skydive-performance-stage-tabs-row {
-  display: flex;
-  justify-content: center;
-}
-
-.skydive-performance-stage-tabs .seg__btn[disabled] {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.skydive-performance-segments-panel.hidden {
-  display: none;
-}
-
-.skydive-performance-panel-content {
-  position: relative;
-  width: 100%;
-  height: 300px;
-}
-
-.skydive-performance-panel-content.hidden {
-  display: none;
-}
-
-.skydive-performance-polar-panel,
-.skydive-performance-map-panel {
-  width: 100%;
-  height: 100%;
-}
-
-.skydive-performance-polar-panel.hidden,
-.skydive-performance-map-panel.hidden {
-  display: none;
-}
-
-.skydive-performance-map-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.skydive-performance-polar {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  display: block;
-}
-
-.skydive-performance-polar .polar-title {
-  fill: var(--gray-80);
-  font-weight: 600;
-}
-
-.skydive-performance-polar .polar-subtitle {
-  fill: var(--gray-50);
-}
-
-.skydive-performance-polar .polar-grid-line {
-  stroke: var(--gray-20);
-  stroke-width: 1;
-}
-
-.skydive-performance-polar .polar-axis-line {
-  stroke: var(--gray-40);
-  stroke-width: 1.5;
-}
-
-.skydive-performance-polar .polar-tick {
-  fill: var(--gray-60);
-}
-
-.skydive-performance-polar .polar-axis-title {
-  fill: var(--gray-70);
-}
-
-.skydive-performance-polar .polar-ray {
-  stroke: var(--gray-50);
-  stroke-width: 1.75;
-  stroke-dasharray: 8 5;
-}
-
-.skydive-performance-polar .polar-ray-label {
-  fill: var(--gray-70);
-  font-weight: 600;
-}
-
-.skydive-performance-polar .polar-sample {
-  fill: #2196F3;
-  fill-opacity: 0.28;
-}
-
-.skydive-performance-polar .polar-curve {
-  fill: none;
-  stroke: #e3353f;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.skydive-performance-polar .polar-tangent {
-  stroke: #37889B;
-  stroke-width: 1.75;
-  stroke-dasharray: 8 5;
-}
-
-.skydive-performance-polar .polar-ld-dot {
-  fill: #e3353f;
-  stroke: var(--surface);
-  stroke-width: 2;
-}
-
-.skydive-performance-polar .polar-stat {
-  fill: var(--gray-80);
-  font-weight: 600;
-}
-
-.skydive-performance-polar .polar-marker {
-  fill: #FF9800;
-  stroke: var(--surface);
-  stroke-width: 2;
-}
-
-.skydive-performance-polar .polar-crosshair {
-  stroke: var(--gray-50);
-  stroke-width: 1;
-  stroke-dasharray: 4 4;
-}
-
-.skydive-performance-polar .polar-marker-label {
-  fill: #c77700;
-  font-weight: 600;
-}
-
-.skydive-performance-polar .polar-marker-compare {
-  fill: #9C27B0;
-  stroke: var(--surface);
-  stroke-width: 2;
-}
-
-.skydive-performance-polar .polar-crosshair-compare {
-  stroke: #9C27B0;
-  stroke-opacity: 0.7;
-  stroke-width: 1;
-  stroke-dasharray: 4 4;
-}
-
-.skydive-performance-polar .polar-marker-label-compare {
-  fill: #9C27B0;
-  font-weight: 600;
-}
-
-.skydive-performance-polar .polar-ld-dot-compare {
-  fill: none;
-  stroke: #9C27B0;
-  stroke-width: 2.5;
-}
-
-.skydive-performance-polar .polar-sample-compare {
-  fill: #9C27B0;
-  fill-opacity: 0.26;
-}
-
-.skydive-performance-polar .polar-curve-compare {
-  fill: none;
-  stroke: #9C27B0;
-  stroke-width: 2.5;
-  stroke-dasharray: 9 6;
-  stroke-linecap: round;
-}
-
-.skydive-performance-polar .polar-stat-compare {
-  fill: #9C27B0;
-  font-weight: 600;
-}
-
-@media (min-width: 768px) {
-  .skydive-performance-stage {
-    flex-direction: row-reverse;
-    align-items: stretch;
+@layer components {
+  .track-jump-range {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .skydive-performance-stage .skydive-performance-side-panel {
-    width: 40%;
-    flex-shrink: 0;
+  .range-shortcuts {
+    margin-bottom: 1rem;
+  }
+
+  .button.best-window-shortcut {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    white-space: nowrap;
+  }
+
+  .best-window-shortcut-value {
+    font-weight: 600;
+  }
+
+  .best-window-shortcut-value::before {
+    content: '·';
+    margin-right: 0.35rem;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .skydive-performance-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .skydive-performance-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .skydive-performance-chart-container {
+    width: 100%;
+    height: 300px;
+    position: relative;
+  }
+
+  .skydive-performance-side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
   }
 
   .skydive-performance-stage-tabs-row {
-    justify-content: flex-end;
-  }
-
-  .skydive-performance-stage-tabs-row .skydive-performance-stage-tabs {
-    width: 40%;
+    display: flex;
     justify-content: center;
   }
 
-  .skydive-performance-stage .skydive-performance-panel-content {
+  .skydive-performance-stage-tabs .seg__btn[disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .skydive-performance-segments-panel.hidden {
+    display: none;
+  }
+
+  .skydive-performance-panel-content {
+    position: relative;
+    width: 100%;
+    height: 300px;
+  }
+
+  .skydive-performance-panel-content.hidden {
+    display: none;
+  }
+
+  .skydive-performance-polar-panel,
+  .skydive-performance-map-panel {
+    width: 100%;
+    height: 100%;
+  }
+
+  .skydive-performance-polar-panel.hidden,
+  .skydive-performance-map-panel.hidden {
+    display: none;
+  }
+
+  .skydive-performance-map-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .skydive-performance-polar {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    display: block;
+  }
+
+  .skydive-performance-polar .polar-title {
+    fill: var(--gray-80);
+    font-weight: 600;
+  }
+
+  .skydive-performance-polar .polar-subtitle {
+    fill: var(--gray-50);
+  }
+
+  .skydive-performance-polar .polar-grid-line {
+    stroke: var(--gray-20);
+    stroke-width: 1;
+  }
+
+  .skydive-performance-polar .polar-axis-line {
+    stroke: var(--gray-40);
+    stroke-width: 1.5;
+  }
+
+  .skydive-performance-polar .polar-tick {
+    fill: var(--gray-60);
+  }
+
+  .skydive-performance-polar .polar-axis-title {
+    fill: var(--gray-70);
+  }
+
+  .skydive-performance-polar .polar-ray {
+    stroke: var(--gray-50);
+    stroke-width: 1.75;
+    stroke-dasharray: 8 5;
+  }
+
+  .skydive-performance-polar .polar-ray-label {
+    fill: var(--gray-70);
+    font-weight: 600;
+  }
+
+  .skydive-performance-polar .polar-sample {
+    fill: #2196F3;
+    fill-opacity: 0.28;
+  }
+
+  .skydive-performance-polar .polar-curve {
+    fill: none;
+    stroke: #e3353f;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .skydive-performance-polar .polar-tangent {
+    stroke: #37889B;
+    stroke-width: 1.75;
+    stroke-dasharray: 8 5;
+  }
+
+  .skydive-performance-polar .polar-ld-dot {
+    fill: #e3353f;
+    stroke: var(--surface);
+    stroke-width: 2;
+  }
+
+  .skydive-performance-polar .polar-stat {
+    fill: var(--gray-80);
+    font-weight: 600;
+  }
+
+  .skydive-performance-polar .polar-marker {
+    fill: #FF9800;
+    stroke: var(--surface);
+    stroke-width: 2;
+  }
+
+  .skydive-performance-polar .polar-crosshair {
+    stroke: var(--gray-50);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+  }
+
+  .skydive-performance-polar .polar-marker-label {
+    fill: #c77700;
+    font-weight: 600;
+  }
+
+  .skydive-performance-polar .polar-marker-compare {
+    fill: #9C27B0;
+    stroke: var(--surface);
+    stroke-width: 2;
+  }
+
+  .skydive-performance-polar .polar-crosshair-compare {
+    stroke: #9C27B0;
+    stroke-opacity: 0.7;
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+  }
+
+  .skydive-performance-polar .polar-marker-label-compare {
+    fill: #9C27B0;
+    font-weight: 600;
+  }
+
+  .skydive-performance-polar .polar-ld-dot-compare {
+    fill: none;
+    stroke: #9C27B0;
+    stroke-width: 2.5;
+  }
+
+  .skydive-performance-polar .polar-sample-compare {
+    fill: #9C27B0;
+    fill-opacity: 0.26;
+  }
+
+  .skydive-performance-polar .polar-curve-compare {
+    fill: none;
+    stroke: #9C27B0;
+    stroke-width: 2.5;
+    stroke-dasharray: 9 6;
+    stroke-linecap: round;
+  }
+
+  .skydive-performance-polar .polar-stat-compare {
+    fill: #9C27B0;
+    font-weight: 600;
+  }
+
+  @media (min-width: 768px) {
+    .skydive-performance-stage {
+      flex-direction: row-reverse;
+      align-items: stretch;
+    }
+
+    .skydive-performance-stage .skydive-performance-side-panel {
+      width: 40%;
+      flex-shrink: 0;
+    }
+
+    .skydive-performance-stage-tabs-row {
+      justify-content: flex-end;
+    }
+
+    .skydive-performance-stage-tabs-row .skydive-performance-stage-tabs {
+      width: 40%;
+      justify-content: center;
+    }
+
+    .skydive-performance-stage .skydive-performance-panel-content {
+      flex: 1;
+      height: auto;
+    }
+
+    .skydive-performance-stage .skydive-performance-chart-container {
+      flex: 1;
+      width: auto;
+    }
+  }
+
+  .skydive-performance-chart {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    display: block;
+  }
+
+  .skydive-performance-empty-state {
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+    color: var(--gray-60);
+  }
+
+  .skydive-performance-empty-state:not(.hidden) {
+    display: flex;
+  }
+
+  .skydive-performance-chart .grid-line {
+    stroke: #e0e0e0;
+    stroke-width: 1;
+    stroke-dasharray: 5 5;
+  }
+
+  .skydive-performance-chart .grid-line-window-start {
+    stroke: #06D6A0;
+    stroke-width: 3;
+  }
+
+  .skydive-performance-chart .grid-line-window-end {
+    stroke: #EF476F;
+    stroke-width: 3;
+  }
+
+  .skydive-performance-chart .grid-line-vertical {
+    stroke: #e0e0e0;
+    stroke-width: 1;
+    stroke-dasharray: 5 5;
+  }
+
+  .skydive-performance-chart .grid-label {
+    fill: var(--gray-70);
+    font-size: 32px;
+    text-anchor: end;
+  }
+
+  .skydive-performance-chart .grid-label-window {
+    font-weight: 600;
+  }
+
+  .skydive-performance-chart .grid-label-distance {
+    fill: var(--gray-70);
+    font-size: 32px;
+    text-anchor: middle;
+  }
+
+  .skydive-performance-chart .wind-indicator-circle {
+    fill: var(--surface);
+    fill-opacity: 0.85;
+    stroke: var(--gray-40);
+    stroke-width: 1.5;
+  }
+
+  .skydive-performance-chart .wind-indicator-pilot {
+    fill: var(--blue-80);
+  }
+
+  .skydive-performance-chart .wind-indicator-pilot--compare {
+    fill: #9C27B0;
+  }
+
+  .skydive-performance-chart .wind-indicator-sector {
+    stroke: var(--gray-60);
+    stroke-width: 1;
+  }
+
+  .skydive-performance-chart .wind-indicator-arrow {
+    fill: var(--red-60);
+  }
+
+  .skydive-performance-chart .wind-indicator-component {
+    fill: var(--gray-70);
+  }
+
+  .skydive-performance-chart .wind-indicator-total {
+    fill: var(--gray-60);
+    font-weight: 600;
+  }
+
+  .skydive-performance-chart .max-speed-marker circle {
+    fill: var(--blue-80);
+    stroke: var(--surface);
+    stroke-width: 1.5;
+  }
+
+  .skydive-performance-chart .max-speed-marker text {
+    fill: var(--blue-80);
+    font-weight: 600;
+  }
+
+  .skydive-performance-chart .max-speed-marker--compare circle {
+    fill: #9C27B0;
+    stroke: var(--surface);
+    stroke-width: 1.5;
+  }
+
+  .skydive-performance-chart .max-speed-marker--compare text {
+    fill: #9C27B0;
+    font-weight: 600;
+  }
+
+  .skydive-performance-chart .track-path {
+    fill: none;
+    stroke: #2196F3;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .skydive-performance-chart .track-path--compare {
+    fill: none;
+    stroke: #9C27B0;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 8 4;
+  }
+
+  .skydive-performance-chart .crosshair {
+    stroke: var(--gray-90);
+    stroke-width: 1;
+    stroke-dasharray: 4, 4;
+  }
+
+  .skydive-performance-chart .crosshair-marker {
+    fill: #2196F3;
+    stroke: var(--surface);
+    stroke-width: 2;
+  }
+
+  .skydive-performance-chart .crosshair-marker--compare {
+    fill: var(--gray-50);
+    stroke: var(--surface);
+    stroke-width: 2;
+  }
+
+  .skydive-side-tooltip {
+    position: absolute;
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+    pointer-events: none;
+    z-index: 50;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .skydive-side-tooltip-time {
+    margin-bottom: 4px;
+  }
+
+  .skydive-side-tooltip-table {
+    border-collapse: collapse;
+    border: none;
+  }
+
+  .skydive-side-tooltip-table th,
+  .skydive-side-tooltip-table td {
+    border: none;
+    padding: 1px 6px 1px 0;
+    text-align: right;
+    font-weight: 500;
+  }
+
+  .skydive-side-tooltip-table th {
+    text-align: left;
+    font-weight: 400;
+    color: var(--text-secondary);
+  }
+
+  .skydive-side-tooltip-table td.is-compare {
+    color: #9c27b0;
+  }
+
+  .skydive-side-tooltip-summary {
+    margin-top: 6px;
+    padding-top: 5px;
+    border-top: 1px solid var(--gray-30);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .skydive-performance-indicators-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .video-indicators--compare {
+    border: 2px dashed var(--gray-40);
+    border-radius: 8px;
+    padding: 0.5rem;
+  }
+
+  .skydive-performance-charts {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .skydive-performance-separate-charts {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .skydive-performance-separate-charts.hidden {
+    display: none;
+  }
+
+  .skydive-performance-separate-charts > div {
+    min-height: 200px;
+  }
+
+  .skydive-performance-separate-charts > div:nth-child(1) {
+    min-height: 170px;
+  }
+
+  .skydive-performance-separate-charts > div:nth-child(2) {
+    min-height: 350px;
+  }
+
+  .skydive-performance-separate-charts > div:nth-child(3) {
+    min-height: 300px;
+  }
+
+  .skydive-performance-separate-charts > div:last-child {
+    min-height: 70px;
+  }
+
+  .skydive-performance-combined-chart {
+    min-height: 600px;
+  }
+
+  .skydive-performance-map-panel .skydive-performance-map-container {
     flex: 1;
     height: auto;
+    min-height: 0;
   }
 
-  .skydive-performance-stage .skydive-performance-chart-container {
+  .skydive-performance-map-container {
+    height: 250px;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .skydive-performance-map {
+    width: 100%;
+    height: 100%;
+  }
+
+  .skydive-performance-playback {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--gray-20);
+    border-radius: 2rem;
+  }
+
+  .skydive-performance-playback-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: #2196F3;
+    color: var(--white);
+    cursor: pointer;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .skydive-performance-playback-button:hover {
+    background: #1976D2;
+  }
+
+  .skydive-performance-playback-button.playing {
+    background: #f44336;
+  }
+
+  .skydive-performance-playback-button.playing:hover {
+    background: #d32f2f;
+  }
+
+  .skydive-performance-playback-button svg {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+  }
+
+  .skydive-performance-playback-button .icon-play,
+  .skydive-performance-playback-button .icon-pause {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .skydive-performance-playback-button .icon-pause {
+    display: none;
+  }
+
+  .skydive-performance-playback-button.playing .icon-play {
+    display: none;
+  }
+
+  .skydive-performance-playback-button.playing .icon-pause {
+    display: flex;
+  }
+
+  .skydive-performance-playback-slider {
     flex: 1;
-    width: auto;
+    height: 0.5rem;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--gray-40);
+    border-radius: 0.25rem;
+    outline: none;
   }
-}
 
-.skydive-performance-chart {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  display: block;
-}
+  .skydive-performance-playback-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    background: #2196F3;
+    border-radius: 50%;
+    cursor: pointer;
+  }
 
-.skydive-performance-empty-state {
-  position: absolute;
-  inset: 0;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  text-align: center;
-  color: var(--gray-60);
-}
+  .skydive-performance-playback-slider::-moz-range-thumb {
+    width: 1rem;
+    height: 1rem;
+    background: #2196F3;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+  }
 
-.skydive-performance-empty-state:not(.hidden) {
-  display: flex;
-}
-
-.skydive-performance-chart .grid-line {
-  stroke: #e0e0e0;
-  stroke-width: 1;
-  stroke-dasharray: 5 5;
-}
-
-.skydive-performance-chart .grid-line-window-start {
-  stroke: #06D6A0;
-  stroke-width: 3;
-}
-
-.skydive-performance-chart .grid-line-window-end {
-  stroke: #EF476F;
-  stroke-width: 3;
-}
-
-.skydive-performance-chart .grid-line-vertical {
-  stroke: #e0e0e0;
-  stroke-width: 1;
-  stroke-dasharray: 5 5;
-}
-
-.skydive-performance-chart .grid-label {
-  fill: var(--gray-70);
-  font-size: 32px;
-  text-anchor: end;
-}
-
-.skydive-performance-chart .grid-label-window {
-  font-weight: 600;
-}
-
-.skydive-performance-chart .grid-label-distance {
-  fill: var(--gray-70);
-  font-size: 32px;
-  text-anchor: middle;
-}
-
-.skydive-performance-chart .wind-indicator-circle {
-  fill: var(--surface);
-  fill-opacity: 0.85;
-  stroke: var(--gray-40);
-  stroke-width: 1.5;
-}
-
-.skydive-performance-chart .wind-indicator-pilot {
-  fill: var(--blue-80);
-}
-
-.skydive-performance-chart .wind-indicator-pilot--compare {
-  fill: #9C27B0;
-}
-
-.skydive-performance-chart .wind-indicator-sector {
-  stroke: var(--gray-60);
-  stroke-width: 1;
-}
-
-.skydive-performance-chart .wind-indicator-arrow {
-  fill: var(--red-60);
-}
-
-.skydive-performance-chart .wind-indicator-component {
-  fill: var(--gray-70);
-}
-
-.skydive-performance-chart .wind-indicator-total {
-  fill: var(--gray-60);
-  font-weight: 600;
-}
-
-.skydive-performance-chart .max-speed-marker circle {
-  fill: var(--blue-80);
-  stroke: var(--surface);
-  stroke-width: 1.5;
-}
-
-.skydive-performance-chart .max-speed-marker text {
-  fill: var(--blue-80);
-  font-weight: 600;
-}
-
-.skydive-performance-chart .max-speed-marker--compare circle {
-  fill: #9C27B0;
-  stroke: var(--surface);
-  stroke-width: 1.5;
-}
-
-.skydive-performance-chart .max-speed-marker--compare text {
-  fill: #9C27B0;
-  font-weight: 600;
-}
-
-.skydive-performance-chart .track-path {
-  fill: none;
-  stroke: #2196F3;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.skydive-performance-chart .track-path--compare {
-  fill: none;
-  stroke: #9C27B0;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 8 4;
-}
-
-.skydive-performance-chart .crosshair {
-  stroke: var(--gray-90);
-  stroke-width: 1;
-  stroke-dasharray: 4, 4;
-}
-
-.skydive-performance-chart .crosshair-marker {
-  fill: #2196F3;
-  stroke: var(--surface);
-  stroke-width: 2;
-}
-
-.skydive-performance-chart .crosshair-marker--compare {
-  fill: var(--gray-50);
-  stroke: var(--surface);
-  stroke-width: 2;
-}
-
-.skydive-side-tooltip {
-  position: absolute;
-  display: none;
-  background: var(--surface);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 12px;
-  line-height: 1.4;
-  pointer-events: none;
-  z-index: 50;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.skydive-side-tooltip-time {
-  margin-bottom: 4px;
-}
-
-.skydive-side-tooltip-table {
-  border-collapse: collapse;
-  border: none;
-}
-
-.skydive-side-tooltip-table th,
-.skydive-side-tooltip-table td {
-  border: none;
-  padding: 1px 6px 1px 0;
-  text-align: right;
-  font-weight: 500;
-}
-
-.skydive-side-tooltip-table th {
-  text-align: left;
-  font-weight: 400;
-  color: var(--text-secondary);
-}
-
-.skydive-side-tooltip-table td.is-compare {
-  color: #9c27b0;
-}
-
-.skydive-side-tooltip-summary {
-  margin-top: 6px;
-  padding-top: 5px;
-  border-top: 1px solid var(--gray-30);
-  font-weight: 600;
-  text-align: center;
-}
-
-.skydive-performance-indicators-row {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.video-indicators--compare {
-  border: 2px dashed var(--gray-40);
-  border-radius: 8px;
-  padding: 0.5rem;
-}
-
-.skydive-performance-charts {
-  display: flex;
-  flex-direction: column;
-}
-
-.skydive-performance-separate-charts {
-  display: flex;
-  flex-direction: column;
-}
-
-.skydive-performance-separate-charts.hidden {
-  display: none;
-}
-
-.skydive-performance-separate-charts > div {
-  min-height: 200px;
-}
-
-.skydive-performance-separate-charts > div:nth-child(1) {
-  min-height: 170px;
-}
-
-.skydive-performance-separate-charts > div:nth-child(2) {
-  min-height: 350px;
-}
-
-.skydive-performance-separate-charts > div:nth-child(3) {
-  min-height: 300px;
-}
-
-.skydive-performance-separate-charts > div:last-child {
-  min-height: 70px;
-}
-
-.skydive-performance-combined-chart {
-  min-height: 600px;
-}
-
-.skydive-performance-map-panel .skydive-performance-map-container {
-  flex: 1;
-  height: auto;
-  min-height: 0;
-}
-
-.skydive-performance-map-container {
-  height: 250px;
-  position: relative;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.skydive-performance-map {
-  width: 100%;
-  height: 100%;
-}
-
-.skydive-performance-playback {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
-  background: var(--gray-20);
-  border-radius: 2rem;
-}
-
-.skydive-performance-playback-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  background: #2196F3;
-  color: var(--white);
-  cursor: pointer;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.skydive-performance-playback-button:hover {
-  background: #1976D2;
-}
-
-.skydive-performance-playback-button.playing {
-  background: #f44336;
-}
-
-.skydive-performance-playback-button.playing:hover {
-  background: #d32f2f;
-}
-
-.skydive-performance-playback-button svg {
-  width: 1rem;
-  height: 1rem;
-  fill: currentColor;
-}
-
-.skydive-performance-playback-button .icon-play,
-.skydive-performance-playback-button .icon-pause {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.skydive-performance-playback-button .icon-pause {
-  display: none;
-}
-
-.skydive-performance-playback-button.playing .icon-play {
-  display: none;
-}
-
-.skydive-performance-playback-button.playing .icon-pause {
-  display: flex;
-}
-
-.skydive-performance-playback-slider {
-  flex: 1;
-  height: 0.5rem;
-  -webkit-appearance: none;
-  appearance: none;
-  background: var(--gray-40);
-  border-radius: 0.25rem;
-  outline: none;
-}
-
-.skydive-performance-playback-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 1rem;
-  height: 1rem;
-  background: #2196F3;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.skydive-performance-playback-slider::-moz-range-thumb {
-  width: 1rem;
-  height: 1rem;
-  background: #2196F3;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-}
-
-.skydive-performance-indicators-header {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-@media (min-width: 768px) {
   .skydive-performance-indicators-header {
-    flex-direction: row;
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .skydive-performance-indicators-header {
+      flex-direction: row;
+      gap: 2rem;
+    }
+
+    .skydive-performance-indicators-header .track-indicators {
+      flex: 1;
+    }
   }
 
   .skydive-performance-indicators-header .track-indicators {
-    flex: 1;
+    padding: 0.75rem;
   }
-}
 
-.skydive-performance-indicators-header .track-indicators {
-  padding: 0.75rem;
-}
+  .track-indicators--compare {
+    background: var(--gray-10);
+    border-radius: 8px;
+  }
 
-.track-indicators--compare {
-  background: var(--gray-10);
-  border-radius: 8px;
-}
+  .track-indicators-label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--gray-70);
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--gray-30);
+  }
 
-.track-indicators-label {
-  font-weight: 600;
-  font-size: 0.875rem;
-  color: var(--gray-70);
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.25rem;
-  border-bottom: 1px solid var(--gray-30);
-}
-
-.skydive-performance-page {
-  margin: 0 auto;
-  width: 100%;
-}
-
-@media (min-width: 1200px) {
   .skydive-performance-page {
-    width: 1200px;
+    margin: 0 auto;
+    width: 100%;
   }
-}
 
-.skydive-performance-page .track-show-content {
-  width: 100%;
-}
+  @media (min-width: 1200px) {
+    .skydive-performance-page {
+      width: 1200px;
+    }
+  }
 
-.skydive-performance-page .skydive-performance-actions-bar {
-  margin-bottom: 1rem;
-}
+  .skydive-performance-page .track-show-content {
+    width: 100%;
+  }
 
-.skydive-performance-settings {
-  display: flex;
-}
+  .skydive-performance-page .skydive-performance-actions-bar {
+    margin-bottom: 1rem;
+  }
 
-.sd-dropdown-menu.sd-settings-menu {
-  gap: 0.5rem;
-  padding: 0.5rem;
-  min-width: 15rem;
-}
+  .skydive-performance-settings {
+    display: flex;
+  }
 
-.sd-settings-menu .sd-setting-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
+  .sd-dropdown-menu.sd-settings-menu {
+    gap: 0.5rem;
+    padding: 0.5rem;
+    min-width: 15rem;
+  }
 
-.sd-settings-menu .sd-setting-label {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--gray-70);
-  white-space: nowrap;
-}
-
-.sd-dropdown-menu.sd-settings-menu .sd-setting-tabs {
-  width: auto;
-  flex: 0 0 auto;
-  margin: 0;
-  padding: 0.25rem;
-  border: 0;
-  border-radius: var(--border-radius-md);
-}
-
-.sd-settings-menu .sd-setting-tabs .tab-bar-item {
-  padding: 0.3125rem 0.625rem;
-  font-size: 0.8125rem;
-}
-
-.skydive-performance-actions-bar__toggle {
-  cursor: default;
-}
-
-.skydive-performance-actions-bar__toggle:hover {
-  background-color: var(--surface);
-}
-
-.skydive-performance-actions-bar__toggle .switch-container {
-  margin: 0;
-}
-
-.skydive-performance-actions-bar__remove {
-  color: var(--text-brand);
-  text-decoration: none;
-}
-
-.skydive-performance-actions-bar__remove:hover {
-  color: var(--red-80);
-}
-
-.comparison-dialog {
-  position: fixed;
-  inset: 0;
-  z-index: 250;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  overflow: hidden;
-}
-
-.comparison-dialog[open] {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-@media (min-width: 576px) {
-  .comparison-dialog[open] {
+  .sd-settings-menu .sd-setting-row {
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
   }
-}
 
-.comparison-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.6);
-}
+  .sd-settings-menu .sd-setting-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--gray-70);
+    white-space: nowrap;
+  }
 
-.comparison-dialog-backdrop {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.comparison-dialog-backdrop button {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: default;
-}
-
-.comparison-dialog-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-height: calc(100dvh - 2rem);
-  background-color: var(--surface);
-  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
-  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-}
-
-@media (min-width: 576px) {
-  .comparison-dialog-card {
-    width: 500px;
-    max-width: calc(100vw - 2rem);
+  .sd-dropdown-menu.sd-settings-menu .sd-setting-tabs {
+    width: auto;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0.25rem;
+    border: 0;
     border-radius: var(--border-radius-md);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   }
-}
 
-@media (max-width: 575px) {
+  .sd-settings-menu .sd-setting-tabs {
+    --tab-bar-item-padding: 0.3125rem 0.625rem;
+    --tab-bar-item-font-size: 0.8125rem;
+  }
+
+  .skydive-performance-actions-bar__toggle {
+    cursor: default;
+  }
+
+  .skydive-performance-actions-bar__toggle:hover {
+    background-color: var(--surface);
+  }
+
+  .skydive-performance-actions-bar__toggle .switch-container {
+    margin: 0;
+  }
+
+  .skydive-performance-actions-bar__remove {
+    color: var(--text-brand);
+    text-decoration: none;
+  }
+
+  .skydive-performance-actions-bar__remove:hover {
+    color: var(--red-80);
+  }
+
+  .comparison-dialog {
+    position: fixed;
+    inset: 0;
+    z-index: 250;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  .comparison-dialog[open] {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  @media (min-width: 576px) {
+    .comparison-dialog[open] {
+      align-items: center;
+    }
+  }
+
+  .comparison-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  .comparison-dialog-backdrop {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .comparison-dialog-backdrop button {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: default;
+  }
+
   .comparison-dialog-card {
-    max-height: 90dvh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: calc(100dvh - 2rem);
+    background-color: var(--surface);
+    border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+    box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
   }
-}
 
-.comparison-dialog-card .dialog-header form {
-  display: contents;
-}
+  @media (min-width: 576px) {
+    .comparison-dialog-card {
+      width: 500px;
+      max-width: calc(100vw - 2rem);
+      border-radius: var(--border-radius-md);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+  }
 
-.dialog-body.comparison-explorer {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  padding: 0;
-}
+  @media (max-width: 575px) {
+    .comparison-dialog-card {
+      max-height: 90dvh;
+    }
+  }
 
-.comparison-explorer-search {
-  position: relative;
-  z-index: 1;
-  padding: 1rem;
-  background-color: var(--surface);
-  box-shadow: 0 0.25rem 0.5rem -0.25rem rgba(0, 0, 0, 0.15);
-}
+  .comparison-dialog-card .dialog-header form {
+    display: contents;
+  }
 
-.comparison-explorer-list {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 0.25rem 1rem 1rem;
-}
+  .dialog-body.comparison-explorer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+  }
 
-.skydive-performance-segments-panel {
-  --sps-a: #2196f3;
-  --sps-b: #9c27b0;
-  --sps-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-  width: 100%;
-  height: 300px;
-  overflow-y: auto;
-}
+  .comparison-explorer-search {
+    position: relative;
+    z-index: 1;
+    padding: 1rem;
+    background-color: var(--surface);
+    box-shadow: 0 0.25rem 0.5rem -0.25rem rgba(0, 0, 0, 0.15);
+  }
 
-.skydive-performance-segments {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
+  .comparison-explorer-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0.25rem 1rem 1rem;
+  }
 
-.sps-entry {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1rem;
-  padding: 0.4rem 0.55rem;
-  background: var(--surface);
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius-md);
-}
+  .skydive-performance-segments-panel {
+    --sps-a: #2196f3;
+    --sps-b: #9c27b0;
+    --sps-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    width: 100%;
+    height: 300px;
+    overflow-y: auto;
+  }
 
-.sps-entry__chip {
-  display: flex;
-  align-items: baseline;
-  gap: 0.35rem;
-  min-width: 0;
-}
+  .skydive-performance-segments {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
 
-.sps-entry__label {
-  font-size: 0.68rem;
-  color: var(--text-secondary);
-  white-space: nowrap;
-}
+  .sps-entry {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    padding: 0.4rem 0.55rem;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--border-radius-md);
+  }
 
-.sps-entry__value {
-  font-family: var(--sps-mono);
-  font-size: 0.82rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--text-color);
-  white-space: nowrap;
-}
+  .sps-entry__chip {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    min-width: 0;
+  }
 
-.sps-entry--compare {
-  flex-wrap: wrap;
-  gap: 0.3rem 1.25rem;
-}
+  .sps-entry__label {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
 
-.sps-entry__chip--compare {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.05rem;
-}
+  .sps-entry__value {
+    font-family: var(--sps-mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-color);
+    white-space: nowrap;
+  }
 
-.sps-entry__value--a {
-  color: var(--sps-a);
-}
+  .sps-entry--compare {
+    flex-wrap: wrap;
+    gap: 0.3rem 1.25rem;
+  }
 
-.sps-entry__value--b {
-  color: var(--sps-b);
-}
+  .sps-entry__chip--compare {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.05rem;
+  }
 
-.sps-seg-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
+  .sps-entry__value--a {
+    color: var(--sps-a);
+  }
 
-.sps-seg {
-  display: flex;
-  align-items: stretch;
-  gap: 0.5rem;
-  background: var(--surface);
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius-md);
-  overflow: hidden;
-}
+  .sps-entry__value--b {
+    color: var(--sps-b);
+  }
 
-.sps-seg__side {
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  padding: 0.35rem 0.1rem;
-  background: var(--gray-70);
-  color: var(--inverse-text);
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-family: var(--sps-mono);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
+  .sps-seg-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
 
-.sps-seg__badge {
-  font-size: 0.68rem;
-  font-weight: 700;
-}
+  .sps-seg {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+  }
 
-.sps-seg__drop {
-  font-size: 0.66rem;
-  font-weight: 500;
-  opacity: 0.85;
-}
+  .sps-seg__side {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.1rem;
+    background: var(--gray-70);
+    color: var(--inverse-text);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--sps-mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
 
-.sps-seg__rows {
-  display: flex;
-  flex-direction: column;
-  gap: 0.16rem;
-  flex: 1;
-  min-width: 0;
-  padding: 0.28rem 0.5rem 0.28rem 0;
-}
+  .sps-seg__badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
 
-.sps-row {
-  display: grid;
-  grid-template-columns: 54px 1fr auto;
-  align-items: center;
-  gap: 0.5rem;
-}
+  .sps-seg__drop {
+    font-size: 0.66rem;
+    font-weight: 500;
+    opacity: 0.85;
+  }
 
-.sps-row__name {
-  font-size: 0.68rem;
-  color: var(--text-secondary);
-}
+  .sps-seg__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.16rem;
+    flex: 1;
+    min-width: 0;
+    padding: 0.28rem 0.5rem 0.28rem 0;
+  }
 
-.sps-row__val {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-  gap: 0.3rem;
-  font-family: var(--sps-mono);
-  font-size: 0.82rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--text-color);
-  text-align: right;
-  white-space: nowrap;
-}
+  .sps-row {
+    display: grid;
+    grid-template-columns: 54px 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+  }
 
-.sps-row__sub {
-  font-size: 0.66rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-}
+  .sps-row__name {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+  }
 
-.sps-delta.is-gain {
-  color: var(--green-70, #2e7d32);
-}
+  .sps-row__val {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 0.3rem;
+    font-family: var(--sps-mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-color);
+    text-align: right;
+    white-space: nowrap;
+  }
 
-.sps-delta.is-loss {
-  color: var(--red-70, #c62828);
-}
+  .sps-row__sub {
+    font-size: 0.66rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
 
-.sps-unit {
-  font-family: inherit;
-  font-style: normal;
-  font-size: 0.7em;
-  color: var(--text-secondary);
-  margin-left: 0.1rem;
-}
+  .sps-delta.is-gain {
+    color: var(--green-70, #2e7d32);
+  }
 
-.sps-bar {
-  position: relative;
-  height: 7px;
-  background: var(--gray-20);
-  border-radius: 3px;
-}
+  .sps-delta.is-loss {
+    color: var(--red-70, #c62828);
+  }
 
-.sps-bar__fill {
-  position: absolute;
-  top: 1px;
-  bottom: 1px;
-  border-radius: 2px;
-  background: var(--sps-a);
-}
+  .sps-unit {
+    font-family: inherit;
+    font-style: normal;
+    font-size: 0.7em;
+    color: var(--text-secondary);
+    margin-left: 0.1rem;
+  }
 
-.sps-bar--diverging .sps-bar__fill {
-  background: var(--gray-50);
-}
+  .sps-bar {
+    position: relative;
+    height: 7px;
+    background: var(--gray-20);
+    border-radius: 3px;
+  }
 
-.sps-bar__fill.is-gain {
-  background: var(--green-70, #2e7d32);
-}
+  .sps-bar__fill {
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    border-radius: 2px;
+    background: var(--sps-a);
+  }
 
-.sps-bar__fill.is-loss {
-  background: var(--red-70, #c62828);
-}
+  .sps-bar--diverging .sps-bar__fill {
+    background: var(--gray-50);
+  }
 
-.sps-bar__mid {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-  background: var(--gray-40);
-}
+  .sps-bar__fill.is-gain {
+    background: var(--green-70, #2e7d32);
+  }
 
-.sps-cols {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.66rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.1rem;
-}
+  .sps-bar__fill.is-loss {
+    background: var(--red-70, #c62828);
+  }
 
-.sps-dot {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  margin-right: 0.25rem;
-}
+  .sps-bar__mid {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: var(--gray-40);
+  }
 
-.sps-dot--trail {
-  margin-right: 0;
-  margin-left: 0.25rem;
-}
+  .sps-cols {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.66rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.1rem;
+  }
 
-.sps-dot.is-a {
-  background: var(--sps-a);
-}
+  .sps-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-right: 0.25rem;
+  }
 
-.sps-dot.is-b {
-  background: var(--sps-b);
-}
+  .sps-dot--trail {
+    margin-right: 0;
+    margin-left: 0.25rem;
+  }
 
-.sps-cmp__row {
-  display: grid;
-  grid-template-columns: 44px 1fr 44px;
-  align-items: center;
-  gap: 0.4rem;
-}
+  .sps-dot.is-a {
+    background: var(--sps-a);
+  }
 
-.sps-cmp__val {
-  font-family: var(--sps-mono);
-  font-variant-numeric: tabular-nums;
-  font-size: 0.76rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  white-space: nowrap;
-}
+  .sps-dot.is-b {
+    background: var(--sps-b);
+  }
 
-.sps-cmp__val:first-child {
-  text-align: right;
-}
+  .sps-cmp__row {
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: center;
+    gap: 0.4rem;
+  }
 
-.sps-cmp__val:last-child {
-  text-align: left;
-}
+  .sps-cmp__val {
+    font-family: var(--sps-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.76rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
 
-.sps-cmp__val .sps-unit {
-  margin-left: 0.05rem;
-}
+  .sps-cmp__val:first-child {
+    text-align: right;
+  }
 
-.sps-cmp__val.is-lead {
-  font-weight: 700;
-  color: var(--text-color);
-}
+  .sps-cmp__val:last-child {
+    text-align: left;
+  }
 
-.sps-cmp__mid {
-  display: grid;
-  grid-template-columns: 46px 1fr;
-  align-items: center;
-  gap: 0.4rem;
-}
+  .sps-cmp__val .sps-unit {
+    margin-left: 0.05rem;
+  }
 
-.sps-cmp__name {
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  white-space: nowrap;
+  .sps-cmp__val.is-lead {
+    font-weight: 700;
+    color: var(--text-color);
+  }
+
+  .sps-cmp__mid {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .sps-cmp__name {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
 }

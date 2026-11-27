@@ -135,6 +135,9 @@
   }
 
   .dashboard-rankings-scope.tab-bar {
+    --tab-bar-item-font-size: 0.6875rem;
+    --tab-bar-item-padding: 0.1875rem 0.5rem;
+
     width: fit-content;
     max-width: 100%;
     gap: 0.1875rem;
@@ -148,8 +151,6 @@
 
   .dashboard-rankings-scope .tab-bar-item {
     flex: 0 0 auto;
-    font-size: 0.6875rem;
-    padding: 0.1875rem 0.5rem;
   }
 
   .dashboard-section__header--linked {
@@ -437,15 +438,14 @@
     justify-content: center;
     font-weight: 800;
     font-size: 0.75rem;
-    background-color: var(--gray-20);
-    color: var(--gray-80);
-    border: 1px solid var(--gray-30);
+    background-color: var(--medal-bg, var(--gray-20));
+    color: var(--medal-color, var(--gray-80));
+    border: 1px var(--dashboard-place-border-style, solid) var(--medal-border-color, var(--gray-30));
   }
 
   .dashboard-place--hidden {
-    background-color: var(--gray-20);
-    color: var(--gray-50);
-    border-style: dashed;
+    --medal-color: var(--gray-50);
+    --dashboard-place-border-style: dashed;
   }
 
   .dashboard-badges {
@@ -470,14 +470,14 @@
     box-sizing: border-box;
     width: 2.375rem;
     height: 2.375rem;
-    border: 5px solid transparent;
+    border: 5px solid var(--medal-border-color, transparent);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.875rem;
-    background-color: var(--gray-20);
-    color: var(--gray-70);
+    background-color: var(--medal-bg, var(--gray-20));
+    color: var(--medal-color, var(--gray-70));
   }
 
   .dashboard-achievement__text {
@@ -498,21 +498,21 @@
   }
 
   .dashboard-achievement--skyderby {
-    background-color: var(--blue-30);
-    border-color: var(--blue-10);
-    color: var(--text-selected);
+    --medal-bg: var(--blue-30);
+    --medal-border-color: var(--blue-10);
+    --medal-color: var(--text-selected);
   }
 
   .dashboard-achievement--sponsor {
-    background-color: var(--green-70);
-    border-color: var(--green-30);
-    color: var(--green-90);
+    --medal-bg: var(--green-70);
+    --medal-border-color: var(--green-30);
+    --medal-color: var(--green-90);
   }
 
   .dashboard-achievement--special {
-    background-color: var(--red-30);
-    border-color: var(--red-20);
-    color: var(--red-80);
+    --medal-bg: var(--red-30);
+    --medal-border-color: var(--red-20);
+    --medal-color: var(--red-80);
   }
 
   .dashboard-show-all {
@@ -537,40 +537,40 @@
   .dashboard-empty__text {
     color: var(--text-secondary);
   }
-}
 
-.dashboard-collapsible.is-collapsed > *:nth-child(n + 4) {
-  display: none;
-}
+  .dashboard-collapsible.is-collapsed > *:nth-child(n + 4) {
+    display: none;
+  }
 
-.dashboard-rankings.is-collapsed > *:nth-child(n + 5) {
-  display: none;
-}
+  .dashboard-rankings.is-collapsed > *:nth-child(n + 5) {
+    display: none;
+  }
 
-.dashboard-filters {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
+  .dashboard-filters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
 
-.dashboard-filters .dashboard-modes.tab-bar {
-  flex: 1 1 auto;
-  width: auto;
-  max-width: 100%;
-  margin: 0;
-}
+  .dashboard-filters .dashboard-modes.tab-bar {
+    flex: 1 1 auto;
+    width: auto;
+    max-width: 100%;
+    margin: 0;
+  }
 
-.dashboard-period {
-  display: inline-flex;
-}
+  .dashboard-period {
+    display: inline-flex;
+  }
 
-.dashboard-period .dashboard-period__select {
-  width: auto;
-  min-width: 7rem;
-  font-size: 0.8125rem;
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
-  cursor: pointer;
+  .dashboard-period .dashboard-period__select {
+    width: auto;
+    min-width: 7rem;
+    font-size: 0.8125rem;
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+    cursor: pointer;
+  }
 }

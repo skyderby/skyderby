@@ -1,5 +1,7 @@
-.page-header {
-  margin: 20px 0 0 0;
-  padding-bottom: 0;
-  border-bottom-style: none;
+@layer components {
+  .page-header {
+    margin: 20px 0 0 0;
+    padding-bottom: 0;
+    border-bottom-style: none;
+  }
 }

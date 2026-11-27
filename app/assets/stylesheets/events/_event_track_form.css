@@ -1,3 +1,5 @@
-#new_event_track .upload-progress {
-  padding-top: 10%;
+@layer components {
+  #new_event_track .upload-progress {
+    padding-top: 10%;
+  }
 }

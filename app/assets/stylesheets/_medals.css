@@ -1,19 +1,19 @@
 @layer components {
   .medal--gold {
-    background-color: var(--yellow-40);
-    border-color: var(--yellow-20);
-    color: var(--yellow-80);
+    --medal-bg: var(--yellow-40);
+    --medal-border-color: var(--yellow-20);
+    --medal-color: var(--yellow-80);
   }
 
   .medal--silver {
-    background-color: var(--blue-gray-20);
-    border-color: var(--blue-gray-10);
-    color: var(--text-selected);
+    --medal-bg: var(--blue-gray-20);
+    --medal-border-color: var(--blue-gray-10);
+    --medal-color: var(--text-selected);
   }
 
   .medal--bronze {
-    background-color: var(--orange-30);
-    border-color: var(--orange-20);
-    color: var(--orange-80);
+    --medal-bg: var(--orange-30);
+    --medal-border-color: var(--orange-20);
+    --medal-color: var(--orange-80);
   }
 }

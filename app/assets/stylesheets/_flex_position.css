@@ -1,3 +1,5 @@
-.position-right {
-  margin-left: auto;
+@layer utilities {
+  .position-right {
+    margin-left: auto;
+  }
 }

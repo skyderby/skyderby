@@ -1,3 +1,5 @@
-form.button_to {
-  display: inline-block;
+@layer components {
+  form.button_to {
+    display: inline-block;
+  }
 }

@@ -1,44 +1,45 @@
-.segmented-control {
-  display: flex;
-  gap: 0.125rem;
-  padding: 0.125rem;
-  margin-bottom: 0.75rem;
-  background-color: var(--gray-20);
-  border-radius: var(--border-radius-md);
-}
+@layer components {
+  .segmented-control {
+    display: var(--segmented-control-display, flex);
+    gap: 0.125rem;
+    padding: 0.125rem;
+    margin-bottom: var(--segmented-control-margin-bottom, 0.75rem);
+    vertical-align: var(--segmented-control-vertical-align, baseline);
+    background-color: var(--gray-20);
+    border-radius: var(--border-radius-md);
+  }
 
-.segmented-control-option {
-  flex: 1 1 0;
-  padding: 0.375rem 0.75rem;
-  border: none;
-  border-radius: calc(var(--border-radius-md) - 0.125rem);
-  background-color: transparent;
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.2;
-  cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
+  .segmented-control-option {
+    flex: var(--segmented-control-option-flex, 1 1 0);
+    padding: var(--segmented-control-option-padding, 0.375rem 0.75rem);
+    border: none;
+    border-radius: calc(var(--border-radius-md) - 0.125rem);
+    background-color: var(--segmented-control-option-bg, transparent);
+    box-shadow: var(--segmented-control-option-shadow, none);
+    color: var(--segmented-control-option-color, var(--text-secondary));
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: var(--segmented-control-option-line-height, 1.2);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
 
-.segmented-control-option:hover {
-  color: var(--gray-80);
-}
+  .segmented-control-option:hover {
+    --segmented-control-option-color: var(--gray-80);
+  }
 
-.segmented-control-option.active {
-  background-color: var(--control-active-bg);
-  color: var(--gray-80);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
-}
+  .segmented-control-option.active {
+    --segmented-control-option-bg: var(--control-active-bg);
+    --segmented-control-option-color: var(--gray-80);
+    --segmented-control-option-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  }
 
-.segmented-control--inline {
-  display: inline-flex;
-  margin-bottom: 0;
-  vertical-align: middle;
-}
-
-.segmented-control--inline .segmented-control-option {
-  flex: none;
-  padding: 0.25rem 0.5rem;
-  line-height: 1;
+  .segmented-control--inline {
+    --segmented-control-display: inline-flex;
+    --segmented-control-margin-bottom: 0;
+    --segmented-control-vertical-align: middle;
+    --segmented-control-option-flex: none;
+    --segmented-control-option-padding: 0.25rem 0.5rem;
+    --segmented-control-option-line-height: 1;
+  }
 }

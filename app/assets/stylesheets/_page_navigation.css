@@ -1,73 +1,75 @@
-.page-nav {
-  display: flex;
-  white-space: nowrap;
-  overflow-x: auto;
-  gap: 0.25rem;
-  max-width: calc(100vw - 2rem);
-}
-
-.page-nav::-webkit-scrollbar {
-  display: none;
-}
-
-.page-nav-right {
-  margin-left: auto;
-}
-
-.page-tab {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  position: relative;
-  background-color: transparent;
-  border: none;
-  border-radius: var(--border-radius-md);
-  color: var(--gray-70);
-  font-weight: 500;
-  font-size: 0.875rem;
-  padding: .5rem;
-  text-decoration: none;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-  gap: 0.25rem;
-}
-
-.page-tab:focus {
-  outline: none;
-  color: var(--gray-70);
-}
-
-.page-tab:hover {
-  background-color: var(--gray-30);
-  color: var(--gray-70);
-}
-
-.page-tab-active {
-  color: var(--text-selected);
-}
-
-.page-tab-active::after {
-  position: absolute;
-  background-color: var(--blue-gray-60);
-  bottom: -3px;
-  display: block;
-  height: 3px;
-  left: 0;
-  right: 0;
-  content: "";
-  border-radius: 2px;
-}
-
-.page-tab-right {
-  margin-left: auto;
-}
-
-.page-tab-right + .page-tab-right {
-  margin-left: 0;
-}
-
-@media print {
+@layer components {
   .page-nav {
+    display: flex;
+    white-space: nowrap;
+    overflow-x: auto;
+    gap: 0.25rem;
+    max-width: calc(100vw - 2rem);
+  }
+
+  .page-nav::-webkit-scrollbar {
     display: none;
+  }
+
+  .page-nav-right {
+    margin-left: auto;
+  }
+
+  .page-tab {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    position: relative;
+    background-color: transparent;
+    border: none;
+    border-radius: var(--border-radius-md);
+    color: var(--gray-70);
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: .5rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    gap: 0.25rem;
+  }
+
+  .page-tab:focus {
+    outline: none;
+    color: var(--gray-70);
+  }
+
+  .page-tab:hover {
+    background-color: var(--gray-30);
+    color: var(--gray-70);
+  }
+
+  .page-tab-active {
+    color: var(--text-selected);
+  }
+
+  .page-tab-active::after {
+    position: absolute;
+    background-color: var(--blue-gray-60);
+    bottom: -3px;
+    display: block;
+    height: 3px;
+    left: 0;
+    right: 0;
+    content: "";
+    border-radius: 2px;
+  }
+
+  .page-tab-right {
+    margin-left: auto;
+  }
+
+  .page-tab-right + .page-tab-right {
+    margin-left: 0;
+  }
+
+  @media print {
+    .page-nav {
+      display: none;
+    }
   }
 }

@@ -1,3 +1,5 @@
-.page-header {
-  margin-top: 20px;
+@layer components {
+  .page-header {
+    margin-top: 20px;
+  }
 }

@@ -1,9 +1,11 @@
-.track-empty-state {
-  padding: 2rem 1rem;
-  text-align: center;
-  color: var(--gray-60);
-}
+@layer components {
+  .track-empty-state {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--gray-60);
+  }
 
-.track-empty-state:not(.hidden) {
-  display: block;
+  .track-empty-state:not(.hidden) {
+    display: block;
+  }
 }

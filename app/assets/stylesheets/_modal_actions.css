@@ -1,4 +1,6 @@
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
+@layer components {
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+  }
 }

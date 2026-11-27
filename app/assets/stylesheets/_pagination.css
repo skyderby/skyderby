@@ -1,11 +1,13 @@
-.pagination {
-  display: flex;
-  justify-content: center;
-  padding: 1rem 0;
-}
+@layer components {
+  .pagination {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+  }
 
-.pagination-nav {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+  .pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
 }

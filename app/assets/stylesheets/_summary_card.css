@@ -131,14 +131,14 @@
   .summary-sheet::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
   }
-}
 
-.summary-card__compare[hidden] {
-  display: none;
-}
-
-@media (max-width: 767px) {
-  .summary-card__cell--secondary {
+  .summary-card__compare[hidden] {
     display: none;
+  }
+
+  @media (max-width: 767px) {
+    .summary-card__cell--secondary {
+      display: none;
+    }
   }
 }

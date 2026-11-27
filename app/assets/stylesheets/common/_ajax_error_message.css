@@ -1,12 +1,14 @@
-.flash {
-  padding: 15px;
-  border-radius: 3px;
-  font-size: 14px;
-  line-height: 1.6;
-  border-style: solid;
-  border-width: 1px;
-}
-.flash a {
-  font-size: 20px;
-  font-weight: bold;
+@layer components {
+  .flash {
+    padding: 15px;
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 1.6;
+    border-style: solid;
+    border-width: 1px;
+  }
+  .flash a {
+    font-size: 20px;
+    font-weight: bold;
+  }
 }

@@ -242,26 +242,27 @@
     border-radius: 50%;
     object-fit: cover;
     font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--white);
+    font-weight: var(--bracket-avatar-font-weight, 700);
+    background: var(--bracket-avatar-bg, none);
+    color: var(--bracket-avatar-color, var(--white));
   }
 
   .bracket-avatar--empty {
-    background: var(--gray-20);
-    color: var(--gray-50);
-    font-weight: 600;
+    --bracket-avatar-bg: var(--gray-20);
+    --bracket-avatar-color: var(--gray-50);
+    --bracket-avatar-font-weight: 600;
   }
 
-  .bracket-avatar--c0 { background: var(--blue-70); }
-  .bracket-avatar--c1 { background: var(--solid-green-80); }
-  .bracket-avatar--c2 { background: var(--purple-70); }
-  .bracket-avatar--c3 { background: var(--orange-60); }
-  .bracket-avatar--c4 { background: var(--red-60); }
-  .bracket-avatar--c5 { background: var(--cyan-70); }
-  .bracket-avatar--c6 { background: var(--pink-70); }
-  .bracket-avatar--c7 { background: var(--indigo-70); }
-  .bracket-avatar--c8 { background: var(--blue-gray-60); }
-  .bracket-avatar--c9 { background: var(--yellow-70); }
+  .bracket-avatar--c0 { --bracket-avatar-bg: var(--blue-70); }
+  .bracket-avatar--c1 { --bracket-avatar-bg: var(--solid-green-80); }
+  .bracket-avatar--c2 { --bracket-avatar-bg: var(--purple-70); }
+  .bracket-avatar--c3 { --bracket-avatar-bg: var(--orange-60); }
+  .bracket-avatar--c4 { --bracket-avatar-bg: var(--red-60); }
+  .bracket-avatar--c5 { --bracket-avatar-bg: var(--cyan-70); }
+  .bracket-avatar--c6 { --bracket-avatar-bg: var(--pink-70); }
+  .bracket-avatar--c7 { --bracket-avatar-bg: var(--indigo-70); }
+  .bracket-avatar--c8 { --bracket-avatar-bg: var(--blue-gray-60); }
+  .bracket-avatar--c9 { --bracket-avatar-bg: var(--yellow-70); }
 
   .bracket-match--gold {
     border-color: var(--yellow-40);

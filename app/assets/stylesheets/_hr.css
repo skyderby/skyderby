@@ -1,8 +1,10 @@
-hr {
-  width: 100%;
-}
+@layer base {
+  hr {
+    width: 100%;
+  }
 
-hr.condensed {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  hr.condensed {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
 }

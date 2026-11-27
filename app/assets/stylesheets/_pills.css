@@ -1,37 +1,37 @@
-.pill {
-  --pill-bg: var(--blue-gray-70);
-  display: inline-block;
-  border-radius: 1rem;
-  font-size: 0.875rem;
-  padding: 0.125rem 0.75rem;
-  font-weight: 500;
-  color: var(--on-accent);
-  background-color: color-mix(in oklab, var(--pill-bg) 72%, #000);
-  white-space: nowrap;
-}
+@layer components {
+  .pill {
+    display: inline-block;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    padding: 0.125rem 0.75rem;
+    font-weight: 500;
+    color: var(--pill-color, var(--on-accent));
+    background-color: var(--pill-fill, color-mix(in oklab, var(--pill-bg, var(--blue-gray-70)) 72%, #000));
+    white-space: nowrap;
+  }
 
-.pill-orange {
-  --pill-bg: var(--orange-70);
-}
+  .pill-orange {
+    --pill-bg: var(--orange-70);
+  }
 
-.pill-yellow {
-  --pill-bg: var(--yellow-50);
-  color: #2a2100;
-  background-color: var(--pill-bg);
-}
+  .pill-yellow {
+    --pill-fill: var(--yellow-50);
+    --pill-color: #2a2100;
+  }
 
-.pill-blue-gray {
-  --pill-bg: var(--blue-gray-70);
-}
+  .pill-blue-gray {
+    --pill-bg: var(--blue-gray-70);
+  }
 
-.pill-blue {
-  --pill-bg: var(--blue-70);
-}
+  .pill-blue {
+    --pill-bg: var(--blue-70);
+  }
 
-.pill-green {
-  --pill-bg: var(--solid-green-90);
-}
+  .pill-green {
+    --pill-bg: var(--solid-green-90);
+  }
 
-.pill-red {
-  --pill-bg: var(--red-70);
+  .pill-red {
+    --pill-bg: var(--red-70);
+  }
 }
