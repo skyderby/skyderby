@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_27_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_27_110000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -1017,8 +1017,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_100000) do
     t.timestamptz "deployed_at"
     t.boolean "disqualified_from_online_competitions", default: false, null: false
     t.timestamptz "exited_at"
-    t.integer "ff_end"
-    t.integer "ff_start"
     t.json "flares"
     t.boolean "ge_enabled", default: true
     t.integer "gps_type", default: 0
@@ -1041,7 +1039,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_27_100000) do
     t.timestamptz "updated_at"
     t.integer "user_id"
     t.integer "visibility", default: 0
-    t.index ["id", "ff_start", "ff_end"], name: "index_tracks_on_id_and_ff_start_and_ff_end"
     t.index ["owner_type", "owner_id", "client_uuid"], name: "index_tracks_on_owner_type_and_owner_id_and_client_uuid", unique: true, where: "(client_uuid IS NOT NULL)"
     t.index ["owner_type", "owner_id"], name: "index_tracks_on_owner_type_and_owner_id"
     t.index ["place_id"], name: "index_tracks_on_place_id"
