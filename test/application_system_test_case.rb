@@ -1,7 +1,20 @@
 require 'test_helper'
+require 'capybara/selenium/driver'
 
 Capybara.ignore_hidden_elements = true
 Capybara.default_max_wait_time = 5
+
+module ChromeSessionReset
+  def reset!
+    super
+  rescue Selenium::WebDriver::Error::InvalidArgumentError
+    execute_cdp('Network.clearBrowserCookies')
+    origin = Capybara.current_session.server&.base_url
+    execute_cdp('Storage.clearDataForOrigin', origin:, storageTypes: storage_types_to_clear) if origin
+  end
+end
+
+Capybara::Selenium::Driver::ChromeDriver.prepend(ChromeSessionReset)
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include FactoryBot::Syntax::Methods

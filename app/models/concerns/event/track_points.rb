@@ -14,6 +14,6 @@ module Event::TrackPoints
   end
 
   def points
-    @points ||= track.flight_points(trimmed: { seconds_before_start: 7 })
+    @points ||= track.freefall_points.extended(before: 7.seconds)
   end
 end

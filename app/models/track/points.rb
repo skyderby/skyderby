@@ -55,13 +55,8 @@ class Track::Points < ApplicationRecord
 
   delegate :size, to: :gps_time
 
-  def points(trimmed: false, freq_1hz: false)
-    previous = nil
-    indexes(trimmed:, freq_1hz:).map do |index|
-      time_diff = previous ? gps_time[index] - gps_time[previous] : 0
-      previous = index
-      flight_point(index).with(time_diff:)
-    end
+  def points(range: nil, freq_1hz: false)
+    indexes(range:, freq_1hz:).map { |index| flight_point(index) }
   end
 
   def reload(...)
@@ -96,27 +91,16 @@ class Track::Points < ApplicationRecord
 
   private
 
-  def indexes(trimmed:, freq_1hz:)
+  def indexes(range:, freq_1hz:)
     times = gps_time.map(&:to_r)
-    range = trimmed_range(trimmed)
     selected = (0...size).select { |index| range.nil? || range.cover?(times[index]) }
     freq_1hz ? selected.uniq { |index| times[index].floor } : selected
-  end
-
-  def trimmed_range(trimmed)
-    return unless trimmed && track.exit_epoch && track.deploy_epoch
-
-    options = trimmed.is_a?(Hash) ? trimmed.with_indifferent_access : {}
-    from = track.exit_epoch - options[:seconds_before_start].to_r
-    to = track.deploy_epoch + options[:seconds_after_end].to_r
-    from..to
   end
 
   def timing_at(index, origin)
     {
       gps_time: gps_time[index].getutc,
-      fl_time: (gps_time[index].to_r - origin).to_f,
-      time_diff: 0
+      fl_time: (gps_time[index].to_r - origin).to_f
     }
   end
 

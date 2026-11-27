@@ -17,7 +17,7 @@ module Tracks
     end
 
     def points
-      track.flight_points
+      track.recorded_points
     end
   end
 end

@@ -357,7 +357,7 @@ class Track::Debrief::Toolbox
     return unless rows
 
     jump = track(track_id)
-    points = jump.flight_points(trimmed: { seconds_before_start: 10 })
+    points = jump.freefall_points.extended(before: 10.seconds)
     start = points.index { |point| point[:v_speed] >= Track::FlightMetrics::START_VERTICAL_SPEED }
     start && points[start, (rows.last.first * 5).ceil + 1]
   end

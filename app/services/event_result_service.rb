@@ -46,6 +46,6 @@ class EventResultService
   end
 
   def track_points
-    @track_points ||= track.flight_points(trimmed: true)
+    @track_points ||= track.freefall_points
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_16_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_27_110000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -574,27 +574,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_16_100000) do
     t.index ["updated_at", "id"], name: "index_places_on_updated_at_and_id"
   end
 
-  create_table "points", id: :serial, force: :cascade do |t|
-    t.float "abs_altitude"
-    t.float "distance"
-    t.float "elevation"
-    t.float "fl_time"
-    t.integer "gps_fix"
-    t.decimal "gps_time_in_seconds", precision: 17, scale: 3
-    t.float "h_speed"
-    t.float "heading"
-    t.float "heading_accuracy"
-    t.float "horizontal_accuracy"
-    t.decimal "latitude", precision: 15, scale: 10
-    t.decimal "longitude", precision: 15, scale: 10
-    t.integer "number_of_satellites"
-    t.float "speed_accuracy"
-    t.integer "track_id"
-    t.float "v_speed"
-    t.float "vertical_accuracy"
-    t.index ["track_id"], name: "index_points_on_track_id"
-  end
-
   create_table "profile_aliases", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", limit: 510, null: false
@@ -1038,8 +1017,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_16_100000) do
     t.timestamptz "deployed_at"
     t.boolean "disqualified_from_online_competitions", default: false, null: false
     t.timestamptz "exited_at"
-    t.integer "ff_end"
-    t.integer "ff_start"
     t.json "flares"
     t.boolean "ge_enabled", default: true
     t.integer "gps_type", default: 0
@@ -1062,7 +1039,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_16_100000) do
     t.timestamptz "updated_at"
     t.integer "user_id"
     t.integer "visibility", default: 0
-    t.index ["id", "ff_start", "ff_end"], name: "index_tracks_on_id_and_ff_start_and_ff_end"
     t.index ["owner_type", "owner_id", "client_uuid"], name: "index_tracks_on_owner_type_and_owner_id_and_client_uuid", unique: true, where: "(client_uuid IS NOT NULL)"
     t.index ["owner_type", "owner_id"], name: "index_tracks_on_owner_type_and_owner_id"
     t.index ["place_id"], name: "index_tracks_on_place_id"

@@ -50,7 +50,7 @@ class Track::ExitProfile < ApplicationRecord
   end
 
   def self.suitable?(track)
-    track.base? && track.profile_id.present? && track.suit_id.present? && track.ff_start.present?
+    track.base? && track.profile_id.present? && track.suit_id.present? && track.exited_at.present?
   end
 
   def self.sample_distances(track)
@@ -68,7 +68,7 @@ class Track::ExitProfile < ApplicationRecord
   end
 
   def self.build_curve(track)
-    points = track.flight_points(trimmed: true, freq_1hz: true)
+    points = track.freefall_points.at_1hz
     return if points.size < 2
 
     origin = points.first

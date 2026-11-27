@@ -5,7 +5,7 @@ module Api
         def show
           return respond_not_authorized unless track.viewable?
 
-          @points = track.flight_points(**options)
+          @points = freq_1hz? ? selected_points.at_1hz : selected_points
         end
 
         private
@@ -14,19 +14,18 @@ module Api
           @track ||= Track.find(params[:track_id])
         end
 
-        def options
-          default_options.merge show_params
+        def selected_points
+          trimmed = params.permit(trimmed: {})[:trimmed]
+          return track.freefall_points unless trimmed
+
+          track.freefall_points.extended(before: trimmed[:seconds_before_start].to_r,
+                                         after: trimmed[:seconds_after_end].to_r)
         end
 
-        def show_params
-          permitted = params.permit(:freq_1_hz, trimmed: {}).to_h.symbolize_keys
-          return permitted unless permitted.key?(:freq_1_hz)
+        def freq_1hz?
+          return true unless params.key?(:freq_1_hz)
 
-          permitted.merge(freq_1hz: ActiveModel::Type::Boolean.new.cast(permitted.delete(:freq_1_hz)))
-        end
-
-        def default_options
-          { freq_1hz: true, trimmed: true }
+          ActiveModel::Type::Boolean.new.cast(params[:freq_1_hz])
         end
       end
     end

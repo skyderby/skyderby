@@ -4,7 +4,8 @@ class JumpTest < ActiveSupport::TestCase
   setup do
     @profile = profiles(:regular_user)
     @track = tracks(:hellesylt)
-    @track.update!(exited_at: Time.zone.local(2026, 5, 1, 10), recorded_at: Time.zone.local(2026, 5, 1, 10, 5))
+    @track.update!(exited_at: Time.zone.local(2026, 5, 1, 10), deployed_at: Time.zone.local(2026, 5, 1, 10, 1),
+                   recorded_at: Time.zone.local(2026, 5, 1, 10, 5))
   end
 
   test 'next number continues from the highest number of the same kind' do
@@ -57,7 +58,7 @@ class JumpTest < ActiveSupport::TestCase
   test 'a re-uploaded track replaces the earlier one on the same jump' do
     jump = Jump.record_track(@track)
     other = tracks(:track_with_video)
-    other.update!(exited_at: @track.exited_at + 20.seconds)
+    other.update!(exited_at: @track.exited_at + 20.seconds, deployed_at: @track.deployed_at + 20.seconds)
 
     assert_no_difference -> { Jump.count } do
       Jump.record_track(other)

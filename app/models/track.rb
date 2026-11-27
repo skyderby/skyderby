@@ -12,8 +12,6 @@
 #  user_id                               :integer
 #  kind                                  :integer          default("skydive")
 #  suit_id                               :integer
-#  ff_start                              :integer
-#  ff_end                                :integer
 #  ge_enabled                            :boolean          default(TRUE)
 #  visibility                            :integer          default("public_track")
 #  profile_id                            :integer
@@ -96,7 +94,6 @@ class Track < ApplicationRecord
 
   validates :name, presence: true, unless: :pilot
 
-  before_save :sync_activity_timestamps, if: -> { ff_start_changed? || ff_end_changed? }
   before_destroy :used_in_competition?
   before_destroy :touch_jump, prepend: true
   after_create_commit :track_amplitude_event
@@ -119,6 +116,18 @@ class Track < ApplicationRecord
 
   def jump_range = "#{ff_start};#{ff_end}"
 
+  def ff_start = seconds_after_first_point(exited_at)
+
+  def ff_end = seconds_after_first_point(deployed_at)
+
+  def ff_start=(seconds)
+    self.exited_at = time_after_first_point(seconds, current: exited_at)
+  end
+
+  def ff_end=(seconds)
+    self.deployed_at = time_after_first_point(seconds, current: deployed_at)
+  end
+
   def jump_range=(val)
     self.ff_start, self.ff_end = val.split(';')
   end
@@ -140,11 +149,13 @@ class Track < ApplicationRecord
 
   def first_point_epoch = point_arrays&.first_epoch
 
-  def flight_points(trimmed: false, freq_1hz: false) = point_arrays&.points(trimmed:, freq_1hz:) || []
+  def recorded_points = Track::Points::Selection.new(point_arrays)
 
-  def exit_epoch = activity_epoch(exited_at, ff_start)
+  def freefall_points = Track::Points::Selection.new(point_arrays, from: exit_epoch, to: deploy_epoch)
 
-  def deploy_epoch = activity_epoch(deployed_at, ff_end)
+  def exit_epoch = exited_at&.to_r
+
+  def deploy_epoch = deployed_at&.to_r
 
   def exit_point = @exit_point ||= point_at(exit_epoch)
 
@@ -207,7 +218,7 @@ class Track < ApplicationRecord
       end
   end
 
-  def start_time = flight_points(trimmed: true).first&.gps_time&.in_time_zone
+  def start_time = freefall_points.first&.gps_time&.in_time_zone
 
   def abs_altitude? = ge_enabled
 
@@ -224,7 +235,7 @@ class Track < ApplicationRecord
   def altitude_bounds
     @altitude_bounds ||= begin
       points_altitude =
-        flight_points(freq_1hz: true, trimmed: true).map(&:altitude)
+        freefall_points.at_1hz.map(&:altitude)
 
       points_altitude = [0] if points_altitude.blank?
       {
@@ -253,11 +264,18 @@ class Track < ApplicationRecord
     point_arrays.point_at(epoch)
   end
 
-  def activity_epoch(timestamp, offset)
-    return timestamp.to_r if timestamp
-    return if offset.nil? || first_point_epoch.nil?
+  def seconds_after_first_point(time)
+    return unless time && first_point_epoch
 
-    first_point_epoch + offset.to_r
+    (time.to_r - first_point_epoch).floor
+  end
+
+  def time_after_first_point(seconds, current:)
+    return current if first_point_epoch.nil?
+    return if seconds.blank?
+    return current if current && seconds.to_r == seconds_after_first_point(current)
+
+    Time.zone.at(first_point_epoch + seconds.to_r)
   end
 
   def recorded_ground_altitude
@@ -267,14 +285,6 @@ class Track < ApplicationRecord
   def accurate_min_altitude = point_arrays&.min_abs_altitude(max_vertical_accuracy: MAX_GROUND_VERTICAL_ACCURACY)
 
   def rescore_online_competitions = OnlineCompetitionJob.perform_later(id)
-
-  def sync_activity_timestamps
-    first_gps = first_point_epoch
-    return unless first_gps
-
-    self.exited_at = ff_start && Time.zone.at(first_gps + ff_start)
-    self.deployed_at = ff_end && Time.zone.at(first_gps + ff_end)
-  end
 
   def race_finish_line_from_result
     vc_result =

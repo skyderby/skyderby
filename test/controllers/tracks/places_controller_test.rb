@@ -146,12 +146,10 @@ class Tracks::PlacesControllerTest < ActionDispatch::IntegrationTest
       pilot: profiles(:regular_user),
       owner: @user,
       kind: :base,
-      visibility: :public_track,
-      ff_start: 0,
-      ff_end: 10
+      visibility: :public_track
     )
 
-    record_points(track, [point_row(fl_time: 0, latitude:, longitude:, abs_altitude: 1200)])
+    record_points(track, [point_row(fl_time: 0, latitude:, longitude:, abs_altitude: 1200)], jump_range: 0..10)
     track
   end
 
@@ -160,9 +158,7 @@ class Tracks::PlacesControllerTest < ActionDispatch::IntegrationTest
       pilot: profiles(:regular_user),
       owner: @user,
       kind: :skydive,
-      visibility: :public_track,
-      ff_start: 0,
-      ff_end: 10
+      visibility: :public_track
     )
 
     record_points(
@@ -170,7 +166,8 @@ class Tracks::PlacesControllerTest < ActionDispatch::IntegrationTest
       [
         point_row(fl_time: 0, latitude: 45.5, longitude: 6.5, abs_altitude: 4000),
         point_row(fl_time: 60, latitude: 45.55, longitude: 6.55, abs_altitude: 420)
-      ]
+      ],
+      jump_range: 0..10
     )
     track.update!(landing_fl_time: 60)
     track

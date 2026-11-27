@@ -99,7 +99,5 @@ class Track::FlightMetricsTest < ActiveSupport::TestCase
     Track::FlightMetrics.new(@track, window_spec: Track::FlightMetrics.window_spec_for(part), flare: false)
   end
 
-  def scoring_points(trimmed: { seconds_before_start: 10 })
-    @track.flight_points(trimmed:)
-  end
+  def scoring_points = @track.freefall_points.extended(before: 10.seconds)
 end

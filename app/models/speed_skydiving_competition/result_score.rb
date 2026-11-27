@@ -18,7 +18,7 @@ class SpeedSkydivingCompetition::ResultScore
   def window_trajectory = window_points
 
   def points
-    @points ||= track.flight_points(trimmed: { seconds_before_start: 15 })
+    @points ||= track.freefall_points.extended(before: 15.seconds)
   end
 
   private

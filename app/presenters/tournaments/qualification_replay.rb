@@ -81,7 +81,7 @@ module Tournaments
       return unless target
 
       jump.track
-          .flight_points
+          .recorded_points
           .each_cons(2) do |a, b|
             next unless target.between?(a[:gps_time], b[:gps_time])
 
@@ -95,7 +95,7 @@ module Tournaments
 
     def track_path(track)
       track
-        .flight_points(trimmed: { seconds_before_start: SECONDS_BEFORE_START, seconds_after_end: SECONDS_AFTER_END })
+        .freefall_points.extended(before: SECONDS_BEFORE_START, after: SECONDS_AFTER_END)
         .map do |point|
           {
             flTime: point[:fl_time].to_f,

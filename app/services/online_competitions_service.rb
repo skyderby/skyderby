@@ -101,7 +101,7 @@ class OnlineCompetitionsService
   end
 
   def best_track_segment
-    points = track_points(trimmed: { seconds_before_start: 10 })
+    points = track.freefall_points.extended(before: 10.seconds)
     points = yield points if block_given?
 
     all_segments = competition_windows.map do |window|
@@ -129,8 +129,6 @@ class OnlineCompetitionsService
       WindCancellation::WindSubtraction.new(points, wind_data).execute
     end
   end
-
-  def track_points(trimmed: true) = track.flight_points(trimmed:)
 
   def competition_windows
     case competition.discipline

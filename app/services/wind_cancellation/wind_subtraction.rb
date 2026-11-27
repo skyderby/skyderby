@@ -15,8 +15,11 @@ module WindCancellation
     def execute
       accum_offset = Vector[0, 0]
 
+      previous = nil
       @points.map do |point|
-        accum_offset += vector_from_wind_data(point[:altitude], point[:time_diff])
+        seconds = previous ? (point[:gps_time] - previous[:gps_time]).to_f : 0
+        previous = point
+        accum_offset += vector_from_wind_data(point[:altitude], seconds)
         shift_direction =
           rad_to_deg(Math.atan2(accum_offset[1], accum_offset[0]))
 
