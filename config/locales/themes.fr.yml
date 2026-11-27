@@ -1,0 +1,6 @@
+fr:
+  themes:
+    label: Thème de couleur
+    light: Clair
+    dark: Sombre
+    system: Système

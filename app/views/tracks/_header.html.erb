@@ -3,7 +3,7 @@
     <% if track.pilot %>
       <a href="<%= profile_path(track.pilot) %>">
         <span class="<%= ['track-header-profile', ('contributor' if track.pilot.contributor?)].join(' ') %>">
-          <%= image_tag track.pilot.userpic_url(:thumb), class: 'track-header__photo loading-bg' %>
+          <%= image_tag track.pilot.userpic_url(:thumb), class: 'track-header__photo loading-bg', alt: '' %>
           <%= track.pilot.name %>
         </span>
       </a>
@@ -106,7 +106,7 @@
       <% end %>
 
       <% if track.editable? %>
-        <a class="button button--ghost btn-tab" href="<%= edit_track_path(track) %>">
+        <a class="button button--ghost btn-tab" href="<%= edit_track_path(track) %>" aria-label="<%= t('general.edit') %>">
           <%= icon_tag 'pencil-solid' %>
         </a>
       <% end %>

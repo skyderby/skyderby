@@ -33,8 +33,6 @@ body {
 .display-stage {
   --accent: #38d2ff;
   --accent-text: #06090f;
-  --up: #36e07a;
-  --down: #ff5a52;
   --bg: #0a0d13;
   --bg2: #06080d;
   --panel: #141a25;
@@ -452,33 +450,6 @@ body {
   clip-path: polygon(calc(170 * var(--px)) 0, calc(184 * var(--px)) 0, calc(14 * var(--px)) 100%, 0 100%);
   background: var(--accent);
   box-shadow: 0 0 calc(40 * var(--px)) var(--accent);
-}
-
-.display-eventlogo {
-  position: absolute;
-  top: calc(92 * var(--px));
-  right: calc(52 * var(--px));
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: calc(8 * var(--px));
-}
-
-.display-eventlogo-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: calc(11 * var(--px));
-  letter-spacing: 0.2em;
-  color: var(--dim);
-}
-
-.display-eventlogo img {
-  width: calc(248 * var(--px));
-  height: calc(104 * var(--px));
-  object-fit: contain;
-  background: color-mix(in srgb, var(--panel) 70%, transparent);
-  border: 1px solid var(--line);
-  display: block;
 }
 
 .display-pcontent {

@@ -15,7 +15,7 @@
 }
 
 .toast {
-  background-color: var(--white);
+  background-color: var(--surface);
   border-radius: var(--border-radius-md);
   padding: 0.5rem 0.75rem;
   box-shadow: 1px 5px 15px rgba(0, 0, 0, 0.4);
@@ -60,7 +60,7 @@
 }
 
 .toast-dismiss {
-  background-color: var(--white);
+  background-color: var(--surface);
   border-radius: var(--border-radius-md);
   border: 0;
   flex-shrink: 0;

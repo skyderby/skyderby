@@ -6,7 +6,7 @@
 
 .actions-bar-button {
   border: 0;
-  background-color: var(--white);
+  background-color: var(--surface);
   color: var(--gray-80);
   border-right: var(--default-border);
   padding: 0.5rem 0.75rem;

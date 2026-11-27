@@ -19,7 +19,7 @@
   gap: 0.5rem;
   padding: 1rem;
   border-radius: var(--border-radius-md);
-  background-color: var(--white);
+  background-color: var(--surface);
   box-shadow: var(--block-box-shadow);
 }
 

@@ -54,6 +54,7 @@ export default class extends LabeledController {
 
     if (this.hasPlayButtonTarget) {
       this.playButtonTarget.classList.toggle('playing', this.playing)
+      this.playButtonTarget.setAttribute('aria-pressed', this.playing)
     }
 
     if (this.playing) {
@@ -82,6 +83,7 @@ export default class extends LabeledController {
       this.currentIndex = points.length - 1
       if (this.hasPlayButtonTarget) {
         this.playButtonTarget.classList.remove('playing')
+        this.playButtonTarget.setAttribute('aria-pressed', false)
       }
       this.updatePlaybackPosition()
       return

@@ -1,7 +1,7 @@
 .track-show-content {
   margin: 0 auto;
   width: 100%;
-  background-color: var(--white);
+  background-color: var(--surface);
   border: var(--default-border);
   border-left-width: 0;
   border-right-width: 0;
@@ -39,7 +39,7 @@
 
 .track-header-id {
   font-size: 1.25rem;
-  color: #bbb;
+  color: var(--gray-50);
   text-align: right;
   display: flex;
   align-items: center;

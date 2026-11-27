@@ -16,12 +16,8 @@
   margin: 0 auto;
 }
 
-.scoreboard-actions {
-  margin-bottom: 15px;
-}
-
 .scoreboard {
-  background-color: var(--white);
+  background-color: var(--surface);
   color: var(--gray-90);
   margin-bottom: 0;
   padding: 0;
@@ -51,7 +47,7 @@
 }
 
 .scoreboard-table {
-  background-color: var(--white);
+  background-color: var(--surface);
   border: var(--default-border);
   border-collapse: collapse;
   overflow: hidden;
@@ -143,7 +139,7 @@
 }
 
 .scoreboard-table thead tr {
-  background-color: var(--white);
+  background-color: var(--surface);
 }
 
 .scoreboard-table .competitor-row {
@@ -248,19 +244,9 @@
   color: var(--green-80);
 }
 
-.scoreboard-table a.text-light-red {
-  color: var(--red-20);
-}
-
 .scoreboard-table a:hover {
   color: var(--gray-90);
   text-decoration: none;
-}
-
-.scoreboard-controls {
-  color: var(--gray-60);
-  margin-left: 5px;
-  visibility: hidden;
 }
 
 .scoreboard-table-separate-border {
@@ -271,10 +257,6 @@
   font-weight: 500;
   padding-right: 10px;
   text-transform: uppercase;
-}
-
-.scoreboard-section:hover .scoreboard-controls {
-  visibility: visible;
 }
 
 .scoreboard-competitor {
@@ -289,15 +271,6 @@
   margin-top: 2px;
   text-transform: uppercase;
   padding: 0 0.5rem;
-}
-
-.scoreboard-competitor:hover .counted-result {
-  color: #00BA02;
-  text-decoration: underline;
-}
-
-.scoreboard-competitor td:hover .scoreboard-controls {
-  visibility: visible;
 }
 
 @keyframes fadeIn {
@@ -455,8 +428,7 @@ td.scoreboard-total-result {
   }
 
   .scoreboard-table .cell-actions,
-  .scoreboard-table .category-actions,
-  .scoreboard-table .scoreboard-round-actions {
+  .scoreboard-table .category-actions {
     display: none;
   }
 
@@ -555,7 +527,7 @@ td.scoreboard-total-result {
 
 .qualification-scoreboard-table .result-upload-cell button:hover {
   background-color: transparent;
-  color: var(--blue-70);
+  color: var(--text-link);
 }
 
 .qualification-scoreboard-table td.round-result {
@@ -607,7 +579,7 @@ td.scoreboard-total-result {
   bottom: 0;
   left: 0;
   width: 5.5rem;
-  background-color: var(--white);
+  background-color: var(--surface);
   background-image: linear-gradient(var(--pinned-tint, transparent), var(--pinned-tint, transparent));
   border-right: var(--default-border);
   opacity: 0;

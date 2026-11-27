@@ -43,7 +43,7 @@
   padding: 3px 10px;
   border-radius: 999px;
   background: var(--accent-bg);
-  color: var(--accent);
+  color: color-mix(in oklab, var(--accent) 55%, var(--text-color));
   font-size: 0.8125rem;
   font-weight: 600;
 }

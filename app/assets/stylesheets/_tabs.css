@@ -31,7 +31,7 @@
   }
 
   .tab-bar-item:hover {
-    background-color: var(--white);
+    background-color: var(--surface);
     color: var(--gray-80);
   }
 
@@ -41,7 +41,7 @@
   }
 
   .tab-bar-item.active {
-    background-color: var(--white);
+    background-color: var(--surface);
     box-shadow: var(--block-box-shadow);
     color: var(--gray-80);
   }
@@ -59,7 +59,7 @@
   }
 
   .tab-bar-item:has(.tab-bar-radio:checked) {
-    background-color: var(--white);
+    background-color: var(--surface);
     box-shadow: var(--block-box-shadow);
     color: var(--gray-80);
   }

@@ -1,10 +1,4 @@
 .replay-controls {
-  .replay-controls-inner {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
 
   /* Below the card breakpoint the controls bar sits flush against the viewport
      edges without rounded corners, so its leading (play) and trailing (exit)

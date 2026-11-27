@@ -7,7 +7,7 @@
 }
 
 .show-page-header {
-  background-color: var(--white);
+  background-color: var(--surface);
   border-bottom: var(--default-border);
   padding: 1rem 1rem 0;
   display: flex;

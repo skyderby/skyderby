@@ -118,7 +118,7 @@
   }
 
   .upload-chart__delta--down {
-    color: var(--red-70);
+    color: var(--text-brand);
   }
 
   .upload-chart__bars {
@@ -204,7 +204,7 @@
 
   .upload-chart__mtd {
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--text-brand);
   }
 
   .upload-chart__month:hover .upload-chart__bar,

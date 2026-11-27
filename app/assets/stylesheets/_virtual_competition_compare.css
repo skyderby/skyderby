@@ -40,7 +40,7 @@
 
 .compare-active .vc-scoreboard__row:hover .vc-scoreboard__rank-check {
   display: inline-block;
-  color: var(--blue-70);
+  color: var(--text-link);
 }
 
 .compare-active .vc-scoreboard__row.is-selected .vc-scoreboard__rank-check {

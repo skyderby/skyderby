@@ -100,13 +100,6 @@
   }
 }
 
-.video-indicator-minor-value {
-  display: inline-flex;
-  width: 1rem;
-  font-weight: 100;
-  font-size: 1.5rem;
-}
-
 .video-indicator-units {
   font-weight: 200;
   font-size: 1.5rem;

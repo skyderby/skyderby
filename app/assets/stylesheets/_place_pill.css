@@ -5,7 +5,7 @@
   overflow: hidden;
   font-size: 0.85rem;
   line-height: 1.2;
-  background-color: var(--white);
+  background-color: var(--surface);
   border: 1px solid var(--gray-40);
   border-radius: var(--border-radius-sm);
 }
@@ -53,5 +53,5 @@ a.place-pill__action:hover {
 
 a.place-pill--empty:hover {
   border-color: var(--blue-40);
-  color: var(--blue-70);
+  color: var(--text-link);
 }

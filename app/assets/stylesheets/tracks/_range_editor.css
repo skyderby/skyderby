@@ -125,7 +125,7 @@
   min-width: 118px;
   padding: 6px 8px;
   background: var(--gray-90);
-  color: var(--white);
+  color: var(--inverse-text);
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   font-size: 11px;

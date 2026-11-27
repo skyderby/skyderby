@@ -31,7 +31,7 @@
 }
 
 .payments-buy__price {
-  color: var(--text-muted, #6b7280);
+  color: var(--text-muted);
   margin: 0 0 0.75rem;
 }
 
@@ -49,7 +49,7 @@
 .payments-buy__input {
   width: 5rem;
   padding: 0.4rem 0.5rem;
-  border: 1px solid var(--border-color, #d1d5db);
+  border: 1px solid var(--border-color);
   border-radius: var(--border-radius-md, 4px);
 }
 
@@ -73,7 +73,7 @@
 
 .payments-notes p {
   margin: 0.25rem 0;
-  color: var(--text-muted, #6b7280);
+  color: var(--text-muted);
   font-size: 0.9rem;
 }
 

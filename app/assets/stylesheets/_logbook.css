@@ -39,13 +39,13 @@
 
 .logbook-stat__label {
   font-size: 0.75rem;
-  color: var(--gray-60, #6b7280);
+  color: var(--gray-60);
 }
 
 .logbook-notice {
   padding: 8px 12px;
   border-radius: 8px;
-  background: var(--gray-10, #f3f4f6);
+  background: var(--gray-10);
   font-size: 0.875rem;
 }
 
@@ -196,7 +196,7 @@
 }
 
 .wind-target__cell {
-  fill: var(--white);
+  fill: var(--surface);
   stroke: var(--gray-40);
   stroke-width: 1;
   cursor: pointer;

@@ -18,7 +18,6 @@
   }
 
   .stack--xs { --stack-gap: 0.25rem; }
-  .stack--sm { --stack-gap: 0.5rem; }
 
   .gap-0_5 {
     gap: 0.5rem;
@@ -30,14 +29,6 @@
 
   .items-center {
     align-items: center;
-  }
-
-  .items-start {
-    align-items: flex-start;
-  }
-
-  .items-end {
-    align-items: flex-end;
   }
 
   .justify-between {
@@ -64,10 +55,6 @@
     text-align: right;
   }
 
-  .text-justify {
-    text-align: justify;
-  }
-
   .text-muted {
     color: var(--gray-70);
   }
@@ -90,36 +77,6 @@
 
   .text-info {
     color: var(--blue-80);
-  }
-
-  .pull-left {
-    float: left;
-  }
-
-  .pull-right {
-    float: right;
-  }
-
-  .center-block {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .width-large {
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  @media (min-width: 1200px) {
-    .width-large {
-      width: 1200px;
-    }
-  }
-
-  .bounded-width {
-    max-width: 1200px;
-    width: 100%;
   }
 
   .sd-container {
@@ -162,10 +119,6 @@
     margin-top: 20px;
   }
 
-  .top-buffer-10 {
-    margin-top: 10px;
-  }
-
   .top-buffer-30 {
     margin-top: 30px;
   }
@@ -203,6 +156,6 @@
   }
 
   .bg-white {
-    background-color: var(--white);
+    background-color: var(--surface);
   }
 }

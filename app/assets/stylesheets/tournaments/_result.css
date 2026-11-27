@@ -40,7 +40,7 @@
 
 .tournament-result-badge--disqualified {
   background-color: var(--red-10);
-  color: var(--red-70);
+  color: var(--text-brand);
 }
 
 .tournament-result-badges {

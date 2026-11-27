@@ -26,10 +26,6 @@
   }
 }
 
-.navbar--top {
-  position: absolute;
-}
-
 .nav-menu {
   display: none;
 }
@@ -80,7 +76,7 @@
 
 .nav-menu-item--active a,
 .nav-menu-item--active button.dropdown-toggle {
-  color: var(--blue-30);
+  color: var(--nav-accent);
 }
 
 .nav-menu-item--pro a {
@@ -99,7 +95,7 @@
 }
 
 .pro-gradient-text {
-  background-image: linear-gradient(90deg, var(--red-30), var(--orange-30));
+  background-image: linear-gradient(90deg, var(--red-40), var(--orange-40));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -116,7 +112,7 @@
   left: 0;
   display: block;
   height: 0.25rem;
-  background-color: var(--blue-30);
+  background-color: var(--nav-accent);
   border-radius: 2px;
   content: '';
 }
@@ -258,10 +254,6 @@ li:has(.upload-track-button) {
   background-color: var(--blue-gray-70);
 }
 
-.app-navbar-button.with-dot:before {
-  display: block;
-}
-
 .app-navbar-button:before {
   content: '';
   width: 4px;
@@ -390,14 +382,6 @@ li:has(.upload-track-button) {
   position: relative;
 }
 
-.main-menu__bar-action {
-  color: var(--white);
-  text-decoration: none;
-  position: relative;
-  font-size: 1.5rem;
-  padding: 0.5rem;
-}
-
 .main-menu-body {
   margin: 0;
   padding: 0;
@@ -436,10 +420,6 @@ li:has(.upload-track-button) {
   }
 }
 
-.main-menu-bottom {
-  margin-top: auto;
-}
-
 .main-menu__item {
   border-bottom: 1px solid var(--blue-gray-80);
 }
@@ -469,7 +449,6 @@ li:has(.upload-track-button) {
 }
 
 .main-menu__item a,
-.main-menu__bar-action,
 .main-menu__profile {
   min-height: 2.75rem;
 }

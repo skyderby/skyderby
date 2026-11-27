@@ -21,7 +21,7 @@
   padding: 0.25rem 0.5rem;
   background: var(--gray-90);
   border-radius: var(--border-radius-sm);
-  color: var(--white);
+  color: var(--inverse-text);
   font-size: 0.75rem;
   font-weight: normal;
   white-space: nowrap;

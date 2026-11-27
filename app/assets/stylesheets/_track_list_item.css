@@ -4,7 +4,7 @@
 
 @media (min-width: 576px) {
   .tracks-list {
-    background-color: var(--white);
+    background-color: var(--surface);
     margin: 0 auto;
     border: var(--default-border);
     border-radius: var(--border-radius-md);
@@ -33,7 +33,7 @@
   text-align: left;
   text-decoration: none;
 
-  background-color: var(--white);
+  background-color: var(--surface);
   box-shadow: var(--default-box-shadow);
   cursor: pointer;
 

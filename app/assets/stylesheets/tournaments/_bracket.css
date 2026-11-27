@@ -115,24 +115,6 @@
     gap: 0.75rem;
   }
 
-  .bracket-match__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
-    font-size: 0.72rem;
-    color: var(--gray-50);
-  }
-
-  .bracket-match__link:hover {
-    color: var(--primary-color);
-    text-decoration: none;
-  }
-
-  .bracket-match__link .icon {
-    width: 0.85rem;
-    height: 0.85rem;
-  }
-
   .bracket-match__slots {
     display: flex;
     flex-direction: column;
@@ -168,7 +150,7 @@
 
   .bracket-slot__profile:hover {
     text-decoration: none;
-    color: var(--primary-color);
+    color: var(--text-brand);
   }
 
   .bracket-slot__profile--empty {
@@ -227,7 +209,7 @@
   }
 
   .bracket-slot--silver .bracket-slot__result {
-    color: var(--blue-gray-60);
+    color: var(--text-selected);
   }
 
   .bracket-slot--bronze {
@@ -271,7 +253,7 @@
   }
 
   .bracket-avatar--c0 { background: var(--blue-70); }
-  .bracket-avatar--c1 { background: var(--green-80); }
+  .bracket-avatar--c1 { background: var(--solid-green-80); }
   .bracket-avatar--c2 { background: var(--purple-70); }
   .bracket-avatar--c3 { background: var(--orange-60); }
   .bracket-avatar--c4 { background: var(--red-60); }

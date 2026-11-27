@@ -65,7 +65,7 @@
 }
 
 .track-place__errors {
-  color: var(--red-70);
+  color: var(--text-brand);
   font-size: 0.875rem;
   list-style: none;
   margin: 0;
