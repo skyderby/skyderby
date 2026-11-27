@@ -179,12 +179,4 @@
     --button-font-size: 0.75rem;
     --button-padding: 0.25rem 0.5rem;
   }
-
-  @media (any-hover: hover) {
-    .button--gradient:hover:not(:disabled) {
-      filter: none;
-      background: linear-gradient(135deg, #06b6d4 0%, #0a5c70 100%);
-      box-shadow: 0 4px 15px rgba(14, 116, 144, 0.4);
-    }
-  }
 }

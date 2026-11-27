@@ -58,22 +58,3 @@
 .video-thumbnail-details hr {
   margin: 0.75rem;
 }
-
-.video-thumbnail-description {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.video-thumbnail-description span {
-  margin-right: 1rem;
-  line-height: 1.5rem;
-  white-space: nowrap;
-}
-.video-thumbnail-description svg {
-  height: 0.8rem;
-  margin-right: 0.5rem;
-  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
-}
-.video-thumbnail-description svg path {
-  fill: var(--white);
-}

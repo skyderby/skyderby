@@ -7,17 +7,12 @@
  *= require_tree ./places
  *= require_tree ./profiles
  *= require_tree ./tournaments
- *= require_tree ./online_competitions
  *= require_directory .
  *= require_self
  */
 
 .loading-bg {
   background: url("loading.gif") no-repeat center center;
-}
-
-.overflow-hidden {
-  overflow: hidden;
 }
 
 #modal-root, #dropdown-root {
@@ -31,9 +26,6 @@
   display: grid;
   grid-template-rows: min-content 1fr min-content;
   grid-template-columns: minmax(0, 1fr);
-}
-.page.wrap--no-top-padding {
-  padding-top: 0px;
 }
 
 .fullscreen {
@@ -69,10 +61,6 @@ label.valid {
 
 .clickable {
   cursor: pointer;
-}
-
-.no-right-space {
-  margin-right: -5px;
 }
 
 turbo-cable-stream-source {

@@ -16,10 +16,6 @@
   }
 }
 
-.fill-entirely {
-  --card-padding: 0;
-}
-
 .card-sm {
   width: 576px;
 }

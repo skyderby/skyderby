@@ -52,9 +52,7 @@
 .icon--arrow-up-long { --svg: url("icons/arrow-up-long.svg"); }
 .icon--arrow-up-down { --svg: url("icons/arrow-up-down.svg"); }
 .icon--bars-solid { --svg: url("icons/bars-solid.svg"); }
-.icon--bell-solid { --svg: url("icons/bell-solid.svg"); }
 .icon--calendar-days-solid { --svg: url("icons/calendar-days-solid.svg"); }
-.icon--certificate { --svg: url("icons/certificate.svg"); }
 .icon--chart-bar { --svg: url("icons/chart-bar.svg"); }
 .icon--chart-line-solid { --svg: url("icons/chart-line-solid.svg"); }
 .icon--check-solid { --svg: url("icons/check-solid.svg"); }
@@ -69,7 +67,6 @@
 .icon--crosshair { --svg: url("icons/crosshair.svg"); }
 .icon--dollar-sign-solid { --svg: url("icons/dollar-sign-solid.svg"); }
 .icon--download-solid { --svg: url("icons/download-solid.svg"); }
-.icon--ellipsis-solid { --svg: url("icons/ellipsis-solid.svg"); }
 .icon--ellipsis-vertical-solid { --svg: url("icons/ellipsis-vertical-solid.svg"); }
 .icon--eye-slash-solid { --svg: url("icons/eye-slash-solid.svg"); }
 .icon--eye-solid-full { --svg: url("icons/eye-solid-full.svg"); }
@@ -97,7 +94,6 @@
 .icon--skyderby { --svg: url("icons/skyderby.svg"); }
 .icon--star-solid { --svg: url("icons/star-solid.svg"); }
 .icon--star-regular { --svg: url("icons/star-regular.svg"); }
-.icon--stop-solid { --svg: url("icons/stop-solid.svg"); }
 .icon--stopwatch { --svg: url("icons/stopwatch.svg"); }
 .icon--table-cells-large-solid { --svg: url("icons/table-cells-large-solid.svg"); }
 .icon--trash-solid { --svg: url("icons/trash-solid.svg"); }

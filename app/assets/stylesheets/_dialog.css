@@ -46,7 +46,6 @@
   }
 }
 
-html:has(> body.overflow-hidden),
 html:has(dialog:modal) {
   overflow: hidden;
 }

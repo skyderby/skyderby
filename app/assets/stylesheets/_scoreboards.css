@@ -16,10 +16,6 @@
   margin: 0 auto;
 }
 
-.scoreboard-actions {
-  margin-bottom: 15px;
-}
-
 .scoreboard {
   background-color: var(--surface);
   color: var(--gray-90);
@@ -248,19 +244,9 @@
   color: var(--green-80);
 }
 
-.scoreboard-table a.text-light-red {
-  color: var(--red-20);
-}
-
 .scoreboard-table a:hover {
   color: var(--gray-90);
   text-decoration: none;
-}
-
-.scoreboard-controls {
-  color: var(--gray-60);
-  margin-left: 5px;
-  visibility: hidden;
 }
 
 .scoreboard-table-separate-border {
@@ -271,10 +257,6 @@
   font-weight: 500;
   padding-right: 10px;
   text-transform: uppercase;
-}
-
-.scoreboard-section:hover .scoreboard-controls {
-  visibility: visible;
 }
 
 .scoreboard-competitor {
@@ -289,15 +271,6 @@
   margin-top: 2px;
   text-transform: uppercase;
   padding: 0 0.5rem;
-}
-
-.scoreboard-competitor:hover .counted-result {
-  color: #00BA02;
-  text-decoration: underline;
-}
-
-.scoreboard-competitor td:hover .scoreboard-controls {
-  visibility: visible;
 }
 
 @keyframes fadeIn {
@@ -455,8 +428,7 @@ td.scoreboard-total-result {
   }
 
   .scoreboard-table .cell-actions,
-  .scoreboard-table .category-actions,
-  .scoreboard-table .scoreboard-round-actions {
+  .scoreboard-table .category-actions {
     display: none;
   }
 

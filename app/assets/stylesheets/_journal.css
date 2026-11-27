@@ -5,26 +5,6 @@
   min-height: 0;
 }
 
-.journal__bar {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.journal__tabs {
-  flex-shrink: 0;
-}
-
-.journal__charts {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 8px 0 4px;
-}
-
 .journal-chart {
   flex: 1;
   min-height: 0;
@@ -48,30 +28,6 @@
 .journal-chart__unit {
   font-size: 0.75rem;
   color: var(--gray-60);
-}
-
-.journal-chart__unsuitable {
-  margin-left: auto;
-  font-size: 0.75rem;
-}
-
-.journal-chart__unsuitable summary {
-  cursor: pointer;
-  color: var(--gray-60);
-}
-
-.journal-chart__unsuitable ul {
-  position: absolute;
-  z-index: 10;
-  margin-top: 4px;
-  padding: 8px 12px;
-  max-height: 240px;
-  overflow-y: auto;
-  background: var(--surface);
-  border: 1px solid var(--gray-20);
-  border-radius: 6px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  list-style: none;
 }
 
 .journal-chart__plot {
@@ -201,11 +157,6 @@
   opacity: 0.85;
   font-style: italic;
   overflow-wrap: anywhere;
-}
-
-.journal--empty {
-  align-items: center;
-  justify-content: center;
 }
 
 .dashboard-journal__bar {

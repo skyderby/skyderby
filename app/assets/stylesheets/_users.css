@@ -4,31 +4,6 @@
   width: 40px;
 }
 
-.user-avatar {
-  margin-top: 20px;
-  text-align: center;
-  position: relative;
-  height: 150px;
-  width: 150px;
-}
-
-.user-avatar__change {
-  display: block;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  border: transparent solid 0px;
-  outline: none;
-  background-color: rgba(0, 0, 0, 0.3);
-  color: white;
-  width: 100%;
-}
-.user-avatar__change:hover, .user-avatar__change:focus {
-  text-decoration: none;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
 .avatar-edit__crop {
   max-height: 292;
   max-width: 390;

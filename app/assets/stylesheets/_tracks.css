@@ -9,23 +9,6 @@
   gap: 0.5rem;
 }
 
-.track-charts-container {
-  display: grid;
-  grid-template-rows: 250px 400px 400px;
-  width: 100%;
-  gap: 1rem;
-}
-
-@media print {
-  .track-charts-container {
-    grid-template-rows: 200px 260px 260px;
-  }
-}
-.track-charts-container:has(#all_data_chart),
-.track-charts-container:has(.speed-skydiving-chart) {
-  grid-template-rows: 600px;
-}
-
 .speed-skydiving-chart {
   height: 600px;
 }
@@ -55,44 +38,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-}
-
-.comment-cell {
-  max-width: 250px;
-}
-
-.track-list {
-  padding-left: 0px;
-}
-
-.track-list-item {
-  border-bottom-color: rgb(238, 238, 238);
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  list-style-image: none;
-  list-style-position: outside;
-  list-style-type: none;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.track-list-item p {
-  color: var(--text-secondary);
-}
-
-.track-stats {
-  margin-top: 15px;
-  color: var(--text-muted);
-}
-
-.track-data {
-  border-right: solid 2px #515151;
-  color: #515151;
-  font-size: x-large;
-}
-
-.dropdown-container {
-  margin-top: 15px;
 }
 
 #content-row {

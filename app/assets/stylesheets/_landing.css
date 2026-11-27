@@ -12,12 +12,9 @@
   --lp-text-dim: var(--gray-70);
   --lp-text-faint: var(--gray-60);
   --lp-red: var(--text-brand);
-  --lp-red-strong: var(--red-70);
-  --lp-cyan: var(--blue-60);
 
   --lp-ink: #171e28;
   --lp-shadow: 0 1px 2px light-dark(rgb(23 30 40 / 0.06), rgb(0 0 0 / 0.4)), 0 8px 24px -12px light-dark(rgb(23 30 40 / 0.25), rgb(0 0 0 / 0.6));
-  --lp-shadow-lift: 0 2px 4px light-dark(rgb(23 30 40 / 0.08), rgb(0 0 0 / 0.5)), 0 20px 40px -18px light-dark(rgb(23 30 40 / 0.35), rgb(0 0 0 / 0.7));
 
   background: var(--lp-bg);
   color: var(--lp-text);

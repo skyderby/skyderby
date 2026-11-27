@@ -1,22 +1,3 @@
-.places__search {
-  position: absolute;
-  display: table;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: var(--surface);
-  padding: 10px 15px;
-  border-bottom: solid 1px var(--surface-border);
-}
-.places__search input {
-  height: 40px;
-}
-
-.places__mobile {
-  position: relative;
-  padding-top: 60px;
-}
-
 .places-country {
   display: flex;
   flex-direction: column;

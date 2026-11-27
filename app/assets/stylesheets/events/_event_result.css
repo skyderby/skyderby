@@ -9,15 +9,6 @@
   .event-result__header {
     display: none;
   }
-  .event-result__navigation {
-    display: none;
-  }
-}
-.event-result__body {
-  border-top: var(--surface-border) solid 1px;
-  border-bottom: var(--surface-border) solid 1px;
-  background-color: var(--surface);
-  padding: 10px 15px;
 }
 
 .event-result__title-bar {
@@ -35,9 +26,6 @@
 }
 
 .inside-iframe .event-result__header {
-  display: none;
-}
-.inside-iframe .designated-lane-form {
   display: none;
 }
 .inside-iframe .content-block {

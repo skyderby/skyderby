@@ -115,24 +115,6 @@
     gap: 0.75rem;
   }
 
-  .bracket-match__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
-    font-size: 0.72rem;
-    color: var(--gray-50);
-  }
-
-  .bracket-match__link:hover {
-    color: var(--text-brand);
-    text-decoration: none;
-  }
-
-  .bracket-match__link .icon {
-    width: 0.85rem;
-    height: 0.85rem;
-  }
-
   .bracket-match__slots {
     display: flex;
     flex-direction: column;

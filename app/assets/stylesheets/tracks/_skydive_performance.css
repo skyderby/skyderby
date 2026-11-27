@@ -706,12 +706,6 @@
   font-size: 0.8125rem;
 }
 
-@media (max-width: 767px) {
-  .skydive-performance-settings__label {
-    display: none;
-  }
-}
-
 .skydive-performance-actions-bar__toggle {
   cursor: default;
 }

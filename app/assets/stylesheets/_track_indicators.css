@@ -91,12 +91,6 @@
   text-overflow: ellipsis;
 }
 
-.track-indicator-value-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
 .track-indicator-value-container {
   display: inline-flex;
   gap: 0.5rem;

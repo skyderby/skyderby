@@ -1,7 +1,3 @@
-.button--round {
-  border-radius: 50%;
-}
-
 .button--rounded {
   border-radius: 120px;
   padding-left: 12px;

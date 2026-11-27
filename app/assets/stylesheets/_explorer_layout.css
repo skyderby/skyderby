@@ -76,7 +76,6 @@
 }
 
 .explorer-sidebar-toggle button {
-  --button-bg-hover: white;
   height: 3rem;
   border-width: 2px;
 }
