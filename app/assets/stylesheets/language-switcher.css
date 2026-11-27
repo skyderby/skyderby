@@ -1,0 +1,5 @@
+@layer components {
+  .language-switcher .flag {
+    flex: none;
+  }
+}

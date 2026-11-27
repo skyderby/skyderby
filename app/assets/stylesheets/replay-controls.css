@@ -1,0 +1,54 @@
+@layer components {
+  .replay-controls {
+
+    /* Below the card breakpoint the controls bar sits flush against the viewport
+       edges without rounded corners, so its leading (play) and trailing (exit)
+       controls must not keep their rounded corners either. */
+    @media (max-width: 1199px) {
+      &.actions-bar > :first-child:not(.actions-bar-right),
+      &.actions-bar > :first-child:not(.actions-bar-right) > .actions-bar-button,
+      &.actions-bar > :last-child:not([popover]),
+      &.actions-bar .actions-bar-right > :last-child:not([popover]),
+      &.actions-bar .actions-bar-right > :last-child:not([popover]) .actions-bar-button {
+        border-radius: 0;
+      }
+    }
+  }
+
+  .replay-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .rounds-timeline {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+    overflow-x: auto;
+    padding: 0 1rem;
+
+    .button.button--ghost {
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0.25rem;
+        right: 0.25rem;
+        bottom: 0.25rem;
+        height: 3px;
+        border-radius: 3px;
+        background-color: transparent;
+      }
+
+      &.active::before {
+        background-color: var(--blue-40);
+      }
+    }
+  }
+}

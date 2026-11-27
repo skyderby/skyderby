@@ -1,0 +1,88 @@
+@layer components {
+  .profile-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 20px;
+  }
+
+  .achievement {
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+  }
+
+  .achievement__icon {
+    height: 39px;
+    width: 39px;
+    box-sizing: content-box;
+    border: 6px solid var(--medal-border-color, transparent);
+    border-radius: 100%;
+    background: var(--medal-bg, none);
+    color: var(--medal-color, currentColor);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    font-size: 1.5rem;
+  }
+  .achievement__icon svg {
+    height: 1em;
+    width: 1em;
+  }
+  .achievement__icon.achievement--skyderby {
+    --medal-bg: var(--blue-30);
+    --medal-border-color: var(--blue-10);
+    --medal-color: var(--text-selected);
+  }
+  .achievement__icon.achievement--sponsor {
+    --medal-bg: var(--green-70);
+    --medal-border-color: var(--green-30);
+    --medal-color: var(--green-90);
+  }
+  .achievement__icon.achievement--special {
+    --medal-bg: var(--red-30);
+    --medal-border-color: var(--red-20);
+    --medal-color: var(--red-80);
+  }
+  .achievement__icon.achievement--competition.achievement--gold, .achievement__icon.achievement--online.achievement--gold {
+    --medal-bg: var(--yellow-40);
+    --medal-border-color: var(--yellow-20);
+    --medal-color: var(--yellow-80);
+  }
+  .achievement__icon.achievement--competition.achievement--silver, .achievement__icon.achievement--online.achievement--silver {
+    --medal-bg: var(--blue-gray-20);
+    --medal-border-color: var(--blue-gray-10);
+    --medal-color: var(--text-selected);
+  }
+  .achievement__icon.achievement--competition.achievement--bronze, .achievement__icon.achievement--online.achievement--bronze {
+    --medal-bg: var(--orange-30);
+    --medal-border-color: var(--orange-20);
+    --medal-color: var(--orange-80);
+  }
+
+  .achievement__text {
+    color: var(--text-color);
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+    margin-left: -15px;
+    display: flex;
+    height: 2.75rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: var(--default-border);
+    border-top-right-radius: var(--border-radius-md);
+    border-bottom-right-radius: var(--border-radius-md);
+    background: var(--surface);
+    position: relative;
+    z-index: 1;
+  }
+  .achievement__text span {
+    color: var(--text-secondary);
+    font-size: 10px;
+    line-height: 10px;
+  }
+}

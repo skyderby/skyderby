@@ -1,0 +1,22 @@
+@view-transition {
+  navigation: auto;
+}
+
+@layer components {
+  .app-navbar {
+    view-transition-name: app-navbar;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 150ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
+  }
+}

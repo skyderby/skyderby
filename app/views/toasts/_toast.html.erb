@@ -2,11 +2,11 @@
 
 <div class="toast" data-toasts-target="toast">
   <% if type == 'error' %>
-    <div class="toast-icon icon-red">
+    <div class="toast-icon toast-icon--error">
       <%= icon_tag 'circle-xmark-solid' %>
     </div>
   <% elsif type == 'success' %>
-    <div class="toast-icon icon-green">
+    <div class="toast-icon toast-icon--success">
       <%= icon_tag 'circle-check-regular' %>
     </div>
   <% end %>

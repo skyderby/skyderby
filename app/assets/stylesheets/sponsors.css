@@ -1,0 +1,60 @@
+@layer components {
+  #sponsors {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  .sponsor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    position: relative;
+  }
+
+  .sponsor form.button_to {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 18px;
+    font-weight: bold;
+    opacity: 0.2;
+  }
+
+  .sponsor:hover form.button_to {
+    opacity: 1;
+  }
+
+  .sponsors {
+    width: 100%;
+    background-color: var(--surface);
+    border-top: var(--default-border);
+    border-bottom: var(--default-border);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 1200px) {
+    .sponsors {
+      border: 0;
+      box-shadow: var(--block-box-shadow);
+      border-radius: var(--border-radius-md);
+      width: 1200px;
+      margin: 0 auto;
+    }
+  }
+
+  .sponsors-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  @media print {
+    .sponsors {
+      display: none;
+    }
+  }
+}

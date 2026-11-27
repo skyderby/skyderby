@@ -1,0 +1,58 @@
+@layer components {
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    text-transform: capitalize;
+    background: var(--badge-bg, none);
+    color: var(--badge-color, currentColor);
+  }
+
+  .badge-blue {
+    --badge-bg: var(--blue-10);
+    --badge-color: var(--blue-90);
+  }
+
+  .badge-green {
+    --badge-bg: var(--green-10);
+    --badge-color: var(--green-90);
+  }
+
+  .badge-gray {
+    --badge-bg: var(--gray-20);
+    --badge-color: var(--gray-60);
+  }
+
+  .badge-orange {
+    --badge-bg: var(--orange-10);
+    --badge-color: var(--orange-80);
+  }
+
+  .badge-red {
+    --badge-bg: var(--red-10);
+    --badge-color: var(--red-80);
+  }
+
+  .badge-purple {
+    --badge-bg: var(--purple-10);
+    --badge-color: var(--purple-80);
+  }
+
+  .badge--pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--badge-bg, var(--accent-bg));
+    color: var(--badge-color, color-mix(in oklab, var(--accent) 55%, var(--text-color)));
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .badge--pill-muted {
+    --badge-bg: var(--gray-20);
+    --badge-color: var(--gray-60);
+  }
+}
