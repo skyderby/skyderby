@@ -117,4 +117,10 @@
   turbo-cable-stream-source {
     display: none;
   }
+
+  .link-subtle {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
 }

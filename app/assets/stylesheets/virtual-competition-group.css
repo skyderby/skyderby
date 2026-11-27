@@ -32,7 +32,7 @@
 
   .vc-group-scoreboard-table td.text-green,
   .vc-group-scoreboard-table a.text-green {
-    color: var(--green-90);
+    --text-green-color: var(--green-90);
   }
 
   .vc-group-scoreboard-table td.result-points-cell {

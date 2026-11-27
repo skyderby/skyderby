@@ -233,7 +233,7 @@
 
   .scoreboard-table td.text-green,
   .scoreboard-table th.text-green {
-    color: var(--green-80);
+    --text-green-color: var(--green-80);
   }
 
   .scoreboard-table a {
@@ -242,7 +242,7 @@
   }
 
   .scoreboard-table a.text-green {
-    color: var(--green-80);
+    --text-green-color: var(--green-80);
   }
 
   .scoreboard-table a:hover {
@@ -468,7 +468,7 @@
 
   .qualification-scoreboard-table td.text-green,
   .qualification-scoreboard-table a.text-green {
-    color: var(--green-90);
+    --text-green-color: var(--green-90);
   }
 
   .qualification-scoreboard-table tbody td.result-cell {
@@ -658,7 +658,7 @@
   }
 
   .speed-skydiving-scoreboard-table td.text-green {
-    color: var(--green-90);
+    --text-green-color: var(--green-90);
   }
 
   .speed-skydiving-scoreboard-table td.result-worst {
@@ -689,7 +689,7 @@
 
   .performance-competition-scoreboard-table td.text-green,
   .performance-competition-scoreboard-table a.text-green {
-    color: var(--green-90);
+    --text-green-color: var(--green-90);
   }
 
   .performance-competition-scoreboard-table tbody td.competitor,

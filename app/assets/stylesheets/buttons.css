@@ -12,7 +12,7 @@
     padding: var(--button-padding, 0.5rem 1rem);
     border-radius: var(--button-border-radius, var(--border-radius-md));
     border: var(--button-border-size, 1px) solid var(--button-border-color, var(--gray-40));
-    background: var(--button-bg, var(--surface));
+    background: var(--button-current-bg, var(--button-bg, var(--surface)));
     box-shadow: var(--button-shadow, none);
     color: var(--button-color, var(--gray-80));
     transition: filter 0.1s ease-out, background-color 0.1s ease-out;
@@ -21,7 +21,7 @@
   @media (any-hover: hover) {
     .button:hover:not(:disabled) {
       filter: var(--button-hover-filter, brightness(0.95));
-      background: var(--button-hover-bg, var(--button-bg, var(--surface)));
+      --button-current-bg: var(--button-hover-bg, var(--button-bg, var(--surface)));
       color: var(--button-color, var(--gray-80));
       text-decoration: none;
     }
