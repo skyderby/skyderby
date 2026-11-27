@@ -1,0 +1,21 @@
+@layer components {
+  .separator {
+    color: var(--gray-60);
+  }
+
+  .tip-text {
+    color: var(--text-selected);
+  }
+
+  .dotted-underline {
+    border-bottom-style: dotted;
+    border-bottom-width: 1.1px;
+    color: var(--text-color);
+  }
+
+  .dotted-underline:hover {
+    border-bottom-style: solid;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+}

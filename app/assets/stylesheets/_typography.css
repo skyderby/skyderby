@@ -1,9 +1,0 @@
-@layer components {
-  .separator {
-    color: var(--gray-60);
-  }
-
-  .tip-text {
-    color: var(--text-selected);
-  }
-}

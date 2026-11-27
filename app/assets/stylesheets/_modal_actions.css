@@ -1,6 +1,0 @@
-@layer components {
-  .modal-actions {
-    display: flex;
-    justify-content: space-between;
-  }
-}
