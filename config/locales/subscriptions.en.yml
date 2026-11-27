@@ -1,19 +1,43 @@
 en:
   subscriptions:
     index:
-      title: See More. Fly Better.
-      subtitle: Advanced analytics to make You fly Longer, Further, Faster
+      title: "See more. Fly better."
+      subtitle: "Pro unlocks the full analysis of every jump, with no monthly limit."
+      usage: "%{left} of %{limit} free Pro Views left this month"
+      usage_exhausted: "You've used all %{limit} free Pro Views this month"
+      choose_plan: "Choose a plan"
+      best_value: "Best value"
+      save_75: "-75%"
+      per_interval: "/%{interval}"
+      plans:
+        lifetime:
+          name: "Lifetime"
+          note: "One payment, no renewals"
+          period: "once"
+        annual:
+          name: "Annual"
+          note: "$2.50 a month"
+          period: "per year"
+        monthly:
+          name: "Monthly"
+          note: "Cancel anytime"
+          period: "per month"
+      cta:
+        lifetime: "Get Pro for $%{price}"
+        annual: "Subscribe for $%{price} a year"
+        monthly: "Subscribe for $%{price} a month"
+      trust: "Secure payment via Stripe. Subscriptions can be cancelled anytime."
+      social_proof:
+        one: "%{count} pilot already flies with Pro"
+        other: "%{count} pilots already fly with Pro"
+      benefits_title: "What Pro unlocks"
+      benefit_base: "BASE jumps"
+      benefit_skydive: "Skydives"
+      benefit_compare: "Comparing jumps"
       active_badge: Active Subscriber
       thank_you: Thank you for your support!
       active_subscription: "You have an active %{plan} subscription"
       manage_subscription: Manage Subscription
-      subscribe: Subscribe
-      per_interval: "/%{interval}"
-      plan_monthly: Pro Monthly
-      plan_annual: Pro Annual
-      plan_once: Pro Once
-      save_75: "-75%"
-      best_value: Best Value
       base_interactive_replay: Interactive playback
       base_all_data: All data on one screen — map, charts, side view, 1:1, video
       base_terrain: Terrain profile, distance to terrain
@@ -21,10 +45,8 @@ en:
       skydive_corridor: Map with lane check
       skydive_wind: Wind subtraction
       compare_desc: Compare multiple tracks side by side with synchronized playback
-      highlight_title: Highlighted Name
+      highlight_title: Highlighted name
       highlight_example: "Your name will look like this:"
-      social_proof: jumpers getting advantage of Pro features
-      social_proof_note: And that's no coincidence
     success:
       title: Welcome to Pro!
       subtitle: You just leveled up your flying

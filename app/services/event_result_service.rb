@@ -31,7 +31,7 @@ class EventResultService
   attr_reader :track, :wind_cancellation
 
   def flare
-    flares = Tracks::FlaresDetector.call(track_points)
+    flares = Tracks::FlaresDetector.call(track_points, check_plausibility: false)
     return 0 unless flares.any?
 
     flares.max_by(&:altitude_gain).altitude_gain
@@ -46,10 +46,6 @@ class EventResultService
   end
 
   def track_points
-    @track_points ||= PointsQuery.execute(
-      track,
-      trimmed: true,
-      only: %i[gps_time time_diff altitude latitude longitude v_speed]
-    )
+    @track_points ||= track.flight_points(trimmed: true)
   end
 end

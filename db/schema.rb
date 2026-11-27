@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_06_130000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_16_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -969,6 +969,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_130000) do
     t.timestamptz "updated_at", null: false
   end
 
+  create_table "track_points", primary_key: "track_id", id: :integer, default: nil, force: :cascade do |t|
+    t.float "abs_altitude", array: true
+    t.float "distance", null: false, array: true
+    t.float "elevation", array: true
+    t.timestamptz "gps_time", null: false, array: true
+    t.float "h_speed", null: false, array: true
+    t.float "horizontal_accuracy", limit: 24, array: true
+    t.decimal "latitude", precision: 15, scale: 10, null: false, array: true
+    t.decimal "longitude", precision: 15, scale: 10, null: false, array: true
+    t.float "speed_accuracy", limit: 24, array: true
+    t.float "v_speed", null: false, array: true
+    t.float "vertical_accuracy", limit: 24, array: true
+  end
+
   create_table "track_reference_points", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.decimal "latitude", precision: 15, scale: 10, null: false
@@ -996,6 +1010,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_130000) do
     t.decimal "gps_time_in_seconds", precision: 17, scale: 3, null: false
     t.integer "track_id", null: false
     t.index ["track_id", "gps_time_in_seconds"], name: "index_track_sensor_samples_on_track_id_and_gps_time_in_seconds"
+  end
+
+  create_table "track_sensor_series", primary_key: "track_id", id: :integer, default: nil, force: :cascade do |t|
+    t.float "ax", limit: 24, null: false, array: true
+    t.float "ay", limit: 24, null: false, array: true
+    t.float "az", limit: 24, null: false, array: true
+    t.timestamptz "gps_time", null: false, array: true
   end
 
   create_table "track_videos", id: :serial, force: :cascade do |t|
@@ -1288,8 +1309,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_130000) do
   add_foreign_key "track_debriefs", "tracks", column: "other_track_id", on_delete: :cascade
   add_foreign_key "track_debriefs", "tracks", on_delete: :cascade
   add_foreign_key "track_debriefs", "users", on_delete: :cascade
+  add_foreign_key "track_points", "tracks", on_delete: :cascade
   add_foreign_key "track_reference_points", "tracks"
   add_foreign_key "track_sensor_samples", "tracks", on_delete: :cascade
+  add_foreign_key "track_sensor_series", "tracks", on_delete: :cascade
   add_foreign_key "tracks", "profiles"
   add_foreign_key "user_identities", "users", on_delete: :cascade
   add_foreign_key "user_settings", "users"

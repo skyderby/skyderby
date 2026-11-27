@@ -1,0 +1,7 @@
+fr:
+  flysight_configs:
+    show:
+      title: "Réglages FlySight"
+      intro: "Quelqu'un a partagé des réglages FlySight avec toi. Ouvre ce lien sur un iPhone ou un iPad avec l'app Skyderby pour voir ce qu'ils font et les transférer sur ton FlySight en un geste. Ou télécharge CONFIG.TXT et copie-le sur la carte SD du FlySight."
+      download: "Télécharger CONFIG.TXT"
+      broken: "Ce lien ne contient pas de réglages lisibles."

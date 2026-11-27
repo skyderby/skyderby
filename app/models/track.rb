@@ -79,8 +79,9 @@ class Track < ApplicationRecord
           inverse_of: :track,
           dependent: :destroy
 
-  has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all, inverse_of: :track
   has_many :sensor_samples, class_name: 'Track::SensorSample', dependent: :delete_all, inverse_of: :track
+  has_one :point_arrays, class_name: 'Track::Points', inverse_of: :track, dependent: :delete
+  has_one :sensor_series, class_name: 'Track::SensorSeries', inverse_of: :track, dependent: :delete
   has_many :results, dependent: :destroy
   has_many :virtual_competition_results,
            -> { wind_cancellation(false) },
@@ -137,13 +138,19 @@ class Track < ApplicationRecord
       end
   end
 
-  def first_point_epoch = points.minimum(:gps_time_in_seconds)
+  def first_point_epoch = point_arrays&.first_epoch
 
-  def exit_point = @exit_point ||= point_at(ff_start)
+  def flight_points(trimmed: false, freq_1hz: false) = point_arrays&.points(trimmed:, freq_1hz:) || []
 
-  def landing_point = @landing_point ||= point_at(landing_fl_time)
+  def exit_epoch = activity_epoch(exited_at, ff_start)
 
-  def deploy_point = @deploy_point ||= point_at(ff_end)
+  def deploy_epoch = activity_epoch(deployed_at, ff_end)
+
+  def exit_point = @exit_point ||= point_at(exit_epoch)
+
+  def landing_point = @landing_point ||= point_at(landed_at&.to_r)
+
+  def deploy_point = @deploy_point ||= point_at(deploy_epoch)
 
   def exit_altitude = altitude_above_ground(exit_point)
 
@@ -157,7 +164,10 @@ class Track < ApplicationRecord
 
   def place_kind = base? ? :base : :skydive
 
-  def duration = (points.last.gps_time_in_seconds - points.first.gps_time_in_seconds).to_i
+  def duration
+    times = point_arrays&.gps_time
+    times.present? ? (times.last - times.first).to_i : 0
+  end
 
   def speed_skydiving_result = @speed_skydiving_result ||= Tracks::SpeedSkydivingResult.new(self)
 
@@ -197,11 +207,9 @@ class Track < ApplicationRecord
       end
   end
 
-  def start_time = points.trimmed.first&.gps_time
+  def start_time = flight_points(trimmed: true).first&.gps_time&.in_time_zone
 
   def abs_altitude? = ge_enabled
-
-  def point_altitude_field = ("abs_altitude - #{msl_offset}" if abs_altitude?) || 'elevation'
 
   def delete_results = results.delete_all
 
@@ -216,9 +224,7 @@ class Track < ApplicationRecord
   def altitude_bounds
     @altitude_bounds ||= begin
       points_altitude =
-        PointsQuery
-        .execute(self, freq_1hz: true, trimmed: true, only: [:altitude])
-        .pluck(:altitude)
+        flight_points(freq_1hz: true, trimmed: true).map(&:altitude)
 
       points_altitude = [0] if points_altitude.blank?
       {
@@ -241,22 +247,24 @@ class Track < ApplicationRecord
     (abs_altitude? ? point.abs_altitude - msl_offset : point.elevation).round
   end
 
-  def point_at(fl_time)
-    return if fl_time.blank?
+  def point_at(epoch)
+    return if epoch.nil? || point_arrays.nil?
 
-    points.where(fl_time: fl_time..).first || points.last
+    point_arrays.point_at(epoch)
+  end
+
+  def activity_epoch(timestamp, offset)
+    return timestamp.to_r if timestamp
+    return if offset.nil? || first_point_epoch.nil?
+
+    first_point_epoch + offset.to_r
   end
 
   def recorded_ground_altitude
-    landing_point&.abs_altitude || accurate_min_altitude || points.minimum(:abs_altitude) || 0
+    landing_point&.abs_altitude || accurate_min_altitude || point_arrays&.min_abs_altitude || 0
   end
 
-  def accurate_min_altitude
-    points
-      .where(vertical_accuracy: nil)
-      .or(points.where(vertical_accuracy: ..MAX_GROUND_VERTICAL_ACCURACY))
-      .minimum(:abs_altitude)
-  end
+  def accurate_min_altitude = point_arrays&.min_abs_altitude(max_vertical_accuracy: MAX_GROUND_VERTICAL_ACCURACY)
 
   def rescore_online_competitions = OnlineCompetitionJob.perform_later(id)
 

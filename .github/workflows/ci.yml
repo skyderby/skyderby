@@ -106,9 +106,9 @@ jobs:
           key: ${{ runner.os }}-yarn-v3-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-v3-
-      - name: Install libeccodes-dev and libvips
+      - name: Install system packages
         timeout-minutes: 10
-        run: .github/scripts/install-system-packages.sh
+        uses: ./.github/actions/system-packages
       - name: Install gems
         run: |
           bundle config path vendor/bundle
@@ -190,9 +190,9 @@ jobs:
           key: ${{ runner.os }}-yarn-v3-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-v3-
-      - name: Install libeccodes-dev and libvips
+      - name: Install system packages
         timeout-minutes: 10
-        run: .github/scripts/install-system-packages.sh
+        uses: ./.github/actions/system-packages
       - name: Install gems
         run: |
           bundle config path vendor/bundle

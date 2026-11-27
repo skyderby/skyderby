@@ -14,10 +14,6 @@ module Event::TrackPoints
   end
 
   def points
-    @points ||= PointsQuery.execute(
-      track,
-      trimmed: { seconds_before_start: 7 },
-      only: %i[gps_time altitude abs_altitude latitude longitude v_speed glide_ratio]
-    )
+    @points ||= track.flight_points(trimmed: { seconds_before_start: 7 })
   end
 end

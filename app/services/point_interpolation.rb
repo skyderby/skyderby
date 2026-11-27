@@ -17,15 +17,8 @@ class PointInterpolation
   private
 
   def interpolate(factor)
-    new_point = @first_point.clone
-
-    INTERPOLATION_FIELDS.each do |key|
-      next unless new_point.key? key
-
-      new_point[key] = interpolate_field(key, factor)
-    end
-
-    new_point
+    fields = INTERPOLATION_FIELDS.select { |key| @first_point[key] && @second_point[key] }
+    @first_point.with(**fields.index_with { |key| interpolate_field(key, factor) })
   end
 
   def interpolation_factor(field, value)

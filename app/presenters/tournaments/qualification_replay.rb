@@ -80,33 +80,29 @@ module Tournaments
       target = jump.start_time
       return unless target
 
-      PointsQuery
-        .execute(jump.track, only: %i[gps_time fl_time])
-        .each_cons(2) do |a, b|
-          next unless target.between?(a[:gps_time], b[:gps_time])
+      jump.track
+          .flight_points
+          .each_cons(2) do |a, b|
+            next unless target.between?(a[:gps_time], b[:gps_time])
 
-          span = b[:gps_time] - a[:gps_time]
-          ratio = span.zero? ? 0 : (target - a[:gps_time]) / span
-          return a[:fl_time].to_f + (b[:fl_time].to_f - a[:fl_time].to_f) * ratio
-        end
+            span = b[:gps_time] - a[:gps_time]
+            ratio = span.zero? ? 0 : (target - a[:gps_time]) / span
+            return a[:fl_time].to_f + (b[:fl_time].to_f - a[:fl_time].to_f) * ratio
+      end
 
       nil
     end
 
     def track_path(track)
-      PointsQuery
-        .execute(
-          track,
-          trimmed: { seconds_before_start: SECONDS_BEFORE_START, seconds_after_end: SECONDS_AFTER_END },
-          only: %i[fl_time latitude longitude h_speed v_speed]
-        )
+      track
+        .flight_points(trimmed: { seconds_before_start: SECONDS_BEFORE_START, seconds_after_end: SECONDS_AFTER_END })
         .map do |point|
           {
             flTime: point[:fl_time].to_f,
             lat: point[:latitude].to_f,
             lng: point[:longitude].to_f,
-            hSpeed: point[:h_speed].to_f,
-            vSpeed: point[:v_speed].to_f
+            hSpeed: Track::Points.to_kmh(point[:h_speed].to_f),
+            vSpeed: Track::Points.to_kmh(point[:v_speed].to_f)
           }
         end
     end

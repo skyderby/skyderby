@@ -1,5 +1,5 @@
 class OnlineCompetitionsService
-  BASE_START_SPEED = 10
+  BASE_START_SPEED = Track::Points.from_kmh(10)
 
   def self.score_track(track)
     Track.transaction do
@@ -130,15 +130,7 @@ class OnlineCompetitionsService
     end
   end
 
-  def track_points(trimmed: true)
-    raw_points = PointsQuery.execute(
-      track,
-      trimmed: trimmed,
-      only: [:gps_time, :time_diff, :altitude, :latitude, :longitude, :h_speed, :v_speed, :glide_ratio]
-    )
-
-    PointsPostprocessor.for(track.gps_type).call(raw_points)
-  end
+  def track_points(trimmed: true) = track.flight_points(trimmed:)
 
   def competition_windows
     case competition.discipline

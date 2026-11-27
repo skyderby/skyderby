@@ -4,9 +4,26 @@
   <header class="subscriptions-header">
     <h1 class="subscriptions-title"><%= t('.title') %></h1>
     <p class="subscriptions-subtitle"><%= t('.subtitle') %></p>
+
+    <% if @pricing.show_free_views_usage? %>
+      <div class="subscriptions-usage <%= 'subscriptions-usage--exhausted' if @pricing.free_views_exhausted? %>">
+        <span class="subscriptions-usage__meter" aria-hidden="true">
+          <% @pricing.free_views_limit.times do |index| %>
+            <span class="subscriptions-usage__cell <%= 'subscriptions-usage__cell--left' if index < @pricing.free_views_left %>"></span>
+          <% end %>
+        </span>
+        <span class="subscriptions-usage__text">
+          <% if @pricing.free_views_exhausted? %>
+            <%= t('.usage_exhausted', limit: @pricing.free_views_limit) %>
+          <% else %>
+            <%= t('.usage', left: @pricing.free_views_left, limit: @pricing.free_views_limit) %>
+          <% end %>
+        </span>
+      </div>
+    <% end %>
   </header>
 
-  <% if @subscription&.active? %>
+  <% if @pricing.subscribed? %>
     <div class="subscriptions-active">
       <div class="subscriptions-active__badge">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -15,7 +32,7 @@
         <%= t('.active_badge') %>
       </div>
       <h2 class="subscriptions-active__title"><%= t('.thank_you') %></h2>
-      <p class="subscriptions-active__plan"><%= t('.active_subscription', plan: @subscription.name) %></p>
+      <p class="subscriptions-active__plan"><%= t('.active_subscription', plan: @pricing.subscription.name) %></p>
       <div class="subscriptions-active__action">
         <%= button_to t('.manage_subscription'), billing_portal_subscriptions_path, method: :post, class: 'button', data: { turbo: false } %>
       </div>
@@ -28,42 +45,56 @@
                     data: {
                       turbo: false,
                       controller: 'subscription-tracking',
-                      subscription_tracking_plans_value: @plans.index_by { |p| p[:id] }.to_json,
+                      subscription_tracking_plans_value: @pricing.plans_for_tracking.to_json,
                       action: 'submit->subscription-tracking#startCheckout'
                     } do |f| %>
-        <div class="subscriptions-plans__options">
-          <% @plans.each_with_index do |plan, index| %>
-            <label class="subscription-plan-option <%= 'subscription-plan-option--popular' if plan[:popular] %>">
+        <fieldset class="subscriptions-plans__options">
+          <legend class="sr-only"><%= t('.choose_plan') %></legend>
+          <% @pricing.plans.each do |plan| %>
+            <label class="subscription-plan-option <%= 'subscription-plan-option--best' if plan.best_value %>">
               <input type="radio"
                      name="plan"
-                     value="<%= plan[:id] %>"
-                     <%= 'checked' if plan[:popular] %>
+                     value="<%= plan.id %>"
+                     <%= 'checked' if plan.best_value %>
                      class="subscription-plan-option__radio"
                      data-subscription-tracking-target="option"
+                     data-submit-label="<%= t(".cta.#{plan.id}", price: plan.dollars) %>"
                      data-action="change->subscription-tracking#selectOption">
               <span class="subscription-plan-option__content">
-                <span class="subscription-plan-option__left">
-                  <span class="subscription-plan-option__name"><%= plan[:name] %></span>
-                  <% if plan[:popular] %>
-                    <span class="subscription-plan-option__best-value"><%= t('.best_value') %></span>
-                  <% elsif plan[:savings] %>
-                    <span class="subscription-plan-option__savings"><%= plan[:savings] %></span>
-                  <% end %>
+                <span class="subscription-plan-option__left subscription-plan-option__left--stacked">
+                  <span class="subscription-plan-option__name">
+                    <%= t(".plans.#{plan.id}.name") %>
+                    <% if plan.best_value %>
+                      <span class="subscription-plan-option__best-value"><%= t('.best_value') %></span>
+                    <% elsif plan.savings %>
+                      <span class="subscription-plan-option__savings">−<%= plan.savings %>%</span>
+                    <% end %>
+                  </span>
+                  <span class="subscription-plan-option__note"><%= t(".plans.#{plan.id}.note") %></span>
                 </span>
                 <span class="subscription-plan-option__right">
-                  <span class="subscription-plan-option__price">$<%= (plan[:price] / 100.0).to_i %></span>
-                  <span class="subscription-plan-option__period"><%= plan[:interval] ? t('.per_interval', interval: plan[:interval]) : '' %></span>
+                  <span class="subscription-plan-option__price">$<%= plan.dollars %></span>
+                  <span class="subscription-plan-option__period"><%= t(".plans.#{plan.id}.period") %></span>
                 </span>
               </span>
             </label>
           <% end %>
-        </div>
-        <%= f.submit t('.subscribe'), class: 'button button--primary subscriptions-plans__submit' %>
+        </fieldset>
+
+        <%= f.button t('.cta.lifetime', price: @pricing.plans.first.dollars),
+                     type: 'submit',
+                     class: 'subscriptions-plans__submit',
+                     data: { subscription_tracking_target: 'submit' } %>
+
+        <p class="subscriptions-plans__trust"><%= t('.trust') %></p>
+        <p class="subscriptions-plans__proof"><%= t('.social_proof', count: @pricing.subscribers_count) %></p>
       <% end %>
 
-      <div class="subscriptions-benefits">
+      <section class="subscriptions-benefits" aria-labelledby="subscriptions-benefits-title">
+        <h2 id="subscriptions-benefits-title" class="subscriptions-benefits__title"><%= t('.benefits_title') %></h2>
+
         <div class="subscriptions-benefit">
-          <h4 class="subscriptions-benefit__title">BASE Pro View</h4>
+          <h3 class="subscriptions-benefit__title"><%= t('.benefit_base') %></h3>
           <ul class="subscriptions-benefit__list">
             <li><%= t('.base_interactive_replay') %></li>
             <li><%= t('.base_all_data') %></li>
@@ -72,7 +103,7 @@
         </div>
 
         <div class="subscriptions-benefit">
-          <h4 class="subscriptions-benefit__title">Skydive Pro View</h4>
+          <h3 class="subscriptions-benefit__title"><%= t('.benefit_skydive') %></h3>
           <ul class="subscriptions-benefit__list">
             <li><%= t('.skydive_analysis') %></li>
             <li><%= t('.skydive_corridor') %></li>
@@ -81,25 +112,19 @@
         </div>
 
         <div class="subscriptions-benefit">
-          <h4 class="subscriptions-benefit__title">Pro Compare</h4>
+          <h3 class="subscriptions-benefit__title"><%= t('.benefit_compare') %></h3>
           <ul class="subscriptions-benefit__list">
             <li><%= t('.compare_desc') %></li>
           </ul>
         </div>
 
         <div class="subscriptions-benefit">
-          <h4 class="subscriptions-benefit__title"><%= t('.highlight_title') %></h4>
+          <h3 class="subscriptions-benefit__title"><%= t('.highlight_title') %></h3>
           <p class="subscriptions-benefit__example">
             <%= t('.highlight_example') %> <span class="contributor"><%= current_user.name %></span>
           </p>
         </div>
-      </div>
-    </div>
-
-    <div class="subscriptions-social-proof">
-      <p class="subscriptions-social-proof__count"><%= @subscribers_count %></p>
-      <p class="subscriptions-social-proof__text"><%= t('.social_proof') %></p>
-      <p class="subscriptions-social-proof__note"><%= t('.social_proof_note') %></p>
+      </section>
     </div>
   <% end %>
 </div>

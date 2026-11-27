@@ -60,7 +60,7 @@ class QualificationJump < ApplicationRecord
   # Maximum developed full (3D) speed between exit and the finish line, in km/h.
   def calculate_top_speed
     jump_range_points
-      &.map { |point| Math.sqrt(point[:h_speed].to_f**2 + point[:v_speed].to_f**2) }
+      &.map { |point| Track::Points.to_kmh(Math.hypot(point[:h_speed].to_f, point[:v_speed].to_f)) }
       &.max
   end
 
@@ -69,13 +69,7 @@ class QualificationJump < ApplicationRecord
   def base_race_start_point
     return unless track
 
-    points = PointsPostprocessor.for(track.gps_type).call(
-      PointsQuery.execute(
-        track,
-        trimmed: { seconds_before_start: 10 },
-        only: %i[gps_time time_diff altitude latitude longitude h_speed v_speed glide_ratio]
-      )
-    )
+    points = track.flight_points(trimmed: { seconds_before_start: 10 })
 
     WindowRangeFinder
       .new(points)
@@ -91,8 +85,8 @@ class QualificationJump < ApplicationRecord
 
     finish_time = start_time.to_f + result.to_f
 
-    PointsQuery
-      .execute(track, only: %i[gps_time h_speed v_speed])
+    track
+      .flight_points
       .select { |point| point[:gps_time].to_f.between?(start_time.to_f, finish_time) }
   end
 

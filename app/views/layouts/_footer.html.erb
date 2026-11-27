@@ -1,12 +1,14 @@
-<footer>
-  <div>
-    © 2014-<%= Time.now.year %> SKYDERBY
+<footer class="app-footer">
+  <nav class="app-footer__links">
     <%= link_to t('application.footer.support'), support_path %>
     <%= link_to t('application.footer.privacy'), privacy_path %>
     <%= link_to t('application.footer.terms'), terms_path %>
-  </div>
-  <div>
-    <%= t('application.footer.text') %>
+  </nav>
+  <p class="app-footer__meta">
+    <span class="app-footer__copyright">© 2014–<%= Time.now.year %> Skyderby</span>
+    <span><%= t('application.footer.text') %></span>
+  </p>
+  <div class="app-footer__language">
     <%= render 'layouts/language_switcher', variant: :desktop %>
     <%= render 'layouts/theme_switcher' %>
   </div>

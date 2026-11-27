@@ -4,7 +4,7 @@ class Tracks::FlaresDetectorTest < ActiveSupport::TestCase
   test 'finds flare in skydive track' do
     track = create_track_from_file '13-31-51_Ravenna.CSV'
     track.update!(ff_start: 10, ff_end: 144)
-    points = PointsQuery.execute track, trimmed: true, only: %i[gps_time altitude v_speed]
+    points = track.flight_points(trimmed: true)
 
     flares = Tracks::FlaresDetector.call(points)
 
@@ -27,10 +27,10 @@ class Tracks::FlaresDetectorTest < ActiveSupport::TestCase
     assert_empty Tracks::FlaresDetector.call(climb(entry_speed: 100, gain: 30))
   end
 
-  test 'skips the check when horizontal speed is not loaded' do
-    points = climb(entry_speed: 30, gain: 3).map { |point| point.except(:h_speed) }
+  test 'skips the plausibility check on request' do
+    points = climb(entry_speed: 30, gain: 3)
 
-    assert_equal 1, Tracks::FlaresDetector.call(points).size
+    assert_equal 1, Tracks::FlaresDetector.call(points, check_plausibility: false).size
   end
 
   test 'handles empty points' do
@@ -42,13 +42,14 @@ class Tracks::FlaresDetectorTest < ActiveSupport::TestCase
   private
 
   def climb(entry_speed:, gain:)
+    entry_speed = Track::Points.from_kmh(entry_speed)
     start = Time.zone.parse('2025-06-01 10:00:00')
     lead = (0..8).map do |second|
-      { gps_time: start + second, altitude: 1000.0 - (second * 10), h_speed: entry_speed.to_f, v_speed: 5.0 }
+      { gps_time: start + second, altitude: 1000.0 - (second * 10), h_speed: entry_speed.to_f, v_speed: 5 / 3.6 }
     end
     rise = (1..5).map do |second|
       { gps_time: start + 8 + second, altitude: 920.0 + (gain * second / 5.0), h_speed: entry_speed / 2.0,
-        v_speed: -5.0 }
+        v_speed: -5 / 3.6 }
     end
     lead + rise
   end

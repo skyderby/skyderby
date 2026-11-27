@@ -20,4 +20,15 @@ class Track::SensorSampleTest < ActiveSupport::TestCase
       Track::SensorSample.import(track)
     end
   end
+
+  test 'stores samples as arrays alongside rows' do
+    track = create_track_from_file('speed_skydiving_411.csv', kind: :speed_skydiving, suit: nil)
+    attach_sensor_data(track) { [0.0, 0.0, 1.0] }
+
+    series = track.reload.sensor_series
+    rows = track.sensor_samples.order(:gps_time_in_seconds).pluck(:gps_time_in_seconds, :az)
+
+    assert_equal rows.map { |time, _| time.to_f }, series.samples.map(&:gps_time)
+    assert_equal rows.map(&:last), series.az
+  end
 end

@@ -73,11 +73,5 @@ it:
       jumps:
         one: "%{count} salto"
         other: "%{count} salti"
-    pro:
-      label: SKYDERBY PRO
-      text: Analisi di volo completa e confronto affiancato.
-      per_year: / anno
-      lifetime: a vita
-      cta: Passa a Pro
     empty:
       text: Carica il tuo primo track per vedere qui le tue statistiche.

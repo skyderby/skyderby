@@ -11,9 +11,8 @@ class MissingWeatherFetchingJobTest < ActiveJob::TestCase
 
   test 'logs the forecast hour when the download fails' do
     track = create(:empty_track, :with_place)
-    track.points.create!(gps_time: Time.zone.parse('2020-01-01 12:34:56 UTC').to_f,
-                         fl_time: 0, abs_altitude: 0)
-    forecast_hour = track.points.trimmed.first.gps_time.beginning_of_hour
+    record_points(track, [{ gps_time: Time.zone.parse('2020-01-01 12:34:56 UTC'), abs_altitude: 0 }])
+    forecast_hour = track.start_time.beginning_of_hour
 
     failure = Struct.new(:success, :errors).new(false, ['boom'])
     fake_forecast = Object.new

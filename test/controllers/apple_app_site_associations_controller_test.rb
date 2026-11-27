@@ -9,5 +9,6 @@ class AppleAppSiteAssociationsControllerTest < ActionDispatch::IntegrationTest
     details = response.parsed_body.dig('applinks', 'details').first
     assert_includes details['appIDs'], 'C54KA5H42F.io.skyderby.app'
     assert_includes details['components'], { '/' => '/tracks/*' }
+    assert_includes details['components'], { '/' => '/flysight-config' }
   end
 end

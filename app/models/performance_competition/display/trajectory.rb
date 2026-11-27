@@ -28,8 +28,8 @@ class PerformanceCompetition::Display
           x: distance,
           d: horizontal_step(entry, point),
           alt: point[:altitude],
-          hs: point[:h_speed] || 0,
-          vs: point[:v_speed] || 0
+          hs: Track::Points.to_kmh(point[:h_speed] || 0),
+          vs: Track::Points.to_kmh(point[:v_speed] || 0)
         }
       end
 
@@ -58,11 +58,7 @@ class PerformanceCompetition::Display
     end
 
     def track_points
-      PointsQuery.execute(
-        result.track,
-        trimmed: { seconds_before_start: LEAD_IN + 5 },
-        only: %i[fl_time altitude latitude longitude h_speed v_speed]
-      )
+      result.track.flight_points(trimmed: { seconds_before_start: LEAD_IN + 5 })
     end
 
     def window_segment(points)

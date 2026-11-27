@@ -1,19 +1,43 @@
 es:
   subscriptions:
     index:
-      title: Ve más. Vuela mejor.
-      subtitle: Analíticas avanzadas para volar Más Largo, Más Lejos, Más Rápido
+      title: "Ve más. Vuela mejor."
+      subtitle: "Pro desbloquea el análisis completo de cada salto, sin límite mensual."
+      usage: "Te quedan %{left} de %{limit} Pro Views gratis este mes"
+      usage_exhausted: "Usaste las %{limit} Pro Views gratis de este mes"
+      choose_plan: "Elige un plan"
+      best_value: "Mejor oferta"
+      save_75: "-75%"
+      per_interval: "/%{interval}"
+      plans:
+        lifetime:
+          name: "De por vida"
+          note: "Un solo pago, sin renovaciones"
+          period: "un pago"
+        annual:
+          name: "Anual"
+          note: "2,50 $ al mes"
+          period: "al año"
+        monthly:
+          name: "Mensual"
+          note: "Cancela cuando quieras"
+          period: "al mes"
+      cta:
+        lifetime: "Obtener Pro por %{price} $"
+        annual: "Suscribirse por %{price} $ al año"
+        monthly: "Suscribirse por %{price} $ al mes"
+      trust: "Pago seguro con Stripe. Las suscripciones se pueden cancelar en cualquier momento."
+      social_proof:
+        one: "%{count} piloto ya vuela con Pro"
+        other: "%{count} pilotos ya vuelan con Pro"
+      benefits_title: "Qué desbloquea Pro"
+      benefit_base: "Saltos BASE"
+      benefit_skydive: "Saltos en paracaídas"
+      benefit_compare: "Comparar saltos"
       active_badge: Suscriptor activo
       thank_you: "¡Gracias por tu apoyo!"
       active_subscription: "Tienes una suscripción %{plan} activa"
       manage_subscription: Gestionar suscripción
-      subscribe: Suscribirse
-      per_interval: "/%{interval}"
-      plan_monthly: Pro Mensual
-      plan_annual: Pro Anual
-      plan_once: Pro Una Vez
-      save_75: "-75%"
-      best_value: Mejor oferta
       base_interactive_replay: Reproducción interactiva
       base_all_data: Todos los datos en una pantalla — mapa, gráficos, vista lateral, 1:1, vídeo
       base_terrain: Perfil del terreno, distancia al terreno
@@ -23,8 +47,6 @@ es:
       compare_desc: Compara múltiples tracks lado a lado con reproducción sincronizada
       highlight_title: Nombre destacado
       highlight_example: "Tu nombre se verá así:"
-      social_proof: saltadores aprovechan las ventajas de Pro
-      social_proof_note: Y no es casualidad
     success:
       title: "¡Bienvenido a Pro!"
       subtitle: Acabas de subir de nivel en tu vuelo

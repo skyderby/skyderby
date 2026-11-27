@@ -1,14 +1,16 @@
 module Tracks
   class FlaresDetector
     class Flare
-      MIN_ENTRY_SPEED = 100
+      MIN_ENTRY_SPEED = Track::Points.from_kmh(100)
       MAX_ENERGY_CONVERSION = 0.4
       LEAD_SECONDS = 8
       GRAVITY = 9.81
-      KMH = 3.6
 
-      def initialize(points, lead = [])
+      attr_reader :points
+
+      def initialize(points, gains, lead = [])
         @points = points
+        @gains = gains
         @lead = lead
       end
 
@@ -22,91 +24,65 @@ module Tracks
         @entry_speed ||= lead.map { |point| Math.hypot(point[:h_speed], point[:v_speed]) }.max.to_f
       end
 
-      def altitude_gain
-        higher_point[:altitude_gain]
-      end
+      def altitude_gain = gains.max
 
       def gain_duration
         higher_point[:gps_time] - points.first[:gps_time]
       end
 
-      def higher_point
-        @higher_point ||= points.max_by { |point| point[:altitude_gain] }
-      end
-
-      attr_reader :points
+      def higher_point = points[gains.index(altitude_gain)]
 
       private
 
-      attr_reader :lead
+      attr_reader :gains, :lead
 
       def speeds_known? = lead.any? && lead.all? { |point| point[:h_speed] && point[:v_speed] }
 
-      def energy_height = (entry_speed / KMH)**2 / (2 * GRAVITY)
+      def energy_height = entry_speed**2 / (2 * GRAVITY)
     end
 
-    def self.call(points)
-      new(points).call
+    def self.call(points, check_plausibility: true)
+      new(points, check_plausibility:).call
     end
 
-    def initialize(points)
+    def initialize(points, check_plausibility: true)
       @points = points
+      @check_plausibility = check_plausibility
     end
 
     def call
-      find_flares
+      flares = flare_segments.map do |indexes|
+        Flare.new(points.values_at(*indexes), gains.values_at(*indexes), lead_points(points[indexes.first]))
+      end
+      check_plausibility ? flares.select(&:plausible?) : flares
     end
 
     private
 
-    def find_flares
-      flares_segments.map { |segment| Flare.new(segment, lead_points(segment.first)) }.select(&:plausible?)
-    end
+    attr_reader :points, :check_plausibility
 
     def lead_points(start)
       points.select { |point| point[:gps_time].between?(start[:gps_time] - Flare::LEAD_SECONDS, start[:gps_time]) }
     end
 
-    def flares_segments
-      all_segments.reject do |segment|
-        segment.all? { |point| point[:altitude_gain].zero? }
-      end
+    def flare_segments
+      points.each_index
+            .slice_when { |before, after| gains[before].zero? != gains[after].zero? }
+            .reject { |indexes| indexes.all? { |index| gains[index].zero? } }
     end
 
-    def all_segments
-      flares_map.slice_when do |before, after|
-        before[:altitude_gain].zero? && after[:altitude_gain].positive? ||
-          before[:altitude_gain].positive? && after[:altitude_gain].zero?
+    def gains
+      @gains ||= points.each_cons(2).with_object([0]) do |(prev, current), gains|
+        gains << [gains.last + current_gain(prev, current), 0].max
       end
-    end
-
-    def flares_map
-      return points if points.empty?
-
-      altitude_gain = 0
-
-      points.each_cons(2) do |prev, current|
-        altitude_gain += current_gain(prev, current)
-        altitude_gain = 0 if altitude_gain.negative?
-
-        current[:altitude_gain] = altitude_gain
-      end
-
-      points[0][:altitude_gain] = 0
-
-      points
     end
 
     def current_gain(prev, current)
       if current[:v_speed].negative?
         current[:altitude] - prev[:altitude]
       else
-        # In case vertical speed shows it descending and altitude
-        # change shows it is gain (positive change) make it negative
         -(current[:altitude] - prev[:altitude]).abs
       end
     end
-
-    attr_reader :points
   end
 end

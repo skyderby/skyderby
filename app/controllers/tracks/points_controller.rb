@@ -4,23 +4,10 @@ class Tracks::PointsController < ApplicationController
   def show
     return respond_not_authorized unless @track.viewable?
 
-    @points =
-      PointsQuery
-      .execute(@track, options)
-      .then { |points| PointsPostprocessor.for(@track.gps_type).call(points) }
-      .then { |points| convert_speed_to_ms(points) }
+    @points = @track.flight_points(**options.slice(:trimmed, :freq_1hz))
   end
 
   private
-
-  # FIXME: Convert DB to ms, remove this
-  def convert_speed_to_ms(points)
-    points.each do |point|
-      point[:h_speed] /= 3.6
-      point[:v_speed] /= 3.6
-      point[:full_speed] /= 3.6
-    end
-  end
 
   def set_track
     @track = Track.find(params[:track_id])

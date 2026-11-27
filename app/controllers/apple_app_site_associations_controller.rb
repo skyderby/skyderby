@@ -12,6 +12,7 @@ class AppleAppSiteAssociationsController < ApplicationController
     /flight_profiles
     /terrain-profiles
     /logbook
+    /flysight-config
   ].freeze
 
   def show

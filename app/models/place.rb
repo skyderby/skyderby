@@ -66,7 +66,7 @@ class Place < ApplicationRecord
   end
 
   def recent_trajectories(limit: 50)
-    Rails.cache.fetch("places/#{id}/recent_trajectories/#{limit}", expires_in: 15.minutes) do
+    Rails.cache.fetch("places/#{id}/recent_trajectories/ms/#{limit}", expires_in: 15.minutes) do
       tracks
         .public_track
         .chronologically
@@ -109,12 +109,9 @@ class Place < ApplicationRecord
   private :close_to_anchor
 
   def trajectory_points(track)
-    PointsQuery
-      .execute(track, trimmed: true, freq_1hz: true, only: %i[latitude longitude h_speed])
-      .map do |point|
-        latitude, longitude, h_speed = point.values
-        { latitude:, longitude:, h_speed: }
-      end
+    track
+      .flight_points(trimmed: true, freq_1hz: true)
+      .map { |point| { latitude: point.latitude, longitude: point.longitude, h_speed: point.h_speed } }
   end
   private :trajectory_points
 

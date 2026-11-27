@@ -15,7 +15,7 @@ module Event::FlightDetails
   end
 
   def exit_point
-    vertical_speed_threshold = 10 * 3.6
+    vertical_speed_threshold = 10
 
     points
       .each_cons(15).find(-> { [points.first] }) do |range|

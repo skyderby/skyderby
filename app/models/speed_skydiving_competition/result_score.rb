@@ -1,5 +1,5 @@
 class SpeedSkydivingCompetition::ResultScore
-  V_SPEED_THRESHOLD = 36 # km/h
+  V_SPEED_THRESHOLD = Track::Points.from_kmh(36)
   BREAKOFF_ALTITUDE = 1707 # 5600 ft
   WINDOW = 2256 # 7400 ft
   LOOKUP_TIME = 3
@@ -18,7 +18,7 @@ class SpeedSkydivingCompetition::ResultScore
   def window_trajectory = window_points
 
   def points
-    @points ||= PointsQuery.execute(track, trimmed: { seconds_before_start: 15 })
+    @points ||= track.flight_points(trimmed: { seconds_before_start: 15 })
   end
 
   private

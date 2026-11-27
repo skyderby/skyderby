@@ -1,19 +1,43 @@
 fr:
   subscriptions:
     index:
-      title: Voyez plus. Volez mieux.
-      subtitle: Analyses avancées pour voler Plus Long, Plus Loin, Plus Vite
+      title: "Voyez plus. Volez mieux."
+      subtitle: "Pro débloque l'analyse complète de chaque saut, sans limite mensuelle."
+      usage: "Encore %{left} Pro Views gratuites sur %{limit} ce mois-ci"
+      usage_exhausted: "Les %{limit} Pro Views gratuites de ce mois sont utilisées"
+      choose_plan: "Choisissez une formule"
+      best_value: "Meilleure offre"
+      save_75: "-75%"
+      per_interval: "/%{interval}"
+      plans:
+        lifetime:
+          name: "À vie"
+          note: "Un seul paiement, sans renouvellement"
+          period: "une fois"
+        annual:
+          name: "Annuel"
+          note: "2,50 $ par mois"
+          period: "par an"
+        monthly:
+          name: "Mensuel"
+          note: "Résiliable à tout moment"
+          period: "par mois"
+      cta:
+        lifetime: "Passer à Pro pour %{price} $"
+        annual: "S'abonner pour %{price} $ par an"
+        monthly: "S'abonner pour %{price} $ par mois"
+      trust: "Paiement sécurisé via Stripe. Les abonnements sont résiliables à tout moment."
+      social_proof:
+        one: "%{count} pilote vole déjà avec Pro"
+        other: "%{count} pilotes volent déjà avec Pro"
+      benefits_title: "Ce que Pro débloque"
+      benefit_base: "Sauts BASE"
+      benefit_skydive: "Sauts en parachute"
+      benefit_compare: "Comparer les sauts"
       active_badge: Abonné actif
       thank_you: Merci pour votre soutien !
       active_subscription: "Vous avez un abonnement %{plan} actif"
       manage_subscription: Gérer l'abonnement
-      subscribe: S'abonner
-      per_interval: "/%{interval}"
-      plan_monthly: Pro Mensuel
-      plan_annual: Pro Annuel
-      plan_once: Pro Une Fois
-      save_75: "-75%"
-      best_value: Meilleure offre
       base_interactive_replay: Lecture interactive
       base_all_data: Toutes les données sur un écran — carte, graphiques, vue latérale, 1:1, vidéo
       base_terrain: Profil du terrain, distance au terrain
@@ -23,8 +47,6 @@ fr:
       compare_desc: Comparez plusieurs tracks côte à côte avec lecture synchronisée
       highlight_title: Nom mis en avant
       highlight_example: "Votre nom apparaîtra ainsi :"
-      social_proof: sauteurs profitent des avantages Pro
-      social_proof_note: "Et ce n'est pas un hasard"
     success:
       title: Bienvenue dans Pro !
       subtitle: Tu viens de passer au niveau supérieur

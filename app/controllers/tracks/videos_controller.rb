@@ -20,13 +20,7 @@ module Tracks
       @video = @track.video
       return redirect_to @track unless @video
 
-      @points =
-        PointsQuery
-        .execute(@track,
-                 trimmed: { seconds_before_start: 20 },
-                 freq_1hz: true,
-                 only: %i[gps_time fl_time latitude longitude altitude full_speed h_speed v_speed glide_ratio])
-        .then { |raw_points| PointsPostprocessor.for(@track.gps_type).call(raw_points, speed_units: :kmh) }
+      @points = @track.flight_points(trimmed: { seconds_before_start: 20 }, freq_1hz: true)
     end
 
     def create

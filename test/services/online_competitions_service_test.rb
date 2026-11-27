@@ -171,7 +171,7 @@ class OnlineCompetitionsServiceTest < ActiveSupport::TestCase
       suit: nil,
       recorded_at: Date.parse('2024-01-01')
     )
-    track.points.update_all(vertical_accuracy: 50)
+    track.point_arrays.update!(vertical_accuracy: Array.new(track.point_arrays.size, 50.0))
 
     OnlineCompetitionsService.score_track(track)
 

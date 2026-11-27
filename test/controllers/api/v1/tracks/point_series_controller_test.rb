@@ -26,6 +26,25 @@ class Api::V1::Tracks::PointSeriesControllerTest < ActionDispatch::IntegrationTe
     assert_predicate response.headers['Last-Modified'], :present?
   end
 
+  test '#show returns speeds in m/s when asked' do
+    get api_v1_track_point_series_path(@track)
+    kmh = response.parsed_body['hSpeed']
+
+    get api_v1_track_point_series_path(@track, units: 'ms')
+
+    assert_response :success
+    kmh.zip(response.parsed_body['hSpeed']).each { |expected, actual| assert_in_delta expected / 3.6, actual, 1e-9 }
+  end
+
+  test '#show does not reuse the km/h etag for m/s' do
+    get api_v1_track_point_series_path(@track)
+    etag = response.headers['ETag']
+
+    get api_v1_track_point_series_path(@track, units: 'ms'), headers: { 'If-None-Match' => etag }
+
+    assert_response :success
+  end
+
   test '#show responds not modified for matching etag' do
     get api_v1_track_point_series_path(@track)
     etag = response.headers['ETag']

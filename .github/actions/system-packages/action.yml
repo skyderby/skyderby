@@ -1,0 +1,17 @@
+name: System packages
+description: Install apt packages, reusing the downloaded .deb files from the cache
+runs:
+  using: composite
+  steps:
+    - id: image
+      shell: bash
+      run: echo "version=${ImageOS}-${ImageVersion}" >> "$GITHUB_OUTPUT"
+    - id: cache
+      uses: actions/cache@v4
+      with:
+        path: ~/apt-packages
+        key: apt-${{ steps.image.outputs.version }}-${{ hashFiles('.github/scripts/install-system-packages.sh') }}
+    - shell: bash
+      env:
+        CACHE_HIT: ${{ steps.cache.outputs.cache-hit }}
+      run: .github/scripts/install-system-packages.sh "$HOME/apt-packages"

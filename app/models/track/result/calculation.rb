@@ -1,6 +1,6 @@
 class Track::Result
   class Calculation
-    BASE_START_SPEED = 10
+    BASE_START_SPEED = Track::Points.from_kmh(10)
     DISTANCE_IN_TIME_WINDOWS = [20, 25, 30].freeze
     PERFORMANCE_TASKS = %i[speed distance time].freeze
     FLARE_SECONDS_AFTER_END = 10
@@ -29,8 +29,11 @@ class Track::Result
     end
 
     def flare_points
-      points = build_flight_points(seconds_after_end: FLARE_SECONDS_AFTER_END, columns: %i[fl_time])
-      flare_end = points.index { |point| point[:fl_time] > track.ff_end && point[:v_speed] >= 0 }
+      points = build_flight_points(seconds_after_end: FLARE_SECONDS_AFTER_END)
+      deploy = track.deploy_epoch
+      return points unless deploy
+
+      flare_end = points.index { |point| point.gps_time.to_r > deploy && point.v_speed >= 0 }
 
       flare_end ? points.first(flare_end + 1) : points
     end
@@ -158,18 +161,11 @@ class Track::Result
     end
 
     def altitude_points
-      @altitude_points ||= PointsQuery.execute track,
-                                               trimmed: true,
-                                               only: %i[gps_time altitude latitude longitude]
+      @altitude_points ||= track.flight_points(trimmed: true)
     end
 
-    def build_flight_points(seconds_after_end: nil, columns: [])
-      raw_points = PointsQuery.execute \
-        track,
-        trimmed: { seconds_before_start: 10, seconds_after_end: }.compact,
-        only: %i[gps_time time_diff altitude latitude longitude h_speed v_speed glide_ratio] + columns
-
-      PointsPostprocessor.for(track.gps_type).call(raw_points)
+    def build_flight_points(seconds_after_end: nil)
+      track.flight_points(trimmed: { seconds_before_start: 10, seconds_after_end: }.compact)
     end
   end
 end

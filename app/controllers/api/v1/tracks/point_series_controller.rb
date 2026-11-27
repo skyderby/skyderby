@@ -6,8 +6,8 @@ module Api
           track = Track.find(params[:track_id])
           return render_errors(['Not found'], status: :not_found) unless track.viewable?
 
-          @point_series = Track::PointSeries.new(track)
-          fresh_when track
+          @point_series = Track::PointSeries.new(track, speed_units:)
+          fresh_when etag: [track, speed_units], last_modified: track.updated_at
         end
       end
     end

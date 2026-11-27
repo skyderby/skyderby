@@ -2,12 +2,18 @@ import { Controller } from '@hotwired/stimulus'
 import amplitude from 'utils/amplitude'
 
 export default class extends Controller {
-  static targets = ['option']
+  static targets = ['option', 'submit']
   static values = {
     plans: Object
   }
 
+  connect() {
+    this.updateSubmitLabel()
+  }
+
   selectOption(event) {
+    this.updateSubmitLabel()
+
     const planId = event.target.value
     const plan = this.plansValue[planId]
     if (!plan) return
@@ -19,7 +25,7 @@ export default class extends Controller {
   }
 
   startCheckout() {
-    const selectedOption = this.optionTargets.find(el => el.checked)
+    const selectedOption = this.selectedOption
     if (!selectedOption) return
 
     const planId = selectedOption.value
@@ -30,5 +36,14 @@ export default class extends Controller {
       plan_type: planId,
       plan_price: plan.price / 100
     })
+  }
+
+  updateSubmitLabel() {
+    const label = this.selectedOption?.dataset.submitLabel
+    if (this.hasSubmitTarget && label) this.submitTarget.textContent = label
+  }
+
+  get selectedOption() {
+    return this.optionTargets.find(el => el.checked)
   }
 }

@@ -11,7 +11,6 @@ class Track::FlightMetrics
   KMH = 3.6
   BEST_CONVERSION = 0.27
   BEST_CONVERSIONS = { 'base' => 0.27, 'skydive' => 0.31 }.freeze
-  POINT_COLUMNS = %i[gps_time time_diff altitude latitude longitude h_speed v_speed glide_ratio].freeze
   WINDOW_ERRORS = [WindowRangeFinder::ValueOutOfRange, PathIntersectionFinder::IntersectionNotFound].freeze
 
   attr_reader :track, :window_spec
@@ -109,8 +108,8 @@ class Track::FlightMetrics
         time: (point[:gps_time] - start[:gps_time]).to_f,
         lost: start[:altitude] - point[:altitude],
         distance: Vincenty.distance_between_points(start, point),
-        h_speed: point[:h_speed],
-        v_speed: point[:v_speed]
+        h_speed: Track::Points.to_kmh(point[:h_speed]),
+        v_speed: Track::Points.to_kmh(point[:v_speed])
       }
     end
   end
@@ -227,9 +226,9 @@ class Track::FlightMetrics
     {
       'gain' => best.altitude_gain.round(1),
       'duration' => best.gain_duration.to_f.round(1),
-      'entry_h_speed' => start[:h_speed].round,
+      'entry_h_speed' => (start[:h_speed] * KMH).round,
       **dive_metrics(points, start, best.altitude_gain),
-      'top_h_speed' => top[:h_speed].round,
+      'top_h_speed' => (top[:h_speed] * KMH).round,
       'series' => flare_series(points, start, top)
     }
   end
@@ -237,11 +236,11 @@ class Track::FlightMetrics
   def dive_metrics(points, start, gain)
     lead = points.select { |point| (start[:gps_time] - point[:gps_time]).between?(0, FLARE_LEAD_SECONDS) }
     dive = lead.max_by { |point| point[:v_speed] }
-    fastest_speed = total_speed(lead.max_by { |point| total_speed(point) })
+    fastest_speed = total_speed(lead.max_by { |point| total_speed(point) }) * KMH
 
     {
-      'max_h_speed_before' => lead.pluck(:h_speed).max.round,
-      'dive_v_speed' => dive[:v_speed].round,
+      'max_h_speed_before' => (lead.pluck(:h_speed).max * KMH).round,
+      'dive_v_speed' => (dive[:v_speed] * KMH).round,
       'dive_angle' => dive_angle(dive),
       'max_total_speed_before' => fastest_speed.round,
       'possible_gain' => possible_gain(fastest_speed).round(1),
@@ -256,12 +255,12 @@ class Track::FlightMetrics
 
     window.map do |point|
       [(point[:gps_time] - start[:gps_time]).to_f.round(2), (point[:altitude] - start[:altitude]).round(1),
-       point[:h_speed].round(1), point[:v_speed].round(1)]
+       (point[:h_speed] * KMH).round(1), (point[:v_speed] * KMH).round(1)]
     end
   end
 
   def scoring_points(trimmed:)
-    PointsPostprocessor.for(track.gps_type).call(PointsQuery.execute(track, trimmed:, only: POINT_COLUMNS))
+    track.flight_points(trimmed:)
   end
 
   def total_speed(point) = Math.hypot(point[:h_speed], point[:v_speed])

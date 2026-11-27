@@ -16,11 +16,12 @@ class Api::V1::Tracks::PointsControllerTest < ActionDispatch::IntegrationTest
 
   test '#show - original frequency trimmed around the jump with sep50' do
     @track.public_track!
-    @track.points.update_all(horizontal_accuracy: 3.7, vertical_accuracy: 5.2)
+    size = @track.point_arrays.size
+    @track.point_arrays.update!(horizontal_accuracy: Array.new(size, 3.7), vertical_accuracy: Array.new(size, 5.2))
     options = nil
-    query = PointsQuery.method(:execute)
+    query = @track.method(:flight_points)
 
-    PointsQuery.stub(:execute, ->(track, opts) { options = opts and query.call(track, opts) }) do
+    with_flight_points(->(**opts) { options = opts and query.call(**opts) }) do
       get api_v1_track_points_url(@track, freq_1_hz: false,
                                           trimmed: { seconds_before_start: 15, seconds_after_end: 120 })
     end
@@ -35,12 +36,24 @@ class Api::V1::Tracks::PointsControllerTest < ActionDispatch::IntegrationTest
     @track.public_track!
     options = nil
 
-    PointsQuery.stub(:execute, ->(_track, opts) { options = opts and [] }) do
+    with_flight_points(->(**opts) { options = opts and [] }) do
       get api_v1_track_points_url(@track, freq_1Hz: false)
     end
 
     assert_response :success
     assert_equal({ freq_1hz: false, trimmed: true }, options)
+  end
+
+  test '#show - speeds in km/h by default and in m/s when asked' do
+    @track.public_track!
+
+    get api_v1_track_points_url(@track)
+    kmh = response.parsed_body.first['h_speed']
+
+    get api_v1_track_points_url(@track, units: 'ms')
+
+    assert_response :success
+    assert_in_delta kmh / 3.6, response.parsed_body.first['h_speed'], 1e-9
   end
 
   test '#show - private track' do
@@ -49,5 +62,13 @@ class Api::V1::Tracks::PointsControllerTest < ActionDispatch::IntegrationTest
     get api_v1_track_points_url(@track)
 
     assert_response :forbidden
+  end
+
+  private
+
+  def with_flight_points(stub, &)
+    @track.stub(:flight_points, stub) do
+      Track.stub(:find, @track, &)
+    end
   end
 end

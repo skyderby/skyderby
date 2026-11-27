@@ -27,10 +27,7 @@ module WindCancellation
           shift_direction
         )
 
-        point.clone.tap do |p|
-          p[:latitude]  = new_position[:latitude]
-          p[:longitude] = new_position[:longitude]
-        end
+        point.with(latitude: new_position[:latitude], longitude: new_position[:longitude])
       end
     end
 

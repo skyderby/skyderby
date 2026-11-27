@@ -20,6 +20,7 @@ module ActiveSupport
     include ActionDispatch::TestProcess
     include CreateTrackHelper
     include SensorDataHelper
+    include PointArraysHelper
 
     set_fixture_class 'event/competitors' => PerformanceCompetition::Competitor
     set_fixture_class 'event/results' => PerformanceCompetition::Result
@@ -28,6 +29,7 @@ module ActiveSupport
     set_fixture_class 'events' => PerformanceCompetition
     set_fixture_class 'oauth_applications' => Doorkeeper::Application
     set_fixture_class 'oauth_access_tokens' => Doorkeeper::AccessToken
+    set_fixture_class 'track_points' => Track::Points
 
     fixtures :all
 
