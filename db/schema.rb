@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_16_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_27_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
@@ -572,27 +572,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_16_100000) do
     t.string "name", limit: 510
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["updated_at", "id"], name: "index_places_on_updated_at_and_id"
-  end
-
-  create_table "points", id: :serial, force: :cascade do |t|
-    t.float "abs_altitude"
-    t.float "distance"
-    t.float "elevation"
-    t.float "fl_time"
-    t.integer "gps_fix"
-    t.decimal "gps_time_in_seconds", precision: 17, scale: 3
-    t.float "h_speed"
-    t.float "heading"
-    t.float "heading_accuracy"
-    t.float "horizontal_accuracy"
-    t.decimal "latitude", precision: 15, scale: 10
-    t.decimal "longitude", precision: 15, scale: 10
-    t.integer "number_of_satellites"
-    t.float "speed_accuracy"
-    t.integer "track_id"
-    t.float "v_speed"
-    t.float "vertical_accuracy"
-    t.index ["track_id"], name: "index_points_on_track_id"
   end
 
   create_table "profile_aliases", force: :cascade do |t|
